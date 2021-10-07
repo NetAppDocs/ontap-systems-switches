@@ -1,0 +1,464 @@
+---
+permalink: switch-cisco-9336/setup-worksheet-3132q.html
+sidebar: sidebar
+keywords: cable worksheet, Cisco NX 3132Q-V
+summary: 'If you want to document the supported platforms, you must complete the blank cabling worksheet by using the completed sample cabling worksheet as a guide. Each switch can be configured as a single 40GbE port or 4 x 10GbE ports.'
+---
+= Cisco Nexus 3132Q-V cabling worksheet
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+If you want to document the supported platforms, you must complete the blank cabling worksheet by using the completed sample cabling worksheet as a guide. Each switch can be configured as a single 40GbE port or 4 x 10GbE ports.
+
+== Sample cabling worksheet
+
+The sample port definition on each pair of switches is as follows:
+
+[options="header" cols="1,2"]
+|===
+| Cluster switch A| Cluster switch B
+| Switch port| Node and port usage| Switch port| Node and port usage
+a|
+1
+a|
+4x10G/40G node
+a|
+1
+a|
+4x10G/40G node
+a|
+2
+a|
+4x10G/40G node
+a|
+2
+a|
+4x10G/40G node
+a|
+3
+a|
+4x10G/40G node
+a|
+3
+a|
+4x10G/40G node
+a|
+4
+a|
+4x10G/40G node
+a|
+4
+a|
+4x10G/40G node
+a|
+5
+a|
+4x10G/40G node
+a|
+5
+a|
+4x10G/40G node
+a|
+6
+a|
+4x10G/40G node
+a|
+6
+a|
+4x10G/40G node
+a|
+7
+a|
+4x10G/40G node
+a|
+7
+a|
+4x10G/40G node
+a|
+8
+a|
+4x10G/40G node
+a|
+8
+a|
+4x10G/40G node
+a|
+9
+a|
+4x10G/40G node
+a|
+9
+a|
+4x10G/40G node
+a|
+10
+a|
+4x10G/40G node
+a|
+10
+a|
+4x10G/40G node
+a|
+11
+a|
+4x10G/40G node
+a|
+11
+a|
+4x10G/40G node
+a|
+12
+a|
+4x10G/40G node
+a|
+12
+a|
+4x10G/40G node
+a|
+13
+a|
+4x10G/40G node
+a|
+13
+a|
+4x10G/40G node
+a|
+14
+a|
+4x10G/40G node
+a|
+14
+a|
+4x10G/40G node
+a|
+15
+a|
+4x10G/40G node
+a|
+15
+a|
+4x10G/40G node
+a|
+16
+a|
+4x10G/40G node
+a|
+16
+a|
+4x10G/40G node
+a|
+17
+a|
+4x10G/40G node
+a|
+17
+a|
+4x10G/40G node
+a|
+18
+a|
+4x10G/40G node
+a|
+18
+a|
+4x10G/40G node
+a|
+19
+a|
+40G node 19
+a|
+19
+a|
+40G node 19
+a|
+20
+a|
+40G node 20
+a|
+20
+a|
+40G node 20
+a|
+21
+a|
+40G node 21
+a|
+21
+a|
+40G node 21
+a|
+22
+a|
+40G node 22
+a|
+22
+a|
+40G node 22
+a|
+23
+a|
+40G node 23
+a|
+23
+a|
+40G node 23
+a|
+24
+a|
+40G node 24
+a|
+24
+a|
+40G node 24
+a|
+25 through 30
+a|
+Reserved
+a|
+25 through 30
+a|
+Reserved
+a|
+31
+a|
+40G ISL to switch B port 31
+a|
+31
+a|
+40G ISL to switch A port 31
+a|
+32
+a|
+40G ISL to switch B port 32
+a|
+32
+a|
+40G ISL to switch A port 32
+|===
+
+== Blank cabling worksheet
+
+You can use the blank cabling worksheet to document the platforms that are supported as nodes in a cluster. The _Supported Cluster Connections_ section of the _Hardware Universe_ defines the cluster ports used by the platform.
+
+[options="header" cols="1,2"]
+|===
+| Cluster switch A| Cluster switch B
+| Switch port| Node/port usage| Switch port| Node/port usage
+a|
+1
+a|
+
+a|
+1
+a|
+
+a|
+2
+a|
+
+a|
+2
+a|
+
+a|
+3
+a|
+
+a|
+3
+a|
+
+a|
+4
+a|
+
+a|
+4
+a|
+
+a|
+5
+a|
+
+a|
+5
+a|
+
+a|
+6
+a|
+
+a|
+6
+a|
+
+a|
+7
+a|
+
+a|
+7
+a|
+
+a|
+8
+a|
+
+a|
+8
+a|
+
+a|
+9
+a|
+
+a|
+9
+a|
+
+a|
+10
+a|
+
+a|
+10
+a|
+
+a|
+11
+a|
+
+a|
+11
+a|
+
+a|
+12
+a|
+
+a|
+12
+a|
+
+a|
+13
+a|
+
+a|
+13
+a|
+
+a|
+14
+a|
+
+a|
+14
+a|
+
+a|
+15
+a|
+
+a|
+15
+a|
+
+a|
+16
+a|
+
+a|
+16
+a|
+
+a|
+17
+a|
+
+a|
+17
+a|
+
+a|
+18
+a|
+
+a|
+18
+a|
+
+a|
+19
+a|
+
+a|
+19
+a|
+
+a|
+20
+a|
+
+a|
+20
+a|
+
+a|
+21
+a|
+
+a|
+21
+a|
+
+a|
+22
+a|
+
+a|
+22
+a|
+
+a|
+23
+a|
+
+a|
+23
+a|
+
+a|
+24
+a|
+
+a|
+24
+a|
+
+a|
+25 through 30
+a|
+Reserved
+a|
+25 through 30
+a|
+Reserved
+a|
+31
+a|
+40G ISL to switch B port 31
+a|
+31
+a|
+40G ISL to switch A port 31
+a|
+32
+a|
+40G ISL to switch B port 32
+a|
+32
+a|
+40G ISL to switch A port 32
+|===

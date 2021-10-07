@@ -1,0 +1,242 @@
+---
+permalink: switch-cisco-9336/install-nxos-overview.html
+sidebar: sidebar
+keywords: cisco, nx-os, software, reference, configuration, file, rcf, install, fx2, cluster, switch, install nx-os software and rcfs on cisco nexus 9336-fx2 cluster switches - cisco nexus 9336x-fx2
+summary: The Cisco NX-OS software and reference configuration files \(RCFs\) must be installed on Cisco Nexus 9336C-FX2 cluster switches.
+---
+
+= Install NX-OS software and RCFs on Cisco Nexus 9336C-FX2 cluster switches
+
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+The Cisco NX-OS software and reference configuration files (RCFs) must be installed on Cisco Nexus 9336C-FX2 cluster switches.
+
+The following conditions must exist before you install the NX-OS software and Reference Configurations Files (RCFs) on the cluster switch:
+
+* The cluster must be fully functioning (there should be no errors in the logs or similar issues).
+* You must have checked or set your desired boot configuration in the RCF to reflect the desired boot images if you are installing only NX-OS and keeping your current RCF version.
+* If you need to change the boot configuration to reflect the current boot images, you must do so before reapplying the RCF so that the correct version is instantiated on future reboots.
+* You must have a console connection to the switch, required when installing the RCF.
+* You must have consulted the switch compatibility table on the Cisco Ethernet switch page for the supported ONTAP, NX-OS, and RCF versions.
++
+https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet switch]
+
+* There can be command dependencies between the command syntax in the RCF and that found in versions of NX-OS.
+* You must have referred to the appropriate software and upgrade guides available on the Cisco web site for complete documentation on the Cisco switch upgrade and downgrade procedures on *Cisco Nexus 9000 Series Switches*.
++
+https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series Switches]
+
+* You must have the current RCF.
+
+The examples in this procedure use two nodes. These nodes use two 10GbE cluster interconnect ports e0a and e0b.
+
+See the *Hardware Universe* to verify the correct cluster ports on your platforms.
+
+https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe]
+
+NOTE: The command outputs might vary depending on different releases of ONTAP.
+
+The examples in this procedure use the following switch and node nomenclature:
+
+* The names of the two Cisco switches are cs1 and cs2.
+* The node names are cluster1-01 and cluster1-02.
+* The cluster LIF names are cluster1-01_clus1 and cluster1-01_clus2 for cluster1-01 and cluster1-02_clus1 and cluster1-02_clus2 for cluster1-02.
+* The `cluster1::*>` prompt indicates the name of the cluster.
+
+NOTE: The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
+
+. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=x h`
++
+where x is the duration of the maintenance window in hours.
++
+NOTE: The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
+
+. Change the privilege level to advanced, entering *y* when prompted to continue:
++
+`set -privilege advanced`
++
+The advanced prompt (`*>`) appears.
+
+. Display how many cluster interconnect interfaces are configured in each node for each cluster interconnect switch: `network device-discovery show -protocol cdp`
++
+----
+cluster1::*> **network device-discovery show -protocol cdp**
+
+Node/       Local  Discovered
+Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
+----------- ------ ------------------------- ----------------- --------
+cluster1-02/cdp
+            e0a    cs1                       Eth1/2            N9K-C9336C
+            e0b    cs2                       Eth1/2            N9K-C9336C
+cluster1-01/cdp
+            e0a    cs1                       Eth1/1            N9K-C9336C
+            e0b    cs2                       Eth1/1            N9K-C9336C
+
+4 entries were displayed.
+----
+
+. Check the administrative or operational status of each cluster interface.
+ .. Display the network port attributes:``network port show –ipspace Cluster``
++
+----
+cluster1::*> **network port show -ipspace Cluster**
+
+Node: cluster1-02
+                                                  Speed(Mbps) Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status
+--------- ------------ ---------------- ---- ---- ----------- ------
+e0a       Cluster      Cluster          up   9000  auto/10000 healthy
+e0b       Cluster      Cluster          up   9000  auto/10000 healthy
+
+Node: cluster1-01
+                                                  Speed(Mbps) Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status
+--------- ------------ ---------------- ---- ---- ----------- ------
+e0a       Cluster      Cluster          up   9000  auto/10000 healthy
+e0b       Cluster      Cluster          up   9000  auto/10000 healthy
+
+4 entries were displayed.
+----
+
+ .. Display information about the LIFs: `network interface show -vserver Cluster`
++
+----
+cluster1::*> **network interface show -vserver Cluster**
+
+            Logical            Status     Network            Current       Current Is
+Vserver     Interface          Admin/Oper Address/Mask       Node          Port    Home
+----------- ------------------ ---------- ------------------ ------------- ------- ----
+Cluster
+            cluster1-01_clus1  up/up      169.254.209.69/16  cluster1-01   e0a     true
+            cluster1-01_clus2  up/up      169.254.49.125/16  cluster1-01   e0b     true
+            cluster1-02_clus1  up/up      169.254.47.194/16  cluster1-02   e0a     true
+            cluster1-02_clus2  up/up      169.254.19.183/16  cluster1-02   e0b     true
+
+4 entries were displayed.
+----
+. Ping the remote cluster LIFs: `cluster ping-cluster -node node-name`
++
+----
+cluster1::*> **cluster ping-cluster -node cluster1-02**
+Host is cluster1-02
+Getting addresses from network interface table...
+Cluster cluster1-01_clus1 169.254.209.69 cluster1-01     e0a
+Cluster cluster1-01_clus2 169.254.49.125 cluster1-01     e0b
+Cluster cluster1-02_clus1 169.254.47.194 cluster1-02     e0a
+Cluster cluster1-02_clus2 169.254.19.183 cluster1-02     e0b
+Local = 169.254.47.194 169.254.19.183
+Remote = 169.254.209.69 169.254.49.125
+Cluster Vserver Id = 4294967293
+Ping status:
+....
+Basic connectivity succeeds on 4 path(s)
+Basic connectivity fails on 0 path(s)
+................
+Detected 9000 byte MTU on 4 path(s):
+    Local 169.254.19.183 to Remote 169.254.209.69
+    Local 169.254.19.183 to Remote 169.254.49.125
+    Local 169.254.47.194 to Remote 169.254.209.69
+    Local 169.254.47.194 to Remote 169.254.49.125
+Larger than PMTU communication succeeds on 4 path(s)
+RPC status:
+2 paths up, 0 paths down (tcp check)
+2 paths up, 0 paths down (udp check)
+----
+
+. Verify that the auto-revert command is enabled on all cluster LIFs: `network interface show -vserver Cluster -fields auto-revert`
++
+----
+cluster1::*> **network interface show -vserver Cluster -fields auto-revert**
+
+          Logical
+Vserver   Interface           Auto-revert
+--------- ––––––-------------- ------------
+Cluster
+          cluster1-01_clus1   true
+          cluster1-01_clus2   true
+          cluster1-02_clus1   true
+          cluster1-02_clus2   true
+4 entries were displayed.
+----
+
+. For ONTAP 9.8 and later, enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the commands: `system switch ethernet log setup-password``system switch ethernet log enable-collection`
++
+----
+cluster1::*> **system switch ethernet log setup-password**
+Enter the switch name: <return>
+The switch name entered is not recognized.
+Choose from the following list:
+cs1
+cs2
+
+cluster1::*> **system switch ethernet log setup-password**
+
+Enter the switch name: **cs1**
+RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
+Do you want to continue? {y|n}::[n] **y**
+
+Enter the password: <enter switch password>
+Enter the password again: <enter switch password>
+
+cluster1::*> **system switch ethernet log setup-password**
+
+Enter the switch name: **cs2**
+RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
+Do you want to continue? {y|n}:: [n] **y**
+
+Enter the password: <enter switch password>
+Enter the password again: <enter switch password>
+
+cluster1::*> **system  switch ethernet log enable-collection**
+
+Do you want to enable cluster log collection for all nodes in the cluster?
+{y|n}: [n] **y**
+
+Enabling cluster switch log collection.
+
+cluster1::*>
+----
++
+NOTE: If any of these commands return an error, contact NetApp support.
+
+. For ONTAP releases 9.5P16, 9.6P12, and 9.7P10 and later patch releases, enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the commands: `system cluster-switch log setup-password``system cluster-switch log enable-collection`
++
+----
+cluster1::*> **system cluster-switch log setup-password**
+Enter the switch name: <return>
+The switch name entered is not recognized.
+Choose from the following list:
+cs1
+cs2
+
+cluster1::*> **system cluster-switch log setup-password**
+
+Enter the switch name: **cs1**
+RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
+Do you want to continue? {y|n}::[n] **y**
+
+Enter the password: <enter switch password>
+Enter the password again: <enter switch password>
+
+cluster1::*> **system cluster-switch log setup-password**
+
+Enter the switch name: **cs2**
+RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
+Do you want to continue? {y|n}:: [n] **y**
+
+Enter the password: <enter switch password>
+Enter the password again: <enter switch password>
+
+cluster1::*> **system cluster-switch log enable-collection**
+
+Do you want to enable cluster log collection for all nodes in the cluster?
+{y|n}: [n] **y**
+
+Enabling cluster switch log collection.
+
+cluster1::*>
+----
++
+NOTE: If any of these commands return an error, contact NetApp support.

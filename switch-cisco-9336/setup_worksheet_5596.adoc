@@ -1,0 +1,564 @@
+---
+permalink: switch-cisco-9336/setup-worksheet-5596.html
+sidebar: sidebar
+keywords: cable worksheet, Cisco NX 5596T
+summary: 'If you want to document the supported platforms, you must complete the blank cabling worksheet by using the completed sample cabling worksheet as a guide.'
+---
+= Cisco Nexus 5596UP and 5596T cabling worksheet
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+If you want to document the supported platforms, you must complete the blank cabling worksheet by using the completed sample cabling worksheet as a guide.
+
+== Sample cabling worksheet
+
+Some platforms support more than one 10GbE cluster port connection per cluster interconnect switch. To support additional cluster connections, you can use ports 25 through 40, as well as ports 49 through 80 when expansion modules are installed.
+
+The sample port definition on each pair of switches is as follows:
+
+[options="header" cols="1,2"]
+|===
+| Cluster switch A| Cluster switch B
+| Switch port| Node and port usage| Switch port| Node and port usage
+a|
+1
+a|
+Node port 1
+a|
+1
+a|
+Node port 1
+a|
+2
+a|
+Node port 2
+a|
+2
+a|
+Node port 2
+a|
+3
+a|
+Node port 3
+a|
+3
+a|
+Node port 3
+a|
+4
+a|
+Node port 4
+a|
+4
+a|
+Node port 4
+a|
+5
+a|
+Node port 5
+a|
+5
+a|
+Node port 5
+a|
+6
+a|
+Node port 6
+a|
+6
+a|
+Node port 6
+a|
+7
+a|
+Node port 7
+a|
+7
+a|
+Node port 7
+a|
+8
+a|
+Node port 8
+a|
+8
+a|
+Node port 8
+a|
+9
+a|
+Node port 9
+a|
+9
+a|
+Node port 9
+a|
+10
+a|
+Node port 10
+a|
+10
+a|
+Node port 10
+a|
+11
+a|
+Node port 11
+a|
+11
+a|
+Node port 11
+a|
+12
+a|
+Node port 12
+a|
+12
+a|
+Node port 12
+a|
+13
+a|
+Node port 13
+a|
+13
+a|
+Node port 13
+a|
+14
+a|
+Node port 14
+a|
+14
+a|
+Node port 14
+a|
+15
+a|
+Node port 15
+a|
+15
+a|
+Node port 15
+a|
+16
+a|
+Node port 16
+a|
+16
+a|
+Node port 16
+a|
+17
+a|
+Node port 17
+a|
+17
+a|
+Node port 17
+a|
+18
+a|
+Node port 18
+a|
+18
+a|
+Node port 18
+a|
+19
+a|
+Node port 19
+a|
+19
+a|
+Node port 19
+a|
+20
+a|
+Node port 20
+a|
+20
+a|
+Node port 20
+a|
+21
+a|
+Node port 21
+a|
+21
+a|
+Node port 21
+a|
+22
+a|
+Node port 22
+a|
+22
+a|
+Node port 22
+a|
+23
+a|
+Node port 23
+a|
+23
+a|
+Node port 23
+a|
+24
+a|
+Node port 24
+a|
+24
+a|
+Node port 24
+a|
+25 through 40
+a|
+Reserved
+a|
+25 through 40
+a|
+Reserved
+a|
+41
+a|
+ISL to switch B port 41
+a|
+41
+a|
+ISL to switch A port 41
+a|
+42
+a|
+ISL to switch B port 42
+a|
+42
+a|
+ISL to switch A port 42
+a|
+43
+a|
+ISL to switch B port 43
+a|
+43
+a|
+ISL to switch A port 43
+a|
+44
+a|
+ISL to switch B port 44
+a|
+44
+a|
+ISL to switch A port 44
+a|
+45
+a|
+ISL to switch B port 45
+a|
+45
+a|
+ISL to switch A port 45
+a|
+46
+a|
+ISL to switch B port 46
+a|
+46
+a|
+ISL to switch A port 46
+a|
+47
+a|
+ISL to switch B port 47
+a|
+47
+a|
+ISL to switch A port 47
+a|
+48
+a|
+ISL to switch B port 48
+a|
+48
+a|
+ISL to switch A port 48
+|===
+
+== Blank cabling worksheet
+
+You can use the blank cabling worksheet to document the platforms that are supported as nodes in a cluster. The _Supported Cluster Connections_ section of the _Hardware Universe_ defines the cluster ports used by the platform.
+
+NOTE: Switch ports 1 through 24 function as 10 GbE ports. Switch ports 41 through 48 are reserved for Inter-Switch Links (ISLs).
+
+[options="header" cols="1,2"]
+|===
+| Cluster switch A| Cluster switch B
+| Switch port| Node/port usage| Switch port| Node/port usage
+a|
+1
+a|
+
+a|
+1
+a|
+
+a|
+2
+a|
+
+a|
+2
+a|
+
+a|
+3
+a|
+
+a|
+3
+a|
+
+a|
+4
+a|
+
+a|
+4
+a|
+
+a|
+5
+a|
+
+a|
+5
+a|
+
+a|
+6
+a|
+
+a|
+6
+a|
+
+a|
+7
+a|
+
+a|
+7
+a|
+
+a|
+8
+a|
+
+a|
+8
+a|
+
+a|
+9
+a|
+
+a|
+9
+a|
+
+a|
+10
+a|
+
+a|
+10
+a|
+
+a|
+11
+a|
+
+a|
+11
+a|
+
+a|
+12
+a|
+
+a|
+12
+a|
+
+a|
+13
+a|
+
+a|
+13
+a|
+
+a|
+14
+a|
+
+a|
+14
+a|
+
+a|
+15
+a|
+
+a|
+15
+a|
+
+a|
+16
+a|
+
+a|
+16
+a|
+
+a|
+17
+a|
+
+a|
+17
+a|
+
+a|
+18
+a|
+
+a|
+18
+a|
+
+a|
+19
+a|
+
+a|
+19
+a|
+
+a|
+20
+a|
+
+a|
+20
+a|
+
+a|
+21
+a|
+
+a|
+21
+a|
+
+a|
+22
+a|
+
+a|
+22
+a|
+
+a|
+23
+a|
+
+a|
+23
+a|
+
+a|
+24
+a|
+
+a|
+24
+a|
+
+a|
+25 through 40
+a|
+Reserved
+a|
+25 through 40
+a|
+Reserved
+a|
+41
+a|
+ISL to switch B port 41
+a|
+41
+a|
+ISL to switch A port 41
+a|
+42
+a|
+ISL to switch B port 42
+a|
+42
+a|
+ISL to switch A port 42
+a|
+43
+a|
+ISL to switch B port 43
+a|
+43
+a|
+ISL to switch A port 43
+a|
+44
+a|
+ISL to switch B port 44
+a|
+44
+a|
+ISL to switch A port 44
+a|
+45
+a|
+ISL to switch B port 45
+a|
+45
+a|
+ISL to switch A port 45
+a|
+46
+a|
+ISL to switch B port 46
+a|
+46
+a|
+ISL to switch A port 46
+a|
+47
+a|
+ISL to switch B port 47
+a|
+47
+a|
+ISL to switch A port 47
+a|
+48
+a|
+ISL to switch B port 48
+a|
+48
+a|
+ISL to switch A port 48
+|===

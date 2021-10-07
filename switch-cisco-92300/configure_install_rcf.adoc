@@ -1,0 +1,142 @@
+---
+permalink: switch-cisco-92300/configure-install-rcf.html
+sidebar: sidebar
+keywords: install rcf, rcf install
+summary: 'You can install the RCF after setting up the Nexus 92300YC switch for the first time.'
+---
+= Install the Reference Configuration File (RCF)
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+You can install the RCF after setting up the Nexus 92300YC switch for the first time.
+
+.Steps
+. Connect the cluster switch to the management network.
+. Use the ping command to verify connectivity to the server hosting the RCF.
++
+This example verifies that the switch can reach the server at IP address 172.19.2.1:
++
+----
+cs2# **ping 172.19.2.1**
+Pinging 172.19.2.1 with 0 bytes of data:
+
+Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
+----
+
+. Copy the RCF to the Nexus 92300YC switch:
++
+----
+cs2# **copy sftp: bootflash: vrf management**
+Enter source filename: **/code/Nexus_92300YC_RCF_v1.0.2.txt**
+Enter hostname for the sftp server: **172.19.2.1**
+Enter username: **user1**
+
+Outbound-ReKey for 172.19.2.1:22
+Inbound-ReKey for 172.19.2.1:22
+user1@172.19.2.1's password:
+sftp> progress
+Progress meter enabled
+sftp> get   /code/Nexus_92300YC_RCF_v1.0.2.txt  /bootflash/nxos.9.2.2.bin
+/code/Nexus_92300YC_R  100% 9687   530.2KB/s   00:00
+sftp> exit
+Copy complete, now saving to disk (please wait)...
+Copy complete.
+----
+
+. Merge the RCF with the running-config of the switch:
++
+----
+cs2# **copy bootflash:Nexus_92300YC_RCF_v1.0.2.txt running-config**
+
+Disabling ssh: as its enabled right now:
+ generating ecdsa key(521 bits)......
+generated ecdsa key
+
+Enabling ssh: as it has been disabled
+ this command enables edge port type (portfast) by default on all interfaces. You
+ should now disable edge port type (portfast) explicitly on switched ports leading to hubs,
+ switches and bridges as they may create temporary bridging loops.
+
+Edge port type (portfast) should only be enabled on ports connected to a single
+ host. Connecting hubs, concentrators, switches, bridges, etc...  to this
+ interface when edge port type (portfast) is enabled, can cause temporary bridging loops.
+ Use with CAUTION
+
+Edge Port Type (Portfast) has been configured on Ethernet1/1 but will only
+ have effect when the interface is in a non-trunking mode.
+
+...
+
+Copy complete, now saving to disk (please wait)...
+Copy complete.
+----
+
+. Verify on the switch that the RCF has been merged successfully:
++
+`show running-config`
++
+----
+cs2# **show running-config**
+!Command: show running-config
+!Running configuration last done at: Wed Apr 10 06:32:27 2019
+!Time: Wed Apr 10 06:36:00 2019
+
+version 9.2(2) Bios:version 05.33
+switchname cs2
+vdc cs2 id 1
+  limit-resource vlan minimum 16 maximum 4094
+  limit-resource vrf minimum 2 maximum 4096
+  limit-resource port-channel minimum 0 maximum 511
+  limit-resource u4route-mem minimum 248 maximum 248
+  limit-resource u6route-mem minimum 96 maximum 96
+  limit-resource m4route-mem minimum 58 maximum 58
+  limit-resource m6route-mem minimum 8 maximum 8
+
+feature lacp
+
+no password strength-check
+username admin password 5 $5$HY9Kk3F9$YdCZ8iQJ1RtoiEFa0sKP5IO/LNG1k9C4lSJfi5kesl
+6  role network-admin
+ssh key ecdsa 521
+
+banner motd #
+********************************************************************************
+*                                                                              *
+*  Nexus 92300YC Reference Configuration File (RCF) v1.0.2 (10-19-2018)        *
+*                                                                              *
+*  Ports 1/1  - 1/48: 10GbE Intra-Cluster Node Ports                           *
+*  Ports 1/49 - 1/64: 40/100GbE Intra-Cluster Node Ports                       *
+*  Ports 1/65 - 1/66: 40/100GbE Intra-Cluster ISL Ports                        *
+*                                                                              *
+********************************************************************************
+----
+
+. Save the running configuration so that it becomes the startup configuration when you reboot the switch:
++
+----
+cs2# **copy running-config startup-config**
+
+[########################################] 100%
+Copy complete, now saving to disk (please wait)...
+Copy complete.
+----
+
+. For ONTAP 9.6P8 and later, enable the CSHM ASUP log collection feature for collecting switch-related log files: `system cluster-switch log setup-password` and `system cluster-switch log enable-collection`
++
+----
+cs2# **system cluster-switch log setup-password**
+** Output example required here
+cs2# **system cluster-switch log enable-collection**
+** Output example required here too
+----
+
+. Reboot the switch and verify that the running configuration is correct:
++
+`reload`
++
+----
+cs2# **reload**
+
+This command will reboot the system. (y/n)?  [n] **y**
+----

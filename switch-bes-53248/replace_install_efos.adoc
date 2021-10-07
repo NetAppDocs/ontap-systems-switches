@@ -1,0 +1,194 @@
+---
+permalink: switch-bes-53248/replace-install-efos.html
+sidebar: sidebar
+keywords: BES-53248 switches,installing EFOS software,efos
+summary: 'You can use this procedure to install the EFOS software on the BES-53248 cluster switch. You can download the applicable Broadcom EFOS software for your cluster switches from the Broadcom Ethernet Switch Support site.'
+---
+= Install the EFOS software
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+You can use this procedure to install the EFOS software on the BES-53248 cluster switch. You can download the applicable Broadcom EFOS software for your cluster switches from the Broadcom Ethernet Switch Support site.
+
+.Steps
+. Connect the BES-53248 cluster switch to the management network.
+. Use the `ping` command to verify connectivity to the server hosting EFOS, licenses, and the RCF file.
++
+This example verifies that the switch is connected to the server at IP address 172.19.2.1:
++
+----
+(cs2) # **ping 172.19.2.1**
+Pinging 172.19.2.1 with 0 bytes of data:
+
+Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
+----
+
+. Back up the current active image on cs2:
++
+`show bootvar`
++
+----
+(cs2) # **show bootvar**
+
+ Image Descriptions
+
+ active :
+ backup :
+
+
+ Images currently available on Flash
+
+--------------------------------------------------------------------
+ unit      active      backup        current-active    next-active
+--------------------------------------------------------------------
+
+    1      3.4.3.3     Q.10.22.1     3.4.3.3           3.4.3.3
+(cs2) # **copy active backup**
+Copying active to backup
+Management access will be blocked for the duration of the operation
+Copy operation successful
+
+(cs2) # **show bootvar**
+
+Image Descriptions
+
+ active :
+ backup :
+
+
+ Images currently available on Flash
+
+--------------------------------------------------------------------
+ unit      active      backup      current-active    next-active
+--------------------------------------------------------------------
+
+    1      3.4.3.3     3.4.3.3     3.4.3.3           3.4.3.3
+(cs2) #
+----
+
+. Verify the running version of the EFOS software:
++
+`show version`
++
+----
+(cs2) # **show version**
+
+Switch: 1
+
+System Description............................. Quanta IX8-B 48x25GB SFP 8x100GB QSFP, 3.4.3.3, Linux 4.4.117-ceeeb99d, 2016.05.00.04
+Machine Type................................... Quanta IX8-B 48x25GB SFP 8x100GB QSFP
+Machine Model.................................. IX8-B
+Serial Number.................................. QTFCU38260014
+Maintenance Level.............................. A
+Manufacturer................................... 0xbc00
+Burned In MAC Address.......................... D8:C4:97:71:12:3D
+Software Version............................... 3.4.3.3
+Operating System............................... Linux 4.4.117-ceeeb99d
+Network Processing Device...................... BCM56873_A0
+CPLD Version................................... 0xff040c03
+
+Additional Packages............................ BGP-4
+...............................................	QOS
+...............................................	Multicast
+............................................... IPv6
+............................................... Routing
+............................................... Data Center
+............................................... OpEN API
+............................................... Prototype Open API
+----
+
+. Download the image file to the switch.
++
+Copying the image file to the active image means that when you reboot, that image establishes the running EFOS version. The previous image remains available as a backup.
++
+----
+(cs2) # **copy sftp://root@172.19.2.1//tmp/EFOS-3.4.4.6.stk active**
+Remote Password:********
+
+Mode........................................... SFTP
+Set Server IP.................................. 172.19.2.1
+Path........................................... //tmp/
+Filename....................................... EFOS-3.4.4.6.stk
+Data Type...................................... Code
+Destination Filename........................... active
+
+Management access will be blocked for the duration of the transfer
+Are you sure you want to start? (y/n) **y**
+SFTP Code transfer starting...
+
+
+File transfer operation completed successfully.
+----
+
+. Display the boot images for the active and backup configuration:
++
+`show bootvar`
++
+----
+(cs2) # **show bootvar**
+
+Image Descriptions
+
+ active :
+ backup :
+
+
+ Images currently available on Flash
+
+--------------------------------------------------------------------
+ unit      active      backup     current-active        next-active
+--------------------------------------------------------------------
+
+    1     3.4.3.3     3.4.3.3            3.4.3.3            3.4.4.6
+----
+
+. Reboot the switch:
++
+`reload`
++
+----
+(cs2) # **reload**
+
+The system has unsaved changes.
+Would you like to save them now? (y/n) **y**
+
+Config file 'startup-config' created successfully .
+Configuration Saved!
+System will now restart!
+----
+
+. Log in again and verify the new version of the EFOS software:
++
+`show version`
++
+----
+(cs2) # **show version**
+
+Switch: 1
+
+System Description............................. x86_64-quanta_common_rglbmc-r0, 3.4.4.6, Linux 4.4.211-28a6fe76, 2016.05.00.04
+Machine Type................................... x86_64-quanta_common_rglbmc-r0
+Machine Model.................................. BES-53248
+Serial Number.................................. QTFCU38260023
+Maintenance Level.............................. A
+Manufacturer................................... 0xbc00
+Burned In MAC Address.......................... D8:C4:97:71:0F:40
+Software Version............................... 3.4.4.6
+Operating System............................... Linux 4.4.211-28a6fe76
+Network Processing Device...................... BCM56873_A0
+CPLD Version................................... 0xff040c03
+
+Additional Packages............................ BGP-4
+...............................................	QOS
+...............................................	Multicast
+............................................... IPv6
+............................................... Routing
+............................................... Data Center
+............................................... OpEN API
+............................................... Prototype Open API
+----
+
+*Related information*
+
+https://www.broadcom.com/support/bes-switch[Broadcom Ethernet Switch Support]

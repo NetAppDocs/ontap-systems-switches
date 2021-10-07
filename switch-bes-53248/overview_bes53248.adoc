@@ -1,0 +1,59 @@
+---
+permalink: switch-bes-53248/replace-bes53248-overview.html
+sidebar: sidebar
+keywords: cluster-mode,supported versions,switches supported,cluster network,efos
+summary: 'Broadcom-supported BES-53248 cluster switches are designed to work in clusters ranging in size from two to 24 nodes in ONTAP 9.5P8 and later. Support for 40/100 GbE cluster ports starts with EFOS firmware version 3.4.4.6 and later.'
+---
+= Overview of the Broadcom-supported BES-53248 cluster switch - BES-53248 switches
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+Broadcom-supported BES-53248 cluster switches are designed to work in clusters ranging in size from two to 24 nodes in ONTAP 9.5P8 and later. Support for 40/100 GbE cluster ports starts with EFOS firmware version 3.4.4.6 and later.
+
+BES-53248 is a switch running on a Broadcom-embedded OS known as Ethernet Fabric OS (EFOS).
+
+The following table lists the part number and description for the BES-53248 cluster switch, rack mount rail kit, fans, and power supplies:
+
+[options="header" cols="1,2"]
+|===
+| Part number| Description
+a|
+X190005
+a|
+BES-53248, CLSW, 16Pt10/25GB, PTSX, BRDCM SUPP (PTSX = Port Side Exhaust)
+a|
+X190005R
+a|
+BES-53248, CLSW, 16Pt10/25GB, PSIN, BRDCM SUPP (PSIN = Port Side Intake)
+a|
+X-RAIL-4POST-190005
+a|
+Rack mount rail kit Ozeki 4 post 19"
+a|
+X-FAN-190005-R
+a|
+Fan, port side intake X190005
+a|
+X-FAN-190005-F
+a|
+Fan, port side exhaust X190005
+a|
+X-PSU-190005-R
+a|
+Power supply, port side intake X190005
+a|
+X-PSU-190005-F
+a|
+Power supply, port side exhaust X190005
+|===
+Overview of airflow based on the two models offered:
+
+* Port-side exhaust airflow (standard air): Cool air enters the chassis through the fan and power supply modules in the cold aisle and exhausts through the port end of the chassis in the hot aisle. Blue coloring indicates port-side exhaust airflow. This is the most common option.
+* Port-side intake airflow (reverse air): Cool air enters the chassis through the port end in the cold aisle and exhausts through the fan and power supply modules in the hot aisle.
+
+See the https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/MetroCluster/How_to_add_Additional_Port_Licensing_for_the_Broadcom-Supported_BES-53248_Switch[NetApp KB article: How to add additional port licensing for the Broadcom-supported BES-53248 switch] for details on adding additional port licenses.
+
+For information on the relevant connectors and cable options to use along with their part numbers, see the https://hwu.netapp.com/Home/Index[NetApp Hardware Universe].
+
+For more information, see the _Cluster Network and Management Network Compatibility Matrix_ available from the BES-53248 switch download site https://mysupport.netapp.com/site/products/all/details/broadcom-cluster-switches/downloads-tab[Broadcom cluster switches].
