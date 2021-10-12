@@ -33,9 +33,7 @@ https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/produc
 
 The examples in this procedure use two nodes. These nodes use two 10GbE cluster interconnect ports `e0a` and `e0b`.
 
-See the *Hardware Universe* to verify the correct cluster ports on your platforms.
-
-https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe]
+See the https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe] to verify the correct cluster ports on your platforms.
 
 NOTE: The command outputs might vary depending on different releases of ONTAP.
 
@@ -67,7 +65,7 @@ The following command suppresses automatic case creation for two hours:
 +
 
 ----
-cluster1:*> **system node autosupport invoke -node * -type all -message MAINT=2h**
+cluster1:> system node autosupport invoke -node * -type all -message MAINT=2h
 ----
 
 . Display how many cluster interconnect interfaces are configured in each node for each cluster interconnect switch: `network device-discovery show -protocol cdp`
@@ -143,10 +141,10 @@ Local = 169.254.47.194 169.254.19.183
 Remote = 169.254.209.69 169.254.49.125
 Cluster Vserver Id = 4294967293
 Ping status:
-....
+
 Basic connectivity succeeds on 4 path(s)
 Basic connectivity fails on 0 path(s)
-................
+
 Detected 9000 byte MTU on 4 path(s):
     Local 169.254.19.183 to Remote 169.254.209.69
     Local 169.254.19.183 to Remote 169.254.49.125
