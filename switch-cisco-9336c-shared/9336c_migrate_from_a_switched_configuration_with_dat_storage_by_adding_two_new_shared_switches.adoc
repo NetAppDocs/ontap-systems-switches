@@ -18,7 +18,7 @@ summary:
 // 2021-04-29 11:40:03.792362
 //
 
-==== Migrate from a switched configuration with DAT storage
+== Migrate from a switched configuration with DAT storage
 
 You must be aware of certain configuration information, port connections,  and cabling requirements when you are replacing some older Cisco Nexus cluster switches with Cisco Nexus 9336C-FX2 shared switches.
 
@@ -46,7 +46,7 @@ See https://hwu.netapp.com[Hardware Universe] for more information.
 // *Cabling diagram for direct-attached*
 // image:9336c_image2.jpg[Direct-attached]
 
-===== Before you begin
+.Before you begin
 
 * The existing switch network must be properly set up and functioning.
 * All ports must be in the *up* state to ensure nondisruptive operations.
@@ -57,7 +57,7 @@ See https://hwu.netapp.com[Hardware Universe] for more information.
 ** All cluster LIFs in the *up* state with the cluster LIFs are on their home ports.
 ** ISL ports enabled and cabled between the other Cisco switches and between the new switches.
 
-===== About this task
+.About this task
 
 The examples in this procedure use the following switch and node nomenclature:
 
@@ -67,7 +67,7 @@ The examples in this procedure use the following switch and node nomenclature:
 * The cluster LIFs are _node1_clus1_ and _node1_clus2_ on node 1, and _node2_clus1_ and _node2_clus2_ on node 2 respectively.
 * Switch c2 is replaced by switch sh2 first and then switch c1 is replaced by switch sh1.
 
-===== Steps
+.Steps
 
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
 `system node autosupport invoke -node * -type all -message MAINT=x h`

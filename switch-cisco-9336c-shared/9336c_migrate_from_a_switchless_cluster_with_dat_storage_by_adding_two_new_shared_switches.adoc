@@ -18,7 +18,7 @@ summary:
 // 2021-04-29 11:40:03.607134
 //
 
-==== Migrate from a switchless cluster with DAT storage
+== Migrate from a switchless cluster with DAT storage
 
 You must be aware of certain configuration information, port connections, and cabling requirements when you migrate a two-node switchless cluster, non-disruptively, to a cluster with Cisco Nexus 9336C-FX2 cluster switches. The procedure you use depends on whether you have two dedicated cluster-network ports on each controller or a single cluster port on each controller. The process documented works for all nodes using optical or Twinax ports but is not supported on this switch if nodes are using onboard 10Gb BASE-T RJ45 ports for the cluster-network ports.
 
@@ -29,7 +29,7 @@ If you have an existing two-node switchless cluster environment, you can migrate
 // *Cabling diagram for direct-attached*
 // image:9336c_image2.jpg[Direct-attached]
 
-===== Before you begin
+.Before you begin
 
 * Two-node switchless configuration:
 ** The two-node switchless configuration must be properly set up and functioning.
@@ -47,7 +47,7 @@ If you have an existing two-node switchless cluster environment, you can migrate
 ** Reference Configuration Files (RCFs) have been applied to the switches
 ** Any site customization, such as SMTP, SNMP, and SSH must be configured on the new switches.
 
-===== About this task
+.About this task
 
 The examples in this procedure use the following cluster switch and node nomenclature:
 
@@ -57,7 +57,7 @@ The examples in this procedure use the following cluster switch and node nomencl
 * The cluster1::*> prompt indicates the name of the cluster.
 * The cluster ports used in this procedure are _e3a_ and _e3b_, as per the AFF A400 controller. The https://hwu.netapp.com[Hardware Universe] contains the latest information about the actual cluster ports for your platforms.
 
-===== Steps
+.Steps
 
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:  `system node autosupport invoke -node * -type all -message MAINT=xh`.
 +
@@ -496,7 +496,7 @@ The examples in this procedure use the following switch and node nomenclature:
 [NOTE]
 The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands, ONTAP commands are used unless otherwise indicated.
 
-===== Steps
+.Steps
 
 . Verify that the storage configuration of HA pair 1 (and HA pair 2) is correct and error free:
 `system switch ethernet show`

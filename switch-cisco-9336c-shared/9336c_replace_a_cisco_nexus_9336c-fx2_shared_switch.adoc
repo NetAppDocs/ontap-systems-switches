@@ -22,7 +22,7 @@ summary:
 
 Replacing a defective Nexus 9336C-FX2 shared switch is a nondisruptive procedure (NDU).
 
-===== Before you begin
+.Before you begin
 
 The following conditions must exist before performing the switch replacement in the current environment and on the replacement switch.
 
@@ -39,7 +39,7 @@ The following conditions must exist before performing the switch replacement in 
 ** The desired reference configuration file (RCF) and NX-OS operating system image switch must be loaded onto the switch.
 ** Any previous site customizations, such as STP, SNMP, and SSH, should be copied to the new switch.
 
-===== About this task
+.About this task
 
 You must execute the command for migrating a cluster LIF from the node where the cluster LIF is hosted.
 
@@ -125,7 +125,7 @@ sh1                Eth1/36        178    R S I s     N9K-C9336C    Eth1/36
 Total entries displayed: 4
 ----
 
-===== Steps
+.Steps
 
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
 `system node autosupport invoke -node * -type all -message MAINT=xh`
