@@ -1,0 +1,176 @@
+---
+permalink: switch-bes-53248/configure-log-collection.html
+sidebar: sidebar
+keywords: log collection feature,collect switch-related log files,SSh key,crypto key generation
+summary: 'The cluster switch health monitor log collection feature is used to collect switch-related log files in ONTAP. You must make sure that you have set up your environment using the BES-53248 cluster switch CLI as detailed here.'
+---
+= Configure the cluster switch log collection feature
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+The cluster switch health monitor log collection feature is used to collect switch-related log files in ONTAP. You must make sure that you have set up your environment using the BES-53248 cluster switch CLI as detailed here.
+
+.Steps
+
+. Generate the SSH keys:
++
+`crypto key generate`
++
+----
+(switch) #**show ip ssh**
+
+SSH Configuration
+
+Administrative Mode: .......................... Disabled
+SSH Port: ..................................... 22
+Protocol Level: ............................... Version 2
+SSH Sessions Currently Active: ................ 0
+Max SSH Sessions Allowed: ..................... 5
+SSH Timeout (mins): ........................... 5
+Keys Present: ................................. DSA(1024) RSA(1024) ECDSA(521)
+Key Generation In Progress: ................... None
+SCP server Administrative Mode: ............... Disabled
+
+(switch) #**config**
+
+(switch) (Config)#**crypto key generate rsa**
+
+Do you want to overwrite the existing RSA keys? (y/n):**y**
+
+
+(switch) (Config)#**crypto key generate dsa**
+
+Do you want to overwrite the existing DSA keys? (y/n):**y**
+
+
+(switch) (Config)#**crypto key generate ecdsa 521**
+
+Do you want to overwrite the existing ECDSA keys? (y/n):**y**
+
+(switch) (Config)#**aaa authorization commands "noCmdAuthList" none**
+(switch) (Config)#**exit**
+(switch) #**ip ssh server enable**
+(switch) #**ip ssh pubkey-auth**
+(switch) #**ip scp server enable**
+(switch) #**write mem**
+This operation may take a few minutes.
+Management interfaces will not be available during this time.
+Are you sure you want to save? (y/n) **y**
+
+Config file 'startup-config' created successfully .
+
+Configuration Saved!
+
+(switch) #
+----
+
+. Enable SSH:
++
+`ip ssh server enable`
++
+----
+(switch) #**ip ssh server enable**
+
+(switch) #**show ip ssh**
+
+SSH Configuration
+
+Administrative Mode: .......................... Enabled
+SSH Port: ..................................... 22
+Protocol Level: ............................... Version 2
+SSH Sessions Currently Active: ................ 0
+Max SSH Sessions Allowed: ..................... 5
+SSH Timeout (mins): ........................... 5
+Keys Present: ................................. DSA(1024) RSA(1024) ECDSA(521)
+Key Generation In Progress: ................... None
+SCP server Administrative Mode: ............... Disabled
+
+(switch) #
+----
+
+. For ONTAP 9.8 and later, enable the cluster switch health monitor log collection feature for collecting switch-related log files, using the commands:
++
+`system switch ethernet log setup-password system switch ethernet log enable-collection`
++
+----
+cluster1::*> **system switch ethernet log setup-password**
+Enter the switch name: <return>
+The switch name entered is not recognized.
+Choose from the following list:
+cs1
+cs2
+
+cluster1::*> **system switch ethernet log setup-password**
+
+Enter the switch name: **cs1**
+RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
+Do you want to continue? {y|n}::[n] **y**
+
+Enter the password: <enter switch password>
+Enter the password again: <enter switch password>
+
+
+cluster1::*> **system switch ethernet log setup-password**
+Enter the switch name: **cs2**
+RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
+Do you want to continue? {y|n}:: [n] **y**
+
+Enter the password: <enter switch password>
+Enter the password again: <enter switch password>
+
+cluster1::*> **system switch ethernet log enable-collection**
+
+Do you want to enable cluster log collection for all nodes in the cluster?
+{y|n}: [n] **y**
+
+Enabling cluster switch log collection.
+
+cluster1::*>
+----
+
+. For ONTAP 9.5P15, 9.6P11, 9.7P8 and later patch releases, enable the cluster switch health monitor log collection feature for collecting switch-related log files, using the commands:
++
+`system cluster-switch log setup-password system cluster-switch log enable-collection`
++
+----
+cluster1::*> **system cluster-switch log setup-password**
+Enter the switch name: <return>
+The switch name entered is not recognized.
+Choose from the following list:
+cs1
+cs2
+
+cluster1::*> **system cluster-switch log setup-password**
+
+Enter the switch name: **cs1**
+RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
+Do you want to continue? {y|n}::[n] **y**
+
+Enter the password: <enter switch password>
+Enter the password again: <enter switch password>
+
+cluster1::*> **system cluster-switch log setup-password**
+
+Enter the switch name: **cs2**
+RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
+Do you want to continue? {y|n}:: [n] **y**
+
+Enter the password: <enter switch password>
+Enter the password again: <enter switch password>
+
+cluster1::*> **system cluster-switch log enable-collection**
+
+Do you want to enable cluster log collection for all nodes in the cluster?
+{y|n}: [n] **y**
+
+Enabling cluster switch log collection.
+
+cluster1::*>
+----
++
+NOTE: If any of these commands return an error, contact NetApp support.
+
+. Begin an initial data collection from each switch:
+* `cluster1::*> system cluster-switch log collect -device <cs1>`
+* `cluster1::*> system cluster-switch log collect -device <cs2>`

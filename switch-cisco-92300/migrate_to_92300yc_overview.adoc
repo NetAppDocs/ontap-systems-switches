@@ -1,0 +1,36 @@
+---
+permalink: switch-cisco-92300/migrate-to-92300yc-overview.html
+sidebar: sidebar
+keywords: migrate to cisco nx 92300yc cluster switch,new cluster switch migration
+summary: 'You must be aware of certain configuration information, port connections and cabling requirements when you are replacing some older Cisco Nexus cluster switches with Cisco Nexus 92300YC cluster switches.'
+---
+= Migrate from a Cisco switch to a Cisco Nexus 92300YC switch
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+You must be aware of certain configuration information, port connections and cabling requirements when you are replacing some older Cisco Nexus cluster switches with Cisco Nexus 92300YC cluster switches.
+
+* The following cluster switches are supported:
+ ** Nexus 92300YC
+ ** Nexus 5596UP
+ ** Nexus 5020
+ ** Nexus 5010
+* The cluster switches use the following ports for connections to nodes:
+ ** Ports e1/1-48 (10/25 GbE), e1/49-64 (40/100 GbE): Nexus 92300YC
+ ** Ports e1/1-40 (10 GbE): Nexus 5596UP
+ ** Ports e1/1-32 (10 GbE): Nexus 5020
+ ** Ports e1/1-12, e2/1-6 (10 GbE): Nexus 5010 with expansion module
+* The cluster switches use the following Inter-Switch Link (ISL) ports:
+ ** Ports e1/65-66 (100 GbE): Nexus 92300YC
+ ** Ports e1/41-48 (10 GbE): Nexus 5596UP
+ ** Ports e1/33-40 (10 GbE): Nexus 5020
+ ** Ports e1/13-20 (10 GbE): Nexus 5010
+* The _Hardware Universe_ contains information about supported cabling for all cluster switches.
+* You have configured some of the ports on Nexus 92300YC switches to run at 10 GbE or 40 GbE.
+* You have planned, migrated, and documented 10 GbE and 40 GbE connectivity from nodes to Nexus 92300YC cluster switches.
+* The ONTAP and NX-OS versions supported in this procedure are on the _Cisco Ethernet Switches_ page.
++
+https://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switches]
+
+NOTE: After your migration completes, you might need to install the required configuration file to support the Cluster Switch Health Monitor (CSHM) for 92300YC cluster switches. See _Installing the Cluster Switch Health Monitor (CSHM) configuration file for 92300YC switches_ in the link:../com.netapp.doc.hw-sw-cisco-setup/home.html[Setting up] guide.

@@ -1,0 +1,16 @@
+---
+permalink: switch-cisco-92300/migrate-to-2n-switched-overview.html
+sidebar: sidebar
+keywords: TNSC,migrate two-node,migrate 2-node
+summary: 'You must be aware of certain configuration information, port connections, and cabling requirements when you migrate a two-node switchless cluster, non-disruptively, to a cluster with Cisco Nexus 92300YC cluster switches. The procedure you use depends on whether you have two dedicated cluster-network ports on each controller or a single cluster port on each controller. The process documented works for all nodes using optical or twinax ports but is not supported on this switch if nodes are using onboard 10Gb BASE-T RJ45 ports for the cluster-network ports.'
+---
+= Migrate to a two-node switched cluster with Cisco Nexus 92300YC switches
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+You must be aware of certain configuration information, port connections, and cabling requirements when you migrate a two-node switchless cluster, non-disruptively, to a cluster with Cisco Nexus 92300YC cluster switches. The procedure you use depends on whether you have two dedicated cluster-network ports on each controller or a single cluster port on each controller. The process documented works for all nodes using optical or twinax ports but is not supported on this switch if nodes are using onboard 10Gb BASE-T RJ45 ports for the cluster-network ports.
+
+Most systems require two dedicated cluster-network ports on each controller.
+
+NOTE: After your migration completes, you might need to install the required configuration file to support the Cluster Switch Health Monitor (CSHM) for 92300YC cluster switches. See _Installing the Cluster Switch Health Monitor (CSHM) configuration file for 92300YC switches_ in the link:../com.netapp.doc.hw-sw-cisco-setup/home.html[Setting up] guide.

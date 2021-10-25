@@ -1,0 +1,14 @@
+---
+permalink: switch-cisco-9336/migrate-to-2n-switched-overview.html
+sidebar: sidebar
+keywords: two-node switchless cluster,migrating to a Cisco 9336C-FX2 switch,tnsc
+summary: 'You must be aware of certain configuration information, port connections, and cabling requirements when you migrate a two-node switchless cluster, non-disruptively, to a cluster with Cisco Nexus 9336C-FX2 cluster switches. The procedure you use depends on whether you have two dedicated cluster-network ports on each controller or a single cluster port on each controller. The process documented works for all nodes using optical or Twinax ports but is not supported on this switch if nodes are using onboard 10Gb BASE-T RJ45 ports for the cluster-network ports.'
+---
+= Migrate to a two-node switched cluster with Cisco Nexus 9336C-FX2 cluster switches
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+You must be aware of certain configuration information, port connections, and cabling requirements when you migrate a two-node switchless cluster, non-disruptively, to a cluster with Cisco Nexus 9336C-FX2 cluster switches. The procedure you use depends on whether you have two dedicated cluster-network ports on each controller or a single cluster port on each controller. The process documented works for all nodes using optical or Twinax ports but is not supported on this switch if nodes are using onboard 10Gb BASE-T RJ45 ports for the cluster-network ports.
+
+Most systems require two dedicated cluster-network ports on each controller. See https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet switches]

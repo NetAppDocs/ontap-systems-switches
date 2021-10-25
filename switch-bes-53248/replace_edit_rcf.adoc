@@ -1,0 +1,125 @@
+---
+permalink: switch-bes-53248/replace-edit-rcf.html
+sidebar: sidebar
+keywords: activating licenses,additional licenses,licenses in the RCF,edit rcf
+summary: 'In order to activate newly licensed ports, you need to edit the latest version of the RCF and uncomment the applicable port details. The default license activates ports 0/1 to 0/16 and 0/55 to 0/56 while the newly licensed ports will be between ports 0/17 to 0/54 depending on the type and number of licenses available.'
+---
+= Edit the Reference Configuration File (RCF)
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+In order to activate newly licensed ports, you need to edit the latest version of the RCF and uncomment the applicable port details. The default license activates ports 0/1 to 0/16 and 0/55 to 0/56 while the newly licensed ports will be between ports 0/17 to 0/54 depending on the type and number of licenses available.
+
+For details of the available license types for use on the BES-53248 cluster switch, see link:configure-licenses.html[Installing licenses for BES-53248 cluster switches].
+
+For example to activate the SW-BES54248-40-100G-LIC license, you must uncomment the following section in the RCF:
+
+----
+.
+.
+!
+! 2-port or 6-port 40/100GbE node port license block
+!
+interface 0/49
+no shutdown
+description "40/100GbE Node Port"
+!speed 100G full-duplex
+speed 40G full-duplex
+service-policy in WRED_100G
+spanning-tree edgeport
+mtu 9216
+switchport mode trunk
+datacenter-bridging
+priority-flow-control mode on
+priority-flow-control priority 5 no-drop
+exit
+exit
+!
+interface 0/50
+no shutdown
+description "40/100GbE Node Port"
+!speed 100G full-duplex
+speed 40G full-duplex
+service-policy in WRED_100G
+spanning-tree edgeport
+mtu 9216
+switchport mode trunk
+datacenter-bridging
+priority-flow-control mode on
+priority-flow-control priority 5 no-drop
+exit
+exit
+!
+interface 0/51
+no shutdown
+description "40/100GbE Node Port"
+speed 100G full-duplex
+!speed 40G full-duplex
+service-policy in WRED_100G
+spanning-tree edgeport
+mtu 9216
+switchport mode trunk
+datacenter-bridging
+priority-flow-control mode on
+priority-flow-control priority 5 no-drop
+exit
+exit
+!
+interface 0/52
+no shutdown
+description "40/100GbE Node Port"
+speed 100G full-duplex
+!speed 40G full-duplex
+service-policy in WRED_100G
+spanning-tree edgeport
+mtu 9216
+switchport mode trunk
+datacenter-bridging
+priority-flow-control mode on
+priority-flow-control priority 5 no-drop
+exit
+exit
+!
+interface 0/53
+no shutdown
+description "40/100GbE Node Port"
+speed 100G full-duplex
+!speed 40G full-duplex
+service-policy in WRED_100G
+spanning-tree edgeport
+mtu 9216
+switchport mode trunk
+datacenter-bridging
+priority-flow-control mode on
+priority-flow-control priority 5 no-drop
+exit
+exit
+!
+interface 0/54
+no shutdown
+description "40/100GbE Node Port"
+speed 100G full-duplex
+!speed 40G full-duplex
+service-policy in WRED_100G
+spanning-tree edgeport
+mtu 9216
+switchport mode trunk
+datacenter-bridging
+priority-flow-control mode on
+priority-flow-control priority 5 no-drop
+exit
+exit
+!
+.
+.
+----
+
+NOTE: For high-speed ports between 0/49 to 0/54 inclusive, uncomment each port but only uncomment one *speed* line in the RCF for each of these ports, either:
+
+* speed 100G full-duplex
+* speed 40G full-duplex
+
+as shown in the example.
+
+For low-speed ports between 0/17 to 0/48 inclusive, uncomment the entire 8-port section when an appropriate license has been activated.

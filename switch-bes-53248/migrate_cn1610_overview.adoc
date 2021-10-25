@@ -1,0 +1,36 @@
+---
+permalink: switch-bes-53248/migrate-cn1610-overview.html
+sidebar: sidebar
+keywords: BES-53248 switches,replacing with BES-53248 switches, migrate cluster switches
+summary: 'You must be aware of certain configuration information, port connections, and cabling requirements when you migrate CN1610 cluster switches to Broadcom-supported BES-53248 cluster switches.'
+---
+= Migrate CN1610 cluster switches to Broadcom-supported BES-53248 cluster switches
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+You must be aware of certain configuration information, port connections, and cabling requirements when you migrate CN1610 cluster switches to Broadcom-supported BES-53248 cluster switches.
+
+* The following cluster switches are supported:
+ ** CN1610
+ ** BES-53248
+* The cluster switches support the following node connections:
+ ** NetApp CN1610: ports 0/1 through 0/12 (10 GbE)
+ ** BES-53248: ports 0/1-0/16 (10/25 GbE)
++
+NOTE: Additional ports can be activated by purchasing port licenses.
+
+* The cluster switches use the following inter-switch link (ISL) ports:
+ ** NetApp CN1610: ports 0/13 through 0/16 (10 GbE)
+ ** BES-53248: ports 0/55-0/56 (100 GbE)
+* The Hardware Universe contains information about ONTAP compatibility, supported EFOS firmware, and cabling to BES-53248 cluster switches.
+* The appropriate ISL cabling is as follows:
+ ** *Beginning:* For CN1610 to CN1610 (SFP+ to SFP+), four SFP+ optical fiber or copper direct-attach cables.
+ ** *Interim:* For CN1610 to BES-53248 (SFP+ to SFP28), four 10G SFP+ optical transceiver/fiber or copper direct-attach cables.
+ ** *Final:* For BES-53248 to BES-53248 (QSFP28 to QSFP28), two QSFP28 optical transceivers/fiber or copper direct-attach cables.
+
+NOTE: After your migration completes, you might need to install the required configuration file to support the Cluster Switch Health Monitor (CSHM) for BES-53248 cluster switches.
+
+See http://docs.netapp.com/platstor/topic/com.netapp.doc.hw-sw-ix8-setup/GUID-211616A4-C962-464A-A70E-5E057D7B13E1.html[Installing the Cluster Switch Health Monitor (CSHM) configuration file] in the _Switch Setup and Configuration Guide for Broadcom-supported BES-53248 switches_ guide.
+
+See _Configuring the cluster switch log collection feature_ in the http://docs.netapp.com/platstor/topic/com.netapp.doc.hw-sw-ix8-setup/home.html[Switch Setup and Configuration Guide for Broadcom-supported BES-53248 switches] for the steps required to enable cluster health switch log collection used for collecting switch-related log files.

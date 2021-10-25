@@ -1,0 +1,43 @@
+---
+permalink: switch-bes-53248/replace-port-assignments.html
+sidebar: sidebar
+keywords: bes, cluster, switch, port, assignment, table, configure, bes-53428 cluster switch port assignments - bes-53428 switches
+summary: You can use the BES-53248 cluster switch port assignment table as a guide to configure your cluster.
+---
+= BES-53248 cluster switch port assignments - BES-53248 switches
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+You can use the BES-53248 cluster switch port assignment table as a guide to configure your cluster.
+
+== BES-53248 cluster switch port assignment table
+
+[options="header" cols="1,2"]
+|===
+| Switch ports| Ports usage
+a|
+01 - 16
+a|
+10/25GbE cluster node ports, base configuration
+a|
+17 - 48
+a|
+10/25GbE cluster node ports, with licenses
+a|
+49 - 54
+a|
+40/100GbE cluster node ports, with licenses, added right to left
+a|
+55 - 56
+a|
+100GbE cluster Inter-Switch Link (ISL) ports, base configuration
+|===
+
+== Port group speed constraint
+
+On BES-53248 cluster switches, the 48 10/25GbE (SFP28/SFP+) ports are combined into 12 x 4-port groups as follows:
+
+* Ports 1-4, 5-8, 9-12, 13-16, 17-20, 21-24, 25-28, 29-32, 33-36, 37-40, 41-44, and 45-48.
+
+The SFP28/SFP+ port speed must be the same (10GbE or 25GbE) across all ports in the 4-port group.
