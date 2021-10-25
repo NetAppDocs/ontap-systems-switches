@@ -1,0 +1,233 @@
+---
+permalink: switch-cisco-9336/replace-install-initial.html
+sidebar: sidebar
+keywords: initial setup steps, cisco cluster switch install
+summary: 'You can use this procedure to perform the initial installation of the Cisco Nexus 9336C-FX2 switch.'
+---
+= Initial installation of the Nexus 9336C-FX2 cluster switch
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+You can use this procedure to perform the initial installation of the Cisco Nexus 9336C-FX2 switch.
+
+You can download the applicable NetApp Cisco NX-OS software for your switches from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com]
+
+http://mysupport.netapp.com/[mysupport.netapp.com]
+
+NX-OS is a network operating system for the Nexus series of Ethernet switches and MDS series of Fibre Channel (FC) storage area network switches provided by Cisco Systems.
+
+This procedure provides a summary of the process to install your switches and get them running:
+
+. Connect the serial port to the host or serial port of your choice.
+. Connect the management port (on the non-port side of the switch) to the same network where your SFTP server is located.
+. At the console, set the host side serial settings:
+ ** 9600 baud
+ ** 8 data bits
+ ** 1 stop bit
+ ** parity: none
+ ** flow control: none
+. Booting for the first time or rebooting after erasing the running configuration, the Nexus 9336C-FX2 switch loops in a boot cycle. Interrupt this cycle by typing *yes* to abort Power on Auto Provisioning. You are then presented with the System Admin Account setup:
+
+ $ VDC-1 %$ %POAP-2-POAP_INFO:   - Abort Power On Auto Provisioning [yes - continue with normal setup, skip - bypass password and basic configuration, no - continue with Power On Auto Provisioning] (yes/skip/no)[no]:
+ **yes**
+ Disabling POAP.......Disabling POAP
+ 2019 Apr 10 00:36:17 switch %$ VDC-1 %$ poap: Rolling back, please wait... (This may take 5-15 minutes)
+
+
+          ---- System Admin Account Setup ----
+
+
+ Do you want to enforce secure password standard (yes/no) [y]:
+
+. Type *y* to enforce secure password standard:
++
+----
+Do you want to enforce secure password standard (yes/no) [y]: **y**
+----
+
+. Enter and confirm the password for user admin:
++
+----
+Enter the password for "admin":
+Confirm the password for "admin":
+----
+
+. Enter the Basic System Configuration dialog:
++
+----
+This setup utility will guide you through the basic configuration of
+the system. Setup configures only enough connectivity for management
+of the system.
+
+Please register Cisco Nexus9000 Family devices promptly with your
+supplier. Failure to register may affect response times for initial
+service calls. Nexus9000 devices must be registered to receive
+entitled support services.
+
+Press Enter at anytime to skip a dialog. Use ctrl-c at anytime
+to skip the remaining dialogs.
+
+Would you like to enter the basic configuration dialog (yes/no):
+----
+
+. Create another login account:
++
+----
+Create another login account (yes/no) [n]:
+----
+
+. Configure read-only and read-write SNMP community strings:
++
+----
+Configure read-only SNMP community string (yes/no) [n]:
+
+Configure read-write SNMP community string (yes/no) [n]:
+----
+
+. Configure the cluster switch name:
++
+----
+Enter the switch name : **cs2**
+----
+
+. Configure the out-of-band management interface:
++
+----
+
+Continue with Out-of-band (mgmt0) management configuration? (yes/no) [y]: **y**
+
+Mgmt0 IPv4 address : 172.22.133.216
+
+Mgmt0 IPv4 netmask : 255.255.224.0
+
+Configure the default gateway? (yes/no) [y]: **y**
+
+IPv4 address of the default gateway : 172.22.128.1
+----
+
+. Configure advanced IP options:
++
+----
+Configure advanced IP options? (yes/no) [n]: **n**
+----
+
+. Configure Telnet services:
++
+----
+Enable the telnet service? (yes/no) [n]: **n**
+----
+
+. Configure SSH services and SSH keys:
++
+----
+Enable the ssh service? (yes/no) [y]: **y**
+
+       Type of ssh key you would like to generate (dsa/rsa) [rsa]: **rsa**
+
+       Number of rsa key bits <1024-2048> [1024]: **2048**
+----
+
+. Configure other settings:
++
+----
+Configure the ntp server? (yes/no) [n]: **n**
+
+  Configure default interface layer (L3/L2) [L2]: **L2**
+
+  Configure default switchport interface state (shut/noshut) [noshut]: **noshut**
+
+  Configure CoPP system profile (strict/moderate/lenient/dense) [strict]: **strict**
+----
+
+. Confirm switch information and save the configuration:
++
+----
+Would you like to edit the configuration? (yes/no) [n]: **n**
+
+Use this configuration and save it? (yes/no) [y]: **y**
+
+[########################################] 100%
+Copy complete, now saving to disk (please wait)...
+Copy complete.
+----
+
+. For ONTAP 9.8 and later, enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the commands: `system switch ethernet log setup-password``system switch ethernet log enable-collection`
++
+----
+cluster1::*> **system switch ethernet log setup-password**
+Enter the switch name: <return>
+The switch name entered is not recognized.
+Choose from the following list:
+cs1
+cs2
+
+cluster1::*> **system switch ethernet log setup-password**
+
+Enter the switch name: **cs1**
+RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
+Do you want to continue? {y|n}::[n] **y**
+
+Enter the password: <enter switch password>
+Enter the password again: <enter switch password>
+
+cluster1::*> **system switch ethernet log setup-password**
+
+Enter the switch name: **cs2**
+RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
+Do you want to continue? {y|n}:: [n] **y**
+
+Enter the password: <enter switch password>
+Enter the password again: <enter switch password>
+
+cluster1::*> **system  switch ethernet log enable-collection**
+
+Do you want to enable cluster log collection for all nodes in the cluster?
+{y|n}: [n] **y**
+
+Enabling cluster switch log collection.
+
+cluster1::*>
+----
++
+NOTE: If any of these commands return an error, contact NetApp support.
+
+. For ONTAP releases 9.5P16, 9.6P12, and 9.7P10 and later patch releases, enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the commands: `system cluster-switch log setup-password``system cluster-switch log enable-collection`
++
+----
+cluster1::*> **system cluster-switch log setup-password**
+Enter the switch name: <return>
+The switch name entered is not recognized.
+Choose from the following list:
+cs1
+cs2
+
+cluster1::*> **system cluster-switch log setup-password**
+
+Enter the switch name: **cs1**
+RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
+Do you want to continue? {y|n}::[n] **y**
+
+Enter the password: <enter switch password>
+Enter the password again: <enter switch password>
+
+cluster1::*> **system cluster-switch log setup-password**
+
+Enter the switch name: **cs2**
+RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
+Do you want to continue? {y|n}:: [n] **y**
+
+Enter the password: <enter switch password>
+Enter the password again: <enter switch password>
+
+cluster1::*> **system cluster-switch log enable-collection**
+
+Do you want to enable cluster log collection for all nodes in the cluster?
+{y|n}: [n] **y**
+
+Enabling cluster switch log collection.
+
+cluster1::*>
+----
++
+NOTE: If any of these commands return an error, contact NetApp support.

@@ -1,0 +1,31 @@
+---
+permalink: switch-cisco-9336/replace-configure-new-switch.html
+sidebar: sidebar
+keywords: Nexus 9336C-FX2 switches initial installation, configure cisco cluster switch
+summary: 'You can configure a new Nexus 9336C-FX2 switch by completing the steps detailed in this chapter.'
+---
+= Configure a Cisco Nexus 9336C-FX2 cluster switch
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+You can configure a new Nexus 9336C-FX2 switch by completing the steps detailed in this chapter.
+
+Installing the Nexus 9336C-FX2 switch on systems running ONTAP 9.8 and later, starts with setting up an IP address and configuration to allow the switch to communicate through the management interface. You can then install the NX-OS software and reference configuration file (RCF). This procedure is intended for preparing the Nexus 9336C-FX2 switch before controllers are added.
+
+The examples in this procedure use the following switch and node nomenclature:
+
+* The Nexus 9336C-FX2 switch names are cs1 and cs2.
+* The example used in this procedure starts the upgrade on the second switch, _*cs2*._
+* The cluster LIF names are node1_clus1 and node1_clus2 for node1, and node2_clus1 and node2_clus2 for node2.
+* The IPspace name is Cluster.
+* The `cluster1::*>` prompt indicates the name of the cluster.
+* The cluster ports on each node are named e0a and e0b.
++
+See the _Hardware Universe_ for the actual cluster ports supported on your platform.
++
+https://hwu.netapp.com/Home/Index[NetApp Hardware Universe]
+
+* The node connections supported for the Nexus 9336C-FX2 switches are ports 1/1 through 1/34.
+* The Inter-Switch Links (ISLs) supported for the Nexus 9336C-FX2 switches are ports 1/35 and 1/36.
+* The examples in this procedure use two nodes, but you can have up to 24 nodes in a cluster.

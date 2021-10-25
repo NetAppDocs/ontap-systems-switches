@@ -1,0 +1,27 @@
+---
+permalink: switch-cisco-9336/setup-considerations-smart-call.html
+sidebar: sidebar
+keywords: cisco smart call,small call home
+summary: 'Smart Call Home monitors the hardware and software components on your network, to generate an email-based notification of critical system conditions. When an event occurs on your device, Smart Call Home raises an alert to all the recipients that are configured in your destination profile.'
+---
+= Considerations for using Smart Call Home
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+Smart Call Home monitors the hardware and software components on your network, to generate an email-based notification of critical system conditions. When an event occurs on your device, Smart Call Home raises an alert to all the recipients that are configured in your destination profile.
+
+You must configure a cluster network switch to communicate using email with the Smart Call Home system. You can optionally set up your cluster network switch to take advantage of Cisco's embedded Smart Call Home support feature.
+
+Before you can use Smart Call Home feature, you need to be aware of the following considerations:
+
+* An email server must be in place.
+* The switch must have IP connectivity to the email server.
+* The contact name (SNMP server contact), phone number, and street address information must be configured.
+* This is required to determine the origin of messages received.
+* A CCO ID must be associated with an appropriate Cisco SMARTnet Service contract for your company.
+* Cisco SMARTnet Service must be in place for the device to be registered.
+
+The Cisco support site contains information about the commands to configure Smart Call Home.
+
+http://www.cisco.com/c/en/us/products/switches/index.html[Cisco support site]

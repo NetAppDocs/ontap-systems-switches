@@ -1,0 +1,120 @@
+---
+permalink: switch-cisco-9336/setup-required-information.html
+sidebar: sidebar
+keywords: configure, cluster, appropriate, number, cable, connector, switch, type, configuring, configure, console, port, network, information, required cluster configuration information - cisco nexus 9336c-fx2
+summary: To configure your cluster, you need the appropriate number and type of cables and cable connectors for your switches. Depending on the type of switch you are initially configuring, you need to connect to the switch console port with the included console cable; you also need to provide specific network information.
+---
+= Required cluster configuration information
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+To configure your cluster, you need the appropriate number and type of cables and cable connectors for your switches. Depending on the type of switch you are initially configuring, you need to connect to the switch console port with the included console cable; you also need to provide specific network information.
+
+== Required network information for all switches
+
+You need the following network information for all switch configurations:
+
+* IP subnet for management network traffic
+* Host names and IP addresses for each of the storage system controllers and all applicable switches
+* Most storage system controllers are managed through the e0M interface by connecting to the Ethernet service port (wrench icon). On AFF A800 and AFF A700 systems, the e0M interface uses a dedicated Ethernet port.
+
+Refer to the _Hardware Universe_ for latest information.
+
+https://hwu.netapp.com[Hardware Universe]
+
+== Required network information for Cisco Nexus 9336C-FX2, 92300YC, 3232C, 3132Q-V, and 5596UP/5596T switches
+
+For the Cisco Nexus 9336C-FX2, 92300YC, 3232C, 3132Q-V, and 5596UP/5596T switches, you need to provide applicable responses to the following initial setup questions when you first boot the switch. Your site's security policy defines the responses and services to enable.
+
+* Abort Auto Provisioning and continue with normal setup? (yes/no)
++
+Respond with yes. The default is no.
+
+* Do you want to enforce secure password standard? (yes/no)
++
+Respond with yes. The default is yes.
+
+* Enter the password for admin:
++
+The default password is "`admin`"; you must create a new, strong password. A weak password can be rejected.
+
+* Would you like to enter the basic configuration dialog? (yes/no)
++
+Respond with yes at the initial configuration of the switch.
+
+* Create another login account? (yes/no)
++
+Your answer depends on your site's policies on alternate administrators. The default is no.
+
+* Configure read-only SNMP community string? (yes/no)
++
+Respond with no. The default is no.
+
+* Configure read-write SNMP community string? (yes/no)
++
+Respond with no. The default is no.
+
+* Enter the switch name.
++
+The switch name is limited to 63 alphanumeric characters.
+
+* Continue with Out-of-band (mgmt0) management configuration? (yes/no)
++
+Respond with yes (the default) at that prompt. At the mgmt0 IPv4 address: prompt, enter your IP address: ip_address.
+
+* Configure the default-gateway? (yes/no)
++
+Respond with yes. At the IPv4 address of the default-gateway: prompt, enter your default_gateway.
+
+* Configure advanced IP options? (yes/no)
++
+Respond with no. The default is no.
+
+* Enable the telnet service? (yes/no)
++
+Respond with no. The default is no.
+
+* Enabled SSH service? (yes/no)
++
+Respond with yes. The default is yes.
++
+NOTE: SSH is recommended when using Cluster Switch Health Monitor (CSHM) for its log collection features. SSHv2 is also recommended for enhanced security.
+
+* Enter the type of SSH key you want to generate (dsa/rsa/rsa1). The default is rsa.
+* Enter the number of key bits (1024-2048).
+* Configure the NTP server? (yes/no)
++
+Respond with no. The default is no.
+
+* Configure default interface layer (L3/L2):
++
+Respond with L2. The default is L2.
+
+* Configure default switch port interface state (shut/noshut):
++
+Respond with noshut. The default is noshut.
+
+* Configure CoPP system profile (strict/moderate/lenient/dense):
++
+Respond with strict. The default is strict.
+
+* Would you like to edit the configuration? (yes/no)
++
+You should see the new configuration at this point. Review and make any necessary changes to the configuration you just entered. Respond with no at the prompt if you are satisfied with the configuration. Respond with yes if you want to edit your configuration settings.
+
+* Use this configuration and save it? (yes/no)
++
+Respond with yes to save the configuration. This automatically updates the kickstart and system images.
++
+NOTE: If you do not save the configuration at this stage, none of the changes will be in effect the next time you reboot the switch.
++
+For more information about the initial configuration of your switch, see the following guides:
++
+https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#InstallandUpgradeGuides[Cisco Nexus 9336C-FX2 Installation and Upgrade Guides]
++
+https://www.cisco.com/c/en/us/support/switches/nexus-92300yc-switch/model.html#InstallandUpgradeGuides[Cisco Nexus 92300YC Installation and Upgrade Guides]
++
+https://www.cisco.com/c/en/us/support/switches/nexus-5000-series-switches/products-installation-guides-list.html[Cisco Nexus 5000 Series Hardware Installation Guide]
++
+https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-installation-guides-list.html[Cisco Nexus 3000 Series Hardware Installation Guide]

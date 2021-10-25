@@ -1,0 +1,120 @@
+---
+permalink: switch-cisco-9336/setup-supported-switches.html
+sidebar: sidebar
+keywords: build, ontap, cluster, node, support, network, management, switch, switches supported by ontap - cisco nexus 9336c-fx2
+summary: If you want to build ONTAP clusters with more than two nodes, you need two supported cluster network switches. You can use additional management switches, which are optional.
+---
+= Switches supported by ONTAP
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+If you want to build ONTAP clusters with more than two nodes, you need two supported cluster network switches. You can use additional management switches, which are optional.
+
+The following Cisco cluster network switches are supported:
+
+* Nexus 9336C-FX2
++
+You can install the Cisco Nexus 9336C-FX2 switch (X190200/X190210) in a NetApp system cabinet or third-party cabinet with the standard brackets that are included with the switch.
++
+The following table lists the part number and description for the 9336C-FX2 switch, fans, and power supplies:
++
+[options="header" cols="1,2"]
+|===
+| Part number| Description
+a|
+X190200-CS-PE
+a|
+N9K-9336C-FX2, CS, PTSX, 36PT10/25/40/100GQSFP28
+a|
+X190200-CS-PI
+a|
+N9K-9336C-FX2, CS, PSIN, 36PT10/25/40/100GQSFP28
+a|
+X190210-FE-PE
+a|
+N9K-9336C, FTE, PTSX, 36PT10/25/40/100GQSFP28
+a|
+X190210-FE-PI
+a|
+N9K-9336C, FTE, PSIN, 36PT10/25/40/100GQSFP28
+a|
+X190002
+a|
+Accessory Kit X190001/X190003
+a|
+X-NXA-PAC-1100W-PE2
+a|
+N9K-9336C AC 1100W PSU - Port side exhaust airflow
+a|
+X-NXA-PAC-1100W-PI2
+a|
+N9K-9336C AC 1100W PSU - Port side Intake airflow
+a|
+X-NXA-FAN-65CFM-PE
+a|
+N9K-9336C 65CFM, Port side exhaust airflow
+a|
+X-NXA-FAN-65CFM-PI
+a|
+N9K-9336C 65CFM, Port side intake airflow
+|===
+
+* Nexus 92300YC
++
+You can install the Cisco Nexus 92300YC switch (X190003/R) in a NetApp system cabinet or third-party cabinet with the standard brackets that are included with the switch.
++
+The following table lists the part number and description for the 92300YC switch, fans, and power supplies:
++
+[options="header" cols="1,2"]
+|===
+| Part number| Description
+a|
+190003
+a|
+Cisco 92300YC, CLSW, 48Pt10/25GB, 18Pt100G, PTSX (PTSX = Port Side Exhaust)
+a|
+190003R
+a|
+Cisco 92300YC, CLSW, 48Pt10/25GB, 18Pt100G, PSIN (PSIN = Port Side Intake)
+a|
+X-NXA-FAN-35CFM-B
+a|
+Fan, Cisco N9K port side intake airflow
+a|
+X-NXA-FAN-35CFM-F
+a|
+Fan, Cisco N9K port side exhaust airflow
+a|
+X-NXA-PAC-650W-B
+a|
+Power supply, Cisco 650W - port side intake
+a|
+X-NXA-PAC-650W-F
+a|
+Power supply, Cisco 650W - port side exhaust
+|===
+Cisco Nexus 92300YC switch airflow details:
+
+ ** Port-side exhaust airflow (standard air) --Cool air enters the chassis through the fan and power supply modules in the cold aisle and exhausts through the port end of the chassis in the hot aisle. Port-side exhaust airflow with blue coloring.
+ ** Port-side intake airflow (reverse air) --Cool air enters the chassis through the port end in the cold aisle and exhausts through the fan and power supply modules in the hot aisle. Port-side intake airflow with burgundy coloring.
+
+* Nexus 3232C
++
+You can install the Cisco Nexus 3232C switch (X190100) NetApp system cabinet with the custom brackets that come with the switch, or you can install it in a rack with the standard brackets that are also included with the switch.
+
+* Nexus 3132Q-V
++
+You can install the Cisco Nexus 3132Q-V switch (X190001) in a NetApp system cabinet or third-party cabinet with the standard brackets that are included with the switch.
+
+The following cluster switches are no longer available from NetApp, but will be supported by Cisco for a limited time:
+
+* Nexus 5596UP/5596T
++
+You can install the Cisco Nexus 5596UP switch (X1967-R6) or 5596T (X1989-R6) in a NetApp system cabinet with the custom brackets that come with the switch, or you can install it in a rack with the standard brackets that are also included with the switch.
++
+The Nexus 5596UP switch also supports one or two 16-port expansion modules (X1988-R6).
++
+The Nexus 5596T switch is only supported as a cluster interconnect switch for the FAS2520 and is intended to be used for performing nondisruptive hardware upgrades.
++
+http://support.netapp.com/info/communications/ECMP12454150.html[End of Availability] details.
