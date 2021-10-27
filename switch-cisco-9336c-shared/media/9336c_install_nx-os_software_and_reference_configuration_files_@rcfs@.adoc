@@ -22,7 +22,7 @@ summary:
 
 The Cisco NX-OS software and reference configuration file (RCF) must be installed on Cisco Nexus 9336C-FX2 cluster switches.
 
-===== Before you begin
+.Before you begin
 
 The following conditions must exist before you install the NX-OS software and RCF on the cluster switch:
 
@@ -56,7 +56,7 @@ The examples in this procedure use the following switch and node nomenclature:
 [NOTE]
 The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 
-===== Steps
+.Steps
 [start=1]
 . [[step1]]If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=x h`
 +
@@ -205,7 +205,7 @@ If any of these commands return an error, contact NetApp support.
 
 You can use this procedure to install the NX-OS software on the Cisco Nexus 9336C-FX2 cluster switch.
 
-===== Steps
+.Steps
 [start=1]
 . [[step1]]Connect the cluster switch to the management network.
 . [[step2]]Use the `ping` command to verify connectivity to the server hosting the NX-OS software and the RCF.
@@ -448,7 +448,7 @@ GEM  FPGA                        0x2
 
 You can install the RCF after setting up the Nexus 9336C-FX2 cluster switch for the first time. You can also use this procedure to upgrade your RCF version on your cluster switch.
 
-===== About this task
+.About this task
 
 The examples in this procedure use the following switch and node nomenclature:
 
@@ -460,7 +460,7 @@ The examples in this procedure use the following switch and node nomenclature:
 [NOTE]
 The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 
-===== Steps
+.Steps
 [start=1]
 . [[step1]]Display the cluster ports on each node that are connected to the cluster switches:
 `network device-discovery show`
@@ -987,7 +987,7 @@ RPC status:
 
 The reference configuration files (RCFs) can be upgraded on Cisco Nexus 9336C-FX2 storage switches.
 
-===== Before you begin
+.Before you begin
 
 The following conditions must exist before you upgrade the RCF on the storage switch:
 
@@ -1017,7 +1017,7 @@ The examples in this procedure use the following switch and node nomenclature:
 [NOTE]
 The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 
-===== Steps
+.Steps
 
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: `system node autosupport invoke -node * -type all - message MAINT=xh`
 +
@@ -1333,14 +1333,14 @@ There are no entries matching your query.
 
 From ONTAP 9.9.1, you can use Cisco Nexus 9336C-FX2 switches to combine storage and cluster functionality into a shared switch scenario.
 
-===== Before you begin
+.Before you begin
 
 * The cluster switches must be fully functioning (there should be no errors in the logs or similar issues).
 * The storage switches must be fully functioning (there should be no errors in the logs or similar issues).
 * The names of the two storage switches are _sh1_ and _sh2_.
 * The example used here loads the shared RCF on to the new switch.
 
-===== Steps
+.Steps
 
 . Copy the RCF on switch sh2 to the switch bootflash using one of the following transfer protocols: FTP, HTTP, TFTP, SFTP, or SCP.
 +
