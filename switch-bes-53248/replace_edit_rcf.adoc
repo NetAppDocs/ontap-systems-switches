@@ -11,6 +11,8 @@ summary: 'In order to activate newly licensed ports, you need to edit the latest
 [.lead]
 In order to activate newly licensed ports, you need to edit the latest version of the RCF and uncomment the applicable port details. The default license activates ports 0/1 to 0/16 and 0/55 to 0/56 while the newly licensed ports will be between ports 0/17 to 0/54 depending on the type and number of licenses available.
 
+NOTE: If you try to edit a previously installed RCF, the process might fail because there is an existing configuration for other areas in the RCF, see <<Edit a previously installed RCF file>>.
+
 For details of the available license types for use on the BES-53248 cluster switch, see link:configure-licenses.html[Installing licenses for BES-53248 cluster switches].
 
 For example to activate the SW-BES54248-40-100G-LIC license, you must uncomment the following section in the RCF:
@@ -123,3 +125,33 @@ NOTE: For high-speed ports between 0/49 to 0/54 inclusive, uncomment each port b
 as shown in the example.
 
 For low-speed ports between 0/17 to 0/48 inclusive, uncomment the entire 8-port section when an appropriate license has been activated.
+
+== Edit a previously installed RCF file
+
+After you edit a previously installed RCF file and then run the `script apply` command, you might get the following error message:
+----
+(CS1) #script apply BES-53248_RCF_v1.6-Cluster-HA.scr
+ Are you sure you want to apply the configuration script? (y/n)
+----
+After you select `y`, you get the following error message:
+----
+config
+ ...
+ match cos 5
+ Unrecognized command : match cos 5
+ Error! in configuration script file at line number 40.
+ CLI Command :: match cos 5.
+ Aborting script.
+----
+
+To either avoid or resolve the error, you can choose one of the following options:
+
+* To avoid the error, you can use following procedure:
+.	Create a second a RCF file containing the new port configuration only.
+.	Copy the second RCF file to the switch.
+.	Apply the script to the switch:
++
+`script apply`
+* To resolve the error, see the Knowledge Base article: link:++https://kb.netapp.com/?title=Advice_and_Troubleshooting%2FData_Storage_Systems%2FFabric%252C_Interconnect_and_Management_Switches%2FError%2521_in_configuration_script_file_at_line_number_XX_when_applying_a_new_RCF%20%20%20++[Error! in configuration script file at line number XX when applying a new RCF]
+
+// BURT 1400328, 2021-11-18
