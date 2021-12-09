@@ -1,0 +1,319 @@
+---
+permalink: switch-cisco-1610/task_install_fastpath_software.html
+sidebar: sidebar
+keywords: FASTPATH software,installing on NetApp switches,installing FASTPATH software on,NetApp switches
+summary: 'When you install the FASTPATH software on your NetApp switches, you must begin the upgrade with the second switch, cs2.'
+---
+= Installing FASTPATH software
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+When you install the FASTPATH software on your NetApp switches, you must begin the upgrade with the second switch, _cs2_.
+
+== Steps
+
+. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: `system node autosupport invoke -node * -type all - message MAINT=xh`
++
+_x_ is the duration of the maintenance window in hours.
++
+[NOTE]
+====
+The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
+====
+
+. Log into the switch as admin. There is no password by default. At the `(cs2) #` prompt, enter the `enable` command. Again, there is no password by default. This gives you access to Privileged EXEC mode, which allows you to configure the network interface.
++
+----
+(cs2) # enable
+Password (Enter)
+(cs2) #
+----
+
+. On the console of each node, migrate clus2 to port e1a: `network interface migrate`
++
+----
+cluster::*> **network interface migrate -vserver vs1 -lif clus2 -source-node node1 -destnode node1 -dest-port e1a**
+cluster::*> **network interface migrate -vserver vs2 -lif clus2 -source-node node2 -destnode node2 -dest-port e1a**
+----
+
+. On the console of each node, verify that the migration took place: `network interface show`
++
+The following example shows that clus2 has migrated to port e1a on both nodes:
++
+----
+cluster::*> **network interface show -role cluster**
+
+         Logical    Status     Network        Current  Current  Is
+Vserver  Interface  Admin/Open Address/Mask   Node     Port     Home
+-------- ---------- ---------- -------------- -------- -------  ----
+vs1
+         clus1      up/up      10.10.10.1/16  node1    e1a      true
+         clus2      up/up      10.10.10.2/16  node1    e1a      false
+vs2
+         clus1      up/up      10.10.10.1/16  node2    e1a      true
+         clus2      up/up      10.10.10.2/16  node2    e1a      false
+----
+
+. Shut down cluster port e2a on both nodes: `network port modify`
++
+The following example shows port e2a being shut down on both nodes:
++
+----
+cluster::*> **network port modify -node node1 -port e2a -up-admin false**
+cluster::*> **network port modify -node node2 -port e2a -up-admin false**
+----
+
+. Verify that port e2a is shut down on both nodes: `network port show`
++
+----
+cluster::*> **network port show -role cluster**
+
+                                 Auto-Negot  Duplex      Speed (Mbps)
+Node   Port Role     Link MTU    Admin/Oper  Admin/Oper  Admin/Oper
+------ ---- -------- ---- -----  ----------  ----------  ------------
+node1
+       e1a  cluster  up   9000   true/true   full/full   auto/10000
+       e2a  cluster  down 9000   true/true   full/full   auto/10000
+node2
+       e1a  cluster  up   9000   true/true   full/full   auto/10000
+       e2a  cluster  down 9000   true/true   full/full   auto/10000
+----
+
+. Shut down the Inter-Switch Link (ISL) ports on cs1, the active NetApp switch:
++
+----
+(cs1) # configure
+(cs1)(config) # interface 0/13-0/16
+(cs1)(Interface 0/13-0/16) # shutdown
+(cs1)(Interface 0/13-0/16) # exit
+(cs1)(config) # exit
+----
+
+. Back up the current active image on cs2.
++
+----
+(cs2) # show bootvar
+
+ Image Descriptions   .
+
+  active:
+  backup:
+
+ Images currently available on Flash
+
+----------------------------------------------------------------------
+ unit        active       backup     current-active       next-active
+----------------------------------------------------------------------
+
+    1        1.1.0.3      1.1.0.1          1.1.0.3           1.1.0.3
+
+(cs2) # copy active backup
+Copying active to backup
+Copy operation successful
+
+(cs2) #
+----
+
+. Download the image file to the switch.
++
+Copying the image file to the active image means that when you reboot, that image establishes the running FASTPATH version. The previous image remains available as a backup.
++
+----
+(cs2) # copy tftp://10.0.0.1/NetApp_CN1610_1.1.0.5.stk active
+
+
+Mode...................................... TFTP
+Set Server IP............................. 10.0.0.1
+Path...................................... ./
+Filename.................................. NetApp_CN1610_1.1.0.5.stk
+Data Type................................. Code
+Destination Filename...................... active
+
+Management access will be blocked for the duration of the transfer
+Are you sure you want to start? (y/n) y
+TFTP Code transfer starting...
+
+
+File transfer operation completed successfully.
+----
+
+. Verify the running version of the FASTPATH software.
++
+----
+(cs2) # show version
+
+Switch: 1
+
+System Description.................. Broadcom Scorpion 56820
+                                     Development System - 16 TENGIG,
+                                     1.1.0.3, Linux 2.6.21.7
+Machine Type........................ Broadcom Scorpion 56820
+                                     Development System - 16TENGIG
+Machine Model....................... BCM-56820
+Serial Number....................... 10611100004
+FRU Number..........................
+Part Number......................... BCM56820
+Maintenance Level................... A
+Manufacturer........................ 0xbc00
+Burned In MAC Address............... 00:A0:98:4B:A9:AA
+Software Version.................... 1.1.0.3
+Operating System.................... Linux 2.6.21.7
+Network Processing Device........... BCM56820_B0
+Additional Packages................. FASTPATH QOS
+                                     FASTPATH IPv6 Management
+----
+
+. View the boot images for the active and backup configuration.
++
+----
+(cs2) # show bootvar
+
+Image Descriptions
+
+ active :
+ backup :
+
+ Images currently available on Flash
+
+----------------------------------------------------------------------
+ unit        active       backup     current-active       next-active
+----------------------------------------------------------------------
+
+    1        1.1.0.3      1.1.0.3          1.1.0.3           1.1.0.5
+----
+
+. Reboot the switch.
++
+----
+(cs2) # reload
+
+Are you sure you would like to reset the system? (y/n)  y
+
+System will now restart!
+----
+
+. Log in again, and verify the new version of the FASTPATH software.
++
+----
+(cs2) # show version
+
+Switch: 1
+
+System Description................... Broadcom Scorpion 56820
+                                      Development System - 16 TENGIG,
+                                      1.1.0.5, Linux 2.6.21.7
+Machine Type......................... Broadcom Scorpion 56820
+                                      Development System - 16TENGIG
+Machine Model........................ BCM-56820
+Serial Number........................ 10611100004
+FRU Number...........................
+Part Number.......................... BCM56820
+Maintenance Level.................... A
+Manufacturer......................... 0xbc00
+Burned In MAC Address................ 00:A0:98:4B:A9:AA
+Software Version..................... 1.1.0.5
+Operating System..................... Linux 2.6.21.7
+Network Processing Device............ BCM56820_B0
+Additional Packages.................. FASTPATH QOS
+                                      FASTPATH IPv6 Management
+----
+
+. Bring up the ISL ports on cs1, the active switch.
++
+----
+(cs1) # **configure**
+(cs1) (config) # **interface 0/13-0/16**
+(cs1) (Interface 0/13-0/16) # **no shutdown**
+(cs1) (Interface 0/13-0/16) # **exit**
+(cs1) (config) # **exit**
+----
+
+. Verify that the ISLs are operational: `show port-channel 3/1`
++
+The Link State field should indicate `Up`.
++
+----
+(cs2) # show port-channel 3/1
+
+Local Interface................................ 3/1
+Channel Name................................... ISL-LAG
+Link State..................................... Up
+Admin Mode..................................... Enabled
+Type........................................... Static
+Load Balance Option............................ 7
+(Enhanced hashing mode)
+
+Mbr    Device/       Port      Port
+Ports  Timeout       Speed     Active
+------ ------------- --------- -------
+0/13   actor/long    10G Full  True
+       partner/long
+0/14   actor/long    10G Full  True
+       partner/long
+0/15   actor/long    10G Full  True
+       partner/long
+0/16   actor/long    10G Full  True
+       partner/long
+----
+
+. Copy the `running-config` file to the `startup-config` file when you are satisfied with the software versions and switch settings.
++
+----
+(cs2) # write memory
+
+This operation may take a few minutes.
+Management interfaces will not be available during this time.
+
+Are you sure you want to save? (y/n) **y**
+
+Config file 'startup-config' created successfully .
+
+Configuration Saved!
+----
+
+. Enable the second cluster port, e2a, on each node: `network port modify`
++
+----
+cluster::*> **network port modify -node node1 -port e2a -up-admin true**
+cluster::*> **network port modify -node node2 -port e2a -up-admin true**
+----
+
+. Revert clus2 that is associated with port e2a: `network interface revert`
++
+The LIF might revert automatically, depending on your version of ONTAP software.
++
+----
+cluster::*> network interface revert -vserver Cluster -lif n1_clus2
+cluster::*> network interface revert -vserver Cluster -lif n2_clus2
+----
+
+. Verify that the LIF is now home (`true`) on both nodes: `network interface show -role cluster`
++
+----
+cluster::*> **network interface show -role cluster**
+
+          Logical    Status     Network        Current  Current Is
+Vserver   Interface  Admin/Oper Address/Mask   Node     Port    Home
+--------  ---------- ---------- -------------- -------- ------- ----
+vs1
+          clus1      up/up      10.10.10.1/24  node1    e1a     true
+          clus2      up/up      10.10.10.2/24  node1    e2a     true
+vs2
+          clus1      up/up      10.10.10.1/24  node2    e1a     true
+          clus2      up/up      10.10.10.2/24  node2    e2a     true
+----
+
+. View the status of the nodes: `cluster show`
++
+----
+cluster::> cluster show
+
+Node                 Health  Eligibility
+-------------------- ------- ------------
+node1                true    true
+node2                true    true
+----
+
+. Repeat step <<STEPS_3757CBF53D8544BA8A7673BE25BE9AF5,1>> through step <<STEP_18C3A9E39C114900A471A207DAECEDBE,18>> to upgrade the FASTPATH software on the other switch, cs1.
+. If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=END`

@@ -1,0 +1,23 @@
+---
+permalink: switch-cisco-1610/task_migrate_to_a_two_node_switched_cluster_with_netapp_cn1610_cluster_switches.html
+sidebar: sidebar
+keywords: 
+summary: 'If you have a two-node switchless cluster, you can migrate, non-disruptively, to a two-node switched cluster that includes NetApp CN1610 cluster-network switches. The procedure you use depends on whether you have two dedicated cluster-network ports on each controller or a single cluster port on each controller.'
+---
+= Migrating to a two-node switched cluster with NetApp CN1610 cluster switches
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+If you have a two-node switchless cluster, you can migrate, non-disruptively, to a two-node switched cluster that includes NetApp CN1610 cluster-network switches. The procedure you use depends on whether you have two dedicated cluster-network ports on each controller or a single cluster port on each controller.
+
+== About this task
+
+Most systems require two dedicated cluster-network ports on each controller.
+
+FAS22xx nodes allow a single cluster port on each controller.
+
+There are two migration options available:
+
+* link:task_migrate_from_a_switchless_cluster_to_a_switched_netapp_cn1610_cluster_environment.md#[Migrating from a switchless cluster to a switched NetApp CN1610 cluster environment]
+* xref:task_migrate_from_a_switchless_cluster_fas22xx_systems_with_a_single_cluster_network_connection.adoc[Migrating from a switchless cluster (FAS22xx systems with a single cluster-network connection)]

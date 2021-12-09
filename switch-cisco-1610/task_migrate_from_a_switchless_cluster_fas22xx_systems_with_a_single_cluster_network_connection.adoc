@@ -1,0 +1,169 @@
+---
+permalink: switch-cisco-1610/task_migrate_from_a_switchless_cluster_fas22xx_systems_with_a_single_cluster_network_connection.html
+sidebar: sidebar
+keywords: FAS22xx system,CN1610 cluster switches
+summary: 'If you have FAS22xx systems in an existing two-node switchless cluster in which each controller module has a single, back-to-back 10 GbE connection for cluster connectivity, you can use the switchless cluster networking option and replace the direct back-to-back connectivity with switch connections.'
+---
+= Migrating to a two-node switched cluster in FAS22xx systems with a single cluster-network connection
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+If you have FAS22xx systems in an existing two-node switchless cluster in which each controller module has a single, back-to-back 10 GbE connection for cluster connectivity, you can use the switchless cluster networking option and replace the direct back-to-back connectivity with switch connections.
+
+== Before you begin
+
+* Two cluster connections are required to migrate from a switchless configuration to a switched configuration.
+* The cluster must be healthy and consist of two nodes connected with back-to-back connectivity.
+* The nodes must be running ONTAP 8.2 or later.
+* The switchless cluster feature cannot be used with more than two nodes.
+* All cluster ports must be in the `up` state.
+
+== About this task
+
+This procedure is a nondisruptive procedure that removes the direct cluster connectivity in a switchless environment and replaces each connection to the switch with a connection to the partner node.
+
+== Steps
+
+. Change the privilege level to advanced, entering `y` when prompted to continue: `set -privilege advanced`
++
+The advanced prompt (`*>`) appears.
+
+. Check the cluster status of the nodes at the system console of either node: `cluster show`
++
+The following example displays information about the health and eligibility of the nodes in the cluster:
++
+----
+
+cluster::*> cluster show
+Node                 Health  Eligibility   Epsilon
+-------------------- ------- ------------  ------------
+node1                true    true          false
+node2                true    true          false
+
+2 entries were displayed.
+----
+
+. Check the status of the HA pair at the system console of either node: `storage failover show`
++
+The following example shows the status of node1 and node2:
++
+----
+
+Node           Partner        Possible State Description
+-------------- -------------- -------- -------------------------------------
+node1          node2          true      Connected to node2
+node2          node1          true      Connected to node1
+
+2 entries were displayed.
+----
+
+. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=xh`
++
+`x` is the duration of the maintenance window in hours.
++
+[NOTE]
+====
+The message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
+====
++
+The following command suppresses automatic case creation for two hours:
++
+----
+cluster::*> system node autosupport invoke -node * -type all -message MAINT=2h
+----
+
+. Verify that the current state of the switchless cluster is `true`, and then disable the switchless cluster mode: `network options switchless-cluster modify -enabled false`
+. Take over the target node: `storage failover takeover -ofnode target_node_name`
++
+It does not matter which node is the target node. When it is taken over, the target node automatically reboots and displays the `+Waiting for giveback...+` message.
++
+The active node is now serving data for the partner (target) node that was taken over.
+
+. Wait for two minutes after takeover of the impaired node to confirm that the takeover was completed successfully.
+. With the target node showing the `+Waiting for giveback...+` message, shut it down.
++
+The method you use to shut down the node depends on whether you use remote management through the node Service Processor (SP).
++
+|===
+| If SP| Then...
+a|
+Is configured
+a|
+Log in to the impaired node SP, and then power off the system: `system power off`
+a|
+Is not configured
+a|
+At the impaired node prompt, press `Ctrl-C`, and then respond `y` to halt the node.
+|===
+
+. On each controller module, disconnect the cable that connects the 10 GbE cluster port to the switchless cluster.
+. Connect the 10 GbE cluster port to the switch on both controller modules.
+. Verify that the 10 GbE cluster ports connected on the switch are configured to be part of the same VLAN.
++
+If you plan to connect the cluster ports on each controller module to different switches, then you must verify that the ports on which the cluster ports are connected on each switch are configured for the same VLAN and that trunking is properly configured on both switches.
+
+. Give back storage to the target node: `storage failover giveback -ofnode node2`
+. Monitor the progress of the giveback operation: `storage failover show-giveback`
+. After the giveback operation is complete, confirm that the HA pair is healthy and takeover is possible: `storage failover show`
++
+The output should be similar to the following:
++
+----
+
+Node           Partner        Possible State Description
+-------------- -------------- -------- -------------------------------------
+node1          node2          true      Connected to node2
+node2          node1          true      Connected to node1
+
+2 entries were displayed.
+----
+
+. Verify that the cluster port LIFs are operating correctly: `network interface show -role cluster`
++
+The following example shows that the LIFs are `up` on node1 and node2 and that the "`Is Home`" column results are `true`:
++
+----
+
+cluster::*> network interface show -role cluster
+            Logical    Status     Network            Current       Current Is
+Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
+----------- ---------- ---------- ------------------ ------------- ------- ----
+node1
+            clus1        up/up    192.168.177.121/24  node1        e1a     true
+node2
+            clus1        up/up    192.168.177.123/24  node2        e1a     true
+
+2 entries were displayed.
+----
+
+. Check the cluster status of the nodes at the system console of either node: `cluster show`
++
+The following example displays information about the health and eligibility of the nodes in the cluster:
++
+----
+
+cluster::*> cluster show
+Node                 Health  Eligibility   Epsilon
+-------------------- ------- ------------  ------------
+node1                true    true          false
+node2                true    true          false
+
+2 entries were displayed.
+----
+
+. Ping the cluster ports to verify the cluster connectivity: `cluster ping-cluster local`
++
+The command output should show connectivity between all of the cluster ports.
+
+. If you suppressed automatic case creation, reenable it by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=END`
++
+----
+cluster::*> system node autosupport invoke -node * -type all -message MAINT=END
+----
+
+. Change the privilege level back to admin: `set -privilege admin`
+
+*Related information*
+
+https://kb.netapp.com/support/s/article/how-to-suppress-automatic-case-creation-during-scheduled-maintenance-windows[NetApp KB Article 1010449: How to suppress automatic case creation during scheduled maintenance windows]

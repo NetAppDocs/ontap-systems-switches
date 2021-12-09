@@ -1,0 +1,60 @@
+---
+permalink: switch-cisco-3232c/concept_migrate_a_cn1610_switch_to_a_cisco_nexus_3232c_cluster_switch.html
+sidebar: sidebar
+keywords: 
+summary: 'You must be aware of certain configuration information, port connections, and cabling requirements when you replace CN1610 cluster switches with Cisco Nexus 3232C cluster switches.'
+---
+= Migrating a CN1610 switch to a Cisco Nexus 3232C cluster switch
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+You must be aware of certain configuration information, port connections, and cabling requirements when you replace CN1610 cluster switches with Cisco Nexus 3232C cluster switches.
+
+The cluster switches support the following node connections:
+
+* NetApp CN1610: ports 0/1 through 0/12 (10 GbE)
+* Cisco Nexus 3232C: ports e1/1-30 (40 or 100 or 4x10GbE)
+
+The cluster switches use the following inter-switch link (ISL) ports.
+
+* NetApp CN1610: ports 0/13 through 0/16 (10 GbE)
+* Cisco Nexus 3232C: ports 1/31-32 (100GbE)
+
+[NOTE]
+====
+You must use 4x10G breakout cables on the Cisco Nexus 3232C cluster switch.
+====
+
+The following table shows the cabling connections that are required at each stage as you make the transition from NetApp CN1610 switches to Cisco Nexus 3232C cluster switches:
+
+|===
+| Stage| Description| Required cables
+a|
+Initial
+a|
+CN1610 to CN1610 (SFP+ to SFP+)
+a|
+4 SFP+ optical fiber or copper direct-attach cables
+a|
+Transition
+a|
+CN1610 to 3232C (QSFP to SFP+)
+a|
+1 QSFP and 4 SFP+ optical fiber or copper breakout cables
+a|
+Final
+a|
+3232C to 3232C (QSFP to QSFP)
+a|
+2 QSFP optical fiber or copper direct-attach cables
+|===
+You must have downloaded the applicable reference configuration files (RCFs). The number of 10 GbE and 40/100 GbE ports are defined in the RCFs available on the https://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco® Cluster Network Switch Reference Configuration File Download] page.
+
+The ONTAP and NX-OS versions that are supported in this procedure are listed on the Cisco Ethernet Switches page.
+
+https://mysupport.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switches]
+
+The ONTAP and FASTPATH versions that are supported in this procedure are listed on the NetApp CN1601 and CN1610 Switches page.
+
+http://support.netapp.com/NOW/download/software/cm_switches_ntap/[NetApp CN1601 and CN1610 Switches]
