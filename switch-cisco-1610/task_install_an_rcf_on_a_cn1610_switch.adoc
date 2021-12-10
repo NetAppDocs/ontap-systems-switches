@@ -1,8 +1,8 @@
 ---
 permalink: switch-cisco-1610/task_install_an_rcf_on_a_cn1610_switch.html
 sidebar: sidebar
-keywords: reference configuration files,installing on a NetApp switch,installing RCFs
-summary: 'When you are installing a reference configuration file \(RCF\), you must first migrate the cluster LIFs away from switch cs2. After the RCF is installed and validated, the LIFs can be migrated back.'
+keywords: reference configuration, file ,install, cn1610, switch
+summary: "When you are installing a reference configuration file (RCF), you must first migrate the cluster LIFs away from switch cs2. After the RCF is installed and validated, the LIFs can be migrated back."
 ---
 = Installing a Reference Configuration File on a CN1610 switch
 :icons: font
@@ -11,7 +11,7 @@ summary: 'When you are installing a reference configuration file \(RCF\), you mu
 [.lead]
 When you are installing a reference configuration file (RCF), you must first migrate the cluster LIFs away from switch cs2. After the RCF is installed and validated, the LIFs can be migrated back.
 
-== Before you begin
+== What you'll need
 
 You must have saved the configuration that is currently running on your switch.
 
@@ -26,19 +26,19 @@ The following example shows the current switch configuration being saved to the 
 This operation may take a few minutes.
 Management interfaces will not be available during this time.
 
-Are you sure you want to save? (y/n) **y**
+Are you sure you want to save? (y/n) y
 
 Config file 'startup-config' created successfully.
 
 Configuration Saved!
 ----
 
-. On the console of each node, migrate clus2 to port e1a: `network interface migrate`
+. On the console of each node, migrate clus2 to port e1a:`network interface migrate`
 +
 ----
-cluster::*> **network interface migrate -vserver vs1 -lif clus2 -source-node node1 -destnode node1 -dest-port e1a**
+cluster::*> network interface migrate -vserver vs1 -lif clus2 -source-node node1 -destnode node1 -dest-port e1a
 
-cluster::*> **network interface migrate -vserver vs2 -lif clus2 -source-node node2 -destnode node2 -dest-port e1a**
+cluster::*> network interface migrate -vserver vs2 -lif clus2 -source-node node2 -destnode node2 -dest-port e1a
 ----
 
 . On the console of each node, verify that the migration occurred: `network interface show -role cluster`
@@ -46,15 +46,7 @@ cluster::*> **network interface migrate -vserver vs2 -lif clus2 -source-node nod
 The following example shows that clus2 has migrated to port e1a on both nodes:
 +
 ----
-cluster::*> **network port show -role cluster**
-
-         Logical    Status     Network         Current  Current Is
-Vserver  Interface  Admin/Open Address/Mask    Node     Port    Home
--------- ---------- ---------- --------------- -------- ------- ----
-vs1
-         clus1      up/up      10.10.10.1/16   node1    e1a     true
-         clus2      up/up      10.10.10.2/16   node1    e1a     false
-vs2
+cluster::*> network port show -role cluster
          clus1      up/up      10.10.10.1/16   node2    e1a     true
          clus2      up/up      10.10.10.2/16   node2    e1a     false
 ----
@@ -64,14 +56,14 @@ vs2
 The following example shows port e2a being shut down on both nodes:
 +
 ----
-cluster::*> **network port modify -node node1 -port e2a -up-admin false**
-cluster::*> **network port modify -node node2 -port e2a -up-admin false**
+cluster::*> network port modify -node node1 -port e2a -up-admin false
+cluster::*> network port modify -node node2 -port e2a -up-admin false
 ----
 
 . Verify that port e2a is shut down on both nodes: `network port show`
 +
 ----
-cluster::*> **network port show -role cluster**
+cluster::*> network port show -role cluster
 
                                   Auto-Negot  Duplex      Speed (Mbps)
 Node   Port   Role     Link MTU   Admin/Oper  Admin/Oper  Admin/Oper
@@ -114,7 +106,7 @@ File transfer operation completed successfully.
 . Verify that the script was downloaded and saved with the file name that you gave it.
 +
 ----
-(cs2) # **script list**
+(cs2) # script list
 Configuration Script Name        Size(Bytes)
 -------------------------------- -----------
 running-config.scr               6960
@@ -164,7 +156,7 @@ The example displays the `running-config` file on the switch. You must compare t
 This operation may take a few minutes.
 Management interfaces will not be available during this time.
 
-Are you sure you want to save? (y/n) **y**
+Are you sure you want to save? (y/n) y
 
 Config file 'startup-config' created successfully.
 ----
@@ -177,7 +169,7 @@ After the reboot completes, you must log in, view the `running-config` file, and
 (cs2) # reload
 
 The system has unsaved changes.
-Would you like to save them now? (y/n) **y**
+Would you like to save them now? (y/n) y
 
 
 Config file 'startup-config' created successfully.
@@ -229,11 +221,11 @@ Ports  Timeout       Speed     Active
 The following example shows port e2a being brought up on node1 and node2:
 +
 ----
-cluster::*> **network port modify -node node1 -port e2a -up-admin true**
-cluster::*> **network port modify -node node2 -port e2a -up-admin true**
+cluster::*> network port modify -node node1 -port e2a -up-admin true
+cluster::*> network port modify -node node2 -port e2a -up-admin true
 ----
 
-. Verify that port e2a is up on both nodes: `network port show -role cluster`
+. Verify that port e2a is up on both nodes: `network port show -_role cluster_`
 +
 ----
 cluster::*> network port show -role cluster
@@ -254,11 +246,11 @@ node2
 The LIF might revert automatically, depending on your version of ONTAP.
 +
 ----
-cluster::*> **network interface revert -vserver node1 -lif clus2**
-cluster::*> **network interface revert -vserver node2 -lif clus2**
+cluster::*> network interface revert -vserver node1 -lif clus2
+cluster::*> network interface revert -vserver node2 -lif clus2
 ----
 
-. Verify that the LIF is now home (`true`) on both nodes: `network interface show -role cluster`
+. Verify that the LIF is now home (`true`) on both nodes: `network interface show -_role cluster_`
 +
 ----
 cluster::*> network interface show -role cluster
@@ -277,7 +269,7 @@ vs2
 . View the status of the node members: `cluster show`
 +
 ----
-cluster::> **cluster show**
+cluster::> cluster show
 
 Node           Health  Eligibility
 -------------- ------- ------------
@@ -294,14 +286,14 @@ node2
 This operation may take a few minutes.
 Management interfaces will not be available during this time.
 
-Are you sure you want to save? (y/n) **y**
+Are you sure you want to save? (y/n) y
 
 Config file 'startup-config' created successfully.
 
 Configuration Saved!
 ----
 
-. Repeat step <<STEP_8C6E23CF6819413EAEFFC994738FCD88,1>> through step <<STEP_18C3A9E39C114900A471A207DAECEDBE,22>> to upgrade the RCF on the other switch, cs1.
+. Repeat step 1 through step 22 to upgrade the RCF on the other switch, cs1.
 
 *Related information*
 

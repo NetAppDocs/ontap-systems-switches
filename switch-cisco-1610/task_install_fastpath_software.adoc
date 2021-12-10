@@ -1,8 +1,8 @@
 ---
 permalink: switch-cisco-1610/task_install_fastpath_software.html
 sidebar: sidebar
-keywords: FASTPATH software,installing on NetApp switches,installing FASTPATH software on,NetApp switches
-summary: 'When you install the FASTPATH software on your NetApp switches, you must begin the upgrade with the second switch, cs2.'
+keywords: install, fastpath, software
+summary: "When you install the FASTPATH software on your NetApp switches, you must begin the upgrade with the second switch, cs2."
 ---
 = Installing FASTPATH software
 :icons: font
@@ -13,7 +13,9 @@ When you install the FASTPATH software on your NetApp switches, you must begin t
 
 == Steps
 
-. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: `system node autosupport invoke -node * -type all - message MAINT=xh`
+. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
++
+`system node autosupport invoke -node * -type all - message MAINT=xh`
 +
 _x_ is the duration of the maintenance window in hours.
 +
@@ -30,11 +32,11 @@ Password (Enter)
 (cs2) #
 ----
 
-. On the console of each node, migrate clus2 to port e1a: `network interface migrate`
+. On the console of each node, migrate clus2 to port e1a:`network interface migrate`
 +
 ----
-cluster::*> **network interface migrate -vserver vs1 -lif clus2 -source-node node1 -destnode node1 -dest-port e1a**
-cluster::*> **network interface migrate -vserver vs2 -lif clus2 -source-node node2 -destnode node2 -dest-port e1a**
+cluster::*> network interface migrate -vserver vs1 -lif clus2 -source-node node1 -destnode node1 -dest-port e1a
+cluster::*> network interface migrate -vserver vs2 -lif clus2 -source-node node2 -destnode node2 -dest-port e1a
 ----
 
 . On the console of each node, verify that the migration took place: `network interface show`
@@ -42,7 +44,7 @@ cluster::*> **network interface migrate -vserver vs2 -lif clus2 -source-node nod
 The following example shows that clus2 has migrated to port e1a on both nodes:
 +
 ----
-cluster::*> **network interface show -role cluster**
+cluster::*> network interface show -role cluster
 
          Logical    Status     Network        Current  Current  Is
 Vserver  Interface  Admin/Open Address/Mask   Node     Port     Home
@@ -60,14 +62,14 @@ vs2
 The following example shows port e2a being shut down on both nodes:
 +
 ----
-cluster::*> **network port modify -node node1 -port e2a -up-admin false**
-cluster::*> **network port modify -node node2 -port e2a -up-admin false**
+cluster::*> network port modify -node node1 -port e2a -up-admin false
+cluster::*> network port modify -node node2 -port e2a -up-admin false
 ----
 
 . Verify that port e2a is shut down on both nodes: `network port show`
 +
 ----
-cluster::*> **network port show -role cluster**
+cluster::*> network port show -role cluster
 
                                  Auto-Negot  Duplex      Speed (Mbps)
 Node   Port Role     Link MTU    Admin/Oper  Admin/Oper  Admin/Oper
@@ -222,11 +224,11 @@ Additional Packages.................. FASTPATH QOS
 . Bring up the ISL ports on cs1, the active switch.
 +
 ----
-(cs1) # **configure**
-(cs1) (config) # **interface 0/13-0/16**
-(cs1) (Interface 0/13-0/16) # **no shutdown**
-(cs1) (Interface 0/13-0/16) # **exit**
-(cs1) (config) # **exit**
+(cs1) # configure
+(cs1) (config) # interface 0/13-0/16
+(cs1) (Interface 0/13-0/16) # no shutdown
+(cs1) (Interface 0/13-0/16) # exit
+(cs1) (config) # exit
 ----
 
 . Verify that the ISLs are operational: `show port-channel 3/1`
@@ -265,7 +267,7 @@ Ports  Timeout       Speed     Active
 This operation may take a few minutes.
 Management interfaces will not be available during this time.
 
-Are you sure you want to save? (y/n) **y**
+Are you sure you want to save? (y/n) y
 
 Config file 'startup-config' created successfully .
 
@@ -275,7 +277,7 @@ Configuration Saved!
 . Enable the second cluster port, e2a, on each node: `network port modify`
 +
 ----
-cluster::*> **network port modify -node node1 -port e2a -up-admin true**
+cluster::*> network port modify -node node1 -port e2a -up-admin true
 cluster::*> **network port modify -node node2 -port e2a -up-admin true**
 ----
 
@@ -288,10 +290,10 @@ cluster::*> network interface revert -vserver Cluster -lif n1_clus2
 cluster::*> network interface revert -vserver Cluster -lif n2_clus2
 ----
 
-. Verify that the LIF is now home (`true`) on both nodes: `network interface show -role cluster`
+. Verify that the LIF is now home (`true`) on both nodes: `network interface show -_role cluster_`
 +
 ----
-cluster::*> **network interface show -role cluster**
+cluster::*> network interface show -role cluster
 
           Logical    Status     Network        Current  Current Is
 Vserver   Interface  Admin/Oper Address/Mask   Node     Port    Home
@@ -315,5 +317,7 @@ node1                true    true
 node2                true    true
 ----
 
-. Repeat step <<STEPS_3757CBF53D8544BA8A7673BE25BE9AF5,1>> through step <<STEP_18C3A9E39C114900A471A207DAECEDBE,18>> to upgrade the FASTPATH software on the other switch, cs1.
-. If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=END`
+. Repeat step 1 through step 18 to upgrade the FASTPATH software on the other switch, cs1.
+. If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
++
+`system node autosupport invoke -node * -type all -message MAINT=END`

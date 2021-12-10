@@ -1,8 +1,8 @@
 ---
 permalink: switch-cisco-1610/task_migrate_from_a_switchless_cluster_fas22xx_systems_with_a_single_cluster_network_connection.html
 sidebar: sidebar
-keywords: FAS22xx system,CN1610 cluster switches
-summary: 'If you have FAS22xx systems in an existing two-node switchless cluster in which each controller module has a single, back-to-back 10 GbE connection for cluster connectivity, you can use the switchless cluster networking option and replace the direct back-to-back connectivity with switch connections.'
+keywords: migrate, two-node switched cluster, fas22xx systems, single, network connection
+summary: "If you have FAS22xx systems in an existing two-node switchless cluster in which each controller module has a single, back-to-back 10 GbE connection for cluster connectivity, you can use the switchless cluster networking option and replace the direct back-to-back connectivity with switch connections."
 ---
 = Migrating to a two-node switched cluster in FAS22xx systems with a single cluster-network connection
 :icons: font
@@ -11,7 +11,7 @@ summary: 'If you have FAS22xx systems in an existing two-node switchless cluster
 [.lead]
 If you have FAS22xx systems in an existing two-node switchless cluster in which each controller module has a single, back-to-back 10 GbE connection for cluster connectivity, you can use the switchless cluster networking option and replace the direct back-to-back connectivity with switch connections.
 
-== Before you begin
+== What you'll need
 
 * Two cluster connections are required to migrate from a switchless configuration to a switched configuration.
 * The cluster must be healthy and consist of two nodes connected with back-to-back connectivity.
@@ -74,17 +74,18 @@ cluster::*> system node autosupport invoke -node * -type all -message MAINT=2h
 ----
 
 . Verify that the current state of the switchless cluster is `true`, and then disable the switchless cluster mode: `network options switchless-cluster modify -enabled false`
-. Take over the target node: `storage failover takeover -ofnode target_node_name`
+. Take over the target node: `storage failover takeover -ofnode _target_node_name_`
 +
-It does not matter which node is the target node. When it is taken over, the target node automatically reboots and displays the `+Waiting for giveback...+` message.
+It does not matter which node is the target node. When it is taken over, the target node automatically reboots and displays the `Waiting for giveback...` message.
 +
 The active node is now serving data for the partner (target) node that was taken over.
 
 . Wait for two minutes after takeover of the impaired node to confirm that the takeover was completed successfully.
-. With the target node showing the `+Waiting for giveback...+` message, shut it down.
+. With the target node showing the `Waiting for giveback...` message, shut it down.
 +
 The method you use to shut down the node depends on whether you use remote management through the node Service Processor (SP).
 +
+[options="header"]
 |===
 | If SP| Then...
 a|
@@ -121,7 +122,7 @@ node2          node1          true      Connected to node1
 
 . Verify that the cluster port LIFs are operating correctly: `network interface show -role cluster`
 +
-The following example shows that the LIFs are `up` on node1 and node2 and that the "`Is Home`" column results are `true`:
+The following example shows that the LIFs are `up` on node1 and node2 and that the "Is Home" column results are `true`:
 +
 ----
 
@@ -156,7 +157,9 @@ node2                true    true          false
 +
 The command output should show connectivity between all of the cluster ports.
 
-. If you suppressed automatic case creation, reenable it by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=END`
+. If you suppressed automatic case creation, reenable it by invoking an AutoSupport message:
++
+`system node autosupport invoke -node * -type all -message MAINT=END`
 +
 ----
 cluster::*> system node autosupport invoke -node * -type all -message MAINT=END

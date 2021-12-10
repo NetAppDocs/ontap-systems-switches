@@ -1,8 +1,8 @@
 ---
 permalink: switch-cisco-1610/task_install_fastpath_software_and_rcf_files_on_netapp_cluster_switches.html
 sidebar: sidebar
-keywords: FASTPATH software,installing on CN1610 switches,RCFs installing on CN1610 switches
-summary: 'The installation steps are the same for both NetApp CN1601 management switches and CN1610 cluster switches running ONTAP 8.3.1 or later. However, the two models require different software and RCFs.'
+keywords: fastpath, software, install, netapp cluster switches, rcfs, ontap
+summary: "The installation steps are the same for both NetApp CN1601 management switches and CN1610 cluster switches running ONTAP 8.3.1 or later. However, the two models require different software and RCFs."
 ---
 = Installing FASTPATH software and RCFs on NetApp cluster switches running ONTAP 8.3.1 and later
 :icons: font
@@ -11,7 +11,7 @@ summary: 'The installation steps are the same for both NetApp CN1601 management 
 [.lead]
 The installation steps are the same for both NetApp CN1601 management switches and CN1610 cluster switches running ONTAP 8.3.1 or later. However, the two models require different software and RCFs.
 
-== Before you begin
+== What you'll need
 
 * The cluster must be a fully functioning cluster.
 * There must be no defective cluster NICs, and all connected ports on both cluster switches must be functional.
@@ -44,7 +44,9 @@ The _Hardware Universe_ contains the actual cluster ports supported on your plat
 
 == Steps
 
-. Display information about the network ports on the cluster: `network port show -ipspace cluster`
+. Display information about the network ports on the cluster:
++
+`network port show -_ipspace cluster_`
 +
 The following example shows the type of output from the command:
 +
@@ -62,7 +64,9 @@ node2
 4 entries were displayed.
 ----
 
-. Display information about the LIFs on the cluster: `network interface show -role cluster`
+. Display information about the LIFs on the cluster:
++
+`network interface show -_role cluster_`
 +
 The following example shows the logical interfaces on the cluster. In this example the `-role` parameter displays information about the LIFs that are associated with cluster ports:
 +
@@ -80,14 +84,16 @@ Cluster
 4 entries were displayed.
 ----
 
-. On each respective node, using a node management LIF, migrate node1_clus2 to e0a on node1 and node2_clus2 to e0a on node2: `network interface migrate`
+. On each respective node, using a node management LIF, migrate node1_clus2 to e0a on node1 and node2_clus2 to e0a on node2:
++
+`network interface migrate`
 +
 You must enter the commands on the controller consoles that own the respective cluster LIFs.
 +
 ----
 
-cluster1::> **network interface migrate -vserver Cluster -lif node1_clus2 -destination-node node1 -destination-port e0a**
-cluster1::> **network interface migrate -vserver Cluster -lif node2_clus2 -destination-node node2 -destination-port e0a**
+cluster1::> network interface migrate -vserver Cluster -lif node1_clus2 -destination-node node1 -destination-port e0a
+cluster1::> network interface migrate -vserver Cluster -lif node2_clus2 -destination-node node2 -destination-port e0a
 ----
 +
 [NOTE]
@@ -112,25 +118,31 @@ Cluster
 4 entries were displayed.
 ----
 
-. Change the privilege level to advanced, entering y when prompted to continue: `set -privilege advanced`
+. Change the privilege level to advanced, entering y when prompted to continue:
++
+`set -privilege advanced`
 +
 The advanced prompt (*>) appears.
 
-. Shut down cluster port e0b on both nodes: `network port modify -node node_name -port port_name -up-admin false`
+. Shut down cluster port e0b on both nodes:
++
+`network port modify -node _node_name_ -port _port_name_ -up-admin false`
 +
 You must enter the commands on the controller consoles that own the respective cluster LIFs.
 +
 The following example shows the commands to shut down port e0b on all nodes:
 +
 ----
-cluster1::*> **network port modify -node node1 -port e0b -up-admin false**
-cluster1::*> **network port modify -node node2 -port e0b -up-admin false**
+cluster1::*> network port modify -node node1 -port e0b -up-admin false
+cluster1::*> network port modify -node node2 -port e0b -up-admin false
 ----
 
-. Verify that port e0b is shut down on both nodes: `network port show`
+. Verify that port e0b is shut down on both nodes:
++
+`network port show`
 +
 ----
-cluster1::*> **network port show -role cluster**
+cluster1::*> network port show -role cluster
 
                                                              Speed (Mbps)
 Node   Port      IPspace      Broadcast Domain Link   MTU    Admin/Oper
@@ -227,7 +239,9 @@ SFTP Code transfer starting...
 File transfer operation completed successfully.
 ----
 
-. Confirm the current and next-active boot image versions: `show bootvar`
+. Confirm the current and next-active boot image versions:
++
+`show bootvar`
 +
 ----
 (cs2) #show bootvar
@@ -249,7 +263,7 @@ Image Descriptions
 
 . Install the compatible RCF for the new image version to the switch.
 +
-If the RCF version is already correct, skip to step <<STEP_9F44A065076241EABA82B7BA01E04E16,18>> to bring up the ISL ports.
+If the RCF version is already correct, skip to step 18 to bring up the ISL ports.
 +
 ----
 (cs2) #copy tftp://10.22.201.50//CN1610_CS_RCF_v1.2.txt nvram:script CN1610_CS_RCF_v1.2.scr
@@ -286,7 +300,7 @@ The switch validates the script automatically as it is downloaded to the switch.
 . Verify that the script was downloaded and saved to the file name you gave it.
 +
 ----
-(cs2) #**script list**
+(cs2) #script list
 
 Configuration Script Name        Size(Bytes)
 -------------------------------- -----------
@@ -307,7 +321,9 @@ Are you sure you want to apply the configuration script? (y/n) y
 Configuration script 'CN1610_CS_RCF_v1.2.scr' applied.
 ----
 
-. Verify that the changes have been applied to the switch, and then save them: `show running-config`
+. Verify that the changes have been applied to the switch, and then save them:
++
+`show running-config`
 +
 ----
 (cs2) #show running-config
@@ -369,14 +385,16 @@ After the reboot completes, you must log in to verify the image version, view th
 . Bring up the ISL ports on cs1, the active switch.
 +
 ----
-(cs1) #**configure**
-(cs1) (Config) #**interface 0/13-0/16**
-(cs1) (Interface 0/13-0/16) #**no shutdown**
-(cs1) (Interface 0/13-0/16) #**exit**
-(cs1) (Config) #**exit**
+(cs1) #configure
+(cs1) (Config) #interface 0/13-0/16
+(cs1) (Interface 0/13-0/16) #no shutdown
+(cs1) (Interface 0/13-0/16) #exit
+(cs1) (Config) #exit
 ----
 
-. Verify that the ISLs are operational: `show port-channel 3/1`
+. Verify that the ISLs are operational:
++
+`show port-channel 3/1`
 +
 The Link State field should indicate `Up`.
 +
@@ -404,18 +422,22 @@ Ports  Timeout       Speed     Active
        partner/long
 ----
 
-. Bring up cluster port e0b on all nodes: `network port modify`
+. Bring up cluster port e0b on all nodes:
++
+`network port modify`
 +
 You must enter the commands on the controller consoles that own the respective cluster LIFs.
 +
 The following example shows port e0b being brought up on node1 and node2:
 +
 ----
-cluster1::*> **network port modify -node node1 -port e0b -up-admin true**
-cluster1::*> **network port modify -node node2 -port e0b -up-admin true**
+cluster1::*> network port modify -node node1 -port e0b -up-admin true
+cluster1::*> network port modify -node node2 -port e0b -up-admin true
 ----
 
-. Verify that the port e0b is up on all nodes: `network port show -ipspace cluster`
+. Verify that the port e0b is up on all nodes:
++
+`network port show -ipspace cluster`
 +
 ----
 cluster1::*> network port show -ipspace cluster
@@ -432,10 +454,12 @@ node2
 4 entries were displayed.
 ----
 
-. Verify that the LIF is now home (`true`) on both nodes: `network interface show -role cluster`
+. Verify that the LIF is now home (`true`) on both nodes:
++
+`network interface show -_role cluster_`
 +
 ----
-cluster1::*> **network interface show -role cluster**
+cluster1::*> network interface show -role cluster
 
             Logical    Status     Network            Current       Current Is
 Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
@@ -448,10 +472,12 @@ Cluster
 4 entries were displayed.
 ----
 
-. Show the status of the node members: `cluster show`
+. Show the status of the node members:
++
+`cluster show`
 +
 ----
-cluster1::*> **cluster show**
+cluster1::*> cluster show
 
 Node                 Health  Eligibility   Epsilon
 -------------------- ------- ------------  ------------
@@ -460,17 +486,20 @@ node2                true    true          false
 2 entries were displayed.
 ----
 
-. Return to the admin privilege level:``set -privilege admin``
-. Repeat the steps<<STEP_BE1DFB8F8CBA4505ABD79094CE3F9FA6,1>> through<<STEP_9F44A065076241EABA82B7BA01E04E16,18>> to upgrade the FASTPATH software and RCF on the other switch, cs1.
+. Return to the admin privilege level:
 +
+`set -privilege admin`
+. Repeat the steps 1 through 18 to upgrade the FASTPATH software and RCF on the other switch, cs1.
++
+[options="header"]
 |===
 | If you...| Then...
 a|
 Do not need to install the RCF
 a|
-Go to Step <<STEP_9F44A065076241EABA82B7BA01E04E16,18>> to finish the installation.
+Go to Step 18 to finish the installation.
 a|
 Need to install the RCF
 a|
-Go to Step <<STEP_EF1B37F60B8D42C88C5A6C2815C1B086,13>>.
+Go to Step 13.
 |===
