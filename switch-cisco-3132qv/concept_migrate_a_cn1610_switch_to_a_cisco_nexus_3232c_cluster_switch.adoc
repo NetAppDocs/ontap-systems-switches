@@ -1,8 +1,8 @@
 ---
 permalink: switch-cisco-3132qv/concept_migrate_a_cn1610_switch_to_a_cisco_nexus_3232c_cluster_switch.html
 sidebar: sidebar
-keywords: 
-summary: 'You must be aware of certain configuration information, port connections, and cabling requirements when you replace CN1610 cluster switches with Cisco Nexus 3132Q-V cluster switches.'
+keywords: replace, cn1610 cluster switches, cisco nexus 3132q-v,
+summary: "You must be aware of certain configuration information, port connections, and cabling requirements when you replace CN1610 cluster switches with Cisco Nexus 3132Q-V cluster switches."
 ---
 = Replacing CN1610 cluster switches with Cisco Nexus 3132Q-V cluster switches
 :icons: font
@@ -51,10 +51,10 @@ When you use the first four SFP+ ports, it will disable the first 40GbE QSFP por
 You can break out the first six ports into 4x 10 GbE mode by using the `interface breakout module 1 port 1-6 map 10g-4x` command. Similarly, you can regroup the first six QSFP+ ports from _breakout_ configuration by using the `no interface breakout module 1 port 1-6 map 10g-4x` command.
 
 * You must have done the planning, migration, and read the required documentation on 10 GbE and 40/100 GbE connectivity from nodes to Nexus 3132Q-V cluster switches.
-* The ONTAP and NX-OS versions that are supported in this procedure are listed on the "`Cisco Ethernet Switches`" page.
+* The ONTAP and NX-OS versions that are supported in this procedure are listed on the "Cisco Ethernet Switches" page.
 +
 http://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switches]
 
-* The ONTAP and FASTPATH versions that are supported in this procedure are listed on the "`NetApp CN1601 and CN1610 Switches`" page.
+* The ONTAP and FASTPATH versions that are supported in this procedure are listed on the "NetApp CN1601 and CN1610 Switches" page.
 +
 http://support.netapp.com/NOW/download/software/cm_switches_ntap/[NetApp CN1601 and CN1610 Switches]
