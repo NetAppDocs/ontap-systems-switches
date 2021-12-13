@@ -1,8 +1,8 @@
 ---
 permalink: switch-cisco-3232c/task_how_to_migrate_from_a_two_node_switchless_cluster_to_a_cluster_with_cisco_nexus_3132q_v_cluster_switches.html
 sidebar: sidebar
-keywords: 
-summary: 'If you have a two-node switchless cluster, you can migrate nondisruptively to a two-node switched cluster that includes Cisco Nexus 3232C cluster network switches.'
+keywords: migrate, two-node cluster, switchless, cisco nexus 3232c
+summary: "If you have a two-node switchless cluster, you can migrate nondisruptively to a two-node switched cluster that includes Cisco Nexus 3232C cluster network switches."
 ---
 = How to migrate from a two-node switchless cluster to a cluster with Cisco Nexus 3232C cluster switches
 :icons: font
@@ -11,7 +11,7 @@ summary: 'If you have a two-node switchless cluster, you can migrate nondisrupti
 [.lead]
 If you have a two-node switchless cluster, you can migrate nondisruptively to a two-node switched cluster that includes Cisco Nexus 3232C cluster network switches.
 
-== Before you begin
+== What you'll need
 
 * The configurations must be properly set up and functioning.
 +
@@ -32,10 +32,10 @@ The two nodes must be connected and functioning in a two-node switchless cluster
 
 *Procedure summary*
 
-* *I. Display and migrate physical and logical ports (<<STEP_5948178FFE634DC2A997618DDD52F4F8,Steps 1-10>>)*
-* *II. Shut down the reassigned LIFs and disconnect the cables <<STEP_AB5B8C83070B4FFD9C0E7E22F7A8937E,(Steps 11-14>>*)
-* *III. Enable the cluster ports (<<STEP_9EE823C7FCEC46129BFB563087E5A368,Steps 15-20>>)*
-* *IV. Enable the reassigned LIFs (<<STEP_A349888453DC4B51B6495FE36940574E,Steps 21-33>>)*
+* *I. Display and migrate physical and logical ports (Steps 1-10)*
+* *II. Shut down the reassigned LIFs and disconnect the cables (Steps 11-14)*
+* *III. Enable the cluster ports (Steps 15-20)*
+* *IV. Enable the reassigned LIFs (Steps 21-33)*
 
 The examples in this procedure use the following switch and node nomenclature:
 
@@ -60,7 +60,9 @@ The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Serie
 
 == Steps
 
-. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: `system node autosupport invoke -node * -type all - message MAINT=xh`
+. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
++
+`system node autosupport invoke -node * -type all - message MAINT=xh`
 +
 _x_ is the duration of the maintenance window in hours.
 +
@@ -70,7 +72,9 @@ The AutoSupport message notifies technical support of this maintenance task so t
 ====
 
 . Determine the administrative or operational status for each cluster interface:
- .. Display the network port attributes: `network port show -role cluster`
+ .. Display the network port attributes:
++
+`network port show -role cluster`
 +
 ----
 cluster::*> network port show –role cluster
@@ -92,7 +96,9 @@ e4e       Cluster      Cluster          up   9000 auto/40000  -
 4 entries were displayed.
 ----
 
- .. Display information about the logical interfaces and their designated home nodes: `network interface show -role cluster`
+ .. Display information about the logical interfaces and their designated home nodes:
++
+`network interface show -role cluster`
 +
 ----
 cluster::*> network interface show -role cluster
@@ -109,7 +115,9 @@ Cluster
 4 entries were displayed.
 ----
 
- .. Verify that switchless cluster detection is enabled using the advanced privilege command:``network options detect-switchless-cluster show``
+ .. Verify that switchless cluster detection is enabled using the advanced privilege command:
++
+`network options detect-switchless-cluster show``
 +
 The output in the following example shows that switchless cluster detection is enabled:
 +
@@ -157,7 +165,9 @@ C2(config)# exit
 ----
 
 . Connect ports 1/31 and 1/32 on C1 to the same ports on C2 using supported cabling.
-. Verify that the ISL ports are operational on C1 and C2: `show port-channel summary`
+. Verify that the ISL ports are operational on C1 and C2:
++
+`show port-channel summary`
 +
 For more information on Cisco commands, see the guides listed in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-command-reference-list.html[Cisco Nexus 3000 Series NX-OS Command References].
 +
@@ -215,7 +225,9 @@ C1                 Eth1/32        178    R S I s     N3K-C3232C  Eth1/32
 Total entries displayed: 2
 ----
 
-. Display the cluster port connectivity on each node: `network device-discovery show`
+. Display the cluster port connectivity on each node:
++
+`network device-discovery show`
 +
 The following example shows the cluster port connectivity displayed for a two-node switchless cluster configuration:
 +
@@ -232,7 +244,9 @@ n2         /cdp
             e4e    n1                  e4e              FAS9000
 ----
 
-. Migrate the n1_clus1 and n2_clus1 LIFs to the physical ports of their destination nodes: `network interface migrate -vserver cluster -lif lif-name source-node source-node-name -destination-port destination-port-name`
+. Migrate the n1_clus1 and n2_clus1 LIFs to the physical ports of their destination nodes:
++
+`network interface migrate -vserver cluster -lif _lif-name_ source-node _source-node-name_ -destination-port _destination-port-name_`
 +
 You must execute the command for each local node as shown in the following example:
 +
@@ -243,9 +257,11 @@ cluster::*> network interface migrate -vserver cluster -lif n2_clus1 -source-nod
 –destination-node n2 -destination-port e4e
 ----
 
-. Verify the cluster interfaces have successfully migrated: `network interface show -role cluster`
+. Verify the cluster interfaces have successfully migrated:
 +
-The following example shows the "`Is Home`" status for the n1_clus1 and n2_clus1 LIFs has become "`false`" after the migration is completed:
+`network interface show -role cluster`
++
+The following example shows the "Is Home" status for the n1_clus1 and n2_clus1 LIFs has become "false" after the migration is completed:
 +
 ----
 cluster::*> network interface show -role cluster
@@ -261,7 +277,9 @@ Cluster
  4 entries were displayed.
 ----
 
-. Shut down cluster ports for the n1_clus1 and n2_clus1 LIFs, which were migrated in step 9: `network port modify -node node-name -port port-name -up-admin false`
+. Shut down cluster ports for the n1_clus1 and n2_clus1 LIFs, which were migrated in step 9:
++
+`network port modify -node _node-name_ -port _port-name_ -up-admin false`
 +
 You must execute the command for each port as shown in the following example:
 +
@@ -270,7 +288,9 @@ cluster::*> network port modify -node n1 -port e4a -up-admin false
 cluster::*> network port modify -node n2 -port e4a -up-admin false
 ----
 
-. Ping the remote cluster interfaces and perform an RPC server check: `cluster ping-cluster -node node-name`
+. Ping the remote cluster interfaces and perform an RPC server check:
++
+`cluster ping-cluster -node _node-name_`
 +
 The following example shows node n1 being pinged and the RPC status indicated afterward:
 +
@@ -320,14 +340,18 @@ C1(config-if-range)# exit
 C1(config)# exit
 ----
 
-. Enable the first cluster port, e4a, on each node: `network port modify -node node-name -port port-name -up-admin true`
+. Enable the first cluster port, e4a, on each node:
++
+`network port modify -node _node-name_ -port _port-name_ -up-admin true`
 +
 ----
 cluster::*> network port modify -node n1 -port e4a -up-admin true
 cluster::*> network port modify -node n2 -port e4a -up-admin true
 ----
 
-. Verify that the clusters are up on both nodes: `network port show -role cluster`
+. Verify that the clusters are up on both nodes:
++
+`network port show -role cluster`
 +
 ----
 cluster::*> network port show –role cluster
@@ -351,7 +375,9 @@ e4e       Cluster      Cluster          up   9000 auto/40000  -
 4 entries were displayed.
 ----
 
-. For each node, revert all of the migrated cluster interconnect LIFs: `network interface revert -vserver cluster -lif lif-name`
+. For each node, revert all of the migrated cluster interconnect LIFs:
++
+`network interface revert -vserver cluster -lif _lif-name_`
 +
 You must revert each LIF to its home port individually as shown in the following example:
 +
@@ -360,7 +386,9 @@ cluster::*> network interface revert -vserver cluster -lif n1_clus1
 cluster::*> network interface revert -vserver cluster -lif n2_clus1
 ----
 
-. Verify that all the LIFs are now reverted to their home ports: `network interface show -role cluster`
+. Verify that all the LIFs are now reverted to their home ports:
++
+`network interface show -role cluster`
 +
 The `Is Home` column should display a value of `true` for all of the ports listed in the `Current Port` column. If the displayed value is `false`, the port has not been reverted.
 +
@@ -378,7 +406,9 @@ Cluster
 4 entries were displayed.
 ----
 
-. Display the cluster port connectivity on each node: `network device-discovery show`
+. Display the cluster port connectivity on each node:
++
+`network device-discovery show`
 +
 ----
 cluster::*> network device-discovery show
@@ -393,7 +423,9 @@ n2         /cdp
             e4e    n1                  e4e              FAS9000
 ----
 
-. Migrate clus2 to port e4a on the console of each node: `network interface migrate cluster -lif lif-name -source-node source-node-name -destination-node destination-node-name -destination-port destination-port-name`
+. Migrate clus2 to port e4a on the console of each node:
++
+`network interface migrate cluster -lif _lif-name_ -source-node _source-node-name_ -destination-node _destination-node-name_ -destination-port _destination-port-name_`
 +
 You must migrate each LIF to its home port individually as shown in the following example:
 +
@@ -403,7 +435,9 @@ cluster::*> network interface migrate -vserver cluster -lif n1_clus2 -source-nod
 cluster::*> network interface migrate -vserver cluster -lif n2_clus2 -source-node n2 –destination-node n2 -destination-port e4a
 ----
 
-. Shut down cluster ports clus2 LIF on both nodes: `network port modify`
+. Shut down cluster ports clus2 LIF on both nodes:
++
+`network port modify`
 +
 The following example shows the specified ports being set to `false`, shutting the ports down on both nodes:
 +
@@ -412,7 +446,9 @@ cluster::*> network port modify -node n1 -port e4e -up-admin false
 cluster::*> network port modify -node n2 -port e4e -up-admin false
 ----
 
-. Verify the cluster LIF status: `network interface show`
+. Verify the cluster LIF status:
++
+`network interface show`
 +
 ----
 cluster::*> network interface show -role cluster
@@ -448,7 +484,9 @@ C2(config-if-range)# exit
 C2(config)# exit
 ----
 
-. Enable the second cluster port, e4e, on each node: `network port modify`
+. Enable the second cluster port, e4e, on each node:
++
+`network port modify`
 +
 The following example shows the second cluster port e4e being brought up on each node:
 +
@@ -466,7 +504,9 @@ cluster::*> network interface revert -vserver Cluster -lif n1_clus2
 cluster::*> network interface revert -vserver Cluster -lif n2_clus2
 ----
 
-. Verify that all of the cluster interconnect ports are now reverted to their home ports: `network interface show -role cluster`
+. Verify that all of the cluster interconnect ports are now reverted to their home ports:
++
+`network interface show -role cluster`
 +
 The `Is Home` column should display a value of `true` for all of the ports listed in the `Current Port` column. If the displayed value is `false`, the port has not been reverted.
 +
@@ -484,7 +524,9 @@ Cluster
 4 entries were displayed.
 ----
 
-. Verify that all of the cluster interconnect ports are in the `up` state: `network port show -role cluster`
+. Verify that all of the cluster interconnect ports are in the `up` state:
++
+`network port show -role cluster`
 . Display the cluster switch port numbers through which each cluster port is connected to each node: `network device-discovery show`
 +
 ----
@@ -500,7 +542,9 @@ n2          /cdp
             e4e    C2                  Ethernet1/8      N3K-C3232C
 ----
 
-. Display discovered and monitored cluster switches: `system cluster-switch show`
+. Display discovered and monitored cluster switches:
++
+`system cluster-switch show`
 +
 ----
 cluster::*> system cluster-switch show
@@ -522,8 +566,12 @@ Software Version: Cisco Nexus Operating System (NX-OS) Software, Version 7.0(3)I
 Version Source: CDP 2 entries were displayed.
 ----
 
-. Verify that switchless cluster detection changed the switchless cluster option to disabled:``network options switchless-cluster show``
-. Ping the remote cluster interfaces and perform an RPC server check: `cluster ping-cluster -node node-name`
+. Verify that switchless cluster detection changed the switchless cluster option to disabled:
++
+`network options switchless-cluster show``
+. Ping the remote cluster interfaces and perform an RPC server check:
++
+`cluster ping-cluster -node _node-name_`
 +
 ----
 cluster::*> cluster ping-cluster -node n1
@@ -549,38 +597,41 @@ Larger than PMTU communication succeeds on 4 path(s) RPC status:
 1 paths up, 0 paths down (ucp check)
 ----
 
-. Enable the cluster switch health monitor log collection feature for collecting switch-related log files: `system cluster-switch log setup-password``system cluster-switch log enable-collection`
+. Enable the cluster switch health monitor log collection feature for collecting switch-related log files:
++`system cluster-switch log setup-password`
++
+`system cluster-switch log enable-collection`
 +
 ----
-cluster::*> **system cluster-switch log setup-password**
+cluster::*> system cluster-switch log setup-password
 Enter the switch name: <return>
 The switch name entered is not recognized.
 Choose from the following list:
 C1
 C2
 
-cluster::*> **system cluster-switch log setup-password**
+cluster::*> system cluster-switch log setup-password
 
-Enter the switch name: **C1
-**RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
-Do you want to continue? {y|n}::[n] **y**
+Enter the switch name: C1
+RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
+Do you want to continue? {y|n}::[n] y
 
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 
-cluster::*> **system cluster-switch log setup-password**
+cluster::*> system cluster-switch log setup-password
 
-Enter the switch name: **C2**
+Enter the switch name: C2
 RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
-Do you want to continue? {y|n}:: [n] **y**
+Do you want to continue? {y|n}:: [n] y
 
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 
-cluster::*> **system cluster-switch log enable-collection**
+cluster::*> system cluster-switch log enable-collection
 
 Do you want to enable cluster log collection for all nodes in the cluster?
-{y|n}: [n] **y**
+{y|n}: [n] y
 
 Enabling cluster switch log collection.
 
@@ -592,4 +643,6 @@ cluster::*>
 If any of these commands return an error, contact NetApp support.
 ====
 
-. If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=END`
+. If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
++
+`system node autosupport invoke -node * -type all -message MAINT=END`
