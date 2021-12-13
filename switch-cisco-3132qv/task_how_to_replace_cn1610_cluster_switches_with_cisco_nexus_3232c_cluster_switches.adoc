@@ -1,8 +1,8 @@
 ---
 permalink: switch-cisco-3132qv/task_how_to_replace_cn1610_cluster_switches_with_cisco_nexus_3232c_cluster_switches.html
 sidebar: sidebar
-keywords: 
-summary: 'To replace the existing CN1610 cluster switches in a cluster with Cisco Nexus 3132Q-V cluster switches, you must perform a specific sequence of tasks.'
+keywords: replace, cn1610 cluster switches, cisco nexus 3132q-v
+summary: "To replace the existing CN1610 cluster switches in a cluster with Cisco Nexus 3132Q-V cluster switches, you must perform a specific sequence of tasks."
 ---
 = How to replace CN1610 cluster switches with Cisco Nexus 3132Q-V cluster switches
 :icons: font
@@ -29,12 +29,12 @@ The examples in this procedure use the following switch and node nomenclature:
 This procedure covers the following scenario:
 
 * The cluster starts with two nodes connected to two CN1610 cluster switches.
-* Cluster switch CL2 to be replaced by C2 (steps <<STEP_D36309534CD94CBCA3C457CB1CC06EED,#STEP_D36309534CD94CBCA3C457CB1CC06EED>> to <<STEP_9B0BC365F9004E159D06849AADCEADD3,#STEP_9B0BC365F9004E159D06849AADCEADD3>>):
+* Cluster switch CL2 to be replaced by C2 (steps 2 to 22):
  ** Traffic on all cluster ports and LIFs on all nodes connected to CL2 are migrated onto the first cluster ports and LIFs connected to CL1.
  ** Disconnect cabling from all cluster ports on all nodes connected to CL2, and then use supported breakout cabling to reconnect the ports to new cluster switch C2.
  ** Disconnect cabling between ISL ports CL1 and CL2, and then use supported breakout cabling to reconnect the ports from CL1 to C2.
  ** Traffic on all cluster ports and LIFs connected to C2 on all nodes is reverted.
-* Cluster switch CL1 to be replaced by C1 (steps <<STEP_42A578F840AD481CA55C65F0D1BF33AE,#STEP_42A578F840AD481CA55C65F0D1BF33AE>> to <<STEP_0B3E78AFCE304AB09F2589EC5E505D8D,#STEP_0B3E78AFCE304AB09F2589EC5E505D8D>>)
+* Cluster switch CL1 to be replaced by C1 (steps 23 to 43)
  ** Traffic on all cluster ports and LIFs on all nodes connected to CL1 are migrated onto the second cluster ports and LIFs connected to C2.
  ** Disconnect cabling from all cluster ports on all nodes connected to CL1, and then use supported breakout cabling to reconnect the ports to new cluster switch C1.
  ** Disconnect cabling between ISL ports CL1 and C2, and then use supported breakout cabling to reconnect the ports from C1 to C2.
@@ -47,7 +47,9 @@ The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Serie
 
 == Steps
 
-. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: `system node autosupport invoke -node * -type all - message MAINT=xh`
+. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
++
+`system node autosupport invoke -node * -type all - message MAINT=xh`
 +
 _x_ is the duration of the maintenance window in hours.
 +
@@ -334,7 +336,7 @@ When reconnecting any cables to the new Cisco 3132Q-V switch, you must use eithe
 
 . To make the ISL dynamic, configure the ISL interface 3/1 on the active CN1610 switch to disable the static mode: `no port-channel static`
 +
-This configuration matches with the ISL configuration on the 3132Q-V switch C2 when the ISLs are brought up on both switches in step <<STEP_294C669B3E3C4A89A6846FC9DC4DAAF2,#STEP_294C669B3E3C4A89A6846FC9DC4DAAF2>>
+This configuration matches with the ISL configuration on the 3132Q-V switch C2 when the ISLs are brought up on both switches in step 11
 +
 The following example shows the configuration of the ISL interface 3/1 using the `no port-channel static` command to make the ISL dynamic:
 +
@@ -364,7 +366,7 @@ The following example illustrates the process of bringing up ISL ports 13 throug
 
 . Verify that the ISLs are `up` on the CN1610 switch CL1: `show port-channel`
 +
-The "`Link State`" should be `Up`, "`Type`" should be `Dynamic`, and the "`Port Active`" column should be `True` for ports 0/13 to 0/16:
+The "Link State" should be `Up`, "Type" should be `Dynamic`, and the "Port Active" column should be `True` for ports 0/13 to 0/16:
 +
 ----
 (CL1)# show port-channel 3/1
@@ -435,7 +437,7 @@ cluster::*> network interface revert -vserver cluster -lif n2_clus3
 
 . Verify that all of the cluster interconnect ports are reverted to their home ports: `network interface show`
 +
-The following example shows that the LIFs on clus2 are reverted to their home ports, and shows that the LIFs are successfully reverted if the ports in the "`Current Port`" column have a status of `true` in the "`Is Home`" column. If the Is Home value is `false`, then the LIF is not reverted.
+The following example shows that the LIFs on clus2 are reverted to their home ports, and shows that the LIFs are successfully reverted if the ports in the "Current Port" column have a status of `true` in the "Is Home" column. If the Is Home value is `false`, then the LIF is not reverted.
 +
 ----
 cluster::*> network interface show -role cluster
@@ -800,9 +802,12 @@ RPC status:
  ** `network port show -role cluster`
  ** `network interface show -role cluster`
  ** `system cluster-switch show`
++
+
 The following examples show nodes n3 and n4 with 40 GbE cluster ports connected to ports e1/7 and e1/8, respectively on both the Nexus 3132Q-V cluster switches, and both nodes have joined the cluster. The 40 GbE cluster interconnect ports used are e4a and e4e.
 
 +
+
 ----
 cluster::*> network device-discovery show
 
@@ -828,6 +833,7 @@ n4     /cdp
 
 12 entries were displayed.
 ----
+
 +
 ----
 cluster::*> network port show -role cluster
@@ -867,6 +873,7 @@ e4e   cluster   cluster    up    9000  auto/40000     -        -
 
 12 entries were displayed.
 ----
+
 +
 ----
 cluster::*> network interface show -role cluster
@@ -891,6 +898,7 @@ Cluster
 
 12 entries were displayed.
 ----
+
 +
 ----
 cluster::> system cluster-switch show
@@ -929,6 +937,7 @@ CL2                         cluster-network  10.10.1.102    CN1610
 
 4 entries were displayed.
 ----
+
 . Remove the replaced CN1610 switches if they are not automatically removed: `system cluster-switch delete`
 +
 The following example shows how to remove the CN1610 switches:
@@ -975,38 +984,42 @@ C2                          cluster-network    10.10.1.104      NX3132V
 2 entries were displayed.
 ----
 
-. Enable the cluster switch health monitor log collection feature for collecting switch-related log files: `system cluster-switch log setup-password``system cluster-switch log enable-collection`
+. Enable the cluster switch health monitor log collection feature for collecting switch-related log files:
++
+`system cluster-switch log setup-password`
++
+`system cluster-switch log enable-collection`
 +
 ----
-cluster::*> **system cluster-switch log setup-password**
+cluster::*> system cluster-switch log setup-password
 Enter the switch name: <return>
 The switch name entered is not recognized.
 Choose from the following list:
 C1
 C2
 
-cluster::*> **system cluster-switch log setup-password**
+cluster::*> system cluster-switch log setup-password
 
-Enter the switch name: **C1
-**RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
-Do you want to continue? {y|n}::[n] **y**
+Enter the switch name: C1
+RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
+Do you want to continue? {y|n}::[n] y
 
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 
-cluster::*> **system cluster-switch log setup-password**
+cluster::*> system cluster-switch log setup-password
 
-Enter the switch name: **C2**
+Enter the switch name: C2
 RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
-Do you want to continue? {y|n}:: [n] **y**
+Do you want to continue? {y|n}:: [n] y
 
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 
-cluster::*> **system cluster-switch log enable-collection**
+cluster::*> system cluster-switch log enable-collection
 
 Do you want to enable cluster log collection for all nodes in the cluster?
-{y|n}: [n] **y**
+{y|n}: [n] y
 
 Enabling cluster switch log collection.
 
