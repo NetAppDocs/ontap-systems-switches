@@ -1,8 +1,8 @@
 ---
 permalink: switch-cisco-3232c/task_steps_to_replace_a_cisco_nexus_3232c_storage_switch.html
 sidebar: sidebar
-keywords: storage switches,replacing a Cisco Nexus 3232C non-disruptively
-summary: 'You can nondisruptively replace a defective Cisco Nexus 3232C storage switch by performing a specific sequence of tasks.'
+keywords: replace, cisco nexus, 3232c storage switch
+summary: "You can nondisruptively replace a defective Cisco Nexus 3232C storage switch by performing a specific sequence of tasks."
 ---
 = Steps to replace a Cisco Nexus 3232C storage switch
 :icons: font
@@ -11,7 +11,7 @@ summary: 'You can nondisruptively replace a defective Cisco Nexus 3232C storage 
 [.lead]
 You can nondisruptively replace a defective Cisco Nexus 3232C storage switch by performing a specific sequence of tasks.
 
-== Before you begin
+== What you'll need
 
 The existing network configuration must have the following characteristics:
 
@@ -32,16 +32,17 @@ The replacement Cisco Nexus 3232C switch must have the following characteristics
 
 *Procedure summary:*
 
-* *Confirm the switch to be replaced is S2 (<<STEP_81AB0CB892F14435A7528A4697D3BCE8,Steps 1-5>>)*
-* *Disconnect the cables from switch S2 (<<STEP_A623526091004806A9CFBA980CF24099,Step 6>>)*
-* *Reconnect the cables to switch NS2 (<<STEP_2CD3C8B5B1E045A2B0BE595A0BDF59B6,Step 7>>)*
-* *Verify all device configurations on switch NS2 (<<STEP_2CD3C8B5B1E045A2B0BE595A0BDF59B6,Steps 8-10>>)*
+* *Confirm the switch to be replaced is S2 (Steps 1-5)*
+* *Disconnect the cables from switch S2 (Step 6)*
+* *Reconnect the cables to switch NS2 (Step 7)*
+* *Verify all device configurations on switch NS2 (Steps 8-10)*
 * This procedure replaces the second Nexus 3232C storage switch S2 with the new 3232C switch NS2
 * The two nodes are node1 and node2.
 
 == Steps
 
-. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: `system node autosupport invoke -node * -type all - message MAINT=xh`
+. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
+`system node autosupport invoke -node * -type all - message MAINT=xh`
 +
 _x_ is the duration of the maintenance window in hours.
 +
@@ -50,10 +51,11 @@ _x_ is the duration of the maintenance window in hours.
 The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
 ====
 
-. Check on the health status of the storage node ports to make sure that there is connection to storage switch S1: `storage port show -port-type ENET`
+. Check on the health status of the storage node ports to make sure that there is connection to storage switch S1:
+`storage port show -port-type ENET`
 +
 ----
-storage::*> **storage port show -port-type ENET**
+storage::*> storage port show -port-type ENET
                                       Speed                     VLAN
 Node               Port Type  Mode    (Gb/s) State    Status      ID
 ------------------ ---- ----- ------- ------ -------- --------- ----
@@ -69,10 +71,11 @@ node2
                    e7b  ENET  storage      0 enabled  offline     30
 ----
 
-. Verify that storage switch S1 is available: `network device-discovery show`
+. Verify that storage switch S1 is available:
+`network device-discovery show`
 +
 ----
-storage::*> **network device-discovery show**
+storage::*> network device-discovery show
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------- ----------------
@@ -94,10 +97,11 @@ node2/lldp
             e4e    node1                     e4e               -
 ----
 
-. Run the `show lldp neighbors` command on the working switch to confirm that you can see both nodes and all shelves: `show lldp neighbors`
+. Run the `show lldp neighbors` command on the working switch to confirm that you can see both nodes and all shelves:
+`show lldp neighbors`
 +
 ----
-S1# **show lldp neighbors**
+S1# show lldp neighbors
 Capability codes:
   (R) Router, (B) Bridge, (T) Telephone, (C) DOCSIS Cable Device
   (W) WLAN Access Point, (P) Repeater, (S) Station, (O) Other
@@ -110,11 +114,12 @@ SHFGD2008000022         Eth1/7          120        S           e0a
 SHFGD2008000022         Eth1/8          120        S           e0a
 ----
 
-. Verify the shelf ports in the storage system: `storage shelf port show -fields remote-device,remote-port`
+. Verify the shelf ports in the storage system:
+`storage shelf port show -fields remote-device,remote-port`
 +
 ----
-storage::*> **storage shelf port show -fields remote-device,remote-port
-**
+storage::*> storage shelf port show -fields remote-device,remote-port
+
 shelf  id  remote-port  remote-device
 -----  --  -----------  -------------
 3.20   0   Ethernet1/5  S1
@@ -129,10 +134,11 @@ shelf  id  remote-port  remote-device
 
 . Remove all cables attached to storage switch S2.
 . Reconnect all cables to the replacement switch NS2.
-. Recheck the health status of the storage node ports: `storage port show -port-type ENET`
+. Recheck the health status of the storage node ports:
+`storage port show -port-type ENET`
 +
 ----
-storage::*> **storage port show -port-type ENET**
+storage::*> storage port show -port-type ENET
                                       Speed                       VLAN
 Node               Port Type  Mode    (Gb/s) State    Status        ID
 ------------------ ---- ----- ------- ------ -------- ------------ ---
@@ -148,10 +154,11 @@ node2
                    e7b  ENET  storage    100 enabled  online        30
 ----
 
-. Verify that both switches are available: `network device-discovery show`
+. Verify that both switches are available:
+`network device-discovery show`
 +
 ----
-storage::*> **network device-discovery show**
+storage::*> network device-discovery show
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  --------
@@ -177,10 +184,11 @@ node2/lldp
             e7b    NS2                       Ethernet1/2       -
 ----
 
-. Verify the shelf ports in the storage system: `storage shelf port show -fields remote-device,remote-port`
+. Verify the shelf ports in the storage system:
+`storage shelf port show -fields remote-device,remote-port`
 +
 ----
-storage::*> **storage shelf port show -fields remote-device,remote-port**
+storage::*> storage shelf port show -fields remote-device,remote-port
 shelf id remote-port remote-device
 ----- -- ----------- -------------
 3.20  0  Ethernet1/5 S1
@@ -193,4 +201,5 @@ shelf id remote-port remote-device
 3.20  3  Ethernet1/8 NS2
 ----
 
-. If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=END`
+. If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
+`system node autosupport invoke -node * -type all -message MAINT=END`

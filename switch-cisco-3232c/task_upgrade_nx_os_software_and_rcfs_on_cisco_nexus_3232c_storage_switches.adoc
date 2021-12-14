@@ -1,8 +1,8 @@
 ---
 permalink: switch-cisco-3232c/task_upgrade_nx_os_software_and_rcfs_on_cisco_nexus_3232c_storage_switches.html
 sidebar: sidebar
-keywords: NX-OS software,upgrading on Cisco storage switches,Cisco storage switches
-summary: 'The Cisco NX-OS software and reference configuration files \(RCFs\) can be upgraded on Cisco Nexus 3232C storage switches.'
+keywords: upgrade, cisco nexus, 3232c storage switch
+summary: "The Cisco NX-OS software and reference configuration files (RCFs) can be upgraded on Cisco Nexus 3232C storage switches."
 ---
 = Upgrading a Cisco Nexus 3232C storage switch
 :icons: font
@@ -11,7 +11,7 @@ summary: 'The Cisco NX-OS software and reference configuration files \(RCFs\) ca
 [.lead]
 The Cisco NX-OS software and reference configuration files (RCFs) can be upgraded on Cisco Nexus 3232C storage switches.
 
-== Before you begin
+== What you'll need
 
 The following conditions must exist before you upgrade the NX-OS software and RCFs on the storage switch:
 
@@ -28,11 +28,11 @@ http://www.cisco.com/en/US/products/ps9670/prod_installation_guides_list.html[Ci
 
 *Procedure summary:*
 
-* *I. Check the health status of switches and ports (<<STEP_9A1F14276CEF44A0A62E48E9A9C4EF20,Steps 1-4>>)*
-* *II. Copy the RCF to Cisco switch S2 (<<STEP_099981A474DC452EBA783A46BFDA089D,Steps 5-8>>)*
-* *III. Download the NX-OS image to Cisco switch S2 and reboot (<<STEP_C9CABBBEBED144658670A4F5DF7E0B7A,Steps 9-12>>)*
-* *IV. Recheck the health status of switches and ports (<<STEP_D7FA2AA702B44E80AAC59F768ABEA7B2,Steps 13-15>>)*
-* *V. Repeat <<STEP_9A1F14276CEF44A0A62E48E9A9C4EF20,Steps 1-17>> for Cisco switch S1.*
+* *I. Check the health status of switches and ports (,Steps 1-4)*
+* *II. Copy the RCF to Cisco switch S2 (Steps 5-8)*
+* *III. Download the NX-OS image to Cisco switch S2 and reboot (Steps 9-12)*
+* *IV. Recheck the health status of switches and ports (Steps 13-15)*
+* *V. Repeat Steps 1-17 for Cisco switch S1.*
 
 The examples in this procedure use two nodes; node1 with two storage ports and node2 with two storage ports. See the Hardware Universe to verify the correct storage ports on your platforms.
 
@@ -55,7 +55,8 @@ The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Serie
 
 == Steps
 
-. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: `system node autosupport invoke -node * -type all - message MAINT=xh`
+. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
+`system node autosupport invoke -node * -type all - message MAINT=xh`
 +
 _x_ is the duration of the maintenance window in hours.
 +
@@ -64,10 +65,11 @@ _x_ is the duration of the maintenance window in hours.
 The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
 ====
 
-. Check that the storage switches are available: `system switch ethernet show`
+. Check that the storage switches are available:
+`system switch ethernet show`
 +
 ----
-storage::*> **system switch ethernet show**
+storage::*> system switch ethernet show
 Switch                      Type               Address          Model
 --------------------------- ------------------ ---------------- ---------------
 S1
@@ -92,10 +94,11 @@ S2
 storage::*>
 ----
 
-. Verify that the node ports are healthy and operational: `storage port show -port-type ENET`
+. Verify that the node ports are healthy and operational:
+`storage port show -port-type ENET`
 +
 ----
-storage::*> **storage port show -port-type ENET**
+storage::*> storage port show -port-type ENET
                                       Speed                       VLAN
 Node               Port Type  Mode    (Gb/s) State    Status        ID
 ------------------ ---- ----- ------- ------ -------- ----------- ----
@@ -111,10 +114,11 @@ node2
                    e7b  ENET  storage    100 enabled  online        30
 ----
 
-. Check that there are no storage switch or cabling issues with the cluster: `system health alert show -instance`
+. Check that there are no storage switch or cabling issues with the cluster:
+`system health alert show -instance`
 +
 ----
-storage::*> **system health alert show -instance**
+storage::*> system health alert show -instance
 There are no entries matching your query.
 ----
 
@@ -125,7 +129,7 @@ For more information on Cisco commands, see the appropriate guide in the https:/
 The following example shows HTTP being used to copy an RCF to the bootflash on switch S2:
 +
 ----
-S2# **copy http://172.16.10.1//cfg/Nexus_3232C_RCF_v1.6-Storage.txt bootflash: vrf management**
+S2# copy http://172.16.10.1//cfg/Nexus_3232C_RCF_v1.6-Storage.txt bootflash: vrf management
 % Total    % Received % Xferd  Average  Speed   Time    Time     Time                          Current
                                Dload    Upload  Total   Spent    Left                          Speed
   100        3254       100    3254     0       0       8175     0 --:--:-- --:--:-- --:--:–   8301
@@ -134,15 +138,17 @@ Copy complete.
 S2#
 ----
 
-. Apply the RCF previously downloaded to the bootflash: `copy bootflash:`
+. Apply the RCF previously downloaded to the bootflash:
+`copy bootflash:`
 +
 The following example shows the RCF file `Nexus_3232C_RCF_v1.6-Storage.txt` being installed on switch S2:
 +
 ----
-S2# **copy Nexus_3232C_RCF_v1.6-Storage.txt running-config echo-commands**
+S2# copy Nexus_3232C_RCF_v1.6-Storage.txt running-config echo-commands
 ----
 
-. Verify that the RCF file is the correct newer version: `show running-config`
+. Verify that the RCF file is the correct newer version:
+`show running-config`
 +
 When you check the output to verify you have the correct RCF, make sure that the following information is correct:
 
@@ -158,7 +164,7 @@ In the banner output from the `show banner motd` command, you must read and foll
 ====
 +
 ----
-S2# **show banner motd**
+S2# show banner motd
 
 ******************************************************************************
 * NetApp Reference Configuration File (RCF)
@@ -172,7 +178,7 @@ S2# **show banner motd**
 * Ports  1-32: Controller and Shelf Storage Ports
 * Ports 33-34: Disabled
 *
-* **IMPORTANT NOTES***
+* IMPORTANT NOTES*
 * - This RCF utilizes QoS and requires TCAM re-configuration, requiring RCF
 *   to be loaded twice with the Storage Switch rebooted in between.
 *
@@ -201,7 +207,7 @@ For more information on Cisco commands, see the appropriate guide in the https:/
 The following example shows the `running-config` file successfully copied to the `startup-config` file:
 +
 ----
-S2# **copy running-config startup-config**
+S2# copy running-config startup-config
 [########################################] 100% Copy complete.
 ----
 
@@ -211,7 +217,7 @@ S2# **copy running-config startup-config**
 The switch will be reboot in 10 seconds with the new image as shown in the following output:
 +
 ----
-S2# **install all nxos bootflash:nxos.9.3.4.bin**
+S2# install all nxos bootflash:nxos.9.3.4.bin
 Installer will perform compatibility check first. Please wait.
 Installer is forced disruptive
 
@@ -248,9 +254,9 @@ Module       Image                  Running-Version(pri:alt)           New-Versi
 
 
 Switch will be reloaded for disruptive upgrade.
-Do you want to continue with the installation (y/n)?  [n]  **y**
+Do you want to continue with the installation (y/n)?  [n]  y
 input string too long
-Do you want to continue with the installation (y/n)?  [n] **y**
+Do you want to continue with the installation (y/n)?  [n] y
 
 Install is in progress, please wait.
 
@@ -279,16 +285,16 @@ For more information on Cisco commands, see the appropriate guide in the https:/
 You are prompted to reboot the system as shown in the following example:
 +
 ----
-S2# **copy running-config startup-config**
+S2# copy running-config startup-config
 [########################################] 100% Copy complete.
 S2# reload
-This command will reboot the system. (y/n)?  [n] **y**
+This command will reboot the system. (y/n)?  [n] y
 ----
 
 . Confirm that the new NX-OS version number is on the switch:
 +
 ----
-S2# **show version**
+S2# show version
 Cisco Nexus Operating System (NX-OS) Software
 TAC support: http://www.cisco.com/tac
 Copyright (C) 2002-2020, Cisco and/or its affiliates.
@@ -339,10 +345,11 @@ Active Package(s):
 S2#
 ----
 
-. Recheck that the storage switches are available after the reboot: `system switch ethernet show`
+. Recheck that the storage switches are available after the reboot:
+`system switch ethernet show`
 +
 ----
-storage::*> **system switch ethernet show**
+storage::*> system switch ethernet show
 Switch                      Type               Address          Model
 --------------------------- ------------------ ---------------- ---------------
 S1
@@ -367,10 +374,11 @@ S2
 storage::*>
 ----
 
-. Verify that the switch ports are healthy and operational after the reboot: `storage port show -port-type ENET`
+. Verify that the switch ports are healthy and operational after the reboot:
+`storage port show -port-type ENET`
 +
 ----
-storage::*> **storage port show -port-type ENET**
+storage::*> storage port show -port-type ENET
                                       Speed                       VLAN
 Node               Port Type  Mode    (Gb/s) State    Status        ID
 ------------------ ---- ----- ------- ------ -------- ----------- ----
@@ -386,12 +394,14 @@ node2
                    e7b  ENET  storage    100 enabled  online        30
 ----
 
-. Recheck that there are no storage switch or cabling issues with the cluster:``system health alert show -instance``
+. Recheck that there are no storage switch or cabling issues with the cluster:
+`system health alert show -instance`
 +
 ----
-storage::*> **system health alert show -instance**
+storage::*> system health alert show -instance
 There are no entries matching your query.
 ----
 
 . Repeat the procedure to upgrade the NX-OS software and RCF on switch S1.
-. If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=END`
+. If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
+`system node autosupport invoke -node * -type all -message MAINT=END`

@@ -1,8 +1,8 @@
 ---
 permalink: switch-cisco-3232c/task_how_to_replace_a_cisco_nexus_3232c_cluster_switch.html
 sidebar: sidebar
-keywords: 
-summary: 'You can nondisruptively replace a defective Cisco Nexus 3232C switch in a cluster by performing a specific sequence of tasks.'
+keywords: replace, cisco nexus 3232c, cluster switch
+summary: "You can nondisruptively replace a defective Cisco Nexus 3232C switch in a cluster by performing a specific sequence of tasks."
 ---
 = How to replace a Cisco Nexus 3232C cluster switch
 :icons: font
@@ -11,7 +11,7 @@ summary: 'You can nondisruptively replace a defective Cisco Nexus 3232C switch i
 [.lead]
 You can nondisruptively replace a defective Cisco Nexus 3232C switch in a cluster by performing a specific sequence of tasks.
 
-== Before you begin
+== What you'll need
 
 The existing cluster and network configuration must have the following characteristics:
 
@@ -34,10 +34,10 @@ The replacement Cisco Nexus 3232C switch must have the following characteristics
 
 *Procedure summary*
 
-* *Display and migrate the cluster ports to switch C2 (<<STEP_96844C9BB1374885990332F452D1CAB8,Steps 1-7>>)*
-* *Reconnect ISL cables from switch CL2 to switch C2, then migrate ISLs to switch CL1 and C2 (<<STEP_EF7BDC848494485184C4BDC92EEC10A9,Steps 8-14>>)*
-* *Revert all LIFs to originally assigned ports (<<STEP_F23EB84BF5EF4366A56FD307D88B53DB,Steps 15-18>>)*
-* *Verify all ports and LIF are correctly migrated (<<STEP_F80703A966004F608441DBC2441FEBC5,Steps 19-21>>)*
+* *Display and migrate the cluster ports to switch C2 (Steps 1-7)*
+* *Reconnect ISL cables from switch CL2 to switch C2, then migrate ISLs to switch CL1 and C2 (Steps 8-14)*
+* *Revert all LIFs to originally assigned ports (Steps 15-18)*
+* *Verify all ports and LIF are correctly migrated (Steps 19-21)*
 
 This procedure replaces the second Nexus 3232C cluster switch CL2 with the new 3232C switch C2. The examples in this procedure use the following switch and node nomenclature:
 
@@ -63,7 +63,9 @@ This procedure describes the following scenario:
 
 == Steps
 
-. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: `system node autosupport invoke -node * -type all - message MAINT=xh`
+. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
++
+`system node autosupport invoke -node * -type all - message MAINT=xh`
 +
 _x_ is the duration of the maintenance window in hours.
 +
@@ -72,7 +74,9 @@ _x_ is the duration of the maintenance window in hours.
 The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
 ====
 
-. Display information about the devices in your configuration: `network device-discovery show`
+. Display information about the devices in your configuration:
++
+`network device-discovery show`
 +
 ----
 cluster::> network device-discovery show
@@ -103,7 +107,9 @@ n4         /cdp
 ----
 
 . Determine the administrative or operational status for each cluster interface.
- .. Display the network port attributes: `network port show -role cluster`
+ .. Display the network port attributes:
++
+`network port show -role cluster`
 +
 ----
 cluster::*> network port show -role cluster
@@ -147,7 +153,9 @@ e4e       Cluster      Cluster          up   9000 auto/40000  -
 12 entries were displayed.
 ----
 
- .. Display information about the logical interfaces (LIFs): `network interface show -role cluster`
+ .. Display information about the logical interfaces (LIFs):
++
+`network interface show -role cluster`
 +
 ----
 cluster::*> network interface show -role cluster
@@ -171,7 +179,9 @@ Cluster
 12 entries were displayed.
 ----
 
- .. Display the discovered cluster switches: `system cluster-switch show`
+ .. Display the discovered cluster switches:
++
+`system cluster-switch show`
 +
 The following output example displays the cluster switches:
 +
@@ -211,7 +221,9 @@ https://mysupport.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet S
  .. Download the correct version of the image software from the *Cisco® Cluster and Management Network Switch Reference Configuration File Download* page.
 +
 http://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco® Cluster and Management Network Switch Reference Configuration File Download]
-. Migrate the cluster LIFs to the physical node ports connected to the replacement switch C2: `network interface migrate -vserver Cluster -lif lif-name -source-node node-name -destination-node node-name -destination-port port-name`
+. Migrate the cluster LIFs to the physical node ports connected to the replacement switch C2:
++
+`network interface migrate -vserver Cluster -lif _lif-name_ -source-node _node-name_ -destination-node _node-name_ -destination-port _port-name_`
 +
 You must migrate all the cluster LIFs individually as shown in the following example:
 +
@@ -230,7 +242,9 @@ cluster::*> network interface migrate -vserver Cluster -lif n4_clus2 -source-nod
 n4 -destination-port e4a
 ----
 
-. Verify the status of the cluster ports and their home designations: `network interface show -role cluster`
+. Verify the status of the cluster ports and their home designations:
++
+`network interface show -role cluster`
 +
 ----
 cluster::*> network interface show -role cluster
@@ -254,7 +268,7 @@ Cluster
 12 entries were displayed.
 ----
 
-. Shut down the cluster interconnect ports that are physically connected to the original switch CL2: `network port modify -node node-name -port port-name -up-admin false`
+. Shut down the cluster interconnect ports that are physically connected to the original switch CL2: `network port modify -node _node-name_ -port _port-name_ -up-admin false`
 +
 The following example shows the cluster interconnect ports are shut down on all nodes:
 +
@@ -267,7 +281,9 @@ cluster::*> network port modify -node n3 -port e4e -up-admin false
 cluster::*> network port modify -node n4 -port e4e -up-admin false
 ----
 
-. Ping the remote cluster interfaces and perform an RPC server check: `cluster ping-cluster -node node-name`
+. Ping the remote cluster interfaces and perform an RPC server check:
++
+`cluster ping-cluster -node _node-name_`
 +
 The following example shows node n1 being pinged and the RPC status indicated afterward:
 +
@@ -398,7 +414,7 @@ Group Port-        Type   Protocol  Member Ports
 1     Po1(SU)      Eth    LACP      Eth1/31(P)   Eth1/32(P)
 ----
 
-. On all nodes, bring up all the cluster interconnect ports connected to the replacement switch C2: `network port modify -node node-name -port port-name -up-admin true`
+. On all nodes, bring up all the cluster interconnect ports connected to the replacement switch C2: `network port modify -node _node-name_ -port _port-name_ -up-admin true`
 +
 ----
 cluster::*> network port modify -node n1 -port e0b -up-admin true
@@ -409,7 +425,9 @@ cluster::*> network port modify -node n3 -port e4e -up-admin true
 cluster::*> network port modify -node n4 -port e4e -up-admin true
 ----
 
-. Revert all the migrated cluster interconnect LIFs on all the nodes: `network interface revert -vserver cluster -lif lif-name`
+. Revert all the migrated cluster interconnect LIFs on all the nodes:
++
+`network interface revert -vserver cluster -lif _lif-name_`
 +
 You must revert all the cluster interconnect LIFs individually as shown in the following example:
 +
@@ -422,7 +440,9 @@ Cluster::*> network interface revert –vserver cluster –lif n3_clus2
 Cluster::*> network interface revert –vserver cluster –lif n4_clus2
 ----
 
-. Verify that the cluster interconnect ports are now reverted to their home: `network interface show`
+. Verify that the cluster interconnect ports are now reverted to their home:
++
+`network interface show`
 +
 The following example shows that all the LIFs have been successfully reverted because the ports listed under the `Current Port` column have a status of `true` in the `Is Home` column. If a port has a value of `false`, the LIF has not been reverted.
 +
@@ -448,7 +468,9 @@ Cluster
 12 entries were displayed.
 ----
 
-. Verify that the cluster ports are connected: `network port show -role cluster`
+. Verify that the cluster ports are connected:
++
+`network port show -role cluster`
 +
 ----
 cluster::*> network port show –role cluster
@@ -489,7 +511,9 @@ e4e       Cluster      Cluster          up   9000 auto/40000  -
         12 entries were displayed.
 ----
 
-. Ping the remote cluster interfaces and perform an RPC server check: `cluster ping-cluster -node node-name`
+. Ping the remote cluster interfaces and perform an RPC server check:
++
+`cluster ping-cluster -node _node-name_`
 +
 The following example shows node n1 being pinged and the RPC status indicated afterward:
 +
@@ -587,7 +611,9 @@ n4         /cdp
 
 12 entries were displayed.
 ----
+
 +
+
 ----
 cluster::*> network port show –role cluster
   (network port show)
@@ -628,7 +654,9 @@ e4e       Cluster      Cluster          up   9000 auto/40000  -
 
 12 entries were displayed.
 ----
+
 +
+
 ----
 cluster::*> network interface show -role cluster
 
@@ -650,7 +678,9 @@ Cluster
             n4_clus2   up/up      10.10.0.12/24      n4            e4e     true
  12 entries were displayed.
 ----
+
 +
+
 ----
 cluster::*> system cluster-switch show
 Switch                      Type               Address          Model
@@ -676,7 +706,9 @@ Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
                     7.0(3)I6(1)     Version Source: CDP 3 entries were displayed.
 ----
 
-. Delete the replaced cluster switch CL2 if it has not been removed automatically: `system cluster-switch delete -device cluster-switch-name`
+. Delete the replaced cluster switch CL2 if it has not been removed automatically:
++
+`system cluster-switch delete -device cluster-switch-name`
 . Verify that the proper cluster switches are monitored: `system cluster-switch show`
 +
 The following example shows the cluster switches are monitored because the `Is Monitored` state is `true`.
@@ -702,38 +734,42 @@ Version Source: CDP
 2 entries were displayed.
 ----
 
-. Enable the cluster switch health monitor log collection feature for collecting switch-related log files: `system cluster-switch log setup-password``system cluster-switch log enable-collection`
+. Enable the cluster switch health monitor log collection feature for collecting switch-related log files:
++
+`system cluster-switch log setup-password`
++
+`system cluster-switch log enable-collection`
 +
 ----
-cluster::*> **system cluster-switch log setup-password**
+cluster::*> system cluster-switch log setup-password
 Enter the switch name: <return>
 The switch name entered is not recognized.
 Choose from the following list:
 CL1
 C2
 
-cluster::*> **system cluster-switch log setup-password**
+cluster::*> system cluster-switch log setup-password
 
-Enter the switch name: **CL1
+Enter the switch name: CL1
 **RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
-Do you want to continue? {y|n}::[n] **y**
+Do you want to continue? {y|n}::[n] y
 
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 
-cluster::*> **system cluster-switch log setup-password**
+cluster::*> system cluster-switch log setup-password
 
-Enter the switch name: **C2**
+Enter the switch name: C2
 RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
-Do you want to continue? {y|n}:: [n] **y**
+Do you want to continue? {y|n}:: [n] y
 
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 
-cluster::*> **system cluster-switch log enable-collection**
+cluster::*> system cluster-switch log enable-collection
 
 Do you want to enable cluster log collection for all nodes in the cluster?
-{y|n}: [n] **y**
+{y|n}: [n] y
 
 Enabling cluster switch log collection.
 
@@ -745,7 +781,9 @@ cluster::*>
 If any of these commands return an error, contact NetApp support.
 ====
 
-. If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=END`
+. If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
++
+`system node autosupport invoke -node * -type all -message MAINT=END`
 
 *Related information*
 
