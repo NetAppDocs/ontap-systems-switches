@@ -21,12 +21,12 @@ The following conditions must exist before you install the NX-OS software and Re
 * You must have a console connection to the switch, required when installing the RCF.
 * You must have consulted the switch compatibility table on the Cisco Ethernet switch page for the supported ONTAP, NX-OS, and RCF versions.
 +
-https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet switch]
+https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet switch^]
 
 * There can be command dependencies between the command syntax in the RCF and that found in versions of NX-OS.
 * You must have referred to the appropriate software and upgrade guides available on the Cisco web site for complete documentation on the Cisco switch upgrade and downgrade procedures on *Cisco Nexus 9000 Series Switches*.
 +
-https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series Switches]
+https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series Switches^]
 
 * You must have the current RCF.
 
@@ -36,7 +36,7 @@ The examples in this procedure use two nodes. These nodes use two 10GbE cluster 
 
 See the *Hardware Universe* to verify the correct cluster ports on your platforms.
 
-https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe]
+https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe^]
 
 NOTE: The command outputs might vary depending on different releases of ONTAP.
 
@@ -64,7 +64,7 @@ The advanced prompt (`*>`) appears.
 . Display how many cluster interconnect interfaces are configured in each node for each cluster interconnect switch: `network device-discovery show -protocol cdp`
 +
 ----
-cluster1::*> **network device-discovery show -protocol cdp**
+cluster1::*> network device-discovery show -protocol cdp
 
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
@@ -83,7 +83,7 @@ cluster1-01/cdp
  .. Display the network port attributes:``network port show –ipspace Cluster``
 +
 ----
-cluster1::*> **network port show -ipspace Cluster**
+cluster1::*> network port show -ipspace Cluster
 
 Node: cluster1-02
                                                   Speed(Mbps) Health
@@ -105,7 +105,7 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy
  .. Display information about the LIFs: `network interface show -vserver Cluster`
 +
 ----
-cluster1::*> **network interface show -vserver Cluster**
+cluster1::*> network interface show -vserver Cluster
 
             Logical            Status     Network            Current       Current Is
 Vserver     Interface          Admin/Oper Address/Mask       Node          Port    Home
@@ -121,7 +121,7 @@ Cluster
 . Ping the remote cluster LIFs: `cluster ping-cluster -node node-name`
 +
 ----
-cluster1::*> **cluster ping-cluster -node cluster1-02**
+cluster1::*> cluster ping-cluster -node cluster1-02
 Host is cluster1-02
 Getting addresses from network interface table...
 Cluster cluster1-01_clus1 169.254.209.69 cluster1-01     e0a
@@ -150,7 +150,7 @@ RPC status:
 . Verify that the auto-revert command is enabled on all cluster LIFs: `network interface show -vserver Cluster -fields auto-revert`
 +
 ----
-cluster1::*> **network interface show -vserver Cluster -fields auto-revert**
+cluster1::*> network interface show -vserver Cluster -fields auto-revert
 
           Logical
 Vserver   Interface           Auto-revert
@@ -166,35 +166,35 @@ Cluster
 . For ONTAP 9.8 and later, enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the commands: `system switch ethernet log setup-password``system switch ethernet log enable-collection`
 +
 ----
-cluster1::*> **system switch ethernet log setup-password**
+cluster1::*> system switch ethernet log setup-password
 Enter the switch name: <return>
 The switch name entered is not recognized.
 Choose from the following list:
 cs1
 cs2
 
-cluster1::*> **system switch ethernet log setup-password**
+cluster1::*> system switch ethernet log setup-password
 
-Enter the switch name: **cs1**
+Enter the switch name: cs1
 RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
-Do you want to continue? {y|n}::[n] **y**
+Do you want to continue? {y|n}::[n] y
 
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 
-cluster1::*> **system switch ethernet log setup-password**
+cluster1::*> system switch ethernet log setup-password
 
-Enter the switch name: **cs2**
+Enter the switch name: cs2
 RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
-Do you want to continue? {y|n}:: [n] **y**
+Do you want to continue? {y|n}:: [n] y
 
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 
-cluster1::*> **system  switch ethernet log enable-collection**
+cluster1::*> system  switch ethernet log enable-collection
 
 Do you want to enable cluster log collection for all nodes in the cluster?
-{y|n}: [n] **y**
+{y|n}: [n] y
 
 Enabling cluster switch log collection.
 
@@ -206,35 +206,35 @@ NOTE: If any of these commands return an error, contact NetApp support.
 . For ONTAP releases 9.5P16, 9.6P12, and 9.7P10 and later patch releases, enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the commands: `system cluster-switch log setup-password``system cluster-switch log enable-collection`
 +
 ----
-cluster1::*> **system cluster-switch log setup-password**
+cluster1::*> system cluster-switch log setup-password
 Enter the switch name: <return>
 The switch name entered is not recognized.
 Choose from the following list:
 cs1
 cs2
 
-cluster1::*> **system cluster-switch log setup-password**
+cluster1::*> system cluster-switch log setup-password
 
-Enter the switch name: **cs1**
+Enter the switch name: cs1
 RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
-Do you want to continue? {y|n}::[n] **y**
+Do you want to continue? {y|n}::[n] y
 
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 
-cluster1::*> **system cluster-switch log setup-password**
+cluster1::*> system cluster-switch log setup-password
 
-Enter the switch name: **cs2**
+Enter the switch name: cs2
 RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
-Do you want to continue? {y|n}:: [n] **y**
+Do you want to continue? {y|n}:: [n] y
 
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 
-cluster1::*> **system cluster-switch log enable-collection**
+cluster1::*> system cluster-switch log enable-collection
 
 Do you want to enable cluster log collection for all nodes in the cluster?
-{y|n}: [n] **y**
+{y|n}: [n] y
 
 Enabling cluster switch log collection.
 
