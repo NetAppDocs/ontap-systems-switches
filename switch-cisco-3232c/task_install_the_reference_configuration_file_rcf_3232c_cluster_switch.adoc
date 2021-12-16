@@ -143,14 +143,14 @@ cs2                         cluster-network    10.233.205.93    NX3232C
 +
 ----
 cluster1::*> network interface modify -vserver Cluster -lif \* -auto-revert false
-**
+
 ----
 
 . On cluster switch cs2, shut down the ports connected to the cluster ports of the nodes.
 +
 ----
 cs2(config)# interface eth1/1/1-2,eth1/7-8
-cs2(config-if-range)# **shutdown**
+cs2(config-if-range)# shutdown
 ----
 
 . Verify that the cluster ports have migrated to the ports hosted on cluster switch cs1. This might take a few seconds.
@@ -388,14 +388,12 @@ cs2                         cluster-network    10.233.205.91    N3K-C3232C
 +
 [NOTE]
 ====
-You might observe the following output on the cs1 switch console depending on the RCF version previously loaded on the switch:
-    ```
+You might observe the following output on the cs1 switch console depending on the RCF version previously loaded on the switch
 
  2020 Nov 17 16:07:18 cs1 %$ VDC-1 %$ %STP-2-UNBLOCK_CONSIST_PORT: Unblocking port port-channel1 on VLAN0092. Port consistency restored.
  2020 Nov 17 16:07:23 cs1 %$ VDC-1 %$ %STP-2-BLOCK_PVID_PEER: Blocking port-channel1 on VLAN0001. Inconsistent peer vlan.
  2020 Nov 17 16:07:23 cs1 %$ VDC-1 %$ %STP-2-BLOCK_PVID_LOCAL: Blocking port-channel1 on VLAN0092. Inconsistent local vlan.
- ```
-+
+
 ====
 . On cluster switch cs1, shut down the ports connected to the cluster ports of the nodes.
 +
