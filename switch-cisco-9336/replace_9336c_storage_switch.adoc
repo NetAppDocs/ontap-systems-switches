@@ -62,19 +62,19 @@ _x_ is the duration of the maintenance window in hours.
 +
 ----
 storage::*> storage port show -port-type ENET
- 			                                Speed 	                  VLAN
-Node 		           Port Type  Mode    (Gb/s) State    Status      ID
------------------- ---- ----- ------- ------ -------- --------- ----
+ 			                            Speed 	                  VLAN
+Node 		       Port Type  Mode    (Gb/s) State    Status      ID
+-------------- ---- ----- ------- ------ -------- --------- ----
 node1
- 		               e3a  ENET  storage 100    enabled  online      30
-                   e3b  ENET  storage   0    enabled  offline     30
-		               e7a  ENET  storage   0    enabled  offline     30
-                   e7b  ENET  storage   0    enabled  offline     30
+ 		           e3a  ENET  storage 100    enabled  online      30
+               e3b  ENET  storage   0    enabled  offline     30
+		           e7a  ENET  storage   0    enabled  offline     30
+               e7b  ENET  storage   0    enabled  offline     30
 node2
-                   e3a  ENET  storage 100    enabled  online      30
-                   e3b  ENET  storage   0    enabled  offline     30
-                   e7a  ENET  storage   0    enabled  offline     30
-                   e7b  ENET  storage   0    enabled  offline     30
+               e3a  ENET  storage 100    enabled  online      30
+               e3b  ENET  storage   0    enabled  offline     30
+               e7a  ENET  storage   0    enabled  offline     30
+               e7b  ENET  storage   0    enabled  offline     30
 storage::*>
 ----
 . Verify that storage switch S1 is available:
@@ -82,25 +82,25 @@ storage::*>
 +
 ----
 storage::*> network device-discovery show
-Node/	      Local Discovered
-Protocol	  Port	Device (LLDP: ChassisID)  Interface	  Platform
---------    ----  -----------------------   ---------   ---------
+Node/	     Local Discovered
+Protocol	 Port	Device (LLDP: ChassisID)  Interface	  Platform
+--------   ----  -----------------------   ---------   ---------
 node1/cdp
-            e3a	  S1	                      Ethernet1/1	NX9336C
-            e4a	  node2	                    e4a	        AFF-A700
-            e4e	  node2	                    e4e	        AFF-A700
+          e3a	  S1	                      Ethernet1/1	NX9336C
+          e4a	  node2	                    e4a	        AFF-A700
+          e4e	  node2	                    e4e	        AFF-A700
 node1/lldp
-            e3a	  S1	                      Ethernet1/1	-
-            e4a  	node2	                    e4a	        -
-            e4e	  node2	                    e4e	        -
+          e3a	  S1	                      Ethernet1/1	-
+          e4a  	node2	                    e4a	        -
+          e4e	  node2	                    e4e	        -
 node2/cdp
-            e3a	  S1	                      Ethernet1/2	NX9336C
-            e4a	  node1	                    e4a	        AFF-A700
-            e4e	  node1	                    e4e	        AFF-A700
+          e3a	  S1	                      Ethernet1/2	NX9336C
+          e4a	  node1	                    e4a	        AFF-A700
+          e4e	  node1	                    e4e	        AFF-A700
 node2/lldp
-            e3a	  S1	                      Ethernet1/2	-
-            e4a	  node1	                    e4a	        -
-            e4e	  node1	                    e4e	        -
+          e3a	  S1	                      Ethernet1/2	-
+          e4a	  node1	                    e4a	        -
+          e4e	  node1	                    e4e	        -
 storage::*>
 ----
 . Run the show `lldp neighbors` command on the working switch to confirm that you can see both nodes and all shelves:
@@ -143,19 +143,19 @@ storage::*>
 +
 ----
 storage::*> storage port show -port-type ENET
- 			                                Speed 	                  VLAN
-Node 		           Port Type  Mode    (Gb/s) State    Status      ID
------------------- ---- ----- ------- ------ -------- --------- ----
+ 			                              Speed 	                  VLAN
+Node 		         Port Type  Mode    (Gb/s) State    Status      ID
+---------------- ---- ----- ------- ------ -------- --------- ----
 node1
- 		               e3a  ENET  storage 100    enabled  online      30
-                   e3b  ENET  storage   0    enabled  offline     30
-		               e7a  ENET  storage   0    enabled  offline     30
-                   e7b  ENET  storage   0    enabled  offline     30
+ 		             e3a  ENET  storage 100    enabled  online      30
+                 e3b  ENET  storage   0    enabled  offline     30
+		             e7a  ENET  storage   0    enabled  offline     30
+                 e7b  ENET  storage   0    enabled  offline     30
 node2
-                   e3a  ENET  storage 100    enabled  online      30
-                   e3b  ENET  storage   0    enabled  offline     30
-                   e7a  ENET  storage   0    enabled  offline     30
-                   e7b  ENET  storage   0    enabled  offline     30
+                 e3a  ENET  storage 100    enabled  online      30
+                 e3b  ENET  storage   0    enabled  offline     30
+                 e7a  ENET  storage   0    enabled  offline     30
+                 e7b  ENET  storage   0    enabled  offline     30
 storage::*>
 ----
 +
@@ -164,29 +164,29 @@ storage::*>
 +
 ----
 storage::*> network device-discovery show
-Node/	      Local Discovered
-Protocol	  Port	Device (LLDP: ChassisID)  Interface	  Platform
---------    ----  -----------------------   ---------   ---------
+Node/	    Local Discovered
+Protocol  Port	Device (LLDP: ChassisID)  Interface	  Platform
+--------  ----  -----------------------   ---------   ---------
 node1/cdp
-            e3a	  S1	                      Ethernet1/1	NX9336C
-            e4a	  node2	                    e4a	        AFF-A700
-            e4e	  node2	                    e4e	        AFF-A700
-            e7b   NS2                       Ethernet1/1	NX9336C
+          e3a	  S1	                      Ethernet1/1	NX9336C
+          e4a	  node2	                    e4a	        AFF-A700
+          e4e	  node2	                    e4e	        AFF-A700
+          e7b   NS2                       Ethernet1/1	NX9336C
 node1/lldp
-            e3a	  S1	                      Ethernet1/1	-
-            e4a  	node2	                    e4a	        -
-            e4e	  node2	                    e4e	        -
-            e7b   NS2                       Ethernet1/1	-
+          e3a	  S1	                      Ethernet1/1	-
+          e4a  	node2	                    e4a	        -
+          e4e	  node2	                    e4e	        -
+          e7b   NS2                       Ethernet1/1	-
 node2/cdp
-            e3a	  S1	                      Ethernet1/2	NX9336C
-            e4a	  node1	                    e4a	        AFF-A700
-            e4e	  node1	                    e4e	        AFF-A700
-            e7b   NS2                       Ethernet1/2	NX9336C
+          e3a	  S1	                      Ethernet1/2	NX9336C
+          e4a	  node1	                    e4a	        AFF-A700
+          e4e	  node1	                    e4e	        AFF-A700
+          e7b   NS2                       Ethernet1/2	NX9336C
 node2/lldp
-            e3a	  S1	                      Ethernet1/2	-
-            e4a	  node1	                    e4a	        -
-            e4e	  node1	                    e4e	        -
-            e7b   NS2                       Ethernet1/2	-
+          e3a	  S1	                      Ethernet1/2	-
+          e4a	  node1	                    e4a	        -
+          e4e	  node1	                    e4e	        -
+          e7b   NS2                       Ethernet1/2	-
 storage::*>
 ----
 . Verify the shelf ports in the storage system:
@@ -208,7 +208,3 @@ storage::*>
 ----
 . If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
 `system node autosupport invoke -node * -type all -message MAINT=END`
-. test
-----
-hello
-----
