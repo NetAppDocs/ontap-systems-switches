@@ -60,32 +60,15 @@ _x_ is the duration of the maintenance window in hours.
 +
 `storage port show -port-type ENET`
 +
-test for formatting
-----
-storage::*> storage port show -port-type ENET
-node1 spacebar
-               e3a  ENET  storage 100    enabled  online      30
-               e3b  ENET  storage   0    enabled  offline     30
-               e7a  ENET  storage   0    enabled  offline     30
-               e7b  ENET  storage   0    enabled  offline     30
-
-
-node1 tab
-               e3a  ENET  storage 100    enabled  online      30
-               e3b  ENET  storage   0    enabled  offline     30
-               e7a  ENET  storage   0    enabled  offline     30
-               e7b  ENET  storage   0    enabled  offline     30
-----
-+
 ----
 storage::*> storage port show -port-type ENET
  			                            Speed 	                  VLAN
 Node 		       Port Type  Mode    (Gb/s) State    Status      ID
 -------------- ---- ----- ------- ------ -------- --------- ----
 node1
- 		           e3a  ENET  storage 100    enabled  online      30
+               e3a  ENET  storage 100    enabled  online      30
                e3b  ENET  storage   0    enabled  offline     30
-		           e7a  ENET  storage   0    enabled  offline     30
+               e7a  ENET  storage   0    enabled  offline     30
                e7b  ENET  storage   0    enabled  offline     30
 node2
                e3a  ENET  storage 100    enabled  online      30
@@ -164,9 +147,9 @@ storage::*> storage port show -port-type ENET
 Node 		         Port Type  Mode    (Gb/s) State    Status      ID
 ---------------- ---- ----- ------- ------ -------- --------- ----
 node1
- 		             e3a  ENET  storage 100    enabled  online      30
+                 e3a  ENET  storage 100    enabled  online      30
                  e3b  ENET  storage   0    enabled  offline     30
-		             e7a  ENET  storage   0    enabled  offline     30
+                 e7a  ENET  storage   0    enabled  offline     30
                  e7b  ENET  storage   0    enabled  offline     30
 node2
                  e3a  ENET  storage 100    enabled  online      30
