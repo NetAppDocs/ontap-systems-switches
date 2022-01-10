@@ -9,7 +9,229 @@ summary: 'You can install the RCF after setting up the BES-53248 cluster switch 
 :imagesdir: ../media/
 
 [.lead]
-You can install the RCF after setting up the BES-53248 cluster switch for the first time and after the new license or licenses have been applied. If you are upgrading an RCF from an older version, the files are effectively merged together and you complete the steps as detailed here.
+You can install the RCF after setting up the BES-53248 cluster switch for the first time and after the new license or licenses have been applied. If you are upgrading an RCF from an older version, you must reset the Broadcom switch settings and perform basic configuration to re-apply the RCF. You must perform this operation every time you want to upgrade or change an RCF.
+
+== Reset the Broadcom IP switch to factory defaults
+
+Before installing a new switch software version and RCFs, you must erase the Broadcom switch settings and perform basic configuration.
+
+.About this task
+
+* You must repeat these steps on each of the IP switches in the MetroCluster IP configuration.
+* You must be connected to the switch using the serial console.
+* This task resets the configuration of the management network.
+
+.Steps
+
+
+. Change to the elevated command prompt (`#`): `enable`
++
+----
+(IP_switch_A_1)> enable
+(IP_switch_A_1) #
+----
+
+. Erase the startup configuration and remove the banner
+.. Erase the startup configuration:
++
+
+*`erase startup-config`*
++
+-----
+(IP_switch_A_1) #erase startup-config
+
+Are you sure you want to clear the configuration? (y/n) y
+
+(IP_switch_A_1) #
+-----
++
+
+This command does not erase the banner.
++
+..	Remove the banner:
++
+
+*`no set clibanner`*
++
+-----
+(IP_switch_A_1) #configure
+(IP_switch_A_1)(Config) # no set clibanner
+(IP_switch_A_1)(Config) #
+-----
+
+. Reboot the switch:
+*`(IP_switch_A_1) #reload*`
++
+----
+Are you sure you would like to reset the system? (y/n) y
+----
++
+NOTE: If the system asks whether to save the unsaved or changed configuration before reloading the switch, select *No*.
+
+. Wait for the switch to reload, and then log in to the switch.
++
+The default user is "`admin`", and no password is set. A prompt similar to the following is displayed:
++
+----
+(Routing)>
+----
+
+. Change to the elevated command prompt:
++
+`enable`
++
+----
+Routing)> enable
+(Routing) #
+----
+
+. Set the service port protocol to `none`:
++
+`serviceport protocol none`
++
+----
+(Routing) #serviceport protocol none
+Changing protocol mode will reset ip configuration.
+Are you sure you want to continue? (y/n) y
+
+(Routing) #
+----
+
+. Assign the IP address to the service port:
++
+`serviceport ip _ip-address_ _netmask_ _gateway_`
++
+The following example shows a service port assigned IP address "10.10.10.10" with subnet "255.255.255.0" and gateway "10.10.10.1":
++
+----
+(Routing) #serviceport ip 10.10.10.10 255.255.255.0 10.10.10.1
+----
+
+. Verify that the service port is correctly configured:
++
+`show serviceport`
++
+The following example shows that the port is up and the correct addresses have been assigned:
++
+----
+(Routing) #show serviceport
+
+Interface Status............................... Up
+IP Address..................................... 10.10.10.10
+Subnet Mask.................................... 255.255.255.0
+Default Gateway................................ 10.10.10.1
+IPv6 Administrative Mode....................... Enabled
+IPv6 Prefix is ................................ fe80::dac4:97ff:fe56:87d7/64
+IPv6 Default Router............................ fe80::222:bdff:fef8:19ff
+Configured IPv4 Protocol....................... None
+Configured IPv6 Protocol....................... None
+IPv6 AutoConfig Mode........................... Disabled
+Burned In MAC Address.......................... D8:C4:97:56:87:D7
+
+(Routing) #
+----
+
+. If desired, configure the SSH server.
++
+NOTE: The RCF file disables the Telnet protocol. If you do not configure the SSH server, you can only access the bridge using the serial port connection.
+
+ .. Generate RSA keys.
++
+----
+(Routing) #configure
+(Routing) (Config)#crypto key generate rsa
+----
+
+ .. Generate DSA keys (optional)
++
+----
+(Routing) #configure
+(Routing) (Config)#crypto key generate dsa
+----
+
+.. If you are using the FIPS compliant version of EFOS, generate the ECDSA keys. The following example creates the keys with a length of 256. Valid values are 256, 384 or 521.
++
+-----
+(Routing) #configure
+(Routing) (Config)#crypto key generate ecdsa 256
+-----
++
+
+ .. Enable the SSH server.
++
+If necessary, exit the configuration context.
++
+----
+(Routing) (Config)#end
+(Routing) #ip ssh server enable
+----
++
+NOTE: If keys already exist, then you might be asked to overwrite them.
+
+. If desired, configure the domain and name server:
++
+`configure`
++
+The following example shows the `ip domain` and `ip name server` commands:
++
+----
+(Routing) # configure
+(Routing) (Config)#ip domain name lab.netapp.com
+(Routing) (Config)#ip name server 10.99.99.1 10.99.99.2
+(Routing) (Config)#exit
+(Routing) (Config)#
+----
+
+. If desired, configure the time zone and time synchronization (SNTP).
++
+The following example shows the `sntp` commands, specifying the IP address of the SNTP server and the relative time zone.
++
+----
+(Routing) #
+(Routing) (Config)#sntp client mode unicast
+(Routing) (Config)#sntp server 10.99.99.5
+(Routing) (Config)#clock timezone -7
+(Routing) (Config)#exit
+(Routing) (Config)#
+----
+
+. Configure the switch name:
++
+`hostname IP_switch_A_1`
++
+The switch prompt will display the new name:
++
+----
+(Routing) # hostname IP_switch_A_1
+
+(IP_switch_A_1) #
+----
+
+. Save the configuration:
++
+`write memory`
++
+You receive prompts and output similar to the following example:
++
+----
+(IP_switch_A_1) #write memory
+
+This operation may take a few minutes.
+Management interfaces will not be available during this time.
+
+Are you sure you want to save? (y/n) y
+
+Config file 'startup-config' created successfully .
+
+
+Configuration Saved!
+
+(IP_switch_A_1) #
+----
+
+. Repeat the previous steps on the other three switches in the MetroCluster IP configuration.
+
+== Install the Reference Configuration File (RCF)
 
 .Steps
 . Connect the cluster switch to the management network.
@@ -161,3 +383,5 @@ Are you sure you would like to reset the system? (y/n)**y**
 
 System will now restart!
 ----
+
+// 2022-01-10, BURT 1445096
