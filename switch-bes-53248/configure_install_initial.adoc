@@ -11,7 +11,7 @@ summary: 'You can use this procedure to perform the initial installation of the 
 [.lead]
 You can use this procedure to perform the initial installation of the BES-53248 cluster switch.
 
-You can download the applicable Broadcom EFOS software for your cluster switches from the https://www.broadcom.com/support/bes-switch[Broadcom Ethernet Switch Support] site.
+You can download the applicable Broadcom EFOS software for your cluster switches from the https://www.broadcom.com/support/bes-switch[Broadcom Ethernet Switch Support^] site.
 
 EFOS is a wide-ranging software set of advanced networking features and protocols necessary to develop a variety of Ethernet and IP infrastructure systems for data center applications. EFOS software is an architecture suitable for any network organizational device using leading-edge applications that require thorough packet inspection or separation.
 
@@ -30,9 +30,9 @@ This procedure provides a summary of the process to install your switches and ge
 . Log in to the switch as admin and press enter when prompted for a password. The default switch name is routing. At the prompt, `enable`. This gives you access to Privileged EXEC mode for switch configuration.
 +
 ----
-User: **admin**
+User: admin
 Password:
-(Routing)> **enable**
+(Routing)> enable
 Password:
 (Routing) #
 ----
@@ -40,7 +40,7 @@ Password:
 . Change the switch name to cs2:
 +
 ----
-(Routing) # **hostname cs2**
+(Routing) # hostname cs2
 (cs2) #
 ----
 
@@ -49,9 +49,9 @@ Password:
 The serviceport is set to use DHCP by default. The IP address, subnet mask, and default gateway address are assigned automatically.
 +
 ----
-(cs2) # **serviceport protocol none**
-(cs2) # **network protocol none**
-(cs2) # **serviceport ip ipaddr netmask gateway**
+(cs2) # serviceport protocol none
+(cs2) # network protocol none
+(cs2) # serviceport ip ipaddr netmask gateway
 ----
 
 . Verify the results using the command:
@@ -61,7 +61,7 @@ The serviceport is set to use DHCP by default. The IP address, subnet mask, and 
 The following example shows IP information provided by DHCP server.
 +
 ----
-(cs2) # **show serviceport**
+(cs2) # show serviceport
 Interface Status............................... Up
 IP Address..................................... 172.19.2.2
 Subnet Mask.................................... 255.255.255.0
@@ -125,7 +125,7 @@ No time source
 This operation may take a few minutes.
 Management interfaces will not be available during this time.
 
-Are you sure you want to save? (y/n) **y**
+Are you sure you want to save? (y/n) y
 
 Config file 'startup-config' created successfully .
 
