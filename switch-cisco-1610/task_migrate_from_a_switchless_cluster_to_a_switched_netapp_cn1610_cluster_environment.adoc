@@ -4,7 +4,7 @@ sidebar: sidebar
 keywords: migrate, switchless cluster environment, switched netapp cn1610
 summary: "If you have an existing two-node switchless cluster environment, you can migrate to a two-node switched cluster environment using CN1610 cluster network switches that enables you to scale beyond two nodes."
 ---
-= Migrating from a switchless cluster environment to a switched NetApp CN1610 cluster environment
+= Migrate from a switchless cluster environment to a switched NetApp CN1610 cluster environment
 :icons: font
 :imagesdir: ../media/
 
@@ -29,7 +29,7 @@ CN1610 cluster switch configuration:
 +
 The _NetAppHardware Universe_ contains more information about cabling.
 +
-https://hwu.netapp.com/Switch/Index[Hardware Universe - Switches]
+https://hwu.netapp.com/Switch/Index[Hardware Universe - Switches^]
 
 * Inter-Switch Link (ISL) cables must be connected to ports 13 through 16 on both CN1610 switches.
 * Initial customization of both the CN1610 switches must be completed.
@@ -375,7 +375,7 @@ node2
 +
 The _NetApp Hardware Universe_ contains more information about cabling.
 +
-https://hwu.netapp.com/Switch/Index[Hardware Universe - Switches]
+https://hwu.netapp.com/Switch/Index[Hardware Universe - Switches^]
 
 . Disconnect the cable from cluster port e1a on node2, and then connect e1a to port 2 on cluster switch cs1, using the appropriate cabling supported by the CN1610 switches.
 . Enable all of the node-facing ports on cluster switch cs1.
@@ -722,10 +722,10 @@ cluster::*> system node autosupport invoke -node * -type all -message MAINT=END
 
 *Related information*
 
-http://hwu.netapp.com[Hardware Universe]
+http://hwu.netapp.com[Hardware Universe^]
 
-http://support.netapp.com/NOW/download/software/cm_switches_ntap/[NetApp CN1601 and CN1610 description page]
+http://support.netapp.com/NOW/download/software/cm_switches_ntap/[NetApp CN1601 and CN1610 description page^]
 
-https://library.netapp.com/ecm/ecm_download_file/ECMP1118645[CN1601 and CN1610 Switch Setup and Configuration Guide]
+https://library.netapp.com/ecm/ecm_download_file/ECMP1118645[CN1601 and CN1610 Switch Setup and Configuration Guide^]
 
-https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Software/ONTAP_OS/How_to_suppress_automatic_case_creation_during_scheduled_maintenance_windows[NetApp KB Article 1010449: How to suppress automatic case creation during scheduled maintenance windows]
+https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Software/ONTAP_OS/How_to_suppress_automatic_case_creation_during_scheduled_maintenance_windows[NetApp KB Article 1010449: How to suppress automatic case creation during scheduled maintenance windows^]
