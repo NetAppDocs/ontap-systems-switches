@@ -24,7 +24,7 @@ NOTE: The procedure requires the use of both ONTAP commands and Cisco Nexus 9000
 . Display the cluster ports on each node that are connected to the cluster switches: `network device-discovery show`
 +
 ----
-cluster1::*> **network device-discovery show**
+cluster1::*> network device-discovery show
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  --------
@@ -47,7 +47,7 @@ cluster1::*>
  .. Verify that all the cluster ports are up with a healthy status: `network port show –role cluster`
 +
 ----
-cluster1::*>** network port show -role cluster**
+cluster1::*> network port show -role cluster
 
 Node: cluster1-01
                                                                        Ignore
@@ -88,7 +88,7 @@ cluster1::*>
  .. Verify that all the cluster interfaces (LIFs) are on the home port: `network interface show -role cluster`
 +
 ----
-cluster1::*> **network interface show -role cluster**
+cluster1::*> network interface show -role cluster
             Logical            Status     Network           Current      Current Is
 Vserver     Interface          Admin/Oper Address/Mask      Node         Port    Home
 ----------- ------------------ ---------- ----------------- ------------ ------- ----
@@ -108,7 +108,7 @@ cluster1::*>
  .. Verify that the cluster displays information for both cluster switches: `system cluster-switch show -is-monitoring-enabled-operational true`
 +
 ----
-cluster1::*> **system cluster-switch show -is-monitoring-enabled-operational true**
+cluster1::*> system cluster-switch show -is-monitoring-enabled-operational true
 Switch                      Type               Address          Model
 --------------------------- ------------------ ---------------- -----
 cs1                         cluster-network    10.233.205.90    N9K-C9336C
@@ -131,21 +131,20 @@ cluster1::*>
 . Disable auto-revert on the cluster LIFs.
 +
 ----
-cluster1::*> **network interface modify -vserver Cluster -lif \* -auto-revert false
-**
+cluster1::*> network interface modify -vserver Cluster -lif \* -auto-revert false
 ----
 
 . On cluster switch cs2, shut down the ports connected to the cluster ports of the nodes.
 +
 ----
-cs2(config)# **interface eth1/1/1-2,eth1/7-8**
-cs2(config-if-range)# **shutdown**
+cs2(config)# interface eth1/1/1-2,eth1/7-8
+cs2(config-if-range)# shutdown
 ----
 
 . Verify that the cluster LIFs have migrated to the ports hosted on cluster switch cs1. This might take a few seconds.`network interface show -role cluster`
 +
 ----
-cluster1::*> **network interface show -role cluster**
+cluster1::*> network interface show -role cluster
             Logical           Status     Network            Current       Current Is
 Vserver     Interface         Admin/Oper Address/Mask       Node          Port    Home
 ----------- ----------------- ---------- ------------------ ------------- ------- ----
@@ -165,7 +164,7 @@ cluster1::*>
 . Verify that the cluster is healthy: `cluster show`
 +
 ----
-cluster1::*> **cluster show**
+cluster1::*> cluster show
 Node                 Health  Eligibility   Epsilon
 -------------------- ------- ------------  -------
 cluster1-01          true    true          false
@@ -177,27 +176,27 @@ cluster1::*>
 ----
 
 . Clean the configuration on switch cs2 and perform a basic setup.
-
++
 CAUTION: When updating or applying a new RCF, you must erase the switch settings and perform basic configuration. You must be connected to the switch using the serial console to erase switch settings.
 
  .. Clean the configuration. This step requires a console connection to the switch.
 +
 ----
-cs2# **write erase
-**Warning: This command will erase the startup-configuration.
-Do you wish to proceed anyway? (y/n)  [n] **y**
-cs2# **reload**
-This command will reboot the system. (y/n)?  [n] **y**
+cs2# write erase
+Warning: This command will erase the startup-configuration.
+Do you wish to proceed anyway? (y/n)  [n] y
+cs2# reload
+This command will reboot the system. (y/n)?  [n] y
 cs2#
 ----
 
  .. Perform a basic setup of the switch.
-. Copy the RCF to the bootflash of switch cs2 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference] guides.
+. Copy the RCF to the bootflash of switch cs2 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
 +
 This example shows TFTP being used to copy an RCF to the bootflash on switch cs2:
 +
 ----
-cs2# **copy tftp: bootflash: vrf management**
+cs2# copy tftp: bootflash: vrf management
 Enter source filename: Nexus_9336C_RCF_v1.6-Cluster-HA-Breakout.txt
 Enter hostname for the tftp server: 172.22.201.50
 Trying to connect to tftp server......Connection to Server Established.
@@ -207,18 +206,18 @@ Copy complete, now saving to disk (please wait)...
 
 . Apply the RCF previously downloaded to the bootflash.
 +
-For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference] guides.
+For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
 +
 This example shows the RCF file `Nexus_9336C_RCF_v1.6-Cluster-HA-Breakout.txt` being installed on switch cs2:
 +
 ----
-cs2# **copy Nexus_9336C_RCF_v1.6-Cluster-HA-Breakout.txt running-config echo-commands**
+cs2# copy Nexus_9336C_RCF_v1.6-Cluster-HA-Breakout.txt running-config echo-commands
 ----
 
 . Examine the banner output from the `show banner motd` command. You must read and follow these instructions to ensure the proper configuration and operation of the switch.
 +
 ----
-cs2# **show banner motd**
+cs2# show banner motd
 
 ******************************************************************************
 * NetApp Reference Configuration File (RCF)
@@ -264,31 +263,31 @@ The output varies according to your site configuration. Check the port settings 
 
 . After you verify the RCF versions and switch settings are correct, copy the running-config file to the startup-config file.
 +
-For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference] guides.
+For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
 +
 ----
-cs2# **copy running-config startup-config \[\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\] 100% Copy complete**
+cs2# copy running-config startup-config \[\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\] 100% Copy complete
 ----
 
 . Reboot switch cs2. You can ignore the "`cluster ports down`" events reported on the nodes while the switch reboots.
 +
 ----
-cs2# **reload**
-This command will reboot the system. (y/n)?  [n] **y**
+cs2# reload
+This command will reboot the system. (y/n)?  [n] y
 ----
 
 . Apply the same RCF and save the running configuration for a second time.
 +
 ----
-cs2# **copy Nexus_9336C_RCF_v1.6-Cluster-HA-Breakout.txt running-config echo-commands**
-cs2# **copy running-config startup-config** [########################################] 100% Copy complete
+cs2# copy Nexus_9336C_RCF_v1.6-Cluster-HA-Breakout.txt running-config echo-commands
+cs2# copy running-config startup-config [########################################] 100% Copy complete
 ----
 
 . Verify the health of cluster ports on the cluster.
  .. Verify that e0d ports are up and healthy across all nodes in the cluster: `network port show -role cluster`
 +
 ----
-cluster1::*> **network port show -role cluster**
+cluster1::*> network port show -role cluster
 
 Node: cluster1-01
                                                                        Ignore
@@ -327,7 +326,7 @@ e0d       Cluster      Cluster          up   9000  auto/100000 healthy false
  .. Verify the switch health from the cluster (this might not show switch cs2, since LIFs are not homed on e0d).
 +
 ----
-cluster1::*> **network device-discovery show -protocol cdp**
+cluster1::*> network device-discovery show -protocol cdp
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------- --------
@@ -344,7 +343,7 @@ cluster1-04/cdp
             e0a    cs1                       Ethernet1/1/2     N9K-C9336C
             e0b    cs2                       Ethernet1/1/2     N9K-C9336C
 
-cluster1::*> **system cluster-switch show -is-monitoring-enabled-operational true**
+cluster1::*> system cluster-switch show -is-monitoring-enabled-operational true
 Switch                      Type               Address          Model
 --------------------------- ------------------ ---------------- -----
 cs1                         cluster-network    10.233.205.90    NX9-C9336C
@@ -365,29 +364,30 @@ cs2                         cluster-network    10.233.205.91    NX9-C9336C
 
 2 entries were displayed.
 ----
-
 +
 NOTE: You might observe the following output on the cs1 switch console depending on the RCF version previously loaded on the switch:
 +
-----
 
+----
 2020 Nov 17 16:07:18 cs1 %$ VDC-1 %$ %STP-2-UNBLOCK_CONSIST_PORT: Unblocking port port-channel1 on VLAN0092. Port consistency restored.
 2020 Nov 17 16:07:23 cs1 %$ VDC-1 %$ %STP-2-BLOCK_PVID_PEER: Blocking port-channel1 on VLAN0001. Inconsistent peer vlan.
 2020 Nov 17 16:07:23 cs1 %$ VDC-1 %$ %STP-2-BLOCK_PVID_LOCAL: Blocking port-channel1 on VLAN0092. Inconsistent local vlan.
 ----
+
+
 . On cluster switch cs1, shut down the ports connected to the cluster ports of the nodes.
 +
 The following example uses the interface example output from step 1:
 +
 ----
-cs1(config)# **interface eth1/1/1-2,eth1/7-8**
-cs1(config-if-range)# **shutdown**
+cs1(config)# interface eth1/1/1-2,eth1/7-8
+cs1(config-if-range)# shutdown
 ----
 
 . Verify that the cluster LIFs have migrated to the ports hosted on switch cs2. This might take a few seconds. `network interface show -role cluster`
 +
 ----
-cluster1::*> **network interface show -role cluster**
+cluster1::*> network interface show -role cluster
             Logical            Status     Network            Current             Current Is
 Vserver     Interface          Admin/Oper Address/Mask       Node                Port    Home
 ----------- ------------------ ---------- ------------------ ------------------- ------- ----
@@ -407,7 +407,7 @@ cluster1::*>
 . Verify that the cluster is healthy: `cluster show`
 +
 ----
-cluster1::*> **cluster show**
+cluster1::*> cluster show
 Node                 Health   Eligibility   Epsilon
 -------------------- -------- ------------- -------
 cluster1-01          true     true          false
@@ -422,20 +422,20 @@ cluster1::*>
 . Enable auto-revert on the cluster LIFs.
 +
 ----
-cluster1::*> **network interface modify -vserver Cluster -lif \* -auto-revert True**
+cluster1::*> network interface modify -vserver Cluster -lif \* -auto-revert True
 ----
 
 . Reboot switch cs1.You do this to trigger the cluster LIFs to revert to their home ports. You can ignore the "`cluster ports down`" events reported on the nodes while the switch reboots.
 +
 ----
-cs1# **reload**
-This command will reboot the system. (y/n)?  [n] **y**
+cs1# reload
+This command will reboot the system. (y/n)?  [n] y
 ----
 
 . Verify that the switch ports connected to the cluster ports are up.
 +
 ----
-cs1# **show interface brief \| grep up**
+cs1# show interface brief \| grep up
 .
 .
 Eth1/1/1      1       eth  access up      none                    10G(D) --
@@ -449,7 +449,7 @@ Eth1/8        1       eth  trunk  up      none                   100G(D) --
 . Verify that the ISL between cs1 and cs2 is functional:``show port-channel summary``
 +
 ----
-cs1# **show port-channel summary**
+cs1# show port-channel summary
 Flags:  D - Down        P - Up in port-channel (members)
         I - Individual  H - Hot-standby (LACP only)
         s - Suspended   r - Module-removed
@@ -468,7 +468,7 @@ cs1#
 . Verify that the cluster LIFs have reverted to their home port: `network interface show -role cluster`
 +
 ----
-cluster1::*> **network interface show -role cluster**
+cluster1::*> network interface show -role cluster
             Logical            Status     Network            Current             Current Is
 Vserver     Interface          Admin/Oper Address/Mask       Node                Port    Home
 ----------- ------------------ ---------- ------------------ ------------------- ------- ----
@@ -488,7 +488,7 @@ cluster1::*>
 . Verify that the cluster is healthy: `cluster show`
 +
 ----
-cluster1::*> **cluster show**
+cluster1::*> cluster show
 Node                 Health  Eligibility   Epsilon
 -------------------- ------- ------------- -------
 cluster1-01          true    true          false
