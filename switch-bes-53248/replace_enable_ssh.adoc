@@ -14,10 +14,10 @@ SSH is a requirement when using the Cluster Switch Health Monitor (CSHM) and log
 .Steps
 . Generate the SSH keys:
 +
-`crypto key generate`
+*`crypto key generate`*
 +
 ----
-(switch) #**show ip ssh**
+(switch) # show ip ssh
 
 SSH Configuration
 
@@ -31,34 +31,32 @@ Keys Present: ................................. DSA(1024) RSA(1024) ECDSA(521)
 Key Generation In Progress: ................... None
 SCP server Administrative Mode: ............... Disabled
 
-(switch) #**config**
+(switch) # config
 
-(switch) (Config)#**crypto key generate rsa**
+(switch) (Config)# crypto key generate rsa
 
-Do you want to overwrite the existing RSA keys? (y/n):**y**
-
-
-(switch) (Config)#**crypto key generate dsa**
-
-Do you want to overwrite the existing DSA keys? (y/n):**y**
+Do you want to overwrite the existing RSA keys? (y/n): y
 
 
-(switch) (Config)#**crypto key generate ecdsa 521**
+(switch) (Config)# crypto key generate dsa
 
-Do you want to overwrite the existing ECDSA keys? (y/n):**y**
+Do you want to overwrite the existing DSA keys? (y/n): y
 
 
-(switch) (Config)#**exit**
+(switch) (Config)# crypto key generate ecdsa 521
+
+Do you want to overwrite the existing ECDSA keys? (y/n): y
+
+
+(switch) (Config)# exit
 ----
 
-. Enable SSH:
+. Verify that SSH is enabled:
 +
-`ip ssh server enable`
+*`show ip ssh`*
 +
 ----
-(switch) #**ip ssh server enable**
-
-(switch) #**show ip ssh**
+(switch) # show ip ssh
 
 SSH Configuration
 

@@ -44,7 +44,7 @@ The examples in this procedure use the following switch and node nomenclature:
 NOTE: The following procedure is based on the following cluster network topology:
 
 ----
-cluster1::> **network port show -ipspace Cluster**
+cluster1::> network port show -ipspace Cluster
 
 Node: node1
                                                                        Ignore
@@ -66,7 +66,7 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 4 entries were displayed.
 
 
-cluster1::> **network interface show -vserver Cluster**
+cluster1::> network interface show -vserver Cluster
             Logical    Status     Network            Current       Current Is
 Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
 ----------- ---------- ---------- ------------------ ------------- ------- ----
@@ -80,7 +80,7 @@ Cluster
 
 
 
-cluster1::> **network device-discovery show -protocol cdp**
+cluster1::> network device-discovery show -protocol cdp
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
@@ -94,7 +94,7 @@ node1      /cdp
 4 entries were displayed.
 
 
-(cs1) # **show isdp neighbors**
+(cs1) # show isdp neighbors
 
 Capability Codes: R - Router, T - Trans Bridge, B - Source Route Bridge,
                   S - Switch, H - Host, I - IGMP, r - Repeater
@@ -107,7 +107,7 @@ cs2                      0/55      179       R          BES-53248        0/55
 cs2                      0/56      179       R          BES-53248        0/56
 
 
-(cs2) # **show isdp neighbors**
+(cs2) # show isdp neighbors
 
 Capability Codes: R - Router, T - Trans Bridge, B - Source Route Bridge,
                   S - Switch, H - Host, I - IGMP, r - Repeater
@@ -126,8 +126,8 @@ cs1                      0/56      179       R          BES-53248        0/56
 +
 If necessary, verify, download, and install the appropriate versions of the RCF and EFOS software for the new switch. If you have verified that the new switch is correctly set up and does not need updates to the RCF and EFOS software, continue to step 2.
 
- .. You can download the applicable Broadcom EFOS software for your cluster switches from the https://www.broadcom.com/support/bes-switch[Broadcom Ethernet Switch Support] site. Follow the steps on the Download page to download the EFOS file for the version of ONTAP software you are installing.
- .. The appropriate RCF is available from the https://mysupport.netapp.com/site/products/all/details/broadcom-cluster-switches/downloads-tab[Broadcom Cluster Switches] page. Follow the steps on the Download page to download the correct RCF for the version of ONTAP software you are installing.
+ .. You can download the applicable Broadcom EFOS software for your cluster switches from the https://www.broadcom.com/support/bes-switch[Broadcom Ethernet Switch Support^] site. Follow the steps on the Download page to download the EFOS file for the version of ONTAP software you are installing.
+ .. The appropriate RCF is available from the https://mysupport.netapp.com/site/products/all/details/broadcom-cluster-switches/downloads-tab[Broadcom Cluster Switches^] page. Follow the steps on the Download page to download the correct RCF for the version of ONTAP software you are installing.
 
 . On the new switch, log in as admin and shut down all of the ports that will be connected to the node cluster interfaces (ports 1 to 16).
 +
@@ -137,13 +137,14 @@ If the switch that you are replacing is not functional and is powered down, the 
 +
 NOTE: No password is required to enter `enable` mode.
 +
+
 ----
-User:**admin**
+User: admin
 Password:
-(newcs2) >**enable**
-(newcs2) #**config**
-(newcs2)(config)#**interface 0/1-0/16**
-(newcs2)(interface 0/1-0/16)#**shutdown**
+(newcs2) >enable
+(newcs2) #config
+(newcs2)(config)#interface 0/1-0/16
+(newcs2)(interface 0/1-0/16)#shutdown
 (newcs2)(interface 0/1-0/16)#exit
 (newcs2)(config)#exit
 ----
@@ -153,8 +154,7 @@ Password:
 `network interface show -vserver Cluster -fields auto-revert`
 +
 ----
-
-cluster1::> **network interface show -vserver Cluster -fields auto-revert**
+cluster1::> network interface show -vserver Cluster -fields auto-revert
 
 Logical
 Vserver   Interface    Auto-revert
@@ -170,9 +170,9 @@ Cluster			node2_clus2		true
 . Shut down the ISL ports 0/55 and 0/56 on the BES-53248 switch cs1:
 +
 ----
-(cs1) #**config**
-(cs1)(config)#**interface 0/55-0/56**
-(cs1)(interface 0/55-0/56)#**shutdown**
+(cs1) # config
+(cs1)(config)# interface 0/55-0/56
+(cs1)(interface 0/55-0/56)# shutdown
 ----
 
 . Remove all cables from the BES-53248 cs2 switch, and then connect them to the same ports on the BES-53248 newcs2 switch.
@@ -183,10 +183,10 @@ The Link State for port-channel 1/1 should be up and all member ports should be 
 This example enables ISL ports 0/55 and 0/56 and displays the Link State for port-channel 1/1 on switch cs1:
 +
 ----
-(cs1) # **config**
-(cs1)(config)# **interface 0/55-0/56**
-(cs1)(interface 0/55-0/56)# **no shutdown**
-(cs1) # **show port-channel 1/1**
+(cs1) # config
+(cs1)(config)# interface 0/55-0/56
+(cs1)(interface 0/55-0/56)# no shutdown
+(cs1) # show port-channel 1/1
 
 
 Local Interface................................ 1/1
@@ -211,6 +211,7 @@ Ports  Timeout       Speed      Active
 +
 NOTE: If you purchased additional licenses for additional ports, shut down these ports too.
 +
+
 ----
 User:admin
 Password:
@@ -229,7 +230,7 @@ Password:
 The output should be similar to the following:
 +
 ----
-cluster1::> **network port show -ipspace Cluster**
+cluster1::> network port show -ipspace Cluster
 
 Node: node1
                                                                         Ignore
@@ -257,7 +258,7 @@ In this example, LIF node1_clus2 on node1 is successfully reverted if `Is Home` 
 The following command displays information about the LIFs on both nodes. Bringing up the first node is successful if `Is Home` is `true` for both cluster interfaces and they show the correct port assignments, in this example `e0a` and `e0b` on node1.
 +
 ----
-cluster::> **network interface show -vserver Cluster**
+cluster::> network interface show -vserver Cluster
 
             Logical      Status     Network            Current    Current Is
 Vserver     Interface    Admin/Oper Address/Mask       Node       Port    Home
@@ -276,7 +277,7 @@ Cluster
 This example shows that the node health for `node1` and `node2` in this cluster is `true`:
 +
 ----
-cluster1::> **cluster show**
+cluster1::> cluster show
 Node                   Health Eligibility    Epsilon
 --------------------   ------- ------------  --------
 node1                   true    true           true
@@ -288,7 +289,7 @@ node2                   true    true           true
 `network port show`
 +
 ----
-cluster1::> **network port show -ipspace Cluster**
+cluster1::> network port show -ipspace Cluster
 Node: node1
                                                                        Ignore
                                        Speed(Mbps)            Health   Health
@@ -308,7 +309,7 @@ e0b       Cluster      Cluster          up   9000 auto/10000  healthy  false
 4 entries were displayed.
 
 
-cluster1::> **network interface show -vserver Cluster**
+cluster1::> network interface show -vserver Cluster
 
             Logical    Status     Network            Current       Current Is
 Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
@@ -322,7 +323,7 @@ Cluster
 
 
 
-cs1# **show cdp neighbors**
+cs1# show cdp neighbors
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
@@ -339,7 +340,7 @@ newcs2(FDO296348FU)  Eth1/66        176    R S I s     N9K-C92300YC  Eth1/66
 Total entries displayed: 4
 
 
-cs2# **show cdp neighbors**
+cs2# show cdp neighbors
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
@@ -360,7 +361,7 @@ Total entries displayed: 4
 `show isdp neighbors`
 +
 ----
-(cs1) # show isdp neighbors
+(cs1)# show isdp neighbors
 Capability Codes: R - Router, T - Trans Bridge, B - Source Route Bridge,
 S - Switch, H - Host, I - IGMP, r - Repeater
 Device ID    Intf    Holdtime    Capability    Platform    Port ID
@@ -386,8 +387,8 @@ See link:configure-log-collection.html[Configuring the cluster switch log collec
 
 *Related information*
 
-https://mysupport.netapp.com/[NetApp Support Site]
+https://mysupport.netapp.com/[NetApp Support Site^]
 
-https://hwu.netapp.com/[NetApp Hardware Universe]
+https://hwu.netapp.com/[NetApp Hardware Universe^]
 
-http://docs.netapp.com/platstor/topic/com.netapp.doc.hw-sw-ix8-setup/home.html[Switch Setup and Configuration Guide for Broadcom-supported BES-53248 switches]
+http://docs.netapp.com/platstor/topic/com.netapp.doc.hw-sw-ix8-setup/home.html[Switch Setup and Configuration Guide for Broadcom-supported BES-53248 switches^]
