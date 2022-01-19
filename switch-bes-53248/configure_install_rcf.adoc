@@ -20,7 +20,7 @@ If connectivity is an issue, use a nonrouted network and configure the service p
 This example verifies that the switch is connected to the server at IP address 172.19.2.1:
 +
 ----
-(cs2) # **ping 172.19.2.1**
+(cs2) # ping 172.19.2.1
 Pinging 172.19.2.1 with 0 bytes of data:
 
 Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
@@ -29,7 +29,7 @@ Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 . Install the RCF on the BES-53248 cluster switch using the `copy` command.
 +
 ----
-(cs2) # **copy http://172.19.2.1/tmp/BES-53248_RCF_v1.6-Cluster-HA.txt nvram:script BES-53248_RCF_v1.6-Cluster-HA.scr**
+(cs2) # copy http://172.19.2.1/tmp/BES-53248_RCF_v1.6-Cluster-HA.txt nvram:script BES-53248_RCF_v1.6-Cluster-HA.scr
 
 Remote Password ********
 
@@ -44,7 +44,7 @@ File with same name already exists.
 WARNING:Continuing with this command will overwrite the existing file.
 
 Management access will be blocked for the duration of the transfer
-Are you sure you want to start? (y/n) **y**
+Are you sure you want to start? (y/n) y
 
 File transfer in progress. Management access will be blocked for the duration of the transfer. Please wait...
 
@@ -64,7 +64,7 @@ NOTE: The `.scr` extension must be set as part of the file name before invoking 
 `script list`
 +
 ----
-(cs2) # **script list**
+(cs2) # script list
 
 Configuration Script Name                  Size(Bytes)  Date of Modification
 -----------------------------------------  -----------  --------------------
@@ -78,12 +78,12 @@ BES-53248_RCF_v1.6-Cluster-HA.scr        2241         2020 09 30 05:41:00
 `script apply`
 +
 ----
-(cs2) # **script apply BES-53248_RCF_v1.6-Cluster-HA.scr**
+(cs2) # script apply BES-53248_RCF_v1.6-Cluster-HA.scr
 
 Are you sure you want to apply the configuration script? (y/n) y
 
 The system has unsaved changes.
-Would you like to save them now? (y/n) **y**
+Would you like to save them now? (y/n) y
 Config file 'startup-config' created successfully .
 Configuration Saved!
 
@@ -95,7 +95,7 @@ Configuration script 'BES-53248_RCF_v1.6-Cluster-HA.scr' applied.
 `show port all | exclude Detach`
 +
 ----
-(cs2) # **show port all \| exclude Detach**
+(cs2) # show port all \| exclude Detach
 
                  Admin     Physical     Physical   Link   Link    LACP   Actor
 Intf      Type   Mode      Mode         Status     Status Trap    Mode   Timeout
@@ -131,7 +131,7 @@ Intf      Type   Mode      Mode         Status     Status Trap    Mode   Timeout
 `show running-config`
 +
 ----
-(cs2) # **show running-config**
+(cs2) # show running-config
 ----
 
 . Save the running configuration so that it becomes the startup configuration when you reboot the switch:
@@ -139,11 +139,11 @@ Intf      Type   Mode      Mode         Status     Status Trap    Mode   Timeout
 `write memory`
 +
 ----
-(cs2) # **write memory**
+(cs2) # write memory
 This operation may take a few minutes.
 Management interfaces will not be available during this time.
 
-Are you sure you want to save? (y/n) **y**
+Are you sure you want to save? (y/n) y
 
 Config file 'startup-config' created successfully.
 
@@ -155,7 +155,7 @@ Configuration Saved!
 `reload`
 +
 ----
-(cs2) # **reload**
+(cs2) # reload
 
 Are you sure you would like to reset the system? (y/n)y
 

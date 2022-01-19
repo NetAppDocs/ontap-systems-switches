@@ -22,7 +22,7 @@ You can use the commands provided here to verify that all is operational after a
 The following example shows the output from the command:
 +
 ----
-cluster1::> **network port show -ipspace Cluster**
+cluster1::> network port show -ipspace Cluster
 
 Node: node1
                                                                     Ignore
@@ -48,7 +48,7 @@ e0b    Cluster      Cluster          up   9000  auto/10000 healthy  false
 `network interface show -vserver Cluster`
 +
 ----
-cluster1::> **network interface show -vserver Cluster**
+cluster1::> network interface show -vserver Cluster
 
             Logical    Status     Network            Current       Current Is
 Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
@@ -65,7 +65,7 @@ Cluster
 . Verify that the `Health Status` of each node is `true` using the command: `cluster show`
 +
 ----
-cluster1::> **cluster show**
+cluster1::> cluster show
 
 Node                 Health  Eligibility   Epsilon
 -------------------- ------- ------------  ------------
