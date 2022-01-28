@@ -1,9 +1,8 @@
 ---
-permalink: switch-cisco-9336/install-nxos-rcf.html
+permalink: switch-cisco-9336c-fx2/replace-install-rcf.html
 sidebar: sidebar
-keywords: install rcf, cisco switches
+keywords: install rcf,replace rcf
 summary: 'You can install the RCF after setting up the Nexus 9336C-FX2 switch for the first time.You can also use this procedure to upgrade your RCF version.'
-
 ---
 = Install the Reference Configuration File (RCF)
 :icons: font
@@ -141,7 +140,7 @@ cs2(config)# interface eth1/1/1-2,eth1/7-8
 cs2(config-if-range)# shutdown
 ----
 
-. Verify that the cluster LIFs have migrated to the ports hosted on cluster switch cs1. This might take a few seconds.`network interface show -role cluster`
+. Verify that the cluster ports have migrated to the ports hosted on cluster switch cs1. This might take a few seconds.`network interface show -role cluster`
 +
 ----
 cluster1::*> network interface show -role cluster
@@ -176,9 +175,6 @@ cluster1::*>
 ----
 
 . Clean the configuration on switch cs2 and perform a basic setup.
-+
-CAUTION: When updating or applying a new RCF, you must erase the switch settings and perform basic configuration. You must be connected to the switch using the serial console to erase switch settings.
-
  .. Clean the configuration. This step requires a console connection to the switch.
 +
 ----
@@ -364,17 +360,18 @@ cs2                         cluster-network    10.233.205.91    NX9-C9336C
 
 2 entries were displayed.
 ----
+
 +
 NOTE: You might observe the following output on the cs1 switch console depending on the RCF version previously loaded on the switch:
-+
 
++
 ----
 2020 Nov 17 16:07:18 cs1 %$ VDC-1 %$ %STP-2-UNBLOCK_CONSIST_PORT: Unblocking port port-channel1 on VLAN0092. Port consistency restored.
 2020 Nov 17 16:07:23 cs1 %$ VDC-1 %$ %STP-2-BLOCK_PVID_PEER: Blocking port-channel1 on VLAN0001. Inconsistent peer vlan.
 2020 Nov 17 16:07:23 cs1 %$ VDC-1 %$ %STP-2-BLOCK_PVID_LOCAL: Blocking port-channel1 on VLAN0092. Inconsistent local vlan.
 ----
 
-
++
 . On cluster switch cs1, shut down the ports connected to the cluster ports of the nodes.
 +
 The following example uses the interface example output from step 1:
