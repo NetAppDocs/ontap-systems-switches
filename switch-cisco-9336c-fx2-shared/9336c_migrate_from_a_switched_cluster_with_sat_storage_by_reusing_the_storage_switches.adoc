@@ -78,7 +78,7 @@ node2
         e5b     ENET    storage            100  enabled   online       30
 ----
 [start=6]
-. [[step6]]Replace the storage RCF on shared switch A with the shared RCF file. See link:9336c_install_nx-os_software_and_reference_configuration_files_@rcfs@.html#install-the-rcf-on-a-cisco-nexus-9336c-fx2-shared-switch[Install the RCF on a Cisco Nexus 9336C-FX2 shared switch] for further details.
+. [[step6]]Replace the storage RCF on shared switch A with the shared RCF file. See link:9336c_install_nx-os_software_and_reference_configuration_files_rcfs.html#install-the-rcf-on-a-cisco-nexus-9336c-fx2-shared-switch[Install the RCF on a Cisco Nexus 9336C-FX2 shared switch] for further details.
 . Verify the storage attached to HA pair 1, storage switch A is healthy:
 `system health alert show -instance`
 
@@ -98,7 +98,7 @@ storage::*> system health alert show -instance
 There are no entries matching your query.
 ----
 [start=12]
-. [[step12]]Replace the storage RCF file on shared switch B with the shared RCF file. See link:9336c_install_nx-os_software_and_reference_configuration_files_@rcfs@.html#install-the-rcf-on-a-cisco-nexus-9336c-fx2-shared-switch[Install the RCF on a Cisco Nexus 9336C-FX2 shared switch] for further details.
+. [[step12]]Replace the storage RCF file on shared switch B with the shared RCF file. See link:9336c_install_nx-os_software_and_reference_configuration_files_rcfs.html#install-the-rcf-on-a-cisco-nexus-9336c-fx2-shared-switch[Install the RCF on a Cisco Nexus 9336C-FX2 shared switch] for further details.
 
 . Verify the storage attached to HA pair 1, storage switch B is healthy:
 `system health alert show -instance`
@@ -179,7 +179,7 @@ sh1 (config-if)# exit
 sh1 (config)# exit
 ----
 [start=16]
-. [[step16]]Migrate the cluster networking from the existing cluster switches to the shared switches using the switch replacement procedure and the shared RCF. The new shared switch A is "cs1". The new shared switch B is "cs2". See link:9336c_replace_a_cisco_nexus_9336c-fx2_shared_switch.html[Replace a Cisco Nexus 9336C-FX2 shared switch] and link:9336c_install_nx-os_software_and_reference_configuration_files_@rcfs@.html#install-the-rcf-on-a-cisco-nexus-9336c-fx2-shared-switch[Install the RCF on a Cisco Nexus 9336C-FX2 shared switch] for further details.
+. [[step16]]Migrate the cluster networking from the existing cluster switches to the shared switches using the switch replacement procedure and the shared RCF. The new shared switch A is "cs1". The new shared switch B is "cs2". See link:9336c_replace_a_cisco_nexus_9336c-fx2_shared_switch.html[Replace a Cisco Nexus 9336C-FX2 shared switch] and link:9336c_install_nx-os_software_and_reference_configuration_files_rcfs.html#install-the-rcf-on-a-cisco-nexus-9336c-fx2-shared-switch[Install the RCF on a Cisco Nexus 9336C-FX2 shared switch] for further details.
 . Verify that the switched networking config is valid:
 `network port show`
 
