@@ -25,16 +25,17 @@ https://netapp.com/us/documenation/index.aspx[NetApp documentation]
 +
 NOTE: Due to the complexity that can result from illustrating layers of cabling, this guide does not provide cabling graphics. This guide does provide sample worksheets with recommended port assignments and blank worksheets that you can use to set up your cluster.
 +
-NOTE: For more information refer to the _Hardware Universe_.
+NOTE: For more information refer to the https://hwu.netapp.com[Hardware Universe^].
 +
-https://hwu.netapp.com[Hardware Universe]
 
-All Cisco cluster network and management network switches arrive with the standard Cisco factory-default configuration. These switches also have the current version of the NX-OS software but do not have the RCFs loaded.
+* All Cisco cluster network and management network switches arrive with the standard Cisco factory-default configuration. These switches also have the current version of the NX-OS software but do not have the RCFs loaded.
 
 NOTE: You must download the applicable NetApp cluster network and management network RCFs from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com] for the switches that you receive.
 
-In addition, you might need to install the required configuration file to support the Cluster Switch Health Monitor (CSHM) for the 92300YC cluster switches. See link:setup_install_cshm_file.md#[Installing the Cluster Switch Health Monitor (CSHM) configuration file for 92300YC switches] for details.
 
+* In addition, you might need to install the required configuration file to support the Cluster Switch Health Monitor (CSHM) for the 92300YC cluster switches. See link:setup_install_cshm_file.md#[Installing the Cluster Switch Health Monitor (CSHM) configuration file for 92300YC switches] for details.
+
+.Steps
 . Rack the cluster network and management network switches and controllers.
 +
 [options="header" cols="1,2"]
@@ -70,9 +71,9 @@ See the _Installing a Cisco Nexus 5596 cluster switch and pass-through panel in 
 +
 If you download the NetApp-supported version of the software, then you must also download the _NetApp Cluster Network Switch Reference Configuration File_ and merge it with the configuration you saved in Step 5. You can download the file and the instructions from the https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches] page.
 
-. Check the software version on the network switches and, if necessary, download the NetApp-supported version of the software to the switches. If you have your own switches, refer to the https://cisco.com[Cisco site].
+. Check the software version on the network switches and, if necessary, download the NetApp-supported version of the software to the switches. If you have your own switches, refer to the https://cisco.com[Cisco site^].
 +
-If you download the NetApp-supported version of the software, then you must also download the _NetApp Management Network Switch Reference Configuration File_ and merge it with the configuration you saved in Step 5. You can download the file and instructions from the https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches] page.
+If you download the NetApp-supported version of the software, then you must also download the _NetApp Management Network Switch Reference Configuration File_ and merge it with the configuration you saved in Step 5. You can download the file and instructions from the https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches^] page.
 
 *Related information*
 
