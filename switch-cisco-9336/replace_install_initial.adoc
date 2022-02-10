@@ -11,12 +11,13 @@ summary: 'You can use this procedure to perform the initial installation of the 
 [.lead]
 You can use this procedure to perform the initial installation of the Cisco Nexus 9336C-FX2 switch.
 
-You can download the applicable NetApp Cisco NX-OS software for your switches from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com^]
+You can download the applicable NetApp Cisco NX-OS software for your switches from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com^].
 
 NX-OS is a network operating system for the Nexus series of Ethernet switches and MDS series of Fibre Channel (FC) storage area network switches provided by Cisco Systems.
 
-This procedure provides a summary of the process to install your switches and get them running:
+This procedure provides a summary of the process to install your switches and get them running.
 
+.Steps
 . Connect the serial port to the host or serial port of your choice.
 . Connect the management port (on the non-port side of the switch) to the same network where your SFTP server is located.
 . At the console, set the host side serial settings:
@@ -26,24 +27,20 @@ This procedure provides a summary of the process to install your switches and ge
  ** parity: none
  ** flow control: none
 . Booting for the first time or rebooting after erasing the running configuration, the Nexus 9336C-FX2 switch loops in a boot cycle. Interrupt this cycle by typing *yes* to abort Power on Auto Provisioning. You are then presented with the System Admin Account setup:
++
+----
+$ VDC-1 %$ %POAP-2-POAP_INFO:   - Abort Power On Auto Provisioning [yes - continue with normal setup, skip - bypass password and basic configuration, no - continue with Power On Auto Provisioning] (yes/skip/no)[no]: yes
+Disabling POAP.......Disabling POAP
+2019 Apr 10 00:36:17 switch %$ VDC-1 %$ poap: Rolling back, please wait... (This may take 5-15 minutes)
 
- $ VDC-1 %$ %POAP-2-POAP_INFO:   - Abort Power On Auto Provisioning [yes - continue with normal setup, skip - bypass password and basic configuration, no - continue with Power On Auto Provisioning] (yes/skip/no)[no]:
- **yes**
- Disabling POAP.......Disabling POAP
- 2019 Apr 10 00:36:17 switch %$ VDC-1 %$ poap: Rolling back, please wait... (This may take 5-15 minutes)
-
-
-          ---- System Admin Account Setup ----
-
-
- Do you want to enforce secure password standard (yes/no) [y]:
-
+---- System Admin Account Setup ----
+----
++
 . Type *y* to enforce secure password standard:
 +
 ----
 Do you want to enforce secure password standard (yes/no) [y]: y
 ----
-
 . Enter and confirm the password for user admin:
 +
 ----
@@ -121,9 +118,9 @@ Enable the telnet service? (yes/no) [n]: n
 ----
 Enable the ssh service? (yes/no) [y]: y
 
-       Type of ssh key you would like to generate (dsa/rsa) [rsa]: rsa
+Type of ssh key you would like to generate (dsa/rsa) [rsa]: rsa
 
-       Number of rsa key bits <1024-2048> [1024]: 2048
+Number of rsa key bits <1024-2048> [1024]: 2048
 ----
 
 . Configure other settings:
@@ -150,7 +147,7 @@ Copy complete, now saving to disk (please wait)...
 Copy complete.
 ----
 
-. For ONTAP 9.8 and later, enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the commands: `system switch ethernet log setup-password``system switch ethernet log enable-collection`
+. For ONTAP 9.8 and later, enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the commands: `system switch ethernet log setup-password` and `system switch ethernet log enable-collection`
 +
 ----
 cluster1::*> system switch ethernet log setup-password
@@ -190,7 +187,7 @@ cluster1::*>
 +
 NOTE: If any of these commands return an error, contact NetApp support.
 
-. For ONTAP releases 9.5P16, 9.6P12, and 9.7P10 and later patch releases, enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the commands: `system cluster-switch log setup-password``system cluster-switch log enable-collection`
+. For ONTAP releases 9.5P16, 9.6P12, and 9.7P10 and later patch releases, enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the commands: `system cluster-switch log setup-password` and `system cluster-switch log enable-collection`
 +
 ----
 cluster1::*> system cluster-switch log setup-password

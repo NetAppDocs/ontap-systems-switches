@@ -24,8 +24,9 @@ Cisco Nexus 9336C-FX2 switch configuration:
 * There must be console access to the cluster switches.
 * Nexus 9336C-FX2 node-to-node switch and switch-to-switch connections must use Twinax or fiber cables.
 +
-The *Hardware Universe* contains more information about cabling.
+The https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches^] contains more information about cabling.
 +
+
 https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches^]
 
 * Inter-Switch Link (ISL) cables must be connected to ports 1/35 and 1/36 on both 9336C-FX2 switches.
@@ -42,10 +43,10 @@ The examples in this procedure use the following cluster switch and node nomencl
 * The `cluster1::*>` prompt indicates the name of the cluster.
 * The cluster ports used in this procedure are e0a and e0b.
 +
-The *Hardware Universe* contains the latest information about the actual cluster ports for your platforms.
-+
-https://hwu.netapp.com[Hardware Universe^]
 
+The https://hwu.netapp.com[Hardware Universe^] contains the latest information about the actual cluster ports for your platforms.
+
+.Steps
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=xh`
 +
 where x is the duration of the maintenance window in hours.
@@ -212,8 +213,9 @@ Cluster
 
 . Disconnect the cable from cluster port e0a on node1, and then connect e0a to port 1 on cluster switch cs1, using the appropriate cabling supported by the 9336C-FX2 switches.
 +
-The *Hardware Universe* contains more information about cabling.
+The https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches] contains more information about cabling.
 +
+
 https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches^]
 
 . Disconnect the cable from cluster port e0a on node2, and then connect e0a to port 2 on cluster switch cs1, using the appropriate cabling supported by the 9336C-FX2 switches.
@@ -431,7 +433,7 @@ RPC status:
 ----
 
 . Change the privilege level back to admin: `set -privilege admin`
-. For ONTAP 9.8 and later, enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the commands: `system switch ethernet log setup-password``system switch ethernet log enable-collection`
+. For ONTAP 9.8 and later, enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the commands: `system switch ethernet log setup-password` and `system switch ethernet log enable-collection`
 +
 ----
 cluster1::*> system switch ethernet log setup-password
@@ -459,7 +461,7 @@ Do you want to continue? {y|n}:: [n] y
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 
-cluster1::*> system  switch ethernet log enable-collection
+cluster1::*> system switch ethernet log enable-collection
 
 Do you want to enable cluster log collection for all nodes in the cluster?
 {y|n}: [n] y
@@ -471,7 +473,7 @@ cluster1::*>
 +
 NOTE: If any of these commands return an error, contact NetApp support.
 
-. For ONTAP releases 9.5P16, 9.6P12, and 9.7P10 and later patch releases, enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the commands: `system cluster-switch log setup-password``system cluster-switch log enable-collection`
+. For ONTAP releases 9.5P16, 9.6P12, and 9.7P10 and later patch releases, enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the commands: `system cluster-switch log setup-password` and `system cluster-switch log enable-collection`
 +
 ----
 cluster1::*> system cluster-switch log setup-password
