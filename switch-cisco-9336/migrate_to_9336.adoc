@@ -172,7 +172,8 @@ c1                    Eth1/48       176    S I s       N5K-C5596UP      Eth1/48
 . Ensure that the cluster network has full connectivity using the command: `cluster ping-cluster -node node-name`
 +
 ----
-cluster1::*> luster ping-cluster -node node2
+cluster1::*> cluster ping-cluster -node node2
+
 Host is node2
 Getting addresses from network interface table...
 Cluster node1_clus1 169.254.209.69 node1     e0a
@@ -369,6 +370,7 @@ node1      /cdp
 
 4 entries were displayed.
 ----
+
 
 . Verify that both nodes each have one connection to each switch: `show cdp neighbors`
 +

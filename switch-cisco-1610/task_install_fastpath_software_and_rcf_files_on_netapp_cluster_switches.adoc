@@ -1,0 +1,505 @@
+---
+permalink: switch-cisco-1610/task_install_fastpath_software_and_rcf_files_on_netapp_cluster_switches.html
+sidebar: sidebar
+keywords: fastpath, software, install, netapp cluster switches, rcfs, ontap
+summary: "The installation steps are the same for both NetApp CN1601 management switches and CN1610 cluster switches running ONTAP 8.3.1 or later. However, the two models require different software and RCFs."
+---
+= Install FASTPATH software and RCFs on NetApp cluster switches running ONTAP 8.3.1 and later
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+The installation steps are the same for both NetApp CN1601 management switches and CN1610 cluster switches running ONTAP 8.3.1 or later. However, the two models require different software and RCFs.
+
+== What you'll need
+
+* The cluster must be a fully functioning cluster.
+* There must be no defective cluster NICs, and all connected ports on both cluster switches must be functional.
+* All cluster ports must be up.
+* All cluster logical interfaces (LIFs) must be up and must not have been migrated.
+* The ONTAP (privilege: advanced) `cluster ping-cluster -node node1` command must indicate that `larger than PMTU communication` is successful on all paths.
+* You must be using supported FASTPATH, RCF, and ONTAP versions.
++
+There can be command dependencies between command syntax in the RCF and FASTPATH versions. The switch compatibility page lists the supported versions.
++
+http://mysupport.netapp.com/NOW/download/software/cm_switches_ntap/[NetApp CN1601 and CN1610 Switches^]
+
+== About this task
+
+The examples in this procedure use the following switch and node nomenclature:
+
+* The two NetApp switch names are cs1 and cs2.
+* The cluster logical interface (LIF) names are node1_clus1 and node1_clus2 for node1, and node2_clus1 and node2_clus2 for node2.
+* The storage virtual machine (SVM) name is Cluster.
+* The `cluster1::*>` prompt indicates the name of the cluster.
+* The cluster ports on each node are named e0a and e0b.
++
+The _Hardware Universe_ contains the actual cluster ports supported on your platform.
+
+* The Inter-Switch Links (ISLs) supported for the NetApp cluster switches are ports 0/13 through 0/16.
+* The node connections supported for the NetApp cluster switches are ports 0/1 through 0/12.
+* The example in this procedure begins the upgrade on the second switch, _cs2_.
+* The examples in this procedure use two nodes, but you can have up to 24 nodes in a cluster.
+* The examples and outputs might vary depending on different releases of FASTPATH, RCF, and ONTAP.
+
+== Steps
+
+. Display information about the network ports on the cluster:
++
+`network port show -_ipspace cluster_`
++
+The following example shows the type of output from the command:
++
+----
+cluster1::> network port show -ipspace cluster
+                                                             Speed (Mbps)
+Node   Port      IPspace      Broadcast Domain Link   MTU    Admin/Oper
+------ --------- ------------ ---------------- ----- ------- ------------
+node1
+       e0a       Cluster      Cluster          up       9000  auto/10000
+       e0b       Cluster      Cluster          up       9000  auto/10000
+node2
+       e0a       Cluster      Cluster          up       9000  auto/10000
+       e0b       Cluster      Cluster          up       9000  auto/10000
+4 entries were displayed.
+----
+
+. Display information about the LIFs on the cluster:
++
+`network interface show -_role cluster_`
++
+The following example shows the logical interfaces on the cluster. In this example the `-role` parameter displays information about the LIFs that are associated with cluster ports:
++
+----
+cluster1::> network interface show -role cluster
+  (network interface show)
+            Logical    Status     Network            Current       Current Is
+Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
+----------- ---------- ---------- ------------------ ------------- ------- ----
+Cluster
+            node1_clus1  up/up    10.254.66.82/16    node1         e0a     true
+            node1_clus2  up/up    10.254.206.128/16  node1         e0b     true
+            node2_clus1  up/up    10.254.48.152/16   node2         e0a     true
+            node2_clus2  up/up    10.254.42.74/16    node2         e0b     true
+4 entries were displayed.
+----
+
+. On each respective node, using a node management LIF, migrate node1_clus2 to e0a on node1 and node2_clus2 to e0a on node2:
++
+`network interface migrate`
++
+You must enter the commands on the controller consoles that own the respective cluster LIFs.
++
+----
+
+cluster1::> network interface migrate -vserver Cluster -lif node1_clus2 -destination-node node1 -destination-port e0a
+cluster1::> network interface migrate -vserver Cluster -lif node2_clus2 -destination-node node2 -destination-port e0a
+----
++
+[NOTE]
+====
+For this command, the name of the cluster is case-sensitive and the command should be run on each node. It is not possible to run this command in the general cluster LIF.
+====
+
+. Verify that the migration took place by using the `network interface show` command on a node.
++
+The following example shows that clus2 has migrated to port e0a on nodes node1 and node2:
++
+----
+cluster1::> **network interface show -role cluster**
+            Logical    Status     Network            Current       Current Is
+Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
+----------- ---------- ---------- ------------------ ------------- ------- ----
+Cluster
+            node1_clus1  up/up    10.254.66.82/16   node1          e0a     true
+            node1_clus2  up/up    10.254.206.128/16 node1          e0a     false
+            node2_clus1  up/up    10.254.48.152/16  node2          e0a     true
+            node2_clus2  up/up    10.254.42.74/16   node2          e0a     false
+4 entries were displayed.
+----
+
+. Change the privilege level to advanced, entering y when prompted to continue:
++
+`set -privilege advanced`
++
+The advanced prompt (*>) appears.
+
+. Shut down cluster port e0b on both nodes:
++
+`network port modify -node _node_name_ -port _port_name_ -up-admin false`
++
+You must enter the commands on the controller consoles that own the respective cluster LIFs.
++
+The following example shows the commands to shut down port e0b on all nodes:
++
+----
+cluster1::*> network port modify -node node1 -port e0b -up-admin false
+cluster1::*> network port modify -node node2 -port e0b -up-admin false
+----
+
+. Verify that port e0b is shut down on both nodes:
++
+`network port show`
++
+----
+cluster1::*> network port show -role cluster
+
+                                                             Speed (Mbps)
+Node   Port      IPspace      Broadcast Domain Link   MTU    Admin/Oper
+------ --------- ------------ ---------------- ----- ------- ------------
+node1
+       e0a       Cluster      Cluster          up       9000  auto/10000
+       e0b       Cluster      Cluster          down     9000  auto/10000
+node2
+       e0a       Cluster      Cluster          up       9000  auto/10000
+       e0b       Cluster      Cluster          down     9000  auto/10000
+4 entries were displayed.
+----
+
+. Shut down the Inter-Switch Link (ISL) ports on cs1.
++
+----
+
+(cs1) #configure
+(cs1) (Config)#interface 0/13-0/16
+(cs1) (Interface 0/13-0/16)#shutdown
+(cs1) (Interface 0/13-0/16)#exit
+(cs1) (Config)#exit
+----
+
+. Back up the current active image on cs2.
++
+----
+(cs2) # show bootvar
+
+ Image Descriptions
+
+ active :
+ backup :
+
+
+ Images currently available on Flash
+
+--------------------------------------------------------------------
+ unit      active      backup     current-active        next-active
+--------------------------------------------------------------------
+
+    1     1.1.0.5     1.1.0.3            1.1.0.5            1.1.0.5
+
+(cs2) # copy active backup
+Copying active to backup
+Copy operation successful
+----
+
+. Verify the running version of the FASTPATH software.
++
+----
+(cs2) # show version
+
+Switch: 1
+
+System Description............................. NetApp CN1610, 1.1.0.5, Linux
+                                                2.6.21.7
+Machine Type................................... NetApp CN1610
+Machine Model.................................. CN1610
+Serial Number.................................. 20211200106
+Burned In MAC Address.......................... 00:A0:98:21:83:69
+Software Version............................... 1.1.0.5
+Operating System............................... Linux 2.6.21.7
+Network Processing Device...................... BCM56820_B0
+Part Number.................................... 111-00893
+
+--More-- or (q)uit
+
+
+Additional Packages............................ FASTPATH QOS
+                                                FASTPATH IPv6 Management
+----
+
+. Download the image file to the switch.
++
+Copying the image file to the active image means that when you reboot, that image establishes the running FASTPATH version. The previous image remains available as a backup.
++
+----
+(cs2) #copy sftp://root@10.22.201.50//tftpboot/NetApp_CN1610_1.2.0.7.stk active
+Remote Password:********
+
+Mode........................................... SFTP
+Set Server IP.................................. 10.22.201.50
+Path........................................... /tftpboot/
+Filename....................................... NetApp_CN1610_1.2.0.7.stk
+Data Type...................................... Code
+Destination Filename........................... active
+
+Management access will be blocked for the duration of the transfer
+Are you sure you want to start? (y/n) y
+SFTP Code transfer starting...
+
+
+File transfer operation completed successfully.
+----
+
+. Confirm the current and next-active boot image versions:
++
+`show bootvar`
++
+----
+(cs2) #show bootvar
+
+Image Descriptions
+
+ active :
+ backup :
+
+
+ Images currently available on Flash
+
+--------------------------------------------------------------------
+ unit      active      backup     current-active        next-active
+--------------------------------------------------------------------
+
+    1     1.1.0.8     1.1.0.8            1.1.0.8            1.2.0.7
+----
+
+. Install the compatible RCF for the new image version to the switch.
++
+If the RCF version is already correct, skip to step 18 to bring up the ISL ports.
++
+----
+(cs2) #copy tftp://10.22.201.50//CN1610_CS_RCF_v1.2.txt nvram:script CN1610_CS_RCF_v1.2.scr
+
+Mode........................................... TFTP
+Set Server IP.................................. 10.22.201.50
+Path........................................... /
+Filename....................................... CN1610_CS_RCF_v1.2.txt
+Data Type...................................... Config Script
+Destination Filename........................... CN1610_CS_RCF_v1.2.scr
+
+File with same name already exists.
+WARNING:Continuing with this command will overwrite the existing file.
+
+
+Management access will be blocked for the duration of the transfer
+Are you sure you want to start? (y/n) y
+
+
+Validating configuration script...
+[the script is now displayed line by line]
+
+Configuration script validated.
+File transfer operation completed successfully.
+----
++
+[NOTE]
+====
+The `.scr` extension must be set as part of the file name before invoking the script. This extension is for the FASTPATH operating system.
+====
++
+The switch validates the script automatically as it is downloaded to the switch. The output goes to the console.
+
+. Verify that the script was downloaded and saved to the file name you gave it.
++
+----
+(cs2) #script list
+
+Configuration Script Name        Size(Bytes)
+-------------------------------- -----------
+CN1610_CS_RCF_v1.2.scr                  2191
+
+1 configuration script(s) found.
+2541 Kbytes free.
+----
+
+. Apply the script to the switch.
++
+----
+(cs2) #script apply CN1610_CS_RCF_v1.2.scr
+
+Are you sure you want to apply the configuration script? (y/n) y
+[the script is now displayed line by line]...
+
+Configuration script 'CN1610_CS_RCF_v1.2.scr' applied.
+----
+
+. Verify that the changes have been applied to the switch, and then save them:
++
+`show running-config`
++
+----
+(cs2) #show running-config
+----
+
+. Save the running configuration so it becomes the startup configuration when you reboot the switch.
++
+----
+(cs2) #write memory
+This operation may take a few minutes.
+Management interfaces will not be available during this time.
+
+Are you sure you want to save? (y/n) y
+
+Config file 'startup-config' created successfully.
+
+Configuration Saved!
+----
+
+. Reboot the switch.
++
+----
+(cs2) #reload
+
+The system has unsaved changes.
+Would you like to save them now? (y/n) y
+
+Config file 'startup-config' created successfully.
+Configuration Saved!
+System will now restart!
+----
+
+. Log in again, and then verify that the switch is running the new version of the FASTPATH software.
++
+----
+(cs2) #show version
+
+Switch: 1
+
+System Description............................. NetApp CN1610, 1.2.0.7,Linux
+                                                3.8.13-4ce360e8
+Machine Type................................... NetApp CN1610
+Machine Model.................................. CN1610
+Serial Number.................................. 20211200106
+Burned In MAC Address.......................... 00:A0:98:21:83:69
+Software Version............................... 1.2.0.7
+Operating System............................... Linux 3.8.13-4ce360e8
+Network Processing Device...................... BCM56820_B0
+Part Number.................................... 111-00893
+CPLD version................................... 0x5
+
+
+Additional Packages............................ FASTPATH QOS
+                                                FASTPATH IPv6 Management
+----
++
+After the reboot completes, you must log in to verify the image version, view the running configuration, and look for the description on interface 3/64, which is the version label for the RCF.
+
+. Bring up the ISL ports on cs1, the active switch.
++
+----
+(cs1) #configure
+(cs1) (Config) #interface 0/13-0/16
+(cs1) (Interface 0/13-0/16) #no shutdown
+(cs1) (Interface 0/13-0/16) #exit
+(cs1) (Config) #exit
+----
+
+. Verify that the ISLs are operational:
++
+`show port-channel 3/1`
++
+The Link State field should indicate `Up`.
++
+----
+(cs1) #show port-channel 3/1
+
+Local Interface................................ 3/1
+Channel Name................................... ISL-LAG
+Link State..................................... Up
+Admin Mode..................................... Enabled
+Type........................................... Static
+Load Balance Option............................ 7
+(Enhanced hashing mode)
+
+Mbr    Device/       Port      Port
+Ports  Timeout       Speed     Active
+------ ------------- --------- -------
+0/13   actor/long    10G Full  True
+       partner/long
+0/14   actor/long    10G Full  True
+       partner/long
+0/15   actor/long    10G Full  False
+       partner/long
+0/16   actor/long    10G Full  True
+       partner/long
+----
+
+. Bring up cluster port e0b on all nodes:
++
+`network port modify`
++
+You must enter the commands on the controller consoles that own the respective cluster LIFs.
++
+The following example shows port e0b being brought up on node1 and node2:
++
+----
+cluster1::*> network port modify -node node1 -port e0b -up-admin true
+cluster1::*> network port modify -node node2 -port e0b -up-admin true
+----
+
+. Verify that the port e0b is up on all nodes:
++
+`network port show -ipspace cluster`
++
+----
+cluster1::*> network port show -ipspace cluster
+
+                                                             Speed (Mbps)
+Node   Port      IPspace      Broadcast Domain Link   MTU    Admin/Oper
+------ --------- ------------ ---------------- ----- ------- ------------
+node1
+       e0a       Cluster      Cluster          up       9000  auto/10000
+       e0b       Cluster      Cluster          up       9000  auto/10000
+node2
+       e0a       Cluster      Cluster          up       9000  auto/10000
+       e0b       Cluster      Cluster          up       9000  auto/10000
+4 entries were displayed.
+----
+
+. Verify that the LIF is now home (`true`) on both nodes:
++
+`network interface show -_role cluster_`
++
+----
+cluster1::*> network interface show -role cluster
+
+            Logical    Status     Network            Current       Current Is
+Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
+----------- ---------- ---------- ------------------ ------------- ------- ----
+Cluster
+            node1_clus1  up/up    169.254.66.82/16   node1         e0a     true
+            node1_clus2  up/up    169.254.206.128/16 node1         e0b     true
+            node2_clus1  up/up    169.254.48.152/16  node2         e0a     true
+            node2_clus2  up/up    169.254.42.74/16   node2         e0b     true
+4 entries were displayed.
+----
+
+. Show the status of the node members:
++
+`cluster show`
++
+----
+cluster1::*> cluster show
+
+Node                 Health  Eligibility   Epsilon
+-------------------- ------- ------------  ------------
+node1                true    true          false
+node2                true    true          false
+2 entries were displayed.
+----
+
+. Return to the admin privilege level:
++
+`set -privilege admin`
+. Repeat the steps 1 through 18 to upgrade the FASTPATH software and RCF on the other switch, cs1.
++
+[options="header"]
+|===
+| If you...| Then...
+a|
+Do not need to install the RCF
+a|
+Go to Step 18 to finish the installation.
+a|
+Need to install the RCF
+a|
+Go to Step 13.
+|===

@@ -148,7 +148,7 @@ If the switch that you are replacing is not functional and is powered down, go t
 ----
 newcs2# config
 Enter configuration commands, one per line. End with CNTL/Z.
-newcs2(config)#*interface e1/1-34
+newcs2(config)# interface e1/1-34
 newcs2(config-if-range)# shutdown
 ----
 
@@ -325,7 +325,7 @@ e0b       Cluster      Cluster          up    9000  auto/10000  healthy  false
 . Verify that all the cluster LIFs can communicate: `cluster ping-cluster`
 +
 ----
-cluster1::*>cluster ping-cluster -node node2
+cluster1::*> cluster ping-cluster -node node2
 Host is node2
 Getting addresses from network interface table...
 Cluster node1_clus1 169.254.209.69 node1 e0a
