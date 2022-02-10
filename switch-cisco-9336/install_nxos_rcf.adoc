@@ -192,7 +192,9 @@ cs2#
 ----
 
  .. Perform a basic setup of the switch.
-. Copy the RCF to the bootflash of switch cs2 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference] guides.
+
+[start=8]
+. [[step8]]Copy the RCF to the bootflash of switch cs2 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference] guides.
 +
 This example shows TFTP being used to copy an RCF to the bootflash on switch cs2:
 +
@@ -368,8 +370,8 @@ cs2                         cluster-network    10.233.205.91    NX9-C9336C
 
 +
 NOTE: You might observe the following output on the cs1 switch console depending on the RCF version previously loaded on the switch:
-+
 
++
 ----
 2020 Nov 17 16:07:18 cs1 %$ VDC-1 %$ %STP-2-UNBLOCK_CONSIST_PORT: Unblocking port port-channel1 on VLAN0092. Port consistency restored.
 2020 Nov 17 16:07:23 cs1 %$ VDC-1 %$ %STP-2-BLOCK_PVID_PEER: Blocking port-channel1 on VLAN0001. Inconsistent peer vlan.
