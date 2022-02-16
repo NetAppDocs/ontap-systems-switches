@@ -1,0 +1,18 @@
+---
+permalink: switch-nvidia-msn2100/install_cabling_config_considerations_msn2100.html
+sidebar: sidebar
+keywords: msn2100 cabling setup, msn2100 switches configuration, cumulus linux
+summary: 'Before configuring your NVIDIA MSN2100 switch, review the following information:'
+---
+= Cabling and configuration considerations
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+Before configuring your NVIDIA MSN2100 switch, review the following information:
+
+. Only optical connections are supported on MSN2100 switches with X1151A NIC, X1146A NIC, or onboard 100GbE ports on AFF A800. (Burts 1397967 and 1402399)
+. When a QSA adapter is used to connect to the onboard Intel cluster ports on the FAS2750 platform, not all links come up. To resolve this issue, do the following:
+.. For Intel 10G, manually set the swp1s0-3 link speed to 10000 and set auto-negotiation to offset
+.. For Chelsio 25G, manually set the swp2s0-3 link speed to 25000 and set auto-negotiation to off
+NOTE: Using 10G/25G QSA, use the non-breakout 40/100G ports. Do not insert the QSA adapter on ports that are configured for breakout. This results in only one port being available for use. (Burts 1433115, 1407009)
