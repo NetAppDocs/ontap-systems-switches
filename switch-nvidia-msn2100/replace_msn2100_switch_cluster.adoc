@@ -1,15 +1,15 @@
 ---
-permalink: switch-cisco-9336/replace-9336c.html
+permalink: switch-nvidia-msn2100/replace_msn2100_switch_cluster.html
 sidebar: sidebar
-keywords: replacing, replace, defective, nexus, switch, cluster, network, nondisruptive, procedure, ndu, replace a cisco nexus 9336c-fx2 cluster switch - cisco nexus 9336c-fx2
-summary: Replacing a defective Nexus 9336C-FX2 switch in a cluster network is a nondisruptive procedure \(NDU\).
+keywords: replacing, replace, defective, nvidia, switch, cluster, network, nondisruptive, procedure, ndu, replace a nvidia msn2100 cluster switch - nvidia msn2100
+summary: Replacing a defective NVIDIA MSN2100 switch in a cluster network is a nondisruptive procedure \(NDU\).
 ---
-= Replace a Cisco Nexus 9336C-FX2 cluster switch
+= Replace a NVIDIA MSN2100 cluster switch
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-Replacing a defective Nexus 9336C-FX2 switch in a cluster network is a nondisruptive procedure (NDU).
+Replacing a defective NVIDIA MSN2100 switch in a cluster network is a nondisruptive procedure (NDU).
 
 .Before you begin
 The following conditions must exist before performing the switch replacement in the current environment and on the replacement switch.
@@ -18,16 +18,16 @@ The following conditions must exist before performing the switch replacement in 
  ** The existing cluster must be verified as completely functional, with at least one fully connected cluster switch.
  ** All cluster ports must be up.
  ** All cluster logical interfaces (LIFs) must be up and on their home ports.
- ** The ONTAP cluster ping-cluster -node node1 command must indicate that basic connectivity and larger than PMTU communication are successful on all paths.
-* Nexus 9336C-FX2 replacement switch:
+ ** The ONTAP `cluster ping-cluster -node node1` command must indicate that basic connectivity and larger than PMTU communication are successful on all paths.
+* NVIDIA MSN2100 replacement switch:
  ** Management network connectivity on the replacement switch must be functional.
  ** Console access to the replacement switch must be in place.
- ** The node connections are ports 1/1 through 1/34.
- ** All Inter-Switch Link (ISL) ports must be disabled on ports 1/35 and 1/36.
- ** The desired reference configuration file (RCF) and NX-OS operating system image switch must be loaded onto the switch.
+ ** The node connections are ports swp1 through swp14.
+ ** All Inter-Switch Link (ISL) ports must be disabled on ports swp15 and swp16.
+ ** The desired reference configuration file (RCF) and Cumulus operating system image switch must be loaded onto the switch.
  ** Initial customization of the switch must be complete, as detailed in:
 +
-xref:replace-configure-new-switch.adoc[Configuring a new Cisco Nexus 9336C-FX2 switch]
+//xref:replace-configure-new-switch.adoc[Configuring a new Cisco Nexus 9336C-FX2 switch]
 +
 Any previous site customizations, such as STP, SNMP, and SSH, should be copied to the new switch.
 
@@ -35,29 +35,29 @@ You must execute the command for migrating a cluster LIF from the node where the
 
 The examples in this procedure use the following switch and node nomenclature:
 
-* The names of the existing Nexus 9336C-FX2 switches are cs1 and cs2.
-* The name of the new Nexus 9336C-FX2 switch is newcs2.
+* The names of the existing NVIDIA MSN2100 switches are sw1 and sw2.
+* The name of the new NVIDIA MSN2100 switch is nsw2.
 * The node names are node1 and node2.
 * The cluster ports on each node are named e0a and e0b.
 * The cluster LIF names are node1_clus1 and node1_clus2 for node1, and node2_clus1 and node2_clus2 for node2.
 * The prompt for changes to all cluster nodes is cluster1::*>
-
++
 NOTE: The following procedure is based on the following cluster network topology:
 
 ----
 cluster1::*> network port show -ipspace Cluster
 
 Node: node1
-                                                                       Ignore
-                                                  Speed(Mbps) Health   Health
+Ignore
+Speed(Mbps) Health   Health
 Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ---- ----------- -------- ------
 e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
 e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 
 Node: node2
-                                                                       Ignore
-                                                  Speed(Mbps) Health   Health
+Ignore
+Speed(Mbps) Health   Health
 Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ---- ----------- -------- ------
 e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
@@ -67,16 +67,15 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 
 
 cluster1::*> network interface show -vserver Cluster
-            Logical    Status     Network            Current       Current Is
+Logical    Status     Network            Current       Current Is
 Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
 ----------- ---------- ---------- ------------------ ------------- ------- ----
 Cluster
-            node1_clus1  up/up    169.254.209.69/16  node1         e0a     true
-            node1_clus2  up/up    169.254.49.125/16  node1         e0b     true
-            node2_clus1  up/up    169.254.47.194/16  node2         e0a     true
-            node2_clus2  up/up    169.254.19.183/16  node2         e0b     true
+node1_clus1  up/up    169.254.209.69/16  node1         e0a     true
+node1_clus2  up/up    169.254.49.125/16  node1         e0b     true
+node2_clus1  up/up    169.254.47.194/16  node2         e0a     true
+            16  node2         e0b     true
 4 entries were displayed.
-
 
 
 cluster1::*> network device-discovery show -protocol cdp
@@ -84,11 +83,11 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
 node2      /cdp
-            e0a    cs1                       Eth1/2            N9K-C9336C
-            e0b    cs2                       Eth1/2            N9K-C9336C
+            e0a    sw1                       Eth1/2            MSN2100-CB2RC
+            e0b    sw2                       Eth1/2            MSN2100-CB2RC
 node1      /cdp
-            e0a    cs1                       Eth1/1            N9K-C9336C
-            e0b    cs2                       Eth1/1            N9K-C9336C
+            e0a    sw1                       Eth1/1            MSN2100-CB2RC
+            e0b    sw2                       Eth1/1            MSN2100-CB2RC
 4 entries were displayed.
 
 
@@ -96,15 +95,15 @@ node1      /cdp
 cs1# show cdp neighbors
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
-                  S - Switch, H - Host, I - IGMP, r - Repeater,
-                  V - VoIP-Phone, D - Remotely-Managed-Device,
-                  s - Supports-STP-Dispute
+S - Switch, H - Host, I - IGMP, r - Repeater,
+V - VoIP-Phone, D - Remotely-Managed-Device,
+s - Supports-STP-Dispute
 
-Device-ID          Local Intrfce  Hldtme Capability  Platform      Port ID
-node1              Eth1/1         144    H           FAS2980       e0a
-node2              Eth1/2         145    H           FAS2980       e0a
-cs2                Eth1/35        176    R S I s     N9K-C9336C    Eth1/35
-cs2(FDO220329V5)   Eth1/36        176    R S I s     N9K-C9336C    Eth1/36
+Device-ID          Local Intrfce  Hldtme Capability  Platform       Port ID
+node1              Eth1/1         144    H           FAS2980        e0a
+node2              Eth1/2         145    H           FAS2980        e0a
+sw2                Eth1/35        176    R S I s     MSN2100-CB2RC  Eth1/35
+sw2(FDO220329V5)   Eth1/36        176    R S I s     MSN2100-CB2RC  Eth1/36
 
 Total entries displayed: 4
 
@@ -112,15 +111,15 @@ Total entries displayed: 4
 cs2# show cdp neighbors
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
-                  S - Switch, H - Host, I - IGMP, r - Repeater,
-                  V - VoIP-Phone, D - Remotely-Managed-Device,
-                  s - Supports-STP-Dispute
+S - Switch, H - Host, I - IGMP, r - Repeater,
+V - VoIP-Phone, D - Remotely-Managed-Device,
+s - Supports-STP-Dispute
 
-Device-ID          Local Intrfce  Hldtme Capability  Platform      Port ID
-node1              Eth1/1         139    H           FAS2980       e0b
-node2              Eth1/2         124    H           FAS2980       e0b
-cs1                Eth1/35        178    R S I s     N9K-C9336C    Eth1/35
-cs1                Eth1/36        178    R S I s     N9K-C9336C    Eth1/36
+Device-ID          Local Intrfce  Hldtme Capability  Platform       Port ID
+node1              Eth1/1         139    H           FAS2980        e0b
+node2              Eth1/2         124    H           FAS2980        e0b
+sw1                Eth1/35        178    R S I s     MSN2100-CB2RC  Eth1/35
+sw1                Eth1/36        178    R S I s     MSN2100-CB2RC  Eth1/36
 
 Total entries displayed: 4
 ----
@@ -132,24 +131,24 @@ where x is the duration of the maintenance window in hours.
 +
 NOTE: The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
 
-. Install the appropriate RCF and image on the switch, newcs2, and make any necessary site preparations.
+. Install the appropriate RCF and image on the switch, nsw2, and make any necessary site preparations.
 +
-If necessary, verify, download, and install the appropriate versions of the RCF and NX-OS software for the new switch. If you have verified that the new switch is correctly set up and does not need updates to the RCF and NX-OS software, continue to step 2.
+If necessary, verify, download, and install the appropriate versions of the RCF and Cumulus software for the new switch. If you have verified that the new switch is correctly set up and does not need updates to the RCF and Cumulus software, continue to step 2.
 
  .. Go to the _NetApp Cluster and Management Network Switches Reference Configuration File Description Page_ on the NetApp Support Site.
  .. Click the link for the _Cluster Network and Management Network Compatibility Matrix_, and then note the required switch software version.
  .. Click your browser's back arrow to return to the Description page, click *CONTINUE*, accept the license agreement, and then go to the Download page.
- .. Follow the steps on the Download page to download the correct RCF and NX-OS files for the version of ONTAP software you are installing.
+ .. Follow the steps on the Download page to download the correct RCF and Cumulus files for the version of ONTAP software you are installing.
 
-. On the new switch, log in as admin and shut down all of the ports that will be connected to the node cluster interfaces (ports 1/1 to 1/34).
+. On the new switch, log in as admin and shut down all of the ports that will be connected to the node cluster interfaces (ports swp1 to swp14).
 +
 If the switch that you are replacing is not functional and is powered down, go to Step 4. The LIFs on the cluster nodes should have already failed over to the other cluster port for each node.
 +
 ----
-newcs2# config
+nsw2# config
 Enter configuration commands, one per line. End with CNTL/Z.
-newcs2(config)# interface e1/1-34
-newcs2(config-if-range)# shutdown
+nsw2(config)# interface e1/1-34
+nsw2(config-if-range)# shutdown
 ----
 
 . Verify that all cluster LIFs have auto-revert enabled: `network interface show -vserver Cluster -fields auto-revert`
@@ -198,7 +197,7 @@ RPC status:
 2 paths up, 0 paths down (udp check)
 ----
 
-. Shut down the ISL ports 1/35 and 1/36 on the Nexus 9336C-FX2 switch cs1:
+. Shut down the ISL ports swp15 and swp16 on the MSN2100 switch sw1:
 +
 ----
 cs1# configure
@@ -208,20 +207,21 @@ cs1(config-if-range)# shutdown
 cs1(config-if-range)#
 ----
 
-. Remove all of the cables from the Nexus 9336C-FX2 cs2 switch, and then connect them to the same ports on the Nexus C9336C-FX2 newcs2 switch.
-. Bring up the ISLs ports 1/35 and 1/36 between the cs1 and newcs2 switches, and then verify the port channel operation status.
+. Remove all the cables from the MSN2100 sw2 switch, and then connect them to the same ports on the MSN2100 nsw2 switch.
+. Create a temporary ISL between sw1 and nsw2 on ports swp15 and swp16.
+. Bring up the ISL ports swp15 and swp16 between the sw1 and nsw2 switches, and then verify the port channel operation status.
 +
 Port-Channel should indicate Po1(SU) and Member Ports should indicate Eth1/35(P) and Eth1/36(P).
 +
-This example enables ISL ports 1/35 and 1/36 and displays the port channel summary on switch cs1:
+This example enables ISL ports swp15 and swp16 and displays the port channel summary on switch sw1:
 +
 ----
-cs1# configure
+sw1# configure
 Enter configuration commands, one per line. End with CNTL/Z.
-cs1(config)# int e1/35-36
-cs1(config-if-range)# no shutdown
+sw1(config)# int e1/35-36
+sw1(config-if-range)# no shutdown
 
-cs1(config-if-range)# show port-channel summary
+sw1(config-if-range)# show port-channel summary
 Flags:  D - Down        P - Up in port-channel (members)
         I - Individual  H - Hot-standby (LACP only)
         s - Suspended   r - Module-removed
@@ -239,7 +239,7 @@ Group Port-       Type     Protocol  Member       Ports
 cs1(config-if-range)#
 ----
 
-. Verify that port e0b is up on all nodes: `network port show ipspace Cluster`
+. Verify that port `e0b` is up on all nodes: `network port show ipspace Cluster`
 +
 The output should be similar to the following:
 +
@@ -247,8 +247,8 @@ The output should be similar to the following:
 cluster1::*> network port show -ipspace Cluster
 
 Node: node1
-                                                                        Ignore
-                                                   Speed(Mbps) Health   Health
+                                                                                                                                                                     Ignore
+                                                                                                                                                Speed(Mbps) Health   Health
 Port      IPspace      Broadcast Domain Link MTU   Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ----- ----------- -------- -------
 e0a       Cluster      Cluster          up   9000  auto/10000  healthy  false
@@ -267,9 +267,9 @@ e0b       Cluster      Cluster          up   9000  auto/auto   -        false
 
 . On the same node you used in the previous step, revert the cluster LIF associated with the port in the previous step by using the network interface revert command.
 +
-In this example, LIF node1_clus2 on node1 is successfully reverted if the Home value is true and the port is e0b.
+In this example, LIF `node1_clus2` on `node1` is successfully reverted if the `Home` value is `true` and the port is `e0b`.
 +
-The following commands return LIF `node1_clus2` on `node1` to home port `e0a` and displays information about the LIFs on both nodes. Bringing up the first node is successful if the Is Home column is true for both cluster interfaces and they show the correct port assignments, in this example `e0a` and `e0b` on node1.
+The following commands return LIF `node1_clus2` on `node1` to home port `e0a` and displays information about the LIFs on both nodes. Bringing up the first node is successful if the `Is Home` column is true for both cluster interfaces and they show the correct port assignments, in this example `e0a` and `e0b` on `node1`.
 +
 ----
 cluster1::*> network interface show -vserver Cluster
@@ -393,11 +393,11 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
 node2      /cdp
-            e0a    cs1                       0/2               N9K-C9336C
-            e0b    newcs2                    0/2               N9K-C9336C
+            e0a    sw1                       0/2               MSN2100-CB2RC
+            e0b    nsw2                      0/2               MSN2100-CB2RC
 node1      /cdp
-            e0a    cs1                       0/1               N9K-C9336C
-            e0b    newcs2                    0/1               N9K-C9336C
+            e0a    sw1                       0/1               MSN2100-CB2RC
+            e0b    nsw2                      0/1               MSN2100-CB2RC
 
 4 entries were displayed.
 
@@ -409,11 +409,11 @@ Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   V - VoIP-Phone, D - Remotely-Managed-Device,
                   s - Supports-STP-Dispute
 
-Device-ID            Local Intrfce  Hldtme Capability  Platform      Port ID
-node1                Eth1/1         144    H           FAS2980       e0a
-node2                Eth1/2         145    H           FAS2980       e0a
-newcs2               Eth1/35        176    R S I s     N9K-C9336C    Eth1/35
-newcs2               Eth1/36        176    R S I s     N9K-C9336C    Eth1/36
+Device-ID            Local Intrfce  Hldtme Capability  Platform       Port ID
+node1                Eth1/1         144    H           FAS2980        e0a
+node2                Eth1/2         145    H           FAS2980        e0a
+nsw2                 Eth1/35        176    R S I s     MSN2100-CB2RC  Eth1/35
+nsw2                 Eth1/36        176    R S I s     MSN2100-CB2RC  Eth1/36
 
 Total entries displayed: 4
 
@@ -425,28 +425,28 @@ Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   V - VoIP-Phone, D - Remotely-Managed-Device,
                   s - Supports-STP-Dispute
 
-Device-ID          Local Intrfce  Hldtme Capability  Platform      Port ID
-node1              Eth1/1         139    H           FAS2980       e0b
-node2              Eth1/2         124    H           FAS2980       e0b
-cs1                Eth1/35        178    R S I s     N9K-C9336C    Eth1/35
-cs1                Eth1/36        178    R S I s     N9K-C9336C    Eth1/36
+Device-ID          Local Intrfce  Hldtme Capability  Platform       Port ID
+node1              Eth1/1         139    H           FAS2980        e0b
+node2              Eth1/2         124    H           FAS2980        e0b
+sw1                Eth1/35        178    R S I s     MSN2100-CB2RC  Eth1/35
+sw1                Eth1/36        178    R S I s     MSN2100-CB2RC  Eth1/36
 
 Total entries displayed: 4
 ----
 
-. For ONTAP 9.8 and later, enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the commands: `system switch ethernet log setup-password` and `system switch ethernet log enable-collection`
+. Enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the commands: `system switch ethernet log setup-password` and `system switch ethernet log enable-collection`
 +
 ----
 cluster1::*> system switch ethernet log setup-password
 Enter the switch name: <return>
 The switch name entered is not recognized.
 Choose from the following list:
-cs1
-cs2
+sw1
+sw2
 
 cluster1::*> system switch ethernet log setup-password
 
-Enter the switch name: cs1
+Enter the switch name: sw1
 RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
 Do you want to continue? {y|n}::[n] y
 
@@ -455,7 +455,7 @@ Enter the password again: <enter switch password>
 
 cluster1::*> system switch ethernet log setup-password
 
-Enter the switch name: cs2
+Enter the switch name: sw2
 RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
 Do you want to continue? {y|n}:: [n] y
 
@@ -463,46 +463,6 @@ Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 
 cluster1::*> system  switch ethernet log enable-collection
-
-Do you want to enable cluster log collection for all nodes in the cluster?
-{y|n}: [n] y
-
-Enabling cluster switch log collection.
-
-cluster1::*>
-----
-+
-NOTE: If any of these commands return an error, contact NetApp support.
-
-. For ONTAP releases 9.5P16, 9.6P12, and 9.7P10 and later patch releases, enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the commands: `system cluster-switch log setup-password` and `system cluster-switch log enable-collection`
-+
-----
-cluster1::*> system cluster-switch log setup-password
-Enter the switch name: <return>
-The switch name entered is not recognized.
-Choose from the following list:
-cs1
-cs2
-
-cluster1::*> system cluster-switch log setup-password
-
-Enter the switch name: cs1
-RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
-Do you want to continue? {y|n}::[n] y
-
-Enter the password: <enter switch password>
-Enter the password again: <enter switch password>
-
-cluster1::*> system cluster-switch log setup-password
-
-Enter the switch name: cs2
-RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
-Do you want to continue? {y|n}:: [n] y
-
-Enter the password: <enter switch password>
-Enter the password again: <enter switch password>
-
-cluster1::*> system cluster-switch log enable-collection
 
 Do you want to enable cluster log collection for all nodes in the cluster?
 {y|n}: [n] y
