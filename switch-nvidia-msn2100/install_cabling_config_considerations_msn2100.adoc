@@ -15,4 +15,6 @@ Before configuring your NVIDIA MSN2100 switch, review the following information:
 . When a QSA adapter is used to connect to the onboard Intel cluster ports on the FAS2750 platform, not all links come up. To resolve this issue, do the following:
 .. For Intel 10G, manually set the swp1s0-3 link speed to 10000 and set auto-negotiation to offset
 .. For Chelsio 25G, manually set the swp2s0-3 link speed to 25000 and set auto-negotiation to off
+
+
 NOTE: Using 10G/25G QSA, use the non-breakout 40/100G ports. Do not insert the QSA adapter on ports that are configured for breakout. This results in only one port being available for use. (Burts 1433115, 1407009)
