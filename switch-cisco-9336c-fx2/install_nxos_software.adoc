@@ -11,6 +11,7 @@ summary: You can use this procedure to install the NX-OS software on the Nexus 9
 [.lead]
 You can use this procedure to install the NX-OS software on the Nexus 9336C-FX2 cluster switch.
 
+.Steps
 . Connect the cluster switch to the management network.
 . Use the ping command to verify connectivity to the server hosting the NX-OS software and the RCF.
 +
@@ -44,6 +45,7 @@ Copy complete.
 
 
 cs2# copy sftp: bootflash: vrf management
+
 Enter source filename: /code/n9000-epld.9.3.5.img
 Enter hostname for the sftp server: 172.19.2.1
 Enter username: user1
@@ -162,8 +164,8 @@ Module   Image    Running-Version(pri:alt                  New-Version         U
 
 
 Switch will be reloaded for disruptive upgrade.
-Do you want to continue with the installation (y/n)?  [n] y
 
+Do you want to continue with the installation (y/n)? [n] y
 
 Install is in progress, please wait.
 

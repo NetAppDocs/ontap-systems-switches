@@ -32,6 +32,7 @@ The examples in this procedure use the following switch and node nomenclature:
  ** Cabling between the nodes and c1 are then disconnected from c1 and reconnected to cs1.
  ** The temporary ISL between c1 and cs1 is then removed.
 
+.Steps
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=xh`
 +
 where x is the duration of the maintenance window in hours.
@@ -171,9 +172,8 @@ c1                    Eth1/48       176    S I s       N5K-C5596UP      Eth1/48
 . Ensure that the cluster network has full connectivity using the command: `cluster ping-cluster -node node-name`
 +
 ----
-
-
 cluster1::*> cluster ping-cluster -node node2
+
 Host is node2
 Getting addresses from network interface table...
 Cluster node1_clus1 169.254.209.69 node1     e0a
@@ -199,7 +199,7 @@ RPC status:
 2 paths up, 0 paths down (udp check)
 ----
 
-. Configure a temporary ISL on cs1on ports e1/41-48, between c1 and cs1.
+. Configure a temporary ISL on cs1 on ports e1/41-48, between c1 and cs1.
 +
 The following example shows how the new ISL is configured on c1 and cs1:
 +
@@ -217,10 +217,9 @@ cs1(config-if-range)# exit
 cs1(config)# interface port-channel 101
 cs1(config-if)# switchport mode trunk
 cs1(config-if)# spanning-tree port type network
-cs1(config-if)# exi
+cs1(config-if)# exit
 cs1(config)# exit
 ----
-
 . Remove ISL cables from ports e1/41-48 from c2 and connect the cables to ports e1/41-48 on cs1.
 . Verify that the ISL ports and port-channel are operational connecting c1 and cs1: `show port-channel summary`
 +
@@ -370,8 +369,14 @@ node1      /cdp
             e0b    cs2                       0/1               N9K-C9336C
 
 4 entries were displayed.
+----
 
 
+. Verify that both nodes each have one connection to each switch: `show cdp neighbors`
++
+The following example shows the appropriate results for both switches:
++
+----
 cs1# show cdp neighbors
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
@@ -411,7 +416,7 @@ Warning: These advanced commands are potentially dangerous; use them only when
          directed to do so by NetApp personnel.
 Do you want to continue? {y|n}: y
 
-cluster1::*> **cluster ping-cluster -node node2**
+cluster1::*> cluster ping-cluster -node node2
 Host is node2
 Getting addresses from network interface table...
 Cluster node1_clus1 169.254.209.69 node1     e0a
@@ -441,7 +446,7 @@ cluster1::*> set -privilege admin
 cluster1::*>
 ----
 
-. For ONTAP 9.8 and later, enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the commands: `system switch ethernet log setup-password``system switch ethernet log enable-collection`
+. For ONTAP 9.8 and later, enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the two commands: `system switch ethernet log setup-password` and `system switch ethernet log enable-collection`
 +
 ----
 cluster1::*> system switch ethernet log setup-password
@@ -481,7 +486,7 @@ cluster1::*>
 +
 NOTE: If any of these commands return an error, contact NetApp support.
 
-. For ONTAP releases 9.5P16, 9.6P12, and 9.7P10 and later patch releases, enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the commands: `system cluster-switch log setup-password system cluster-switch log enable-collection`
+. For ONTAP releases 9.5P16, 9.6P12, and 9.7P10 and later patch releases, enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the commands: `system cluster-switch log setup-password` and `system cluster-switch log enable-collection`
 +
 ----
 cluster1::*> system cluster-switch log setup-password

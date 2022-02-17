@@ -19,9 +19,7 @@ You need the following network information for all switch configurations:
 * Host names and IP addresses for each of the storage system controllers and all applicable switches
 * Most storage system controllers are managed through the e0M interface by connecting to the Ethernet service port (wrench icon). On AFF A800 and AFF A700 systems, the e0M interface uses a dedicated Ethernet port.
 
-Refer to the _Hardware Universe_ for latest information.
-
-https://hwu.netapp.com[Hardware Universe^]
+Refer to the https://hwu.netapp.com[Hardware Universe^] for latest information.
 
 == Required network information for Cisco Nexus 9336C-FX2, 92300YC, 3232C, 3132Q-V, and 5596UP/5596T switches
 
@@ -29,11 +27,11 @@ For the Cisco Nexus 9336C-FX2, 92300YC, 3232C, 3132Q-V, and 5596UP/5596T switche
 
 * Abort Auto Provisioning and continue with normal setup? (yes/no)
 +
-Respond with yes. The default is no.
+Respond with *yes*. The default is no.
 
 * Do you want to enforce secure password standard? (yes/no)
 +
-Respond with yes. The default is yes.
+Respond with *yes*. The default is yes.
 
 * Enter the password for admin:
 +
@@ -41,19 +39,19 @@ The default password is "`admin`"; you must create a new, strong password. A wea
 
 * Would you like to enter the basic configuration dialog? (yes/no)
 +
-Respond with yes at the initial configuration of the switch.
+Respond with *yes* at the initial configuration of the switch.
 
 * Create another login account? (yes/no)
 +
-Your answer depends on your site's policies on alternate administrators. The default is no.
+Your answer depends on your site's policies on alternate administrators. The default is *no*.
 
 * Configure read-only SNMP community string? (yes/no)
 +
-Respond with no. The default is no.
+Respond with *no*. The default is no.
 
 * Configure read-write SNMP community string? (yes/no)
 +
-Respond with no. The default is no.
+Respond with *no*. The default is no.
 
 * Enter the switch name.
 +
@@ -61,51 +59,51 @@ The switch name is limited to 63 alphanumeric characters.
 
 * Continue with Out-of-band (mgmt0) management configuration? (yes/no)
 +
-Respond with yes (the default) at that prompt. At the mgmt0 IPv4 address: prompt, enter your IP address: ip_address.
+Respond with *yes* (the default) at that prompt. At the mgmt0 IPv4 address: prompt, enter your IP address: ip_address.
 
 * Configure the default-gateway? (yes/no)
 +
-Respond with yes. At the IPv4 address of the default-gateway: prompt, enter your default_gateway.
+Respond with *yes*. At the IPv4 address of the default-gateway: prompt, enter your default_gateway.
 
 * Configure advanced IP options? (yes/no)
 +
-Respond with no. The default is no.
+Respond with *no*. The default is no.
 
 * Enable the telnet service? (yes/no)
 +
-Respond with no. The default is no.
+Respond with *no*. The default is no.
 
 * Enabled SSH service? (yes/no)
 +
-Respond with yes. The default is yes.
+Respond with *yes*. The default is yes.
 +
 NOTE: SSH is recommended when using Cluster Switch Health Monitor (CSHM) for its log collection features. SSHv2 is also recommended for enhanced security.
 
-* Enter the type of SSH key you want to generate (dsa/rsa/rsa1). The default is rsa.
+* Enter the type of SSH key you want to generate (dsa/rsa/rsa1). The default is *rsa*.
 * Enter the number of key bits (1024-2048).
 * Configure the NTP server? (yes/no)
 +
-Respond with no. The default is no.
+Respond with *no*. The default is no.
 
 * Configure default interface layer (L3/L2):
 +
-Respond with L2. The default is L2.
+Respond with *L2*. The default is L2.
 
 * Configure default switch port interface state (shut/noshut):
 +
-Respond with noshut. The default is noshut.
+Respond with *noshut*. The default is noshut.
 
 * Configure CoPP system profile (strict/moderate/lenient/dense):
 +
-Respond with strict. The default is strict.
+Respond with *strict*. The default is strict.
 
 * Would you like to edit the configuration? (yes/no)
 +
-You should see the new configuration at this point. Review and make any necessary changes to the configuration you just entered. Respond with no at the prompt if you are satisfied with the configuration. Respond with yes if you want to edit your configuration settings.
+You should see the new configuration at this point. Review and make any necessary changes to the configuration you just entered. Respond with *no* at the prompt if you are satisfied with the configuration. Respond with *yes* if you want to edit your configuration settings.
 
 * Use this configuration and save it? (yes/no)
 +
-Respond with yes to save the configuration. This automatically updates the kickstart and system images.
+Respond with *yes* to save the configuration. This automatically updates the kickstart and system images.
 +
 NOTE: If you do not save the configuration at this stage, none of the changes will be in effect the next time you reboot the switch.
 +

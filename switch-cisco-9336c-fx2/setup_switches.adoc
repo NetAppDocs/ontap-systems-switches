@@ -25,16 +25,17 @@ https://netapp.com/us/documenation/index.aspx[NetApp documentation^]
 +
 NOTE: Due to the complexity that can result from illustrating layers of cabling, this guide does not provide cabling graphics. This guide does provide sample worksheets with recommended port assignments and blank worksheets that you can use to set up your cluster.
 +
-NOTE: For more information refer to the _Hardware Universe_.
+NOTE: For more information refer to the https://hwu.netapp.com[Hardware Universe^].
 +
-https://hwu.netapp.com[Hardware Universe^]
 
-All Cisco cluster network and management network switches arrive with the standard Cisco factory-default configuration. These switches also have the current version of the NX-OS software but do not have the RCFs loaded.
+* All Cisco cluster network and management network switches arrive with the standard Cisco factory-default configuration. These switches also have the current version of the NX-OS software but do not have the RCFs loaded.
 
 NOTE: You must download the applicable NetApp cluster network and management network RCFs from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com^] for the switches that you receive.
 
-In addition, you might need to install the required configuration file to support the Cluster Switch Health Monitor (CSHM) for the 92300YC cluster switches. See link:setup_install_cshm_file.md#[Installing the Cluster Switch Health Monitor (CSHM) configuration file for 92300YC switches] for details.
 
+* In addition, you might need to install the required configuration file to support the Cluster Switch Health Monitor (CSHM) for the 92300YC cluster switches. See link:setup_install_cshm_file.md#[Installing the Cluster Switch Health Monitor (CSHM) configuration file for 92300YC switches] for details.
+
+.Steps
 . Rack the cluster network and management network switches and controllers.
 +
 [options="header" cols="1,2"]

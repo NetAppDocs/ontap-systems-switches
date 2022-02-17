@@ -20,6 +20,7 @@ The examples in this procedure use the following switch and node nomenclature:
 
 NOTE: The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 
+.Steps
 . Display the cluster ports on each node that are connected to the cluster switches: `network device-discovery show`
 +
 ----
@@ -130,7 +131,7 @@ cluster1::*>
 . Disable auto-revert on the cluster LIFs.
 +
 ----
-cluster1::*> network interface modify -vserver Cluster -lif \* -auto-revert false
+cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert false
 ----
 
 . On cluster switch cs2, shut down the ports connected to the cluster ports of the nodes.
@@ -269,7 +270,7 @@ cs2# copy running-config startup-config \[\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#
 +
 ----
 cs2# reload
-This command will reboot the system. (y/n)?  [n] y
+This command will reboot the system. (y/n)? [n] y
 ----
 
 . Apply the same RCF and save the running configuration for a second time.
@@ -370,7 +371,6 @@ NOTE: You might observe the following output on the cs1 switch console depending
 2020 Nov 17 16:07:23 cs1 %$ VDC-1 %$ %STP-2-BLOCK_PVID_PEER: Blocking port-channel1 on VLAN0001. Inconsistent peer vlan.
 2020 Nov 17 16:07:23 cs1 %$ VDC-1 %$ %STP-2-BLOCK_PVID_LOCAL: Blocking port-channel1 on VLAN0092. Inconsistent local vlan.
 ----
-
 +
 . On cluster switch cs1, shut down the ports connected to the cluster ports of the nodes.
 +
@@ -419,14 +419,14 @@ cluster1::*>
 . Enable auto-revert on the cluster LIFs.
 +
 ----
-cluster1::*> network interface modify -vserver Cluster -lif \* -auto-revert True
+cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert True
 ----
 
 . Reboot switch cs1.You do this to trigger the cluster LIFs to revert to their home ports. You can ignore the "`cluster ports down`" events reported on the nodes while the switch reboots.
 +
 ----
 cs1# reload
-This command will reboot the system. (y/n)?  [n] y
+This command will reboot the system. (y/n)? [n] y
 ----
 
 . Verify that the switch ports connected to the cluster ports are up.
