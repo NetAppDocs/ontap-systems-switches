@@ -1,0 +1,264 @@
+---
+sidebar: sidebar
+permalink: switch-cisco-9336c-fx2-shared/9336c_setup_and_configuration_guide_for_cisco_shared_switches.html
+keywords:
+summary:
+---
+
+= Setup and configuration guide for Cisco shared switches
+:hardbreaks:
+:nofooter:
+:icons: font
+:linkattrs:
+:imagesdir: ./media/
+
+//
+// This file was created with NDAC Version 2.0 (August 17, 2020)
+//
+// 2021-04-29 11:40:03.129945
+//
+
+== Switches supported by ONTAP
+
+From ONTAP 9.9.1, you can use Cisco Nexus 9336C-FX2 switches to combine storage and cluster functionality into a shared switch scenario. If you want to build ONTAP networks with more than two nodes, you need two supported network switches.
+
+The following Cisco shared network switches are supported.
+
+=== Nexus 9336C-FX2
+
+You can install the Cisco Nexus 9336C-FX2 switch (X190200/X190210) in a NetApp system cabinet or third-party cabinet with the standard brackets that are included with the switch.
+
+The following table lists the part number and description for the 9336C-FX2 switch, fans, and power supplies:
+
+|===
+|Part number |Description
+
+|X190200-CS-PE
+|N9K-9336C-FX2, CS, PTSX, 36PT10/25/40/100GQSFP28
+|X190200-CS-PI
+|N9K-9336C-FX2, CS, PSIN, 36PT10/25/40/100GQSFP28
+|X190210-FE-PE
+|N9K-9336C, FTE, PTSX, 36PT10/25/40/100GQSFP28
+|X190210-FE-PI
+|N9K-9336C, FTE, PSIN, 36PT10/25/40/100GQSFP28
+|X190002
+|Accessory Kit X190001/X190003
+|X-NXA-PAC-1100W-PE2
+|N9K-9336C AC 1100W PSU - Port side exhaust airflow
+|X-NXA-PAC-1100W-PI2
+|N9K-9336C AC 1100W PSU - Port side Intake airflow
+|X-NXA-FAN-65CFM-PE
+|N9K-9336C 65CFM, Port side exhaust airflow
+|X-NXA-FAN-65CFM-PI
+|N9K-9336C 65CFM, Port side intake airflow
+|===
+
+== Setup the switches
+
+If you do not already have the required configuration information and documentation, you need to gather that information before setting up your shared switches.
+
+.Before you begin
+
+* You must have access to an HTTP, FTP or TFTP server at the installation site to download the applicable NX-OS and reference configuration file (RCF) releases.
+* You must have the required shared switch documentation.
++
+See <<Required documentation for shared switches>> for more information.
+* You must have the required controller documentation and ONTAP documentation.
++
+See https://docs.netapp.com/us-en/ontap/index.html[NetApp ONTAP documentation].
+
+* You must have the applicable licenses, network and configuration information, and cables.
+* You must have the completed cabling worksheets.
+
+[NOTE]
+In addition to cabling graphics, this guide does provide sample worksheets with recommended port assignments and blank worksheets that you can use to set up your network.
+For more information, refer to the https://hwu.netapp.com[Hardware Universe].
+
+.About this task
+
+All Cisco shared switches arrive with the standard Cisco factory-default configuration. These switches also have the current version of the NX-OS software but do not have the RCFs loaded.
+
+*Attention:* You must download the applicable NetApp RCFs from the https://mysupport.netapp.com[NetApp Support Site] for the switches that you receive.
+
+=== Procedure
+
+. Rack the switches and controllers. See the
+https://docs.netapp.com/platstor/topic/com.netapp.doc.hw-sw-9336c-install-cabinet/GUID-92287262-E7A6-4A62-B159-7F148097B33B.html[Installing a Cisco Nexus 9336C-FX2 cluster switch and pass-through panel in a NetApp cabinet] guide for instructions to install the switch in a NetApp cabinet.
+. Power on the switches and controllers.
+[start=3]
+. [[step3]]Perform an initial configuration of the switches based on information provided in <<Required configuration information>>.
+. Verify the configuration choices you made in the display that appears at the end of the setup, and make sure that you save the configuration.
+. Check the software version on the switches, and if necessary, download the NetApp-supported version of the software to the switches.
++
+If you download the NetApp-supported version of the software, then you must also download the NetApp Network Switch Reference Configuration File and merge it with the configuration you saved in <<step3,Step 3>>. You can download the file and the instructions from the https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches] page.
+If you have your own switches, refer to the http://www.cisco.com[Cisco] site.
+
+=== Required configuration information
+
+For configuration, you need the appropriate number and type of cables and cable connectors for your switches. Depending on the type of switch you are initially configuring, you need to connect to the switch console port with the included console cable; you also need to provide specific network information.
+
+=== Required network information for all switches
+
+* You need the following network information for all switch configurations:
+** IP subnet for management network traffic
+** Host names and IP addresses for each of the storage system controllers and all applicable switches
+** Most storage system controllers are managed through the e0M interface by connecting to the Ethernet service port (wrench icon). On AFF A800 and AFF A700 systems, the e0M interface uses a dedicated Ethernet port.
+* Refer to the https://hwu.netapp.com[Hardware Universe] for the latest information.
+
+=== Required network information for Cisco Nexus 9336C-FX2 switches
+
+For the Cisco Nexus 9336C-FX2 switch, you need to provide applicable responses to the following initial setup questions when you first boot the switch. Your site's security policy defines the responses and services to enable:
+
+. Abort Auto Provisioning and continue with normal setup? (yes/no)
++
+Respond with *yes*. The default is no.
+
+. Do you want to enforce secure password standard? (yes/no)
++
+Respond with *yes*. The default is yes.
+
+. Enter the password for admin.
++
+The default password is admin; you must create a new, strong password.
++
+A weak password can be rejected.
+
+. Would you like to enter the basic configuration dialog? (yes/no)
++
+Respond with *yes* at the initial configuration of the switch.
+
+. Create another login account? (yes/no)
++
+Your answer depends on your site's policies on alternate administrators. The default is no.
+
+. Configure read-only SNMP community string? (yes/no)
++
+Respond with *no*. The default is no.
+
+. Configure read-write SNMP community string? (yes/no)
++
+Respond with *no*. The default is no.
+
+. Enter the switch name.
++
+The switch name is limited to 63 alphanumeric characters.
+
+. Continue with out-of-band (mgmt0) management configuration? (yes/no)
++
+Respond with *yes* (the default) at that prompt. At the mgmt0 IPv4 address: prompt, enter your IP address: ip_address
+
+. Configure the default-gateway? (yes/no)
++
+Respond with *yes*. At the IPv4 address of the default-gateway: prompt, enter your default_gateway.
+
+. Configure advanced IP options? (yes/no)
++
+Respond with *no*. The default is no.
+
+. Enable the telnet service? (yes/no)
++
+Respond with *no*. The default is no.
+
+. Enable SSH service? (yes/no)
++
+Respond with *yes*. The default is yes.
+
+[NOTE]
+SSH is recommended when using Cluster Switch Health Monitor (CSHM) for its log collection features. SSHv2 is also recommended for enhanced security.
+
+[start=14]
+. [[step14]]Enter the type of SSH key you want to generate (dsa/rsa/rsa1). The default is rsa.
+. Enter the number of key bits (1024- 2048).
+. Configure the NTP server? (yes/no)
++
+Respond with *no*. The default is no.
+
+. Configure default interface layer (L3/L2):
++
+Respond with *L2*. The default is L2.
+
+. Configure default switch port interface state (shut/noshut):
++
+Respond with *noshut*. The default is noshut.
+
+. Configure CoPP system profile (strict/moderate/lenient/dense):
++
+Respond with *strict*. The default is strict.
+
+. Would you like to edit the configuration? (yes/no)
++
+You should see the new configuration at this point. Review and make any necessary changes to the configuration you just entered. Respond with no at the prompt if you are satisfied with the configuration. Respond with *yes* if you want to edit your configuration settings.
+
+. Use this configuration and save it? (yes/no)
++
+Respond with *yes* to save the configuration. This automatically updates the kickstart and system images.
+
+[NOTE]
+If you do not save the configuration at this stage, none of the changes will be in effect the next time you reboot the switch.
+
+For more information about the initial configuration of your switch, see the following guide: https://www.cisco.com/c/en/us/td/docs/dcn/hw/nx-os/nexus9000/9336c-fx2-e/cisco-nexus-9336c-fx2-e-nx-os-mode-switch-hardware-installation-guide.html[Cisco Nexus 9336C-FX2 Installation and Upgrade Guide].
+
+===== Required documentation for shared switches
+
+You need specific switch and controller documentation to set up your ONTAP network.
+
+To set up the Cisco Nexus 9336C-FX2 shared switches, see the https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html[Cisco Nexus 9000 Series Switches Support] page.
+
+|===
+|Document title |Description
+
+|link:https://www.cisco.com/c/en/us/td/docs/dcn/hw/nx-os/nexus9000/9336c-fx2-e/cisco-nexus-9336c-fx2-e-nx-os-mode-switch-hardware-installation-guide.html[Nexus 9000 Series Hardware Installation Guide]
+|Provides detailed information about site requirements, switch hardware details, and installation options.
+|link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/products-installation-and-configuration-guides-list.html[Cisco Nexus 9000 Series Switch Software Configuration Guides] (choose the guide for the NX-OS release installed on your switches)
+|Provides initial switch configuration information that you need before you can configure the switch for ONTAP operation.
+|link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html#InstallandUpgrade[Cisco Nexus 9000 Series NX-OS Software Upgrade and Downgrade Guide] (choose the guide for the NX-OS release installed on your switches)
+|Provides information on how to downgrade the switch to ONTAP supported switch software, if necessary.
+|link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/products-command-reference-list.html[Cisco Nexus 9000 Series NX-OS Command Reference Master Index]
+|Provides links to the various command references provided by Cisco.
+|link:https://www.cisco.com/c/en/us/td/docs/switches/datacenter/sw/mib/quickreference/b_Cisco_Nexus_7000_Series_and_9000_Series_NX-OS_MIB_Quick_Reference.html[Cisco Nexus 9000 MIBs Reference]
+|Describes the Management Information Base (MIB) files for the Nexus 9000 switches.
+|link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/products-system-message-guides-list.html[Nexus 9000 Series NX-OS System Message Reference]
+|Describes the system messages for Cisco Nexus 9000 series switches, those that are informational, and others that might help diagnose problems with links, internal hardware, or the system software.
+|link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html#ReleaseandCompatibility[Cisco Nexus 9000 Series NX-OS Release Notes] (choose the notes for the NX-OS release installed on your switches)
+|Describes the features, bugs, and limitations for the Cisco Nexus 9000 Series.
+|link:https://www.cisco.com/c/en/us/td/docs/switches/datacenter/mds9000/hw/regulatory/compliance/RCSI.html[Regulatory Compliance and Safety Information for Cisco Nexus 9000 Series]
+|Provides international agency compliance, safety, and statutory information for the Nexus 9000 series switches.
+|===
+
+== Cisco Nexus 9336C-FX2 cabling details
+
+You can use the following cabling images to complete the cabling between the controllers and the switches.
+
+*Switch-attached*
+image:9336c_image1.jpg[Switch-attached]
+
+If you want to cable storage as direct-attached instead of using the shared switch storage ports, follow the direct-attached diagram:
+*Direct-attached*
+image:9336c_image2.jpg[Direct-attached]
+
+=== Cisco Nexus 9336C-FX2 cabling worksheet
+
+If you want to document the supported platforms, you must complete the blank cabling worksheet by using completed sample cabling worksheet as a guide.
+
+The sample port definition on each pair of switches is as follows:
+image:cabling_worksheet.jpg[Cabling worksheet]
+
+Where:
+
+* 100G ISL to switch A port 35
+* 100G ISL to switch A port 36
+* 100G ISL to switch B port 35
+* 100G ISL to switch B port 36
+
+=== Blank cabling worksheet
+
+You can use the blank cabling worksheet to document the platforms that are supported as nodes in a cluster. The Supported Cluster Connections table of the Hardware Universe defines the cluster ports used by the platform.
+
+image:blank_cabling_worksheet.jpg[Blank cabling worksheet]
+
+Where:
+
+* 100G ISL to switch A port 35
+* 100G ISL to switch A port 36
+* 100G ISL to switch B port 35
+* 100G ISL to switch B port 36
