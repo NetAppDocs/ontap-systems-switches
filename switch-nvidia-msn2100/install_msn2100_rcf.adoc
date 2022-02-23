@@ -84,7 +84,7 @@ The RCF script completes the following steps:
 .. Modifies the RoCE configuration for HA and Cluster RDMA
 .. Reboots the switch
 +
-IMPORTANT: Depending on the transceiver in the switchport, you might need to set the speed on the switchport to fixed speed. For example, if using 10G and 25G breakout ports, make sure that auto-negotiation is off and hard set the port speed on the switch, as follows:
+IMPORTANT: Depending on the transceiver in the switchport, you might need to set the speed on the switchport to fixed speed. If using 10G and 25G breakout ports, make sure that auto-negotiation is off and hard set the port speed on the switch. For example:
 +
 ----
 cumulus@cumulus:mgmt:~$ net add int swp1s3 link autoneg on && net com
@@ -114,7 +114,7 @@ iface swp2s0
      link-autoneg off
      link-speed 25000
 ----
-
+----
 . Verify the configuration after the reboot:
 +
 ----
@@ -195,7 +195,7 @@ swp1       0x11 (QSFP28)  Mellanox        MCP1600-C002E30D  MT1849VS01978   A2
 swp2       0x11 (QSFP28)  Mellanox        MCP1600-C002E30N  MT1849VS01967   A2
 ----
 *Is this output correct?*
-. Verify ??
+. Verify that the nodes each have a connection to each switch:
 `network show lldp`
 +
 ----

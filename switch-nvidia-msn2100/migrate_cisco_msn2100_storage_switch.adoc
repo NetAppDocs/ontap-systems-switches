@@ -9,6 +9,19 @@ summary: 'You can migrate nondisruptively older Cisco cluster switches for an ON
 :imagesdir: ../media/
 
 [.lead]
+You must be aware of certain configuration information, port connections and cabling requirements when you are replacing some older Cisco Nexus cluster switches with Cisco Nexus 9336C-FX2 cluster switches.
+
+* The following cluster switches are supported:
+ ** Nexus 9336C-FX2
+ ** Nexus 92300YC
+ ** Nexus 5596UP
+ ** Nexus 3232C
+ ** Nexus 3132Q-V
+ * See the https://hwu.netapp.com/[Hardware Universe^] for full details of supported ports and their configurations.
+ * You have configured some of the ports on Nexus 9336C-FX2 switches to run at 10 GbE or 40 GbE.
+ * You have planned, migrated, and documented 10 GbE and 40 GbE connectivity from nodes to Nexus 9336C-FX2 cluster switches.
+
+.Before you begin
 You can migrate nondisruptively older Cisco cluster switches for an ONTAP cluster to Cisco Nexus 9336C-FX2 cluster network switches.
 
 * The existing cluster must be properly set up and functioning.
