@@ -35,11 +35,11 @@ You must execute the command for migrating a cluster LIF from the node where the
 
 The examples in this procedure use the following switch and node nomenclature:
 
-* The names of the existing NVIDIA MSN2100 switches are sw1 and sw2.
-* The name of the new NVIDIA MSN2100 switch is nsw2.
+* The names of the existing NVIDIA MSN2100 switches are _sw1_ and _sw2_.
+* The name of the new NVIDIA MSN2100 switch is _nsw2_.
 * The node names are node1 and node2.
 * The cluster ports on each node are named e0a and e0b.
-* The cluster LIF names are node1_clus1 and node1_clus2 for node1, and node2_clus1 and node2_clus2 for node2.
+* The cluster LIF names are node1_clus1 and _node1_clus2 for node1, and node2_clus1 and node2_clus2 for node2.
 * The prompt for changes to all cluster nodes is cluster1::*>
 +
 NOTE: The following procedure is based on the following cluster network topology:
@@ -65,16 +65,15 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 4 entries were displayed.
 
 
-
 cluster1::*> network interface show -vserver Cluster
-Logical    Status     Network            Current       Current Is
+            Logical    Status     Network            Current       Current Is
 Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
 ----------- ---------- ---------- ------------------ ------------- ------- ----
 Cluster
 node1_clus1  up/up    169.254.209.69/16  node1         e0a     true
 node1_clus2  up/up    169.254.49.125/16  node1         e0b     true
 node2_clus1  up/up    169.254.47.194/16  node2         e0a     true
-            16  node2         e0b     true
+node2_clus2  up/up    169.254.19.183/16  node2         e0b     true
 4 entries were displayed.
 
 
@@ -82,17 +81,18 @@ cluster1::*> network device-discovery show -protocol cdp
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
-node2      /cdp
-            e0a    sw1                       Eth1/2            MSN2100-CB2RC
-            e0b    sw2                       Eth1/2            MSN2100-CB2RC
-node1      /cdp
-            e0a    sw1                       Eth1/1            MSN2100-CB2RC
-            e0b    sw2                       Eth1/1            MSN2100-CB2RC
+node1      /lldp
+            e0a    sw1                       Eth1/swp1            MSN2100-CB2RC
+            e0b    sw2                       Eth1/swp2            MSN2100-CB2RC
+node2      /lldp
+            e0a    sw1                       Eth1/swp1            MSN2100-CB2RC
+            e0b    sw2                       Eth1/swp2            MSN2100-CB2RC
+
 4 entries were displayed.
+----
 
-
-
-cs1# show cdp neighbors
+----
+cumulus@sw1# show lldp neighbors
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
 S - Switch, H - Host, I - IGMP, r - Repeater,
@@ -102,13 +102,13 @@ s - Supports-STP-Dispute
 Device-ID          Local Intrfce  Hldtme Capability  Platform       Port ID
 node1              Eth1/1         144    H           FAS2980        e0a
 node2              Eth1/2         145    H           FAS2980        e0a
-sw2                Eth1/35        176    R S I s     MSN2100-CB2RC  Eth1/35
-sw2(FDO220329V5)   Eth1/36        176    R S I s     MSN2100-CB2RC  Eth1/36
+sw2                Eth1/swp15     176    R S I s     MSN2100-CB2RC  Eth1/swp15
+sw2                Eth1/swp16     176    R S I s     MSN2100-CB2RC  Eth1/swp16
 
 Total entries displayed: 4
 
 
-cs2# show cdp neighbors
+cumulus@sw2# show lldp neighbors
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
 S - Switch, H - Host, I - IGMP, r - Repeater,
@@ -116,10 +116,10 @@ V - VoIP-Phone, D - Remotely-Managed-Device,
 s - Supports-STP-Dispute
 
 Device-ID          Local Intrfce  Hldtme Capability  Platform       Port ID
-node1              Eth1/1         139    H           FAS2980        e0b
-node2              Eth1/2         124    H           FAS2980        e0b
-sw1                Eth1/35        178    R S I s     MSN2100-CB2RC  Eth1/35
-sw1                Eth1/36        178    R S I s     MSN2100-CB2RC  Eth1/36
+node1              Eth1/swp1      139    H           FAS2980        e0b
+node2              Eth1/swp2      124    H           FAS2980        e0b
+sw1                Eth1/swp15     178    R S I s     MSN2100-CB2RC  Eth1/swp15
+sw1                Eth1/swp16     178    R S I s     MSN2100-CB2RC  Eth1/swp16
 
 Total entries displayed: 4
 ----
@@ -130,43 +130,27 @@ Total entries displayed: 4
 where x is the duration of the maintenance window in hours.
 +
 NOTE: The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
++
 
 . Install the appropriate RCF and image on the switch, nsw2, and make any necessary site preparations.
 +
-If necessary, verify, download, and install the appropriate versions of the RCF and Cumulus software for the new switch. If you have verified that the new switch is correctly set up and does not need updates to the RCF and Cumulus software, continue to step 2.
-
- .. Go to the _NetApp Cluster and Management Network Switches Reference Configuration File Description Page_ on the NetApp Support Site.
- .. Click the link for the _Cluster Network and Management Network Compatibility Matrix_, and then note the required switch software version.
- .. Click your browser's back arrow to return to the Description page, click *CONTINUE*, accept the license agreement, and then go to the Download page.
- .. Follow the steps on the Download page to download the correct RCF and Cumulus files for the version of ONTAP software you are installing.
-
+If necessary, verify, download, and install the appropriate versions of the RCF and Cumulus software for the new switch. If you have verified that the new switch is correctly set up and does not need updates to the RCF and Cumulus software, continue to step 3. See https://review.docs.netapp.com/us-en/ontap-systems-switches_yos_integrity_docs/switch-nvidia-msn2100/install_setup_msn2100_switches_overview.html[Setup and configure NVIDIA MSN2100 switches].
++
+ .. You can download the applicable Cumulus software for your cluster switches from the _NVIDIA Support_ site. Follow the steps on the Download page to download the Cumulus Linux for the version of ONTAP software you are installing.
+ .. The appropriate RCF is available from the _NVIDIA Cluster and Storage Switches_ page (*add link when available*). Follow the steps on the Download page to download the correct RCF for the version of ONTAP software you are installing.
++
 . On the new switch, log in as admin and shut down all of the ports that will be connected to the node cluster interfaces (ports swp1 to swp14).
 +
 If the switch that you are replacing is not functional and is powered down, go to Step 4. The LIFs on the cluster nodes should have already failed over to the other cluster port for each node.
 +
 ----
-nsw2# config
-Enter configuration commands, one per line. End with CNTL/Z.
-nsw2(config)# interface e1/1-34
-nsw2(config-if-range)# shutdown
+cumulus@nsw2:~$ net add interface swp1-16 link down
+cumulus@nsw2:~$ net pending
+cumulus@nsw2:~$ net commit
 ----
-
-. Verify that all cluster LIFs have auto-revert enabled: `network interface show -vserver Cluster -fields auto-revert`
 +
-----
-cluster1::> network interface show -vserver Cluster -fields auto-revert
-
-             Logical
-Vserver      Interface     Auto-revert
------------- ------------- -------------
-Cluster      node1_clus1   true
-Cluster      node1_clus2   true
-Cluster      node2_clus1   true
-Cluster      node2_clus2   true
-
-4 entries were displayed.
-----
-
+*Do you have to shutdown each port individually or is there a command to shutdown swp1 to swp14 simultaneously - can I use 'net add interface swp1-16 link down'??*
+. Verify that all cluster LIFs have auto-revert enabled: `network interface show -vserver Cluster -fields auto-revert`
 . Verify that all the cluster LIFs can communicate: `cluster ping-cluster`
 +
 ----
@@ -200,15 +184,16 @@ RPC status:
 . Shut down the ISL ports swp15 and swp16 on the MSN2100 switch sw1:
 +
 ----
-cs1# configure
+cumulus@sw1# configure
 Enter configuration commands, one per line. End with CNTL/Z.
-cs1(config)# interface e1/35-36
-cs1(config-if-range)# shutdown
-cs1(config-if-range)#
+cumulus@sw1(config)# interface swp15-swp16
+cumulus@sw1(config-if-range)# net add interface swp15-16 link down
+cumulus@sw1(config-if-range)# net pending
+cumulus@sw1(config-if-range)# net commit
 ----
-
+*Same here check that these are the correct commands to shutdown swp15 & swp16*
 . Remove all the cables from the MSN2100 sw2 switch, and then connect them to the same ports on the MSN2100 nsw2 switch.
-. Create a temporary ISL between sw1 and nsw2 on ports swp15 and swp16.
+
 . Bring up the ISL ports swp15 and swp16 between the sw1 and nsw2 switches, and then verify the port channel operation status.
 +
 Port-Channel should indicate Po1(SU) and Member Ports should indicate Eth1/35(P) and Eth1/36(P).
@@ -216,12 +201,14 @@ Port-Channel should indicate Po1(SU) and Member Ports should indicate Eth1/35(P)
 This example enables ISL ports swp15 and swp16 and displays the port channel summary on switch sw1:
 +
 ----
-sw1# configure
+cumulus@sw1# configure
 Enter configuration commands, one per line. End with CNTL/Z.
-sw1(config)# int e1/35-36
-sw1(config-if-range)# no shutdown
+cumulus@sw1(config)# int swp15-swp16
+cumulus@sw1(config-if-range)# net del interface swp15-16 link down
+cumulus@sw1(config-if-range)# net pending
+cumulus@sw1(config-if-range)# net commit
 
-sw1(config-if-range)# show port-channel summary
+cumulus@sw1(config-if-range)# show port-channel summary
 Flags:  D - Down        P - Up in port-channel (members)
         I - Individual  H - Hot-standby (LACP only)
         s - Suspended   r - Module-removed
@@ -231,14 +218,14 @@ Flags:  D - Down        P - Up in port-channel (members)
         p - Up in delay-lacp mode (member)
         M - Not in use. Min-links not met
 --------------------------------------------------------------------------------
-Group Port-       Type     Protocol  Member       Ports
+Group Port-       Type     Protocol  Member          Ports
       Channel
 --------------------------------------------------------------------------------
-1     Po1(SU)     Eth      LACP      Eth1/35(P)   Eth1/36(P)
+1     Po1(SU)     Eth      LACP      Eth1/swp15(P)   Eth1/swp16(P)
 
-cs1(config-if-range)#
+cumulus@sw1(config-if-range)#
 ----
-
+*Need to check that this output is correct - also example for LACP required*
 . Verify that port `e0b` is up on all nodes: `network port show ipspace Cluster`
 +
 The output should be similar to the following:
@@ -248,7 +235,7 @@ cluster1::*> network port show -ipspace Cluster
 
 Node: node1
                                                                                                                                                                      Ignore
-                                                                                                                                                Speed(Mbps) Health   Health
+                                                   Speed(Mbps) Health   Health
 Port      IPspace      Broadcast Domain Link MTU   Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ----- ----------- -------- -------
 e0a       Cluster      Cluster          up   9000  auto/10000  healthy  false
@@ -351,58 +338,10 @@ RPC status:
 2 paths up, 0 paths down (udp check)
 ----
 
-. Confirm the following cluster network configuration: `network port show`
+. Verify that the cluster network is healthy:
 +
 ----
-cluster1::*> network port show -ipspace Cluster
-Node: node1
-                                                                       Ignore
-                                       Speed(Mbps)            Health   Health
-Port      IPspace     Broadcast Domain Link MTU   Admin/Oper  Status   Status
---------- ----------- ---------------- ---- ----- ----------- -------- ------
-e0a       Cluster     Cluster          up   9000  auto/10000  healthy  false
-e0b       Cluster     Cluster          up   9000  auto/10000  healthy  false
-
-Node: node2
-                                                                       Ignore
-                                        Speed(Mbps)           Health   Health
-Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
---------- ------------ ---------------- ---- ---- ----------- -------- ------
-e0a       Cluster      Cluster          up   9000 auto/10000  healthy  false
-e0b       Cluster      Cluster          up   9000 auto/10000  healthy  false
-
-4 entries were displayed.
-
-
-cluster1::*> network interface show -vserver Cluster
-
-            Logical    Status     Network            Current       Current Is
-Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
------------ ---------- ---------- ------------------ ------------- ------- ----
-Cluster
-            node1_clus1  up/up    169.254.209.69/16  node1         e0a     true
-            node1_clus2  up/up    169.254.49.125/16  node1         e0b     true
-            node2_clus1  up/up    169.254.47.194/16  node2         e0a     true
-            node2_clus2  up/up    169.254.19.183/16  node2         e0b     true
-
-4 entries were displayed.
-
-cluster1::> network device-discovery show -protocol cdp
-
-Node/       Local  Discovered
-Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
------------ ------ ------------------------- ----------------  ----------------
-node2      /cdp
-            e0a    sw1                       0/2               MSN2100-CB2RC
-            e0b    nsw2                      0/2               MSN2100-CB2RC
-node1      /cdp
-            e0a    sw1                       0/1               MSN2100-CB2RC
-            e0b    nsw2                      0/1               MSN2100-CB2RC
-
-4 entries were displayed.
-
-
-cs1# show cdp neighbors
+cumulus@sw1# show lldp neighbors
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
@@ -410,15 +349,15 @@ Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   s - Supports-STP-Dispute
 
 Device-ID            Local Intrfce  Hldtme Capability  Platform       Port ID
-node1                Eth1/1         144    H           FAS2980        e0a
-node2                Eth1/2         145    H           FAS2980        e0a
-nsw2                 Eth1/35        176    R S I s     MSN2100-CB2RC  Eth1/35
-nsw2                 Eth1/36        176    R S I s     MSN2100-CB2RC  Eth1/36
+node1                Eth1/swp1      144    H           FAS2980        e0a
+node2                Eth1/swp2      145    H           FAS2980        e0a
+nsw2                 Eth1/swp15     176    R S I s     MSN2100-CB2RC  Eth1/swp15
+nsw2                 Eth1/swp16     176    R S I s     MSN2100-CB2RC  Eth1/swp16
 
 Total entries displayed: 4
 
 
-cs2# show cdp neighbors
+cumulus@sw2# show lldp neighbors
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
@@ -426,10 +365,10 @@ Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   s - Supports-STP-Dispute
 
 Device-ID          Local Intrfce  Hldtme Capability  Platform       Port ID
-node1              Eth1/1         139    H           FAS2980        e0b
-node2              Eth1/2         124    H           FAS2980        e0b
-sw1                Eth1/35        178    R S I s     MSN2100-CB2RC  Eth1/35
-sw1                Eth1/36        178    R S I s     MSN2100-CB2RC  Eth1/36
+node1              Eth1/swp1      139    H           FAS2980        e0b
+node2              Eth1/swp2      124    H           FAS2980        e0b
+sw1                Eth1/swp15     178    R S I s     MSN2100-CB2RC  Eth1/swp15
+sw1                Eth1/swp16     178    R S I s     MSN2100-CB2RC  Eth1/swp16
 
 Total entries displayed: 4
 ----
