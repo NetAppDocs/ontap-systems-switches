@@ -183,11 +183,11 @@ switch-priority  TC  ETS
 2                 2  DWRR 28%
 5                 5  DWRR 43%
 ----
-. Verify ??
-`network show interface pluggables`
+. Verify information for the transceiver in the interface.
+`net show interface pluggables`
 +
 ----
-cumulus@cumulus:mgmt:~$ network show interface pluggables
+cumulus@cumulus:mgmt:~$ net show interface pluggables
 
 Interface  Identifier     Vendor Name     Vendor PN         Vendor SN       Vendor Rev
 ---------  -------------  --------------  ----------------  --------------  ----------
@@ -196,10 +196,10 @@ swp2       0x11 (QSFP28)  Mellanox        MCP1600-C002E30N  MT1849VS01967   A2
 ----
 *Is this output correct?*
 . Verify that the nodes each have a connection to each switch:
-`network show lldp`
+`net show lldp`
 +
 ----
-cumulus@cumulus:mgmt:~$ network show lldp
+cumulus@cumulus:mgmt:~$ net show lldp
 
 LocalPort  Speed  Mode        RemoteHost                  RemotePort
 ---------  -----  ----------  --------------------------  -----------
@@ -213,7 +213,7 @@ swp16      100G   BondMember  sw1                         swp16
 .. Verify that e0d ports are up and healthy across all nodes in the cluster: `network port show -role cluster`
 +
 ----
-cluster1::*> network port show -role cluster
+cluster1::*> net port show -role cluster
 
 Node: node1
                                                                        Ignore
@@ -238,7 +238,7 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 .. Verify the switch health from the cluster (this might not show switch sw2, since LIFs are not homed on e0d).
 +
 ----
-cluster1::*> network device-discovery show -protocol lldp
+cluster1::*> net device-discovery show -protocol lldp
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface            Platform
 ----------- ------ ------------------------- -------------------- -------------
