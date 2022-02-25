@@ -85,6 +85,7 @@ The RCF script completes the following steps:
 .. Reboots the switch
 +
 IMPORTANT: Depending on the transceiver in the switchport, you might need to set the speed on the switchport to fixed speed. If using 10G and 25G breakout ports, make sure that auto-negotiation is off and hard set the port speed on the switch. For example:
+
 +
 ----
 cumulus@cumulus:mgmt:~$ net add int swp1s3 link autoneg on && net com
@@ -113,7 +114,6 @@ iface swp2s0
      alias 25G Intra-Cluster Node
      link-autoneg off
      link-speed 25000
-----
 ----
 . Verify the configuration after the reboot:
 +
