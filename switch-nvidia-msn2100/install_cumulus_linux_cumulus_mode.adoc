@@ -21,6 +21,24 @@ NOTE: Each time Cumulus Linux is installed, the entire file system structure is 
 
 CAUTION: The default password for the cumulus user account is *cumulus*. The first time you log into Cumulus Linux, you must change this default password. Be sure to update any automation scripts before installing a new image. Cumulus Linux provides command line options to change the default password automatically during the installation process.
 
+NOTE: The baud rate requirement must be set to 115200 on the serial console switch for NVIDIA MSN2100 switch console access. See the following table for details.
+
+[options="header" cols="1,2"]
+|===
+|Parameter|Setting
+a|Baud rate
+a|115200
+a|Data bits
+a|8
+a|Stop bits
+a|1
+a|Parity
+a|None
+a|Flow control
+a|None
+|===
+
+
 .Steps
 . Log in to the switch.  First time log in to the switch requires username/password of *cumulus*/*cumulus* with `sudo` privileges:
 +
