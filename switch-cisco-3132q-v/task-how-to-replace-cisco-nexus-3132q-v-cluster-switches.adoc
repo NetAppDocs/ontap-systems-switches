@@ -11,7 +11,7 @@ summary: "Replacing a defective Cisco Nexus 3132Q-V switch in a cluster network 
 [.lead]
 Replacing a defective Cisco Nexus 3132Q-V switch in a cluster network is a nondisruptive procedure (NDO), and you must perform a specific sequence of tasks.
 
-== What you'll need
+.What you'll need
 
 * The existing cluster and network configuration must have:
  ** The Nexus 3132Q-V cluster infrastructure must be redundant and fully functional on both switches.
@@ -27,7 +27,7 @@ The _Cisco Ethernet Switches_ page has the latest RCF and NX-OS versions on your
  ** The desired RCF and NX-OS operating system image switch must be loaded onto the switch.
  ** Initial customization of the switch must be complete.
 
-== About this task
+.About this task
 
 This procedure replaces the second Nexus 3132Q-V cluster switch CL2 with new 3132Q-V switch C2. The examples in this procedure use the following switch and node nomenclature:
 
@@ -48,7 +48,7 @@ This procedure covers the following scenario:
  ** Disconnect cabling from all ports on CL2 and reconnect cabling to the same ports on the replacement switch C2.
  ** On each node, its migrated cluster LIFs are reverted.
 
-== Steps
+.Steps
 
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
 +

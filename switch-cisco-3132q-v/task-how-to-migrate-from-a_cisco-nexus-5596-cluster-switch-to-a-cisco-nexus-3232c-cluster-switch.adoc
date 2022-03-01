@@ -11,8 +11,8 @@ summary: "To replace an existing Nexus 5596 cluster switch with a Nexus 3132Q-V 
 [.lead]
 To replace an existing Nexus 5596 cluster switch with a Nexus 3132Q-V cluster switch, you must perform a specific sequence of tasks.
 
-== About this task
--
+.About this task
+
 The examples in this procedure describe replacing Nexus 5596 switches with Nexus 3132Q-V switches. You can use these steps (with modifications) to replace other older Cisco switches. The procedure uses the following switch and node nomenclature:
 
 * The command outputs might vary depending on different releases of ONTAP.
@@ -50,7 +50,7 @@ This procedure covers the following scenarios:
  ** Traffic on all cluster ports or LIFs connected to C1 on all nodes is reverted.
 * Two FAS9000 nodes have been added to cluster with examples showing cluster details (steps 34 to 37).
 
-== Steps
+.Steps
 
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=xh`
 +
