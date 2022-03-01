@@ -14,6 +14,8 @@ Before installing the RCF script, ensure that the following are available on the
 * Cumulus Linux 4.4.2 is installed.
 * IP address, subnet mask, and default gateway defined via DHCP or manually configured.
 
+See https://switch-nvidia-msn2100/install_cabling_config_considerations_msn2100.html[Cabling and configuration considerations^] for details on setting the switchport to fixed speed when using 10G and 25G breakout ports.
+
 == Current RCF script Versions
 There are two RCF scripts available for Clustering and Storage applications. The procedure for each is the same.
 
@@ -84,37 +86,7 @@ The RCF script completes the following steps:
 .. Modifies the RoCE configuration for HA and Cluster RDMA
 .. Reboots the switch
 +
-IMPORTANT: Depending on the transceiver in the switchport, you might need to set the speed on the switchport to fixed speed. If using 10G and 25G breakout ports, make sure that auto-negotiation is off and hard set the port speed on the switch. For example:
 
-+
-----
-cumulus@cumulus:mgmt:~$ net add int swp1s3 link autoneg on && net com
---- /etc/network/interfaces     2019-11-17 00:17:13.470687027 +0000
-+++ /run/nclu/ifupdown2/interfaces.tmp  2019-11-24 00:09:19.435226258 +0000
-@@ -37,21 +37,21 @@
-     alias 10G Intra-Cluster Node
-     link-autoneg off
-     link-speed 10000
-     mstpctl-bpduguard yes
-     mstpctl-portadminedge yes
-     mtu 9216
-
-auto swp1s3
-iface swp1s3
-     alias 10G Intra-Cluster Node
--    link-autoneg off
-+    link-autoneg on
-     link-speed 10000
-     mstpctl-bpduguard yes
-     mstpctl-portadminedge yes
-     mtu 9216
-
-auto swp2s0
-iface swp2s0
-     alias 25G Intra-Cluster Node
-     link-autoneg off
-     link-speed 25000
-----
 . Verify the configuration after the reboot:
 +
 ----
@@ -123,7 +95,7 @@ cumulus@cumulus:mgmt:~$ net show interface all
 State  Name      Spd   MTU    Mode       LLDP                          Summary
 -----  --------- ----  -----  ---------- ----------------------------- --------
 UP     lo        N/A   65536  Loopback                                 IP: 127.0.0.1/8
-      lo                                                               IP: ::1/128
+       lo                                                              IP: ::1/128
 UP    eth0       100M  1500   Mgmt       RTP-LF02-41MM20 (Eth100/1/12) Master: mgmt(UP)
       eth0                                                             IP: 10.233.204.71/23(DHCP)
 DN    swp1s0     N/A   9216   Trunk/L2                                 Master: bridge(UP)
@@ -188,27 +160,28 @@ switch-priority  TC  ETS
 +
 ----
 cumulus@cumulus:mgmt:~$ net show interface pluggables
-
-Interface  Identifier     Vendor Name     Vendor PN         Vendor SN       Vendor Rev
----------  -------------  --------------  ----------------  --------------  ----------
-swp1       0x11 (QSFP28)  Mellanox        MCP1600-C002E30D  MT1849VS01978   A2
-swp2       0x11 (QSFP28)  Mellanox        MCP1600-C002E30N  MT1849VS01967   A2
+Interface  Identifier     Vendor Name  Vendor PN        Vendor SN       Vendor Rev
+---------  -------------  -----------  ---------------  --------------  ----------
+swp1       0x11 (QSFP28)  Amphenol     112-00574        APF20379253516  B0
+swp2       0x11 (QSFP28)  AVAGO        332-00440        AF1815GU05Z     A0
+swp15      0x11 (QSFP28)  Amphenol     112-00573        APF21109348001  B0
+swp16      0x11 (QSFP28)  Amphenol     112-00573        APF21109347895  B0
 ----
-*Is this output correct?*
 . Verify that the nodes each have a connection to each switch:
 `net show lldp`
 +
 ----
 cumulus@cumulus:mgmt:~$ net show lldp
 
-LocalPort  Speed  Mode        RemoteHost                  RemotePort
----------  -----  ----------  --------------------------  -----------
-swp1       100G   Trunk/L2    sw1                         e0d
-swp2       100G   Trunk/L2    sw2                         e0d
-swp15      100G   BondMember  sw1                         swp15
-swp16      100G   BondMember  sw1                         swp16
+LocalPort  Speed  Mode        RemoteHost                          RemotePort
+---------  -----  ----------  ----------------------------------  -----------
+swp2s2     25G    Trunk/L2    level1-cs01                         e3a
+swp2s3     25G    Trunk/L2    level1-cs02                         e3a
+swp3       100G   Trunk/L2    affa400-cs01                        e3b
+swp4       100G   Trunk/L2    affa400-cs02                        e3b
+swp15      100G   BondMember  sn2100c-cs10                        swp15
+swp16      100G   BondMember  sn2100c-cs10                        swp16
 ----
-*Is this output correct?*
 . Verify the health of cluster ports on the cluster.
 .. Verify that e0d ports are up and healthy across all nodes in the cluster: `network port show -role cluster`
 +
@@ -220,16 +193,16 @@ Node: node1
                                                   Speed(Mbps) Health   Health
 Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ---- ----------- -------- ------
-e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 
 Node: node2
                                                                        Ignore
                                                   Speed(Mbps) Health   Health
 Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ---- ----------- -------- ------
-e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 
 
 4 entries were displayed.
@@ -243,12 +216,12 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface            Platform
 ----------- ------ ------------------------- -------------------- -------------
 node1/lldp
-            e0a    sw1                       Ethernet1/swp1       MSN2100-CB2RC
-            e0d    sw2                       Ethernet1/swp2       MSN2100-CB2RC
+            e3a    sw1                       Ethernet1/swp1       MSN2100-CB2RC
+            e3b    sw2                       Ethernet1/swp2       MSN2100-CB2RC
 
 node2/lldp
-            e0a    sw1                       Ethernet1/swp1       MSN2100-CB2RC
-            e0d    sw2                       Ethernet1/swp2       MSN2100-CB2RC
+            e3a    sw1                       Ethernet1/swp1       MSN2100-CB2RC
+            e3b    sw2                       Ethernet1/swp2       MSN2100-CB2RC
 
 4 entries were displayed.
 
@@ -260,17 +233,17 @@ sw1                         cluster-network    10.233.205.90    MSN2100-CB2RC
      Serial Number: MNXXXXXXGD
       Is Monitored: true
             Reason: None
-  Software Version: Cumulus Linux 4.4.2
+  Software Version: Cumulus Linux version 4.4.2 running on Mellanox
+                    Technologies Ltd. MSN2100
     Version Source: LLDP
 
 sw2                         cluster-network    10.233.205.91    MSN2100-CB2RC
      Serial Number: MNCXXXXXXGS
       Is Monitored: true
             Reason: None
-  Software Version: Cumulus Linux 4.4.2
+  Software Version: Cumulus Linux version 4.4.2 running on Mellanox
+                    Technologies Ltd. MSN2100
     Version Source: LLDP
 
 2 entries were displayed.
 ----
-*Is this output correct?*
-+

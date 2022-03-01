@@ -81,20 +81,20 @@ Protocol   Port	 Device (LLDP: ChassisID)  Interface   Platform
 --------   ----  -----------------------   ---------   ---------
 node1/cdp
            e3a   sw1                       Ethernet1/1 NVIDIA MSN2100
-           e4a   node2                     e4a         AFF-A700
-           e4e   node2                     e4e         AFF-A700
+           e3a   node2                     e3a         AFF-A400
+           e3b   node2                     e3b         AFF-A400
 node1/lldp
            e3a   sw1                       Ethernet1/1 -
-           e4a   node2                     e4a         -
-           e4e   node2                     e4e         -
+           e3a   node2                     e3a         -
+           e3b   node2                     e3b         -
 node2/cdp
            e3a   sw1                       Ethernet1/2 NVIDIA MSN2100
-           e4a   node1                     e4a         AFF-A700
-           e4e   node1                     e4e         AFF-A700
+           e3a   node1                     e3a         AFF-A400
+           e3b   node1                     e3b         AFF-A400
 node2/lldp
            e3a   sw1                       Ethernet1/2 -
-           e4a   node1                     e4a         -
-           e4e   node1                     e4e         -
+           e3a   node1                     e3a         -
+           e3b   node1                     e3b         -
 storage::*>
 ----
 . Run the show `lldp neighbors` command on the working switch to confirm that you can see both nodes and all shelves:
@@ -163,23 +163,23 @@ Protocol  Port  Device (LLDP: ChassisID)  Interface	  Platform
 --------  ----  -----------------------   ---------   ---------
 node1/cdp
           e3a  sw1                        Ethernet1/1 NVIDIA MSN2100
-          e4a  node2                      e4a         AFF-A700
-          e4e  node2                      e4e         AFF-A700
+          e3a  node2                      e3a         AFF-A400
+          e3b  node2                      e3b         AFF-A400
           e7b  nsw1                       Ethernet1/1 NVIDIA MSN2100
 node1/lldp
           e3a  sw1                        Ethernet1/1 -
-          e4a  node2                      e4a         -
-          e4e  node2                      e4e         -
+          e3a  node2                      e3a         -
+          e3b  node2                      e3b         -
           e7b  nsw2                       Ethernet1/1 -
 node2/cdp
           e3a  sw1                        Ethernet1/2 NVIDIA MSN2100
-          e4a  node1                      e4a         AFF-A700
-          e4e  node1                      e4e         AFF-A700
+          e3a  node1                      e3a         AFF-A400
+          e3b  node1                      e3b         AFF-A400
           e7b  nsw2                       Ethernet1/2 NVIDIA MSN2100
 node2/lldp
           e3a  sw1                        Ethernet1/2 -
-          e4a  node1                      e4a         -
-          e4e  node1                      e4e         -
+          e3a  node1                      e3a         -
+          e3b  node1                      e3b         -
           e7b  nsw2                       Ethernet1/2 -
 storage::*>
 ----

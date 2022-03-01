@@ -38,11 +38,13 @@ The examples in this procedure use the following switch and node nomenclature:
 * The names of the existing NVIDIA MSN2100 switches are _sw1_ and _sw2_.
 * The name of the new NVIDIA MSN2100 switch is _nsw2_.
 * The node names are node1 and node2.
-* The cluster ports on each node are named e0a and e0b.
+* The cluster ports on each node are named e3a and e3b.
 * The cluster LIF names are node1_clus1 and _node1_clus2 for node1, and node2_clus1 and node2_clus2 for node2.
-* The prompt for changes to all cluster nodes is cluster1::*>
+* The prompt for changes to all cluster nodes is `cluster1::*>`
+* Breakout ports take the format: swp1s0-3. For example four breakout ports on swp1 are _swp1s0_, _swp1s1_, _swp1s2_, and _swp1s3_.
 +
 NOTE: The following procedure is based on the following cluster network topology:
++
 
 ----
 cluster1::*> network port show -ipspace Cluster
@@ -52,16 +54,16 @@ Ignore
 Speed(Mbps) Health   Health
 Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ---- ----------- -------- ------
-e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 
 Node: node2
 Ignore
 Speed(Mbps) Health   Health
 Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ---- ----------- -------- ------
-e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 4 entries were displayed.
 
 
@@ -70,10 +72,10 @@ cluster1::*> network interface show -vserver Cluster
 Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
 ----------- ---------- ---------- ------------------ ------------- ------- ----
 Cluster
-node1_clus1  up/up    169.254.209.69/16  node1         e0a     true
-node1_clus2  up/up    169.254.49.125/16  node1         e0b     true
-node2_clus1  up/up    169.254.47.194/16  node2         e0a     true
-node2_clus2  up/up    169.254.19.183/16  node2         e0b     true
+            node1_clus1  up/up    169.254.209.69/16  node1         e3a     true
+            node1_clus2  up/up    169.254.49.125/16  node1         e3b     true
+            node2_clus1  up/up    169.254.47.194/16  node2         e3a     true
+            node2_clus2  up/up    169.254.19.183/16  node2         e3b     true
 4 entries were displayed.
 
 
@@ -82,15 +84,15 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
 node1      /lldp
-            e0a    sw1                       Eth1/swp1         MSN2100-CB2RC
-            e0b    sw2                       Eth1/swp2         MSN2100-CB2RC
+            e3a    sw1                       Eth1/swp1         MSN2100-CB2RC
+            e3b    sw2                       Eth1/swp2         MSN2100-CB2RC
 node2      /lldp
-            e0a    sw1                       Eth1/swp1         MSN2100-CB2RC
-            e0b    sw2                       Eth1/swp2         MSN2100-CB2RC
+            e3a    sw1                       Eth1/swp1         MSN2100-CB2RC
+            e3b    sw2                       Eth1/swp2         MSN2100-CB2RC
 
 4 entries were displayed.
 ----
-
++
 ----
 cumulus@sw1# show lldp neighbors
 
@@ -100,8 +102,8 @@ V - VoIP-Phone, D - Remotely-Managed-Device,
 s - Supports-STP-Dispute
 
 Device-ID          Local Intrfce  Hldtme Capability  Platform       Port ID
-node1              Eth1/1         144    H           FAS2980        e0a
-node2              Eth1/2         145    H           FAS2980        e0a
+node1              Eth1/1         144    H           AFF400         e3a
+node2              Eth1/2         145    H           AFF400         e3a
 sw2                Eth1/swp15     176    R S I s     MSN2100-CB2RC  Eth1/swp15
 sw2                Eth1/swp16     176    R S I s     MSN2100-CB2RC  Eth1/swp16
 
@@ -116,8 +118,8 @@ V - VoIP-Phone, D - Remotely-Managed-Device,
 s - Supports-STP-Dispute
 
 Device-ID          Local Intrfce  Hldtme Capability  Platform       Port ID
-node1              Eth1/swp1      139    H           FAS2980        e0b
-node2              Eth1/swp2      124    H           FAS2980        e0b
+node1              Eth1/swp1      139    H           AFF400         e3b
+node2              Eth1/swp2      124    H           AFF400         e3b
 sw1                Eth1/swp15     178    R S I s     MSN2100-CB2RC  Eth1/swp15
 sw1                Eth1/swp16     178    R S I s     MSN2100-CB2RC  Eth1/swp16
 
@@ -127,10 +129,7 @@ Total entries displayed: 4
 .Steps
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=xh`
 +
-where x is the duration of the maintenance window in hours.
-+
-NOTE: The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
-+
+where _x_ is the duration of the maintenance window in hours.
 
 . Install the appropriate RCF and image on the switch, nsw2, and make any necessary site preparations.
 +
@@ -144,12 +143,11 @@ If necessary, verify, download, and install the appropriate versions of the RCF 
 If the switch that you are replacing is not functional and is powered down, go to Step 4. The LIFs on the cluster nodes should have already failed over to the other cluster port for each node.
 +
 ----
-cumulus@nsw2:~$ net add interface swp1-16 link down
+cumulus@nsw2:~$ net add interface swp1-14 link down
 cumulus@nsw2:~$ net pending
 cumulus@nsw2:~$ net commit
 ----
 +
-*Do you have to shutdown each port individually or is there a command to shutdown swp1 to swp14 simultaneously - can I use 'net add interface swp1-16 link down'??*
 . Verify that all cluster LIFs have auto-revert enabled: `network interface show -vserver Cluster -fields auto-revert`
 . Verify that all the cluster LIFs can communicate: `cluster ping-cluster`
 +
@@ -158,10 +156,10 @@ cluster1::*> cluster ping-cluster node1
 
 Host is node2
 Getting addresses from network interface table...
-Cluster node1_clus1 169.254.209.69 node1 e0a
-Cluster node1_clus2 169.254.49.125 node1 e0b
-Cluster node2_clus1 169.254.47.194 node2 e0a
-Cluster node2_clus2 169.254.19.183 node2 e0b
+Cluster node1_clus1 169.254.209.69 node1 e3a
+Cluster node1_clus2 169.254.49.125 node1 e3b
+Cluster node2_clus1 169.254.47.194 node2 e3a
+Cluster node2_clus2 169.254.19.183 node2 e3b
 Local = 169.254.47.194 169.254.19.183
 Remote = 169.254.209.69 169.254.49.125
 Cluster Vserver Id = 4294967293
@@ -184,14 +182,10 @@ RPC status:
 . Shut down the ISL ports swp15 and swp16 on the MSN2100 switch sw1:
 +
 ----
-cumulus@sw1# configure
-Enter configuration commands, one per line. End with CNTL/Z.
-cumulus@sw1(config)# interface swp15-swp16
-cumulus@sw1(config-if-range)# net add interface swp15-16 link down
-cumulus@sw1(config-if-range)# net pending
-cumulus@sw1(config-if-range)# net commit
+cumulus@sw1:~$ net add interface swp15-16 link down
+cumulus@sw1:~$ net pending
+cumulus@sw1:~$ net commit
 ----
-*Same here check that these are the correct commands to shutdown swp15 & swp16*
 . Remove all the cables from the MSN2100 sw2 switch, and then connect them to the same ports on the MSN2100 nsw2 switch.
 
 . Bring up the ISL ports swp15 and swp16 between the sw1 and nsw2 switches, and then verify the port channel operation status.
@@ -201,32 +195,11 @@ Port-Channel should indicate Po1(SU) and Member Ports should indicate Eth1/35(P)
 This example enables ISL ports swp15 and swp16 and displays the port channel summary on switch sw1:
 +
 ----
-cumulus@sw1# configure
-Enter configuration commands, one per line. End with CNTL/Z.
-cumulus@sw1(config)# int swp15-swp16
-cumulus@sw1(config-if-range)# net del interface swp15-16 link down
-cumulus@sw1(config-if-range)# net pending
-cumulus@sw1(config-if-range)# net commit
-
-cumulus@sw1(config-if-range)# show port-channel summary
-Flags:  D - Down        P - Up in port-channel (members)
-        I - Individual  H - Hot-standby (LACP only)
-        s - Suspended   r - Module-removed
-        b - BFD Session Wait
-        S - Switched    R - Routed
-        U - Up (port-channel)
-        p - Up in delay-lacp mode (member)
-        M - Not in use. Min-links not met
---------------------------------------------------------------------------------
-Group Port-       Type     Protocol  Member          Ports
-      Channel
---------------------------------------------------------------------------------
-1     Po1(SU)     Eth      LACP      Eth1/swp15(P)   Eth1/swp16(P)
-
-cumulus@sw1(config-if-range)#
+cumulus@sw1:~$ net del interface swp15-16 link down
+cumulus@sw1:~$ net pending
+cumulus@sw1:~$ net commit
 ----
-*Need to check that this output is correct - also example for LACP required*
-. Verify that port `e0b` is up on all nodes: `network port show ipspace Cluster`
+. Verify that port `e3b` is up on all nodes: `network port show ipspace Cluster`
 +
 The output should be similar to the following:
 +
@@ -238,25 +211,25 @@ Node: node1
                                                    Speed(Mbps) Health   Health
 Port      IPspace      Broadcast Domain Link MTU   Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ----- ----------- -------- -------
-e0a       Cluster      Cluster          up   9000  auto/10000  healthy  false
-e0b       Cluster      Cluster          up   9000  auto/10000  healthy  false
+e3a       Cluster      Cluster          up   9000  auto/10000  healthy  false
+e3b       Cluster      Cluster          up   9000  auto/10000  healthy  false
 
 Node: node2
                                                                         Ignore
                                                    Speed(Mbps) Health   Health
 Port      IPspace      Broadcast Domain Link MTU   Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ----- ----------- -------- -------
-e0a       Cluster      Cluster          up   9000  auto/10000  healthy  false
-e0b       Cluster      Cluster          up   9000  auto/auto   -        false
+e3a       Cluster      Cluster          up   9000  auto/10000  healthy  false
+e3b       Cluster      Cluster          up   9000  auto/auto   -        false
 
 4 entries were displayed.
 ----
 
 . On the same node you used in the previous step, revert the cluster LIF associated with the port in the previous step by using the network interface revert command.
 +
-In this example, LIF `node1_clus2` on `node1` is successfully reverted if the `Home` value is `true` and the port is `e0b`.
+In this example, LIF `node1_clus2` on `node1` is successfully reverted if the `Home` value is `true` and the port is `e3b`.
 +
-The following commands return LIF `node1_clus2` on `node1` to home port `e0a` and displays information about the LIFs on both nodes. Bringing up the first node is successful if the `Is Home` column is true for both cluster interfaces and they show the correct port assignments, in this example `e0a` and `e0b` on `node1`.
+The following commands return LIF `node1_clus2` on `node1` to home port `e3a` and displays information about the LIFs on both nodes. Bringing up the first node is successful if the `Is Home` column is true for both cluster interfaces and they show the correct port assignments, in this example `e3a` and `e3b` on `node1`.
 +
 ----
 cluster1::*> network interface show -vserver Cluster
@@ -265,10 +238,10 @@ cluster1::*> network interface show -vserver Cluster
 Vserver     Interface    Admin/Oper Address/Mask       Node       Port    Home
 ----------- ------------ ---------- ------------------ ---------- ------- -----
 Cluster
-            node1_clus1  up/up      169.254.209.69/16  node1      e0a     true
-            node1_clus2  up/up      169.254.49.125/16  node1      e0b     true
-            node2_clus1  up/up      169.254.47.194/16  node2      e0a     true
-            node2_clus2  up/up      169.254.19.183/16  node2      e0a     false
+            node1_clus1  up/up      169.254.209.69/16  node1      e3a     true
+            node1_clus2  up/up      169.254.49.125/16  node1      e3b     true
+            node2_clus1  up/up      169.254.47.194/16  node2      e3a     true
+            node2_clus2  up/up      169.254.19.183/16  node2      e3a     false
 
 4 entries were displayed.
 ----
@@ -295,16 +268,16 @@ Node node1                                                               Ignore
                                                     Speed(Mbps) Health   Health
 Port      IPspace     Broadcast Domain  Link  MTU   Admin/Oper  Status   Status
 --------- ----------- ----------------- ----- ----- ----------- -------- ------
-e0a       Cluster     Cluster           up    9000  auto/10000  healthy  false
-e0b       Cluster     Cluster           up    9000  auto/10000  healthy  false
+e3a       Cluster     Cluster           up    9000  auto/10000  healthy  false
+e3b       Cluster     Cluster           up    9000  auto/10000  healthy  false
 
 Node: node2
                                                                          Ignore
                                                     Speed(Mbps) Health   Health
 Port      IPspace      Broadcast Domain Link  MTU   Admin/Oper  Status   Status
 --------- ------------ ---------------- ----- ----- ----------- -------- ------
-e0a       Cluster      Cluster          up    9000  auto/10000  healthy  false
-e0b       Cluster      Cluster          up    9000  auto/10000  healthy  false
+e3a       Cluster      Cluster          up    9000  auto/10000  healthy  false
+e3b       Cluster      Cluster          up    9000  auto/10000  healthy  false
 
 4 entries were displayed.
 ----
@@ -315,10 +288,10 @@ e0b       Cluster      Cluster          up    9000  auto/10000  healthy  false
 cluster1::*> cluster ping-cluster -node node2
 Host is node2
 Getting addresses from network interface table...
-Cluster node1_clus1 169.254.209.69 node1 e0a
-Cluster node1_clus2 169.254.49.125 node1 e0b
-Cluster node2_clus1 169.254.47.194 node2 e0a
-Cluster node2_clus2 169.254.19.183 node2 e0b
+Cluster node1_clus1 169.254.209.69 node1 e3a
+Cluster node1_clus2 169.254.49.125 node1 e3b
+Cluster node2_clus1 169.254.47.194 node2 e3a
+Cluster node2_clus2 169.254.19.183 node2 e3b
 Local = 169.254.47.194 169.254.19.183
 Remote = 169.254.209.69 169.254.49.125
 Cluster Vserver Id = 4294967293
@@ -349,8 +322,8 @@ Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   s - Supports-STP-Dispute
 
 Device-ID            Local Intrfce  Hldtme Capability  Platform       Port ID
-node1                Eth1/swp1      144    H           FAS2980        e0a
-node2                Eth1/swp2      145    H           FAS2980        e0a
+node1                Eth1/swp1      144    H           AFF400         e3a
+node2                Eth1/swp2      145    H           AFF400         e3a
 nsw2                 Eth1/swp15     176    R S I s     MSN2100-CB2RC  Eth1/swp15
 nsw2                 Eth1/swp16     176    R S I s     MSN2100-CB2RC  Eth1/swp16
 
@@ -365,8 +338,8 @@ Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   s - Supports-STP-Dispute
 
 Device-ID          Local Intrfce  Hldtme Capability  Platform       Port ID
-node1              Eth1/swp1      139    H           FAS2980        e0b
-node2              Eth1/swp2      124    H           FAS2980        e0b
+node1              Eth1/swp1      139    H           AFF400         e3b
+node2              Eth1/swp2      124    H           AFF400         e3b
 sw1                Eth1/swp15     178    R S I s     MSN2100-CB2RC  Eth1/swp15
 sw1                Eth1/swp16     178    R S I s     MSN2100-CB2RC  Eth1/swp16
 

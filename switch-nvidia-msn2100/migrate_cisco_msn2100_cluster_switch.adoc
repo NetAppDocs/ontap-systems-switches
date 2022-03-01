@@ -42,6 +42,9 @@ The examples in this procedure use the following switch and node nomenclature:
 * The new NVIDIA MSN2100 cluster switches are _sw1_ and _sw2_.
 * The nodes are _node1_ and _node2_.
 * The cluster LIFs are node1_clus1 and node1_clus2 on node 1, and node2_clus1 and node2_clus2 on node 2 respectively.
+* The `cluster1::*>` prompt indicates the name of the cluster.
+* The cluster ports used in this procedure are e3a and e3b.
+* Breakout ports take the format: swp1s0-3. For example four breakout ports on swp1 are _swp1s0_, _swp1s1_, _swp1s2_, and _swp1s3_.
 * Switch c2 is replaced by switch sw2 first and then switch c1 is replaced by switch sw1.
 ** Cabling between the nodes and c2 are then disconnected from c2 and reconnected to sw2.
 ** Cabling between the nodes and c1 are then disconnected from c1 and reconnected to sw1.
@@ -73,16 +76,16 @@ Node: node1
                                                   Speed(Mbps) Health   Health
 Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ---- ----------- -------- ------
-e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+          Cluster      Cluster          up   9000  auto/10000 healthy  false
+e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 
 Node: node2
                                                                        Ignore
                                                   Speed(Mbps) Health   Health
 Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ---- ----------- -------- ------
-e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 
 4 entries were displayed.
 ----
@@ -98,10 +101,10 @@ cluster1::*> net interface show -vserver Cluster
 Vserver     Interface    Admin/Oper Address/Mask       Node          Port    Home
 ----------- -----------  ---------- ------------------ ------------- ------- ----
 Cluster
-            node1_clus1  up/up      169.254.209.69/16  node1         e0a     true
-            node1_clus2  up/up      169.254.49.125/16  node1         e0b     true
-            node2_clus1  up/up      169.254.47.194/16  node2         e0a     true
-            node2_clus2  up/up      169.254.19.183/16  node2         e0b     true
+            node1_clus1  up/up      169.254.209.69/16  node1         e3a     true
+            node1_clus2  up/up      169.254.49.125/16  node1         e3b     true
+            node2_clus1  up/up      169.254.47.194/16  node2         e3a     true
+            node2_clus2  up/up      169.254.19.183/16  node2         e3b     true
 
 4 entries were displayed.
 ----
@@ -114,11 +117,11 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
 node1      /cdp
-            e0a    c1                        0/1               N3K-C3232C
-            e0b    c2                        0/1               N3K-C3232C
+            e3a    c1                        0/1               N3K-C3232C
+            e3b    c2                        0/1               N3K-C3232C
 node2      /cdp
-            e0a    c1                        0/2               N3K-C3232C
-            e0b    c2                        0/2               N3K-C3232C
+            e3a    c1                        0/2               N3K-C3232C
+            e3b    c2                        0/2               N3K-C3232C
 
 4 entries were displayed.
 ----
@@ -135,10 +138,10 @@ Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
 
 
 Device-ID             Local Intrfce Hldtme Capability  Platform         Port ID
-node1                 Eth1/1         124   H           FAS2750          e0a
-node2                 Eth1/2         124   H           FAS2750          e0a
-c2                    Eth1/31        179   S I s       N3K-C3232C      Eth1/31
-c2                    Eth1/32        175   S I s       N3K-C3232C      Eth1/32
+node1                 Eth1/1         124   H           AFF-A400           e3a
+node2                 Eth1/2         124   H           AFF-A400           e3a
+c2                    Eth1/31        179   S I s       N3K-C3232C       Eth1/31
+c2                    Eth1/32        175   S I s       N3K-C3232C       Eth1/32
 Total entries displayed: 4
 
 c2# show cdp neighbors
@@ -150,10 +153,10 @@ Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
 
 
 Device-ID             Local Intrfce Hldtme Capability  Platform         Port ID
-node1                 Eth1/1        124    H           FAS2750          e0b
-node2                 Eth1/2        124    H           FAS2750          e0b
-c1                    Eth1/31       175    S I s       N3K-C3232C      Eth1/31
-c1                    Eth1/32       175    S I s       N3K-C3232C      Eth1/32
+node1                 Eth1/1        124    H           A400400           e3b
+node2                 Eth1/2        124    H           AFF-A400           e3b
+c1                    Eth1/31       175    S I s       N3K-C3232C       Eth1/31
+c1                    Eth1/32       175    S I s       N3K-C3232C       Eth1/32
 ----
 
 . Ensure that the cluster network has full connectivity using the command: `cluster ping-cluster -node node-name`
@@ -164,10 +167,10 @@ cluster1::*> cluster ping-cluster -node node2
 
 Host is node2
 Getting addresses from network interface table...
-Cluster node1_clus1 169.254.209.69 node1     e0a
-Cluster node1_clus2 169.254.49.125 node1     e0b
-Cluster node2_clus1 169.254.47.194 node2     e0a
-Cluster node2_clus2 169.254.19.183 node2     e0b
+Cluster node1_clus1 169.254.209.69 node1     e3a
+Cluster node1_clus2 169.254.49.125 node1     e3b
+Cluster node2_clus1 169.254.47.194 node2     e3a
+Cluster node2_clus2 169.254.19.183 node2     e3b
 Local = 169.254.47.194 169.254.19.183
 Remote = 169.254.209.69 169.254.49.125
 Cluster Vserver Id = 4294967293
@@ -191,13 +194,7 @@ RPC status:
 . On switch sw2, shut down the ports connected to the cluster ports of the nodes.
 +
 ----
-cumulus@sw2:~$ net add interface swp1 link down
-cumulus@sw2:~$ net add interface swp2 link down
-...
-...
-...
-cumulus@sw2:~$ net add interface swp15 link down
-cumulus@sw2:~$ net add interface swp16 link down
+cumulus@sw2:~$ net add interface swp1-16 link down
 cumulus@sw2:~$ net pending
 cumulus@sw2:~$ net commit
 ----
@@ -212,18 +209,18 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
 node1      /lldp
-            e0a    c1                        0/1               N3K-C3232C
-            e0b    sw2                       0/swp1            MSN2100-CB2RC
+            e3a    c1                        0/1               N3K-C3232C
+            e3b    sw2                       0/swp1            MSN2100-CB2RC
 node2      /lldp
-            e0a    c1                        0/1               N3K-C3232C
-            e0b    sw2                       0/swp1            MSN2100-CB2RC
+            e3a    c1                        0/1               N3K-C3232C
+            e3b    sw2                       0/swp1            MSN2100-CB2RC
 
 node1      /cdp
-            e0a    c1                        0/1               N3K-C3232C
-            e0b    sw2                       0/swp1            MSN2100-CB2RC
+            e3a    c1                        0/1               N3K-C3232C
+            e3b    sw2                       0/swp1            MSN2100-CB2RC
 node2      /cdp
-            e0a    c1                        0/1               N3K-C3232C
-            e0b    sw2                       0/swp1            MSN2100-CB2RC
+            e3a    c1                        0/1               N3K-C3232C
+            e3b    sw2                       0/swp1            MSN2100-CB2RC
 
 8 entries were displayed.
 ----
@@ -258,18 +255,18 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
 node1      /lldp
-            e0a    sw1                        0/1              MSN2100-CB2RC
-            e0b    sw2                       0/swp1            MSN2100-CB2RC
+            e3a    sw1                       0/1               MSN2100-CB2RC
+            e3b    sw2                       0/swp1            MSN2100-CB2RC
 node2      /lldp
-            e0a    sw1                        0/1              MSN2100-CB2RC
-            e0b    sw2                       0/swp1            MSN2100-CB2RC
+            e3a    sw1                       0/1               MSN2100-CB2RC
+            e3b    sw2                       0/swp1            MSN2100-CB2RC
 
 node1      /cdp
-            e0a    sw1                        0/1              MSN2100-CB2RC
-            e0b    sw2                       0/swp1            MSN2100-CB2RC
+            e3a    sw1                       0/1               MSN2100-CB2RC
+            e3b    sw2                       0/swp1            MSN2100-CB2RC
 node2      /cdp
-            e0a    sw1                        0/1              MSN2100-CB2RC
-            e0b    sw2                       0/swp1            MSN2100-CB2RC
+            e3a    sw1                       0/1               MSN2100-CB2RC
+            e3b    sw2                       0/swp1            MSN2100-CB2RC
 
 8 entries were displayed.
 ----
@@ -286,16 +283,16 @@ Node: node1
                                                   Speed(Mbps) Health   Health
 Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ---- ----------- -------- ------
-e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 
 Node: node2
                                                                        Ignore
                                                   Speed(Mbps) Health   Health
 Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ---- ----------- -------- ------
-e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 
 4 entries were displayed.
 
@@ -306,10 +303,10 @@ cluster1::*> net interface show -vserver Cluster
 Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
 ----------- ---------- ---------- ------------------ ------------- ------- ----
 Cluster
-            node1_clus1  up/up    169.254.209.69/16  node1         e0a     true
-            node1_clus2  up/up    169.254.49.125/16  node1         e0b     true
-            node2_clus1  up/up    169.254.47.194/16  node2         e0a     true
-            node2_clus2  up/up    169.254.19.183/16  node2         e0b     true
+            node1_clus1  up/up    169.254.209.69/16  node1         e3a     true
+            node1_clus2  up/up    169.254.49.125/16  node1         e3b     true
+            node2_clus1  up/up    169.254.47.194/16  node2         e3a     true
+            node2_clus2  up/up    169.254.19.183/16  node2         e3b     true
 
 4 entries were displayed.
 
@@ -320,11 +317,11 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
 node1      /cdp
-            e0a    sw1                       0/swp1            MSN2100-CB2RC
-            e0b    sw2                       0/swp1            MSN2100-CB2RC
+            e3a    sw1                       0/swp1            MSN2100-CB2RC
+            e3b    sw2                       0/swp1            MSN2100-CB2RC
 node2      /cdp
-            e0a    sw1                       0/swp2            MSN2100-CB2RC
-            e0b    sw2                       0/swp2            MSN2100-CB2RC
+            e3a    sw1                       0/swp2            MSN2100-CB2RC
+            e3b    sw2                       0/swp2            MSN2100-CB2RC
 
 4 entries were displayed.
 ----
@@ -343,8 +340,8 @@ Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   s - Supports-STP-Dispute
 
 Device-ID          Local Intrfce  Hldtme Capability  Platform      Port ID
-node1              Eth1/1         124    H           FAS2750       e0a
-node2              Eth1/2         124    H           FAS2750       e0a
+node1              Eth1/1         124    H           AFF400        e3a
+node2              Eth1/2         124    H           AFF400        e3a
 cs2                Eth1/35        179    R S I s     N9K-C9336C    Eth1/35
 cs2                Eth1/36        179    R S I s     N9K-C9336C    Eth1/36
 
@@ -357,8 +354,8 @@ Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   s - Supports-STP-Dispute
 
 Device-ID          Local Intrfce  Hldtme Capability  Platform      Port ID
-node1              Eth1/1         124    H           FAS2750       e0b
-node2              Eth1/2         124    H           FAS2750       e0b
+node1              Eth1/1         124    H           FAS2750       e3b
+node2              Eth1/2         124    H           FAS2750       e3b
 cs1                Eth1/35        179    R S I s     N9K-C9336C    Eth1/35
 cs1                Eth1/36        179    R S I s     N9K-C9336C    Eth1/36
 

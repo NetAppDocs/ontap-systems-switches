@@ -21,23 +21,13 @@ NOTE: Each time Cumulus Linux is installed, the entire file system structure is 
 
 CAUTION: The default password for the cumulus user account is *cumulus*. The first time you log into Cumulus Linux, you must change this default password. Be sure to update any automation scripts before installing a new image. Cumulus Linux provides command line options to change the default password automatically during the installation process.
 
-NOTE: The baud rate requirement must be set to 115200 on the serial console switch for NVIDIA MSN2100 switch console access. See the following table for details.
+The baud rate requirement must be set to 115200 on the serial console switch for NVIDIA MSN2100 switch console access, as follows:
 
-[options="header" cols="1,2"]
-|===
-|Parameter|Setting
-a|Baud rate
-a|115200
-a|Data bits
-a|8
-a|Stop bits
-a|1
-a|Parity
-a|None
-a|Flow control
-a|None
-|===
-
+* 115200 baud
+* 8 data bits
+* 1 stop bit
+* parity: none
+* flow control: none
 
 .Steps
 . Log in to the switch.  First time log in to the switch requires username/password of *cumulus*/*cumulus* with `sudo` privileges:
@@ -72,7 +62,7 @@ ONIE Version..... 2019.11-5.2.0020-115200
 Base MAC Address. 04:3F:72:43:92:80
 Manufacturer..... Mellanox
 ----
-. Define the hostname, IP address, subnet mask, and default gateway. The new hostname only becomes effective after restarting the console/SSH session.
+. Configure the hostname, IP address, subnet mask, and default gateway. The new hostname only becomes effective after restarting the console/SSH session.
 +
 NOTE: A Cumulus Linux switch provides at least one dedicated Ethernet management port called `eth0`. This interface is specifically for out-of-band management use. By default, the management interface uses DHCPv4 for addressing.
 +
@@ -109,6 +99,16 @@ unreachable default metric 4278198272
 10.233.204.0/23 dev eth0 proto kernel scope link src 10.233.204.71
 127.0.0.0/8 dev mgmt proto kernel scope link src 127.0.0.1
 ----
+. Configure the time zone using NTP interactive mode.
+.. On a terminal, run the following command:
++
+----
+cumulus@sw1:~$ sudo dpkg-reconfigure tzdata
+----
+.. Follow the on-screen menu options to select the geographic area and region.
+.. To set the time zone for all services and daemons, reboot the switch.
+.. Verify that the date and time on the switch are correct and update if necessary.
+
 . Install Cumulus Linux 4.4.2:
 +
 ----

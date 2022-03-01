@@ -38,7 +38,9 @@ The examples in this procedure use the following cluster switch and node nomencl
 * The names of the cluster SVMs are _node1_ and _node2_.
 * The names of the LIFs are node1_clus1 and node1_clus2 on node 1, and node2_clus1 and node2_clus2 on node 2 respectively.
 * The `cluster1::*>` prompt indicates the name of the cluster.
-* The cluster ports used in this procedure are e0a and e0b.
+* The cluster ports used in this procedure are e3a and e3b.
+* The cluster ports used in this procedure are e3a and e3b.
+* Breakout ports take the format: swp1s0-3. For example four breakout ports on swp1 are _swp1s0_, _swp1s1_, _swp1s2_, and _swp1s3_.
 +
 
 The https://hwu.netapp.com[Hardware Universe^] contains the latest information about the actual cluster ports for your platforms.
@@ -59,7 +61,7 @@ You must not disable the ISL ports.
 The following example shows that node-facing ports swp1 through swp14 are disabled on switch sw1:
 +
 ----
-cumulus@sw1:~$ net add interface swp1-swp14 link down
+cumulus@sw1:~$ net add interface swp1-16 link down
 cumulus@sw1:~$ net pending
 cumulus@sw1:~$ net commit
 ----
@@ -86,7 +88,7 @@ Group Port-       Type     Protocol  Member Ports
 1     Po1(SU)     Eth      LACP      Eth1/35(P)   Eth1/36(P)
 ----
 +
-The following example shows that the ISL ports are up on switch sw2 :
+The following example shows that the ISL ports are up on switch sw2:
 +
 ----
 cumulus@sw2:~$ show port-channel summary
@@ -156,16 +158,16 @@ Node: node1
                                                   Speed(Mbps) Health
 Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status
 --------- ------------ ---------------- ---- ---- ----------- --------
-e0a       Cluster      Cluster          up   9000  auto/10000 healthy
-e0b       Cluster      Cluster          up   9000  auto/10000 healthy
+e3a       Cluster      Cluster          up   9000  auto/10000 healthy
+e3b       Cluster      Cluster          up   9000  auto/10000 healthy
 
 Node: node2
 
                                                   Speed(Mbps) Health
 Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status
 --------- ------------ ---------------- ---- ---- ----------- --------
-e0a       Cluster      Cluster          up   9000  auto/10000 healthy
-e0b       Cluster      Cluster          up   9000  auto/10000 healthy
+e3a       Cluster      Cluster          up   9000  auto/10000 healthy
+e3b       Cluster      Cluster          up   9000  auto/10000 healthy
 
 4 entries were displayed.
 ----
@@ -181,10 +183,10 @@ cluster1::*> network interface show -vserver Cluster
 Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
 ----------- ---------- ---------- ------------------ ------------- ------- -----
 Cluster
-            node1_clus1  up/up    169.254.209.69/16  node1         e0a     true
-            node1_clus2  up/up    169.254.49.125/16  node1         e0b     true
-            node2_clus1  up/up    169.254.47.194/16  node2         e0a     true
-            node2_clus2  up/up    169.254.19.183/16  node2         e0b     true
+            node1_clus1  up/up    169.254.209.69/16  node1         e3a     true
+            node1_clus2  up/up    169.254.49.125/16  node1         e3b     true
+            node2_clus1  up/up    169.254.47.194/16  node2         e3a     true
+            node2_clus2  up/up    169.254.19.183/16  node2         e3b     true
 4 entries were displayed.
 ----
 
@@ -205,18 +207,18 @@ Cluster
 4 entries were displayed.
 ----
 
-. Disconnect the cable from cluster port e0a on node1, and then connect e0a to port 1 on cluster switch sw1, using the appropriate cabling supported by the MSN2100 switches.
+. Disconnect the cable from cluster port e3a on node1, and then connect e3a to port 1 on cluster switch sw1, using the appropriate cabling supported by the MSN2100 switches.
 +
 The https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches] contains more information about cabling.
 
-. Disconnect the cable from cluster port e0a on node2, and then connect e0a to port 2 on cluster switch sw1, using the appropriate cabling supported by the MSN2100 switches.
+. Disconnect the cable from cluster port e3a on node2, and then connect e3a to port 2 on cluster switch sw1, using the appropriate cabling supported by the MSN2100 switches.
 . Enable all node-facing ports on cluster switch sw1.
 +
 The following example shows that ports swp1 through swp14 are enabled on switch sw1:
 +
 ----
 cumulus@sw1:~$ config
-cumulus@sw1:~$ net del interface swp1-swp14 link down
+cumulus@sw1:~$ net del interface swp1-14 link down
 cumulus@sw1:~$ net pending
 cumulus@sw1:~$ net commit
 ----
@@ -232,10 +234,10 @@ cluster1::*> network interface show -vserver Cluster
 Vserver  Interface    Admin/Oper Address/Mask       Node        Port    Home
 -------- ------------ ---------- ------------------ ----------- ------- ----
 Cluster
-         node1_clus1  up/up      169.254.209.69/16  node1       e0a     true
-         node1_clus2  up/up      169.254.49.125/16  node1       e0b     true
-         node2_clus1  up/up      169.254.47.194/16  node2       e0a     true
-         node2_clus2  up/up      169.254.19.183/16  node2       e0b     true
+         node1_clus1  up/up      169.254.209.69/16  node1       e3a     true
+         node1_clus2  up/up      169.254.49.125/16  node1       e3b     true
+         node2_clus1  up/up      169.254.47.194/16  node2       e3a     true
+         node2_clus2  up/up      169.254.19.183/16  node2       e3b     true
 
 4 entries were displayed.
 ----
@@ -255,15 +257,17 @@ node2                true    true          false
 2 entries were displayed.
 ----
 
-. Disconnect the cable from cluster port e0b on node1, and then connect e0b to port 1 on cluster switch sw2, using the appropriate cabling supported by the MSN2100 switches.
-. Disconnect the cable from cluster port e0b on node2, and then connect e0b to port 2 on cluster switch sw2, using the appropriate cabling supported by the MSN2100 switches.
+. Disconnect the cable from cluster port e3b on node1, and then connect e3b to port 1 on cluster switch sw2, using the appropriate cabling supported by the MSN2100 switches.
+. Disconnect the cable from cluster port e3b on node2, and then connect e3b to port 2 on cluster switch sw2, using the appropriate cabling supported by the MSN2100 switches.
 . Enable all node-facing ports on cluster switch sw2.
 +
 The following example shows that ports swp1 through swp14 are enabled on switch sw2:
 +
 ----
 cumulus@sw1:~$ config
-???
+cumulus@sw1:~$ net del interface swp1-14 link down
+cumulus@sw1:~$ net pending
+cumulus@sw1:~$ net commit
 ----
 
 . Verify that all cluster ports are up: `network port show -ipspace Cluster`
@@ -278,16 +282,16 @@ Node: node1
                                                   Speed(Mbps) Health   Health
 Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ---- ----------- -------- ------
-e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 
 Node: node2
                                                                        Ignore
                                                   Speed(Mbps) Health   Health
 Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ---- ----------- -------- ------
-e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 
 4 entries were displayed.
 ----
@@ -306,10 +310,10 @@ cluster1::*> network interface show -vserver Cluster
 Vserver   Interface    Admin/Oper Address/Mask       Node       Port    Home
 --------- ------------ ---------- ------------------ ---------- ------- ----
 Cluster
-          node1_clus1  up/up      169.254.209.69/16  node1      e0a     true
-          node1_clus2  up/up      169.254.49.125/16  node1      e0b     true
-          node2_clus1  up/up      169.254.47.194/16  node2      e0a     true
-          node2_clus2  up/up      169.254.19.183/16  node2      e0b     true
+          node1_clus1  up/up      169.254.209.69/16  node1      e3a     true
+          node1_clus2  up/up      169.254.49.125/16  node1      e3b     true
+          node2_clus1  up/up      169.254.47.194/16  node2      e3a     true
+          node2_clus2  up/up      169.254.19.183/16  node2      e3b     true
 
 4 entries were displayed.
 ----
@@ -327,8 +331,8 @@ Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   s - Supports-STP-Dispute
 
 Device-ID          Local Intrfce  Hldtme Capability  Platform      Port ID
-node1              swp1           133    H           FAS2980       e0a
-node2              swp2           133    H           FAS2980       e0a
+node1              swp1           133    H           AFF400        e3a
+node2              swp2           133    H           AFF400        e3a
 sw2                swp15          175    R S I s     MSN2100       swp15
 sw2                swp16          175    R S I s     MSN2100       swp16
 
@@ -342,8 +346,8 @@ Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   s - Supports-STP-Dispute
 
 Device-ID          Local Intrfce  Hldtme Capability  Platform      Port ID
-node1              swp1           133    H           FAS2980       e0b
-node2              swp2           133    H           FAS2980       e0b
+node1              swp1           133    H           AFF400        e3b
+node2              swp2           133    H           AFF400        e3b
 sw1                swp15          175    R S I s     MSN2100       swp15
 sw1                swp16          175    R S I s     MSN2100       swp16
 
@@ -358,11 +362,11 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
 node2      /cdp
-            e0a    sw1                       0/2               MSN2100
-            e0b    sw2                       0/2               MSN2100
+            e3a    sw1                       0/2               MSN2100
+            e3b    sw2                       0/2               MSN2100
 node1      /cdp
-            e0a    sw1                       0/1               MSN2100
-            e0b    sw2                       0/1               MSN2100
+            e3a    sw1                       0/1               MSN2100
+            e3b    sw2                       0/1               MSN2100
 
 4 entries were displayed.
 ----
@@ -398,10 +402,10 @@ node2                true    true          false
 cluster1::*> cluster ping-cluster -node node2
 Host is node2
 Getting addresses from network interface table...
-Cluster node1_clus1 169.254.209.69 node1 e0a
-Cluster node1_clus2 169.254.49.125 node1 e0b
-Cluster node2_clus1 169.254.47.194 node2 e0a
-Cluster node2_clus2 169.254.19.183 node2 e0b
+Cluster node1_clus1 169.254.209.69 node1 e3a
+Cluster node1_clus2 169.254.49.125 node1 e3b
+Cluster node2_clus1 169.254.47.194 node2 e3a
+Cluster node2_clus2 169.254.19.183 node2 e3b
 Local = 169.254.47.194 169.254.19.183
 Remote = 169.254.209.69 169.254.49.125
 Cluster Vserver Id = 4294967293
