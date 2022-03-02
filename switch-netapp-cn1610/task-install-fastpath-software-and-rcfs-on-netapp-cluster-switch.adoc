@@ -11,8 +11,7 @@ summary: "You must install the FASTPATH software and reference configuration fil
 [.lead]
 You must install the FASTPATH software and reference configuration files (RCFs) on a NetApp CN1610 cluster switch.
 
-== What you'll need
-
+.Before you begin
 * The cluster must be a fully functioning cluster.
 * There must be no defective cluster network interface cards (NICs), and all connected ports on the cluster switch must be functional.
 * All cluster ports must be up.
@@ -24,15 +23,11 @@ http://mysupport.netapp.com/NOW/download/software/cm_switches_ntap/[NetApp CN160
 +
 There can be command dependencies between command syntax in the RCF and FASTPATH versions.
 
-[NOTE]
-====
-In RCF version 1.2, support for Telnet has been explicitly disabled because of security concerns. To avoid connectivity issues while installing RCF 1.2, you must verify that Secure Shell (SSH) is enabled. The _NetApp® CN1610 Switch Administrator's Guide_ has more information about SSH.
-====
+NOTE: In RCF version 1.2, support for Telnet has been explicitly disabled because of security concerns. To avoid connectivity issues while installing RCF 1.2, you must verify that Secure Shell (SSH) is enabled. The _NetApp® CN1610 Switch Administrator's Guide_ has more information about SSH.
 
 https://library.netapp.com/ecm/ecm_get_file/ECMP1117874[NetApp® CN1610 Switch Administrator's Guide^]
 
-== About this task
-
+.About this task
 The examples in this procedure use the following switch and node nomenclature:
 
 * The procedures in this document use the clustered Data ONTAP 8.2 syntax. As a result, the cluster Vserver, LIF names, and CLI output will be different than those in Data ONTAP 8.3.

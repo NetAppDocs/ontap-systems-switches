@@ -11,19 +11,17 @@ summary: "If you have FAS22xx systems in an existing two-node switchless cluster
 [.lead]
 If you have FAS22xx systems in an existing two-node switchless cluster in which each controller module has a single, back-to-back 10 GbE connection for cluster connectivity, you can use the switchless cluster networking option and replace the direct back-to-back connectivity with switch connections.
 
-== What you'll need
-
+.Before you begin
 * Two cluster connections are required to migrate from a switchless configuration to a switched configuration.
 * The cluster must be healthy and consist of two nodes connected with back-to-back connectivity.
 * The nodes must be running ONTAP 8.2 or later.
 * The switchless cluster feature cannot be used with more than two nodes.
 * All cluster ports must be in the `up` state.
 
-== About this task
-
+.About this task
 This procedure is a nondisruptive procedure that removes the direct cluster connectivity in a switchless environment and replaces each connection to the switch with a connection to the partner node.
 
-== Steps
+.Steps
 
 . Change the privilege level to advanced, entering `y` when prompted to continue: `set -privilege advanced`
 +
@@ -62,10 +60,9 @@ node2          node1          true      Connected to node1
 +
 `x` is the duration of the maintenance window in hours.
 +
-[NOTE]
-====
-The message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
-====
+
+NOTE: The message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
+
 +
 The following command suppresses automatic case creation for two hours:
 +

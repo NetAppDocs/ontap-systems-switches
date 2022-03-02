@@ -11,8 +11,7 @@ summary: "If you have an existing two-node switchless cluster environment, you c
 [.lead]
 If you have an existing two-node switchless cluster environment, you can migrate to a two-node switched cluster environment using CN1610 cluster network switches that enables you to scale beyond two nodes.
 
-== What you'll need
-
+.Before you begin
 Two-node switchless configuration:
 
 * The two-node switchless configuration must be properly set up and functioning.
@@ -36,7 +35,7 @@ https://hwu.netapp.com/Switch/Index[Hardware Universe - Switches^]
 +
 Any previous site customization, such as SMTP, SNMP, and SSH should be copied to the new switches.
 
-== About this task
+.About this task
 
 The examples in this procedure use the following cluster switch and node nomenclature:
 
@@ -48,7 +47,7 @@ The examples in this procedure use the following cluster switch and node nomencl
 +
 The _Hardware Universe_ contains the latest information about the actual cluster ports for your platforms.
 
-== Steps
+.Steps
 
 . Change the privilege level to advanced, entering `y` when prompted to continue: `set -privilege advanced`
 +
@@ -58,10 +57,8 @@ The advanced prompt (*>) appears.
 +
 _x_ is the duration of the maintenance window in hours.
 +
-[NOTE]
-====
-The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
-====
+NOTE: The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
+
 +
 The following command suppresses automatic case creation for two hours:
 +
@@ -264,10 +261,9 @@ node2
 4 entries were displayed.
 ----
 +
-[NOTE]
-====
-The following modification and migration commands in steps 10 through 13 must be done from the local node.
-====
+
+NOTE: The following modification and migration commands in steps 10 through 13 must be done from the local node.
+
 
 . Verify that all cluster ports are `up`: `network port show -ipspace Cluster`
 +
@@ -297,10 +293,9 @@ cluster::*> network interface modify -vserver node2 -lif clus1 -auto-revert fals
 cluster::*> network interface modify -vserver node2 -lif clus2 -auto-revert false
 ----
 +
-[NOTE]
-====
-For release 8.3 and later, use the following command: `network interface modify -vserver Cluster -lif * -auto-revert false`
-====
+
+NOTE: For release 8.3 and later, use the following command: `network interface modify -vserver Cluster -lif * -auto-revert false`
+
 
 . Ping the cluster ports to verify the cluster connectivity: `cluster ping-cluster local`
 +
@@ -316,10 +311,9 @@ cluster::*> network interface migrate -vserver node1 -lif clus1 -source-node nod
 cluster::*> network interface migrate -vserver node2 -lif clus1 -source-node node2 -dest-node node2 -dest-port e2a
 ----
 +
-[NOTE]
-====
-For release 8.3 and later, use the following command: `network interface migrate -vserver Cluster -lif clus1 -destination-node node1 -destination-port e2a`
-====
+
+NOTE: For release 8.3 and later, use the following command: `network interface migrate -vserver Cluster -lif clus1 -destination-node node1 -destination-port e2a`
+
 
 . Verify that the migration took place: `network interface show -vserver Cluster`
 +
@@ -431,10 +425,9 @@ cluster::*> network interface revert -vserver node1 -lif clus1
 cluster::*> network interface revert -vserver node2 -lif clus1
 ----
 +
-[NOTE]
-====
-For release 8.3 and later, use the following command: `network interface revert -vserver Cluster -lif <nodename_clus<N>>`
-====
+
+NOTE: For release 8.3 and later, use the following command: `network interface revert -vserver Cluster -lif <nodename_clus<N>>`
+
 
 . Verify that all of the cluster LIFs are `up`, operational, and display as `true` in the "Is Home" column: `network interface show -vserver Cluster`
 +
@@ -479,10 +472,9 @@ cluster::*> network interface migrate -vserver node1 -lif clus2 -source-node nod
 cluster::*> network interface migrate -vserver node2 -lif clus2 -source-node node2 -dest-node node2 -dest-port e1a
 ----
 +
-[NOTE]
-====
-For release 8.3 and later, use the following command: `network interface migrate -vserver Cluster -lif node1_clus2 -dest-node node1 -dest-port e1a`
-====
+
+NOTE: For release 8.3 and later, use the following command: `network interface migrate -vserver Cluster -lif node1_clus2 -dest-node node1 -dest-port e1a`
+
 
 . Verify that the migration took place: `network interface show -vserver Cluster`
 +
@@ -589,14 +581,11 @@ cluster::*> network interface revert -vserver node1 -lif clus2
 cluster::*> network interface revert -vserver node2 -lif clus2
 ----
 +
-[NOTE]
-====
-For release 8.3 and later, the commands are:
 
- cluster::*> network interface revert -vserver Cluster -lif node1_clus2
- cluster::*> network interface revert -vserver Cluster -lif node2_clus2
+NOTE: For release 8.3 and later, the commands are:
+`cluster::*> network interface revert -vserver Cluster -lif node1_clus2` and
+`cluster::*> network interface revert -vserver Cluster -lif node2_clus2`
 
-====
 
 . Verify that all of the interfaces display `true` in the "Is Home" column: `network interface show -vserver Cluster`
 +
@@ -662,10 +651,9 @@ The following example shows how to disable the switchless configuration settings
 cluster::*> network options detect-switchless modify -enabled false
 ----
 +
-[NOTE]
-====
-For release 9.2 and later, skip this step since the configuration is automatically converted.
-====
+
+NOTE: For release 9.2 and later, skip this step since the configuration is automatically converted.
+
 
 . Verify that the settings are disabled: `network options detect-switchless-cluster show`
 +
@@ -677,10 +665,8 @@ cluster::*> network options detect-switchless-cluster show
 Enable Switchless Cluster Detection: false
 ----
 +
-[NOTE]
-====
-For release 9.2 and later, wait until 'Enable Switchless Cluster' is set to false. This can take up to three minutes.
-====
+
+NOTE: For release 9.2 and later, wait until `Enable Switchless Cluster` is set to false. This can take up to three minutes.
 
 . Configure clusters clus1 and clus2 to auto revert on each node and confirm:
 +
@@ -692,10 +678,9 @@ cluster::*> network interface modify -vserver node2 -lif clus1 -auto-revert true
 cluster::*> network interface modify -vserver node2 -lif clus2 -auto-revert true
 ----
 +
-[NOTE]
-====
-For release 8.3 and later, use the following command: `network interface modify -vserver Cluster -lif * -auto-revert true` to enable auto-revert on all nodes in the cluster.
-====
+
+NOTE: For release 8.3 and later, use the following command: `network interface modify -vserver Cluster -lif * -auto-revert true` to enable auto-revert on all nodes in the cluster.
+
 
 . Verify the status of the node members in the cluster: `cluster show`
 +
