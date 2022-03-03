@@ -23,12 +23,10 @@ The examples in this procedure describe replacing Nexus 5596 switches with Nexus
 * n1_clus3 is the second LIF connected to cluster switch 2 (CL2 or C2) for node n1.
 * n1_clus4 is the second LIF connected to cluster switch 1 (CL1 or C1) for node n1.
 * The nodes are n1, n2, n3, and n4.
+* The examples in this procedure use four nodes: Two nodes use four 10 GbE cluster interconnect ports: e0a, e0b, e0c, and e0d. The other two nodes use two 40/100 GbE cluster interconnect ports: e4a, e4e. The link:https://hwu.netapp.com/[Hardware Universe^] lists the actual cluster ports on your platforms.
 * The number of 10 GbE and 40/100 GbE ports are defined in the reference configuration files (RCFs) available on the https://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco® Cluster Network Switch Reference Configuration File Download^] page.
 +
 NOTE: The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
-
-NOTE: The examples in this procedure use four nodes: Two nodes use four 10 GbE cluster interconnect ports: e0a, e0b, e0c, and e0d. The other two nodes use two 40/100 GbE cluster interconnect ports: e4a, e4e. The _Hardware Universe_ lists the actual cluster ports on your platforms.
-====
 
 This procedure covers the following scenarios:
 
@@ -51,10 +49,7 @@ This procedure covers the following scenarios:
 +
 _x_ is the duration of the maintenance window in hours.
 +
-[NOTE]
-====
-The message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
-====
+NOTE: The message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
 
 . Display information about the devices in your configuration:
 +

@@ -16,7 +16,7 @@ To replace the existing CN1610 cluster switches in a cluster with Cisco Nexus 31
 The examples in this procedure use four nodes: Two nodes use four 10 GbE cluster interconnect ports: e0a, e0b, e0c, and e0d. The other two nodes use two 40/100 GbE cluster interconnect fiber cables: e4a and e4e. The _Hardware Universe_ has information about the cluster fiber cables on your platforms.
 
 The examples in this procedure use the following switch and node nomenclature:
--
+
 * The command outputs might vary depending on different releases of ONTAP software.
 * The CN1610 switches to be replaced are CL1 and CL2.
 * The Nexus 3132Q-V switches to replace the CN1610 switches are C1 and C2.
@@ -50,10 +50,7 @@ NOTE: The procedure requires the use of both ONTAP commands and Cisco Nexus 3000
 +
 _x_ is the duration of the maintenance window in hours.
 +
-[NOTE]
-====
-The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
-====
+NOTE: The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
 
 . Display information about the devices in your configuration: `network device-discovery show`
 +
