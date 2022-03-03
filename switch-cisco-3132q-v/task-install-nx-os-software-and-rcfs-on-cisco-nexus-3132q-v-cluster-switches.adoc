@@ -11,7 +11,7 @@ summary: "The Cisco NX-OS software and reference configuration files (RCFs) must
 [.lead]
 The Cisco NX-OS software and reference configuration files (RCFs) must be installed on Cisco Nexus 3132Q-V cluster switches.
 
-.What you'll need
+.Before you begin
 
 The following conditions must exist before you install the NX-OS software and Reference Configurations Files (RCFs) on the cluster switch:
 
@@ -38,10 +38,7 @@ See the _Hardware Universe_ to verify the correct cluster ports on your platform
 
 https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe^]
 
-[NOTE]
-====
-The command outputs might vary depending on different releases of ONTAP.
-====
+NOTE: The command outputs might vary depending on different releases of ONTAP.
 
 The examples in this procedure use the following switch and node nomenclature:
 
@@ -50,10 +47,7 @@ The examples in this procedure use the following switch and node nomenclature:
 * The cluster LIF names are `cluster1-01_clus1` and `cluster1-01_clus2` for cluster1-01 and `cluster1-02_clus1` and `cluster1-02_clus2` for cluster1-02.
 * The `cluster1::*>` prompt indicates the name of the cluster.
 
-[NOTE]
-====
-The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
-====
+NOTE: The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 
 .Steps
 
@@ -63,10 +57,7 @@ The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Serie
 +
 where _x_ is the duration of the maintenance window in hours.
 +
-[NOTE]
-====
-The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
-====
+NOTE: The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
 
 . Change the privilege level to advanced, entering *y* when prompted to continue:
 +
@@ -276,7 +267,4 @@ Enabling cluster switch log collection.
 cluster1::*>
 ----
 +
-[NOTE]
-====
-If any of these commands return an error, contact NetApp support.
-====
+NOTE: If any of these commands return an error, contact NetApp support.

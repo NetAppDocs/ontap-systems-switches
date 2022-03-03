@@ -11,7 +11,7 @@ summary: "If you have a two-node switchless cluster, you can migrate nondisrupti
 [.lead]
 If you have a two-node switchless cluster, you can migrate nondisruptively to a two-node switched cluster that includes Cisco Nexus 3132Q-V cluster network switches.
 
-.What you'll need
+.Before you begin
 
 * The configurations must be properly set up and functioning.
 * The nodes must be running ONTAP 9.4 or later.
@@ -311,10 +311,7 @@ RPC status:
 +
 You can refer to the running configuration and connect the first 40 GbE port on the switch C1 (port 1/7 in this example) to e4a on n1 using supported cabling on Nexus 3132Q-V.
 +
-[NOTE]
-====
-When reconnecting any cables to a new Cisco cluster switch, the cables used must be either fiber or cabling supported by Cisco.
-====
+NOTE: When reconnecting any cables to a new Cisco cluster switch, the cables used must be either fiber or cabling supported by Cisco.
 
 . Disconnect the cable from e4a on node n2.
 +
@@ -676,10 +673,7 @@ Enabling cluster switch log collection.
 cluster::*>
 ----
 +
-[NOTE]
-====
-If any of these commands return an error, contact NetApp support.
-====
+NOTE: If any of these commands return an error, contact NetApp support.
 
 . If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
 +

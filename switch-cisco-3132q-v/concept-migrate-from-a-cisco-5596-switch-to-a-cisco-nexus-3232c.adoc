@@ -39,17 +39,11 @@ By default, there are 32 ports in the 40/100 Gigabit Ethernet mode. These 40 Gig
 +
 By default, the RCF is structured to use the QSFP28 port.
 +
-[NOTE]
-====
-You can make 4x SFP+ ports active instead of a QSFP port for Nexus 3132Q-V switches by using the `hardware profile front portmode sfp-plus` command. Similarly, you can reset Nexus 3132Q-V switches to use a QSFP port instead of 4x SFP+ ports by using the `hardware profile front portmode qsfp` command.
-====
+NOTE: You can make 4x SFP+ ports active instead of a QSFP port for Nexus 3132Q-V switches by using the `hardware profile front portmode sfp-plus` command. Similarly, you can reset Nexus 3132Q-V switches to use a QSFP port instead of 4x SFP+ ports by using the `hardware profile front portmode qsfp` command.
 
 * You have configured some of the ports on Nexus 3132Q-V switches to run at 10 GbE or 40/100 GbE.
 +
-[NOTE]
-====
-You can break out the first six ports into 4x10 GbE mode by using the `interface breakout module 1 port 1-6 map 10g-4x` command. Similarly, you can regroup the first six QSFP+ ports from breakout configuration by using the `no interface breakout module 1 port 1-6 map 10g-4x` command.
-====
+NOTE: You can break out the first six ports into 4x10 GbE mode by using the `interface breakout module 1 port 1-6 map 10g-4x` command. Similarly, you can regroup the first six QSFP+ ports from breakout configuration by using the `no interface breakout module 1 port 1-6 map 10g-4x` command.
 
 * You have done the planning, migration, and read the required documentation on 10 GbE and 40/100 GbE connectivity from nodes to Nexus 3132Q-V cluster switches.
 * The ONTAP and NX-OS versions supported in this procedure are on the _Cisco Ethernet Switches_ page.

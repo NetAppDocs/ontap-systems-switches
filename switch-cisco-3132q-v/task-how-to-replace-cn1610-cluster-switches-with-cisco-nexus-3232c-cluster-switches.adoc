@@ -24,7 +24,7 @@ The examples in this procedure use the following switch and node nomenclature:
 * n1_clus2 is the first cluster LIF that is connected to cluster switch 2 (CL2 or C2) for node n1.
 * n1_clus3 is the second LIF that is connected to cluster switch 2 (CL2 or C2) for node n1.
 * n1_clus4 is the second LIF that is connected to cluster switch 1 (CL1 or C1) for node n1. The nodes are n1, n2, n3, and n4.
-* The number of 10 GbE and 40/100 GbE ports are defined in the reference configuration files (RCFs) available on the https://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco® Cluster Network Switch Reference Configuration File Download^] page. 
+* The number of 10 GbE and 40/100 GbE ports are defined in the reference configuration files (RCFs) available on the https://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco® Cluster Network Switch Reference Configuration File Download^] page.
 
 This procedure covers the following scenario:
 
@@ -1026,10 +1026,7 @@ Enabling cluster switch log collection.
 cluster::*>
 ----
 +
-[NOTE]
-====
-If any of these commands return an error, contact NetApp support.
-====
+NOTE: If any of these commands return an error, contact NetApp support.
 
 . If you suppressed automatic case creation, reenable it by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=END`
 
