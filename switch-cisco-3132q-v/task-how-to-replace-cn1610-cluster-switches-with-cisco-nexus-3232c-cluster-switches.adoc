@@ -40,10 +40,7 @@ This procedure covers the following scenario:
  ** Disconnect cabling between ISL ports CL1 and C2, and then use supported breakout cabling to reconnect the ports from C1 to C2.
  ** Traffic on all migrated cluster ports and LIFs connected to C1 on all nodes is reverted.
 
-[NOTE]
-====
-The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
-====
+NOTE: The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 
 .Steps
 
@@ -329,10 +326,7 @@ With supported cabling, you must reconnect the disconnected ports on all of the 
 +
 You must attach appropriate Cisco QSFP to SFP+ breakout cables connecting port 1/24 on the new Cisco 3132Q-V switch C2, to ports 13 to 16 on existing CN1610 switch CL1.
 +
-[NOTE]
-====
-When reconnecting any cables to the new Cisco 3132Q-V switch, you must use either optical fiber or Cisco twinax cables.
-====
+NOTE: When reconnecting any cables to the new Cisco 3132Q-V switch, you must use either optical fiber or Cisco twinax cables.
 
 . To make the ISL dynamic, configure the ISL interface 3/1 on the active CN1610 switch to disable the static mode: `no port-channel static`
 +
@@ -1037,3 +1031,5 @@ http://support.netapp.com/NOW/download/software/cm_switches_ntap/[NetApp CN1601 
 http://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switch description page^]
 
 http://hwu.netapp.com[Hardware Universe^]
+
+// QA clean-up, 2022-03-03

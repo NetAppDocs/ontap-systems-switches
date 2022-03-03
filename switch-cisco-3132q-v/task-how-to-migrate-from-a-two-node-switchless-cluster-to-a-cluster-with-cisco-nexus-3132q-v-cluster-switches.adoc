@@ -18,7 +18,7 @@ If you have a two-node switchless cluster, you can migrate nondisruptively to a 
 * All cluster ports must be in the `up` state.
 * The Cisco Nexus 3132Q-V cluster switch must be supported.
 * The existing cluster network configuration must have:
- ** -he Nexus 3132 cluster infrastructure that is redundant and fully functional on both switches.
+ ** The Nexus 3132 cluster infrastructure that is redundant and fully functional on both switches.
 +
 The latest RCF and NX-OS versions on your switches.
 
@@ -678,3 +678,5 @@ NOTE: If any of these commands return an error, contact NetApp support.
 . If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
 +
 `system node autosupport invoke -node * -type all -message MAINT=END`
+
+// QA clean-up, 2022-03-03
