@@ -17,15 +17,11 @@ You must install the FASTPATH software and reference configuration files (RCFs) 
 * All cluster ports must be up.
 * All cluster logical interfaces (LIFs) must be up and must not have been migrated.
 * The ONTAP (privilege: advanced) `cluster ping-cluster -node node1` command must indicate that `larger than PMTU communication` is successful on all paths.
-* You must consult the switch compatibility table on the _NetApp CN1601 and CN1610 Switches_ page for the supported FASTPATH, RCF, and ONTAP versions.
-+
-http://mysupport.netapp.com/NOW/download/software/cm_switches_ntap/[NetApp CN1601 and CN1610 Switches^]
+* You must consult the switch compatibility table on the http://mysupport.netapp.com/NOW/download/software/cm_switches_ntap/[NetApp CN1601 and CN1610 Switches^] page for the supported FASTPATH, RCF, and ONTAP versions.
 +
 There can be command dependencies between command syntax in the RCF and FASTPATH versions.
 
-NOTE: In RCF version 1.2, support for Telnet has been explicitly disabled because of security concerns. To avoid connectivity issues while installing RCF 1.2, you must verify that Secure Shell (SSH) is enabled. The _NetApp® CN1610 Switch Administrator's Guide_ has more information about SSH.
-
-https://library.netapp.com/ecm/ecm_get_file/ECMP1117874[NetApp® CN1610 Switch Administrator's Guide^]
+NOTE: In RCF version 1.2, support for Telnet has been explicitly disabled because of security concerns. To avoid connectivity issues while installing RCF 1.2, you must verify that Secure Shell (SSH) is enabled. The https://library.netapp.com/ecm/ecm_get_file/ECMP1117874[NetApp® CN1610 Switch Administrator's Guide^] has more information about SSH.
 
 .About this task
 The examples in this procedure use the following switch and node nomenclature:
@@ -37,7 +33,7 @@ The examples in this procedure use the following switch and node nomenclature:
 * The `cluster::*>` prompt indicates the name of the cluster.
 * The cluster ports on each node are named e1a and e2a.
 +
-The _Hardware Universe_ has more information about the actual cluster ports that are supported on your platform.
+The https://hwu.netapp.com/[Hardware Universe^] has more information about the actual cluster ports that are supported on your platform.
 
 * The Inter-Switch Links (ISLs) that are supported for the NetApp cluster switch are ports 0/13 through 0/16.
 * The node connections that are supported for the NetApp cluster switch are ports 0/1 through 0/12.
