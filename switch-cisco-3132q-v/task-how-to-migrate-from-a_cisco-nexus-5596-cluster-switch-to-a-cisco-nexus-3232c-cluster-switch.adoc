@@ -31,21 +31,21 @@ NOTE: The procedure requires the use of both ONTAP commands and Cisco Nexus 3000
 This procedure covers the following scenarios:
 
 * The cluster starts with two nodes connected and functioning in a 2 Nexus 5596 cluster switches.
-* The cluster switch CL2 to be replaced by C2 (steps 1 to 19):
+* The cluster switch CL2 to be replaced by C2 (<<step1_replace5596_3232q, Steps 1>> - <<step19_replace5596_3232q, 19>>)
  ** Traffic on all cluster ports and LIFs on all nodes connected to CL2 are migrated onto the first cluster ports and LIFs connected to CL1.
  ** Disconnect cabling from all cluster ports on all nodes connected to CL2, and then use supported break-out cabling to reconnect the ports to new cluster switch C2.
  ** Disconnect cabling between ISL ports between CL1 and CL2, and then use supported break-out cabling to reconnect the ports from CL1 to C2.
  ** Traffic on all cluster ports and LIFs connected to C2 on all nodes is reverted.
-* The cluster switch CL2 to be replaced by C2 (steps 20 to 33)
+* The cluster switch CL2 to be replaced by C2 (<<step20_replace5596_3232q, Steps 20>> - <<step33_replace5596_3232q, 33>>)
  ** Traffic on all cluster ports or LIFs on all nodes connected to CL1 are migrated onto the second cluster ports or LIFs connected to C2.
  ** Disconnect cabling from all cluster port on all nodes connected to CL1 and reconnect, using supported break-out cabling, to new cluster switch C1.
  ** Disconnect cabling between ISL ports between CL1 and C2, and reconnect using supported cabling, from C1 to C2.
  ** Traffic on all cluster ports or LIFs connected to C1 on all nodes is reverted.
-* Two FAS9000 nodes have been added to cluster with examples showing cluster details (steps 34 to 37).
+* Two FAS9000 nodes have been added to cluster with examples showing cluster details (<<step34_replace5596_3232q, Steps 34>> - <<step37_replace5596_3232q, 37>>).
 
 .Steps
 
-. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=xh`
+. [[step1_replace5596_3232q]]If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=xh`
 +
 _x_ is the duration of the maintenance window in hours.
 +
@@ -410,7 +410,7 @@ cluster::*> network port modify -node n2 -port e0b -up-admin true
 cluster::*> network port modify -node n2 -port e0c -up-admin true
 ----
 
-. On all nodes, revert all of the migrated cluster interconnect LIFs connected to C2:
+. [[step19_replace5596_3232q]]On all nodes, revert all of the migrated cluster interconnect LIFs connected to C2:
 +
 `network interface revert`
 +
@@ -425,7 +425,7 @@ cluster::*> network interface revert -vserver Cluster -lif n2_clus2
 cluster::*> network interface revert -vserver Cluster -lif n2_clus3
 ----
 
-. Verify all the cluster interconnect ports are now reverted to their home:
+. [[step20_replace5596_3232q]]Verify all the cluster interconnect ports are now reverted to their home:
 +
 `network interface show`
 +
@@ -682,7 +682,7 @@ cluster::*> network port modify -node n2 -port e0a -up-admin true
 cluster::*> network port modify -node n2 -port e0d -up-admin true
 ----
 
-. Verify the status of the cluster node port: `network port show`
+. [[step33_replace5596_3232q]]Verify the status of the cluster node port: `network port show`
 +
 The following example verifies that all cluster interconnect ports on all nodes on the new 3132Q-V switch C1 are `up`:
 +
@@ -711,7 +711,7 @@ e0d       Cluster      Cluster          up   9000  auto/10000 -        -
 8 entries were displayed.
 ----
 
-. On all nodes, revert the specific cluster LIFs to their home ports:
+. [[step34_replace5596_3232q]]On all nodes, revert the specific cluster LIFs to their home ports:
 +
 `network interface revert`
 +
@@ -799,7 +799,7 @@ RPC status:
 4 paths up, 0 paths down (udp check)
 ----
 
-. Expand the cluster by adding nodes to the Nexus 3132Q-V cluster switches.
+. [[step37_replace5596_3232q]]Expand the cluster by adding nodes to the Nexus 3132Q-V cluster switches.
 . Display the information about the devices in your configuration:
  ** `network device-discovery show`
  ** `network port show -role cluster`

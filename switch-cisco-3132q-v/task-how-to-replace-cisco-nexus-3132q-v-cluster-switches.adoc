@@ -43,14 +43,14 @@ The examples in this procedure use four nodes: Two nodes use four 10 GB cluster 
 This procedure covers the following scenario:
 
 * The cluster starts with four nodes connected to two Nexus 3132Q-V cluster switches, CL1 and CL2.
-* Cluster switch CL2 is to be replaced by C2 (steps 1 to 21):
+* Cluster switch CL2 is to be replaced by C2 (<<step1_replace3132q,Steps 1>> -<<step21_replace3132q, 21>>)
  ** On each node, cluster LIFs connected to CL2 are migrated onto cluster ports connected to CL1.
  ** Disconnect cabling from all ports on CL2 and reconnect cabling to the same ports on the replacement switch C2.
  ** On each node, its migrated cluster LIFs are reverted.
 
 .Steps
 
-. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
+. [[step1_replace3132q]]If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
 +
 `system node autosupport invoke -node * -type all - message MAINT=xh`
 +
@@ -698,7 +698,7 @@ C2                          cluster-network    10.10.1.103      NX3132V
 3 entries were displayed.
 ----
 
-. Remove the replaced Nexus 3132Q-V switch, if it is not already removed automatically:
+. [[step21_replace3132q]]Remove the replaced Nexus 3132Q-V switch, if it is not already removed automatically:
 +
 `system cluster-switch delete`
 +

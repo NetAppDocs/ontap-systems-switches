@@ -52,13 +52,13 @@ The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Serie
 ====
 
 * The cluster starts with two nodes connected and functioning in a two-node switchless cluster setting.
-* The first cluster port moved to C1 (steps 1 to 20).
-* The second cluster port moved to C2 (steps 21 to 32).
-* Disable the two-node switchless cluster option (steps 33 to 35).
+* The first cluster port moved to C1 (<<step1_migrate_2node3132q, Step 1>>- <<step20_migrate_2node3132q,20>>)
+* The second cluster port moved to C2 (<<step21_migrate_2node3132q, Step 21>>- <<step20_migrate_2node3132q,32>>).
+* Disable the two-node switchless cluster option (<<step33_migrate_2node3132q, Step 33>>- <<step20_migrate_2node3132q,35>>)
 
 .Steps
 
-. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
+. [[step1_migrate_2node3132q]]If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
 +
 `system node autosupport invoke -node * -type all - message MAINT=xh`
 +
@@ -374,7 +374,7 @@ cluster::*> network interface revert -vserver Cluster -lif n1_clus1
 cluster::*> network interface revert -vserver Cluster -lif n2_clus1
 ----
 
-. Verify that all of the cluster interconnect ports are now reverted to their home ports:
+. [[step20_migrate_2node3132q]]Verify that all of the cluster interconnect ports are now reverted to their home ports:
 +
 `network interface show`
 +
@@ -394,7 +394,7 @@ Cluster
 4 entries were displayed.
 ----
 
-. Display the cluster port connectivity on each node:
+. [[step21_migrate_2node3132q]]Display the cluster port connectivity on each node:
 +
 `network device-discovery show`
 +
@@ -538,7 +538,7 @@ e4e       Cluster      Cluster          up   9000 auto/40000  -        -
 4 entries were displayed.
 ----
 
-. Display the cluster switch port numbers each cluster port is connected to on each node:
+. [[step32_migrate_2node3132q]]Display the cluster switch port numbers each cluster port is connected to on each node:
 +
 `network device-discovery show`
 +
@@ -555,7 +555,7 @@ n2         /cdp
             e4e    C2                  Ethernet1/8      N3K-C3132Q-V
 ----
 
-. Display discovered and monitored cluster switches:
+. [[step33_migrate_2node3132q]]Display discovered and monitored cluster switches:
 +
 `system cluster-switch show`
 +
@@ -591,7 +591,7 @@ C2                          cluster-network     10.10.1.102      NX3132V
 network options switchless-cluster modify -enabled false
 ----
 
-. Verify that the `switchless-cluster` option has been disabled.
+. [[step35_migrate_2node3132q]]Verify that the `switchless-cluster` option has been disabled.
 +
 ----
 network options switchless-cluster show

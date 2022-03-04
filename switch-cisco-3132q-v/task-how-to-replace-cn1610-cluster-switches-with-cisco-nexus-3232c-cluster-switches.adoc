@@ -29,12 +29,12 @@ The examples in this procedure use the following switch and node nomenclature:
 This procedure covers the following scenario:
 
 * The cluster starts with two nodes connected to two CN1610 cluster switches.
-* Cluster switch CL2 to be replaced by C2 (steps 2 to 22):
+* Cluster switch CL2 to be replaced by C2 (<<step2_replacecn1610,Steps 2>> - <<step22_replacecn1610, 22>>)
  ** Traffic on all cluster ports and LIFs on all nodes connected to CL2 are migrated onto the first cluster ports and LIFs connected to CL1.
  ** Disconnect cabling from all cluster ports on all nodes connected to CL2, and then use supported breakout cabling to reconnect the ports to new cluster switch C2.
  ** Disconnect cabling between ISL ports CL1 and CL2, and then use supported breakout cabling to reconnect the ports from CL1 to C2.
  ** Traffic on all cluster ports and LIFs connected to C2 on all nodes is reverted.
-* Cluster switch CL1 to be replaced by C1 (steps 23 to 43)
+* Cluster switch CL1 to be replaced by C1 (<<step23_replacecn1610,Steps 23>> - <<step43_replacecn1610, 43>>)
  ** Traffic on all cluster ports and LIFs on all nodes connected to CL1 are migrated onto the second cluster ports and LIFs connected to C2.
  ** Disconnect cabling from all cluster ports on all nodes connected to CL1, and then use supported breakout cabling to reconnect the ports to new cluster switch C1.
  ** Disconnect cabling between ISL ports CL1 and C2, and then use supported breakout cabling to reconnect the ports from C1 to C2.
@@ -52,7 +52,7 @@ _x_ is the duration of the maintenance window in hours.
 +
 NOTE: The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
 
-. Display information about the devices in your configuration: `network device-discovery show`
+. [[step2_replacecn1610]]Display information about the devices in your configuration: `network device-discovery show`
 +
 The following example displays how many cluster interconnect interfaces have been configured in each node for each cluster interconnect switch:
 +
@@ -477,7 +477,7 @@ e0d   cluster   cluster     up    9000  auto/10000     -        -
 8 entries were displayed.
 ----
 
-. Ping the remote cluster interfaces and then perform a remote procedure call server check: `cluster ping-cluster`
+. [[step22_replacecn1610]]Ping the remote cluster interfaces and then perform a remote procedure call server check: `cluster ping-cluster`
 +
 The following example shows how to ping the remote cluster interfaces:
 +
@@ -526,7 +526,7 @@ RPC status:
 4 paths up, 0 paths down (udp check)
 ----
 
-. On each node in the cluster, migrate the interfaces that are associated with the first CN1610 switch CL1, to be replaced: `network interface migrate`
+. [[step23_replacecn1610]]On each node in the cluster, migrate the interfaces that are associated with the first CN1610 switch CL1, to be replaced: `network interface migrate`
 +
 The following example shows the ports or LIFs being migrated on nodes n1 and n2:
 +
@@ -1017,7 +1017,7 @@ cluster::*>
 +
 NOTE: If any of these commands return an error, contact NetApp support.
 
-. If you suppressed automatic case creation, reenable it by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=END`
+. [[step43_replacecn1610]]If you suppressed automatic case creation, reenable it by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=END`
 
 *Related information*
 
