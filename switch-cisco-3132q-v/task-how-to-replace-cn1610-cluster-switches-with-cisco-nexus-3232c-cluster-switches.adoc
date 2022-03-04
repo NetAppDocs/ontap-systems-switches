@@ -13,7 +13,7 @@ To replace the existing CN1610 cluster switches in a cluster with Cisco Nexus 31
 
 .About this task
 
-The examples in this procedure use four nodes: Two nodes use four 10 GbE cluster interconnect ports: e0a, e0b, e0c, and e0d. The other two nodes use two 40/100 GbE cluster interconnect fiber cables: e4a and e4e. The _Hardware Universe_ has information about the cluster fiber cables on your platforms.
+The examples in this procedure use four nodes: Two nodes use four 10 GbE cluster interconnect ports: e0a, e0b, e0c, and e0d. The other two nodes use two 40/100 GbE cluster interconnect fiber cables: e4a and e4e. The link:https://hwu.netapp.com/[Hardware Universe^] has information about the cluster fiber cables on your platforms.
 
 The examples in this procedure use the following switch and node nomenclature:
 
@@ -169,9 +169,7 @@ cluster::*> network interface modify -vserver node2 -lif clus4 -auto-revert fals
 +
 You must prepare both switches at this time. If you need to upgrade the RCF and image, follow these steps:
 
- .. See the _Cisco Ethernet Switch_ page on NetApp Support Site.
-+
-http://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switches^]
+ .. See the link:http://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switches^] page on NetApp Support Site.
 
  .. Note your switch and the required software versions in the table on that page.
  .. Download the appropriate version of the RCF.
