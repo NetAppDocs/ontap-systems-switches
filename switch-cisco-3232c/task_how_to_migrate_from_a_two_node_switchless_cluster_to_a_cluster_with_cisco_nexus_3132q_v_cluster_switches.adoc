@@ -11,7 +11,7 @@ summary: "If you have a two-node switchless cluster, you can migrate nondisrupti
 [.lead]
 If you have a two-node switchless cluster, you can migrate nondisruptively to a two-node switched cluster that includes Cisco Nexus 3232C cluster network switches.
 
-== What you'll need
+.Before you begin
 
 * The configurations must be properly set up and functioning.
 +
@@ -28,14 +28,14 @@ The two nodes must be connected and functioning in a two-node switchless cluster
  ** Initial customization of the switch
  ** All ISL ports enabled and cabled
 
-== About this task
+.About this task
 
 *Procedure summary*
 
-* *I. Display and migrate physical and logical ports (Steps 1-10)*
-* *II. Shut down the reassigned LIFs and disconnect the cables (Steps 11-14)*
-* *III. Enable the cluster ports (Steps 15-20)*
-* *IV. Enable the reassigned LIFs (Steps 21-33)*
+* *I. Display and migrate physical and logical ports (Steps <<joyce,1>>-<<beckett,10>>)*
+* *II. Shut down the reassigned LIFs and disconnect the cables (Steps <<casey,11>>-<<heaney,14)>>)*
+* *III. Enable the cluster ports (Steps <<yeats,15>>-<<friel,20>>)*
+* *IV. Enable the reassigned LIFs (Steps <<wilde,21>>-<<swift,33>>)*
 
 The examples in this procedure use the following switch and node nomenclature:
 
@@ -58,9 +58,9 @@ The examples in this procedure use two nodes, each utilizing two 40 GbE cluster 
 The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 ====
 
-== Steps
+.Steps
 
-. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
+. [[joyce]]If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
 +
 `system node autosupport invoke -node * -type all - message MAINT=xh`
 +
@@ -244,7 +244,7 @@ n2         /cdp
             e4e    n1                  e4e              FAS9000
 ----
 
-. Migrate the n1_clus1 and n2_clus1 LIFs to the physical ports of their destination nodes:
+. [[beckett]]Migrate the n1_clus1 and n2_clus1 LIFs to the physical ports of their destination nodes:
 +
 `network interface migrate -vserver cluster -lif _lif-name_ source-node _source-node-name_ -destination-port _destination-port-name_`
 +
@@ -257,7 +257,7 @@ cluster::*> network interface migrate -vserver cluster -lif n2_clus1 -source-nod
 –destination-node n2 -destination-port e4e
 ----
 
-. Verify the cluster interfaces have successfully migrated:
+. [[casey]]Verify the cluster interfaces have successfully migrated:
 +
 `network interface show -role cluster`
 +
@@ -318,11 +318,11 @@ Larger than PMTU communication succeeds on 4 path(s) RPC status:
 1 paths up, 0 paths down (ucp check)
 ----
 
-. Disconnect the cable from e4a on node n1.
+. [[heaney]]Disconnect the cable from e4a on node n1.
 +
 You can refer to the running configuration and connect the first 40 GbE port on the switch C1 (port 1/7 in this example) to e4a on n1 using cabling supported for Nexus 3232C switches.
 
-. Disconnect the cable from e4a on node n2.
+. [[yeats]]Disconnect the cable from e4a on node n2.
 +
 You can refer to the running configuration and connect e4a to the next available 40 GbE port on C1, port 1/8, using supported cabling.
 
@@ -349,7 +349,7 @@ cluster::*> network port modify -node n1 -port e4a -up-admin true
 cluster::*> network port modify -node n2 -port e4a -up-admin true
 ----
 
-. Verify that the clusters are up on both nodes:
+. [[yeats]]Verify that the clusters are up on both nodes:
 +
 `network port show -role cluster`
 +
@@ -386,7 +386,7 @@ cluster::*> network interface revert -vserver cluster -lif n1_clus1
 cluster::*> network interface revert -vserver cluster -lif n2_clus1
 ----
 
-. Verify that all the LIFs are now reverted to their home ports:
+. [[friel]]Verify that all the LIFs are now reverted to their home ports:
 +
 `network interface show -role cluster`
 +
@@ -406,7 +406,7 @@ Cluster
 4 entries were displayed.
 ----
 
-. Display the cluster port connectivity on each node:
+. [[wilde]]Display the cluster port connectivity on each node:
 +
 `network device-discovery show`
 +
@@ -542,7 +542,7 @@ n2          /cdp
             e4e    C2                  Ethernet1/8      N3K-C3232C
 ----
 
-. Display discovered and monitored cluster switches:
+. [[swift]]Display discovered and monitored cluster switches:
 +
 `system cluster-switch show`
 +
