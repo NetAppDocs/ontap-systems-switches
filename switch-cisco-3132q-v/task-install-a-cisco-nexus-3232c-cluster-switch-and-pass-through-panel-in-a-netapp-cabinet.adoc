@@ -11,13 +11,13 @@ summary: "You can install the Cisco Nexus 3132Q-V switch and pass-through panel 
 [.lead]
 You can install the Cisco Nexus 3132Q-V switch and pass-through panel in a NetApp cabinet with the standard brackets that are included with the switch.
 
-== What you'll need
+.Before you begin
 
-You must have reviewed the initial preparation requirements, kit contents, and safety precautions.-
+You must have reviewed the initial preparation requirements, kit contents, and safety precautions.
 
 http://www.cisco.com/c/en/us/td/docs/switches/datacenter/nexus3000/hw/installation/guide/b_n3000_hardware_install_guide.html[Cisco Nexus 3000 Series Hardware Installation Guide^]
 
-== About this task
+.About this task
 
 * For each switch, you must supply the eight 10-32 or 12-24 screws and clip nuts to mount the brackets and slider rails to the front and rear cabinet posts.
 * You must use the Cisco standard rail kit to install the switch in a NetApp cabinet.
@@ -27,7 +27,7 @@ http://www.cisco.com/c/en/us/td/docs/switches/datacenter/nexus3000/hw/installati
 The jumper cords are not included with the pass-through kit and should be included with your switches. If they were not shipped with the switches, you can order them from NetApp (part number X1558A-R6).
 ====
 
-== Steps
+.Steps
 
 . Install the pass-through blanking panel in the NetApp cabinet.
 +
@@ -78,10 +78,8 @@ image::../media/3132q_v_slider_rails.gif[]
  .. Repeat steps 4a and 4b at the RU41 locations on the cabinet.
 . Install the switch in the cabinet.
 +
-[NOTE]
-====
-This step requires two people: one person to support the switch from the front and another to guide the switch into the rear slider rails.
-====
+NOTE: This step requires two people: one person to support the switch from the front and another to guide the switch into the rear slider rails.
+
 
  .. Position the back of the switch at RU41.
 +
@@ -99,19 +97,15 @@ image::../media/3132q_attaching.gif[]
  .. With the chassis now supported without assistance, fully tighten the front screws to the posts.
  .. Repeat steps 5a through 5c for the second switch at the RU42 location.
 +
-[NOTE]
-====
-By using the fully installed switch as a support, it is not necessary to hold the front of the second switch during the installation process.
-====
+NOTE: By using the fully installed switch as a support, it is not necessary to hold the front of the second switch during the installation process.
 
 . When the switches are installed, connect the jumper cords to the switch power inlets.
 . Connect the male plugs of both jumper cords to the closest available PDU outlets.
 +
-[NOTE]
-====
-To maintain redundancy, the two cords must be connected to different PDUs.
-====
+NOTE: To maintain redundancy, the two cords must be connected to different PDUs.
 
 . Connect the management port on each 3132Q-V switch to either of the management switches (if ordered) or connect them directly to your management network.
 +
 The management port is the upper-right port located on the PSU side of the switch. The CAT6 cable for each switch needs to be routed through the pass-through panel after the switches are installed to connect to the management switches or management network.
+
+// QA clean-up, 2022-03-03

@@ -19,6 +19,7 @@ The installation steps are the same for both NetApp CN1601 management switches a
 * The ONTAP (privilege: advanced) `cluster ping-cluster -node node1` command must indicate that `larger than PMTU communication` is successful on all paths.
 * You must be using supported FASTPATH, RCF, and ONTAP versions.
 +
+
 There can be command dependencies between command syntax in the RCF and FASTPATH versions. The switch compatibility page lists the supported versions. See http://mysupport.netapp.com/NOW/download/software/cm_switches_ntap/[NetApp CN1601 and CN1610 Switches^] for details.
 
 .About this task
@@ -31,6 +32,7 @@ The examples in this procedure use the following switch and node nomenclature:
 * The `cluster1::*>` prompt indicates the name of the cluster.
 * The cluster ports on each node are named e0a and e0b.
 +
+
 The https://hwu.netapp.com/[Hardware Universe^] contains the actual cluster ports supported on your platform.
 
 * The Inter-Switch Links (ISLs) supported for the NetApp cluster switches are ports 0/13 through 0/16.

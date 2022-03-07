@@ -26,7 +26,9 @@ CN1610 cluster switch configuration:
 * There must be console access to the cluster switches.
 * CN1610 node-to-node switch and switch-to-switch connections must use twinax or fiber cables.
 +
+
 The https://hwu.netapp.com/[Hardware Universe^] contains more information about cabling.
+
 
 * Inter-Switch Link (ISL) cables must be connected to ports 13 through 16 on both CN1610 switches.
 * Initial customization of both the CN1610 switches must be completed.
@@ -43,7 +45,9 @@ The examples in this procedure use the following cluster switch and node nomencl
 * The `cluster::*>` prompt indicates the name of the cluster.
 * The cluster ports used in this procedure are e1a and e2a.
 +
+
 The https://hwu.netapp.com/[Hardware Universe^] contains the latest information about the actual cluster ports for your platforms.
+
 
 .Steps
 
@@ -365,9 +369,7 @@ node2
 
 . Disconnect the cable from cluster port e1a on node1, and then connect e1a to port 1 on cluster switch cs1, using the appropriate cabling supported by the CN1610 switches.
 +
-The _NetApp Hardware Universe_ contains more information about cabling.
-+
-https://hwu.netapp.com/Switch/Index[Hardware Universe - Switches^]
+The link:https://hwu.netapp.com/Switch/Index[Hardware Universe^] contains more information about cabling.
 
 . Disconnect the cable from cluster port e1a on node2, and then connect e1a to port 2 on cluster switch cs1, using the appropriate cabling supported by the CN1610 switches.
 . Enable all of the node-facing ports on cluster switch cs1.

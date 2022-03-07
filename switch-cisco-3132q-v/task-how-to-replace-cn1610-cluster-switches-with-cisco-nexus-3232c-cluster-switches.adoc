@@ -11,12 +11,12 @@ summary: "To replace the existing CN1610 cluster switches in a cluster with Cisc
 [.lead]
 To replace the existing CN1610 cluster switches in a cluster with Cisco Nexus 3132Q-V cluster switches, you must perform a specific sequence of tasks.
 
-== About this task
+.About this task
 
-The examples in this procedure use four nodes: Two nodes use four 10 GbE cluster interconnect ports: e0a, e0b, e0c, and e0d. The other two nodes use two 40/100 GbE cluster interconnect fiber cables: e4a and e4e. The _Hardware Universe_ has information about the cluster fiber cables on your platforms.
+The examples in this procedure use four nodes: Two nodes use four 10 GbE cluster interconnect ports: e0a, e0b, e0c, and e0d. The other two nodes use two 40/100 GbE cluster interconnect fiber cables: e4a and e4e. The link:https://hwu.netapp.com/[Hardware Universe^] has information about the cluster fiber cables on your platforms.
 
 The examples in this procedure use the following switch and node nomenclature:
--
+
 * The command outputs might vary depending on different releases of ONTAP software.
 * The CN1610 switches to be replaced are CL1 and CL2.
 * The Nexus 3132Q-V switches to replace the CN1610 switches are C1 and C2.
@@ -29,23 +29,20 @@ The examples in this procedure use the following switch and node nomenclature:
 This procedure covers the following scenario:
 
 * The cluster starts with two nodes connected to two CN1610 cluster switches.
-* Cluster switch CL2 to be replaced by C2 (steps 2 to 22):
+* Cluster switch CL2 to be replaced by C2 (<<step2_replacecn1610,Steps 2>> - <<step22_replacecn1610, 22>>)
  ** Traffic on all cluster ports and LIFs on all nodes connected to CL2 are migrated onto the first cluster ports and LIFs connected to CL1.
  ** Disconnect cabling from all cluster ports on all nodes connected to CL2, and then use supported breakout cabling to reconnect the ports to new cluster switch C2.
  ** Disconnect cabling between ISL ports CL1 and CL2, and then use supported breakout cabling to reconnect the ports from CL1 to C2.
  ** Traffic on all cluster ports and LIFs connected to C2 on all nodes is reverted.
-* Cluster switch CL1 to be replaced by C1 (steps 23 to 43)
+* Cluster switch CL1 to be replaced by C1 (<<step23_replacecn1610,Steps 23>> - <<step43_replacecn1610, 43>>)
  ** Traffic on all cluster ports and LIFs on all nodes connected to CL1 are migrated onto the second cluster ports and LIFs connected to C2.
  ** Disconnect cabling from all cluster ports on all nodes connected to CL1, and then use supported breakout cabling to reconnect the ports to new cluster switch C1.
  ** Disconnect cabling between ISL ports CL1 and C2, and then use supported breakout cabling to reconnect the ports from C1 to C2.
  ** Traffic on all migrated cluster ports and LIFs connected to C1 on all nodes is reverted.
 
-[NOTE]
-====
-The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
-====
+NOTE: The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 
-== Steps
+.Steps
 
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
 +
@@ -53,12 +50,9 @@ The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Serie
 +
 _x_ is the duration of the maintenance window in hours.
 +
-[NOTE]
-====
-The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
-====
+NOTE: The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
 
-. Display information about the devices in your configuration: `network device-discovery show`
+. [[step2_replacecn1610]]Display information about the devices in your configuration: `network device-discovery show`
 +
 The following example displays how many cluster interconnect interfaces have been configured in each node for each cluster interconnect switch:
 +
@@ -175,9 +169,7 @@ cluster::*> network interface modify -vserver node2 -lif clus4 -auto-revert fals
 +
 You must prepare both switches at this time. If you need to upgrade the RCF and image, follow these steps:
 
- .. See the _Cisco Ethernet Switch_ page on NetApp Support Site.
-+
-http://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switches^]
+ .. See the link:http://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switches^] page on NetApp Support Site.
 
  .. Note your switch and the required software versions in the table on that page.
  .. Download the appropriate version of the RCF.
@@ -329,10 +321,7 @@ With supported cabling, you must reconnect the disconnected ports on all of the 
 +
 You must attach appropriate Cisco QSFP to SFP+ breakout cables connecting port 1/24 on the new Cisco 3132Q-V switch C2, to ports 13 to 16 on existing CN1610 switch CL1.
 +
-[NOTE]
-====
-When reconnecting any cables to the new Cisco 3132Q-V switch, you must use either optical fiber or Cisco twinax cables.
-====
+NOTE: When reconnecting any cables to the new Cisco 3132Q-V switch, you must use either optical fiber or Cisco twinax cables.
 
 . To make the ISL dynamic, configure the ISL interface 3/1 on the active CN1610 switch to disable the static mode: `no port-channel static`
 +
@@ -488,7 +477,7 @@ e0d   cluster   cluster     up    9000  auto/10000     -        -
 8 entries were displayed.
 ----
 
-. Ping the remote cluster interfaces and then perform a remote procedure call server check: `cluster ping-cluster`
+. [[step22_replacecn1610]]Ping the remote cluster interfaces and then perform a remote procedure call server check: `cluster ping-cluster`
 +
 The following example shows how to ping the remote cluster interfaces:
 +
@@ -537,7 +526,7 @@ RPC status:
 4 paths up, 0 paths down (udp check)
 ----
 
-. On each node in the cluster, migrate the interfaces that are associated with the first CN1610 switch CL1, to be replaced: `network interface migrate`
+. [[step23_replacecn1610]]On each node in the cluster, migrate the interfaces that are associated with the first CN1610 switch CL1, to be replaced: `network interface migrate`
 +
 The following example shows the ports or LIFs being migrated on nodes n1 and n2:
 +
@@ -1026,12 +1015,9 @@ Enabling cluster switch log collection.
 cluster::*>
 ----
 +
-[NOTE]
-====
-If any of these commands return an error, contact NetApp support.
-====
+NOTE: If any of these commands return an error, contact NetApp support.
 
-. If you suppressed automatic case creation, reenable it by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=END`
+. [[step43_replacecn1610]]If you suppressed automatic case creation, reenable it by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=END`
 
 *Related information*
 
@@ -1040,3 +1026,5 @@ http://support.netapp.com/NOW/download/software/cm_switches_ntap/[NetApp CN1601 
 http://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switch description page^]
 
 http://hwu.netapp.com[Hardware Universe^]
+
+// QA clean-up, 2022-03-03
