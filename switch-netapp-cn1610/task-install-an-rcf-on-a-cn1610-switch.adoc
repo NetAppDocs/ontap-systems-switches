@@ -1,7 +1,7 @@
 ---
 permalink: switch-netapp-cn1610/task-install-an-rcf-on-a-cn1610-switch.html
 sidebar: sidebar
-keywords: reference configuration, file ,install, cn1610, switch
+keywords: reference configuration, file ,install, cn1610, switch, install rcf
 summary: "When you are installing a reference configuration file (RCF), you must first migrate the cluster LIFs away from switch cs2. After the RCF is installed and validated, the LIFs can be migrated back."
 ---
 = Install a Reference Configuration File on a CN1610 switch
@@ -11,11 +11,11 @@ summary: "When you are installing a reference configuration file (RCF), you must
 [.lead]
 When you are installing a reference configuration file (RCF), you must first migrate the cluster LIFs away from switch cs2. After the RCF is installed and validated, the LIFs can be migrated back.
 
-== What you'll need
+.Before you begin
 
 You must have saved the configuration that is currently running on your switch.
 
-== Steps
+.Steps
 
 . Save your current switch configuration information: `write memory`
 +
@@ -88,10 +88,8 @@ node2
 
 . Copy the RCF to the switch.
 +
-[NOTE]
-====
-You must set the `.scr` extension as part of the file name before invoking the script. This extension is the extension for the FASTPATH operating system.
-====
+NOTE: You must set the `.scr` extension as part of the file name before invoking the script. This extension is the extension for the FASTPATH operating system.
+
 +
 The switch will validate the script automatically as it is downloaded to the switch, and the output will go to the console.
 +
@@ -118,10 +116,9 @@ CN1610_CS_RCF_v1.1.scr           2199
 
 . Validate the script.
 +
-[NOTE]
-====
-The script is validated during the download to verify that each line is a valid switch command line.
-====
+
+NOTE: The script is validated during the download to verify that each line is a valid switch command line.
+
 +
 ----
 (cs2) # script validate CN1610_CS_RCF_v1.1.scr

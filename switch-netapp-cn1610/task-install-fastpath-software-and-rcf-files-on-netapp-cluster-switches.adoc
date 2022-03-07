@@ -11,8 +11,7 @@ summary: "The installation steps are the same for both NetApp CN1601 management 
 [.lead]
 The installation steps are the same for both NetApp CN1601 management switches and CN1610 cluster switches running ONTAP 8.3.1 or later. However, the two models require different software and RCFs.
 
-== What you'll need
-
+.Before you begin
 * The cluster must be a fully functioning cluster.
 * There must be no defective cluster NICs, and all connected ports on both cluster switches must be functional.
 * All cluster ports must be up.
@@ -20,9 +19,10 @@ The installation steps are the same for both NetApp CN1601 management switches a
 * The ONTAP (privilege: advanced) `cluster ping-cluster -node node1` command must indicate that `larger than PMTU communication` is successful on all paths.
 * You must be using supported FASTPATH, RCF, and ONTAP versions.
 +
-There can be command dependencies between command syntax in the RCF and FASTPATH versions. The link:http://mysupport.netapp.com/NOW/download/software/cm_switches_ntap/[NetApp CN1601 and CN1610 Switches^] page lists the supported versions.
 
-== About this task
+There can be command dependencies between command syntax in the RCF and FASTPATH versions. The switch compatibility page lists the supported versions. See http://mysupport.netapp.com/NOW/download/software/cm_switches_ntap/[NetApp CN1601 and CN1610 Switches^] for details.
+
+.About this task
 
 The examples in this procedure use the following switch and node nomenclature:
 
@@ -32,7 +32,8 @@ The examples in this procedure use the following switch and node nomenclature:
 * The `cluster1::*>` prompt indicates the name of the cluster.
 * The cluster ports on each node are named e0a and e0b.
 +
-The link:https://hwu.netapp.com/[Hardware Universe^] contains the actual cluster ports supported on your platform.
+
+The https://hwu.netapp.com/[Hardware Universe^] contains the actual cluster ports supported on your platform.
 
 * The Inter-Switch Links (ISLs) supported for the NetApp cluster switches are ports 0/13 through 0/16.
 * The node connections supported for the NetApp cluster switches are ports 0/1 through 0/12.
@@ -40,7 +41,7 @@ The link:https://hwu.netapp.com/[Hardware Universe^] contains the actual cluster
 * The examples in this procedure use two nodes, but you can have up to 24 nodes in a cluster.
 * The examples and outputs might vary depending on different releases of FASTPATH, RCF, and ONTAP.
 
-== Steps
+.Steps
 
 . Display information about the network ports on the cluster:
 +
@@ -94,10 +95,8 @@ cluster1::> network interface migrate -vserver Cluster -lif node1_clus2 -destina
 cluster1::> network interface migrate -vserver Cluster -lif node2_clus2 -destination-node node2 -destination-port e0a
 ----
 +
-[NOTE]
-====
-For this command, the name of the cluster is case-sensitive and the command should be run on each node. It is not possible to run this command in the general cluster LIF.
-====
+
+NOTE: For this command, the name of the cluster is case-sensitive and the command should be run on each node. It is not possible to run this command in the general cluster LIF.
 
 . Verify that the migration took place by using the `network interface show` command on a node.
 +
@@ -288,10 +287,9 @@ Configuration script validated.
 File transfer operation completed successfully.
 ----
 +
-[NOTE]
-====
-The `.scr` extension must be set as part of the file name before invoking the script. This extension is for the FASTPATH operating system.
-====
+
+NOTE: The `.scr` extension must be set as part of the file name before invoking the script. This extension is for the FASTPATH operating system.
+
 +
 The switch validates the script automatically as it is downloaded to the switch. The output goes to the console.
 
