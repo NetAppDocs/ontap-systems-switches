@@ -11,37 +11,28 @@ summary: "The Cisco NX-OS software and reference configuration files (RCFs) must
 [.lead]
 The Cisco NX-OS software and reference configuration files (RCFs) must be installed on Cisco Nexus 3132Q-V cluster switches.
 
-== What you'll need
+.Before you begin
 
 The following conditions must exist before you install the NX-OS software and Reference Configurations Files (RCFs) on the cluster switch:
 
-* The cluster must be fully functioning (there should be no errors in the logs or similar -ssues).
+* The cluster must be fully functioning (there should be no errors in the logs or similar issues).
 * You must have checked or set your desired boot configuration in the RCF to reflect the desired boot images if you are installing only NX-OS and keeping your current RCF version.
 * If you need to change the boot configuration to reflect the current boot images, you must do so before reapplying the RCF so that the correct version is instantiated on future reboots.
 * You must have a console connection to the switch, required when installing the RCF.
-* You must have consulted the switch compatibility table on the Cisco Ethernet switch page for the supported ONTAP, NX-OS, and RCF versions.
-+
-https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet switch^]
+* You must have consulted the switch compatibility table on the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet switch^] page for the supported ONTAP, NX-OS, and RCF versions.
 
 * There can be command dependencies between the command syntax in the RCF and that found in versions of NX-OS.
-* You must have referred to the appropriate software and upgrade guides available on the Cisco web site for complete documentation on the Cisco switch upgrade and downgrade procedures on _Cisco Nexus 3000 Series Switches_.
-+
-https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-installation-guides-list.html[Cisco Nexus 3000 Series Switches^]
+* You must have referred to the appropriate software and upgrade guides available on the Cisco web site for complete documentation on the Cisco switch upgrade and downgrade procedures on https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-installation-guides-list.html[Cisco Nexus 3000 Series Switches^].
 
 * You must have the current RCF.
 
-== About this task
+.About this task
 
 The examples in this procedure use two nodes. These nodes use two 10GbE cluster interconnect ports `e0a` and `e0b`.
 
-See the _Hardware Universe_ to verify the correct cluster ports on your platforms.
+See the link:https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe^] to verify the correct cluster ports on your platforms.
 
-https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe^]
-
-[NOTE]
-====
-The command outputs might vary depending on different releases of ONTAP.
-====
+NOTE: The command outputs might vary depending on different releases of ONTAP.
 
 The examples in this procedure use the following switch and node nomenclature:
 
@@ -50,12 +41,9 @@ The examples in this procedure use the following switch and node nomenclature:
 * The cluster LIF names are `cluster1-01_clus1` and `cluster1-01_clus2` for cluster1-01 and `cluster1-02_clus1` and `cluster1-02_clus2` for cluster1-02.
 * The `cluster1::*>` prompt indicates the name of the cluster.
 
-[NOTE]
-====
-The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
-====
+NOTE: The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 
-== Steps
+.Steps
 
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
 +
@@ -63,10 +51,7 @@ The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Serie
 +
 where _x_ is the duration of the maintenance window in hours.
 +
-[NOTE]
-====
-The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
-====
+NOTE: The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
 
 . Change the privilege level to advanced, entering *y* when prompted to continue:
 +
@@ -234,10 +219,7 @@ Enabling cluster switch log collection.
 cluster1::*>
 ----
 +
-[NOTE]
-====
-If any of these commands return an error, contact NetApp support.
-====
+NOTE: If any of these commands return an error, contact NetApp support.
 
 . For ONTAP releases 9.5P16, 9.6P12, and 9.7P10 and later patch releases, enable the Ethernet switch health monitor log collection feature for collecting switch-related log files by using the commands:
 +
@@ -282,7 +264,6 @@ Enabling cluster switch log collection.
 cluster1::*>
 ----
 +
-[NOTE]
-====
-If any of these commands return an error, contact NetApp support.
-====
+NOTE: If any of these commands return an error, contact NetApp support.
+
+// QA clean-up, 2022-03-03

@@ -9,9 +9,9 @@ summary: "You can install the RCF after setting up the Nexus 3132Q-V switch for 
 :imagesdir: ../media/
 
 [.lead]
-You can install the RCF after setting up the Nexus 3132Q-V switch for the first time.You can also use this procedure to upgrade your RCF version.
+You can install the RCF after setting up the Nexus 3132Q-V switch for the first time. You can also use this procedure to upgrade your RCF version.
 
-== About this task
+.About this task
 
 The examples in this procedure use the following switch and node nomenclature:
 
@@ -20,12 +20,9 @@ The examples in this procedure use the following switch and node nomenclature:
 * The cluster LIF names are `cluster1-01_clus1`, `cluster1-01_clus2`, `cluster1-02_clus1`, `cluster1-02_clus2` , `cluster1-03_clus1`, `cluster1-03_clus2`, `cluster1-04_clus1`, and `cluster1-04_clus2`.
 * The `cluster1::*>` prompt indicates the name of the cluster.
 
-[NOTE]
-====
-The procedure requires the -se of both ONTAP commands and Cisco Nexus 3000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
-====
+NOTE: The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 
-== Steps
+.Steps
 
 . Display the cluster ports on each node that are connected to the cluster switches:
 +
@@ -575,3 +572,5 @@ RPC status:
 6 paths up, 0 paths down (tcp check)
 6 paths up, 0 paths down (udp check)
 ----
+
+// QA clean-up, 2022-03-03

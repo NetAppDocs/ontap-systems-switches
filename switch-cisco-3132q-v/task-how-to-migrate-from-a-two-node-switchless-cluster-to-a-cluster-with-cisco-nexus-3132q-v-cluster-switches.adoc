@@ -11,14 +11,14 @@ summary: "If you have a two-node switchless cluster, you can migrate nondisrupti
 [.lead]
 If you have a two-node switchless cluster, you can migrate nondisruptively to a two-node switched cluster that includes Cisco Nexus 3132Q-V cluster network switches.
 
-== What you'll need
+.Before you begin
 
 * The configurations must be properly set up and functioning.
 * The nodes must be running ONTAP 9.4 or later.
 * All cluster ports must be in the `up` state.
 * The Cisco Nexus 3132Q-V cluster switch must be supported.
 * The existing cluster network configuration must have:
- ** -he Nexus 3132 cluster infrastructure that is redundant and fully functional on both switches.
+ ** The Nexus 3132 cluster infrastructure that is redundant and fully functional on both switches.
 +
 The latest RCF and NX-OS versions on your switches.
 
@@ -28,7 +28,7 @@ The latest RCF and NX-OS versions on your switches.
  ** Initial customization of the switch.
  ** All the ISL ports enabled and cabled.
 
-== About this task
+.About this task
 
 The examples in this procedure use the following switch and node nomenclature:
 
@@ -37,7 +37,7 @@ The examples in this procedure use the following switch and node nomenclature:
 
 [NOTE]
 ====
-The examples in this procedure use two nodes, each utilizing two 40/100 GbE cluster interconnect ports e4a and e4e. The _Hardware Universe_ has details about the cluster ports on your platforms.
+The examples in this procedure use two nodes, each utilizing two 40/100 GbE cluster interconnect ports e4a and e4e. The link:https://hwu.netapp.com/[Hardware Universe^] has details about the cluster ports on your platforms.
 ====
 
 * n1_clus1 is the first cluster logical interface (LIF) to be connected to cluster switch C1 for node n1.
@@ -52,13 +52,13 @@ The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Serie
 ====
 
 * The cluster starts with two nodes connected and functioning in a two-node switchless cluster setting.
-* The first cluster port moved to C1 (steps 1 to 20).
-* The second cluster port moved to C2 (steps 21 to 32).
-* Disable the two-node switchless cluster option (steps 33 to 35).
+* The first cluster port moved to C1 (<<step1_migrate_2node3132q, Steps 1>>- <<step20_migrate_2node3132q,20>>)
+* The second cluster port moved to C2 (<<step21_migrate_2node3132q, Steps 21>>- <<step32_migrate_2node3132q,32>>).
+* Disable the two-node switchless cluster option (<<step33_migrate_2node3132q, Steps 33>>- <<step35_migrate_2node3132q,35>>)
 
-== Steps
+.Steps
 
-. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
+. [[step1_migrate_2node3132q]]If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
 +
 `system node autosupport invoke -node * -type all - message MAINT=xh`
 +
@@ -116,9 +116,7 @@ Cluster
 +
 You must prepare both switches at this time. If you need to upgrade the RCF and image software, you must follow these steps:
 
- .. Go to the _Cisco Ethernet Switches_ page on the NetApp Support Site.
-+
-http://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switches^]
+ .. Go to the link:http://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switches^] page on the NetApp Support Site.
 
  .. Note your switch and the required software versions in the table on that page.
  .. Download the appropriate version of RCF.
@@ -311,10 +309,7 @@ RPC status:
 +
 You can refer to the running configuration and connect the first 40 GbE port on the switch C1 (port 1/7 in this example) to e4a on n1 using supported cabling on Nexus 3132Q-V.
 +
-[NOTE]
-====
-When reconnecting any cables to a new Cisco cluster switch, the cables used must be either fiber or cabling supported by Cisco.
-====
+NOTE: When reconnecting any cables to a new Cisco cluster switch, the cables used must be either fiber or cabling supported by Cisco.
 
 . Disconnect the cable from e4a on node n2.
 +
@@ -379,7 +374,7 @@ cluster::*> network interface revert -vserver Cluster -lif n1_clus1
 cluster::*> network interface revert -vserver Cluster -lif n2_clus1
 ----
 
-. Verify that all of the cluster interconnect ports are now reverted to their home ports:
+. [[step20_migrate_2node3132q]]Verify that all of the cluster interconnect ports are now reverted to their home ports:
 +
 `network interface show`
 +
@@ -399,7 +394,7 @@ Cluster
 4 entries were displayed.
 ----
 
-. Display the cluster port connectivity on each node:
+. [[step21_migrate_2node3132q]]Display the cluster port connectivity on each node:
 +
 `network device-discovery show`
 +
@@ -543,7 +538,7 @@ e4e       Cluster      Cluster          up   9000 auto/40000  -        -
 4 entries were displayed.
 ----
 
-. Display the cluster switch port numbers each cluster port is connected to on each node:
+. [[step32_migrate_2node3132q]]Display the cluster switch port numbers each cluster port is connected to on each node:
 +
 `network device-discovery show`
 +
@@ -560,7 +555,7 @@ n2         /cdp
             e4e    C2                  Ethernet1/8      N3K-C3132Q-V
 ----
 
-. Display discovered and monitored cluster switches:
+. [[step33_migrate_2node3132q]]Display discovered and monitored cluster switches:
 +
 `system cluster-switch show`
 +
@@ -596,7 +591,7 @@ C2                          cluster-network     10.10.1.102      NX3132V
 network options switchless-cluster modify -enabled false
 ----
 
-. Verify that the `switchless-cluster` option has been disabled.
+. [[step35_migrate_2node3132q]]Verify that the `switchless-cluster` option has been disabled.
 +
 ----
 network options switchless-cluster show
@@ -676,11 +671,10 @@ Enabling cluster switch log collection.
 cluster::*>
 ----
 +
-[NOTE]
-====
-If any of these commands return an error, contact NetApp support.
-====
+NOTE: If any of these commands return an error, contact NetApp support.
 
 . If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
 +
 `system node autosupport invoke -node * -type all -message MAINT=END`
+
+// QA clean-up, 2022-03-03
