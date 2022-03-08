@@ -48,19 +48,19 @@ NOTE: The following procedure is based on the following cluster network topology
 +
 
 ----
-cluster1::*> network port show -ipspace Cluster
+cluster1::*> net port show -ipspace Cluster
 
 Node: node1
-Ignore
-Speed(Mbps) Health   Health
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
 Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ---- ----------- -------- ------
 e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
 e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 
 Node: node2
-Ignore
-Speed(Mbps) Health   Health
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
 Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ---- ----------- -------- ------
 e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
@@ -68,7 +68,8 @@ e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 4 entries were displayed.
 
 
-cluster1::*> network interface show -vserver Cluster
+cluster1::*> net interface show -vserver Cluster
+
             Logical    Status     Network            Current       Current Is
 Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
 ----------- ---------- ---------- ------------------ ------------- ------- ----
@@ -80,7 +81,7 @@ Cluster
 4 entries were displayed.
 
 
-cluster1::*> network device-discovery show -protocol cdp
+cluster1::*> net device-discovery show -protocol cdp
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
@@ -95,7 +96,7 @@ node2      /lldp
 ----
 +
 ----
-cumulus@sw1# show lldp neighbors
+cumulus@sw1:~$ show lldp neighbors
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
 S - Switch, H - Host, I - IGMP, r - Repeater,
@@ -111,7 +112,7 @@ sw2                Eth1/swp16     176    R S I s     MSN2100-CB2RC  Eth1/swp16
 Total entries displayed: 4
 
 
-cumulus@sw2# show lldp neighbors
+cumulus@sw2:~$ show lldp neighbors
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
 S - Switch, H - Host, I - IGMP, r - Repeater,
@@ -149,7 +150,7 @@ cumulus@nsw2:~$ net pending
 cumulus@nsw2:~$ net commit
 ----
 +
-. Verify that all cluster LIFs have auto-revert enabled: `network interface show -vserver Cluster -fields auto-revert`
+. Verify that all cluster LIFs have auto-revert enabled: `net interface show -vserver Cluster -fields auto-revert`
 . Verify that all the cluster LIFs can communicate: `cluster ping-cluster`
 +
 ----
@@ -191,8 +192,6 @@ cumulus@sw1:~$ net commit
 
 . Bring up the ISL ports swp15 and swp16 between the sw1 and nsw2 switches, and then verify the port channel operation status.
 +
-Port-Channel should indicate Po1(SU) and Member Ports should indicate Eth1/35(P) and Eth1/36(P).
-+
 This example enables ISL ports swp15 and swp16 and displays the port channel summary on switch sw1:
 +
 ----
@@ -200,12 +199,44 @@ cumulus@sw1:~$ net del interface swp15-16 link down
 cumulus@sw1:~$ net pending
 cumulus@sw1:~$ net commit
 ----
+The following example shows that the ISL ports are up on switch sw1:
++
+----
+cumulus@sw1:~$ net show interface
+
+State  Name         Spd   MTU    Mode        LLDP                  Summary
+-----  -----------  ----  -----  ----------  --------------------  -----------------------
+UP     lo           N/A   65536  Loopback                          IP: 127.0.0.1/8
+       lo                                                          IP: ::1/128
+...
+...
+...
+UP     swp15        100G  9216   BondMember  sn2100c-cs06 (swp15)  Master: cluster_isl(UP)
+UP     swp16        100G  9216   BondMember  sn2100c-cs06 (swp16)  Master: cluster_isl(UP)
+----
++
+The following example shows that the ISL ports are up on switch nsw2:
++
+----
+cumulus@nsw2:~$ net show interface
+
+State  Name         Spd   MTU    Mode        LLDP                    Summary
+-----  -----------  ----  -----  ----------  ----------------------  -----------------------
+UP     lo           N/A   65536  Loopback                            IP: 127.0.0.1/8
+       lo                                                            IP: ::1/128
+...
+...
+...
+UP     swp15        100G  9216   BondMember  sn2100c-cs06 (swp15)    Master: cluster_isl(UP)
+UP     swp16        100G  9216   BondMember  sn2100c-cs06 (swp16)    Master: cluster_isl(UP)
+----
+
 . Verify that port `e3b` is up on all nodes: `network port show ipspace Cluster`
 +
 The output should be similar to the following:
 +
 ----
-cluster1::*> network port show -ipspace Cluster
+cluster1::*> net port show -ipspace Cluster
 
 Node: node1
                                                                                                                                                                      Ignore
@@ -214,6 +245,7 @@ Port      IPspace      Broadcast Domain Link MTU   Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ----- ----------- -------- -------
 e3a       Cluster      Cluster          up   9000  auto/10000  healthy  false
 e3b       Cluster      Cluster          up   9000  auto/10000  healthy  false
+
 
 Node: node2
                                                                         Ignore
@@ -233,7 +265,7 @@ In this example, LIF `node1_clus2` on `node1` is successfully reverted if the `H
 The following commands return LIF `node1_clus2` on `node1` to home port `e3a` and displays information about the LIFs on both nodes. Bringing up the first node is successful if the `Is Home` column is true for both cluster interfaces and they show the correct port assignments, in this example `e3a` and `e3b` on `node1`.
 +
 ----
-cluster1::*> network interface show -vserver Cluster
+cluster1::*> net interface show -vserver Cluster
 
             Logical      Status     Network            Current    Current Is
 Vserver     Interface    Admin/Oper Address/Mask       Node       Port    Home
@@ -263,7 +295,7 @@ node2         true    true
 . Verify that all physical cluster ports are up: `network port show ipspace Cluster`
 +
 ----
-cluster1::*> network port show -ipspace Cluster
+cluster1::*> net port show -ipspace Cluster
 
 Node node1                                                               Ignore
                                                     Speed(Mbps) Health   Health
@@ -315,7 +347,7 @@ RPC status:
 . Verify that the cluster network is healthy:
 +
 ----
-cumulus@sw1# show lldp neighbors
+cumulus@sw1:~$ show lldp neighbors
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
@@ -331,7 +363,7 @@ nsw2                 Eth1/swp16     176    R S I s     MSN2100-CB2RC  Eth1/swp16
 Total entries displayed: 4
 
 
-cumulus@sw2# show lldp neighbors
+cumulus@sw2:~$ show lldp neighbors
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
@@ -348,6 +380,8 @@ Total entries displayed: 4
 ----
 
 . Enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the commands: `system switch ethernet log setup-password` and `system switch ethernet log enable-collection`
++
+Enter: `system switch ethernet log setup-password`
 +
 ----
 cluster1::*> system switch ethernet log setup-password
@@ -374,8 +408,12 @@ Do you want to continue? {y|n}:: [n] y
 
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
-
-cluster1::*> system  switch ethernet log enable-collection
+----
++
+Followed by: `system switch ethernet log enable-collection`
++
+----
+cluster1::*> system switch ethernet log enable-collection
 
 Do you want to enable cluster log collection for all nodes in the cluster?
 {y|n}: [n] y

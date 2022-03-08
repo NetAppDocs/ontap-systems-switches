@@ -72,15 +72,15 @@ The following example shows that the ISL ports are up on switch sw1:
 ----
 cumulus@sw1:~$ net show interface
 
-State  Name         Spd   MTU    Mode        LLDP                    Summary
------  -----------  ----  -----  ----------  ----------------------  -----------------------
-UP     lo           N/A   65536  Loopback                            IP: 127.0.0.1/8
-       lo                                                            IP: ::1/128
+State  Name         Spd   MTU    Mode        LLDP                  Summary
+-----  -----------  ----  -----  ----------  --------------------  -----------------------
+UP     lo           N/A   65536  Loopback                          IP: 127.0.0.1/8
+       lo                                                          IP: ::1/128
 ...
 ...
 ...
-UP     swp15        100G  9216   BondMember  sn2100c-cs06 (swp15)    Master: cluster_isl(UP)
-UP     swp16        100G  9216   BondMember  sn2100c-cs06 (swp16)    Master: cluster_isl(UP)
+UP     swp15        100G  9216   BondMember  sn2100c-cs06 (swp15)  Master: cluster_isl(UP)
+UP     swp16        100G  9216   BondMember  sn2100c-cs06 (swp16)  Master: cluster_isl(UP)
 ----
 +
 The following example shows that the ISL ports are up on switch sw2:
@@ -166,12 +166,12 @@ e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 4 entries were displayed.
 ----
 
-. Verify that all cluster LIFs are up and operational: `network interface show`
+. Verify that all cluster LIFs are up and operational: `net interface show`
 +
 Each cluster LIF should display true for `Is Home` and have a `Status Admin/Oper` of up/up
 +
 ----
-cluster1::*> network interface show -vserver Cluster
+cluster1::*> net interface show -vserver Cluster
 
             Logical    Status     Network            Current       Current Is
 Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
@@ -217,12 +217,12 @@ cumulus@sw1:~$ net pending
 cumulus@sw1:~$ net commit
 ----
 
-. Verify that all cluster LIFs are up, operational, and display as true for `Is Home`: `network interface show -vserver Cluster`
+. Verify that all cluster LIFs are up, operational, and display as true for `Is Home`: `net interface show -vserver Cluster`
 +
 The following example shows that all of the LIFs are up on node1 and node2 and that `Is Home` results are true:
 +
 ----
-cluster1::*> network interface show -vserver Cluster
+cluster1::*> net interface show -vserver Cluster
 
          Logical      Status     Network            Current     Current Is
 Vserver  Interface    Admin/Oper Address/Mask       Node        Port    Home
@@ -269,7 +269,7 @@ cumulus@sw1:~$ net commit
 The following example shows that all of the cluster ports are up on node1 and node2:
 +
 ----
-cluster1::*> network port show -ipspace Cluster
+cluster1::*> net port show -ipspace Cluster
 
 Node: node1
                                                                        Ignore
@@ -290,7 +290,7 @@ e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 4 entries were displayed.
 ----
 
-. Verify that all interfaces display true for `Is Home`: `network interface show -vserver Cluster`
+. Verify that all interfaces display true for `Is Home`: `net interface show -vserver Cluster`
 +
 NOTE: This might take several minutes to complete.
 +
@@ -298,7 +298,7 @@ The following example shows that all LIFs are up on node1 and node2 and that `Is
 +
 
 ----
-cluster1::*> network interface show -vserver Cluster
+cluster1::*> net interface show -vserver Cluster
 
           Logical      Status     Network            Current    Current Is
 Vserver   Interface    Admin/Oper Address/Mask       Node       Port    Home
@@ -348,7 +348,7 @@ sw1                swp16          175    R S I s     MSN2100       swp16
 Total entries displayed: 4
 ----
 
-. Display information about the discovered network devices in your cluster: `network device-discovery show -protocol cdp`
+. Display information about the discovered network devices in your cluster: `net device-discovery show -protocol cdp`
 +
 ----
 cluster1::*> network device-discovery show -protocol cdp
@@ -365,7 +365,7 @@ node1      /cdp
 4 entries were displayed.
 ----
 
-. Verify that the settings are disabled: `network options switchless-cluster show`
+. Verify that the settings are disabled: `net options switchless-cluster show`
 +
 NOTE: It might take several minutes for the command to complete. Wait for the '3 minute lifetime to expire' announcement.
 +
@@ -373,7 +373,7 @@ The false output in the following example shows that the configuration settings 
 +
 
 ----
-cluster1::*> network options switchless-cluster show
+cluster1::*> net options switchless-cluster show
 Enable Switchless Cluster: false
 ----
 
