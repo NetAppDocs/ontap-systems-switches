@@ -29,8 +29,8 @@ The examples in this procedure use the following switch and node nomenclature:
 
 The following list describes the stages you must complete when changing the cluster switches:
 
-* I. Replace cluster switch CL2 with C2 (Steps 1-22)
-* II. Replace cluster switch CL1 with C1 (Steps 23-40)
+* I. Replace cluster switch CL2 with C2 (Steps <<one,1>>-<<twentytwo,22>>)
+* II. Replace cluster switch CL1 with C1 (Steps <<twentythree,23>>-<<forty,40>>)
 
 The examples in this procedure use four nodes: Two nodes use four 10 GbE cluster interconnect ports: e0a, e0b, e0c, and e0d. The other two nodes use two 40 GbE cluster interconnect fiber cables: e4a and e4e. The _Hardware Universe_ has information about the cluster fiber cables on your platforms.
 
@@ -41,7 +41,7 @@ The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Serie
 
 .Steps
 
-. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
+. [[one]]If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
 +
 `system node autosupport invoke -node * -type all -message MAINT=xh`
 +
@@ -511,7 +511,7 @@ RPC status:
 4 paths up, 0 paths down (udp check)
 ----
 
-. Migrate the LIFs that are associated with the first CN1610 switch CL1: `network interface migrate -vserver cluster -lif _lif-name_ -source-node _node-name_`
+. [[twentytwo]]Migrate the LIFs that are associated with the first CN1610 switch CL1: `network interface migrate -vserver cluster -lif _lif-name_ -source-node _node-name_`
 +
 You must migrate each cluster LIF individually to the appropriate cluster ports hosted on cluster switch C2 as shown in the following example:
 +
@@ -526,7 +526,7 @@ cluster::*> network interface migrate -vserver cluster -lif n2_clus4 -source-nod
 -destination-node n2 -destination-port e0c
 ----
 
-. Verify the cluster's status: `network interface show -role cluster`
+. [[twentythree]]Verify the cluster's status: `network interface show -role cluster`
 +
 The following example shows that the required cluster LIFs have been migrated to the appropriate cluster ports hosted on cluster switch C2:
 +
@@ -957,7 +957,7 @@ C2                          cluster-network    10.10.1.104      NX3232C
 2 entries were displayed.
 ----
 
-. Enable the cluster switch health monitor log collection feature for collecting switch-related log files: `system cluster-switch log setup-password`
+. [[forty]]Enable the cluster switch health monitor log collection feature for collecting switch-related log files: `system cluster-switch log setup-password`
 +
 `system cluster-switch log enable-collection`
 +
