@@ -11,7 +11,7 @@ summary: "You can nondisruptively replace a defective Cisco Nexus 3232C storage 
 [.lead]
 You can nondisruptively replace a defective Cisco Nexus 3232C storage switch by performing a specific sequence of tasks.
 
-== What you'll need
+.Before you begin
 
 The existing network configuration must have the following characteristics:
 
@@ -32,16 +32,16 @@ The replacement Cisco Nexus 3232C switch must have the following characteristics
 
 *Procedure summary:*
 
-* *Confirm the switch to be replaced is S2 <<joyce,(Steps 1-5)>>*
-* *Disconnect the cables from switch S2 <<shaw,(Step 6)>>*
-* *Reconnect the cables to switch NS2 <<heaney,(Step 7)>>*
-* *Verify all device configurations on switch NS2 <<yeats,(Steps 8-10)>>*
+* *Confirm the switch to be replaced is S2 (Steps <<one,1>>-<<five,5>>)*
+* *Disconnect the cables from switch S2 <<six,(Step 6)>>*
+* *Reconnect the cables to switch NS2 (Step <<seven,7>>)*
+* *Verify all device configurations on switch NS2 (Steps <<eight,8>>-<<ten,10>>)*
 * This procedure replaces the second Nexus 3232C storage switch S2 with the new 3232C switch NS2.
 * The two nodes are node1 and node2.
 
-== Steps
+.Steps
 
-. [[joyce]]If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
+. [[one]]If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
 `system node autosupport invoke -node * -type all - message MAINT=xh`
 +
 _x_ is the duration of the maintenance window in hours.
@@ -114,7 +114,7 @@ SHFGD2008000022         Eth1/7          120        S           e0a
 SHFGD2008000022         Eth1/8          120        S           e0a
 ----
 
-. Verify the shelf ports in the storage system:
+. [[five]]Verify the shelf ports in the storage system:
 `storage shelf port show -fields remote-device,remote-port`
 +
 ----
@@ -132,9 +132,9 @@ shelf  id  remote-port  remote-device
 3.20   3   -            -
 ----
 
-. [[shaw]]Remove all cables attached to storage switch S2.
-. [[heaney]]Reconnect all cables to the replacement switch NS2.
-. [[yeats]]Recheck the health status of the storage node ports:
+. [[six]]Remove all cables attached to storage switch S2.
+. [[seven]]Reconnect all cables to the replacement switch NS2.
+. [[eight]]Recheck the health status of the storage node ports:
 `storage port show -port-type ENET`
 +
 ----
@@ -184,7 +184,7 @@ node2/lldp
             e7b    NS2                       Ethernet1/2       -
 ----
 
-. Verify the shelf ports in the storage system:
+. [[ten]]Verify the shelf ports in the storage system:
 `storage shelf port show -fields remote-device,remote-port`
 +
 ----
