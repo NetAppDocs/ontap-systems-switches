@@ -9,11 +9,11 @@ summary: If you want to build ONTAP clusters with more than two nodes, you need 
 :imagesdir: ../media/
 
 [.lead]
+From ONTAP 9.10.1P3, you can use NVIDIA MSN2100 switches to combine storage and cluster functionality into a shared switch scenario.
+
 If you want to build ONTAP clusters with more than two nodes, you need two supported cluster network switches. You can use additional management switches, which are optional.
 
 You install the NVIDIA MSN2100 switch (X190006/X190106) in the NVIDIA dual/single switch cabinet with the standard brackets that are included with the switch.
-
-IMPORTANT: See NVIDIA documentation for details on https://docs.nvidia.com/networking/display/sn2000pub/Installation[installing your MSN2100 switch and rail kit^].
 
 The following table lists the part number and description for the MSN2100 switches and rail kits:
 
@@ -44,4 +44,37 @@ a|
 X-MTEF-KIT-E
 a|
 Rail Kit, NVIDIA Single switch short depth
+|===
+
+IMPORTANT: See NVIDIA documentation for details on https://docs.nvidia.com/networking/display/sn2000pub/Installation[installing your MSN2100 switch and rail kit^].
+
+The following table lists the documentation available for the NVIDIA MSN2100 switches.
+
+[options="header" cols="1,2"]
+|===
+| Title | Description
+a|
+link:https://docs.netapp.com/us-en/ontap-systems-switches/switch-nvidia-msn2100/install_setup_msn2100_switches_overview.html[_Setup and configure your NVIDIA MSN2100 switches_^]
+a|
+Describes how to setup and configure your NVIDIA MSN2100 switches, including installing Cumulus Linux and applicable RCFs.
+a|
+link:https://docs.netapp.com/us-en/ontap-systems-switches/switch-nvidia-msn2100/migrate_cisco__msn2100__cluster_switch.html[_Migrate from a Cisco cluster switch to a NVIDIA cluster switch_^]
+a|
+Describes how to migrate from environments that use Cisco cluster switches to environments that use NVIDIA MSN2100 cluster switches.
+a|
+link:https://docs.netapp.com/us-en/ontap-systems-switches/switch-nvidia-msn2100/migrate_cisco__msn2100__storage_switch.html[_Migrate from a Cisco storage switch to a NVIDIA cluster switch_^]
+a|
+Describes how to migrate from environments that use Cisco storage switches to environments that use NVIDIA MSN2100 storage switches.
+a|
+link:https://docs.netapp.com/us-en/ontap-systems-switches/switch-nvidia-msn2100/migrate_2n_switched_msn2100_switches.html[_Migrate to a two-node switched cluster with NVIDIA MSN2100 cluster switches_^]
+a|
+Describes how to migrate to a two-node switched environment using NVIDIA MSN2100 cluster switches.
+a|
+link:https://docs.netapp.com/us-en/ontap-systems-switches/switch-nvidia-msn2100/replace_msn2100_switch_cluster.html[_Replace a NVIDIA MSN2100 cluster switch_^]
+a|
+Describes the procedure to replace a defective NVIDIA MSN2100 switch in a cluster and download Cumulus Linux and reference configuration file.
+a|
+link:https://docs.netapp.com/us-en/ontap-systems-switches/switch-nvidia-msn2100/replace_msn2100_switch_storage.html[_Replace a NVIDIA MSN2100 storage switch_^]
+a|
+Describes the procedure to replace a defective  NVIDIA MSN2100 storage switch and download Cumulus Linux and reference configuration file.
 |===
