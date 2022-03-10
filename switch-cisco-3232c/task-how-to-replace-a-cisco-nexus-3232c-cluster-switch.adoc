@@ -34,10 +34,10 @@ The replacement Cisco Nexus 3232C switch must have the following characteristics
 
 *Procedure summary*
 
-* *Display and migrate the cluster ports to switch C2 (Steps 1-7)*
-* *Reconnect ISL cables from switch CL2 to switch C2, then migrate ISLs to switch CL1 and C2 (Steps 8-14)*
-* *Revert all LIFs to originally assigned ports (Steps 15-18)*
-* *Verify all ports and LIF are correctly migrated (Steps 19-21)*
+* *Display and migrate the cluster ports to switch C2 <<one,(Steps 1-7)>>*
+* *Reconnect ISL cables from switch CL2 to switch C2, then migrate ISLs to switch CL1 and C2 <<two,(Steps 8-14)>>*
+* *Revert all LIFs to originally assigned ports <<three,(Steps 15-18)>>*
+* *Verify all ports and LIF are correctly migrated <<four,(Steps 19-21)>>*
 
 This procedure replaces the second Nexus 3232C cluster switch CL2 with the new 3232C switch C2. The examples in this procedure use the following switch and node nomenclature:
 
@@ -63,12 +63,12 @@ This procedure describes the following scenario:
 
 == Steps
 
-. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
-+
+. [[one]]If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
+
 `system node autosupport invoke -node * -type all - message MAINT=xh`
 +
 _x_ is the duration of the maintenance window in hours.
-+
+
 [NOTE]
 ====
 The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
@@ -360,7 +360,7 @@ For more information on Cisco commands, see the guides listed in the https://www
 
 . Remove all the cables attached to the cluster switch CL2 and reconnect them to the replacement switch C2 for all the nodes.
 . Remove the inter-switch link (ISL) cables from ports e1/31 and e1/32 on cluster switch CL2 and reconnect them to the same ports on the replacement switch C2.
-. Bring up ISL ports 1/31 and 1/32 on the cluster switch CL1.
+. <<two>>Bring up ISL ports 1/31 and 1/32 on the cluster switch CL1.
 +
 For more information on Cisco commands, see the guides listed in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-command-reference-list.html[Cisco Nexus 3000 Series NX-OS Command References^].
 +
@@ -576,7 +576,7 @@ Larger than PMTU communication succeeds on 32 path(s) RPC status:
 8	paths up, 0 paths down (udp check)
 ----
 
-. Display the information about the devices in your configuration by entering the following commands:
+. <<three>>Display the information about the devices in your configuration by entering the following commands:
 +
 You can execute the following commands in any order:
 
@@ -781,7 +781,7 @@ cluster::*>
 If any of these commands return an error, contact NetApp support.
 ====
 
-. If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
+. <<four>>If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
 +
 `system node autosupport invoke -node * -type all -message MAINT=END`
 
