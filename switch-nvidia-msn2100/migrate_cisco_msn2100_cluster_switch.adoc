@@ -67,8 +67,9 @@ Each port should display up for `Link` and healthy for `Health Status`.
 +
 .. Display the network port attributes: `net port show -ipspace Cluster`
 +
+[subs=+quotes]
 ----
-cluster1::*> net port show -ipspace Cluster
+cluster1::*> *net port show -ipspace Cluster*
 
 Node: node1
                                                                        Ignore
@@ -93,8 +94,9 @@ e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 +
 Each LIF should display up/up for `Status Admin/Oper` and true for `Is Home`.
 +
+[subs=+quotes]
 ----
-cluster1::*> net interface show -vserver Cluster
+cluster1::*> *net interface show -vserver Cluster*
 
             Logical      Status     Network            Current       Current Is
 Vserver     Interface    Admin/Oper Address/Mask       Node          Port    Home
@@ -110,8 +112,9 @@ Cluster
 
 . The cluster ports on each node are connected to existing cluster switches in the following way (from the nodes' perspective) using the command: `net device-discovery show -protocol cdp`
 +
+[subs=+quotes]
 ----
-cluster1::*> net device-discovery show -protocol cdp
+cluster1::*> *net device-discovery show -protocol cdp*
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
@@ -127,8 +130,9 @@ node2      /cdp
 
 . The cluster ports and switches are connected in the following way (from the switches' perspective) using the command: `show lldp neighbors`
 +
+[subs=+quotes]
 ----
-c1# show lldp neighbors
+c1# *show lldp neighbors*
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
@@ -143,7 +147,7 @@ c2                    Eth1/31        179   S I s       N3K-C3232C       Eth1/31
 c2                    Eth1/32        175   S I s       N3K-C3232C       Eth1/32
 Total entries displayed: 4
 
-c2# show cdp neighbors
+c2# *show cdp neighbors*
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
@@ -160,9 +164,9 @@ c1                    Eth1/32       175    S I s       N3K-C3232C       Eth1/32
 
 . Ensure that the cluster network has full connectivity using the command: `cluster ping-cluster -node node-name`
 +
-
+[subs=+quotes]
 ----
-cluster1::*> cluster ping-cluster -node node2
+cluster1::*> *cluster ping-cluster -node node2*
 
 Host is node2
 Getting addresses from network interface table...
@@ -192,17 +196,19 @@ RPC status:
 
 . On switch sw2, shut down the ports connected to the cluster ports of the nodes.
 +
+[subs=+quotes]
 ----
-cumulus@sw2:~$ net add interface swp1-16 link down
-cumulus@sw2:~$ net pending
-cumulus@sw2:~$ net commit
+cumulus@sw2:~$ *net add interface swp1-16 link down*
+cumulus@sw2:~$ *net pending*
+cumulus@sw2:~$ *net commit*
 ----
 
 . Move the node cluster ports from the old switch c2 to the new switch sw2, using appropriate cabling supported by NVIDIA MSN2100.
 . The cluster ports on each node are now connected to cluster switches in the following way, from  the nodes' perspective:
 +
+[subs=+quotes]
 ----
-cluster1::*> net device-discovery show -protocol
+cluster1::*> *net device-discovery show -protocol*
 
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
@@ -225,8 +231,9 @@ node2      /cdp
 ----
 . Verify that all node cluster ports are up:
 +
+[subs=+quotes]
 ----
-cumulus@cumulus:mgmt:~$ net show interface
+cumulus@cumulus:mgmt:~$ *net show interface*
 
 State  Name         Spd   MTU    Mode        LLDP                  Summary
 -----  -----------  ----  -----  ----------  --------------------- -----------------------
@@ -247,8 +254,9 @@ UP     swp16        100G  9216   BondMember  cs06 (swp16)          Master: clust
 
 . The cluster ports on each node are now connected to cluster switches in the following way, from the nodes' perspective:
 +
+[subs=+quotes]
 ----
-cluster1::*> net device-discovery show -protocol
+cluster1::*> *net device-discovery show -protocol*
 
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
@@ -274,8 +282,9 @@ node2      /cdp
 +
 Each port should display up for `Link` and healthy for `Health Status`.
 +
+[subs=+quotes]
 ----
-cluster1::*> net port show -ipspace Cluster
+cluster1::*> *net port show -ipspace Cluster*
 
 Node: node1
                                                                        Ignore
@@ -296,7 +305,7 @@ e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 4 entries were displayed.
 
 
-cluster1::*> net interface show -vserver Cluster
+cluster1::*> *net interface show -vserver Cluster*
 
             Logical    Status     Network            Current       Current Is
 Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
@@ -310,7 +319,7 @@ Cluster
 4 entries were displayed.
 
 
-cluster1::*> net device-discovery show -protocol cdp
+cluster1::*> *net device-discovery show -protocol cdp*
 
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
@@ -367,28 +376,29 @@ Total entries displayed: 4
 +
 Enter: `system switch ethernet log setup-password`
 +
+[subs=+quotes]
 ----
-cluster1::*> system switch ethernet log setup-password
+cluster1::*> *system switch ethernet log setup-password*
 Enter the switch name: <return>
 The switch name entered is not recognized.
 Choose from the following list:
 sw1
 sw2
 
-cluster1::*> system switch ethernet log setup-password
+cluster1::*> *system switch ethernet log setup-password*
 
-Enter the switch name: sw1
+Enter the switch name: *sw1*
 RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
-Do you want to continue? {y|n}::[n] y
+Do you want to continue? {y|n}::[n] *y*
 
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 
-cluster1::*> system switch ethernet log setup-password
+cluster1::*> *system switch ethernet log setup-password*
 
-Enter the switch name: sw2
+Enter the switch name: *sw2*
 RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
-Do you want to continue? {y|n}:: [n] y
+Do you want to continue? {y|n}:: [n] *y*
 
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
@@ -397,10 +407,10 @@ Enter the password again: <enter switch password>
 Followed by: `system switch ethernet log enable-collection`
 +
 ----
-cluster1::*> system  switch ethernet log enable-collection
+cluster1::*> *system  switch ethernet log enable-collection*
 
 Do you want to enable cluster log collection for all nodes in the cluster?
-{y|n}: [n] y
+{y|n}: [n] *y*
 
 Enabling cluster switch log collection.
 

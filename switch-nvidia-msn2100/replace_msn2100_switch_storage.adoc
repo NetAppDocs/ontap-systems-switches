@@ -54,8 +54,9 @@ _x_ is the duration of the maintenance window in hours.
 +
 `storage port show -port-type ENET`
 +
+[subs=+quotes]
 ----
-storage::*> storage port show -port-type ENET
+storage::*> *storage port show -port-type ENET*
                                   Speed                     VLAN
 Node           Port Type  Mode    (Gb/s) State    Status      ID
 -------------- ---- ----- ------- ------ -------- --------- ----
@@ -74,8 +75,9 @@ storage::*>
 . Verify that storage switch sw1 is available:
 `net device-discovery show`
 +
+[subs=+quotes]
 ----
-storage::*> net device-discovery show protocol lldp
+storage::*> *net device-discovery show protocol lldp*
 Node/      Local Discovered
 Protocol   Port	 Device (LLDP: ChassisID)  Interface   Platform
 --------   ----  -----------------------   ---------   ---------
@@ -92,8 +94,9 @@ storage::*>
 . Run the `show lldp neighbors` command on the working switch to confirm that you can see both nodes and all shelves:
 `show lldp neighbors`
 +
+[subs=+quotes]
 ----
-cumulus@swp11:~$ show lldp neighbors
+cumulus@swp11:~$ *show lldp neighbors*
 Capability codes:
    (R) Router, (B) Bridge, (T) Telephone, (C) DOCSIS Cable Device
    (W) WLAN Access Point, (P) Repeater, (S) Station, (O) Other
@@ -108,8 +111,9 @@ SHFGD2008000022  Eth1/8       120          S             e0a
 . Verify the shelf ports in the storage system:
 `storage shelf port show -fields remote-device, remote-port`
 +
+[subs=+quotes]
 ----
-storage::*> storage shelf port show -fields remote-device, remote-port
+storage::*> *storage shelf port show -fields remote-device, remote-port*
 shelf   id  remote-port   remote-device
 -----   --  -----------   -------------
 3.20    0   Ethernet1/5   sw1
@@ -127,8 +131,9 @@ storage::*>
 . Recheck the health status of the storage node ports:
 `storage port show -port-type ENET`
 +
+[subs=+quotes]
 ----
-storage::*> storage port show -port-type ENET
+storage::*> *storage port show -port-type ENET*
                                     Speed                     VLAN
 Node             Port Type  Mode    (Gb/s) State    Status      ID
 ---------------- ---- ----- ------- ------ -------- --------- ----
@@ -148,8 +153,9 @@ storage::*>
 . Verify that both switches are available:
 `net device-discovery show`
 +
+[subs=+quotes]
 ----
-storage::*> net device-discovery show protocol lldp
+storage::*> *net device-discovery show protocol lldp*
 Node/     Local Discovered
 Protocol  Port  Device (LLDP: ChassisID)  Interface	  Platform
 --------  ----  -----------------------   ---------   ---------
@@ -168,8 +174,9 @@ storage::*>
 . Verify the shelf ports in the storage system:
 `storage shelf port show -fields remote-device, remote-port`
 +
+[subs=+quotes]
 ----
-storage::*> storage shelf port show -fields remote-device, remote-port
+storage::*> *storage shelf port show -fields remote-device, remote-port*
 shelf   id    remote-port     remote-device
 -----   --    -----------     -------------
 3.20    0     swp1            sw1
