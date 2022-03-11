@@ -98,14 +98,14 @@ Each LIF should display up/up for `Status Admin/Oper` and true for `Is Home`.
 ----
 cluster1::*> *net interface show -vserver Cluster*
 
-            Logical      Status     Network            Current       Current Is
-Vserver     Interface    Admin/Oper Address/Mask       Node          Port    Home
------------ -----------  ---------- ------------------ ------------- ------- ----
+            Logical      Status     Network            Current     Current Is
+Vserver     Interface    Admin/Oper Address/Mask       Node        Port    Home
+----------- -----------  ---------- ------------------ ----------- ------- ----
 Cluster
-            node1_clus1  up/up      169.254.209.69/16  node1         e3a     true
-            node1_clus2  up/up      169.254.49.125/16  node1         e3b     true
-            node2_clus1  up/up      169.254.47.194/16  node2         e3a     true
-            node2_clus2  up/up      169.254.19.183/16  node2         e3b     true
+            node1_clus1  up/up      169.254.209.69/16  node1       e3a     true
+            node1_clus2  up/up      169.254.49.125/16  node1       e3b     true
+            node2_clus1  up/up      169.254.47.194/16  node2       e3a     true
+            node2_clus2  up/up      169.254.19.183/16  node2       e3b     true
 
 4 entries were displayed.
 ----
@@ -114,16 +114,16 @@ Cluster
 +
 [subs=+quotes]
 ----
-cluster1::*> *net device-discovery show -protocol cdp*
+cluster1::*> *net device-discovery show -protocol lldp*
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
-node1      /cdp
-            e3a    c1                        0/1               N3K-C3232C
-            e3b    c2                        0/1               N3K-C3232C
-node2      /cdp
-            e3a    c1                        0/2               N3K-C3232C
-            e3b    c2                        0/2               N3K-C3232C
+node1      /lldp
+            e3a    c1                        Eth1/1            N3K-C3232C
+            e3b    c2                        Eth1/1            N3K-C3232C
+node2      /lldp
+            e3a    c1                        Eth1/2            N3K-C3232C
+            e3b    c2                        Eth1/2            N3K-C3232C
 
 4 entries were displayed.
 ----
@@ -138,7 +138,6 @@ Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
                   V - VoIP-Phone, D - Remotely-Managed-Device,
                   s - Supports-STP-Dispute
-
 
 Device-ID             Local Intrfce Hldtme Capability  Platform         Port ID
 node1                 Eth1/1         124   H           AFF-A400           e3a
@@ -156,8 +155,8 @@ Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
 
 
 Device-ID             Local Intrfce Hldtme Capability  Platform         Port ID
-node1                 Eth1/1        124    H           A400400           e3b
-node2                 Eth1/2        124    H           AFF-A400           e3b
+node1                 Eth1/1        124    H           AFF-A400         e3b
+node2                 Eth1/2        124    H           AFF-A400         e3b
 c1                    Eth1/31       175    S I s       N3K-C3232C       Eth1/31
 c1                    Eth1/32       175    S I s       N3K-C3232C       Eth1/32
 ----
@@ -193,7 +192,6 @@ RPC status:
 2 paths up, 0 paths down (udp check)
 ----
 
-
 . On switch sw2, shut down the ports connected to the cluster ports of the nodes.
 +
 [subs=+quotes]
@@ -214,18 +212,18 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
 node1      /lldp
-            e3a    c1                        0/1               N3K-C3232C
-            e3b    sw2                       0/swp1            MSN2100-CB2RC
+            e3a    c1                        Eth1/1            N3K-C3232C
+            e3b    sw2                       swp1              MSN2100-CB2RC
 node2      /lldp
-            e3a    c1                        0/1               N3K-C3232C
-            e3b    sw2                       0/swp1            MSN2100-CB2RC
+            e3a    c1                        Eth1/1            N3K-C3232C
+            e3b    sw2                       swp1              MSN2100-CB2RC
 
 node1      /cdp
-            e3a    c1                        0/1               N3K-C3232C
-            e3b    sw2                       0/swp1            MSN2100-CB2RC
+            e3a    c1                        Eth1/1            N3K-C3232C
+            e3b    sw2                       swp1              MSN2100-CB2RC
 node2      /cdp
-            e3a    c1                        0/1               N3K-C3232C
-            e3b    sw2                       0/swp1            MSN2100-CB2RC
+            e3a    c1                        Eth1/1            N3K-C3232C
+            e3b    sw2                       swp1              MSN2100-CB2RC
 
 8 entries were displayed.
 ----
@@ -233,7 +231,7 @@ node2      /cdp
 +
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:~$ *net show interface*
+cumulus@sw2:~$ *net show interface*
 
 State  Name         Spd   MTU    Mode        LLDP                  Summary
 -----  -----------  ----  -----  ----------  --------------------- -----------------------
@@ -259,21 +257,21 @@ UP     swp16        100G  9216   BondMember  cs06 (swp16)          Master: clust
 cluster1::*> *net device-discovery show -protocol*
 
 Node/       Local  Discovered
-Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
------------ ------ ------------------------- ----------------  ----------------
+Protocol    Port   Device (LLDP: ChassisID)  Interface       Platform
+----------- ------ ------------------------- --------------  ----------------
 node1      /lldp
-            e3a    sw1                       0/1               MSN2100-CB2RC
-            e3b    sw2                       0/swp1            MSN2100-CB2RC
+            e3a    sw1                       swp1            MSN2100-CB2RC
+            e3b    sw2                       swp2            MSN2100-CB2RC
 node2      /lldp
-            e3a    sw1                       0/1               MSN2100-CB2RC
-            e3b    sw2                       0/swp1            MSN2100-CB2RC
+            e3a    sw1                       swp1            MSN2100-CB2RC
+            e3b    sw2                       swp2            MSN2100-CB2RC
 
 node1      /cdp
-            e3a    sw1                       0/1               MSN2100-CB2RC
-            e3b    sw2                       0/swp1            MSN2100-CB2RC
+            e3a    sw1                       swp1            MSN2100-CB2RC
+            e3b    sw2                       swp2            MSN2100-CB2RC
 node2      /cdp
-            e3a    sw1                       0/1               MSN2100-CB2RC
-            e3b    sw2                       0/swp1            MSN2100-CB2RC
+            e3a    sw1                       swp1            MSN2100-CB2RC
+            e3b    sw2                       swp2            MSN2100-CB2RC
 
 8 entries were displayed.
 ----
@@ -319,55 +317,44 @@ Cluster
 4 entries were displayed.
 
 
-cluster1::*> *net device-discovery show -protocol cdp*
+cluster1::*> *net device-discovery show -protocol lldp*
 
 Node/       Local  Discovered
-Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
------------ ------ ------------------------- ----------------  ----------------
-node1      /cdp
-            e3a    sw1                       0/swp1            MSN2100-CB2RC
-            e3b    sw2                       0/swp1            MSN2100-CB2RC
-node2      /cdp
-            e3a    sw1                       0/swp2            MSN2100-CB2RC
-            e3b    sw2                       0/swp2            MSN2100-CB2RC
+Protocol    Port   Device (LLDP: ChassisID)  Interface       Platform
+----------- ------ ------------------------- --------------  ----------------
+node1      lldp
+            e3a    sw1                       swp1            MSN2100-CB2RC
+            e3b    sw2                       swp2            MSN2100-CB2RC
+node2      /lldp
+            e3a    sw1                       swp2            MSN2100-CB2RC
+            e3b    sw2                       swp2            MSN2100-CB2RC
 
 4 entries were displayed.
 ----
 
-. Verify that both nodes each have one connection to each switch: `show cdp neighbors`
-*This output needs updating*
+. Verify that both nodes each have one connection to each switch: `net show lldp`
 +
 The following example shows the appropriate results for both switches:
 +
+[subs=+quotes]
 ----
-cs1# show cdp neighbors
+cumulus@sw1:~$ *net show lldp*
 
-Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
-                  S - Switch, H - Host, I - IGMP, r - Repeater,
-                  V - VoIP-Phone, D - Remotely-Managed-Device,
-                  s - Supports-STP-Dispute
+LocalPort  Speed  Mode        RemoteHost              RemotePort
+---------  -----  ----------  ----------------------  -----------
+swp1       100G   Trunk/L2    sn2100c-cs01            e3a
+swp2       100G   Trunk/L2    sn2100c-cs02            e3b
+swp15      100G   BondMember  sn2100c-cs06            swp15
+swp16      100G   BondMember  sn2100c-cs06            swp16
 
-Device-ID          Local Intrfce  Hldtme Capability  Platform      Port ID
-node1              Eth1/1         124    H           AFF400        e3a
-node2              Eth1/2         124    H           AFF400        e3a
-cs2                Eth1/35        179    R S I s     N9K-C9336C    Eth1/35
-cs2                Eth1/36        179    R S I s     N9K-C9336C    Eth1/36
+cumulus@sw2:~$ *net show lldp*
 
-
-cs2# show cdp neighbors
-
-Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
-                  S - Switch, H - Host, I - IGMP, r - Repeater,
-                  V - VoIP-Phone, D - Remotely-Managed-Device,
-                  s - Supports-STP-Dispute
-
-Device-ID          Local Intrfce  Hldtme Capability  Platform      Port ID
-node1              Eth1/1         124    H           FAS2750       e3b
-node2              Eth1/2         124    H           FAS2750       e3b
-cs1                Eth1/35        179    R S I s     N9K-C9336C    Eth1/35
-cs1                Eth1/36        179    R S I s     N9K-C9336C    Eth1/36
-
-Total entries displayed: 4
+LocalPort  Speed  Mode        RemoteHost              RemotePort
+---------  -----  ----------  ----------------------  -----------
+swp1       100G   Trunk/L2    sn2100c-cs01            e3a
+swp2       100G   Trunk/L2    sn2100c-cs02            e3b
+swp15      100G   BondMember  sn2100c-cs06            swp15
+swp16      100G   BondMember  sn2100c-cs06            swp16
 ----
 
 . Enable auto-revert on the cluster LIFs: `cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert True`

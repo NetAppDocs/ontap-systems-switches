@@ -79,7 +79,7 @@ Node: node1
                                                   Speed(Mbps) Health   Health
 Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ---- ----------- -------- ------
-          Cluster      Cluster          up   9000  auto/10000 healthy  false
+e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
 e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 
 Node: node2
@@ -113,29 +113,29 @@ Cluster
 4 entries were displayed.
 ----
 
-. The cluster ports on each node are connected to existing cluster switches in the following way (from the nodes' perspective) using the command: `net device-discovery show -protocol cdp`
+. The cluster ports on each node are connected to existing cluster switches in the following way (from the nodes' perspective) using the command: `net device-discovery show -protocol lldp`
 +
 [subs=+quotes]
 ----
-cluster1::*> *net device-discovery show -protocol cdp*
+cluster1::*> *net device-discovery show -protocol lldp*
 Node/       Local  Discovered
-Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
------------ ------ ------------------------- ----------------  ----------------
-node1      /cdp
-            e3a    c1                        0/1               N3K-C3232C
-            e3b    c2                        0/1               N3K-C3232C
-node2      /cdp
-            e3a    c1                        0/2               N3K-C3232C
-            e3b    c2                        0/2               N3K-C3232C
+Protocol    Port   Device (LLDP: ChassisID)  Interface       Platform
+----------- ------ ------------------------- --------------  ----------------
+node1      /lldp
+            e3a    c1                        Eth1/1          N3K-C3232C
+            e3b    c2                        Eth1/1          N3K-C3232C
+node2      /lldp
+            e3a    c1                        Eth1/2          N3K-C3232C
+            e3b    c2                        Eth1/2          N3K-C3232C
 
 4 entries were displayed.
 ----
 
-. The cluster ports and switches are connected in the following way (from the switches' perspective) using the command: `show lldp neighbors`
+. The cluster ports and switches are connected in the following way (from the switches' perspective) using the command: `show cdp neighbors`
 +
 [subs=+quotes]
 ----
-c1# *show lldp neighbors*
+c1# *show cdp neighbors*
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
@@ -144,8 +144,8 @@ Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
 
 
 Device-ID             Local Intrfce Hldtme Capability  Platform         Port ID
-node1                 Eth1/1         124   H           AFF-A400           e3a
-node2                 Eth1/2         124   H           AFF-A400           e3a
+node1                 Eth1/1         124   H           AFF-A400         e3a
+node2                 Eth1/2         124   H           AFF-A400         e3a
 c2                    Eth1/31        179   S I s       N3K-C3232C       Eth1/31
 c2                    Eth1/32        175   S I s       N3K-C3232C       Eth1/32
 Total entries displayed: 4
@@ -214,21 +214,21 @@ cumulus@sw2:~$ *net commit*
 cluster1::*> *net device-discovery show -protocol*
 
 Node/       Local  Discovered
-Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
------------ ------ ------------------------- ----------------  ----------------
+Protocol    Port   Device (LLDP: ChassisID)  Interface      Platform
+----------- ------ ------------------------- -------------  ----------------
 node1      /lldp
-            e3a    c1                        0/1               N3K-C3232C
-            e3b    sw2                       0/swp1            MSN2100-CB2RC
+            e3a    c1                        Eth1/1         N3K-C3232C
+            e3b    sw2                       swp1           MSN2100-CB2RC
 node2      /lldp
-            e3a    c1                        0/1               N3K-C3232C
-            e3b    sw2                       0/swp1            MSN2100-CB2RC
+            e3a    c1                        Eth1/1         N3K-C3232C
+            e3b    sw2                       swp1           MSN2100-CB2RC
 
 node1      /cdp
-            e3a    c1                        0/1               N3K-C3232C
-            e3b    sw2                       0/swp1            MSN2100-CB2RC
+            e3a    c1                        Eth1/1         N3K-C3232C
+            e3b    sw2                       swp1           MSN2100-CB2RC
 node2      /cdp
-            e3a    c1                        0/1               N3K-C3232C
-            e3b    sw2                       0/swp1            MSN2100-CB2RC
+            e3a    c1                        Eth1/1         N3K-C3232C
+            e3b    sw2                       swp1           MSN2100-CB2RC
 
 8 entries were displayed.
 ----
@@ -265,18 +265,17 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
 node1      /lldp
-            e3a    sw1                       0/1               MSN2100-CB2RC
-            e3b    sw2                       0/swp1            MSN2100-CB2RC
+            e3a    sw1                       swp1              MSN2100-CB2RC
+            e3b    sw2                       swp1              MSN2100-CB2RC
 node2      /lldp
-            e3a    sw1                       0/1               MSN2100-CB2RC
-            e3b    sw2                       0/swp1            MSN2100-CB2RC
+            e3a    sw1                       swp2              MSN2100-CB2RC            e3b    sw2                       swp2              MSN2100-CB2RC
 
 node1      /cdp
-            e3a    sw1                       0/1               MSN2100-CB2RC
-            e3b    sw2                       0/swp1            MSN2100-CB2RC
+            e3a    sw1                       swp1              MSN2100-CB2RC
+            e3b    sw2                       swp1              MSN2100-CB2RC
 node2      /cdp
-            e3a    sw1                       0/1               MSN2100-CB2RC
-            e3b    sw2                       0/swp1            MSN2100-CB2RC
+            e3a    sw1                       swp2              MSN2100-CB2RC
+            e3b    sw2                       swp2              MSN2100-CB2RC
 
 8 entries were displayed.
 ----
@@ -325,20 +324,19 @@ Cluster
 cluster1::*> *net device-discovery show -protocol cdp*
 
 Node/       Local  Discovered
-Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
------------ ------ ------------------------- ----------------  ----------------
+Protocol    Port   Device (LLDP: ChassisID)  Interface      Platform
+----------- ------ ------------------------- -------------  --------------
 node1      /cdp
-            e3a    sw1                       0/swp1            MSN2100-CB2RC
-            e3b    sw2                       0/swp1            MSN2100-CB2RC
+            e3a    sw1                       swp1           MSN2100-CB2RC
+            e3b    sw2                       swp1           MSN2100-CB2RC
 node2      /cdp
-            e3a    sw1                       0/swp2            MSN2100-CB2RC
-            e3b    sw2                       0/swp2            MSN2100-CB2RC
+            e3a    sw1                       swp2           MSN2100-CB2RC
+            e3b    sw2                       swp2           MSN2100-CB2RC
 
 4 entries were displayed.
 ----
 
-. Verify that both nodes each have one connection to each switch: `show cdp neighbors`
-*This output needs updating*
+. Verify that both nodes each have one connection to each switch: `net show lldp`
 +
 The following example shows the appropriate results for both switches:
 +
@@ -404,7 +402,9 @@ Do you want to continue? {y|n}:: [n] *y*
 
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
-
+----
++
+----
 cluster1::*> *system  switch ethernet log enable-collection*
 
 Do you want to enable cluster log collection for all nodes in the cluster?
