@@ -11,7 +11,7 @@ summary: "When you install the FASTPATH software on your NetApp switches, you mu
 [.lead]
 When you install the FASTPATH software on your NetApp switches, you must begin the upgrade with the second switch, _cs2_.
 
-== Steps
+.Steps
 
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
 +
@@ -19,10 +19,8 @@ When you install the FASTPATH software on your NetApp switches, you must begin t
 +
 _x_ is the duration of the maintenance window in hours.
 +
-[NOTE]
-====
-The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
-====
+
+NOTE: The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
 
 . Log into the switch as admin. There is no password by default. At the `(cs2) #` prompt, enter the `enable` command. Again, there is no password by default. This gives you access to Privileged EXEC mode, which allows you to configure the network interface.
 +
