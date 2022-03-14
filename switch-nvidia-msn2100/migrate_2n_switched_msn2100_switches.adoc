@@ -14,7 +14,7 @@ You must be aware of certain configuration information, port connections, and ca
 Two-node switchless configuration:
 
 * The two-node switchless configuration must be properly set up and functioning.
-* The nodes must be running ONTAP 9.10.1 and later.
+* The nodes must be running ONTAP 9.10.1P3 and later.
 * All cluster ports must be in the up state.
 * All cluster logical interfaces (LIFs) must be in the up state and on their home ports.
 
@@ -28,8 +28,8 @@ The https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches^] contains 
 
 * Inter-Switch Link (ISL) cables must be connected to ports swp15 and swp16 on both NVIDIA MSN2100 switches.
 * Initial customization of both the MSN2100 switches must be completed. So that the:
- ** MSN2100 switches are running the latest version of Cumulus Linux
- ** Reference Configuration Files (RCFs) have been applied to the switches
+** MSN2100 switches are running the latest version of Cumulus Linux
+** Reference Configuration Files (RCFs) have been applied to the switches
 ** Any site customization, such as SMTP, SNMP, and SSH must be configured on the new switches.
 
 The examples in this procedure use the following cluster switch and node nomenclature:
@@ -317,8 +317,8 @@ Cluster
 
 4 entries were displayed.
 ----
-
-. Verify that both nodes each have one connection to each switch: `show cdp neighbors`
+*Is this next command correct?*
+. Verify that both nodes each have one connection to each switch: `show cdp neighbors` or is it `net show lldp`?
 +
 The following example shows the appropriate results for both switches:
 +
@@ -355,20 +355,20 @@ sw1                swp16          175    R S I s     MSN2100       swp16
 Total entries displayed: 4
 ----
 
-. Display information about the discovered network devices in your cluster: `net device-discovery show -protocol cdp`
+. Display information about the discovered network devices in your cluster: `net device-discovery show -protocol lldp`
 +
 [subs=+quotes]
 ----
-cluster1::*> network device-discovery show -protocol cdp
+cluster1::*> network device-discovery show -protocol lldp
 Node/       Local  Discovered
-Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
------------ ------ ------------------------- ----------------  ----------------
-node2      /cdp
-            e3a    sw1                       0/2               MSN2100
-            e3b    sw2                       0/2               MSN2100
-node1      /cdp
-            e3a    sw1                       0/1               MSN2100
-            e3b    sw2                       0/1               MSN2100
+Protocol    Port   Device (LLDP: ChassisID)  Interface       Platform
+----------- ------ ------------------------- --------------  ----------------
+node1      /lldp
+            e3a    sw1                       swp1            MSN2100
+            e3b    sw2                       swp1            MSN2100
+node2      /lldp
+            e3a    sw1                       swp2            MSN2100
+            e3b    sw2                       swp2            MSN2100
 
 4 entries were displayed.
 ----
