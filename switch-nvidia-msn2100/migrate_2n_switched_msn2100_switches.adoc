@@ -11,14 +11,14 @@ summary: 'If you have an existing two-node switchless cluster environment, you c
 [.lead]
 You must be aware of certain configuration information, port connections, and cabling requirements when you migrate a two-node switchless cluster, non-disruptively, to a cluster with NVIDIA MSN2100 cluster switches. The procedure you use depends on whether you have two dedicated cluster-network ports on each controller or a single cluster port on each controller. The process documented works for all nodes using optical or Twinax ports but is not supported on this switch if nodes are using onboard 10Gb BASE-T RJ45 ports for the cluster-network ports.
 
-Two-node switchless configuration:
+.Two-node switchless configuration
 
 * The two-node switchless configuration must be properly set up and functioning.
 * The nodes must be running ONTAP 9.10.1P3 and later.
 * All cluster ports must be in the up state.
 * All cluster logical interfaces (LIFs) must be in the up state and on their home ports.
 
-NVIDIA MSN2100 cluster switch configuration:
+.NVIDIA MSN2100 cluster switch configuration
 
 * Both switches must have management network connectivity.
 * There must be console access to the cluster switches.
@@ -32,6 +32,7 @@ The https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches^] contains 
 ** Reference Configuration Files (RCFs) have been applied to the switches
 ** Any site customization, such as SMTP, SNMP, and SSH must be configured on the new switches.
 
+.About this task
 The examples in this procedure use the following cluster switch and node nomenclature:
 
 * The names of the MSN21002 switches are _sw1_ and _sw2_.
