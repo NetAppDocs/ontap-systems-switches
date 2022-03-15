@@ -216,7 +216,40 @@ e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 4 entries were displayed.
 ----
 
-. Verify that all ports are up on sw1: `net show lldp` *CORRECT COMMAND TO USE HERE?*
+. Verify that all ports are up on sw1: `net show interface all`
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *net show interface all*
+
+State  Name      Spd   MTU    Mode       LLDP              Summary
+-----  --------- ----  -----  ---------- ----------------- --------
+UP     lo        N/A   65536  Loopback                     IP: 127.0.0.1/8
+UP     swp1s0    N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp1s1    N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp1s2    N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp1s3    N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp2s0    N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp2s1    N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp2s2    N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp2s3    N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp3      100G  9216   Trunk/L2                     Master: bridge(UP)
+UP     swp4      100G  9216   Trunk/L2                     Master: bridge(UP)
+UP     swp5      N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp6      N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp7      N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp8      N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp9      N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp10     N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp11     N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp12     N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp13     N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp14     N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp15     N/A   9216   BondMember       (swp15) Master: bond_15_16(UP)
+UP     swp16     N/A   9216   BondMember       (swp16) Master: bond_15_16(UP)
+...
+...
+----
 . Display information about the status of the nodes in the cluster: `cluster show`
 +
 The following example displays information about the health and eligibility of the nodes in the cluster:
@@ -273,7 +306,40 @@ e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 4 entries were displayed.
 ----
 
-. Verify that all ports are up on sw1: `net show lldp` *CORRECT COMMAND TO USE HERE?*
+. Verify that all ports are up on sw2: `net show interface all`
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *net show interface all*
+
+State  Name      Spd   MTU    Mode       LLDP              Summary
+-----  --------- ----  -----  ---------- ----------------- --------
+UP     lo        N/A   65536  Loopback                     IP: 127.0.0.1/8
+UP     swp1s0    N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp1s1    N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp1s2    N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp1s3    N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp2s0    N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp2s1    N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp2s2    N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp2s3    N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp3      100G  9216   Trunk/L2                     Master: bridge(UP)
+UP     swp4      100G  9216   Trunk/L2                     Master: bridge(UP)
+UP     swp5      N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp6      N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp7      N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp8      N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp9      N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp10     N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp11     N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp12     N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp13     N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp14     N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp15     N/A   9216   BondMember       (swp15) Master: bond_15_16(UP)
+UP     swp16     N/A   9216   BondMember       (swp16) Master: bond_15_16(UP)
+...
+...
+----
 
 . Enable auto-revert on all cluster LIFs: `net interface modify -vserver Cluster -lif * -auto-revert true`
 +
