@@ -42,7 +42,7 @@ The examples in this procedure use the following switch and node nomenclature:
 * The cluster ports on each node are named e3a and e3b.
 * The cluster LIF names are node1_clus1 and _node1_clus2 for node1, and node2_clus1 and node2_clus2 for node2.
 * The prompt for changes to all cluster nodes is `cluster1::*>`
-* Breakout ports take the format: swp1s0-3. For example four breakout ports on swp1 are _swp1s0_, _swp1s1_, _swp1s2_, and _swp1s3_.
+* Breakout ports take the format: swp[port]s[breakout port 0-3]. For example, four breakout ports on swp1 are _swp1s0_, _swp1s1_, _swp1s2_, and _swp1s3_.
 +
 NOTE: The following procedure is based on the following cluster network topology:
 +
@@ -82,49 +82,42 @@ Cluster
 4 entries were displayed.
 
 
-cluster1::*> *net device-discovery show -protocol cdp*
+cluster1::*> *net device-discovery show -protocol lldp*
 Node/       Local  Discovered
-Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
------------ ------ ------------------------- ----------------  ----------------
+Protocol    Port   Device (LLDP: ChassisID)  Interface     Platform
+----------- ------ ------------------------- ------------  ----------------
 node1      /lldp
-            e3a    sw1                       Eth1/swp1         MSN2100-CB2RC
-            e3b    sw2                       Eth1/swp2         MSN2100-CB2RC
+            e3a    sw1                       swp3          MSN2100-CB2RC
+            e3b    sw2                       swp4          MSN2100-CB2RC
 node2      /lldp
-            e3a    sw1                       Eth1/swp1         MSN2100-CB2RC
-            e3b    sw2                       Eth1/swp2         MSN2100-CB2RC
+            e3a    sw1                       swp3          MSN2100-CB2RC
+            e3b    sw2                       swp4          MSN2100-CB2RC
 
 4 entries were displayed.
 ----
 +
+[subs=+quotes]
 ----
-cumulus@sw1:~$ *show lldp neighbors*
+cumulus@sw1:~$ *net show lldp*
 
-Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
-S - Switch, H - Host, I - IGMP, r - Repeater,
-V - VoIP-Phone, D - Remotely-Managed-Device,
-s - Supports-STP-Dispute
-
-Device-ID          Local Intrfce  Hldtme Capability  Platform       Port ID
-node1              Eth1/1         144    H           AFF400         e3a
-node2              Eth1/2         145    H           AFF400         e3a
-sw2                Eth1/swp15     176    R S I s     MSN2100-CB2RC  Eth1/swp15
-sw2                Eth1/swp16     176    R S I s     MSN2100-CB2RC  Eth1/swp16
+LocalPort  Speed  Mode        RemoteHost         RemotePort
+---------  -----  ----------  -----------------  -----------
+swp3       100G   Trunk/L2    sw2                e3a
+swp4       100G   Trunk/L2    sw2                e3b
+swp15      100G   BondMember  sw2                swp15
+swp16      100G   BondMember  sw2                swp16
 
 Total entries displayed: 4
 
 
-cumulus@sw2:~$ *show lldp neighbors*
+cumulus@sw2:~$ *net show lldp*
 
-Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
-S - Switch, H - Host, I - IGMP, r - Repeater,
-V - VoIP-Phone, D - Remotely-Managed-Device,
-s - Supports-STP-Dispute
-
-Device-ID          Local Intrfce  Hldtme Capability  Platform       Port ID
-node1              Eth1/swp1      139    H           AFF400         e3b
-node2              Eth1/swp2      124    H           AFF400         e3b
-sw1                Eth1/swp15     178    R S I s     MSN2100-CB2RC  Eth1/swp15
-sw1                Eth1/swp16     178    R S I s     MSN2100-CB2RC  Eth1/swp16
+LocalPort  Speed  Mode        RemoteHost         RemotePort
+---------  -----  ----------  -----------------  -----------
+swp3       100G   Trunk/L2    sw1                e3a
+swp4       100G   Trunk/L2    sw1                e3b
+swp15      100G   BondMember  sw1                swp15
+swp16      100G   BondMember  sw1                swp16
 
 Total entries displayed: 4
 ----
@@ -136,7 +129,7 @@ where _x_ is the duration of the maintenance window in hours.
 
 . Install the appropriate RCF and image on the switch, nsw2, and make any necessary site preparations.
 +
-If necessary, verify, download, and install the appropriate versions of the RCF and Cumulus software for the new switch. If you have verified that the new switch is correctly set up and does not need updates to the RCF and Cumulus software, continue to step 3. See https://review.docs.netapp.com/us-en/ontap-systems-switches_yos_integrity_docs/switch-nvidia-msn2100/install_setup_msn2100_switches_overview.html[Setup and configure NVIDIA MSN2100 switches].
+If necessary, verify, download, and install the appropriate versions of the RCF and Cumulus software for the new switch. If you have verified that the new switch is correctly set up and does not need updates to the RCF and Cumulus software, continue to step 3. See https://docs.netapp.com/us-en/ontap-systems-switches/switch-nvidia-msn2100/install_setup_msn2100_switches_overview.html[Setup and configure NVIDIA MSN2100 switches].
 +
  .. You can download the applicable Cumulus software for your cluster switches from the _NVIDIA Support_ site. Follow the steps on the Download page to download the Cumulus Linux for the version of ONTAP software you are installing.
  .. The appropriate RCF is available from the _NVIDIA Cluster and Storage Switches_ page (*add link when available*). Follow the steps on the Download page to download the correct RCF for the version of ONTAP software you are installing.
@@ -147,7 +140,7 @@ If the switch that you are replacing is not functional and is powered down, go t
 +
 [subs=+quotes]
 ----
-cumulus@nsw2:~$ *net add interface swp1-14 link down*
+cumulus@nsw2:~$ *net add interface swp1s0-3, swp2s0-3, swp3-14 link down*
 cumulus@nsw2:~$ *net pending*
 cumulus@nsw2:~$ *net commit*
 ----
@@ -159,7 +152,7 @@ cumulus@nsw2:~$ *net commit*
 ----
 cluster1::*> *cluster ping-cluster node1*
 
-Host is node2
+Host is node1
 Getting addresses from network interface table...
 Cluster node1_clus1 169.254.209.69 node1 e3a
 Cluster node1_clus2 169.254.49.125 node1 e3b
@@ -194,9 +187,9 @@ cumulus@sw1:~$ *net commit*
 ----
 . Remove all the cables from the MSN2100 sw2 switch, and then connect them to the same ports on the MSN2100 nsw2 switch.
 
-. Bring up the ISL ports swp15 and swp16 between the sw1 and nsw2 switches, and then verify the port channel operation status.
+. Bring up the ISL ports swp15 and swp16 between the sw1 and nsw2 switches.
 +
-This example enables ISL ports swp15 and swp16 and displays the port channel summary on switch sw1:
+The following commands enable ISL ports swp15 and swp16 on switch sw1:
 +
 [subs=+quotes]
 ----
@@ -210,15 +203,14 @@ The following example shows that the ISL ports are up on switch sw1:
 ----
 cumulus@sw1:~$ *net show interface*
 
-State  Name         Spd   MTU    Mode        LLDP                  Summary
------  -----------  ----  -----  ----------  --------------------  -----------------------
-UP     lo           N/A   65536  Loopback                          IP: 127.0.0.1/8
-       lo                                                          IP: ::1/128
+State  Name         Spd   MTU    Mode        LLDP             Summary
+-----  -----------  ----  -----  ----------  ---------------  -----------------------
+UP     lo           N/A   65536  Loopback                     IP: 127.0.0.1/8
+       lo                                                     IP: ::1/128
 ...
 ...
-...
-UP     swp15        100G  9216   BondMember  sn2100c-cs06 (swp15)  Master: cluster_isl(UP)
-UP     swp16        100G  9216   BondMember  sn2100c-cs06 (swp16)  Master: cluster_isl(UP)
+UP     swp15        100G  9216   BondMember  sw1 (swp15)     Master: cluster_isl(UP)
+UP     swp16        100G  9216   BondMember  sw1 (swp16)     Master: cluster_isl(UP)
 ----
 +
 The following example shows that the ISL ports are up on switch nsw2:
@@ -227,15 +219,14 @@ The following example shows that the ISL ports are up on switch nsw2:
 ----
 cumulus@nsw2:~$ *net show interface*
 
-State  Name         Spd   MTU    Mode        LLDP                    Summary
------  -----------  ----  -----  ----------  ----------------------  -----------------------
-UP     lo           N/A   65536  Loopback                            IP: 127.0.0.1/8
-       lo                                                            IP: ::1/128
+State  Name         Spd   MTU    Mode        LLDP             Summary
+-----  -----------  ----  -----  ----------  ---------------  -----------------------
+UP     lo           N/A   65536  Loopback                     IP: 127.0.0.1/8
+       lo                                                     IP: ::1/128
 ...
 ...
-...
-UP     swp15        100G  9216   BondMember  sn2100c-cs06 (swp15)    Master: cluster_isl(UP)
-UP     swp16        100G  9216   BondMember  sn2100c-cs06 (swp16)    Master: cluster_isl(UP)
+UP     swp15        100G  9216   BondMember  nsw2 (swp15)     Master: cluster_isl(UP)
+UP     swp16        100G  9216   BondMember  nsw2 (swp16)     Master: cluster_isl(UP)
 ----
 
 . Verify that port `e3b` is up on all nodes: `network port show ipspace Cluster`
@@ -360,34 +351,14 @@ RPC status:
 +
 [subs=+quotes]
 ----
-cumulus@sw1:~$ *show lldp neighbors*
+cumulus@sw1:~$ *net show lldp*
 
-Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
-                  S - Switch, H - Host, I - IGMP, r - Repeater,
-                  V - VoIP-Phone, D - Remotely-Managed-Device,
-                  s - Supports-STP-Dispute
-
-Device-ID            Local Intrfce  Hldtme Capability  Platform       Port ID
-node1                Eth1/swp1      144    H           AFF400         e3a
-node2                Eth1/swp2      145    H           AFF400         e3a
-nsw2                 Eth1/swp15     176    R S I s     MSN2100-CB2RC  Eth1/swp15
-nsw2                 Eth1/swp16     176    R S I s     MSN2100-CB2RC  Eth1/swp16
-
-Total entries displayed: 4
-
-
-cumulus@sw2:~$ *show lldp neighbors*
-
-Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
-                  S - Switch, H - Host, I - IGMP, r - Repeater,
-                  V - VoIP-Phone, D - Remotely-Managed-Device,
-                  s - Supports-STP-Dispute
-
-Device-ID          Local Intrfce  Hldtme Capability  Platform       Port ID
-node1              Eth1/swp1      139    H           AFF400         e3b
-node2              Eth1/swp2      124    H           AFF400         e3b
-sw1                Eth1/swp15     178    R S I s     MSN2100-CB2RC  Eth1/swp15
-sw1                Eth1/swp16     178    R S I s     MSN2100-CB2RC  Eth1/swp16
+LocalPort  Speed  Mode        RemoteHost      RemotePort
+---------  -----  ----------  --------------  -----------
+swp3       100G   Trunk/L2    nsw2            e3a
+swp4       100G   Trunk/L2    nsw2            e3b
+swp15      100G   BondMember  nsw2            swp15
+swp16      100G   BondMember  nsw2            swp16
 
 Total entries displayed: 4
 ----

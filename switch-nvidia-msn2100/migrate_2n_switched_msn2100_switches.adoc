@@ -24,6 +24,8 @@ You must be aware of certain configuration information, port connections, and ca
 * There must be console access to the cluster switches.
 * NVIDIA MSN2100 node-to-node switch and switch-to-switch connections must use Twinax or fiber cables.
 +
+IMPORTANT: When using breakout cables for 10G and 25G, make sure that auto-negotiation is off and hard set the port speed on the switch. See https://docs.netapp.com/us-en/ontap-systems-switches/switch-nvidia-msn2100/install_cabling_config_considerations_msn2100.html[Cabling and configuration considerations] for further details.
++
 The https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches^] contains more information about cabling.
 
 * Inter-Switch Link (ISL) cables must be connected to ports swp15 and swp16 on both NVIDIA MSN2100 switches.
@@ -35,12 +37,12 @@ The https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches^] contains 
 .About this task
 The examples in this procedure use the following cluster switch and node nomenclature:
 
-* The names of the MSN21002 switches are _sw1_ and _sw2_.
+* The names of the MSN2100 switches are _sw1_ and _sw2_.
 * The names of the cluster SVMs are _node1_ and _node2_.
 * The names of the LIFs are node1_clus1 and node1_clus2 on node 1, and node2_clus1 and node2_clus2 on node 2 respectively.
 * The `cluster1::*>` prompt indicates the name of the cluster.
 * The cluster ports used in this procedure are e3a and e3b.
-* Breakout ports take the format: swp1s0-3. For example four breakout ports on swp1 are _swp1s0_, _swp1s1_, _swp1s2_, and _swp1s3_.
+* Breakout ports take the format: swp[port]s[breakout port 0-3]. For example, four breakout ports on swp1 are _swp1s0_, _swp1s1_, _swp1s2_, and _swp1s3_.
 +
 
 The https://hwu.netapp.com[Hardware Universe^] contains the latest information about the actual cluster ports for your platforms.
@@ -48,7 +50,7 @@ The https://hwu.netapp.com[Hardware Universe^] contains the latest information a
 .Steps
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=xh`
 +
-where x is the duration of the maintenance window in hours.
+where _x_ is the duration of the maintenance window in hours.
 
 . Change the privilege level to advanced, entering `y` when prompted to continue: `set -privilege advanced`
 +
@@ -58,16 +60,20 @@ The advanced prompt (`*>`) appears.
 +
 You must not disable the ISL ports.
 +
-The following example shows that node-facing ports swp1 through swp14 are disabled on switch sw1:
+The following commands disable the node-facing ports  on switches sw1 and sw2:
 +
 [subs=+quotes]
 ----
-cumulus@sw1:~$ *net add interface swp1-14 link down*
+cumulus@sw1:~$ *net add interface swp1s0-3, swp2s0-3, swp3-14 link down*
 cumulus@sw1:~$ *net pending*
 cumulus@sw1:~$ *net commit*
+
+cumulus@sw2:~$ *net add interface swp1s0-3, swp2s0-3, swp3-14 link down*
+cumulus@sw2:~$ *net pending*
+cumulus@sw2:~$ *net commit*
 ----
 
-. Verify that the ISL and the physical ports on the ISL between the two MSN21002 switches sw1 and sw2 are up on ports swp15 and swp16: `net show interface`
+. Verify that the ISL and the physical ports on the ISL between the two MSN2100 switches sw1 and sw2 are up on ports swp15 and swp16: `net show interface`
 +
 The following example shows that the ISL ports are up on switch sw1:
 +
@@ -75,15 +81,14 @@ The following example shows that the ISL ports are up on switch sw1:
 ----
 cumulus@sw1:~$ *net show interface*
 
-State  Name         Spd   MTU    Mode        LLDP                  Summary
------  -----------  ----  -----  ----------  --------------------  -----------------------
-UP     lo           N/A   65536  Loopback                          IP: 127.0.0.1/8
-       lo                                                          IP: ::1/128
+State  Name         Spd   MTU    Mode        LLDP              Summary
+-----  -----------  ----  -----  ----------  ----------------  -----------------------
+UP     lo           N/A   65536  Loopback                      IP: 127.0.0.1/8
+       lo                                                      IP: ::1/128
 ...
 ...
-...
-UP     swp15        100G  9216   BondMember  sn2100c-cs06 (swp15)  Master: cluster_isl(UP)
-UP     swp16        100G  9216   BondMember  sn2100c-cs06 (swp16)  Master: cluster_isl(UP)
+UP     swp15        100G  9216   BondMember  sw2 (swp15)       Master: cluster_isl(UP)
+UP     swp16        100G  9216   BondMember  sw2 (swp16)       Master: cluster_isl(UP)
 ----
 +
 The following example shows that the ISL ports are up on switch sw2:
@@ -92,50 +97,14 @@ The following example shows that the ISL ports are up on switch sw2:
 ----
 cumulus@sw2:~$ *net show interface*
 
-State  Name         Spd   MTU    Mode        LLDP                    Summary
------  -----------  ----  -----  ----------  ----------------------  -----------------------
-UP     lo           N/A   65536  Loopback                            IP: 127.0.0.1/8
-       lo                                                            IP: ::1/128
+State  Name         Spd   MTU    Mode        LLDP                Summary
+-----  -----------  ----  -----  ----------  ------------------  -----------------------
+UP     lo           N/A   65536  Loopback                        IP: 127.0.0.1/8
+       lo                                                        IP: ::1/128
 ...
 ...
-...
-UP     swp15        100G  9216   BondMember  sn2100c-cs06 (swp15)    Master: cluster_isl(UP)
-UP     swp16        100G  9216   BondMember  sn2100c-cs06 (swp16)    Master: cluster_isl(UP)
-----
-
-. Display the list of neighboring devices: `net show lldp`
-*Is this the correct command to use here?*
-+
-This command provides information about the devices that are connected to the system.
-+
-The following example lists the neighboring devices on switch sw1:
-+
-[subs=+quotes]
-----
-cumulus@sw1:~$ *net show lldp*
-
-LocalPort  Speed  Mode        RemoteHost                 RemotePort
----------  -----  ----------  -------------------------  -----------
-swp1       100G   Trunk/L2    sn2100c-cs03               e3a
-swp2       100G   Trunk/L2    sn2100c-cs04               e3b
-swp15      100G   BondMember  sn2100c-cs06               swp15
-swp16      100G   BondMember  sn2100c-cs06               swp16
-
-Total entries displayed: 4
-----
-+
-The following example lists the neighboring devices on switch sw2:
-+
-[subs=+quotes]
-----
-cumulus@sw2:~$ *net show lldp*
-
-LocalPort  Speed  Mode        RemoteHost                 RemotePort
----------  -----  ----------  -------------------------  -----------
-swp1       100G   Trunk/L2    sn2100c-cs03               e3a
-swp2       100G   Trunk/L2    sn2100c-cs04               e3b
-swp15      100G   BondMember  sn2100c-cs06               swp15
-swp16      100G   BondMember  sn2100c-cs06               swp16
+UP     swp15        100G  9216   BondMember  sw1 (swp15)         Master: cluster_isl(UP)
+UP     swp16        100G  9216   BondMember  sw1 (swp16)         Master: cluster_isl(UP)
 ----
 
 . Verify that all cluster ports are up: `net port show`
@@ -186,20 +155,20 @@ Cluster
 4 entries were displayed.
 ----
 
-. Verify that auto-revert is enabled on all cluster LIFs: `net interface show -vserver Cluster -fields auto-revert`
+. Disable auto-revert on the cluster LIFs: `net interface modify -vserver Cluster -lif * -auto-revert false`
 +
 [subs=+quotes]
 ----
-cluster1::*> *net interface show -vserver Cluster -fields auto-revert*
+cluster1::*> *net interface modify -vserver Cluster -lif * -auto-revert false
 
           Logical
 Vserver   Interface     Auto-revert
 --------- ------------- ------------
 Cluster
-          node1_clus1   true
-          node1_clus2   true
-          node2_clus1   true
-          node2_clus2   true
+          node1_clus1   false
+          node1_clus2   false
+          node2_clus1   false
+          node2_clus2   false
 
 4 entries were displayed.
 ----
@@ -211,60 +180,11 @@ The https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches^] contains 
 . Disconnect the cable from cluster port e3a on node2, and then connect e3a to port 2 on cluster switch sw1, using the appropriate cabling supported by the MSN2100 switches.
 . Enable all node-facing ports on cluster switch sw1.
 +
-The following example shows that ports swp1 through swp14 are enabled on switch sw1:
+The following command enables all node-facing ports on switch sw1:
 +
 [subs=+quotes]
 ----
-cumulus@sw1:~$ *net del interface swp1-14 link down*
-cumulus@sw1:~$ *net pending*
-cumulus@sw1:~$ *net commit*
-----
-
-. Verify that all cluster LIFs are up, operational, and display as true for `Is Home`: `net interface show -vserver Cluster`
-+
-The following example shows that all of the LIFs are up on node1 and node2 and that `Is Home` results are true:
-+
-[subs=+quotes]
-----
-cluster1::*> *net interface show -vserver Cluster*
-
-         Logical      Status     Network            Current     Current Is
-Vserver  Interface    Admin/Oper Address/Mask       Node        Port    Home
--------- ------------ ---------- ------------------ ----------- ------- ----
-Cluster
-         node1_clus1  up/up      169.254.209.69/16  node1       e3a     true
-         node1_clus2  up/up      169.254.49.125/16  node1       e3b     true
-         node2_clus1  up/up      169.254.47.194/16  node2       e3a     true
-         node2_clus2  up/up      169.254.19.183/16  node2       e3b     true
-
-4 entries were displayed.
-----
-
-. Display information about the status of the nodes in the cluster: `cluster show`
-+
-The following example displays information about the health and eligibility of the nodes in the cluster:
-+
-[subs=+quotes]
-----
-cluster1::*> *cluster show*
-
-Node                 Health  Eligibility   Epsilon
--------------------- ------- ------------  ------------
-node1                true    true          false
-node2                true    true          false
-
-2 entries were displayed.
-----
-
-. Disconnect the cable from cluster port e3b on node1, and then connect e3b to port 1 on cluster switch sw2, using the appropriate cabling supported by the MSN2100 switches.
-. Disconnect the cable from cluster port e3b on node2, and then connect e3b to port 2 on cluster switch sw2, using the appropriate cabling supported by the MSN2100 switches.
-. Enable all node-facing ports on cluster switch sw2.
-+
-The following example shows that ports swp1 through swp14 are enabled on switch sw2:
-+
-[subs=+quotes]
-----
-cumulus@sw1:~$ *net del interface swp1-14 link down*
+cumulus@sw1:~$ *net del interface  swp1s0-3, swp2s0-3, swp3-14 link down*
 cumulus@sw1:~$ *net pending*
 cumulus@sw1:~$ *net commit*
 ----
@@ -275,7 +195,7 @@ The following example shows that all of the cluster ports are up on node1 and no
 +
 [subs=+quotes]
 ----
-cluster1::*> *net port show -ipspace Cluster*
+cluster1::*> *network port show -ipspace Cluster*
 
 Node: node1
                                                                        Ignore
@@ -296,9 +216,86 @@ e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 4 entries were displayed.
 ----
 
+. Verify that all ports are up on sw1: `net show lldp` *CORRECT COMMAND TO USE HERE?*
+. Display information about the status of the nodes in the cluster: `cluster show`
++
+The following example displays information about the health and eligibility of the nodes in the cluster:
++
+[subs=+quotes]
+----
+cluster1::*> *cluster show*
+
+Node                 Health  Eligibility   Epsilon
+-------------------- ------- ------------  ------------
+node1                true    true          false
+node2                true    true          false
+
+2 entries were displayed.
+----
+
+. Disconnect the cable from cluster port e3b on node1, and then connect e3b to port 1 on cluster switch sw2, using the appropriate cabling supported by the MSN2100 switches.
+. Disconnect the cable from cluster port e3b on node2, and then connect e3b to port 2 on cluster switch sw2, using the appropriate cabling supported by the MSN2100 switches.
+. Enable all node-facing ports on cluster switch sw2.
++
+The following commands enable the node-facing ports on switch sw2:
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *net del interface swp1s0-3, swp2s0-3, swp3-14 link down*
+cumulus@sw1:~$ *net pending*
+cumulus@sw1:~$ *net commit*
+----
+
+. Verify that all cluster ports are up: `network port show -ipspace Cluster`
++
+The following example shows that all of the cluster ports are up on node1 and node2:
++
+[subs=+quotes]
+----
+cluster1::*> *network port show -ipspace Cluster*
+
+Node: node1
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+
+Node: node2
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+
+4 entries were displayed.
+----
+
+. Verify that all ports are up on sw1: `net show lldp` *CORRECT COMMAND TO USE HERE?*
+
+. Enable auto-revert on all cluster LIFs: `net interface modify -vserver Cluster -lif * -auto-revert true`
++
+[subs=+quotes]
+----
+cluster1::*> *net interface modify -vserver Cluster -lif * -auto-revert true*
+
+          Logical
+Vserver   Interface     Auto-revert
+--------- ------------- ------------
+Cluster
+          node1_clus1   true
+          node1_clus2   true
+          node2_clus1   true
+          node2_clus2   true
+
+4 entries were displayed.
+----
+
 . Verify that all interfaces display true for `Is Home`: `net interface show -vserver Cluster`
 +
-NOTE: This might take several minutes to complete.
+NOTE: This might take a minute to complete.
 +
 The following example shows that all LIFs are up on node1 and node2 and that `Is Home` results are true:
 +
@@ -318,42 +315,30 @@ Cluster
 
 4 entries were displayed.
 ----
-*Is this next command correct?*
-. Verify that both nodes each have one connection to each switch: `show cdp neighbors` or is it `net show lldp`?
+
+. Verify that both nodes each have one connection to each switch: `net show lldp`
 +
 The following example shows the appropriate results for both switches:
 +
 [subs=+quotes]
 ----
-cumulus@sw1:~$ show cdp neighbors
+cumulus@sw1:~$ *net show lldp*
 
-Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
-                  S - Switch, H - Host, I - IGMP, r - Repeater,
-                  V - VoIP-Phone, D - Remotely-Managed-Device,
-                  s - Supports-STP-Dispute
+LocalPort  Speed  Mode        RemoteHost         RemotePort
+---------  -----  ----------  -----------------  -----------
+swp3       100G   Trunk/L2    sw2                e3a
+swp4       100G   Trunk/L2    sw2                e3b
+swp15      100G   BondMember  sw2                swp15
+swp16      100G   BondMember  sw2                swp16
 
-Device-ID          Local Intrfce  Hldtme Capability  Platform      Port ID
-node1              swp1           133    H           AFF400        e3a
-node2              swp2           133    H           AFF400        e3a
-sw2                swp15          175    R S I s     MSN2100       swp15
-sw2                swp16          175    R S I s     MSN2100       swp16
+cumulus@sw2:~$ *net show lldp*
 
-Total entries displayed: 4
-
-cumulus@sw2:~$ show cdp neighbors
-
-Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
-                  S - Switch, H - Host, I - IGMP, r - Repeater,
-                  V - VoIP-Phone, D - Remotely-Managed-Device,
-                  s - Supports-STP-Dispute
-
-Device-ID          Local Intrfce  Hldtme Capability  Platform      Port ID
-node1              swp1           133    H           AFF400        e3b
-node2              swp2           133    H           AFF400        e3b
-sw1                swp15          175    R S I s     MSN2100       swp15
-sw1                swp16          175    R S I s     MSN2100       swp16
-
-Total entries displayed: 4
+LocalPort  Speed  Mode        RemoteHost         RemotePort
+---------  -----  ----------  -----------------  -----------
+swp3       100G   Trunk/L2    sw1                e3a
+swp4       100G   Trunk/L2    sw1                e3b
+swp15      100G   BondMember  sw1                swp15
+swp16      100G   BondMember  sw1                swp16
 ----
 
 . Display information about the discovered network devices in your cluster: `net device-discovery show -protocol lldp`
@@ -362,29 +347,27 @@ Total entries displayed: 4
 ----
 cluster1::*> network device-discovery show -protocol lldp
 Node/       Local  Discovered
-Protocol    Port   Device (LLDP: ChassisID)  Interface       Platform
------------ ------ ------------------------- --------------  ----------------
+Protocol    Port   Device (LLDP: ChassisID)  Interface     Platform
+----------- ------ ------------------------- ------------  ----------------
 node1      /lldp
-            e3a    sw1                       swp1            MSN2100
-            e3b    sw2                       swp1            MSN2100
+            e3a    sw1                       swp3          MSN2100
+            e3b    sw2                       swp3          MSN2100
 node2      /lldp
-            e3a    sw1                       swp2            MSN2100
-            e3b    sw2                       swp2            MSN2100
+            e3a    sw1                       swp4          MSN2100
+            e3b    sw2                       swp4          MSN2100
 
 4 entries were displayed.
 ----
 
-. Verify that the settings are disabled: `net options switchless-cluster show`
-+
-NOTE: It might take several minutes for the command to complete. Wait for the '3 minute lifetime to expire' announcement.
+. Verify that the settings are disabled: `network options switchless-cluster show`
 +
 The false output in the following example shows that the configuration settings are disabled:
 +
 
 [subs=+quotes]
 ----
-cluster1::*> net options switchless-cluster show
-Enable Switchless Cluster: false
+cluster1::*> *network options switchless-cluster show*
+Enable Switchless Cluster: *false*
 ----
 
 . Verify the status of the node members in the cluster: `cluster show`
@@ -405,8 +388,8 @@ node2                true    true          false
 +
 [subs=+quotes]
 ----
-cluster1::*> *cluster ping-cluster -node node2*
-Host is node2
+cluster1::*> *cluster ping-cluster -node node1*
+Host is node1
 Getting addresses from network interface table...
 Cluster node1_clus1 169.254.209.69 node1 e3a
 Cluster node1_clus2 169.254.49.125 node1 e3b
@@ -431,7 +414,6 @@ RPC status:
 2 paths up, 0 paths down (udp check)
 ----
 
-. Change the privilege level back to admin: `set -privilege admin`
 . Enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the commands: `system switch ethernet log setup-password` and `system switch ethernet log enable-collection`
 +
 Enter: `system switch ethernet log setup-password`
@@ -479,5 +461,7 @@ cluster1::*>
 ----
 +
 NOTE: If any of these commands return an error, contact NetApp support.
+
+. Change the privilege level back to admin: `set -privilege admin`
 
 . If you suppressed automatic case creation, reenable it by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=END`

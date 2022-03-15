@@ -73,40 +73,37 @@ node2
 storage::*>
 ----
 . Verify that storage switch sw1 is available:
-`net device-discovery show`
+`network device-discovery show`
 +
 [subs=+quotes]
 ----
-storage::*> *net device-discovery show protocol lldp*
+storage::*> *network device-discovery show protocol lldp*
 Node/      Local Discovered
 Protocol   Port	 Device (LLDP: ChassisID)  Interface   Platform
 --------   ----  -----------------------   ---------   ---------
 node1/lldp
-           e3a   sw1                       swp1        -
+           e3a   sw1                       swp3        -
            e3a   node1                     e3a         -
            e3b   node1                     e3b         -
 node2/lldp
-           e3a   sw1                       swp2 -
+           e3a   sw1                       swp4        -
            e3a   node2                     e3a         -
            e3b   node2                     e3b         -
 storage::*>
 ----
-. Run the `show lldp neighbors` command on the working switch to confirm that you can see both nodes and all shelves:
-`show lldp neighbors`
+. Run the `net show lldp` command on the working switch to confirm that you can see both nodes and all shelves:
+`net show lldp`
 +
 [subs=+quotes]
 ----
-cumulus@swp11:~$ *show lldp neighbors*
-Capability codes:
-   (R) Router, (B) Bridge, (T) Telephone, (C) DOCSIS Cable Device
-   (W) WLAN Access Point, (P) Repeater, (S) Station, (O) Other
-Device ID        Local Intf   Hold-time    Capability    Port ID
-node1            swp1       121            S             e3a
-node2            swp2       121            S             e3a
-SHFGD2008000011  Eth1/5       121          S             e0a
-SHFGD2008000011  Eth1/6       120          S             e0a
-SHFGD2008000022  Eth1/7       120          S             e0a
-SHFGD2008000022  Eth1/8       120          S             e0a
+cumulus@sw1:~$ *net show lldp*
+
+LocalPort  Speed  Mode        RemoteHost        RemotePort
+---------  -----  ----------  ----------------  -----------
+swp3       100G   Trunk/L2    sw2               e3a
+swp4       100G   Trunk/L2    sw2               e3b
+swp15      100G   BondMember  sw2               swp15
+swp16      100G   BondMember  sw2               swp16
 ----
 . Verify the shelf ports in the storage system:
 `storage shelf port show -fields remote-device, remote-port`
@@ -160,15 +157,15 @@ Node/     Local Discovered
 Protocol  Port  Device (LLDP: ChassisID)  Interface	  Platform
 --------  ----  -----------------------   ---------   ---------
 node1/lldp
-          e3a  sw1                        swp1        NVIDIA MSN2100
+          e3a  sw1                        swp3        NVIDIA MSN2100
           e3a  node2                      Ethernet1/1 AFF-A400
           e3b  node2                      Ethernet1/2 AFF-A400
-          e3b  nsw1                       swp2        NVIDIA MSN2100
+          e3b  nsw1                       swp4        NVIDIA MSN2100
 node2/lldp
-          e3a  sw1                        swp1        -
-          e3a  node2                      swp2        -
-          e3b  node2                      swp2        -
-          e3b  nsw2                       swp1        -
+          e3a  sw1                        swp3        -
+          e3a  node2                      swp4        -
+          e3b  node2                      swp4        -
+          e3b  nsw2                       swp3        -
 storage::*>
 ----
 . Verify the shelf ports in the storage system:
@@ -179,10 +176,10 @@ storage::*>
 storage::*> *storage shelf port show -fields remote-device, remote-port*
 shelf   id    remote-port     remote-device
 -----   --    -----------     -------------
-3.20    0     swp1            sw1
-3.20    1     swp1            nsw2
-3.20    2     swp2            sw1
-3.20    3     swp2            nsw2
+3.20    0     swp3            sw1
+3.20    1     swp3            nsw2
+3.20    2     swp4            sw1
+3.20    3     swp4            nsw2
 3.30    0     Ethernet1/7     sw1
 3.20    1     Ethernet1/7     nsw2
 3.30    2     Ethernet1/8     sw1
