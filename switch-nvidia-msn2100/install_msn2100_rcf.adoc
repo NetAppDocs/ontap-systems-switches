@@ -168,8 +168,8 @@ switch-priority  TC  ETS
 cumulus@cumulus:mgmt:~$ *net show interface pluggables*
 Interface  Identifier     Vendor Name  Vendor PN        Vendor SN       Vendor Rev
 ---------  -------------  -----------  ---------------  --------------  ----------
-swp1       0x11 (QSFP28)  Amphenol     112-00574        APF20379253516  B0
-swp2       0x11 (QSFP28)  AVAGO        332-00440        AF1815GU05Z     A0
+swp3       0x11 (QSFP28)  Amphenol     112-00574        APF20379253516  B0
+swp4       0x11 (QSFP28)  AVAGO        332-00440        AF1815GU05Z     A0
 swp15      0x11 (QSFP28)  Amphenol     112-00573        APF21109348001  B0
 swp16      0x11 (QSFP28)  Amphenol     112-00573        APF21109347895  B0
 ----
@@ -194,7 +194,7 @@ swp16      100G   BondMember  sn2100c-cs10                        swp16
 +
 [subs=+quotes]
 ----
-cluster1::*> *net port show -role cluster*
+cluster1::*> *network port show -role cluster*
 
 Node: node1
                                                                        Ignore
@@ -220,7 +220,7 @@ e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 +
 [subs=+quotes]
 ----
-cluster1::*> *net device-discovery show -protocol lldp*
+cluster1::*> *network device-discovery show -protocol lldp*
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface       Platform
 ----------- ------ ------------------------- --------------- -------------
