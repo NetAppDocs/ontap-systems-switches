@@ -11,12 +11,12 @@ summary: "Replacing a defective Cisco Nexus 3132Q-V switch in a cluster network 
 [.lead]
 Replacing a defective Cisco Nexus 3132Q-V switch in a cluster network is a nondisruptive procedure (NDO), and you must perform a specific sequence of tasks.
 
-== What you'll need
+.Before you begin
 
 * The existing cluster and network configuration must have:
  ** The Nexus 3132Q-V cluster infrastructure must be redundant and fully functional on both switches.
 +
-The _Cisco Ethernet Switches_ page has the latest RCF and NX-OS versions on your switches.
+The link:http://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switch^] page has the latest RCF and NX-OS versions on your switches.
 
  ** All cluster ports must be in the `up` state.
  ** Management connectivity must exist on both switches.
@@ -27,7 +27,7 @@ The _Cisco Ethernet Switches_ page has the latest RCF and NX-OS versions on your
  ** The desired RCF and NX-OS operating system image switch must be loaded onto the switch.
  ** Initial customization of the switch must be complete.
 
-== About this task
+.About this task
 
 This procedure replaces the second Nexus 3132Q-V cluster switch CL2 with new 3132Q-V switch C2. The examples in this procedure use the following switch and node nomenclature:
 
@@ -35,22 +35,22 @@ This procedure replaces the second Nexus 3132Q-V cluster switch CL2 with new 313
 * n1_clus2 is the first cluster LIF connected to cluster switch CL2 or C2, for node n1.
 * n1_clus3 is the second LIF connected to cluster switch C2, for node n1.
 * n1_clus4 is the second LIF connected to cluster switch CL1, for node n1.
-* The number of 10 GbE and 40/100 GbE ports are defined in the reference configuration files (RCFs) available on the https://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco® Cluster Network Switch Reference Configuration File Download^] page.
+* The number of 10 GbE and 40/100 GbE ports are defined in the reference configuration files (RCFs) available on the link:https://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco® Cluster Network Switch Reference Configuration File Download^] page.
 * The nodes are n1, n2, n3, and n4.
 -
-The examples in this procedure use four nodes: Two nodes use four 10 GB cluster interconnect ports: e0a, e0b, e0c, and e0d. The other two nodes use two 40 GB cluster interconnect ports: e4a and e4e. See the _Hardware Universe_ for the actual cluster ports on your platforms.
+The examples in this procedure use four nodes: Two nodes use four 10 GB cluster interconnect ports: e0a, e0b, e0c, and e0d. The other two nodes use two 40 GB cluster interconnect ports: e4a and e4e. See the link:https://hwu.netapp.com/[Hardware Universe^] for the actual cluster ports on your platforms.
 
 This procedure covers the following scenario:
 
 * The cluster starts with four nodes connected to two Nexus 3132Q-V cluster switches, CL1 and CL2.
-* Cluster switch CL2 is to be replaced by C2 (steps 1 to 21):
+* Cluster switch CL2 is to be replaced by C2 (<<step1_replace3132q,Steps 1>> -<<step21_replace3132q, 21>>)
  ** On each node, cluster LIFs connected to CL2 are migrated onto cluster ports connected to CL1.
  ** Disconnect cabling from all ports on CL2 and reconnect cabling to the same ports on the replacement switch C2.
  ** On each node, its migrated cluster LIFs are reverted.
 
-== Steps
+.Steps
 
-. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
+. [[step1_replace3132q]]If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
 +
 `system node autosupport invoke -node * -type all - message MAINT=xh`
 +
@@ -196,7 +196,7 @@ CL2                          cluster-network   10.10.1.102      NX3132V
 +
 You must prepare the replacement switch at this time. If you need to upgrade the RCF and image, you must follow these steps:
 
- .. On the NetApp Support Site, go to the following location: http://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switch^]
+ .. On the NetApp Support Site, go to the link:http://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switch^] page.
  .. Note your switch and the required software versions in the table on that page.
  .. Download the appropriate version of the RCF.
  .. Click *CONTINUE* on the *Description* page, accept the license agreement, and then follow the instructions on the *Download* page to download the RCF.
@@ -698,7 +698,7 @@ C2                          cluster-network    10.10.1.103      NX3132V
 3 entries were displayed.
 ----
 
-. Remove the replaced Nexus 3132Q-V switch, if it is not already removed automatically:
+. [[step21_replace3132q]]Remove the replaced Nexus 3132Q-V switch, if it is not already removed automatically:
 +
 `system cluster-switch delete`
 +
@@ -777,10 +777,7 @@ Enabling cluster switch log collection.
 cluster::*>
 ----
 +
-[NOTE]
-====
-If any of these commands return an error, contact NetApp support.
-====
+NOTE: If any of these commands return an error, contact NetApp support.
 
 . If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
 +
@@ -791,3 +788,5 @@ If any of these commands return an error, contact NetApp support.
 http://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switch description page^]
 
 http://hwu.netapp.com[Hardware Universe^]
+
+// QA clean-up, 2022-03-03

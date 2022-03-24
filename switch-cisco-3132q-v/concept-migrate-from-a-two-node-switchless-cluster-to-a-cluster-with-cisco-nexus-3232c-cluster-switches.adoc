@@ -13,8 +13,8 @@ You must be aware of certain configuration information, port connections and cab
 
 * The number of 10 GbE and 40/100 GbE ports are defined in the reference configuration files (RCFs) available on the https://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco ® Cluster Network Switch Reference Configuration File Download^] page.
 * The cluster switches use the Inter-Switch Link (ISL) ports e1/31-32.
-* The _Hardware Universe_ contains information about supported cabling to Nexus 3132Q-V switches:
- ** The nodes with 10 GbE cluster connections require QSFP optical modules with breakout fiber cables or QSFP to SFP+ copper break-out cables.-
+* The link:https://hwu.netapp.com/[Hardware Universe^] contains information about supported cabling to Nexus 3132Q-V switches:
+ ** The nodes with 10 GbE cluster connections require QSFP optical modules with breakout fiber cables or QSFP to SFP+ copper break-out cables.
  ** The nodes with 40/100 GbE cluster connections require supported QSFP/QSFP28 optical modules with fiber cables or QSFP/QSFP28 copper direct-attach cables.
  ** The cluster switches use the appropriate ISL cabling: 2x QSFP28 fiber or copper direct-attach cables.
 * On Nexus 3132Q-V, you can operate QSFP ports as either 40/100 Gb Ethernet or 4 x10 Gb Ethernet modes.
@@ -33,6 +33,6 @@ You can break-out the first six ports into 4x10 GbE mode by using the `interface
 
 * You must have done the planning, migration, and read the required documentation on 10 GbE and 40/100 GbE connectivity from nodes to Nexus 3132Q-V cluster switches.
 +
-The _Cisco Ethernet Switches_ page has information about the ONTAP and NX-OS versions supported in this procedure.
-+
-http://mysupport.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switches^]
+The link:http://mysupport.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switches^] page has information about the ONTAP and NX-OS versions supported in this procedure.
+
+// QA clean-up, 2022-03-04

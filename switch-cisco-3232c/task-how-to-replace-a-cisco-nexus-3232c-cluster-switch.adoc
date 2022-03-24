@@ -11,7 +11,7 @@ summary: "You can nondisruptively replace a defective Cisco Nexus 3232C switch i
 [.lead]
 You can nondisruptively replace a defective Cisco Nexus 3232C switch in a cluster by performing a specific sequence of tasks.
 
-== What you'll need
+.Before you begin
 
 The existing cluster and network configuration must have the following characteristics:
 
@@ -30,14 +30,14 @@ The replacement Cisco Nexus 3232C switch must have the following characteristics
 * The appropriate RCF and NX-OS operating system image must be loaded onto the switch.
 * Initial customization of the switch must be complete.
 
-== About this task
+.About this task
 
 *Procedure summary*
 
-* *Display and migrate the cluster ports to switch C2 (Steps 1-7)*
-* *Reconnect ISL cables from switch CL2 to switch C2, then migrate ISLs to switch CL1 and C2 (Steps 8-14)*
-* *Revert all LIFs to originally assigned ports (Steps 15-18)*
-* *Verify all ports and LIF are correctly migrated (Steps 19-21)*
+* *Display and migrate the cluster ports to switch C2 (Steps <<one,1>>-<<seven,7)>>*
+* *Reconnect ISL cables from switch CL2 to switch C2, then migrate ISLs to switch CL1 and C2 (Steps <<eight,8>>-<<fourteen,14)>>*
+* *Revert all LIFs to originally assigned ports (Steps <<fifteen,15>>-<<eighteen,18)>>*
+* *Verify all ports and LIF are correctly migrated (Steps <<nineteen,19>>-<<twentyone,21>>)*
 
 This procedure replaces the second Nexus 3232C cluster switch CL2 with the new 3232C switch C2. The examples in this procedure use the following switch and node nomenclature:
 
@@ -49,9 +49,7 @@ This procedure replaces the second Nexus 3232C cluster switch CL2 with the new 3
 
 The number of 10 GbE and 40/100 GbE ports are defined in the reference configuration files (RCFs) available on the https://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco® Cluster Network Switch Reference Configuration File Download^] page.
 
-The examples in this procedure use four nodes. Two of the nodes use four 10 GB cluster interconnect ports: e0a, e0b, e0c, and e0d. The other two nodes use two 40 GB cluster interconnect ports: e4a and e4e. See the Hardware Universe to verify the correct cluster ports for your platform.
-
-https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe^]
+The examples in this procedure use four nodes. Two of the nodes use four 10 GB cluster interconnect ports: e0a, e0b, e0c, and e0d. The other two nodes use two 40 GB cluster interconnect ports: e4a and e4e. See the link:https://hwu.netapp.com/SWITCH/INDEX.html[Hardware Universe^] to verify the correct cluster ports for your platform.
 
 This procedure describes the following scenario:
 
@@ -61,14 +59,14 @@ This procedure describes the following scenario:
  ** You disconnect the cabling from all ports on cluster switch CL2 and reconnect the cabling to the same ports on the replacement cluster switch C2.
  ** You revert the migrated cluster LIFs on each node.
 
-== Steps
+.Steps
 
-. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
-+
+. [[one]]If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
+
 `system node autosupport invoke -node * -type all - message MAINT=xh`
 +
 _x_ is the duration of the maintenance window in hours.
-+
+
 [NOTE]
 ====
 The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
@@ -281,7 +279,7 @@ cluster::*> network port modify -node n3 -port e4e -up-admin false
 cluster::*> network port modify -node n4 -port e4e -up-admin false
 ----
 
-. Ping the remote cluster interfaces and perform an RPC server check:
+. [[seven]]Ping the remote cluster interfaces and perform an RPC server check:
 +
 `cluster ping-cluster -node _node-name_`
 +
@@ -346,7 +344,7 @@ Larger than PMTU communication succeeds on 32 path(s) RPC status:
 8	paths up, 0 paths down (udp check)
 ----
 
-. Shut down the ports 1/31 and 1/32 on cluster switch CL1.
+. [[eight]]Shut down the ports 1/31 and 1/32 on cluster switch CL1.
 +
 For more information on Cisco commands, see the guides listed in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-command-reference-list.html[Cisco Nexus 3000 Series NX-OS Command References^].
 +
@@ -414,7 +412,7 @@ Group Port-        Type   Protocol  Member Ports
 1     Po1(SU)      Eth    LACP      Eth1/31(P)   Eth1/32(P)
 ----
 
-. On all nodes, bring up all the cluster interconnect ports connected to the replacement switch C2: `network port modify -node _node-name_ -port _port-name_ -up-admin true`
+. [[fourteen]]On all nodes, bring up all the cluster interconnect ports connected to the replacement switch C2: `network port modify -node _node-name_ -port _port-name_ -up-admin true`
 +
 ----
 cluster::*> network port modify -node n1 -port e0b -up-admin true
@@ -425,7 +423,7 @@ cluster::*> network port modify -node n3 -port e4e -up-admin true
 cluster::*> network port modify -node n4 -port e4e -up-admin true
 ----
 
-. Revert all the migrated cluster interconnect LIFs on all the nodes:
+. [[fifteen]]Revert all the migrated cluster interconnect LIFs on all the nodes:
 +
 `network interface revert -vserver cluster -lif _lif-name_`
 +
@@ -511,7 +509,7 @@ e4e       Cluster      Cluster          up   9000 auto/40000  -
         12 entries were displayed.
 ----
 
-. Ping the remote cluster interfaces and perform an RPC server check:
+. [[eighteen]]Ping the remote cluster interfaces and perform an RPC server check:
 +
 `cluster ping-cluster -node _node-name_`
 +
@@ -576,7 +574,7 @@ Larger than PMTU communication succeeds on 32 path(s) RPC status:
 8	paths up, 0 paths down (udp check)
 ----
 
-. Display the information about the devices in your configuration by entering the following commands:
+. [[nineteen]]Display the information about the devices in your configuration by entering the following commands:
 +
 You can execute the following commands in any order:
 
@@ -709,7 +707,7 @@ Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
 . Delete the replaced cluster switch CL2 if it has not been removed automatically:
 +
 `system cluster-switch delete -device cluster-switch-name`
-. Verify that the proper cluster switches are monitored: `system cluster-switch show`
+. [[twentyone]]Verify that the proper cluster switches are monitored: `system cluster-switch show`
 +
 The following example shows the cluster switches are monitored because the `Is Monitored` state is `true`.
 +

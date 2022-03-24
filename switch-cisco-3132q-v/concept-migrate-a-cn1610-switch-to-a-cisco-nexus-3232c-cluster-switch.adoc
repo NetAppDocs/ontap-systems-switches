@@ -20,7 +20,7 @@ You must be aware of certain configuration information, port connections, and ca
 * The cluster switches use the following inter-switch link (ISL) ports:
  ** NetApp CN1610: ports 0/13 through 0/16 (10 GbE)
  ** Cisco Nexus 3132Q-V: ports e1/31-32 (40/100 GbE)
-* The _Hardware Universe_ contains information about supported cabling to Nexus 3132Q-V switches:
+* The link:https://hwu.netapp.com/[Hardware Universe^] contains information about supported cabling to Nexus 3132Q-V switches:
  ** Nodes with 10 GbE cluster connections require QSFP to SFP+ optical fiber breakout cables or QSFP to SFP+ copper breakout cables
  ** Nodes with 40/100 GbE cluster connections require supported QSFP/QSFP28 optical modules with optical fiber cables or QSFP/QSFP28 copper direct-attach cables
 * The appropriate ISL cabling is as follows:
@@ -41,20 +41,16 @@ By default, the reference configuration file (RCF) is structured to use the firs
 +
 You can make four SFP+ ports active instead of a QSFP port for Nexus 3132Q-V switches by using the `hardware profile front portmode sfp-plus` command. Similarly, you can reset Nexus 3132Q-V switches to use a QSFP port instead of four SFP+ ports by using the `hardware profile front portmode qsfp` command.
 +
-[NOTE]
-====
-When you use the first four SFP+ ports, it will disable the first 40GbE QSFP port.
-====
+NOTE: When you use the first four SFP+ ports, it will disable the first 40GbE QSFP port.
 
 * You must have configured some of the ports on Nexus 3132Q-V switches to run at 10 GbE or 40/100 GbE.
 +
 You can break out the first six ports into 4x 10 GbE mode by using the `interface breakout module 1 port 1-6 map 10g-4x` command. Similarly, you can regroup the first six QSFP+ ports from _breakout_ configuration by using the `no interface breakout module 1 port 1-6 map 10g-4x` command.
 
 * You must have done the planning, migration, and read the required documentation on 10 GbE and 40/100 GbE connectivity from nodes to Nexus 3132Q-V cluster switches.
-* The ONTAP and NX-OS versions that are supported in this procedure are listed on the "Cisco Ethernet Switches" page.
-+
-http://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switches^]
+* The ONTAP and NX-OS versions that are supported in this procedure are listed on the link:http://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switches^] page.
 
-* The ONTAP and FASTPATH versions that are supported in this procedure are listed on the "NetApp CN1601 and CN1610 Switches" page.
-+
-http://support.netapp.com/NOW/download/software/cm_switches_ntap/[NetApp CN1601 and CN1610 Switches^]
+
+* The ONTAP and FASTPATH versions that are supported in this procedure are listed on the link:http://support.netapp.com/NOW/download/software/cm_switches_ntap/[NetApp CN1601 and CN1610 Switches^] page.
+
+// QA clean-up, 2022-03-04
