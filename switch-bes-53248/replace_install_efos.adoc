@@ -11,6 +11,51 @@ summary: 'You can use this procedure to install the EFOS software on the BES-532
 [.lead]
 You can use this procedure to install the EFOS software on the BES-53248 cluster switch. You can download the applicable Broadcom EFOS software for your cluster switches from the Broadcom Ethernet Switch Support site.
 
+== About this task
+
+====
+*Note the following:*
+
+* When upgrading from EFOS 3.4.x.x to EFOS 3.7.x.x or later, the switch must be running EFOS 3.4.4.6 (or later 3.4.x.x release). If you are running a release prior to that, then upgrade the switch to EFOS 3.4.4.6 (or later 3.4.x.x release) first, then upgrade the switch to EFOS 3.7.x.x or later.
+
+* The configuration for EFOS 3.4.x.x and 3.7.x.x or later are different. Changing the EFOS version from 3.4.x.x to 3.7.x.x or later, or vice versa, requires the switch to be reset to factory defaults and the RCF files for the corresponding EFOS version to be (re)applied. This procedure requires access through the serial console port.
+
+* Beginning with EFOS version 3.7.x.x or later, a non-FIPS compliant and a FIPS compliant version is available. Different steps apply when moving to from a non-FIPS compliant to a FIPS compliant version or vice versa. Changing EFOS from a non-FIPS compliant to a FIPS compliant version or vice versa will reset the switch to factory defaults. This procedure requires access through the serial console port.
+====
+// BURT-1392530
+
+|===
+
+h| *Procedure* h| *Current EFOS version* h| *New EFOS version* h| *High level steps*
+
+.5+a|Steps to upgrade EFOS between two (non) FIPS compliant versions
+a| 3.4.x.x
+a| 3.4.x.x
+a| Install the new EFOS image using method 1)
+The configuration and license information is retained
+a| 3.4.4.6 (or later 3.4.x.x)
+a| 3.7.x.x or later non-FIPS compliant
+a|Upgrade EFOS using method 1.
+Reset the switch to factory defaults and apply the RCF file for EFOS 3.7.x.x or later
+.2+|3.7.x.x or later non-FIPS compliant
+a|3.4.4.6 (or later 3.4.x.x)
+a|Downgrade EFOS using method 1.
+Reset the switch to factory defaults and apply the RCF file for EFOS 3.4.x.x
+a|3.7.x.x or later non-FIPS compliant
+a|Install the new EFOS image using method 1. The configuration and license information is retained
+a|3.7.x.x or later FIPS compliant
+a|3.7.x.x or later FIPS compliant
+a|Install the new EFOS image using method 1.
+The configuration and license information is retained
+.2+a|Steps to upgrade to/from a FIPS compliant EFOS version
+a|Non-FIPS compliant
+a|FIPS compliant
+.2+a|Installation of the EFOS image using method 2. The switch configuration and license information will be lost.
+a|FIPS compliant
+a|Non-FIPS compliant
+|===
+
+
 .Steps
 . Connect the BES-53248 cluster switch to the management network.
 . Use the `ping` command to verify connectivity to the server hosting EFOS, licenses, and the RCF file.
@@ -28,8 +73,9 @@ Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 +
 `show bootvar`
 +
+[subs=+quotes]
 ----
-(cs2) # show bootvar
+(cs2) # *show bootvar*
 
  Image Descriptions
 
@@ -44,12 +90,12 @@ Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 --------------------------------------------------------------------
 
     1      3.4.3.3     Q.10.22.1     3.4.3.3           3.4.3.3
-(cs2) # copy active backup
+(cs2) # *copy active backup*
 Copying active to backup
 Management access will be blocked for the duration of the operation
 Copy operation successful
 
-(cs2) # show bootvar
+(cs2) # *show bootvar*
 
 Image Descriptions
 
@@ -71,8 +117,9 @@ Image Descriptions
 +
 `show version`
 +
+[subs=+quotes]
 ----
-(cs2) # show version
+(cs2) # *show version*
 
 Switch: 1
 
@@ -125,8 +172,9 @@ File transfer operation completed successfully.
 +
 `show bootvar`
 +
+[subs=+quotes]
 ----
-(cs2) # show bootvar
+(cs2) # *show bootvar*
 
 Image Descriptions
 
@@ -147,11 +195,12 @@ Image Descriptions
 +
 `reload`
 +
+[subs=+quotes]
 ----
-(cs2) # reload
+(cs2) # *reload*
 
 The system has unsaved changes.
-Would you like to save them now? (y/n) y
+Would you like to save them now? (y/n) *y*
 
 Config file 'startup-config' created successfully .
 Configuration Saved!
@@ -162,8 +211,9 @@ System will now restart!
 +
 `show version`
 +
+[subs=+quotes]
 ----
-(cs2) # show version
+(cs2) # *show version*
 
 Switch: 1
 
@@ -188,6 +238,126 @@ Additional Packages............................ BGP-4
 ............................................... OpEN API
 ............................................... Prototype Open API
 ----
+
+== Upgrade EFOS using the ONIE OS installation
+You can perform the following steps if one EFOS version is FIPS compliant and the other EFOS version is non-FIPS compliant. These steps can be used to install the non-FIPS or FIPS compliant EFOS 3.7.x.x image from ONIE if the switch fails to boot.
+
+
+.Steps
+. Boot the switch into ONIE installation mode.
++
+During boot, select ONIE when the following screen appears:
++
+----
++--------------------------------------------------------------------+
+|EFOS                                                                |
+|*ONIE                                                               |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
++--------------------------------------------------------------------+
+----
++
+After selecting *ONIE"*, the switch will then load and present you with the following choices:
++
+----
++--------------------------------------------------------------------+
+|*ONIE: Install OS                                                   |
+| ONIE: Rescue                                                       |
+| ONIE: Uninstall OS                                                 |
+| ONIE: Update ONIE                                                  |
+| ONIE: Embed ONIE                                                   |
+| DIAG: Diagnostic Mode                                              |
+| DIAG: Burn-In Mode                                                 |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
++--------------------------------------------------------------------+
+----
++
+The switch now will boot into ONIE installation mode.
+
+. Stop the ONIE discovery and configure the Ethernet interface.
++
+Once the following message appears press <Enter> to invoke the ONIE console:
++
+----
+Please press Enter to activate this console. Info: eth0:  Checking link... up.
+ ONIE:/ #
+----
+NOTE: The ONIE discovery will continue and messages will be printed to the console.
++
+----
+Stop the ONIE discovery
+ONIE:/ # onie-discovery-stop
+discover: installer mode detected.
+Stopping: discover... done.
+ONIE:/ #
+----
+
+. Configure the Ethernet interface and add the route using `ifconfig eth0 <ipAddress> netmask <netmask> up` and `route add default gw <gatewayAddress>`
++
+----
+ONIE:/ # ifconfig eth0 10.10.10.10 netmask 255.255.255.0 up
+ONIE:/ # route add default gw 10.10.10.1
+----
+
+. Verify that the server hosting the ONIE installation file is reachable:
++
+----
+ONIE:/ # ping 50.50.50.50
+PING 50.50.50.50 (50.50.50.50): 56 data bytes
+64 bytes from 50.50.50.50: seq=0 ttl=255 time=0.429 ms
+64 bytes from 50.50.50.50: seq=1 ttl=255 time=0.595 ms
+64 bytes from 50.50.50.50: seq=2 ttl=255 time=0.369 ms
+^C
+--- 50.50.50.50 ping statistics ---
+3 packets transmitted, 3 packets received, 0% packet loss
+round-trip min/avg/max = 0.369/0.464/0.595 ms
+ONIE:/ #
+----
+. Install the new switch software:
++
+----
+ONIE:/ # onie-nos-install http:// 50.50.50.50/Software/onie-installer-x86_64
+discover: installer mode detected.
+Stopping: discover... done.
+Info: Fetching http:// 50.50.50.50/Software/onie-installer-3.7.0.4 ...
+Connecting to 50.50.50.50 (50.50.50.50:80)
+installer            100% |*******************************| 48841k  0:00:00 ETA
+ONIE: Executing installer: http:// 50.50.50.50/Software/onie-installer-3.7.0.4
+Verifying image checksum ... OK.
+Preparing image archive ... OK.
+----
+The software will install and then reboot the switch. Let the switch reboot normally into the new EFOS version.
+. Verify that the new switch software is installed: `show bootvar`
++
+[subs=+quotes]
+----
+(cs2) # *show bootvar*
+Image Descriptions
+active :
+backup :
+Images currently available on Flash
+---- 	----------- -------- --------------- ------------
+unit 	active 	    backup   current-active  next-active
+---- 	----------- -------- --------------- ------------
+1 	  3.4.3.3     3.4.3.3  3.4.3.3         3.4.3.3
+(cs2) #
+----
+
+. Complete the installation.
++
+The switch will reboot with no configuration applied and reset to factory defaults.
 
 *Related information*
 
