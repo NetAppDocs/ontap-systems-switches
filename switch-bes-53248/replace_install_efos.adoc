@@ -11,7 +11,7 @@ summary: 'You can use this procedure to install the EFOS software on the BES-532
 [.lead]
 You can use this procedure to install the EFOS software on the BES-53248 cluster switch. You can download the applicable Broadcom EFOS software for your cluster switches from the Broadcom Ethernet Switch Support site.
 
-== About this task
+==== About this task
 
 ====
 *Note the following:*
@@ -242,6 +242,7 @@ Additional Packages............................ BGP-4
 == Upgrade EFOS using the ONIE OS installation
 You can perform the following steps if one EFOS version is FIPS compliant and the other EFOS version is non-FIPS compliant. These steps can be used to install the non-FIPS or FIPS compliant EFOS 3.7.x.x image from ONIE if the switch fails to boot.
 
+NOTE: This functionality is only available for EFOS 3.7.x.x or later non-FIPS compliant.
 
 .Steps
 . Boot the switch into ONIE installation mode.
@@ -351,7 +352,7 @@ Images currently available on Flash
 ---- 	----------- -------- --------------- ------------
 unit 	active 	    backup   current-active  next-active
 ---- 	----------- -------- --------------- ------------
-1 	  3.4.3.3     3.4.3.3  3.4.3.3         3.4.3.3
+1 	  3.7.0.4     3.7.0.4  3.7.0.4         3.7.0.4
 (cs2) #
 ----
 
