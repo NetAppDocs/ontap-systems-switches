@@ -87,7 +87,6 @@ Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
 e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 
-4 entries were displayed.
 ----
 
 .. Display information about the logical interfaces and their designated home nodes: `net interface show -vserver Cluster`
@@ -107,7 +106,6 @@ Cluster
             node2_clus1  up/up      169.254.47.194/16  node2       e3a     true
             node2_clus2  up/up      169.254.19.183/16  node2       e3b     true
 
-4 entries were displayed.
 ----
 
 . The cluster ports on each node are connected to existing cluster switches in the following way (from the nodes' perspective) using the command: `net device-discovery show -protocol lldp`
@@ -124,8 +122,6 @@ node1      /lldp
 node2      /lldp
             e3a    c1                        Eth1/2            N3K-C3232C
             e3b    c2                        Eth1/2            N3K-C3232C
-
-4 entries were displayed.
 ----
 
 . The cluster ports and switches are connected in the following way (from the switches' perspective) using the command: `show CDP neighbors`
@@ -144,7 +140,6 @@ node1                 Eth1/1         124   H           AFF-A400           e3a
 node2                 Eth1/2         124   H           AFF-A400           e3a
 c2                    Eth1/31        179   S I s       N3K-C3232C       Eth1/31
 c2                    Eth1/32        175   S I s       N3K-C3232C       Eth1/32
-Total entries displayed: 4
 
 c2# *show cdp neighbors*
 
@@ -192,13 +187,16 @@ RPC status:
 2 paths up, 0 paths down (udp check)
 ----
 
-. On switch sw2, shut down the ports connected to the cluster ports of the nodes.
+. On switch c2, shut down the ports connected to the cluster ports of the nodes.
 +
 [subs=+quotes]
 ----
-cumulus@sw2:~$ *net add interface swp1s0-3, swp2s0-3, swp3-16 link down*
-cumulus@sw2:~$ *net pending*
-cumulus@sw2:~$ *net commit*
+(cs2)# *configure*
+(cs2)(Config)# *interface*
+(cs2)(config-if-range)# *shutdown <_interface-list_>*
+(cs2)(config-if-range)# *exit*
+(cs2)(Config)# *exit*
+(cs2)#
 ----
 
 . Move the node cluster ports from the old switch c2 to the new switch sw2, using appropriate cabling supported by NVIDIA MSN2100.
@@ -206,7 +204,7 @@ cumulus@sw2:~$ *net commit*
 +
 [subs=+quotes]
 ----
-cluster1::*> *net device-discovery show -protocol*
+cluster1::*> *net device-discovery show -protocol lldp*
 
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
@@ -215,17 +213,8 @@ node1      /lldp
             e3a    c1                        Eth1/1            N3K-C3232C
             e3b    sw2                       swp3              MSN2100-CB2RC
 node2      /lldp
-            e3a    c1                        Eth1/1            N3K-C3232C
-            e3b    sw2                       swp3              MSN2100-CB2RC
-
-node1      /cdp
-            e3a    c1                        Eth1/1            N3K-C3232C
-            e3b    sw2                       swp3              MSN2100-CB2RC
-node2      /cdp
-            e3a    c1                        Eth1/1            N3K-C3232C
-            e3b    sw2                       swp3              MSN2100-CB2RC
-
-8 entries were displayed.
+            e3a    c1                        Eth1/2            N3K-C3232C
+            e3b    sw2                       swp4              MSN2100-CB2RC
 ----
 . Verify that all node cluster ports are up: `net show interface`
 +
@@ -253,26 +242,17 @@ UP     swp16        100G  9216   BondMember  sw1 (swp16)          Master: cluste
 +
 [subs=+quotes]
 ----
-cluster1::*> *net device-discovery show -protocol*
+cluster1::*> *net device-discovery show -protocol lldp*
 
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface       Platform
 ----------- ------ ------------------------- --------------  ----------------
 node1      /lldp
             e3a    sw1                       swp3            MSN2100-CB2RC
-            e3b    sw2                       swp4            MSN2100-CB2RC
+            e3b    sw2                       swp3            MSN2100-CB2RC
 node2      /lldp
-            e3a    sw1                       swp3            MSN2100-CB2RC
+            e3a    sw1                       swp4            MSN2100-CB2RC
             e3b    sw2                       swp4            MSN2100-CB2RC
-
-node1      /cdp
-            e3a    sw1                       swp3            MSN2100-CB2RC
-            e3b    sw2                       swp4            MSN2100-CB2RC
-node2      /cdp
-            e3a    sw1                       swp3            MSN2100-CB2RC
-            e3b    sw2                       swp4            MSN2100-CB2RC
-
-8 entries were displayed.
 ----
 
 . Verify the final configuration of the cluster: `net port show -ipspace Cluster`
@@ -299,8 +279,6 @@ Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
 e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 
-4 entries were displayed.
-
 
 cluster1::*> *net interface show -vserver Cluster*
 
@@ -312,8 +290,6 @@ Cluster
             node1_clus2  up/up    169.254.49.125/16  node1         e3b     true
             node2_clus1  up/up    169.254.47.194/16  node2         e3a     true
             node2_clus2  up/up    169.254.19.183/16  node2         e3b     true
-
-4 entries were displayed.
 
 
 cluster1::*> *net device-discovery show -protocol lldp*
@@ -327,8 +303,6 @@ node1      lldp
 node2      /lldp
             e3a    sw1                       swp4            MSN2100-CB2RC
             e3b    sw2                       swp4            MSN2100-CB2RC
-
-4 entries were displayed.
 ----
 
 . Verify that both nodes each have one connection to each switch: `net show lldp`

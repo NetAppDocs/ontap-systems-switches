@@ -66,7 +66,6 @@ Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ---- ----------- -------- ------
 e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
 e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
-4 entries were displayed.
 
 
 cluster1::*> *net interface show -vserver Cluster*
@@ -93,7 +92,6 @@ node2      /lldp
             e3a    sw1                       swp3          MSN2100-CB2RC
             e3b    sw2                       swp4          MSN2100-CB2RC
 
-4 entries were displayed.
 ----
 +
 [subs=+quotes]
@@ -107,8 +105,6 @@ swp4       100G   Trunk/L2    sw2                e3b
 swp15      100G   BondMember  sw2                swp15
 swp16      100G   BondMember  sw2                swp16
 
-Total entries displayed: 4
-
 
 cumulus@sw2:~$ *net show lldp*
 
@@ -119,7 +115,6 @@ swp4       100G   Trunk/L2    sw1                e3b
 swp15      100G   BondMember  sw1                swp15
 swp16      100G   BondMember  sw1                swp16
 
-Total entries displayed: 4
 ----
 
 .Steps
@@ -254,7 +249,6 @@ Port      IPspace      Broadcast Domain Link MTU   Admin/Oper  Status   Status
 e3a       Cluster      Cluster          up   9000  auto/10000  healthy  false
 e3b       Cluster      Cluster          up   9000  auto/auto   -        false
 
-4 entries were displayed.
 ----
 
 . On the same node you used in the previous step, revert the cluster LIF associated with the port in the previous step by using the network interface revert command.
@@ -276,7 +270,6 @@ Cluster
             node2_clus1  up/up      169.254.47.194/16  node2      e3a     true
             node2_clus2  up/up      169.254.19.183/16  node2      e3a     false
 
-4 entries were displayed.
 ----
 
 . Display information about the nodes in a cluster: `cluster show`
@@ -314,7 +307,6 @@ Port      IPspace      Broadcast Domain Link  MTU   Admin/Oper  Status   Status
 e3a       Cluster      Cluster          up    9000  auto/10000  healthy  false
 e3b       Cluster      Cluster          up    9000  auto/10000  healthy  false
 
-4 entries were displayed.
 ----
 
 . Verify that all the cluster LIFs can communicate: `cluster ping-cluster`
@@ -360,7 +352,6 @@ swp4       100G   Trunk/L2    nsw2            e3b
 swp15      100G   BondMember  nsw2            swp15
 swp16      100G   BondMember  nsw2            swp16
 
-Total entries displayed: 4
 ----
 
 . Enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the commands: `system switch ethernet log setup-password` and `system switch ethernet log enable-collection`

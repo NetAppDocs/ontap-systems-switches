@@ -211,9 +211,6 @@ Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ---- ----------- -------- ------
 e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
 e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
-
-
-4 entries were displayed.
 ----
 +
 .. Verify the switch health from the cluster (this might not show switch sw2, since LIFs are not homed on e0d).
@@ -226,13 +223,11 @@ Protocol    Port   Device (LLDP: ChassisID)  Interface       Platform
 ----------- ------ ------------------------- --------------- -------------
 node1/lldp
             e3a    sw1                       swp3            MSN2100-CB2RC
-            e3b    sw2                       swp4            MSN2100-CB2RC
+            e3b    sw2                       swp3            MSN2100-CB2RC
 
 node2/lldp
-            e3a    sw1                       swp3            MSN2100-CB2RC
+            e3a    sw1                       swp4            MSN2100-CB2RC
             e3b    sw2                       swp4            MSN2100-CB2RC
-
-4 entries were displayed.
 
 
 cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true*
@@ -253,6 +248,4 @@ sw2                         cluster-network    10.233.205.91    MSN2100-CB2RC
   Software Version: Cumulus Linux version 4.4.2 running on Mellanox
                     Technologies Ltd. MSN2100
     Version Source: LLDP
-
-2 entries were displayed.
 ----

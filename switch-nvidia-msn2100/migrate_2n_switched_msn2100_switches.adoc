@@ -133,7 +133,6 @@ Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
 e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 
-4 entries were displayed.
 ----
 
 . Verify that all cluster LIFs are up and operational: `net interface show`
@@ -152,7 +151,6 @@ Cluster
             node1_clus2  up/up    169.254.49.125/16  node1         e3b     true
             node2_clus1  up/up    169.254.47.194/16  node2         e3a     true
             node2_clus2  up/up    169.254.19.183/16  node2         e3b     true
-4 entries were displayed.
 ----
 
 . Disable auto-revert on the cluster LIFs: `net interface modify -vserver Cluster -lif * -auto-revert false`
@@ -170,7 +168,6 @@ Cluster
           node2_clus1   false
           node2_clus2   false
 
-4 entries were displayed.
 ----
 
 . Disconnect the cable from cluster port e3a on node1, and then connect e3a to port 1 on cluster switch sw1, using the appropriate cabling supported by the MSN2100 switches.
@@ -213,7 +210,6 @@ Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
 e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 
-4 entries were displayed.
 ----
 
 . Verify that all ports are up on sw1: `net show interface all`
@@ -263,7 +259,6 @@ Node                 Health  Eligibility   Epsilon
 node1                true    true          false
 node2                true    true          false
 
-2 entries were displayed.
 ----
 
 . Disconnect the cable from cluster port e3b on node1, and then connect e3b to port 1 on cluster switch sw2, using the appropriate cabling supported by the MSN2100 switches.
@@ -303,7 +298,6 @@ Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
 e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 
-4 entries were displayed.
 ----
 
 . Verify that all ports are up on sw2: `net show interface all`
@@ -356,7 +350,6 @@ Cluster
           node2_clus1   true
           node2_clus2   true
 
-4 entries were displayed.
 ----
 
 . Verify that all interfaces display true for `Is Home`: `net interface show -vserver Cluster`
@@ -379,7 +372,6 @@ Cluster
           node2_clus1  up/up      169.254.47.194/16  node2      e3a     true
           node2_clus2  up/up      169.254.19.183/16  node2      e3b     true
 
-4 entries were displayed.
 ----
 
 . Verify that both nodes each have one connection to each switch: `net show lldp`
@@ -422,7 +414,6 @@ node2      /lldp
             e3a    sw1                       swp4          MSN2100
             e3b    sw2                       swp4          MSN2100
 
-4 entries were displayed.
 ----
 
 . Verify that the settings are disabled: `network options switchless-cluster show`
@@ -493,7 +484,7 @@ Choose from the following list:
 sw1
 sw2
 
-cluster1::*> system switch ethernet log setup-password
+cluster1::*> *system switch ethernet log setup-password*
 
 Enter the switch name: *sw1*
 RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
