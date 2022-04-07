@@ -1,0 +1,46 @@
+---
+permalink: switch-cisco-3232c/concept-migrate-from-a-cisco-5596-switch-to-a-cisco-nexus-3232c.html
+sidebar: sidebar
+keywords: migrate, cisco nexus 5596 switch, 3232c
+summary: "You must be aware of certain configuration information, port connections and cabling requirements when you are replacing Cisco Nexus 5596 cluster switches with Cisco Nexus 3232C cluster switches."
+---
+= Migrate from a Cisco Nexus 5596 switch to a Cisco Nexus 3232C switch
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+You must be aware of certain configuration information, port connections and cabling requirements when you are replacing Cisco Nexus 5596 cluster switches with Cisco Nexus 3232C cluster switches.
+
+* The following cluster switches are used as examples in this procedure:
+ ** Nexus 5596
+ ** Nexus 3232C
+* The cluster switches use the following ports for connections to nodes:
+ ** Ports e1/1-40 (10 GbE): Nexus 5596
+ ** Ports e1/1-30 (10/40/100 GbE): Nexus 3232C
+* The cluster switches use the following Inter-Switch Link (ISL) ports:
+ ** Ports e1/41-48 (10 GbE): Nexus 5596
+ ** Ports e1/31-32 (40/100 GbE): Nexus 3232C
+* The _Hardware Universe_ contains information about supported cabling to Nexus 3232C switches:
+ ** Nodes with 10 GbE cluster connections require QSFP to SFP+ optical fiber breakout cables or QSFP to SFP+ copper breakout cables.
+ ** Nodes with 40/100 GbE cluster connections require supported QSFP/QSFP28 optical modules with fiber cables or QSFP/QSFP28 copper direct-attach cables.
+* The cluster switches use the appropriate ISL cabling:
+ ** Beginning: Nexus 5596 (SFP+ to SFP+)
+  *** 8x SFP+ fiber or copper direct-attach cables
+ ** Interim: Nexus 5596 to Nexus 3232C (QSFP to 4xSFP+ break-out)
+  *** 1x QSFP to SFP+ fiber break-out or copper break-out cables
+ ** Final: Nexus 3232C to Nexus 3232C (QSFP28 to QSFP28)
+  *** 2x QSFP28 fiber or copper direct-attach cables
+* On Nexus 3232C switches, you can operate QSFP/QSFP28 ports in either 40/100 Gigabit Ethernet or 4 x10 Gigabit Ethernet modes.
++
+By default, there are 32 ports in the 40/100 Gigabit Ethernet mode. These 40 Gigabit Ethernet ports are numbered in a 2-tuple naming convention. For example, the second 40 Gigabit Ethernet port is numbered as 1/2. The process of changing the configuration from 40 Gigabit Ethernet to 10 Gigabit Ethernet is called _breakout_ and the process of changing the configuration from 10 Gigabit Ethernet to 40 Gigabit Ethernet is called _breakin_. When you break out a 40/100 Gigabit Ethernet port into 10 Gigabit Ethernet ports, the resulting ports are numbered using a 3-tuple naming convention. For example, the break-out ports of the second 40/100 Gigabit Ethernet port are numbered as 1/2/1, 1/2/2, 1/2/3, and 1/2/4.
+
+* On the left side of Nexus 3232C switches are 2 SFP+ ports, called 1/33 and 1/34.
+* You have configured some of the ports on Nexus 3232C switches to run at 10 GbE or 40/100 GbE.
++
+[NOTE]
+====
+You can break out the first six ports into 4x10 GbE mode by using the `interface breakout module 1 port 1-6 map 10g-4x` command. Similarly, you can regroup the first six QSFP+ ports from breakout configuration by using the `no interface breakout module 1 port 1-6 map 10g-4x` command.
+====
+
+* You have done the planning, migration, and read the required documentation on 10 GbE and 40/100 GbE connectivity from nodes to Nexus 3232C cluster switches.
+* The ONTAP and NX-OS versions supported in this procedure are on the link:http://support.netapp.com/NOW/download/software/cm_switches/.html[Cisco Ethernet Switches page^].
