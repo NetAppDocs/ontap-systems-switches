@@ -5,7 +5,7 @@ keywords:
 summary:
 ---
 
-= Migrate from a switchless cluster with DAT storage by adding two new shared switches
+= Migrate from a switchless cluster with direct-attached storage by adding two new shared switches
 :hardbreaks:
 :nofooter:
 :icons: font
@@ -18,7 +18,7 @@ summary:
 // 2021-04-29 11:40:03.607134
 //
 
-== Migrate from a switchless cluster with DAT storage
+== Migrate from a switchless cluster with direct-attached storage
 
 You must be aware of certain configuration information, port connections, and cabling requirements when you migrate a two-node switchless cluster, non-disruptively, to a cluster with Cisco Nexus 9336C-FX2 cluster switches. The procedure you use depends on whether you have two dedicated cluster-network ports on each controller or a single cluster port on each controller. The process documented works for all nodes using optical or Twinax ports but is not supported on this switch if nodes are using onboard 10Gb BASE-T RJ45 ports for the cluster-network ports.
 

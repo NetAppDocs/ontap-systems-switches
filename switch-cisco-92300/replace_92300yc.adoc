@@ -11,8 +11,7 @@ summary: 'Replacing a defective Nexus 92300YC switch in a cluster network is a n
 [.lead]
 Replacing a defective Nexus 92300YC switch in a cluster network is a nondisruptive procedure (NDU).
 
-.What you'll need
-
+.Before you begin
 The following conditions must exist before performing the switch replacement in the current environment and on the replacement switch.
 
 * Existing cluster and network infrastructure:
@@ -28,7 +27,7 @@ The following conditions must exist before performing the switch replacement in 
  ** The desired reference configuration file (RCF) and NX-OS operating system image switch must be loaded onto the switch.
  ** Initial customization of the switch must be complete, as detailed in:
 +
-link:configure_overview.md#[Configuring a new Cisco Nexus 92300YC switch]
+link:https://docs.netapp.com/us-en/ontap-systems-switches/switch-cisco-92300/configure-overview.html[Configuring a new Cisco Nexus 92300YC switch^]
 +
 Any previous site customizations, such as STP, SNMP, and SSH, should be copied to the new switch.
 
@@ -46,8 +45,9 @@ The examples in this procedure use the following switch and node nomenclature:
 
 NOTE: The following procedure is based on the following cluster network topology:
 
+[subs=+quotes]
 ----
-cluster1::*> **network port show -ipspace Cluster**
+cluster1::*> *network port show -ipspace Cluster*
 
 Node: node1
                                                                        Ignore
@@ -68,7 +68,7 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 
 
 
-cluster1::*> **network interface show -vserver Cluster**
+cluster1::*> *network interface show -vserver Cluster*
             Logical    Status     Network            Current       Current Is
 Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
 ----------- ---------- ---------- ------------------ ------------- ------- ----
@@ -81,7 +81,7 @@ Cluster
 
 
 
-cluster1::*> **network device-discovery show -protocol cdp**
+cluster1::*> *network device-discovery show -protocol cdp*
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
@@ -95,7 +95,7 @@ node1      /cdp
 
 
 
-cs1# **show cdp neighbors**
+cs1# *show cdp neighbors*
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
@@ -112,7 +112,7 @@ Total entries displayed: 4
 
 
 
-cs2# **show cdp neighbors**
+cs2# *show cdp neighbors*
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
@@ -142,19 +142,21 @@ If necessary, verify, download, and install the appropriate versions of the RCF 
 +
 If the switch that you are replacing is not functional and is powered down, go to Step 4. The LIFs on the cluster nodes should have already failed over to the other cluster port for each node.
 +
+[subs=+quotes]
 ----
-newcs2# **config**
+newcs2# *config*
 Enter configuration commands, one per line. End with CNTL/Z.
-newcs2(config)# **interface e1/1-64**
-newcs2(config-if-range)# **shutdown**
+newcs2(config)# *interface e1/1-64*
+newcs2(config-if-range)# *shutdown*
 ----
 
 . Verify that all cluster LIFs have auto-revert enabled:
 +
 `network interface show -vserver Cluster -fields auto-revert`
 +
+[subs=+quotes]
 ----
-cluster1::> **network interface show -vserver Cluster -fields auto-revert**
+cluster1::> *network interface show -vserver Cluster -fields auto-revert*
 
              Logical
 Vserver      Interface     Auto-revert
@@ -171,8 +173,9 @@ Cluster      node2_clus2   true
 +
 `cluster ping-cluster`
 +
+[subs=+quotes]
 ----
-cluster1::*> **cluster ping-cluster node1**
+cluster1::*> *cluster ping-cluster node1*
 
 Host is node2
 Getting addresses from network interface table...
@@ -201,11 +204,12 @@ RPC status:
 
 . Shut down the ISL ports 1/65 and 1/66 on the Nexus 92300YC switch cs1:
 +
+[subs=+quotes]
 ----
-cs1# **configure**
+cs1# *configure*
 Enter configuration commands, one per line. End with CNTL/Z.
-cs1(config)# **interface e1/65-66**
-cs1(config-if-range)# **shutdown**
+cs1(config)# *interface e1/65-66*
+cs1(config-if-range)# *shutdown*
 cs1(config-if-range)#
 ----
 
@@ -216,11 +220,12 @@ Port-Channel should indicate Po1(SU) and Member Ports should indicate Eth1/65(P)
 +
 This example enables ISL ports 1/65 and 1/66 and displays the port channel summary on switch cs1:
 +
+[subs=+quotes]
 ----
-cs1# **configure**
+cs1# *configure*
 Enter configuration commands, one per line. End with CNTL/Z.
-cs1(config)# **int e1/65-66**
-cs1(config-if-range)# **no shutdown**
+cs1(config)# *int e1/65-66*
+cs1(config-if-range)# *no shutdown*
 
 cs1(config-if-range)# show port-channel summary
 Flags:  D - Down        P - Up in port-channel (members)
@@ -246,8 +251,9 @@ cs1(config-if-range)#
 +
 The output should be similar to the following:
 +
+[subs=+quotes]
 ----
-cluster1::*> **network port show -ipspace Cluster**
+cluster1::*> *network port show -ipspace Cluster*
 
 Node: node1
                                                                         Ignore
@@ -274,8 +280,9 @@ In this example, LIF node1_clus2 on node1 is successfully reverted if the Home v
 +
 The following commands return LIF `node1_clus2` on `node1` to home port `e0a` and displays information about the LIFs on both nodes. Bringing up the first node is successful if the Is Home column is true for both cluster interfaces and they show the correct port assignments, in this example `e0a` and `e0b` on node1.
 +
+[subs=+quotes]
 ----
-cluster1::*> **network interface show -vserver Cluster**
+cluster1::*> *network interface show -vserver Cluster*
 
             Logical      Status     Network            Current    Current Is
 Vserver     Interface    Admin/Oper Address/Mask       Node       Port    Home
@@ -295,8 +302,9 @@ Cluster
 +
 This example shows that the node health for node1 and node2 in this cluster is true:
 +
+[subs=+quotes]
 ----
-cluster1::*> **cluster show**
+cluster1::*> *cluster show*
 
 Node          Health  Eligibility
 ------------- ------- ------------
@@ -308,8 +316,9 @@ node2         true    true
 +
 `network port show ipspace Cluster`
 +
+[subs=+quotes]
 ----
-cluster1::*> **network port show -ipspace Cluster**
+cluster1::*> *network port show -ipspace Cluster*
 
 Node: node1
 																																									 					 																					 	  Ignore
@@ -334,8 +343,9 @@ e0b       Cluster      Cluster          up    9000  auto/10000  healthy  false
 +
 `cluster ping-cluster`
 +
+[subs=+quotes]
 ----
-cluster1::*> **cluster ping-cluster -node node2**
+cluster1::*> *cluster ping-cluster -node node2*
 Host is node2
 Getting addresses from network interface table...
 Cluster node1_clus1 169.254.209.69 node1 e0a
@@ -365,8 +375,9 @@ RPC status:
 +
 `network port show`
 +
+[subs=+quotes]
 ----
-cluster1::*> **network port show -ipspace Cluster**
+cluster1::*> *network port show -ipspace Cluster*
 Node: node1
 																																																																			 	  Ignore
                                        Speed(Mbps)            Health   Health
@@ -386,7 +397,7 @@ e0b       Cluster      Cluster          up   9000 auto/10000  healthy  false
 4 entries were displayed.
 
 
-cluster1::*> **network interface show -vserver Cluster**
+cluster1::*> *network interface show -vserver Cluster*
 
             Logical    Status     Network            Current       Current Is
 Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
@@ -399,7 +410,7 @@ Cluster
 
 4 entries were displayed.
 
-cluster1::> **network device-discovery show -protocol cdp**
+cluster1::> *network device-discovery show -protocol cdp*
 
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
@@ -414,7 +425,7 @@ node1      /cdp
 4 entries were displayed.
 
 
-cs1# **show cdp neighbors**
+cs1# *show cdp neighbors*
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
@@ -431,7 +442,7 @@ newcs2(FDO296348FU)  Eth1/66        176    R S I s     N9K-C92300YC  Eth1/66
 Total entries displayed: 4
 
 
-cs2# **show cdp neighbors**
+cs2# *show cdp neighbors*
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
@@ -447,40 +458,41 @@ cs1(FDO220329KU)   Eth1/66        178    R S I s     N9K-C92300YC  Eth1/66
 Total entries displayed: 4
 ----
 
-. For ONTAP 9.4 and later, enable the cluster switch health monitor log collection feature for collecting switch-related log files:
+. For ONTAP 9.4 and later, enable the cluster switch health monitor log collection feature for collecting switch-related log files, using gthe commamds:
 +
-`system cluster-switch log setup-password system cluster-switch log enable-collection`
+`system cluster-switch log setup-password` and `system cluster-switch log enable-collection`
 +
+[subs=+quotes]
 ----
-cluster1::*> **system cluster-switch log setup-password**
+cluster1::*> *system cluster-switch log setup-password*
 Enter the switch name: <return>
 The switch name entered is not recognized.
 Choose from the following list:
-NBS-NIC-NXYC-01
-NBS-NIC-NXYC-02
+cs1
+cs2
 
-cluster1::*> **system cluster-switch log setup-password**
+cluster1::*> *system cluster-switch log setup-password*
 
-Enter the switch name: **NBS-NIC-NXYC-01
-**RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
-Do you want to continue? {y|n}::[n] **y**
+Enter the switch name: *cs1*
+RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
+Do you want to continue? {y|n}::[n] *y*
 
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 
-cluster1::*> **system cluster-switch log setup-password**
+cluster1::*> *system cluster-switch log setup-password*
 
-Enter the switch name: **NBS-NIC-NXYC-02**
+Enter the switch name: *cs2*
 RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
-Do you want to continue? {y|n}:: [n] **y**
+Do you want to continue? {y|n}:: [n] *y*
 
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 
-cluster1::*> **system cluster-switch log enable-collection**
+cluster1::*> *system cluster-switch log enable-collection*
 
 Do you want to enable cluster log collection for all nodes in the cluster?
-{y|n}: [n] **y**
+{y|n}: [n] *y*
 
 Enabling cluster switch log collection.
 
