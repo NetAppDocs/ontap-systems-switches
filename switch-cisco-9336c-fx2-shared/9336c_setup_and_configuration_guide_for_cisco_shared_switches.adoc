@@ -58,7 +58,6 @@ The following table lists the part number and description for the 9336C-FX2 swit
 If you do not already have the required configuration information and documentation, you need to gather that information before setting up your shared switches.
 
 .Before you begin
-
 * You must have access to an HTTP, FTP or TFTP server at the installation site to download the applicable NX-OS and reference configuration file (RCF) releases.
 * You must have the required shared switch documentation.
 +
@@ -70,18 +69,15 @@ See https://docs.netapp.com/us-en/ontap/index.html[NetApp ONTAP documentation].
 * You must have the applicable licenses, network and configuration information, and cables.
 * You must have the completed cabling worksheets.
 
-[NOTE]
-In addition to cabling graphics, this guide does provide sample worksheets with recommended port assignments and blank worksheets that you can use to set up your network.
+NOTE: In addition to cabling graphics, this guide does provide sample worksheets with recommended port assignments and blank worksheets that you can use to set up your network.
 For more information, refer to the https://hwu.netapp.com[Hardware Universe].
 
 .About this task
-
 All Cisco shared switches arrive with the standard Cisco factory-default configuration. These switches also have the current version of the NX-OS software but do not have the RCFs loaded.
 
-*Attention:* You must download the applicable NetApp RCFs from the https://mysupport.netapp.com[NetApp Support Site] for the switches that you receive.
+IMPORTANT: You must download the applicable NetApp RCFs from the https://mysupport.netapp.com[NetApp Support Site] for the switches that you receive.
 
 === Procedure
-
 . Rack the switches and controllers. See the
 https://docs.netapp.com/platstor/topic/com.netapp.doc.hw-sw-9336c-install-cabinet/GUID-92287262-E7A6-4A62-B159-7F148097B33B.html[Installing a Cisco Nexus 9336C-FX2 cluster switch and pass-through panel in a NetApp cabinet] guide for instructions to install the switch in a NetApp cabinet.
 . Power on the switches and controllers.
@@ -94,11 +90,9 @@ If you download the NetApp-supported version of the software, then you must also
 If you have your own switches, refer to the http://www.cisco.com[Cisco] site.
 
 === Required configuration information
-
 For configuration, you need the appropriate number and type of cables and cable connectors for your switches. Depending on the type of switch you are initially configuring, you need to connect to the switch console port with the included console cable; you also need to provide specific network information.
 
 === Required network information for all switches
-
 * You need the following network information for all switch configurations:
 ** IP subnet for management network traffic
 ** Host names and IP addresses for each of the storage system controllers and all applicable switches
@@ -163,8 +157,7 @@ Respond with *no*. The default is no.
 +
 Respond with *yes*. The default is yes.
 
-[NOTE]
-SSH is recommended when using Cluster Switch Health Monitor (CSHM) for its log collection features. SSHv2 is also recommended for enhanced security.
+NOTE: SSH is recommended when using Cluster Switch Health Monitor (CSHM) for its log collection features. SSHv2 is also recommended for enhanced security.
 
 [start=14]
 . [[step14]]Enter the type of SSH key you want to generate (dsa/rsa/rsa1). The default is rsa.
@@ -193,8 +186,8 @@ You should see the new configuration at this point. Review and make any necessar
 +
 Respond with *yes* to save the configuration. This automatically updates the kickstart and system images.
 
-[NOTE]
-If you do not save the configuration at this stage, none of the changes will be in effect the next time you reboot the switch.
++
+NOTE: If you do not save the configuration at this stage, none of the changes will be in effect the next time you reboot the switch.
 
 For more information about the initial configuration of your switch, see the following guide: https://www.cisco.com/c/en/us/td/docs/dcn/hw/nx-os/nexus9000/9336c-fx2-e/cisco-nexus-9336c-fx2-e-nx-os-mode-switch-hardware-installation-guide.html[Cisco Nexus 9336C-FX2 Installation and Upgrade Guide].
 
@@ -229,11 +222,10 @@ To set up the Cisco Nexus 9336C-FX2 shared switches, see the https://www.cisco.c
 
 You can use the following cabling images to complete the cabling between the controllers and the switches.
 
-*Switch-attached*
 image:9336c_image1.jpg[Switch-attached]
 
 If you want to cable storage as direct-attached instead of using the shared switch storage ports, follow the direct-attached diagram:
-*Direct-attached*
+
 image:9336c_image2.jpg[Direct-attached]
 
 === Cisco Nexus 9336C-FX2 cabling worksheet

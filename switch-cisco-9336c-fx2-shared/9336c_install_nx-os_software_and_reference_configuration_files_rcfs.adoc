@@ -5,7 +5,7 @@ keywords: rcfs, nx-os, install
 summary:
 ---
 
-= Install NX-OS software and Reference Configuration Files (RCFs)
+= Install NX-OS software and RCFs
 :hardbreaks:
 :nofooter:
 :icons: font
@@ -18,11 +18,11 @@ summary:
 // 2021-04-29 11:40:03.169772
 //
 
-== Install NX-OS software and RCF on a Cisco Nexus 9336C- FX2 cluster switch
+== Install NX-OS software and RCFs on Cisco Nexus 9336C-FX2 switches
 
 The Cisco NX-OS software and reference configuration file (RCF) must be installed on Cisco Nexus 9336C-FX2 cluster switches.
 
-=== Before you begin
+.Before you begin
 
 The following conditions must exist before you install the NX-OS software and RCF on the cluster switch:
 
@@ -36,15 +36,13 @@ See https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet 
 * There can be command dependencies between the command syntax in the RCF and that found in versions of NX-OS.
 * You must have referred to the appropriate software and upgrade guides available on the Cisco web site for complete documentation on the Cisco switch upgrade and downgrade procedures on Cisco Nexus 9000 Series Switches.
 See https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html[Cisco Nexus 9000 Series Switches] for more information.
-
 * You must have the current RCF.
 
-=== Initial setup
+.Initial setup
 The examples in this procedure use two nodes. These nodes use two 100GbE cluster interconnect ports e3a and e3b, as per the A400 controller.
 See the https://hwu.netapp.com[Hardware Universe] to verify the correct cluster ports on your platforms.
 
-[NOTE]
-The command outputs might vary depending on different releases of ONTAP.
+NOTE: The command outputs might vary depending on different releases of ONTAP.
 
 The examples in this procedure use the following switch and node nomenclature:
 
@@ -53,8 +51,7 @@ The examples in this procedure use the following switch and node nomenclature:
 * The cluster LIF names are _cluster1-01_clus1_ and _cluster1-01_clus2_ for cluster1-01 and _cluster1-02_clus1_ and _cluster1-02_clus2_ for cluster1-02.
 * The cluster1::*> prompt indicates the name of the cluster.
 
-[NOTE]
-The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
+NOTE: The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 
 .Steps
 [start=1]

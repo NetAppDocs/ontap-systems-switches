@@ -17,8 +17,9 @@ You can use this procedure to install the NX-OS software on the Nexus 92300YC sw
 +
 This example verifies that the switch can reach the server at IP address 172.19.2.1:
 +
+[subs=+quotes]
 ----
-cs2# **ping 172.19.2.1**
+cs2# *ping 172.19.2.1*
 Pinging 172.19.2.1 with 0 bytes of data:
 
 Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
@@ -26,11 +27,12 @@ Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 
 . Copy the NX-OS software and EPLD images to the Nexus 92300YC switch.
 +
+[subs=+quotes]
 ----
-cs2# **copy sftp: bootflash: vrf management**
-Enter source filename: **/code/nxos.9.2.2.bin**
-Enter hostname for the sftp server: **172.19.2.1**
-Enter username: **user1**
+cs2# *copy sftp: bootflash: vrf management*
+Enter source filename: */code/nxos.9.2.2.bin*
+Enter hostname for the sftp server: *172.19.2.1*
+Enter username: *user1*
 
 Outbound-ReKey for 172.19.2.1:22
 Inbound-ReKey for 172.19.2.1:22
@@ -44,10 +46,10 @@ Copy complete, now saving to disk (please wait)...
 Copy complete.
 
 
-cs2# **copy sftp: bootflash: vrf management**
-Enter source filename: **/code/n9000-epld.9.2.2.img**
-Enter hostname for the sftp server: **172.19.2.1**
-Enter username: **user1**
+cs2# *copy sftp: bootflash: vrf management*
+Enter source filename: */code/n9000-epld.9.2.2.img*
+Enter hostname for the sftp server: *172.19.2.1*
+Enter username: *user1*
 
 Outbound-ReKey for 172.19.2.1:22
 Inbound-ReKey for 172.19.2.1:22
@@ -63,8 +65,9 @@ Copy complete.
 
 . Verify the running version of the NX-OS software:
 +
+[subs=+quotes]
 ----
-cs2# **show version**
+cs2# *show version*
 Cisco Nexus Operating System (NX-OS) Software
 TAC support: http://www.cisco.com/tac
 Copyright (C) 2002-2018, Cisco and/or its affiliates.
@@ -119,8 +122,9 @@ cs2#
 +
 Installing the image file causes it to be loaded every time the switch is rebooted.
 +
+[subs=+quotes]
 ----
-cs2# **install all nxos bootflash:nxos.9.2.2.bin**
+cs2# *install all nxos bootflash:nxos.9.2.2.bin*
 
 Installer will perform compatibility check first. Please wait.
 Installer is forced disruptive
@@ -161,7 +165,7 @@ Module   Image         Running-Version(pri:alt            New-Version         Up
 
 
 Switch will be reloaded for disruptive upgrade.
-Do you want to continue with the installation (y/n)?  [n] **y**
+Do you want to continue with the installation (y/n)?  [n] *y*
 
 
 Install is in progress, please wait.
@@ -187,8 +191,9 @@ Finishing the upgrade, switch will reboot in 10 seconds.
 +
 `show version`
 +
+[subs=+quotes]
 ----
-cs2# **show version**
+cs2# *show version*
 
 Cisco Nexus Operating System (NX-OS) Software
 TAC support: http://www.cisco.com/tac
@@ -240,8 +245,9 @@ Active Package(s):
 
 . Upgrade the EPLD image and reboot the switch.
 +
+[subs=+quotes]
 ----
-cs2# **show version module 1 epld**
+cs2# *show version module 1 epld*
 
 EPLD Device                     Version
 ---------------------------------------
@@ -253,7 +259,7 @@ GEM FPGA                         0x2
 GEM FPGA                         0x2
 GEM FPGA                         0x2
 
-cs2# **install epld bootflash:n9000-epld.9.2.2.img module 1**
+cs2# *install epld bootflash:n9000-epld.9.2.2.img module 1*
 Compatibility check:
 Module        Type         Upgradable        Impact   Reason
 ------  -----------------  ----------    ----------   ------
@@ -268,7 +274,7 @@ Module  Type   EPLD              Running-Version   New-Version  Upg-Required
      1   SUP  MI FPGA2                  0x02        0x02             No
 The above modules require upgrade.
 The switch will be reloaded at the end of the upgrade
-Do you want to continue (y/n) ?  [n] **y**
+Do you want to continue (y/n) ?  [n] *y*
 
 Proceeding to upgrade Modules.
 
@@ -288,8 +294,9 @@ Module 1 EPLD upgrade is successful.
 
 . After the switch reboot, log in again and verify that the new version of EPLD loaded successfully.
 +
+[subs=+quotes]
 ----
-cs2# **show version module 1 epld**
+cs2# *show version module 1 epld*
 
 EPLD Device                     Version
 ---------------------------------------

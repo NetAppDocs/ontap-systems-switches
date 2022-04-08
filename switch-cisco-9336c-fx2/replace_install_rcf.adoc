@@ -272,13 +272,13 @@ cs2# copy running-config startup-config \[\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#
 cs2# reload
 This command will reboot the system. (y/n)? [n] y
 ----
-
-. Apply the same RCF and save the running configuration for a second time.
 +
-----
-cs2# copy Nexus_9336C_RCF_v1.6-Cluster-HA-Breakout.txt running-config echo-commands
-cs2# copy running-config startup-config [########################################] 100% Copy complete
-----
+//. Apply the same RCF and save the running configuration for a second time.
+//+
+//----
+//cs2# copy Nexus_9336C_RCF_v1.6-Cluster-HA-Breakout.txt running-config echo-commands
+//cs2# copy running-config startup-config [########################################] 100% Copy complete
+//----
 
 . Verify the health of cluster ports on the cluster.
  .. Verify that e0d ports are up and healthy across all nodes in the cluster: `network port show -role cluster`

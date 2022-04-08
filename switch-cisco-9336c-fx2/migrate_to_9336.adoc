@@ -27,10 +27,10 @@ The examples in this procedure use the following switch and node nomenclature:
 * The nodes are node1 and node2.
 * The cluster LIFs are node1_clus1 and node1_clus2 on node 1, and node2_clus1 and node2_clus2 on node 2 respectively.
 * Switch c2 is replaced by switch cs2 first and then switch c1 is replaced by switch cs1.
- ** A temporary ISL is built on cs1 connecting c1 to cs1.
+ ** A temporary ISL is built on cs2 connecting c2 to cs2.
  ** Cabling between the nodes and c2 are then disconnected from c2 and reconnected to cs2.
  ** Cabling between the nodes and c1 are then disconnected from c1 and reconnected to cs1.
- ** The temporary ISL between c1 and cs1 is then removed.
+ ** The temporary ISL between c2 and cs2 is then removed.
 
 .Steps
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=xh`
@@ -45,8 +45,9 @@ The advanced prompt (*>) appears.
 
 . Verify that auto-revert is enabled on all cluster LIFs: `network interface show -vserver Cluster -fields auto-revert`
 +
+[subs=+quotes]
 ----
-cluster1::*> network interface show -vserver Cluster -fields auto-revert
+cluster1::*> *network interface show -vserver Cluster -fields auto-revert*
 
           Logical
 Vserver   Interface     Auto-revert
@@ -66,8 +67,9 @@ Each port should display up for `Link` and healthy for `Health Status`.
 
  .. Display the network port attributes: `network port show -ipspace Cluster`
 +
+[subs=+quotes]
 ----
-cluster1::*> network port show -ipspace Cluster
+cluster1::*> *network port show -ipspace Cluster*
 
 Node: node1
                                                                        Ignore
@@ -92,8 +94,9 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 +
 Each LIF should display up/up for `Status Admin/Oper` and true for `Is Home`.
 +
+[subs=+quotes]
 ----
-cluster1::*> network interface show -vserver Cluster
+cluster1::*> *network interface show -vserver Cluster*
 
             Logical      Status     Network            Current       Current Is
 Vserver     Interface    Admin/Oper Address/Mask       Node          Port    Home
@@ -109,25 +112,25 @@ Cluster
 
 . The cluster ports on each node are connected to existing cluster switches in the following way (from the nodes' perspective) using the command: `network device-discovery show -protocol cdp`
 +
+[subs=+quotes]
 ----
-cluster1::*> network device-discovery show -protocol cdp
+cluster1::*> *network device-discovery show -protocol cdp*
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
-node2      /cdp
-            e0a    c1                        0/2               N5K-C5596UP
-            e0b    c2                        0/2               N5K-C5596UP
 node1      /cdp
             e0a    c1                        0/1               N5K-C5596UP
             e0b    c2                        0/1               N5K-C5596UP
-
-4 entries were displayed.
+node2      /cdp
+            e0a    c1                        0/2               N5K-C5596UP
+            e0b    c2                        0/2               N5K-C5596UP
 ----
 
 . The cluster ports and switches are connected in the following way (from the switches' perspective) using the command: `show cdp neighbors`
 +
+[subs=+quotes]
 ----
-c1# show cdp neighbors
+c1# *show cdp neighbors*
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
@@ -148,7 +151,7 @@ c2                    Eth1/47        175   S I s       N5K-C5596UP      Eth1/47
 c2                    Eth1/48        179   S I s       N5K-C5596UP      Eth1/48
 Total entries displayed: 10
 
-c2# show cdp neighbors
+c2# *show cdp neighbors*
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
@@ -171,8 +174,9 @@ c1                    Eth1/48       176    S I s       N5K-C5596UP      Eth1/48
 
 . Ensure that the cluster network has full connectivity using the command: `cluster ping-cluster -node node-name`
 +
+[subs=+quotes]
 ----
-cluster1::*> cluster ping-cluster -node node2
+cluster1::*> *cluster ping-cluster -node node2*
 
 Host is node2
 Getting addresses from network interface table...
@@ -199,34 +203,36 @@ RPC status:
 2 paths up, 0 paths down (udp check)
 ----
 
-. Configure a temporary ISL on cs1 on ports e1/41-48, between c1 and cs1.
+. Configure a temporary ISL on cs1 on ports e1/33-34, between c1 and cs1.
 +
 The following example shows how the new ISL is configured on c1 and cs1:
 +
+[subs=+quotes]
 ----
-cs1# configure
+cs2# *configure*
 Enter configuration commands, one per line. End with CNTL/Z.
-cs1(config)# interface e1/41-48
-cs1(config-if-range)# description temporary ISL between Nexus 5596UP and Nexus 9336C
-cs1(config-if-range)# no lldp transmit
-cs1(config-if-range)# no lldp receive
-cs1(config-if-range)# switchport mode trunk
-cs1(config-if-range)# no spanning-tree bpduguard enable
-cs1(config-if-range)# channel-group 101 mode active
-cs1(config-if-range)# exit
-cs1(config)# interface port-channel 101
-cs1(config-if)# switchport mode trunk
-cs1(config-if)# spanning-tree port type network
-cs1(config-if)# exit
-cs1(config)# exit
+cs2(config)# *interface e1/33-34*
+cs2(config-if-range)# *description temporary ISL between Nexus 5596UP and Nexus 9336C*
+cs2(config-if-range)# *no lldp transmit*
+cs2(config-if-range)# *no lldp receive*
+cs2(config-if-range)# *switchport mode trunk*
+cs2(config-if-range)# *no spanning-tree bpduguard enable*
+cs2(config-if-range)# *channel-group 101 mode active*
+cs2(config-if-range)# *exit*
+cs2(config)# *interface port-channel 101*
+cs2(config-if)# *switchport mode trunk*
+cs2(config-if)# *spanning-tree port type network*
+cs2(config-if)# *exit*
+cs2(config)# *exit*
 ----
-. Remove ISL cables from ports e1/41-48 from c2 and connect the cables to ports e1/41-48 on cs1.
-. Verify that the ISL ports and port-channel are operational connecting c1 and cs1: `show port-channel summary`
+. Remove ISL cables from ports e1/33-34 from c2 and connect the cables to ports e1/33-34 on cs2.
+. Verify that the ISL ports and port-channel are operational connecting c2 and cs2: `show port-channel summary`
 +
-The following example shows the Cisco show port-channel summary command being used to verify the ISL ports are operational on c1 and cs1:
+The following example shows the Cisco show port-channel summary command being used to verify the ISL ports are operational on c2 and cs2:
 +
+[subs=+quotes]
 ----
-c1# show port-channel summary
+c2# *show port-channel summary*
 Flags:  D - Down        P - Up in port-channel (members)
         I - Individual  H - Hot-standby (LACP only)
         s - Suspended   r - Module-removed
@@ -244,7 +250,7 @@ Group Port-       Type     Protocol  Member Ports
                                      Eth1/47(P)   Eth1/48(P)
 
 
-cs1# show port-channel summary
+cs2# *show port-channel summary*
 Flags:  D - Down        P - Up in port-channel (members)
         I - Individual  H - Hot-standby (LACP only)
         s - Suspended   r - Module-removed
@@ -267,61 +273,64 @@ Group Port-       Type     Protocol  Member Ports
 . For node2, disconnect the cable from e1/2 on c2, and then connect the cable to e1/2 on cs2, using appropriate cabling supported by Nexus 9336C-FX2.
 . The cluster ports on each node are now connected to cluster switches in the following way, from the nodes' perspective: `network device-discovery show -protocol cdp`
 +
+[subs=+quotes]
 ----
-cluster1::*> network device-discovery show -protocol cdp
+cluster1::*> *network device-discovery show -protocol cdp*
 
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
-node2      /cdp
-            e0a    c1                        0/2               N5K-C5596UP
-            e0b    cs2                       0/2               N9K-C9336C
 node1      /cdp
             e0a    c1                        0/1               N5K-C5596UP
             e0b    cs2                       0/1               N9K-C9336C
 
-4 entries were displayed.
+node2      /cdp
+            e0a    c1                        0/2               N5K-C5596UP
+            e0b    cs2                       0/2               N9K-C9336C
 ----
 
 . For node1, disconnect the cable from e1/1 on c1, and then connect the cable to e1/1 on cs1, using appropriate cabling supported by Nexus 9336C-FX2.
 . For node2, disconnect the cable from e1/2 on c1, and then connect the cable to e1/2 on cs1, using appropriate cabling supported by Nexus 9336C-FX2.
 . The cluster ports on each node are now connected to cluster switches in the following way, from the nodes' perspective: `network device-discovery show -protocol cdp`
 +
+[subs=+quotes]
 ----
-cluster1::*> network device-discovery show -protocol cdp
+cluster1::*> *network device-discovery show -protocol cdp*
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
-node2      /cdp
-            e0a    cs1                       0/2               N9K-C9336C
-            e0b    cs2                       0/2               N9K-C9336C
 node1      /cdp
             e0a    cs1                       0/1               N9K-C9336C
             e0b    cs2                       0/1               N9K-C9336C
-4 entries were displayed.
+
+node2      /cdp
+            e0a    cs1                       0/2               N9K-C9336C
+            e0b    cs2                       0/2               N9K-C9336C
 ----
 
 . Delete the temporary ISL between cs1 and c1.
 +
+[subs=+quotes]
 ----
-cs1(config)# no interface port-channel 10
-cs1(config)# interface e1/41-48
-cs1(config-if-range)# lldp transmit
-cs1(config-if-range)# lldp receive
-cs1(config-if-range)# no switchport mode trunk
-cs1(config-if-range)# no channel-group
-cs1(config-if-range)# description 10GbE Node Port
-cs1(config-if-range)# spanning-tree bpduguard enable
-cs1(config-if-range)# exit
-cs1(config)# exit
+cs1(config)# *no interface port-channel 101*
+cs1(config)# *interface e1/33-34*
+cs1(config-if-range)# *lldp transmit*
+cs1(config-if-range)# *lldp receive*
+cs1(config-if-range)# *no switchport mode trunk*
+cs1(config-if-range)# *no channel-group*
+cs1(config-if-range)# *description 10GbE Node Port*
+cs1(config-if-range)# *spanning-tree bpduguard enable*
+cs1(config-if-range)# *exit*
+cs1(config)# *exit*
 ----
 
 . Verify the final configuration of the cluster: `network port show -ipspace Cluster`
 +
 Each port should display up for `Link` and healthy for `Health Status`.
 +
+[subs=+quotes]
 ----
-cluster1::*> network port show -ipspace Cluster
+cluster1::*> *network port show -ipspace Cluster*
 
 Node: node1
                                                                        Ignore
@@ -342,7 +351,7 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 4 entries were displayed.
 
 
-cluster1::*> network interface show -vserver Cluster
+cluster1::*> *network interface show -vserver Cluster*
 
             Logical    Status     Network            Current       Current Is
 Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
@@ -356,7 +365,7 @@ Cluster
 4 entries were displayed.
 
 
-cluster1::*> network device-discovery show -protocol cdp
+cluster1::*> *network device-discovery show -protocol cdp*
 
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
@@ -376,8 +385,9 @@ node1      /cdp
 +
 The following example shows the appropriate results for both switches:
 +
+[subs=+quotes]
 ----
-cs1# show cdp neighbors
+cs1# *show cdp neighbors*
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
@@ -391,7 +401,7 @@ cs2                Eth1/35        179    R S I s     N9K-C9336C    Eth1/35
 cs2                Eth1/36        179    R S I s     N9K-C9336C    Eth1/36
 
 
-cs2# show cdp neighbors
+cs2# *show cdp neighbors*
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
@@ -409,14 +419,15 @@ Total entries displayed: 4
 
 . Ensure that the cluster network has full connectivity: `cluster ping-cluster -node node-name`
 +
+[subs=+quotes]
 ----
-cluster1::*> set -priv advanced
+cluster1::*> *set -priv advanced*
 
 Warning: These advanced commands are potentially dangerous; use them only when
          directed to do so by NetApp personnel.
-Do you want to continue? {y|n}: y
+Do you want to continue? {y|n}: *y*
 
-cluster1::*> cluster ping-cluster -node node2
+cluster1::*> *cluster ping-cluster -node node2*
 Host is node2
 Getting addresses from network interface table...
 Cluster node1_clus1 169.254.209.69 node1     e0a
@@ -446,38 +457,45 @@ cluster1::*> set -privilege admin
 cluster1::*>
 ----
 
-. For ONTAP 9.8 and later, enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the two commands: `system switch ethernet log setup-password` and `system switch ethernet log enable-collection`
+. For ONTAP 9.8 and later, enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the following two commands: `system switch ethernet log setup-password` and `system switch ethernet log enable-collection`
 +
+Enter: `system switch ethernet log setup-password`
++
+[subs=+quotes]
 ----
-cluster1::*> system switch ethernet log setup-password
+cluster1::*> *system switch ethernet log setup-password*
 Enter the switch name: <return>
 The switch name entered is not recognized.
 Choose from the following list:
 cs1
 cs2
 
-cluster1::*> system switch ethernet log setup-password
+cluster1::*> *system switch ethernet log setup-password*
 
-Enter the switch name: cs1
+Enter the switch name: *cs1*
 RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
-Do you want to continue? {y|n}::[n] y
+Do you want to continue? {y|n}::[n] *y*
 
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 
-cluster1::*> system switch ethernet log setup-password
+cluster1::*> *system switch ethernet log setup-password*
 
-Enter the switch name: cs2
+Enter the switch name: *cs2*
 RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
-Do you want to continue? {y|n}:: [n] y
+Do you want to continue? {y|n}:: [n] *y*
 
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
-
-cluster1::*> system  switch ethernet log enable-collection
+----
+Followed by: `system  switch ethernet log enable-collection`
++
+[subs=+quotes]
+----
+cluster1::*> *system  switch ethernet log enable-collection*
 
 Do you want to enable cluster log collection for all nodes in the cluster?
-{y|n}: [n] y
+{y|n}: [n] *y*
 
 Enabling cluster switch log collection.
 
@@ -488,36 +506,44 @@ NOTE: If any of these commands return an error, contact NetApp support.
 
 . For ONTAP releases 9.5P16, 9.6P12, and 9.7P10 and later patch releases, enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the commands: `system cluster-switch log setup-password` and `system cluster-switch log enable-collection`
 +
+Enter: `system cluster-switch log setup-password`
++
+[subs=+quotes]
 ----
-cluster1::*> system cluster-switch log setup-password
+cluster1::*> *system cluster-switch log setup-password*
 Enter the switch name: <return>
 The switch name entered is not recognized.
 Choose from the following list:
 cs1
 cs2
 
-cluster1::*> system cluster-switch log setup-password
+cluster1::*> *system cluster-switch log setup-password*
 
-Enter the switch name: cs1
+Enter the switch name: *cs1*
 RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
-Do you want to continue? {y|n}::[n] y
+Do you want to continue? {y|n}::[n] *y*
 
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 
-cluster1::*> system cluster-switch log setup-password
+cluster1::*> *system cluster-switch log setup-password*
 
-Enter the switch name: cs2
+Enter the switch name: *cs2*
 RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
-Do you want to continue? {y|n}:: [n] y
+Do you want to continue? {y|n}:: [n] *y*
 
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
-
-cluster1::*> system cluster-switch log enable-collection
+----
++
+Followed by: `system cluster-switch log enable-collection`
++
+[subs=+quotes]
+----
+cluster1::*> *system cluster-switch log enable-collection*
 
 Do you want to enable cluster log collection for all nodes in the cluster?
-{y|n}: [n] y
+{y|n}: [n] *y*
 
 Enabling cluster switch log collection.
 

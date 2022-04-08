@@ -17,8 +17,9 @@ You can install the RCF after setting up the Nexus 92300YC switch for the first 
 +
 This example verifies that the switch can reach the server at IP address 172.19.2.1:
 +
+[subs=+quotes]
 ----
-cs2# **ping 172.19.2.1**
+cs2# *ping 172.19.2.1*
 Pinging 172.19.2.1 with 0 bytes of data:
 
 Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
@@ -26,11 +27,12 @@ Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 
 . Copy the RCF to the Nexus 92300YC switch:
 +
+[subs=+quotes]
 ----
-cs2# **copy sftp: bootflash: vrf management**
-Enter source filename: **/code/Nexus_92300YC_RCF_v1.0.2.txt**
-Enter hostname for the sftp server: **172.19.2.1**
-Enter username: **user1**
+cs2# *copy sftp: bootflash: vrf management*
+Enter source filename: */code/Nexus_92300YC_RCF_v1.0.2.txt*
+Enter hostname for the sftp server: *172.19.2.1*
+Enter username: *user1*
 
 Outbound-ReKey for 172.19.2.1:22
 Inbound-ReKey for 172.19.2.1:22
@@ -46,8 +48,9 @@ Copy complete.
 
 . Merge the RCF with the running-config of the switch:
 +
+[subs=+quotes]
 ----
-cs2# **copy bootflash:Nexus_92300YC_RCF_v1.0.2.txt running-config**
+cs2# *copy bootflash:Nexus_92300YC_RCF_v1.0.2.txt running-config*
 
 Disabling ssh: as its enabled right now:
  generating ecdsa key(521 bits)......
@@ -76,8 +79,9 @@ Copy complete.
 +
 `show running-config`
 +
+[subs=+quotes]
 ----
-cs2# **show running-config**
+cs2# *show running-config*
 !Command: show running-config
 !Running configuration last done at: Wed Apr 10 06:32:27 2019
 !Time: Wed Apr 10 06:36:00 2019
@@ -114,29 +118,61 @@ banner motd #
 
 . Save the running configuration so that it becomes the startup configuration when you reboot the switch:
 +
+[subs=+quotes]
 ----
-cs2# **copy running-config startup-config**
+cs2# *copy running-config startup-config*
 
 [########################################] 100%
 Copy complete, now saving to disk (please wait)...
 Copy complete.
 ----
 
-. For ONTAP 9.6P8 and later, enable the CSHM ASUP log collection feature for collecting switch-related log files: `system cluster-switch log setup-password` and `system cluster-switch log enable-collection`
+. For ONTAP 9.6P8 and later, enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the commands: `system cluster-switch log setup-password` and `system cluster-switch log enable-collection`
 +
+[subs=+quotes]
 ----
-cs2# **system cluster-switch log setup-password**
-** Output example required here
-cs2# **system cluster-switch log enable-collection**
-** Output example required here too
+cluster1::*> *system cluster-switch log setup-password*
+Enter the switch name: <return>
+The switch name entered is not recognized.
+Choose from the following list:
+cs1
+cs2
+
+cluster1::*> *system cluster-switch log setup-password*
+
+Enter the switch name: *cs1*
+RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
+Do you want to continue? {y|n}::[n] *y*
+
+Enter the password: <enter switch password>
+Enter the password again: <enter switch password>
+
+cluster1::*> *system cluster-switch log setup-password*
+
+Enter the switch name: *cs2*
+RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
+Do you want to continue? {y|n}:: [n] *y*
+
+Enter the password: <enter switch password>
+Enter the password again: <enter switch password>
+
+cluster1::*> *system cluster-switch log enable-collection*
+
+Do you want to enable cluster log collection for all nodes in the cluster?
+{y|n}: [n] *y*
+
+Enabling cluster switch log collection.
+
+cluster1::*>
 ----
 
 . Reboot the switch and verify that the running configuration is correct:
 +
 `reload`
 +
+[subs=+quotes]
 ----
-cs2# **reload**
+cs2# *reload*
 
-This command will reboot the system. (y/n)?  [n] **y**
+This command will reboot the system. (y/n)?  [n] *y*
 ----

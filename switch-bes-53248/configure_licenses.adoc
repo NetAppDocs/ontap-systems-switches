@@ -89,23 +89,25 @@ License Index  License Type     Status
 No license file found.
 ----
 
-. Install the license file. The following example uses HTTP to copy a license file to a key index 1.
+. Install the license file. The following example uses SFTP to copy a license file to a key index 1.
 +
 Repeat this step to load more licenses and to use different key index numbers.
 +
 ----
-(cs2) # copy http://172.19.2.1/tmp/efos/license1.dat nvram:license-key 1
+(cs2) #copy sftp://root@172.19.2.1/var/lib/tftpboot/license.dat nvram:license-key 1
+Remote Password:********
 
-Mode........................................... HTTP
+Mode........................................... SFTP
 Set Server IP.................................. 172.19.2.1
-Path........................................... tmp/efos/
-Filename....................................... license1.dat
+Path........................................... /var/lib/tftpboot/
+Filename....................................... license.dat
 Data Type...................................... license
 
 Management access will be blocked for the duration of the transfer
 Are you sure you want to start? (y/n) y
 
 File transfer in progress. Management access will be blocked for the duration of the transfer. Please wait...
+
 
 License Key transfer operation completed successfully. System reboot is required.
 ----
