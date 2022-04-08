@@ -29,22 +29,21 @@ This procedure provides a summary of the process to install your switches and ge
  ** parity: none
  ** flow control: none
 . Booting for the first time or rebooting after erasing the running configuration, the Nexus 92300YC switch loops in a boot cycle. Interrupt this cycle by typing *yes* to abort Power on Auto Provisioning. You are then presented with the System Admin Account setup:
-
- $ VDC-1 %$ %POAP-2-POAP_INFO:   - Abort Power On Auto Provisioning [yes - continue with normal setup, skip - bypass password and basic configuration, no - continue with Power On Auto Provisioning] (yes/skip/no)[no]:
- **yes**
- Disabling POAP.......Disabling POAP
- 2019 Apr 10 00:36:17 switch %$ VDC-1 %$ poap: Rolling back, please wait... (This may take 5-15 minutes)
-
+[subs=+quotes]
+----
+$ VDC-1 %$ %POAP-2-POAP_INFO:   - Abort Power On Auto Provisioning [yes - continue with normal setup, skip - bypass password and basic configuration, no - continue with Power On Auto Provisioning] (yes/skip/no)[no]: *y*
+Disabling POAP.......Disabling POAP
+2019 Apr 10 00:36:17 switch %$ VDC-1 %$ poap: Rolling back, please wait... (This may take 5-15 minutes)
 
           ---- System Admin Account Setup ----
 
-
- Do you want to enforce secure password standard (yes/no) [y]:
-
+Do you want to enforce secure password standard (yes/no) [y]:
+----
 . Type *y* to enforce secure password standard:
 +
+[subs=+quotes]
 ----
-Do you want to enforce secure password standard (yes/no) [y]: **y**
+Do you want to enforce secure password standard (yes/no) [y]: *y*
 ----
 
 . Enter and confirm the password for user admin:
@@ -88,65 +87,71 @@ Configure read-write SNMP community string (yes/no) [n]:
 
 . Configure the cluster switch name:
 +
+[subs=+quotes]
 ----
-Enter the switch name : **cs2**
+Enter the switch name : *cs2*
 ----
 
 . Configure the out-of-band management interface:
 +
+[subs=+quotes]
 ----
-
-Continue with Out-of-band (mgmt0) management configuration? (yes/no) [y]: **y**
+Continue with Out-of-band (mgmt0) management configuration? (yes/no) [y]: *y*
 
 Mgmt0 IPv4 address : 172.22.133.216
 
 Mgmt0 IPv4 netmask : 255.255.224.0
 
-Configure the default gateway? (yes/no) [y]: **y**
+Configure the default gateway? (yes/no) [y]: *y*
 
 IPv4 address of the default gateway : 172.22.128.1
 ----
 
 . Configure advanced IP options:
 +
+[subs=+quotes]
 ----
-Configure advanced IP options? (yes/no) [n]: **n**
+Configure advanced IP options? (yes/no) [n]: *n*
 ----
 
 . Configure Telnet services:
 +
+[subs=+quotes]
 ----
-Enable the telnet service? (yes/no) [n]: **n**
+Enable the telnet service? (yes/no) [n]: *n*
 ----
 
 . Configure SSH services and SSH keys:
 +
+[subs=+quotes]
 ----
-Enable the ssh service? (yes/no) [y]: **y**
+Enable the ssh service? (yes/no) [y]: *y*
 
-       Type of ssh key you would like to generate (dsa/rsa) [rsa]: **rsa**
+       Type of ssh key you would like to generate (dsa/rsa) [rsa]: *rsa*
 
-       Number of rsa key bits <1024-2048> [1024]: **2048**
+       Number of rsa key bits <1024-2048> [1024]: *2048*
 ----
 
 . Configure other settings:
 +
+[subs=+quotes]
 ----
-Configure the ntp server? (yes/no) [n]: **n**
+Configure the ntp server? (yes/no) [n]: *n*
 
-  Configure default interface layer (L3/L2) [L2]: **L2**
+  Configure default interface layer (L3/L2) [L2]: *L2*
 
-  Configure default switchport interface state (shut/noshut) [noshut]: **noshut**
+  Configure default switchport interface state (shut/noshut) [noshut]: *noshut*
 
-  Configure CoPP system profile (strict/moderate/lenient/dense) [strict]: **strict**
+  Configure CoPP system profile (strict/moderate/lenient/dense) [strict]: *strict*
 ----
 
 . Confirm switch information and save the configuration:
 +
+[subs=+quotes]
 ----
-Would you like to edit the configuration? (yes/no) [n]: **n**
+Would you like to edit the configuration? (yes/no) [n]: *n*
 
-Use this configuration and save it? (yes/no) [y]: **y**
+Use this configuration and save it? (yes/no) [y]: *y*
 
 [########################################] 100%
 Copy complete, now saving to disk (please wait)...
