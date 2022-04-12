@@ -20,7 +20,7 @@ summary:
 
 == Switches supported by ONTAP
 
-From ONTAP 9.9.1, you can use Cisco Nexus 9336C-FX2 switches to combine storage and cluster functionality into a shared switch scenario. If you want to build ONTAP networks with more than two nodes, you need two supported network switches.
+From ONTAP 9.9.1, you can use Cisco Nexus 9336C-FX2 switches to combine storage and cluster functionality into a shared switch configuration. If you want to build ONTAP clusters with more than two nodes, you need two supported network switches.
 
 The following Cisco shared network switches are supported.
 
@@ -37,10 +37,6 @@ The following table lists the part number and description for the 9336C-FX2 swit
 |N9K-9336C-FX2, CS, PTSX, 36PT10/25/40/100GQSFP28
 |X190200-CS-PI
 |N9K-9336C-FX2, CS, PSIN, 36PT10/25/40/100GQSFP28
-|X190210-FE-PE
-|N9K-9336C, FTE, PTSX, 36PT10/25/40/100GQSFP28
-|X190210-FE-PI
-|N9K-9336C, FTE, PSIN, 36PT10/25/40/100GQSFP28
 |X190002
 |Accessory Kit X190001/X190003
 |X-NXA-PAC-1100W-PE2
@@ -78,9 +74,9 @@ All Cisco shared switches arrive with the standard Cisco factory-default configu
 IMPORTANT: You must download the applicable NetApp RCFs from the https://mysupport.netapp.com[NetApp Support Site] for the switches that you receive.
 
 === Procedure
-. Rack the switches and controllers. See the
+. Rack the switches, controllers and NS224 NVMe storage shelves. See the
 https://docs.netapp.com/platstor/topic/com.netapp.doc.hw-sw-9336c-install-cabinet/GUID-92287262-E7A6-4A62-B159-7F148097B33B.html[Installing a Cisco Nexus 9336C-FX2 cluster switch and pass-through panel in a NetApp cabinet] guide for instructions to install the switch in a NetApp cabinet.
-. Power on the switches and controllers.
+. Power on the switches, controllers and NS224 NVMe storage shelves.
 [start=3]
 . [[step3]]Perform an initial configuration of the switches based on information provided in <<Required configuration information>>.
 . Verify the configuration choices you made in the display that appears at the end of the setup, and make sure that you save the configuration.
@@ -96,7 +92,7 @@ For configuration, you need the appropriate number and type of cables and cable 
 * You need the following network information for all switch configurations:
 ** IP subnet for management network traffic
 ** Host names and IP addresses for each of the storage system controllers and all applicable switches
-** Most storage system controllers are managed through the e0M interface by connecting to the Ethernet service port (wrench icon). On AFF A800 and AFF A700 systems, the e0M interface uses a dedicated Ethernet port.
+** Most storage system controllers are managed through the e0M interface by connecting to the Ethernet service port (wrench icon). On AFF A800 and AFF A700s systems, the e0M interface uses a dedicated Ethernet port.
 * Refer to the https://hwu.netapp.com[Hardware Universe] for the latest information.
 
 === Required network information for Cisco Nexus 9336C-FX2 switches
@@ -221,10 +217,11 @@ To set up the Cisco Nexus 9336C-FX2 shared switches, see the https://www.cisco.c
 == Cisco Nexus 9336C-FX2 cabling details
 
 You can use the following cabling images to complete the cabling between the controllers and the switches.
+If you want to cable NS224 storage as switch-attached, follow the switch-attached diagram:
 
 image:9336c_image1.jpg[Switch-attached]
 
-If you want to cable storage as direct-attached instead of using the shared switch storage ports, follow the direct-attached diagram:
+If you want to cable NS224 storage as direct-attached instead of using the shared switch storage ports, follow the direct-attached diagram:
 
 image:9336c_image2.jpg[Direct-attached]
 
