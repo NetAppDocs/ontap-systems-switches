@@ -69,8 +69,6 @@ Display the network port attributes: `storage port show`
 ----
 storage::*> *st port show*
 (storage port show)
-
-storage::*> *storage port show -port-type ENET*
                                   Speed                     VLAN
 Node           Port Type  Mode    (Gb/s) State    Status      ID
 -------------- ---- ----- ------- ------ -------- --------- ----
@@ -311,7 +309,7 @@ S1                    Eth1/34         121         S                    e5a
 *Do we need to do a 'net show interface' here too?*
 //. Enable auto-revert on the cluster LIFs: `cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert True`
 
-
++
 *Does health monitoring apply to storage switches too?*
 . Enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the two commands: `system switch ethernet log setup-password` and `system switch ethernet log enable-collection`
 +
@@ -346,6 +344,7 @@ Enter the password again: <enter switch password>
 ----
 +
 Followed by: `system  switch ethernet log enable-collection`
++
 [subs=+quotes]
 ----
 cluster1::*> *system  switch ethernet log enable-collection*
