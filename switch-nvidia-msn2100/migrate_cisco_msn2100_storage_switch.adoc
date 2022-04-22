@@ -306,11 +306,9 @@ node2                 Eth1/12         121         S                    e5b
 S1                    Eth1/33         121         S                    e5a
 S1                    Eth1/34         121         S                    e5a
 ----
-*Do we need to do a 'net show interface' here too?*
 //. Enable auto-revert on the cluster LIFs: `cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert True`
 
 +
-*Does health monitoring apply to storage switches too?*
 . Enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the two commands: `system switch ethernet log setup-password` and `system switch ethernet log enable-collection`
 +
 Enter: `system switch ethernet log setup-password`

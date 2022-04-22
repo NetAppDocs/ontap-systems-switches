@@ -60,6 +60,16 @@ where _x_ is the duration of the maintenance window in hours.
 The advanced prompt (*>) appears.
 
 . Disable auto-revert on the cluster LIFs: `net interface modify -vserver Cluster -lif * -auto-revert false`
++
+[subs=+quotes]
+----
+cluster1::*> *net interface modify -vserver Cluster -lif * -auto-revert false*
+(network interface modify)
+
+Warning: Disabling the auto-revert feature of the cluster logical interface may effect the availability of your cluster network. Are you sure you want to continue? {y|n}: *y*
+
+4 entries were modified.
+----
 
 . Determine the administrative or operational status for each cluster interface:
 +
@@ -72,21 +82,20 @@ Each port should display up for `Link` and healthy for `Health Status`.
 cluster1::*> *net port show -ipspace Cluster*
 
 Node: node1
-                                                                       Ignore
-                                                  Speed(Mbps) Health   Health
-Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
---------- ------------ ---------------- ---- ---- ----------- -------- ------
-e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+                                                                         Ignore
+                                                 Speed(Mbps)    Health   Health
+Port      IPspace    Broadcast Domain Link MTU   Admin/Oper     Status   Status
+--------- ---------- ---------------- ---- ----- -------------- -------- ------
+e3a       Cluster    Cluster          up   9000  100000/100000  healthy  false
+e3b       Cluster    Cluster          up   9000  100000/100000  healthy  false
 
 Node: node2
-                                                                       Ignore
-                                                  Speed(Mbps) Health   Health
-Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
---------- ------------ ---------------- ---- ---- ----------- -------- ------
-e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
-
+                                                                         Ignore
+                                                 Speed(Mbps)    Health   Health
+Port      IPspace    Broadcast Domain Link MTU   Admin/Oper     Status   Status
+--------- ---------- ---------------- ---- ----- -------------- -------- ------
+e3a       Cluster    Cluster          up   9000  100000/100000  healthy  false
+e3b       Cluster    Cluster          up   9000  100000/100000  healthy  false
 ----
 
 .. Display information about the logical interfaces and their designated home nodes: `net interface show -vserver Cluster`
@@ -192,6 +201,8 @@ RPC status:
 [subs=+quotes]
 ----
 (cs2)# *configure*
+Enter configuration commands, one per line. End with CNTL/Z.
+
 (cs2)(Config)# *interface*
 (cs2)(config-if-range)# *shutdown <_interface-list_>*
 (cs2)(config-if-range)# *exit*
@@ -264,20 +275,20 @@ Each port should display up for `Link` and healthy for `Health Status`.
 cluster1::*> *net port show -ipspace Cluster*
 
 Node: node1
-                                                                       Ignore
-                                                  Speed(Mbps) Health   Health
-Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
---------- ------------ ---------------- ---- ---- ----------- -------- ------
-e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+                                                                         Ignore
+                                                 Speed(Mbps)    Health   Health
+Port      IPspace    Broadcast Domain Link MTU   Admin/Oper     Status   Status
+--------- ---------- ---------------- ---- ----- -------------- -------- ------
+e3a       Cluster    Cluster          up   9000  100000/100000  healthy  false
+e3b       Cluster    Cluster          up   9000  100000/100000  healthy  false
 
 Node: node2
-                                                                       Ignore
-                                                  Speed(Mbps) Health   Health
-Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
---------- ------------ ---------------- ---- ---- ----------- -------- ------
-e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+                                                                         Ignore
+                                                 Speed(Mbps)    Health   Health
+Port      IPspace    Broadcast Domain Link MTU   Admin/Oper     Status   Status
+--------- ---------- ---------------- ---- ----- -------------- -------- ------
+e3a       Cluster    Cluster          up   9000  100000/100000  healthy  false
+e3b       Cluster    Cluster          up   9000  100000/100000  healthy  false
 
 
 cluster1::*> *net interface show -vserver Cluster*
