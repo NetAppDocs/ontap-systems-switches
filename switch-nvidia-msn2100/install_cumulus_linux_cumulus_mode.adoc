@@ -1,7 +1,7 @@
 ---
 permalink: switch-nvidia-msn2100/install_cumulus_linux_cumulus_mode.html
 sidebar: sidebar
-keywords: install cumulus mode, msn2100 switches setup, cumulus linux, cumulus mode
+keywords: install cumulus mode, msn2100 SN2100 switches setup, cumulus linux, cumulus mode
 summary: 'Cumulus Linux (CL) OS can be installed either when the switch is running Cumulus Linux or ONIE.'
 ---
 = Install Cumulus Linux in Cumulus mode
@@ -22,7 +22,7 @@ NOTE: Each time Cumulus Linux is installed, the entire file system structure is 
 
 CAUTION: The default password for the cumulus user account is *cumulus*. The first time you log into Cumulus Linux, you must change this default password. Be sure to update any automation scripts before installing a new image. Cumulus Linux provides command line options to change the default password automatically during the installation process.
 
-The baud rate requirement must be set to 115200 on the serial console switch for NVIDIA MSN2100 switch console access, as follows:
+The baud rate requirement must be set to 115200 on the serial console switch for NVIDIA SN2100 switch console access, as follows:
 
 * 115200 baud
 * 8 data bits
@@ -122,7 +122,7 @@ cumulus@sw1:~$ *sudo dpkg-reconfigure tzdata*
 cumulus@sw1:mgmt:~$ *sudo onie-install -a -i http://10.60.132.97/x/eng/testbedN,svl/nic/files/cumulus-linux-4.4.2-mlx-amd64.bin*
 ----
 The installer starts the download.  Type *y* when prompted.
-. Reboot the NVIDIA MSN2100 switch:
+. Reboot the NVIDIA SN2100 switch:
 +
 [subs=+quotes]
 ----

@@ -1,15 +1,15 @@
 ---
 permalink: switch-nvidia-msn2100/replace_msn2100_switch_cluster.html
 sidebar: sidebar
-keywords: replacing, replace, defective, nvidia, switch, cluster, network, nondisruptive, procedure, ndu, replace a nvidia msn2100 cluster switch - nvidia msn2100
-summary: Replacing a defective NVIDIA MSN2100 switch in a cluster network is a nondisruptive procedure \(NDU\).
+keywords: replacing, replace, defective, nvidia, switch, cluster, network, nondisruptive, procedure, ndu, replace a nvidia msn2100 cluster switch - nvidia msn2100 SN2100
+summary: Replacing a defective NVIDIA SN2100 switch in a cluster network is a nondisruptive procedure \(NDU\).
 ---
-= Replace a NVIDIA MSN2100 cluster switch
+= Replace a NVIDIA SN2100 cluster switch
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-Replacing a defective NVIDIA MSN2100 switch in a cluster network is a nondisruptive procedure (NDU).
+Replacing a defective NVIDIA SN2100 switch in a cluster network is a nondisruptive procedure (NDU).
 
 .Before you begin
 The following conditions must exist before performing the switch replacement in the current environment and on the replacement switch.
@@ -19,7 +19,7 @@ The following conditions must exist before performing the switch replacement in 
  ** All cluster ports must be up.
  ** All cluster logical interfaces (LIFs) must be up and on their home ports.
  ** The ONTAP `cluster ping-cluster -node node1` command must indicate that basic connectivity and larger than PMTU communication are successful on all paths.
-* NVIDIA MSN2100 replacement switch:
+* NVIDIA SN2100 replacement switch:
  ** Management network connectivity on the replacement switch must be functional.
  ** Console access to the replacement switch must be in place.
  ** The node connections are ports swp1 through swp14.
@@ -36,8 +36,8 @@ You must execute the command for migrating a cluster LIF from the node where the
 .About this task
 The examples in this procedure use the following switch and node nomenclature:
 
-* The names of the existing NVIDIA MSN2100 switches are _sw1_ and _sw2_.
-* The name of the new NVIDIA MSN2100 switch is _nsw2_.
+* The names of the existing NVIDIA SN2100 switches are _sw1_ and _sw2_.
+* The name of the new NVIDIA SN2100 switch is _nsw2_.
 * The node names are node1 and node2.
 * The cluster ports on each node are named e3a and e3b.
 * The cluster LIF names are node1_clus1 and _node1_clus2 for node1, and node2_clus1 and node2_clus2 for node2.
@@ -180,7 +180,7 @@ cumulus@sw1:~$ *net add interface swp15-16 link down*
 cumulus@sw1:~$ *net pending*
 cumulus@sw1:~$ *net commit*
 ----
-. Remove all the cables from the MSN2100 sw2 switch, and then connect them to the same ports on the MSN2100 nsw2 switch.
+. Remove all the cables from the SN2100 sw2 switch, and then connect them to the same ports on the SN2100 nsw2 switch.
 
 . Bring up the ISL ports swp15 and swp16 between the sw1 and nsw2 switches.
 +

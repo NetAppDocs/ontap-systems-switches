@@ -1,15 +1,15 @@
 ---
 permalink: switch-nvidia-msn2100/migrate_cisco_msn2100_storage_switch.html
 sidebar: sidebar
-keywords: migrating to a storage switch with NVIDIA MSN2100 storage switches, how to migrate
-summary: 'You can migrate nondisruptively older Cisco switches for an ONTAP cluster to NVIDIA MSN2100 storage switches.'
+keywords: migrating to a storage switch with NVIDIA SN2100 MSN2100 storage switches, how to migrate
+summary: 'You can migrate nondisruptively older Cisco switches for an ONTAP cluster to NVIDIA SN2100 storage switches.'
 ---
-= Migrate from a Cisco storage switch to a NVIDIA MSN2100 storage switch
+= Migrate from a Cisco storage switch to a NVIDIA SN2100 storage switch
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-You must be aware of certain configuration information, port connections and cabling requirements when you are replacing some older Cisco switches with NVIDIA MSN2100 storage switches.
+You must be aware of certain configuration information, port connections and cabling requirements when you are replacing some older Cisco switches with NVIDIA SN2100 storage switches.
 
 * The following storage switches are supported:
 ** Nexus 9336C-FX2
@@ -18,19 +18,19 @@ You must be aware of certain configuration information, port connections and cab
 * See the https://hwu.netapp.com/[Hardware Universe^] for full details of supported ports and their configurations.
 
 .Before you begin
-You can migrate nondisruptively older Cisco storage switches for an ONTAP cluster to NVIDIA MSN2100 storage switches.
+You can migrate nondisruptively older Cisco storage switches for an ONTAP cluster to NVIDIA SN2100 storage switches.
 
 * The existing cluster must be properly set up and functioning.
 * All storage ports must be in the up state to ensure nondisruptive operations.
-* The NVIDIA MSN2100  storage switches must be configured and operating under the proper version of Cumulus Linux installed with the reference configuration file (RCF) applied.
+* The NVIDIA SN2100  storage switches must be configured and operating under the proper version of Cumulus Linux installed with the reference configuration file (RCF) applied.
 * The existing storage network configuration must have the following:
 ** A redundant and fully functional NetApp cluster using both older Cisco switches.
 ** Management connectivity and console access to both the older Cisco switches and the new switches.
 ** All cluster LIFs in the up state with the cluster LIfs are on their home ports.
 ** ISL ports enabled and cabled between the older Cisco switches and between the new switches.
 * See the https://hwu.netapp.com/[Hardware Universe^] for full details of supported ports and their configurations.
-* You have configured some of the ports on NVIDIA MSN2100 switches to run at 40 GbE or 100 GbE.
-* You have planned, migrated, and documented 40 GbE and 100 GbE connectivity from nodes to NVIDIA MSN2100 storage switches.
+* You have configured some of the ports on NVIDIA SN2100 switches to run at 100 GbE.
+* You have planned, migrated, and documented 100 GbE connectivity from nodes to NVIDIA SN2100 storage switches.
 +
 NOTE: In this procedure, Cisco Nexus 9336C-FX2 storage switches are used for example commands and outputs.
 
@@ -38,7 +38,7 @@ NOTE: In this procedure, Cisco Nexus 9336C-FX2 storage switches are used for exa
 The examples in this procedure use the following switch and node nomenclature:
 
 * The existing Cisco Nexus 9336C-FX2 storage switches are _S1_ and _S2_.
-* The new NVIDIA MSN2100 storage switches are _sw1_ and _sw2_.
+* The new NVIDIA SN2100 storage switches are _sw1_ and _sw2_.
 * The nodes are _node1_ and _node2_.
 * The cluster LIFs are node1_clus1 and node1_clus2 on node 1, and node2_clus1 and node2_clus2 on node 2 respectively.
 //* The `cluster1::*>` prompt indicates the name of the cluster.
@@ -67,21 +67,20 @@ Display the network port attributes: `storage port show`
 +
 [subs=+quotes]
 ----
-storage::*> *st port show*
-(storage port show)
+storage::*> *storage port show*
                                   Speed                     VLAN
 Node           Port Type  Mode    (Gb/s) State    Status      ID
 -------------- ---- ----- ------- ------ -------- --------- ----
 node1
-               e0c  ENET   storage   0   enabled  offline     30
-               e0d  ENET  storage  100   enabled  online      30
-               e5a  ENET  storage    0   enabled  offline     30
-               e5b  ENET  storage  100   enabled  online      30
+               e0c  ENET  storage  100   enabled  online      30
+               e0d  ENET  storage    0   enabled  offline     30
+               e5a  ENET  storage  100   enabled  online      30
+               e5b  ENET  storage    0   enabled  offline     30
 node2
-               e0c  ENET  storage    0   enabled  offline     30
-               e0d  ENET  storage  100   enabled  online      30
-               e5a  ENET  storage    0   enabled  offline     30
-               e5b  ENET  storage  100   enabled  online      30
+               e0c  ENET  storage  100   enabled  online      30
+               e0d  ENET  storage    0   enabled  offline     30
+               e5a  ENET  storage  100   enabled  online      30
+               e5b  ENET  storage    0   enabled  offline     30
 storage::*>
 ----
 
@@ -94,15 +93,14 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface       Platform
 ----------- ------ ------------------------- --------------  ----------------
 node1      /lldp
-            e0d    S1                        Eth1/1          N9K-C9336C-FX2
+            e0c    S1                        Eth1/1          N9K-C9336C-FX2
             e5b    S2                        Eth1/1          N9K-C9336C-FX2
 node2      /lldp
-            e0d    S1                        Eth1/2          N9K-C9336C-FX2
+            e0c    S1                        Eth1/2          N9K-C9336C-FX2
             e5b    S2                        Eth1/2          N9K-C9336C-FX2
-
 ----
 
-. The storage ports and switches are connected in the following way (from the switches' perspective) using the command: `show lldp neighbors`
+. On switch S1 and S2, the storage ports and switches are connected in the following way (from the switches' perspective) using the command: `show lldp neighbors`
 +
 [subs=+quotes]
 ----
@@ -112,10 +110,12 @@ Capability Codes: (R) Router, (B) Bridge, (T) Telephone, (C) DOCSIS Cable Device
                   (W) WLAN Access Point, (P) Repeater, (S) Station (O) Other
 
 Device-ID             Local Intf     Holdtime    Capability           Port ID
-node1                 Eth1/11        121         S                    e0d
-node2                 Eth1/12        121         S                    e0d
-S2                    Eth1/33        121         S                    e0c
-S2                    Eth1/34        121         S                    e0c
+node1                 Eth1/11        121         S                    e0c
+node2                 Eth1/12        121         S                    e0c
+SHFGD1947000186       Eth1/10        120         S                    e0a         
+SHFGD1947000186       Eth1/11        120         S                    e0a         
+SHFGB2017000269       Eth1/12        120         S                    e0a         
+SHFGB2017000269       Eth1/13        120         S                    e0a
 
 S2# *show lldp neighbors*
 
@@ -125,39 +125,10 @@ Capability Codes: (R) Router, (B) Bridge, (T) Telephone, (C) DOCSIS Cable Device
 Device-ID             Local Intf     Holdtime    Capability           Port ID
 node1                 Eth1/11         121         S                    e5b
 node2                 Eth1/12         121         S                    e5b
-S1                    Eth1/33         121         S                    e5a
-S1                    Eth1/34         121         S                    e5a
-----
-
-. Ensure that the network has full connectivity using the command: `cluster ping-cluster -node node-name`
-+
-[subs=+quotes]
-----
-storage::*> *cluster ping-cluster -node node2*
-
-Host is node2
-Getting addresses from network interface table...
-Cluster node1_clus1 169.254.209.69 node1     e3a
-Cluster node1_clus2 169.254.49.125 node1     e3b
-Cluster node2_clus1 169.254.47.194 node2     e3a
-Cluster node2_clus2 169.254.19.183 node2     e3b
-Local = 169.254.47.194 169.254.19.183
-Remote = 169.254.209.69 169.254.49.125
-Cluster Vserver Id = 4294967293
-Ping status:
-....
-Basic connectivity succeeds on 4 path(s)
-Basic connectivity fails on 0 path(s)
-................
-Detected 9000 byte MTU on 4 path(s):
-    Local 169.254.19.183 to Remote 169.254.209.69
-    Local 169.254.19.183 to Remote 169.254.49.125
-    Local 169.254.47.194 to Remote 169.254.209.69
-    Local 169.254.47.194 to Remote 169.254.49.125
-Larger than PMTU communication succeeds on 4 path(s)
-RPC status:
-2 paths up, 0 paths down (tcp check)
-2 paths up, 0 paths down (udp check)
+SHFGD1947000186       Eth1/10         120         S                    e0b         
+SHFGD1947000186       Eth1/11         120         S                    e0b         
+SHFGB2017000269       Eth1/12         120         S                    e0b         
+SHFGB2017000269       Eth1/13         120         S                    e0b
 ----
 
 . On switch sw2, shut down the ports connected to the storage ports and nodes of the disk shelves.
@@ -169,7 +140,17 @@ cumulus@sw2:~$ *net pending*
 cumulus@sw2:~$ *net commit*
 ----
 
-. Move the node storage ports of the controller and disk shelves from the old switch S2 to the new switch sw2, using appropriate cabling supported by NVIDIA MSN2100.
+. Move the node storage ports of the controller and disk shelves from the old switch S2 to the new switch sw2, using appropriate cabling supported by NVIDIA SN2100.
+
+. On switch sw2, bring up the ports connected to the storage ports of the nodes and the disk shelves.
++
+[subs=+quotes]
+----
+cumulus@sw2:~$ *net del interface swp1-16 link down*
+cumulus@sw2:~$ *net pending*
+cumulus@sw2:~$ *net commit*
+----
+
 . The storage ports on each node are now connected to the switches in the following way, from  the nodes' perspective:
 +
 [subs=+quotes]
@@ -180,60 +161,74 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface      Platform
 ----------- ------ ------------------------- -------------  ----------------
 node1      /lldp
-            e0d    S1                        Eth1/11        N9K-C9336C-FX2
-            e5b    sw2                       swp1           MSN2100-CB2RC
+            e0c    S1                        Eth1/11        N9K-C9336C-FX2
+            e5b    sw2 (00:a0:98:fd:6e:54)   swp1           MSN2100-CB2RC
 
 node2      /lldp
-            e0d    S1                        Eth1/12        N9K-C9336C-FX2
-            e5b    sw2                       swp2           MSNN2100-CB2RC
+            e0c    S1                        Eth1/12        N9K-C9336C-FX2
+            e5b    sw2 (b8:ce:f6:19:1a:7e)   swp2           MSN2100-CB2RC
 ----
-. Verify that all node storage ports are up:
+
+. Verify the network port attributes: `storage port show`
 +
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:~$ *net show interface*
-
-State  Name         Spd   MTU    Mode        LLDP                    Summary
------  -----------  ----  -----  ----------  ----------------------  -----------------------
-UP     lo           N/A   65536  Loopback                            IP: 127.0.0.1/8
-       lo                                                            IP: ::1/128
-UP     eth0         100M  1500   Mgmt        RTP-LF01(Eth104/1/35)   Master: mgmt(UP)
-       eth0                                                          IP: 10.231.80.190/22
-...
-...
-...
-UP     swp13        N/A   9216   Trunk/L2                            Master: bridge(UP)
-UP     swp14        N/A   9216   Trunk/L2                            Master: bridge(UP)
-UP     swp15        100G  9216   BondMember  cs05 (swp15)            Master: cluster_isl(UP)
-UP     swp16        100G  9216   BondMember  cs06 (swp16)            Master: cluster_isl(UP)
+storage::*> *storage port show*
+                                  Speed                     VLAN
+Node           Port Type  Mode    (Gb/s) State    Status      ID
+-------------- ---- ----- ------- ------ -------- --------- ----
+node1
+               e0c  ENET  storage  100   enabled  online      30
+               e0d  ENET  storage    0   enabled  offline     30
+               e5a  ENET  storage  100   enabled  online      30
+               e5b  ENET  storage    0   enabled  offline     30
+node2
+               e0c  ENET  storage  100   enabled  online      30
+               e0d  ENET  storage    0   enabled  offline     30
+               e5a  ENET  storage  100   enabled  online      30
+               e5b  ENET  storage    0   enabled  offline     30
+storage::*>
 ----
-
-. On switch sw2, bring up the ports connected to the storage ports of the nodes and the disk shelves.
+. On switch sw2, verify that all node storage ports are up:
 +
 [subs=+quotes]
 ----
-cumulus@sw2:~$ net del interface swp1-16 link down
-cumulus@sw2:~$ net pending
-cumulus@sw2:~$ net commit
+cumulus@sw2:~$ *net show interface*
+
+State  Name    Spd   MTU    Mode        LLDP                    Summary
+-----  ------  ----  -----  ----------  ----------------------  --------------------
+...
+...
+...
+UP     swp1    100G  9216   Trunk/L2   node1 (e0c)               Master: bridge(UP)
+UP     swp2    100G  9216   Trunk/L2   node2 (e0c)               Master: bridge(UP)
+UP     swp3    100G  9216   Trunk/L2   SHFFG1826000112 (e0a)     Master: bridge(UP)
+UP     swp4    100G  9216   Trunk/L2   SHFFG1826000112 (e0a)     Master: bridge(UP)
+UP     swp5    100G  9216   Trunk/L2   SHFFG1826000102 (e0a)     Master: bridge(UP)
+UP     swp6    100G  9216   Trunk/L2   SHFFG1826000102 (e0a)     Master: bridge(UP))
+...
+...
+...
 ----
+
 . On switch sw1, shut down the ports connected to the storage ports of the nodes and the disk shelves.
 +
 [subs=+quotes]
 ----
-cumulus@sw1:~$ net add interface swp1-16 link down
-cumulus@sw1:~$ net pending
-cumulus@sw1:~$ net commit
+cumulus@sw1:~$ *net add interface swp1-16 link down*
+cumulus@sw1:~$ *net pending*
+cumulus@sw1:~$ *net commit*
 ----
 
-. Move the node storage ports of the controller and the disk shelves from the old switch S1 to the new switch sw1, using appropriate cabling supported by NVIDIA MSN2100.
+. Move the node storage ports of the controller and the disk shelves from the old switch S1 to the new switch sw1, using appropriate cabling supported by NVIDIA SN2100.
 
 . On switch sw1, bring up the ports connected to the storage ports of the nodes and the disk shelves.
 +
 [subs=+quotes]
 ----
-cumulus@sw1:~$ net del interface swp1-16 link down
-cumulus@sw1:~$ net pending
-cumulus@sw1:~$ net commit
+cumulus@sw1:~$ *net del interface swp1-16 link down*
+cumulus@sw1:~$ *net pending*
+cumulus@sw1:~$ *net commit*
 ----
 
 . The storage ports on each node are now connected to the switches in the following way, from the nodes' perspective:
@@ -243,16 +238,15 @@ cumulus@sw1:~$ net commit
 storage::*> *net device-discovery show -protocol lldp*
 
 Node/       Local  Discovered
-Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
------------ ------ ------------------------- ----------------  ----------------
+Protocol    Port   Device (LLDP: ChassisID)  Interface       Platform
+----------- ------ ------------------------- --------------  ----------------
 node1      /lldp
-            e0d    sw1                       swp1             MSN2100-CB2RC
-            e5b    sw2                       swp1             MSN2100-CB2RC
+            e0c    sw1 (b8:ce:f6:19:1a:7e)   swp1            MSN2100-CB2RC
+            e5b    sw2 (b8:ce:f6:19:1a:7e)   swp1            MSN2100-CB2RC
 
 node2      /lldp
-            e0d    sw1                       swp2             MSN2100-CB2RC
-            e5b    sw2                       swp2             MSNN2100-CB2RC
-
+            e0c    sw1  (b8:ce:f6:19:1b:96)  swp2           MSN2100-CB2RC
+            e5b    sw2  (b8:ce:f6:19:1b:96)  swp2           MSN2100-CB2RC
 ----
 
 . Verify the final configuration: `storage port show`
@@ -262,20 +256,20 @@ Each port should display enabled for `State` and enbled for `Status`.
 [subs=+quotes]
 ----
 storage::*> *storage port show*
-  (storage port show)
-
-                               Speed                     VLAN
-Node        Port Type  Mode    (Gb/s) State    Status      ID
------------ ---- ----- ------- ------ -------- --------- ----
-node1       e0c  ENET  storage     0  enabled  offline     30
-            e0d  ENET  storage   100  enabled  online      30
-            e5a  ENET  storage     0  enabled  offline     30
-            e5b  ENET  storage   100  enabled  online      30
+                                  Speed                     VLAN
+Node           Port Type  Mode    (Gb/s) State    Status      ID
+-------------- ---- ----- ------- ------ -------- --------- ----
+node1
+               e0c  ENET  storage  100   enabled  online      30
+               e0d  ENET  storage    0   enabled  offline     30
+               e5a  ENET  storage  100   enabled  online      30
+               e5b  ENET  storage    0   enabled  offline     30
 node2
-            e0c  ENET  storage     0  enabled  offline     30
-            e0d  ENET  storage   100  enabled  online      30
-            e5a  ENET  storage     0  enabled  offline     30
-            e5b  ENET  storage   100  enabled  online      30
+               e0c  ENET  storage  100   enabled  online      30
+               e0d  ENET  storage    0   enabled  offline     30
+               e5a  ENET  storage  100   enabled  online      30
+               e5b  ENET  storage    0   enabled  offline     30
+storage::*>
 ----
 
 . Verify that both nodes each have one connection to each switch: `net show lldp`
@@ -284,27 +278,29 @@ The following example shows the appropriate results for both switches:
 +
 [subs=+quotes]
 ----
-S1# *show lldp neighbors*
+cumulus@sw1:~$ *net show lldp*
+LocalPort  Speed  Mode      RemoteHost             RemotePort
+---------  -----  --------  ---------------------  -----------
+...
+...
+swp1       100G   Trunk/L2  node1                  e0c
+swp2       100G   Trunk/L2  node2                  e0c
+swp3       100G   Trunk/L2  SHFFG1826000112        e0a
+swp4       100G   Trunk/L2  SHFFG1826000112        e0a
+swp5       100G   Trunk/L2  SHFFG1826000102        e0a
+swp6       100G   Trunk/L2  SHFFG1826000102        e0a
 
-Capability Codes: (R) Router, (B) Bridge, (T) Telephone, (C) DOCSIS Cable Device,
-                  (W) WLAN Access Point, (P) Repeater, (S) Station (O) Other
-
-Device-ID             Local Intf     Holdtime    Capability           Port ID
-node1                 Eth1/11         121         S                    e5b
-node2                 Eth1/12         121         S                    e5b
-S2                    Eth1/33         121         S                    e5a
-S2                    Eth1/34         121         S                    e5a
-
-S2# *show lldp neighbors*
-
-Capability Codes: (R) Router, (B) Bridge, (T) Telephone, (C) DOCSIS Cable Device,
-                  (W) WLAN Access Point, (P) Repeater, (S) Station (O) Other
-
-Device-ID             Local Intf     Holdtime    Capability           Port ID
-node1                 Eth1/11         121         S                    e5b
-node2                 Eth1/12         121         S                    e5b
-S1                    Eth1/33         121         S                    e5a
-S1                    Eth1/34         121         S                    e5a
+cumulus@sw2:~$ *net show lldp*
+LocalPort  Speed  Mode      RemoteHost             RemotePort
+---------  -----  --------  ---------------------  -----------
+...
+...
+swp1       100G   Trunk/L2  node1                  e0d
+swp2       100G   Trunk/L2  node2                  e0d
+swp3       100G   Trunk/L2  SHFFG1826000112        e0b
+swp4       100G   Trunk/L2  SHFFG1826000112        e0b
+swp5       100G   Trunk/L2  SHFFG1826000102        e0b
+swp6       100G   Trunk/L2  SHFFG1826000102        e0b
 ----
 //. Enable auto-revert on the cluster LIFs: `cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert True`
 
@@ -312,6 +308,8 @@ S1                    Eth1/34         121         S                    e5a
 . Enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the two commands: `system switch ethernet log setup-password` and `system switch ethernet log enable-collection`
 +
 Enter: `system switch ethernet log setup-password`
++
+*Is using cluster1 here ok for storage*
 +
 [subs=+quotes]
 ----

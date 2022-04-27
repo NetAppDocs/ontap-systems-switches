@@ -1,15 +1,15 @@
 ---
 permalink: switch-nvidia-msn2100/migrate_cisco_msn2100_cluster_switch.html
 sidebar: sidebar
-keywords: migrating to a cluster with NVIDIA MSN2100 cluster switches, how to migrate
-summary: 'You can migrate nondisruptively older Cisco cluster switches for an ONTAP cluster to NVIDIA MSN2100 cluster network switches.'
+keywords: migrating to a cluster with NVIDIA MSN2100 SN2100 cluster switches, how to migrate
+summary: 'You can migrate nondisruptively older Cisco cluster switches for an ONTAP cluster to NVIDIA SN2100 cluster network switches.'
 ---
-= Migrate from a Cisco cluster switch to a NVIDIA MSN2100 cluster switch
+= Migrate from a Cisco cluster switch to a NVIDIA SN2100 cluster switch
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-You can migrate nondisruptively Cisco cluster switches for an ONTAP cluster to NVIDIA MSN2100 cluster switches. You must be aware of certain configuration information, port connections and cabling requirements when you are replacing some older Cisco cluster switches with NVIDIA MSN2100 cluster switches.
+You can migrate nondisruptively Cisco cluster switches for an ONTAP cluster to NVIDIA SN2100 cluster switches. You must be aware of certain configuration information, port connections and cabling requirements when you are replacing some older Cisco cluster switches with NVIDIA SN2100 cluster switches.
 
 The following Cisco cluster switches are supported:
 
@@ -20,19 +20,19 @@ The following Cisco cluster switches are supported:
 * Nexus 3132Q-V
 
 .Before you begin
-You can migrate nondisruptively older Cisco cluster switches for an ONTAP cluster to NVIDIA MSN2100 cluster switches.
+You can migrate nondisruptively older Cisco cluster switches for an ONTAP cluster to NVIDIA SN2100 cluster switches.
 
 * The existing cluster must be properly set up and functioning.
 * All cluster ports must be in the up state to ensure nondisruptive operations.
-* The NVIDIA MSN2100  cluster switches must be configured and operating under the proper version of Cumulus Linux installed with the reference configuration file (RCF) applied.
+* The NVIDIA SN2100 cluster switches must be configured and operating under the proper version of Cumulus Linux installed with the reference configuration file (RCF) applied.
 * The existing cluster network configuration must have the following:
 ** A redundant and fully functional NetApp cluster using both older Cisco switches.
 ** Management connectivity and console access to both the older Cisco switches and the new switches.
 ** All cluster LIFs in the up state with the cluster LIfs are on their home ports.
 ** ISL ports enabled and cabled between the older Cisco switches and between the new switches.
 * See the https://hwu.netapp.com/[Hardware Universe^] for full details of supported ports and their configurations.
-* You have configured some of the ports on NVIDIA MSN2100 switches to run at 40 GbE or 100 GbE.
-* You have planned, migrated, and documented 40 GbE and 100 GbE connectivity from nodes to NVIDIA MSN2100 cluster switches.
+* You have configured some of the ports on NVIDIA SN2100 switches to run at 40 GbE or 100 GbE.
+* You have planned, migrated, and documented 40 GbE and 100 GbE connectivity from nodes to NVIDIA SN2100 cluster switches.
 +
 NOTE: In this procedure, Cisco Nexus 3232C cluster switches are used for example commands and outputs.
 
@@ -40,7 +40,7 @@ NOTE: In this procedure, Cisco Nexus 3232C cluster switches are used for example
 The examples in this procedure use the following switch and node nomenclature:
 
 * The existing Cisco Nexus 3232C cluster switches are _c1_ and _c2_.
-* The new NVIDIA MSN2100 cluster switches are _sw1_ and _sw2_.
+* The new NVIDIA SN2100 cluster switches are _sw1_ and _sw2_.
 * The nodes are _node1_ and _node2_.
 * The cluster LIFs are node1_clus1 and node1_clus2 on node 1, and node2_clus1 and node2_clus2 on node 2 respectively.
 * The `cluster1::*>` prompt indicates the name of the cluster.
@@ -210,7 +210,7 @@ Enter configuration commands, one per line. End with CNTL/Z.
 (cs2)#
 ----
 
-. Move the node cluster ports from the old switch c2 to the new switch sw2, using appropriate cabling supported by NVIDIA MSN2100.
+. Move the node cluster ports from the old switch c2 to the new switch sw2, using appropriate cabling supported by NVIDIA SN2100.
 . The cluster ports on each node are now connected to cluster switches in the following way, from the nodes' perspective:
 +
 [subs=+quotes]
@@ -247,7 +247,7 @@ UP     swp15        100G  9216   BondMember  sw1 (swp15)          Master: cluste
 UP     swp16        100G  9216   BondMember  sw1 (swp16)          Master: cluster_isl(UP)
 ----
 
-. Move the node cluster ports from the old switch c1 to the new switch sw1, using appropriate cabling supported by NVIDIA MSN2100.
+. Move the node cluster ports from the old switch c1 to the new switch sw1, using appropriate cabling supported by NVIDIA SN2100.
 
 . The cluster ports on each node are now connected to cluster switches in the following way, from the nodes' perspective:
 +

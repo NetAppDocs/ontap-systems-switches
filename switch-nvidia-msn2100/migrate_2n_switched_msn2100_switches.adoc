@@ -1,15 +1,15 @@
 ---
 permalink: switch-nvidia-msn2100/migrate_2n_switched_msn2100_switches.html
 sidebar: sidebar
-keywords: two-node switchless cluster environments,migrating to a two-node switched NVIDIA MSN2100 cluster environment,switchless cluster environments,NVIDIA MSN2100 switches
-summary: 'If you have an existing two-node switchless cluster environment, you can migrate to a two-node switched cluster environment using NVIDIA MSN2100 switches to enable you to scale beyond two nodes in the cluster.'
+keywords: two-node switchless cluster environments,migrating to a two-node switched NVIDIA SN2100 cluster environment,switchless cluster environments,NVIDIA MSN2100 SN2100 switches
+summary: 'If you have an existing two-node switchless cluster environment, you can migrate to a two-node switched cluster environment using NVIDIA SN2100 switches to enable you to scale beyond two nodes in the cluster.'
 ---
-= Migrate to a two-node switched cluster with NVIDIA MSN2100 cluster switches
+= Migrate to a two-node switched cluster with NVIDIA SN2100 cluster switches
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-You must be aware of certain configuration information, port connections, and cabling requirements when you migrate a two-node switchless cluster, non-disruptively, to a cluster with NVIDIA MSN2100 cluster switches. The procedure you use depends on whether you have two dedicated cluster-network ports on each controller or a single cluster port on each controller. The process documented works for all nodes using optical or Twinax ports but is not supported on this switch if nodes are using onboard 10Gb BASE-T RJ45 ports for the cluster-network ports.
+You must be aware of certain configuration information, port connections, and cabling requirements when you migrate a two-node switchless cluster, non-disruptively, to a cluster with NVIDIA SN2100 cluster switches. The procedure you use depends on whether you have two dedicated cluster-network ports on each controller or a single cluster port on each controller. The process documented works for all nodes using optical or Twinax ports but is not supported on this switch if nodes are using onboard 10Gb BASE-T RJ45 ports for the cluster-network ports.
 
 .Two-node switchless configuration
 
@@ -18,26 +18,26 @@ You must be aware of certain configuration information, port connections, and ca
 * All cluster ports must be in the up state.
 * All cluster logical interfaces (LIFs) must be in the up state and on their home ports.
 
-.NVIDIA MSN2100 cluster switch configuration
+.NVIDIA SN2100 cluster switch configuration
 
 * Both switches must have management network connectivity.
 * There must be console access to the cluster switches.
-* NVIDIA MSN2100 node-to-node switch and switch-to-switch connections must use Twinax or fiber cables.
+* NVIDIA SN2100 node-to-node switch and switch-to-switch connections must use Twinax or fiber cables.
 +
 IMPORTANT: When using breakout cables for 10G and 25G, make sure that auto-negotiation is off and hard set the port speed on the switch. See https://docs.netapp.com/us-en/ontap-systems-switches/switch-nvidia-msn2100/install_cabling_config_considerations_msn2100.html[Cabling and configuration considerations] for further details.
 +
 The https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches^] contains more information about cabling.
 
-* Inter-Switch Link (ISL) cables must be connected to ports swp15 and swp16 on both NVIDIA MSN2100 switches.
-* Initial customization of both the MSN2100 switches must be completed. So that the:
-** MSN2100 switches are running the latest version of Cumulus Linux
+* Inter-Switch Link (ISL) cables must be connected to ports swp15 and swp16 on both NVIDIA SN2100 switches.
+* Initial customization of both the SN2100 switches must be completed. So that the:
+** SN2100 switches are running the latest version of Cumulus Linux
 ** Reference Configuration Files (RCFs) have been applied to the switches
 ** Any site customization, such as SMTP, SNMP, and SSH must be configured on the new switches.
 
 .About this task
 The examples in this procedure use the following cluster switch and node nomenclature:
 
-* The names of the MSN2100 switches are _sw1_ and _sw2_.
+* The names of the SN2100 switches are _sw1_ and _sw2_.
 * The names of the cluster SVMs are _node1_ and _node2_.
 * The names of the LIFs are node1_clus1 and node1_clus2 on node 1, and node2_clus1 and node2_clus2 on node 2 respectively.
 * The `cluster1::*>` prompt indicates the name of the cluster.
@@ -73,7 +73,7 @@ cumulus@sw2:~$ *net pending*
 cumulus@sw2:~$ *net commit*
 ----
 
-. Verify that the ISL and the physical ports on the ISL between the two MSN2100 switches sw1 and sw2 are up on ports swp15 and swp16: `net show interface`
+. Verify that the ISL and the physical ports on the ISL between the two SN2100 switches sw1 and sw2 are up on ports swp15 and swp16: `net show interface`
 +
 The following example shows that the ISL ports are up on switch sw1:
 +
@@ -170,11 +170,11 @@ Cluster
 
 ----
 
-. Disconnect the cable from cluster port e3a on node1, and then connect e3a to port 1 on cluster switch sw1, using the appropriate cabling supported by the MSN2100 switches.
+. Disconnect the cable from cluster port e3a on node1, and then connect e3a to port 1 on cluster switch sw1, using the appropriate cabling supported by the SN2100 switches.
 +
 The https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches^] contains more information about cabling.
 
-. Disconnect the cable from cluster port e3a on node2, and then connect e3a to port 2 on cluster switch sw1, using the appropriate cabling supported by the MSN2100 switches.
+. Disconnect the cable from cluster port e3a on node2, and then connect e3a to port 2 on cluster switch sw1, using the appropriate cabling supported by the SN2100 switches.
 . Enable all node-facing ports on cluster switch sw1.
 +
 The following command enables all node-facing ports on switch sw1:
@@ -261,8 +261,8 @@ node2                true    true          false
 
 ----
 
-. Disconnect the cable from cluster port e3b on node1, and then connect e3b to port 1 on cluster switch sw2, using the appropriate cabling supported by the MSN2100 switches.
-. Disconnect the cable from cluster port e3b on node2, and then connect e3b to port 2 on cluster switch sw2, using the appropriate cabling supported by the MSN2100 switches.
+. Disconnect the cable from cluster port e3b on node1, and then connect e3b to port 1 on cluster switch sw2, using the appropriate cabling supported by the SN2100 switches.
+. Disconnect the cable from cluster port e3b on node2, and then connect e3b to port 2 on cluster switch sw2, using the appropriate cabling supported by the SN2100 switches.
 . Enable all node-facing ports on cluster switch sw2.
 +
 The following commands enable the node-facing ports on switch sw2:
