@@ -81,14 +81,13 @@ The following example shows that the ISL ports are up on switch sw1:
 ----
 cumulus@sw1:~$ *net show interface*
 
-State  Name         Spd   MTU    Mode        LLDP              Summary
------  -----------  ----  -----  ----------  ----------------  -----------------------
-UP     lo           N/A   65536  Loopback                      IP: 127.0.0.1/8
-       lo                                                      IP: ::1/128
+State  Name       Spd   MTU    Mode        LLDP         Summary
+-----  ---------  ----  -----  ----------  -----------  -----------------------
 ...
 ...
-UP     swp15        100G  9216   BondMember  sw2 (swp15)       Master: cluster_isl(UP)
-UP     swp16        100G  9216   BondMember  sw2 (swp16)       Master: cluster_isl(UP)
+...
+UP     swp15      100G  9216   BondMember  sw2 (swp15)  Master: cluster_isl(UP)
+UP     swp16      100G  9216   BondMember  sw2 (swp16)  Master: cluster_isl(UP)
 ----
 +
 The following example shows that the ISL ports are up on switch sw2:
@@ -97,14 +96,13 @@ The following example shows that the ISL ports are up on switch sw2:
 ----
 cumulus@sw2:~$ *net show interface*
 
-State  Name         Spd   MTU    Mode        LLDP                Summary
------  -----------  ----  -----  ----------  ------------------  -----------------------
-UP     lo           N/A   65536  Loopback                        IP: 127.0.0.1/8
-       lo                                                        IP: ::1/128
+State  Name       Spd   MTU    Mode        LLDP         Summary
+-----  ---------  ----  -----  ----------  -----------  -----------------------
 ...
 ...
-UP     swp15        100G  9216   BondMember  sw1 (swp15)         Master: cluster_isl(UP)
-UP     swp16        100G  9216   BondMember  sw1 (swp16)         Master: cluster_isl(UP)
+...
+UP     swp15      100G  9216   BondMember  sw1 (swp15)  Master: cluster_isl(UP)
+UP     swp16      100G  9216   BondMember  sw1 (swp16)  Master: cluster_isl(UP)
 ----
 
 . Verify that all cluster ports are up: `net port show`
