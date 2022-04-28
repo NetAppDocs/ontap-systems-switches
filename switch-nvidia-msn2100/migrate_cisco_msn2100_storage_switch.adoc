@@ -93,11 +93,11 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface       Platform
 ----------- ------ ------------------------- --------------  ----------------
 node1      /lldp
-            e0c    S1                        Eth1/1          N9K-C9336C-FX2
-            e5b    S2                        Eth1/1          N9K-C9336C-FX2
+            e0c    S1                        Eth1/11          N9K-C9336C-FX2
+            e5b    S2                        Eth1/12          N9K-C9336C-FX2
 node2      /lldp
-            e0c    S1                        Eth1/2          N9K-C9336C-FX2
-            e5b    S2                        Eth1/2          N9K-C9336C-FX2
+            e0c    S1                        Eth1/11          N9K-C9336C-FX2
+            e5b    S2                        Eth1/12          N9K-C9336C-FX2
 ----
 
 . On switch S1 and S2, the storage ports and switches are connected in the following way (from the switches' perspective) using the command: `show lldp neighbors`
@@ -162,7 +162,7 @@ Protocol    Port   Device (LLDP: ChassisID)  Interface      Platform
 ----------- ------ ------------------------- -------------  ----------------
 node1      /lldp
             e0c    S1                        Eth1/11        N9K-C9336C-FX2
-            e5b    sw2 (00:a0:98:fd:6e:54)   swp1           MSN2100-CB2RC
+            e5b    sw2 (b8:ce:f6:19:1a:7e)   swp1           MSN2100-CB2RC
 
 node2      /lldp
             e0c    S1                        Eth1/12        N9K-C9336C-FX2
@@ -241,12 +241,12 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface       Platform
 ----------- ------ ------------------------- --------------  ----------------
 node1      /lldp
-            e0c    sw1 (b8:ce:f6:19:1a:7e)   swp1            MSN2100-CB2RC
+            e0c    sw1 (b8:ce:f6:19:1b:96)   swp1            MSN2100-CB2RC
             e5b    sw2 (b8:ce:f6:19:1a:7e)   swp1            MSN2100-CB2RC
 
 node2      /lldp
-            e0c    sw1  (b8:ce:f6:19:1b:96)  swp2           MSN2100-CB2RC
-            e5b    sw2  (b8:ce:f6:19:1b:96)  swp2           MSN2100-CB2RC
+            e0c    sw1  (b8:ce:f6:19:1b:96)  swp2            MSN2100-CB2RC
+            e5b    sw2  (b8:ce:f6:19:1a:7e)  swp2            MSN2100-CB2RC
 ----
 
 . Verify the final configuration: `storage port show`
@@ -295,8 +295,8 @@ LocalPort  Speed  Mode      RemoteHost             RemotePort
 ---------  -----  --------  ---------------------  -----------
 ...
 ...
-swp1       100G   Trunk/L2  node1                  e0d
-swp2       100G   Trunk/L2  node2                  e0d
+swp1       100G   Trunk/L2  node1                  e5b
+swp2       100G   Trunk/L2  node2                  e5b
 swp3       100G   Trunk/L2  SHFFG1826000112        e0b
 swp4       100G   Trunk/L2  SHFFG1826000112        e0b
 swp5       100G   Trunk/L2  SHFFG1826000102        e0b
@@ -308,8 +308,6 @@ swp6       100G   Trunk/L2  SHFFG1826000102        e0b
 . Enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the two commands: `system switch ethernet log setup-password` and `system switch ethernet log enable-collection`
 +
 Enter: `system switch ethernet log setup-password`
-+
-*Is using cluster1 here ok for storage*
 +
 [subs=+quotes]
 ----

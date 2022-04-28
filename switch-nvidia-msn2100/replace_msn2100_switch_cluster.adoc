@@ -86,12 +86,11 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface     Platform
 ----------- ------ ------------------------- ------------  ----------------
 node1      /lldp
-            e3a    sw1                       swp3          MSN2100-CB2RC
-            e3b    sw2                       swp4          MSN2100-CB2RC
+            e3a    sw1 (b8:ce:f6:19:1a:7e)   swp3          MSN2100-CB2RC
+            e3b    sw2 (b8:ce:f6:19:1b:96)   swp4          MSN2100-CB2RC
 node2      /lldp
-            e3a    sw1                       swp3          MSN2100-CB2RC
-            e3b    sw2                       swp4          MSN2100-CB2RC
-
+            e3a    sw1 (b8:ce:f6:19:1a:7e)   swp3          MSN2100-CB2RC
+            e3b    sw2 (b8:ce:f6:19:1b:96)   swp4          MSN2100-CB2RC
 ----
 +
 [subs=+quotes]
@@ -114,7 +113,6 @@ swp3       100G   Trunk/L2    sw1                e3a
 swp4       100G   Trunk/L2    sw1                e3b
 swp15      100G   BondMember  sw1                swp15
 swp16      100G   BondMember  sw1                swp16
-
 ----
 
 .Steps
@@ -124,12 +122,12 @@ where _x_ is the duration of the maintenance window in hours.
 
 . Install the appropriate RCF and image on the switch, nsw2, and make any necessary site preparations.
 +
-If necessary, verify, download, and install the appropriate versions of the RCF and Cumulus software for the new switch. If you have verified that the new switch is correctly set up and does not need updates to the RCF and Cumulus software, continue to step 3. See https://docs.netapp.com/us-en/ontap-systems-switches/switch-nvidia-msn2100/install_setup_msn2100_switches_overview.html[Setup and configure NVIDIA MSN2100 switches].
+If necessary, verify, download, and install the appropriate versions of the RCF and Cumulus software for the new switch. If you have verified that the new switch is correctly set up and does not need updates to the RCF and Cumulus software, continue to step 3. See https://docs.netapp.com/us-en/ontap-systems-switches/switch-nvidia-msn2100/install_setup_msn2100_switches_overview.html[Setup and configure NVIDIA SN2100 switches].
 +
  .. You can download the applicable Cumulus software for your cluster switches from the _NVIDIA Support_ site. Follow the steps on the Download page to download the Cumulus Linux for the version of ONTAP software you are installing.
  .. The appropriate RCF is available from the _NVIDIA Cluster and Storage Switches_ page (*add link when available*). Follow the steps on the Download page to download the correct RCF for the version of ONTAP software you are installing.
 +
-. On the new switch, log in as admin and shut down all of the ports that will be connected to the node cluster interfaces (ports swp1 to swp14).
+. On the new switch nsw2, log in as admin and shut down all of the ports that will be connected to the node cluster interfaces (ports swp1 to swp14).
 +
 If the switch that you are replacing is not functional and is powered down, go to Step 4. The LIFs on the cluster nodes should have already failed over to the other cluster port for each node.
 +
@@ -172,7 +170,7 @@ RPC status:
 2 paths up, 0 paths down (udp check)
 ----
 
-. Shut down the ISL ports swp15 and swp16 on the MSN2100 switch sw1:
+. Shut down the ISL ports swp15 and swp16 on the SN2100 switch sw1:
 +
 [subs=+quotes]
 ----
@@ -199,9 +197,7 @@ The following example shows that the ISL ports are up on switch sw1:
 cumulus@sw1:~$ *net show interface*
 
 State  Name         Spd   MTU    Mode        LLDP             Summary
------  -----------  ----  -----  ----------  ---------------  -----------------------
-UP     lo           N/A   65536  Loopback                     IP: 127.0.0.1/8
-       lo                                                     IP: ::1/128
+-----  -----------  ----  -----  ----------  ---------------  ----------------------
 ...
 ...
 UP     swp15        100G  9216   BondMember  sw1 (swp15)     Master: cluster_isl(UP)
@@ -216,8 +212,6 @@ cumulus@nsw2:~$ *net show interface*
 
 State  Name         Spd   MTU    Mode        LLDP             Summary
 -----  -----------  ----  -----  ----------  ---------------  -----------------------
-UP     lo           N/A   65536  Loopback                     IP: 127.0.0.1/8
-       lo                                                     IP: ::1/128
 ...
 ...
 UP     swp15        100G  9216   BondMember  nsw2 (swp15)     Master: cluster_isl(UP)
@@ -233,7 +227,7 @@ The output should be similar to the following:
 cluster1::*> *net port show -ipspace Cluster*
 
 Node: node1
-                                                                                                                                                                     Ignore
+                                                                        Ignore
                                                    Speed(Mbps) Health   Health
 Port      IPspace      Broadcast Domain Link MTU   Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ----- ----------- -------- -------
@@ -248,7 +242,6 @@ Port      IPspace      Broadcast Domain Link MTU   Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ----- ----------- -------- -------
 e3a       Cluster      Cluster          up   9000  auto/10000  healthy  false
 e3b       Cluster      Cluster          up   9000  auto/auto   -        false
-
 ----
 
 . On the same node you used in the previous step, revert the cluster LIF associated with the port in the previous step by using the network interface revert command.
@@ -269,7 +262,6 @@ Cluster
             node1_clus2  up/up      169.254.49.125/16  node1      e3b     true
             node2_clus1  up/up      169.254.47.194/16  node2      e3a     true
             node2_clus2  up/up      169.254.19.183/16  node2      e3a     false
-
 ----
 
 . Display information about the nodes in a cluster: `cluster show`
@@ -351,7 +343,6 @@ swp3       100G   Trunk/L2    nsw2            e3a
 swp4       100G   Trunk/L2    nsw2            e3b
 swp15      100G   BondMember  nsw2            swp15
 swp16      100G   BondMember  nsw2            swp16
-
 ----
 
 . Enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the commands: `system switch ethernet log setup-password` and `system switch ethernet log enable-collection`

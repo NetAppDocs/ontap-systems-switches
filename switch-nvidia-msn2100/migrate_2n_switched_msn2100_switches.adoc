@@ -85,7 +85,6 @@ State  Name       Spd   MTU    Mode        LLDP         Summary
 -----  ---------  ----  -----  ----------  -----------  -----------------------
 ...
 ...
-...
 UP     swp15      100G  9216   BondMember  sw2 (swp15)  Master: cluster_isl(UP)
 UP     swp16      100G  9216   BondMember  sw2 (swp16)  Master: cluster_isl(UP)
 ----
@@ -98,7 +97,6 @@ cumulus@sw2:~$ *net show interface*
 
 State  Name       Spd   MTU    Mode        LLDP         Summary
 -----  ---------  ----  -----  ----------  -----------  -----------------------
-...
 ...
 ...
 UP     swp15      100G  9216   BondMember  sw1 (swp15)  Master: cluster_isl(UP)
@@ -267,9 +265,9 @@ The following commands enable the node-facing ports on switch sw2:
 +
 [subs=+quotes]
 ----
-cumulus@sw1:~$ *net del interface swp1s0-3, swp2s0-3, swp3-14 link down*
-cumulus@sw1:~$ *net pending*
-cumulus@sw1:~$ *net commit*
+cumulus@sw2:~$ *net del interface swp1s0-3, swp2s0-3, swp3-14 link down*
+cumulus@sw2:~$ *net pending*
+cumulus@sw2:~$ *net commit*
 ----
 
 . Verify that all cluster ports are up: `network port show -ipspace Cluster`
@@ -302,7 +300,7 @@ e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 +
 [subs=+quotes]
 ----
-cumulus@sw1:~$ *net show interface all*
+cumulus@sw2:~$ *net show interface all*
 
 State  Name      Spd   MTU    Mode       LLDP              Summary
 -----  --------- ----  -----  ---------- ----------------- --------
@@ -374,7 +372,7 @@ Cluster
 
 . Verify that both nodes each have one connection to each switch: `net show lldp`
 +
-The following example shows the appropriate results for both switches:
+The following example shows the appropriate results for both switches sw1 and sw2:
 +
 [subs=+quotes]
 ----
@@ -406,12 +404,11 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface     Platform
 ----------- ------ ------------------------- ------------  ----------------
 node1      /lldp
-            e3a    sw1                       swp3          MSN2100
-            e3b    sw2                       swp3          MSN2100
+            e3a    sw1 (b8:ce:f6:19:1a:7e)   swp3          MSN2100-CB2RC
+            e3b    sw2 (b8:ce:f6:19:1b:96)   swp3          MSN2100-CB2RC
 node2      /lldp
-            e3a    sw1                       swp4          MSN2100
-            e3b    sw2                       swp4          MSN2100
-
+            e3a    sw1 (b8:ce:f6:19:1a:7e)   swp4          MSN2100-CB2RC
+            e3b    sw2 (b8:ce:f6:19:1b:96)   swp4          MSN2100-CB2RC
 ----
 
 . Verify that the settings are disabled: `network options switchless-cluster show`
