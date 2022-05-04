@@ -49,26 +49,26 @@ NOTE: The following procedure is based on the following cluster network topology
 
 [subs=+quotes]
 ----
-cluster1::*> *net port show -ipspace Cluster*
+cluster1::*> *network port show -ipspace Cluster*
 
 Node: node1
-                                                                       Ignore
-                                                  Speed(Mbps) Health   Health
-Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
---------- ------------ ---------------- ---- ---- ----------- -------- ------
-e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+                                                                        Ignore
+                                                  Speed(Mbps)  Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper   Status   Status
+--------- ------------ ---------------- ---- ---- ------------ -------- ------
+e3a       Cluster      Cluster          up   9000  auto/100000 healthy  false
+e3b       Cluster      Cluster          up   9000  auto/100000 healthy  false
 
 Node: node2
-                                                                       Ignore
-                                                  Speed(Mbps) Health   Health
-Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
---------- ------------ ---------------- ---- ---- ----------- -------- ------
-e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+                                                                        Ignore
+                                                  Speed(Mbps)  Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper   Status   Status
+--------- ------------ ---------------- ---- ---- ------------ -------- ------
+e3a       Cluster      Cluster          up   9000  auto/100000 healthy  false
+e3b       Cluster      Cluster          up   9000  auto/100000 healthy  false
 
 
-cluster1::*> *net interface show -vserver Cluster*
+cluster1::*> *network interface show -vserver Cluster*
 
             Logical    Status     Network            Current       Current Is
 Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
@@ -78,19 +78,18 @@ Cluster
             node1_clus2  up/up    169.254.49.125/16  node1         e3b     true
             node2_clus1  up/up    169.254.47.194/16  node2         e3a     true
             node2_clus2  up/up    169.254.19.183/16  node2         e3b     true
-4 entries were displayed.
 
 
-cluster1::*> *net device-discovery show -protocol lldp*
+cluster1::*> *network device-discovery show -protocol lldp*
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface     Platform
 ----------- ------ ------------------------- ------------  ----------------
 node1      /lldp
-            e3a    sw1 (b8:ce:f6:19:1a:7e)   swp3          MSN2100-CB2RC
-            e3b    sw2 (b8:ce:f6:19:1b:96)   swp4          MSN2100-CB2RC
+            e3a    sw1 (b8:ce:f6:19:1a:7e)   swp3          -
+            e3b    sw2 (b8:ce:f6:19:1b:96)   swp3          -
 node2      /lldp
-            e3a    sw1 (b8:ce:f6:19:1a:7e)   swp3          MSN2100-CB2RC
-            e3b    sw2 (b8:ce:f6:19:1b:96)   swp4          MSN2100-CB2RC
+            e3a    sw1 (b8:ce:f6:19:1a:7e)   swp4          -
+            e3b    sw2 (b8:ce:f6:19:1b:96)   swp4          -
 ----
 +
 [subs=+quotes]
@@ -100,7 +99,7 @@ cumulus@sw1:~$ *net show lldp*
 LocalPort  Speed  Mode        RemoteHost         RemotePort
 ---------  -----  ----------  -----------------  -----------
 swp3       100G   Trunk/L2    sw2                e3a
-swp4       100G   Trunk/L2    sw2                e3b
+swp4       100G   Trunk/L2    sw2                e3a
 swp15      100G   BondMember  sw2                swp15
 swp16      100G   BondMember  sw2                swp16
 
@@ -109,7 +108,7 @@ cumulus@sw2:~$ *net show lldp*
 
 LocalPort  Speed  Mode        RemoteHost         RemotePort
 ---------  -----  ----------  -----------------  -----------
-swp3       100G   Trunk/L2    sw1                e3a
+swp3       100G   Trunk/L2    sw1                e3b
 swp4       100G   Trunk/L2    sw1                e3b
 swp15      100G   BondMember  sw1                swp15
 swp16      100G   BondMember  sw1                swp16
@@ -119,6 +118,10 @@ swp16      100G   BondMember  sw1                swp16
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=xh`
 +
 where _x_ is the duration of the maintenance window in hours.
+
+. Change the privilege level to advanced, entering *y* when prompted to continue: `set -privilege advanced`
++
+The advanced prompt (*>) appears.
 
 . Install the appropriate RCF and image on the switch, nsw2, and make any necessary site preparations.
 +
@@ -138,37 +141,17 @@ cumulus@nsw2:~$ *net pending*
 cumulus@nsw2:~$ *net commit*
 ----
 +
-. Verify that all cluster LIFs have auto-revert enabled: `net interface show -vserver Cluster -fields auto-revert`
-. Verify that all the cluster LIFs can communicate: `cluster ping-cluster`
+. Disable auto-revert on the cluster LIFs: `network interface modify -vserver Cluster -lif * -auto-revert false`
 +
 [subs=+quotes]
 ----
-cluster1::*> *cluster ping-cluster node1*
+cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert false*
 
-Host is node1
-Getting addresses from network interface table...
-Cluster node1_clus1 169.254.209.69 node1 e3a
-Cluster node1_clus2 169.254.49.125 node1 e3b
-Cluster node2_clus1 169.254.47.194 node2 e3a
-Cluster node2_clus2 169.254.19.183 node2 e3b
-Local = 169.254.47.194 169.254.19.183
-Remote = 169.254.209.69 169.254.49.125
-Cluster Vserver Id = 4294967293
-Ping status:
-....
-Basic connectivity succeeds on 4 path(s)
-Basic connectivity fails on 0 path(s)
-................
-Detected 9000 byte MTU on 4 path(s):
-Local 169.254.47.194 to Remote 169.254.209.69
-Local 169.254.47.194 to Remote 169.254.49.125
-Local 169.254.19.183 to Remote 169.254.209.69
-Local 169.254.19.183 to Remote 169.254.49.125
-Larger than PMTU communication succeeds on 4 path(s)
-RPC status:
-2 paths up, 0 paths down (tcp check)
-2 paths up, 0 paths down (udp check)
+Warning: Disabling the auto-revert feature of the cluster logical interface may effect the availability of your cluster network. Are you sure you want to continue? {y|n}: *y*
+
+4 entries were modified.
 ----
+//. Verify that all cluster LIFs have auto-revert enabled: `net interface show -vserver Cluster -fields auto-revert`
 
 . Shut down the ISL ports swp15 and swp16 on the SN2100 switch sw1:
 +
@@ -178,7 +161,7 @@ cumulus@sw1:~$ *net add interface swp15-16 link down*
 cumulus@sw1:~$ *net pending*
 cumulus@sw1:~$ *net commit*
 ----
-. Remove all the cables from the SN2100 sw2 switch, and then connect them to the same ports on the SN2100 nsw2 switch.
+. Remove all the cables from the SN2100 sw1 switch, and then connect them to the same ports on the SN2100 nsw2 switch.
 
 . Bring up the ISL ports swp15 and swp16 between the sw1 and nsw2 switches.
 +
@@ -200,8 +183,8 @@ State  Name         Spd   MTU    Mode        LLDP             Summary
 -----  -----------  ----  -----  ----------  ---------------  ----------------------
 ...
 ...
-UP     swp15        100G  9216   BondMember  sw1 (swp15)     Master: cluster_isl(UP)
-UP     swp16        100G  9216   BondMember  sw1 (swp16)     Master: cluster_isl(UP)
+UP     swp15        100G  9216   BondMember  nsw2 (swp15)     Master: cluster_isl(UP)
+UP     swp16        100G  9216   BondMember  nsw2 (swp16)     Master: cluster_isl(UP)
 ----
 +
 The following example shows that the ISL ports are up on switch nsw2:
@@ -214,54 +197,102 @@ State  Name         Spd   MTU    Mode        LLDP             Summary
 -----  -----------  ----  -----  ----------  ---------------  -----------------------
 ...
 ...
-UP     swp15        100G  9216   BondMember  nsw2 (swp15)     Master: cluster_isl(UP)
-UP     swp16        100G  9216   BondMember  nsw2 (swp16)     Master: cluster_isl(UP)
+UP     swp15        100G  9216   BondMember  sw1 (swp15)      Master: cluster_isl(UP)
+UP     swp16        100G  9216   BondMember  sw1 (swp16)      Master: cluster_isl(UP)
 ----
 
-. Verify that port `e3b` is up on all nodes: `network port show ipspace Cluster`
+. Verify that port `e3b` is up on all nodes: `network port show -ipspace Cluster`
 +
 The output should be similar to the following:
 +
 [subs=+quotes]
 ----
-cluster1::*> *net port show -ipspace Cluster*
+cluster1::*> *network port show -ipspace Cluster*
 
 Node: node1
-                                                                        Ignore
-                                                   Speed(Mbps) Health   Health
-Port      IPspace      Broadcast Domain Link MTU   Admin/Oper  Status   Status
---------- ------------ ---------------- ---- ----- ----------- -------- -------
-e3a       Cluster      Cluster          up   9000  auto/10000  healthy  false
-e3b       Cluster      Cluster          up   9000  auto/10000  healthy  false
+                                                                         Ignore
+                                                   Speed(Mbps)  Health   Health
+Port      IPspace      Broadcast Domain Link MTU   Admin/Oper   Status   Status
+--------- ------------ ---------------- ---- ----- ------------ -------- -------
+e3a       Cluster      Cluster          up   9000  auto/100000  healthy  false
+e3b       Cluster      Cluster          up   9000  auto/100000  healthy  false
 
 
 Node: node2
-                                                                        Ignore
-                                                   Speed(Mbps) Health   Health
-Port      IPspace      Broadcast Domain Link MTU   Admin/Oper  Status   Status
---------- ------------ ---------------- ---- ----- ----------- -------- -------
-e3a       Cluster      Cluster          up   9000  auto/10000  healthy  false
-e3b       Cluster      Cluster          up   9000  auto/auto   -        false
+                                                                         Ignore
+                                                   Speed(Mbps) Health    Health
+Port      IPspace      Broadcast Domain Link MTU   Admin/Oper  Status    Status
+--------- ------------ ---------------- ---- ----- ----------- --------- -------
+e3a       Cluster      Cluster          up   9000  auto/100000  healthy  false
+e3b       Cluster      Cluster          up   9000  auto/100000  healthy  false
 ----
-
-. On the same node you used in the previous step, revert the cluster LIF associated with the port in the previous step by using the network interface revert command.
-+
-In this example, LIF `node1_clus2` on `node1` is successfully reverted if the `Home` value is `true` and the port is `e3b`.
-+
-The following commands return LIF `node1_clus2` on `node1` to home port `e3a` and displays information about the LIFs on both nodes. Bringing up the first node is successful if the `Is Home` column is true for both cluster interfaces and they show the correct port assignments, in this example `e3a` and `e3b` on `node1`.
+. The cluster ports on each node are now connected to cluster switches in the following way, from the nodes' perspective:
 +
 [subs=+quotes]
 ----
-cluster1::*> *net interface show -vserver Cluster*
+cluster1::*> *network device-discovery show -protocol lldp*
+Node/       Local  Discovered
+Protocol    Port   Device (LLDP: ChassisID)  Interface     Platform
+----------- ------ ------------------------- ------------  ----------------
+node1      /lldp
+            e3a    sw1  (b8:ce:f6:19:1a:7e)   swp3          -
+            e3b    nsw2 (b8:ce:f6:19:1b:b6)   swp3          -
+node2      /lldp
+            e3a    sw1  (b8:ce:f6:19:1a:7e)   swp4          -
+            e3b    nsw2 (b8:ce:f6:19:1b:b6)   swp4          -
+----
 
-            Logical      Status     Network            Current    Current Is
-Vserver     Interface    Admin/Oper Address/Mask       Node       Port    Home
------------ ------------ ---------- ------------------ ---------- ------- -----
-Cluster
-            node1_clus1  up/up      169.254.209.69/16  node1      e3a     true
-            node1_clus2  up/up      169.254.49.125/16  node1      e3b     true
-            node2_clus1  up/up      169.254.47.194/16  node2      e3a     true
-            node2_clus2  up/up      169.254.19.183/16  node2      e3a     false
+. Verify that all node cluster ports are up: `net show interface`
++
+[subs=+quotes]
+----
+cumulus@nsw2:~$ *net show interface*
+
+State  Name         Spd   MTU    Mode        LLDP                Summary
+-----  -----------  ----  -----  ----------  ------------------- ----------------------
+...
+...
+UP     swp3         100G  9216   Trunk/L2                        Master: bridge(UP)
+UP     swp4         100G  9216   Trunk/L2                        Master: bridge(UP)
+UP     swp15        100G  9216   BondMember  sw1 (swp15)         Master: cluster_isl(UP)
+UP     swp16        100G  9216   BondMember  sw1 (swp16)         Master: cluster_isl(UP)
+----
+
+. Verify that both nodes each have one connection to each switch: `net show lldp`
++
+The following example shows the appropriate results for both switches:
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *net show lldp*
+
+LocalPort  Speed  Mode        RemoteHost         RemotePort
+---------  -----  ----------  -----------------  -----------
+swp3       100G   Trunk/L2    nsw2               e3a
+swp4       100G   Trunk/L2    nsw2               e3a
+swp15      100G   BondMember  nsw2               swp15
+swp16      100G   BondMember  nsw2               swp16
+
+
+cumulus@nsw2:~$ *net show lldp*
+
+LocalPort  Speed  Mode        RemoteHost         RemotePort
+---------  -----  ----------  -----------------  -----------
+swp3       100G   Trunk/L2    sw1                e3b
+swp4       100G   Trunk/L2    sw1                e3b
+swp15      100G   BondMember  sw1                swp15
+swp16      100G   BondMember  sw1                swp16
+----
+
+. Enable auto-revert on the cluster LIFs: `cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert True`
+
+. On switch nsw2, bring up the ports connected to the network ports of the nodes.
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *net del interface swp1-14 link down*
+cumulus@sw1:~$ *net pending*
+cumulus@sw1:~$ *net commit*
 ----
 
 . Display information about the nodes in a cluster: `cluster show`
@@ -288,47 +319,17 @@ Node node1                                                               Ignore
                                                     Speed(Mbps) Health   Health
 Port      IPspace     Broadcast Domain  Link  MTU   Admin/Oper  Status   Status
 --------- ----------- ----------------- ----- ----- ----------- -------- ------
-e3a       Cluster     Cluster           up    9000  auto/10000  healthy  false
-e3b       Cluster     Cluster           up    9000  auto/10000  healthy  false
+e3a       Cluster     Cluster           up    9000  auto/10000  healthy  true
+e3b       Cluster     Cluster           up    9000  auto/10000  healthy  true
 
 Node: node2
                                                                          Ignore
                                                     Speed(Mbps) Health   Health
 Port      IPspace      Broadcast Domain Link  MTU   Admin/Oper  Status   Status
 --------- ------------ ---------------- ----- ----- ----------- -------- ------
-e3a       Cluster      Cluster          up    9000  auto/10000  healthy  false
-e3b       Cluster      Cluster          up    9000  auto/10000  healthy  false
+e3a       Cluster      Cluster          up    9000  auto/10000  healthy  true
+e3b       Cluster      Cluster          up    9000  auto/10000  healthy  true
 
-----
-
-. Verify that all the cluster LIFs can communicate: `cluster ping-cluster`
-+
-[subs=+quotes]
-----
-cluster1::*> *cluster ping-cluster -node node2*
-Host is node2
-Getting addresses from network interface table...
-Cluster node1_clus1 169.254.209.69 node1 e3a
-Cluster node1_clus2 169.254.49.125 node1 e3b
-Cluster node2_clus1 169.254.47.194 node2 e3a
-Cluster node2_clus2 169.254.19.183 node2 e3b
-Local = 169.254.47.194 169.254.19.183
-Remote = 169.254.209.69 169.254.49.125
-Cluster Vserver Id = 4294967293
-Ping status:
-....
-Basic connectivity succeeds on 4 path(s)
-Basic connectivity fails on 0 path(s)
-................
-Detected 9000 byte MTU on 4 path(s):
-Local 169.254.47.194 to Remote 169.254.209.69
-Local 169.254.47.194 to Remote 169.254.49.125
-Local 169.254.19.183 to Remote 169.254.209.69
-Local 169.254.19.183 to Remote 169.254.49.125
-Larger than PMTU communication succeeds on 4 path(s)
-RPC status:
-2 paths up, 0 paths down (tcp check)
-2 paths up, 0 paths down (udp check)
 ----
 
 . Verify that the cluster network is healthy:
@@ -392,5 +393,22 @@ cluster1::*>
 ----
 +
 NOTE: If any of these commands return an error, contact NetApp support.
+
+. Initiate the switch log collection feature: `system switch ethernet log collect -device *`
++
+Wait for 10 minutes and then check that the log collection was successful using the command: `system switch ethernet log show`
++
+[subs=+quotes]
+----
+cluster1::*> system switch ethernet log show
+Log Collection Enabled: true
+
+Index  Switch                       Log Timestamp        Status
+------ ---------------------------- -------------------  ---------    
+1      sw1 (b8:ce:f6:19:1b:42)      4/29/2022 03:05:25   complete   
+2      sw2 (b8:ce:f6:19:1b:96)      4/29/2022 03:07:42   complete
+----
+
+. Change the privilege level back to admin: `set -privilege admin`
 
 . If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=END`
