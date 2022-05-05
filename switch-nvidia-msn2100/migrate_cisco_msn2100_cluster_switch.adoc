@@ -81,20 +81,20 @@ Each port should display up for `Link` and healthy for `Health Status`.
 cluster1::*> *net port show -ipspace Cluster*
 
 Node: node1
-                                                                         Ignore
-                                                 Speed(Mbps)    Health   Health
-Port      IPspace    Broadcast Domain Link MTU   Admin/Oper     Status   Status
---------- ---------- ---------------- ---- ----- -------------- -------- ------
-e3a       Cluster    Cluster          up   9000  100000/100000  healthy  false
-e3b       Cluster    Cluster          up   9000  100000/100000  healthy  false
+                                                                       Ignore
+                                                 Speed(Mbps)  Health   Health
+Port      IPspace    Broadcast Domain Link MTU   Admin/Oper   Status   Status
+--------- ---------- ---------------- ---- ----- ------------ -------- ------
+e3a       Cluster    Cluster          up   9000  auto/100000  healthy  false
+e3b       Cluster    Cluster          up   9000  auto/100000  healthy  false
 
 Node: node2
-                                                                         Ignore
-                                                 Speed(Mbps)    Health   Health
-Port      IPspace    Broadcast Domain Link MTU   Admin/Oper     Status   Status
---------- ---------- ---------------- ---- ----- -------------- -------- ------
-e3a       Cluster    Cluster          up   9000  100000/100000  healthy  false
-e3b       Cluster    Cluster          up   9000  100000/100000  healthy  false
+                                                                       Ignore
+                                                 Speed(Mbps)  Health   Health
+Port      IPspace    Broadcast Domain Link MTU   Admin/Oper   Status   Status
+--------- ---------- ---------------- ---- ----- ------------ -------- ------
+e3a       Cluster    Cluster          up   9000  auto/100000  healthy  false
+e3b       Cluster    Cluster          up   9000  auto/100000  healthy  false
 ----
 
 .. Display information about the logical interfaces and their designated home nodes: `net interface show -vserver Cluster`
@@ -125,14 +125,14 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
 node1      /lldp
-            e3a    c1                        Eth1/1            N3K-C3232C
-            e3b    c2                        Eth1/1            N3K-C3232C
+            e3a    c1 (6a:ad:4f:98:3b:3f)    Eth1/1            -
+            e3b    c2 (6a:ad:4f:98:4c:a4)    Eth1/1            -
 node2      /lldp
-            e3a    c1                        Eth1/2            N3K-C3232C
-            e3b    c2                        Eth1/2            N3K-C3232C
+            e3a    c1 (6a:ad:4f:98:3b:3f)    Eth1/2            -
+            e3b    c2 (6a:ad:4f:98:4c:a4)    Eth1/2            -
 ----
 
-. The cluster ports and switches are connected in the following way (from the switches' perspective) using the command: `show CDP neighbors`
+. The cluster ports and switches are connected in the following way (from the switches' perspective) using the command: `show cdp neighbors`
 +
 [subs=+quotes]
 ----
@@ -210,6 +210,30 @@ Enter configuration commands, one per line. End with CNTL/Z.
 ----
 
 . Move the node cluster ports from the old switch c2 to the new switch sw2, using appropriate cabling supported by NVIDIA SN2100.
+
+. Display the network port attributes: `net port show -ipspace Cluster`
++
+[subs=+quotes]
+----
+cluster1::*> *net port show -ipspace Cluster*
+
+Node: node1
+                                                                       Ignore
+                                                 Speed(Mbps)  Health   Health
+Port      IPspace    Broadcast Domain Link MTU   Admin/Oper   Status   Status
+--------- ---------- ---------------- ---- ----- ------------ -------- ------
+e3a       Cluster    Cluster          up   9000  auto/100000  healthy  true
+e3b       Cluster    Cluster          up   9000  auto/100000  healthy  true
+
+Node: node2
+                                                                       Ignore
+                                                 Speed(Mbps)  Health   Health
+Port      IPspace    Broadcast Domain Link MTU   Admin/Oper   Status   Status
+--------- ---------- ---------------- ---- ----- ------------ -------- ------
+e3a       Cluster    Cluster          up   9000  auto/100000  healthy  true
+e3b       Cluster    Cluster          up   9000  auto/100000  healthy  true
+----
+
 . The cluster ports on each node are now connected to cluster switches in the following way, from the nodes' perspective:
 +
 [subs=+quotes]
@@ -220,13 +244,13 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
 node1      /lldp
-            e3a    c1                        Eth1/1            N3K-C3232C
-            e3b    sw2 (b8:ce:f6:19:1a:7e)   swp3              MSN2100-CB2RC
+            e3a    c1  (6a:ad:4f:98:3b:3f)   Eth1/1            -
+            e3b    sw2 (b8:ce:f6:19:1a:7e)   swp3              -
 node2      /lldp
-            e3a    c1                        Eth1/2            N3K-C3232C
-            e3b    sw2 (b8:ce:f6:19:1b:96)   swp4              MSN2100-CB2RC
+            e3a    c1  (6a:ad:4f:98:3b:3f)   Eth1/2            -
+            e3b    sw2 (b8:ce:f6:19:1b:96)   swp4              -
 ----
-. Verify that all node cluster ports are up: `net show interface`
+. On switch sw2, verify that all node cluster ports are up: `net show interface`
 +
 [subs=+quotes]
 ----
@@ -237,8 +261,8 @@ State  Name         Spd   MTU    Mode        LLDP                Summary
 ...
 ...
 ...
-DN     swp13        N/A   9216   Trunk/L2                        Master: bridge(UP)
-DN     swp14        N/A   9216   Trunk/L2                        Master: bridge(UP)
+UP     swp3         100G  9216   Trunk/L2                        Master: bridge(UP)
+UP     swp4         100G  9216   Trunk/L2                        Master: bridge(UP)
 UP     swp15        100G  9216   BondMember  sw1 (swp15)         Master: cluster_isl(UP)
 UP     swp16        100G  9216   BondMember  sw1 (swp16)         Master: cluster_isl(UP)
 ----
@@ -255,11 +279,11 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface       Platform
 ----------- ------ ------------------------- --------------  ----------------
 node1      /lldp
-            e3a    sw1 (b8:ce:f6:19:1a:7e)   swp3            MSN2100-CB2RC
-            e3b    sw2 (b8:ce:f6:19:1b:96)   swp3            MSN2100-CB2RC
+            e3a    sw1 (b8:ce:f6:19:1a:7e)   swp3            -
+            e3b    sw2 (b8:ce:f6:19:1b:96)   swp3            -
 node2      /lldp
-            e3a    sw1 (b8:ce:f6:19:1a:7e)   swp4            MSN2100-CB2RC
-            e3b    sw2 (b8:ce:f6:19:1b:96)   swp4            MSN2100-CB2RC
+            e3a    sw1 (b8:ce:f6:19:1a:7e)   swp4            -
+            e3b    sw2 (b8:ce:f6:19:1b:96)   swp4            -
 ----
 
 . Verify the final configuration of the cluster: `net port show -ipspace Cluster`
@@ -271,20 +295,20 @@ Each port should display up for `Link` and healthy for `Health Status`.
 cluster1::*> *net port show -ipspace Cluster*
 
 Node: node1
-                                                                         Ignore
-                                                 Speed(Mbps)    Health   Health
-Port      IPspace    Broadcast Domain Link MTU   Admin/Oper     Status   Status
---------- ---------- ---------------- ---- ----- -------------- -------- ------
-e3a       Cluster    Cluster          up   9000  100000/100000  healthy  false
-e3b       Cluster    Cluster          up   9000  100000/100000  healthy  false
+                                                                       Ignore
+                                                 Speed(Mbps)  Health   Health
+Port      IPspace    Broadcast Domain Link MTU   Admin/Oper   Status   Status
+--------- ---------- ---------------- ---- ----- ------------ -------- ------
+e3a       Cluster    Cluster          up   9000  auto/100000  healthy  true
+e3b       Cluster    Cluster          up   9000  auto/100000  healthy  true
 
 Node: node2
-                                                                         Ignore
-                                                 Speed(Mbps)    Health   Health
-Port      IPspace    Broadcast Domain Link MTU   Admin/Oper     Status   Status
---------- ---------- ---------------- ---- ----- -------------- -------- ------
-e3a       Cluster    Cluster          up   9000  100000/100000  healthy  false
-e3b       Cluster    Cluster          up   9000  100000/100000  healthy  false
+                                                                       Ignore
+                                                 Speed(Mbps)  Health   Health
+Port      IPspace    Broadcast Domain Link MTU   Admin/Oper   Status   Status
+--------- ---------- ---------------- ---- ----- ------------ -------- ------
+e3a       Cluster    Cluster          up   9000  auto/100000  healthy  true
+e3b       Cluster    Cluster          up   9000  autp/100000  healthy  true
 
 
 cluster1::*> *net interface show -vserver Cluster*
@@ -305,11 +329,11 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface       Platform
 ----------- ------ ------------------------- --------------  ----------------
 node1      lldp
-            e3a    sw1 (b8:ce:f6:19:1a:7e)   swp3            MSN2100-CB2RC
-            e3b    sw2 (b8:ce:f6:19:1b:96)   swp3            MSN2100-CB2RC
+            e3a    sw1 (b8:ce:f6:19:1a:7e)   swp3            -
+            e3b    sw2 (b8:ce:f6:19:1b:96)   swp3            -
 node2      /lldp
-            e3a    sw1 (b8:ce:f6:19:1a:7e)   swp4            MSN2100-CB2RC
-            e3b    sw2 (b8:ce:f6:19:1b:96)   swp4            MSN2100-CB2RC
+            e3a    sw1 (b8:ce:f6:19:1a:7e)   swp4            -
+            e3b    sw2 (b8:ce:f6:19:1b:96)   swp4            -
 ----
 
 . Verify that both nodes each have one connection to each switch: `net show lldp`
@@ -386,5 +410,22 @@ cluster1::*>
 ----
 +
 NOTE: If any of these commands return an error, contact NetApp support.
+
+. Initiate the switch log collection feature: `system switch ethernet log collect -device *`
++
+Wait for 10 minutes and then check that the log collection was successful using the command: `system switch ethernet log show`
++
+[subs=+quotes]
+----
+cluster1::*> system switch ethernet log show
+Log Collection Enabled: true
+
+Index  Switch                       Log Timestamp        Status
+------ ---------------------------- -------------------  ---------    
+1      sw1 (b8:ce:f6:19:1b:42)      4/29/2022 03:05:25   complete   
+2      sw2 (b8:ce:f6:19:1b:96)      4/29/2022 03:07:42   complete
+----
+
+. Change the privilege level back to admin: `set -privilege admin`
 
 . If you suppressed automatic case creation, reenable it by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=END`

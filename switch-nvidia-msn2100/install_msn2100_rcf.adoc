@@ -36,7 +36,6 @@ State  Name   Spd  MTU    Mode         LLDP                          Summary
 -----  -----  ---  -----  -----------  -----------------------------  --------------
 ...
 ...
-...
 ADMDN  swp1   N/A  9216   NotConfigured
 ADMDN  swp2   N/A  9216   NotConfigured
 ADMDN  swp3   N/A  9216   NotConfigured
@@ -71,7 +70,6 @@ MSN2100-RCF-v1.8-Cluster                 100% 8607   111.2KB/s         00:00
 cumulus@cumulus:mgmt:/tmp$ *sudo python3 MSN2100-RCF-v1.8-Cluster*
 [sudo] password for cumulus:
 ...
-...
 ----
 +
 The RCF script completes the following steps:
@@ -93,34 +91,32 @@ The RCF script completes the following steps:
 ----
 cumulus@cumulus:mgmt:~$ *net show interface all*
 
-State  Name      Spd   MTU    Mode       LLDP                          Summary
------  --------- ----  -----  ---------- ----------------------------- --------
+State  Name      Spd   MTU    Mode       LLDP                 Summary
+-----  --------- ----  -----  ---------- -------------------- --------
 ...
 ...
-...
-DN     swp1s0    N/A   9216   Trunk/L2                                 Master: bridge(UP)
-DN     swp1s1    N/A   9216   Trunk/L2                                 Master: bridge(UP)
-DN     swp1s2    N/A   9216   Trunk/L2                                 Master: bridge(UP)
-DN     swp1s3    N/A   9216   Trunk/L2                                 Master: bridge(UP)
-DN     swp2s0    N/A   9216   Trunk/L2                                 Master: bridge(UP)
-DN     swp2s1    N/A   9216   Trunk/L2                                 Master: bridge(UP)
-DN     swp2s2    N/A   9216   Trunk/L2                                 Master: bridge(UP)
-DN     swp2s3    N/A   9216   Trunk/L2                                 Master: bridge(UP)
-UP     swp3      100G  9216   Trunk/L2    rtpnpi-a320-1a (e0d)         Master: bridge(UP)
-UP     swp4      100G  9216   Trunk/L2    rtpnpi-a320-1b (e0d)         Master: bridge(UP)
-DN     swp5      N/A   9216   Trunk/L2                                 Master: bridge(UP)
-DN     swp6      N/A   9216   Trunk/L2                                 Master: bridge(UP)
-DN     swp7      N/A   9216   Trunk/L2                                 Master: bridge(UP)
-DN     swp8      N/A   9216   Trunk/L2                                 Master: bridge(UP)
-DN     swp9      N/A   9216   Trunk/L2                                 Master: bridge(UP)
-DN     swp10     N/A   9216   Trunk/L2                                 Master: bridge(UP)
-DN     swp11     N/A   9216   Trunk/L2                                 Master: bridge(UP)
-DN     swp12     N/A   9216   Trunk/L2                                 Master: bridge(UP)
-DN     swp13     N/A   9216   Trunk/L2                                 Master: bridge(UP)
-DN     swp14     N/A   9216   Trunk/L2                                 Master: bridge(UP)
-UP     swp15     N/A   9216   BondMember  ossg-intergrity-rcf1 (swp15) Master: bond_15_16(UP)
-UP     swp16     N/A   9216   BondMember  ossg-intergrity-rcf1 (swp16) Master: bond_15_16(UP)
-...
+DN     swp1s0    N/A   9216   Trunk/L2                         Master: bridge(UP)
+DN     swp1s1    N/A   9216   Trunk/L2                         Master: bridge(UP)
+DN     swp1s2    N/A   9216   Trunk/L2                         Master: bridge(UP)
+DN     swp1s3    N/A   9216   Trunk/L2                         Master: bridge(UP)
+DN     swp2s0    N/A   9216   Trunk/L2                         Master: bridge(UP)
+DN     swp2s1    N/A   9216   Trunk/L2                         Master: bridge(UP)
+DN     swp2s2    N/A   9216   Trunk/L2                         Master: bridge(UP)
+DN     swp2s3    N/A   9216   Trunk/L2                         Master: bridge(UP)
+UP     swp3      100G  9216   Trunk/L2                         Master: bridge(UP)
+UP     swp4      100G  9216   Trunk/L2                         Master: bridge(UP)
+DN     swp5      N/A   9216   Trunk/L2                         Master: bridge(UP)
+DN     swp6      N/A   9216   Trunk/L2                         Master: bridge(UP)
+DN     swp7      N/A   9216   Trunk/L2                         Master: bridge(UP)
+DN     swp8      N/A   9216   Trunk/L2                         Master: bridge(UP)
+DN     swp9      N/A   9216   Trunk/L2                         Master: bridge(UP)
+DN     swp10     N/A   9216   Trunk/L2                         Master: bridge(UP)
+DN     swp11     N/A   9216   Trunk/L2                         Master: bridge(UP)
+DN     swp12     N/A   9216   Trunk/L2                         Master: bridge(UP)
+DN     swp13     N/A   9216   Trunk/L2                         Master: bridge(UP)
+DN     swp14     N/A   9216   Trunk/L2                         Master: bridge(UP)
+UP     swp15     N/A   9216   BondMember                       Master: bond_15_16(UP)
+UP     swp16     N/A   9216   BondMember                       Master: bond_15_16(UP)
 ...
 ...
 
@@ -173,14 +169,12 @@ swp16      0x11 (QSFP28)  Amphenol     112-00573        APF21109347895
 ----
 cumulus@cumulus:mgmt:~$ *net show lldp*
 
-LocalPort  Speed  Mode        RemoteHost                          RemotePort
----------  -----  ----------  ----------------------------------  -----------
-swp2s2     25G    Trunk/L2    level1-cs01                         e3a
-swp2s3     25G    Trunk/L2    level1-cs02                         e3a
-swp3       100G   Trunk/L2    affa400-cs01                        e3b
-swp4       100G   Trunk/L2    affa400-cs02                        e3b
-swp15      100G   BondMember  sn2100c-cs10                        swp15
-swp16      100G   BondMember  sn2100c-cs10                        swp16
+LocalPort  Speed  Mode        RemoteHost              RemotePort
+---------  -----  ----------  ----------------------  -----------
+swp3       100G   Trunk/L2    sw1                    e3a
+swp4       100G   Trunk/L2    sw2                    e3b
+swp15      100G   BondMember  sw13                    swp15
+swp16      100G   BondMember  sw14                    swp16
 ----
 . Verify the health of cluster ports on the cluster.
 .. Verify that e0d ports are up and healthy across all nodes in the cluster: `network port show -role cluster`
@@ -215,12 +209,12 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface Platform
 ----------- ------ ------------------------- --------- ----------
 node1/lldp
-            e3a    sw1 (b8:ce:f6:19:1a:7e)   swp3      MSN2100-CB2RC
-            e3b    sw2 (b8:ce:f6:19:1b:96)   swp3      MSN2100-CB2RC
+            e3a    sw1 (b8:ce:f6:19:1a:7e)   swp3      -
+            e3b    sw2 (b8:ce:f6:19:1b:96)   swp3      -
 
 node2/lldp
-            e3a    sw1 (b8:ce:f6:19:1a:7e)   swp4      MSN2100-CB2RC
-            e3b    sw2 (b8:ce:f6:19:1b:96)   swp4      MSN2100-CB2RC
+            e3a    sw1 (b8:ce:f6:19:1a:7e)   swp4      -
+            e3b    sw2 (b8:ce:f6:19:1b:96)   swp4      -
 
 
 cluster1::*> *system switch ethernet show -is-monitoring-enabled-operational true*
