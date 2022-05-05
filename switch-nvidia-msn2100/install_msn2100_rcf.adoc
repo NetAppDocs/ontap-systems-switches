@@ -32,8 +32,8 @@ NOTE: The following example procedure shows how to download and apply the RCF sc
 ----
 cumulus@cumulus:mgmt:~$ *net show interface all*
 
-State  Name   Spd  MTU    Mode         LLDP                          Summary
------  -----  ---  -----  -----------  -----------------------------  --------------
+State  Name   Spd  MTU    Mode         LLDP                Summary
+-----  -----  ---  -----  -----------  ------------------  --------------
 ...
 ...
 ADMDN  swp1   N/A  9216   NotConfigured
@@ -91,32 +91,32 @@ The RCF script completes the following steps:
 ----
 cumulus@cumulus:mgmt:~$ *net show interface all*
 
-State  Name      Spd   MTU    Mode       LLDP                 Summary
------  --------- ----  -----  ---------- -------------------- --------
+State  Name      Spd   MTU    Mode       LLDP              Summary
+-----  --------- ----  -----  ---------- ----------------- --------
 ...
 ...
-DN     swp1s0    N/A   9216   Trunk/L2                         Master: bridge(UP)
-DN     swp1s1    N/A   9216   Trunk/L2                         Master: bridge(UP)
-DN     swp1s2    N/A   9216   Trunk/L2                         Master: bridge(UP)
-DN     swp1s3    N/A   9216   Trunk/L2                         Master: bridge(UP)
-DN     swp2s0    N/A   9216   Trunk/L2                         Master: bridge(UP)
-DN     swp2s1    N/A   9216   Trunk/L2                         Master: bridge(UP)
-DN     swp2s2    N/A   9216   Trunk/L2                         Master: bridge(UP)
-DN     swp2s3    N/A   9216   Trunk/L2                         Master: bridge(UP)
-UP     swp3      100G  9216   Trunk/L2                         Master: bridge(UP)
-UP     swp4      100G  9216   Trunk/L2                         Master: bridge(UP)
-DN     swp5      N/A   9216   Trunk/L2                         Master: bridge(UP)
-DN     swp6      N/A   9216   Trunk/L2                         Master: bridge(UP)
-DN     swp7      N/A   9216   Trunk/L2                         Master: bridge(UP)
-DN     swp8      N/A   9216   Trunk/L2                         Master: bridge(UP)
-DN     swp9      N/A   9216   Trunk/L2                         Master: bridge(UP)
-DN     swp10     N/A   9216   Trunk/L2                         Master: bridge(UP)
-DN     swp11     N/A   9216   Trunk/L2                         Master: bridge(UP)
-DN     swp12     N/A   9216   Trunk/L2                         Master: bridge(UP)
-DN     swp13     N/A   9216   Trunk/L2                         Master: bridge(UP)
-DN     swp14     N/A   9216   Trunk/L2                         Master: bridge(UP)
-UP     swp15     N/A   9216   BondMember                       Master: bond_15_16(UP)
-UP     swp16     N/A   9216   BondMember                       Master: bond_15_16(UP)
+DN     swp1s0    N/A   9216   Trunk/L2                     Master: bridge(UP)
+DN     swp1s1    N/A   9216   Trunk/L2                     Master: bridge(UP)
+DN     swp1s2    N/A   9216   Trunk/L2                     Master: bridge(UP)
+DN     swp1s3    N/A   9216   Trunk/L2                     Master: bridge(UP)
+DN     swp2s0    N/A   9216   Trunk/L2                     Master: bridge(UP)
+DN     swp2s1    N/A   9216   Trunk/L2                     Master: bridge(UP)
+DN     swp2s2    N/A   9216   Trunk/L2                     Master: bridge(UP)
+DN     swp2s3    N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp3      100G  9216   Trunk/L2                     Master: bridge(UP)
+UP     swp4      100G  9216   Trunk/L2                     Master: bridge(UP)
+DN     swp5      N/A   9216   Trunk/L2                     Master: bridge(UP)
+DN     swp6      N/A   9216   Trunk/L2                     Master: bridge(UP)
+DN     swp7      N/A   9216   Trunk/L2                     Master: bridge(UP)
+DN     swp8      N/A   9216   Trunk/L2                     Master: bridge(UP)
+DN     swp9      N/A   9216   Trunk/L2                     Master: bridge(UP)
+DN     swp10     N/A   9216   Trunk/L2                     Master: bridge(UP)
+DN     swp11     N/A   9216   Trunk/L2                     Master: bridge(UP)
+DN     swp12     N/A   9216   Trunk/L2                     Master: bridge(UP)
+DN     swp13     N/A   9216   Trunk/L2                     Master: bridge(UP)
+DN     swp14     N/A   9216   Trunk/L2                     Master: bridge(UP)
+UP     swp15     N/A   9216   BondMember                   Master: bond_15_16(UP)
+UP     swp16     N/A   9216   BondMember                   Master: bond_15_16(UP)
 ...
 ...
 
@@ -171,8 +171,8 @@ cumulus@cumulus:mgmt:~$ *net show lldp*
 
 LocalPort  Speed  Mode        RemoteHost              RemotePort
 ---------  -----  ----------  ----------------------  -----------
-swp3       100G   Trunk/L2    sw1                    e3a
-swp4       100G   Trunk/L2    sw2                    e3b
+swp3       100G   Trunk/L2    sw1                     e3a
+swp4       100G   Trunk/L2    sw2                     e3b
 swp15      100G   BondMember  sw13                    swp15
 swp16      100G   BondMember  sw14                    swp16
 ----

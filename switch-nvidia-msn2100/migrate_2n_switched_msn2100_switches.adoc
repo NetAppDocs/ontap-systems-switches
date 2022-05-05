@@ -113,21 +113,21 @@ cluster1::*> *net port show*
 
 Node: node1
 
-                                                                       Ignore
-                                                  Speed(Mbps) Health   Health
-Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
---------- ------------ ---------------- ---- ---- ----------- -------- ------
-e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+                                                                        Ignore
+                                                  Speed(Mbps)  Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper   Status   Status
+--------- ------------ ---------------- ---- ---- ------------ -------- ------
+e3a       Cluster      Cluster          up   9000  auto/100000 healthy  false
+e3b       Cluster      Cluster          up   9000  auto/100000 healthy  false
 
 Node: node2
 
-                                                                       Ignore
-                                                  Speed(Mbps) Health   Health
-Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
---------- ------------ ---------------- ---- ---- ----------- -------- ------
-e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+                                                                        Ignore
+                                                  Speed(Mbps)  Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper   Status   Status
+--------- ------------ ---------------- ---- ---- ------------ -------- ------
+e3a       Cluster      Cluster          up   9000  auto/100000 healthy  false
+e3b       Cluster      Cluster          up   9000  auto/100000 healthy  false
 
 ----
 
@@ -191,20 +191,20 @@ The following example shows that all of the cluster ports are up on node1 and no
 cluster1::*> *network port show -ipspace Cluster*
 
 Node: node1
-                                                                       Ignore
-                                                  Speed(Mbps) Health   Health
-Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
---------- ------------ ---------------- ---- ---- ----------- -------- ------
-e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+                                                                        Ignore
+                                                  Speed(Mbps)  Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper   Status   Status
+--------- ------------ ---------------- ---- ---- ------------ -------- ------
+e3a       Cluster      Cluster          up   9000  auto/100000 healthy  false
+e3b       Cluster      Cluster          up   9000  auto/100000 healthy  false
 
 Node: node2
-                                                                       Ignore
-                                                  Speed(Mbps) Health   Health
-Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
---------- ------------ ---------------- ---- ---- ----------- -------- ------
-e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+                                                                        Ignore
+                                                  Speed(Mbps)  Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper   Status   Status
+--------- ------------ ---------------- ---- ---- ------------ -------- ------
+e3a       Cluster      Cluster          up   9000  auto/100000 healthy  false
+e3b       Cluster      Cluster          up   9000  auto/100000 healthy  false
 
 ----
 
@@ -216,7 +216,6 @@ cumulus@sw1:~$ *net show interface all*
 
 State  Name      Spd   MTU    Mode       LLDP              Summary
 -----  --------- ----  -----  ---------- ----------------- --------
-UP     lo        N/A   65536  Loopback                     IP: 127.0.0.1/8
 UP     swp1s0    N/A   9216   Trunk/L2                     Master: bridge(UP)
 UP     swp1s1    N/A   9216   Trunk/L2                     Master: bridge(UP)
 UP     swp1s2    N/A   9216   Trunk/L2                     Master: bridge(UP)
@@ -239,8 +238,6 @@ UP     swp13     N/A   9216   Trunk/L2                     Master: bridge(UP)
 UP     swp14     N/A   9216   Trunk/L2                     Master: bridge(UP)
 UP     swp15     N/A   9216   BondMember       (swp15) Master: bond_15_16(UP)
 UP     swp16     N/A   9216   BondMember       (swp16) Master: bond_15_16(UP)
-...
-...
 ----
 . Display information about the status of the nodes in the cluster: `cluster show`
 +
@@ -327,8 +324,6 @@ UP     swp13     N/A   9216   Trunk/L2                     Master: bridge(UP)
 UP     swp14     N/A   9216   Trunk/L2                     Master: bridge(UP)
 UP     swp15     N/A   9216   BondMember       (swp15) Master: bond_15_16(UP)
 UP     swp16     N/A   9216   BondMember       (swp16) Master: bond_15_16(UP)
-...
-...
 ----
 
 . Enable auto-revert on all cluster LIFs: `net interface modify -vserver Cluster -lif * -auto-revert true`
@@ -404,11 +399,11 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface     Platform
 ----------- ------ ------------------------- ------------  ----------------
 node1      /lldp
-            e3a    sw1 (b8:ce:f6:19:1a:7e)   swp3          MSN2100-CB2RC
-            e3b    sw2 (b8:ce:f6:19:1b:96)   swp3          MSN2100-CB2RC
+            e3a    sw1 (b8:ce:f6:19:1a:7e)   swp3          -
+            e3b    sw2 (b8:ce:f6:19:1b:96)   swp3          -
 node2      /lldp
-            e3a    sw1 (b8:ce:f6:19:1a:7e)   swp4          MSN2100-CB2RC
-            e3b    sw2 (b8:ce:f6:19:1b:96)   swp4          MSN2100-CB2RC
+            e3a    sw1 (b8:ce:f6:19:1a:7e)   swp4          -
+            e3b    sw2 (b8:ce:f6:19:1b:96)   swp4          -
 ----
 
 . Verify that the settings are disabled: `network options switchless-cluster show`
@@ -513,6 +508,21 @@ cluster1::*>
 ----
 +
 NOTE: If any of these commands return an error, contact NetApp support.
+
+. Initiate the switch log collection feature: `system switch ethernet log collect -device *`
++
+Wait for 10 minutes and then check that the log collection was successful using the command: `system switch ethernet log show`
++
+[subs=+quotes]
+----
+cluster1::*> *system switch ethernet log show*
+Log Collection Enabled: true
+
+Index  Switch                       Log Timestamp        Status
+------ ---------------------------- -------------------  ---------    
+1      sw1 (b8:ce:f6:19:1b:42)      4/29/2022 03:05:25   complete   
+2      sw2 (b8:ce:f6:19:1b:96)      4/29/2022 03:07:42   complete
+----
 
 . Change the privilege level back to admin: `set -privilege admin`
 
