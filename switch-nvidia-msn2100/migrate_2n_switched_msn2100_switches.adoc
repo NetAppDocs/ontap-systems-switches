@@ -9,7 +9,7 @@ summary: 'If you have an existing two-node switchless cluster environment, you c
 :imagesdir: ../media/
 
 [.lead]
-You must be aware of certain configuration information, port connections, and cabling requirements when you migrate a two-node switchless cluster, non-disruptively, to a cluster with NVIDIA SN2100 cluster switches. The procedure you use depends on whether you have two dedicated cluster-network ports on each controller or a single cluster port on each controller. The process documented works for all nodes using optical or Twinax ports but is not supported on this switch if nodes are using onboard 10Gb BASE-T RJ45 ports for the cluster-network ports.
+You must be aware of certain configuration information, port connections, and cabling requirements when you migrate a two-node switchless cluster, non-disruptively, to a cluster with NVIDIA SN2100 cluster switches. The procedure you use depends on whether you have two dedicated cluster-network ports on each controller or a single cluster port on each controller. The process documented works for all nodes using optical or Twinax ports but is not supported on this switch if nodes are using onboard 10GBASE-T RJ45 ports for the cluster-network ports.
 
 .Two-node switchless configuration
 
@@ -24,7 +24,7 @@ You must be aware of certain configuration information, port connections, and ca
 * There must be console access to the cluster switches.
 * NVIDIA SN2100 node-to-node switch and switch-to-switch connections must use Twinax or fiber cables.
 +
-IMPORTANT: When using breakout cables for 10G and 25G, make sure that auto-negotiation is off and hard set the port speed on the switch. See https://docs.netapp.com/us-en/ontap-systems-switches/switch-nvidia-msn2100/install_cabling_config_considerations_msn2100.html[Cabling and configuration considerations] for further details.
+IMPORTANT: See https://docs.netapp.com/us-en/ontap-systems-switches/switch-nvidia-msn2100/install_cabling_config_considerations_msn2100.html[Cabling and configuration considerations] for caveats and further details.
 +
 The https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches^] contains more information about cabling.
 
@@ -103,13 +103,13 @@ UP     swp15      100G  9216   BondMember  sw1 (swp15)  Master: cluster_isl(UP)
 UP     swp16      100G  9216   BondMember  sw1 (swp16)  Master: cluster_isl(UP)
 ----
 
-. Verify that all cluster ports are up: `net port show`
+. Verify that all cluster ports are up: `network port show`
 +
 Each port should display up for `Link` and healthy for `Health Status`.
 +
 [subs=+quotes]
 ----
-cluster1::*> *net port show*
+cluster1::*> *network port show*
 
 Node: node1
 
@@ -131,13 +131,13 @@ e3b       Cluster      Cluster          up   9000  auto/100000 healthy  false
 
 ----
 
-. Verify that all cluster LIFs are up and operational: `net interface show`
+. Verify that all cluster LIFs are up and operational: `network interface show`
 +
 Each cluster LIF should display true for `Is Home` and have a `Status Admin/Oper` of up/up
 +
 [subs=+quotes]
 ----
-cluster1::*> *net interface show -vserver Cluster*
+cluster1::*> *network interface show -vserver Cluster*
 
             Logical    Status     Network            Current       Current Is
 Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
@@ -149,11 +149,11 @@ Cluster
             node2_clus2  up/up    169.254.19.183/16  node2         e3b     true
 ----
 
-. Disable auto-revert on the cluster LIFs: `net interface modify -vserver Cluster -lif * -auto-revert false`
+. Disable auto-revert on the cluster LIFs: `network interface modify -vserver Cluster -lif * -auto-revert false`
 +
 [subs=+quotes]
 ----
-cluster1::*> *net interface modify -vserver Cluster -lif * -auto-revert false*
+cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert false*
 
           Logical
 Vserver   Interface     Auto-revert
@@ -166,20 +166,47 @@ Cluster
 
 ----
 
-. Disconnect the cable from cluster port e3a on node1, and then connect e3a to port 1 on cluster switch sw1, using the appropriate cabling supported by the SN2100 switches.
+. Disconnect the cable from cluster port e3a on node1, and then connect e3a to port 3 on cluster switch sw1, using the appropriate cabling supported by the SN2100 switches.
 +
 The https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches^] contains more information about cabling.
 
-. Disconnect the cable from cluster port e3a on node2, and then connect e3a to port 2 on cluster switch sw1, using the appropriate cabling supported by the SN2100 switches.
-. Enable all node-facing ports on cluster switch sw1.
+. Disconnect the cable from cluster port e3a on node2, and then connect e3a to port 4 on cluster switch sw1, using the appropriate cabling supported by the SN2100 switches.
+
+. On switch sw1, enable all node-facing ports.
 +
 The following command enables all node-facing ports on switch sw1:
 +
 [subs=+quotes]
 ----
-cumulus@sw1:~$ *net del interface  swp1s0-3, swp2s0-3, swp3-14 link down*
+cumulus@sw1:~$ *net del interface swp1s0-3, swp2s0-3, swp3-14 link down*
 cumulus@sw1:~$ *net pending*
 cumulus@sw1:~$ *net commit*
+----
+
+. Verify that all ports are up on switch sw1: `net show interface all`
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *net show interface all*
+
+State  Name      Spd   MTU    Mode       LLDP              Summary
+-----  --------- ----  -----  ---------- ----------------- --------
+...
+DN     swp1s0    10G   9216   Trunk/L2                     Master: br_default(UP)
+DN     swp1s1    10G   9216   Trunk/L2                     Master: br_default(UP)
+DN     swp1s2    10G   9216   Trunk/L2                     Master: br_default(UP)
+DN     swp1s3    10G   9216   Trunk/L2                     Master: br_default(UP)
+DN     swp2s0    25G   9216   Trunk/L2                     Master: br_default(UP)
+DN     swp2s1    25G   9216   Trunk/L2                     Master: br_default(UP)
+DN     swp2s2    25G   9216   Trunk/L2                     Master: br_default(UP)
+DN     swp2s3    25G   9216   Trunk/L2                     Master: br_default(UP)
+UP     swp3      100G  9216   Trunk/L2    node1 (e3b)      Master: br_default(UP)
+UP     swp4      100G  9216   Trunk/L2    node2 (e3b)      Master: br_default(UP)
+...
+...
+UP     swp15     100G  9216   BondMember  swp15            Master: cluster_isl(UP)
+UP     swp16     100G  9216   BondMember  swp16            Master: cluster_isl(UP)
+...
 ----
 
 . Verify that all cluster ports are up: `network port show -ipspace Cluster`
@@ -208,37 +235,7 @@ e3b       Cluster      Cluster          up   9000  auto/100000 healthy  false
 
 ----
 
-. Verify that all ports are up on sw1: `net show interface all`
-+
-[subs=+quotes]
-----
-cumulus@sw1:~$ *net show interface all*
 
-State  Name      Spd   MTU    Mode       LLDP              Summary
------  --------- ----  -----  ---------- ----------------- --------
-UP     swp1s0    N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp1s1    N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp1s2    N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp1s3    N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp2s0    N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp2s1    N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp2s2    N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp2s3    N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp3      100G  9216   Trunk/L2                     Master: bridge(UP)
-UP     swp4      100G  9216   Trunk/L2                     Master: bridge(UP)
-UP     swp5      N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp6      N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp7      N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp8      N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp9      N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp10     N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp11     N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp12     N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp13     N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp14     N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp15     N/A   9216   BondMember       (swp15) Master: bond_15_16(UP)
-UP     swp16     N/A   9216   BondMember       (swp16) Master: bond_15_16(UP)
-----
 . Display information about the status of the nodes in the cluster: `cluster show`
 +
 The following example displays information about the health and eligibility of the nodes in the cluster:
@@ -254,9 +251,10 @@ node2                true    true          false
 
 ----
 
-. Disconnect the cable from cluster port e3b on node1, and then connect e3b to port 1 on cluster switch sw2, using the appropriate cabling supported by the SN2100 switches.
-. Disconnect the cable from cluster port e3b on node2, and then connect e3b to port 2 on cluster switch sw2, using the appropriate cabling supported by the SN2100 switches.
-. Enable all node-facing ports on cluster switch sw2.
+. Disconnect the cable from cluster port e3b on node1, and then connect e3b to port 3 on cluster switch sw2, using the appropriate cabling supported by the SN2100 switches.
+. Disconnect the cable from cluster port e3b on node2, and then connect e3b to port 4 on cluster switch sw2, using the appropriate cabling supported by the SN2100 switches.
+
+. On switch sw2, enable all node-facing ports.
 +
 The following commands enable the node-facing ports on switch sw2:
 +
@@ -265,6 +263,32 @@ The following commands enable the node-facing ports on switch sw2:
 cumulus@sw2:~$ *net del interface swp1s0-3, swp2s0-3, swp3-14 link down*
 cumulus@sw2:~$ *net pending*
 cumulus@sw2:~$ *net commit*
+----
+
+. Verify that all ports are up on sw2: `net show interface all`
++
+[subs=+quotes]
+----
+cumulus@sw2:~$ *net show interface all*
+
+State  Name      Spd   MTU    Mode       LLDP              Summary
+-----  --------- ----  -----  ---------- ----------------- --------
+...
+DN     swp1s0    10G   9216   Trunk/L2                     Master: br_default(UP)
+DN     swp1s1    10G   9216   Trunk/L2                     Master: br_default(UP)
+DN     swp1s2    10G   9216   Trunk/L2                     Master: br_default(UP)
+DN     swp1s3    10G   9216   Trunk/L2                     Master: br_default(UP)
+DN     swp2s0    25G   9216   Trunk/L2                     Master: br_default(UP)
+DN     swp2s1    25G   9216   Trunk/L2                     Master: br_default(UP)
+DN     swp2s2    25G   9216   Trunk/L2                     Master: br_default(UP)
+DN     swp2s3    25G   9216   Trunk/L2                     Master: br_default(UP)
+UP     swp3      100G  9216   Trunk/L2    node1 (e3a)      Master: br_default(UP)
+UP     swp4      100G  9216   Trunk/L2    node2 (e3a)      Master: br_default(UP)
+...
+...
+UP     swp15     100G  9216   BondMember  swp15            Master: cluster_isl(UP)
+UP     swp16     100G  9216   BondMember  swp16            Master: cluster_isl(UP)
+...
 ----
 
 . Verify that all cluster ports are up: `network port show -ipspace Cluster`
@@ -293,37 +317,45 @@ e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 
 ----
 
-. Verify that all ports are up on sw2: `net show interface all`
+. Verify that both nodes each have one connection to each switch: `net show lldp`
++
+The following example shows the appropriate results for both switches sw1 and sw2:
 +
 [subs=+quotes]
 ----
-cumulus@sw2:~$ *net show interface all*
+cumulus@sw1:~$ *net show lldp*
 
-State  Name      Spd   MTU    Mode       LLDP              Summary
------  --------- ----  -----  ---------- ----------------- --------
-UP     lo        N/A   65536  Loopback                     IP: 127.0.0.1/8
-UP     swp1s0    N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp1s1    N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp1s2    N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp1s3    N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp2s0    N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp2s1    N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp2s2    N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp2s3    N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp3      100G  9216   Trunk/L2                     Master: bridge(UP)
-UP     swp4      100G  9216   Trunk/L2                     Master: bridge(UP)
-UP     swp5      N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp6      N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp7      N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp8      N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp9      N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp10     N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp11     N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp12     N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp13     N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp14     N/A   9216   Trunk/L2                     Master: bridge(UP)
-UP     swp15     N/A   9216   BondMember       (swp15) Master: bond_15_16(UP)
-UP     swp16     N/A   9216   BondMember       (swp16) Master: bond_15_16(UP)
+LocalPort  Speed  Mode        RemoteHost         RemotePort
+---------  -----  ----------  -----------------  -----------
+swp3       100G   Trunk/L2    node1              e3a
+swp4       100G   Trunk/L2    node2              e3b
+swp15      100G   BondMember  sw2                swp15
+swp16      100G   BondMember  sw2                swp16
+
+cumulus@sw2:~$ *net show lldp*
+
+LocalPort  Speed  Mode        RemoteHost         RemotePort
+---------  -----  ----------  -----------------  -----------
+swp3       100G   Trunk/L2    node1              e3a
+swp4       100G   Trunk/L2    node2              e3b
+swp15      100G   BondMember  sw1                swp15
+swp16      100G   BondMember  sw1                swp16
+----
+
+. Display information about the discovered network devices in your cluster: `net device-discovery show -protocol lldp`
++
+[subs=+quotes]
+----
+cluster1::*> *network device-discovery show -protocol lldp*
+Node/       Local  Discovered
+Protocol    Port   Device (LLDP: ChassisID)  Interface     Platform
+----------- ------ ------------------------- ------------  ----------------
+node1      /lldp
+            e3a    sw1 (b8:ce:f6:19:1a:7e)   swp3          -
+            e3b    sw2 (b8:ce:f6:19:1b:96)   swp3          -
+node2      /lldp
+            e3a    sw1 (b8:ce:f6:19:1a:7e)   swp4          -
+            e3b    sw2 (b8:ce:f6:19:1b:96)   swp4          -
 ----
 
 . Enable auto-revert on all cluster LIFs: `net interface modify -vserver Cluster -lif * -auto-revert true`
@@ -363,47 +395,6 @@ Cluster
           node2_clus1  up/up      169.254.47.194/16  node2      e3a     true
           node2_clus2  up/up      169.254.19.183/16  node2      e3b     true
 
-----
-
-. Verify that both nodes each have one connection to each switch: `net show lldp`
-+
-The following example shows the appropriate results for both switches sw1 and sw2:
-+
-[subs=+quotes]
-----
-cumulus@sw1:~$ *net show lldp*
-
-LocalPort  Speed  Mode        RemoteHost         RemotePort
----------  -----  ----------  -----------------  -----------
-swp3       100G   Trunk/L2    sw2                e3a
-swp4       100G   Trunk/L2    sw2                e3b
-swp15      100G   BondMember  sw2                swp15
-swp16      100G   BondMember  sw2                swp16
-
-cumulus@sw2:~$ *net show lldp*
-
-LocalPort  Speed  Mode        RemoteHost         RemotePort
----------  -----  ----------  -----------------  -----------
-swp3       100G   Trunk/L2    sw1                e3a
-swp4       100G   Trunk/L2    sw1                e3b
-swp15      100G   BondMember  sw1                swp15
-swp16      100G   BondMember  sw1                swp16
-----
-
-. Display information about the discovered network devices in your cluster: `net device-discovery show -protocol lldp`
-+
-[subs=+quotes]
-----
-cluster1::*> *network device-discovery show -protocol lldp*
-Node/       Local  Discovered
-Protocol    Port   Device (LLDP: ChassisID)  Interface     Platform
------------ ------ ------------------------- ------------  ----------------
-node1      /lldp
-            e3a    sw1 (b8:ce:f6:19:1a:7e)   swp3          -
-            e3b    sw2 (b8:ce:f6:19:1b:96)   swp3          -
-node2      /lldp
-            e3a    sw1 (b8:ce:f6:19:1a:7e)   swp4          -
-            e3b    sw2 (b8:ce:f6:19:1b:96)   swp4          -
 ----
 
 . Verify that the settings are disabled: `network options switchless-cluster show`

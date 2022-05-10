@@ -156,7 +156,7 @@ cluster1::*>
 +
 [subs=+quotes]
 ----
-cluster1::*> *net device-discovery show protocol lldp*
+cluster1::*> *network device-discovery show protocol lldp*
 Node/     Local Discovered
 Protocol  Port  Device (LLDP: ChassisID)  Interface	  Platform
 --------  ----  -----------------------   ---------   ---------
@@ -241,7 +241,7 @@ Wait for 10 minutes and then check that the log collection was successful using 
 +
 [subs=+quotes]
 ----
-cluster1::*> system switch ethernet log show
+cluster1::*> *system switch ethernet log show*
 Log Collection Enabled: true
 
 Index  Switch                       Log Timestamp        Status

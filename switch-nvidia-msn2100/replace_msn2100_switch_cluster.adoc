@@ -148,8 +148,6 @@ cumulus@nsw2:~$ *net commit*
 cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert false*
 
 Warning: Disabling the auto-revert feature of the cluster logical interface may effect the availability of your cluster network. Are you sure you want to continue? {y|n}: *y*
-
-4 entries were modified.
 ----
 //. Verify that all cluster LIFs have auto-revert enabled: `net interface show -vserver Cluster -fields auto-revert`
 
@@ -284,7 +282,7 @@ swp15      100G   BondMember  sw1                swp15
 swp16      100G   BondMember  sw1                swp16
 ----
 
-. Enable auto-revert on the cluster LIFs: `cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert True`
+. Enable auto-revert on the cluster LIFs: `cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert true`
 
 . On switch nsw2, bring up the ports connected to the network ports of the nodes.
 +
@@ -313,22 +311,22 @@ node2         true    true
 +
 [subs=+quotes]
 ----
-cluster1::*> *net port show -ipspace Cluster*
+cluster1::*> *network port show -ipspace Cluster*
 
 Node node1                                                               Ignore
                                                     Speed(Mbps) Health   Health
 Port      IPspace     Broadcast Domain  Link  MTU   Admin/Oper  Status   Status
 --------- ----------- ----------------- ----- ----- ----------- -------- ------
-e3a       Cluster     Cluster           up    9000  auto/10000  healthy  true
-e3b       Cluster     Cluster           up    9000  auto/10000  healthy  true
+e3a       Cluster     Cluster           up    9000  auto/10000  healthy  false
+e3b       Cluster     Cluster           up    9000  auto/10000  healthy  false
 
 Node: node2
                                                                          Ignore
                                                     Speed(Mbps) Health   Health
 Port      IPspace      Broadcast Domain Link  MTU   Admin/Oper  Status   Status
 --------- ------------ ---------------- ----- ----- ----------- -------- ------
-e3a       Cluster      Cluster          up    9000  auto/10000  healthy  true
-e3b       Cluster      Cluster          up    9000  auto/10000  healthy  true
+e3a       Cluster      Cluster          up    9000  auto/10000  healthy  false
+e3b       Cluster      Cluster          up    9000  auto/10000  healthy  false
 
 ----
 
@@ -400,7 +398,7 @@ Wait for 10 minutes and then check that the log collection was successful using 
 +
 [subs=+quotes]
 ----
-cluster1::*> system switch ethernet log show
+cluster1::*> *system switch ethernet log show*
 Log Collection Enabled: true
 
 Index  Switch                       Log Timestamp        Status

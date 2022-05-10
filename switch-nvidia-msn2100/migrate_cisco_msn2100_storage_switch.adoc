@@ -84,11 +84,11 @@ node2
 cluster1::*>
 ----
 
-. The storage ports on each node are connected to existing storage switches in the following way (from the nodes' perspective) using the command: `net device-discovery show -protocol lldp`
+. The storage ports on each node are connected to existing storage switches in the following way (from the nodes' perspective) using the command: `network device-discovery show -protocol lldp`
 +
 [subs=+quotes]
 ----
-cluster1::*> *net device-discovery show -protocol lldp*
+cluster1::*> *network device-discovery show -protocol lldp*
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface       Platform
 ----------- ------ ------------------------- --------------  ----------------
@@ -123,12 +123,12 @@ Capability Codes: (R) Router, (B) Bridge, (T) Telephone, (C) DOCSIS Cable Device
                   (W) WLAN Access Point, (P) Repeater, (S) Station (O) Other
 
 Device-ID             Local Intf     Holdtime    Capability           Port ID
-node1                 Eth1/11         121         S                    e5b
-node2                 Eth1/12         121         S                    e5b
-SHFGD1947000186       Eth1/10         120         S                    e0b         
-SHFGD1947000186       Eth1/11         120         S                    e0b         
-SHFGB2017000269       Eth1/12         120         S                    e0b         
-SHFGB2017000269       Eth1/13         120         S                    e0b
+node1                 Eth1/11         121         S                   e5b
+node2                 Eth1/12         121         S                   e5b
+SHFGD1947000186       Eth1/10         120         S                   e0b         
+SHFGD1947000186       Eth1/11         120         S                   e0b         
+SHFGB2017000269       Eth1/12         120         S                   e0b         
+SHFGB2017000269       Eth1/13         120         S                   e0b
 ----
 
 . On switch sw2, shut down the ports connected to the storage ports and nodes of the disk shelves.
@@ -155,7 +155,7 @@ cumulus@sw2:~$ *net commit*
 +
 [subs=+quotes]
 ----
-cluster1::*> *net device-discovery show -protocol lldp*
+cluster1::*> *network device-discovery show -protocol lldp*
 
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface      Platform
@@ -233,7 +233,7 @@ cumulus@sw1:~$ *net commit*
 +
 [subs=+quotes]
 ----
-cluster1::*> *net device-discovery show -protocol lldp*
+cluster1::*> *network device-discovery show -protocol lldp*
 
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface       Platform
@@ -374,7 +374,7 @@ Wait for 10 minutes and then check that the log collection was successful using 
 +
 [subs=+quotes]
 ----
-cluster1::*> system switch ethernet log show
+cluster1::*> *system switch ethernet log show*
 Log Collection Enabled: true
 
 Index  Switch                       Log Timestamp        Status
