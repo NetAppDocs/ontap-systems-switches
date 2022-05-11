@@ -65,12 +65,12 @@ node1
                e3a  ENET  storage 100    enabled  online      30
                e3b  ENET  storage   0    enabled  offline     30
                e7a  ENET  storage   0    enabled  offline     30
-               e7b  ENET  storage   0    enabled  offline     30
+               e7b  ENET  storage 100    enabled  online      30
 node2
                e3a  ENET  storage 100    enabled  online      30
                e3b  ENET  storage   0    enabled  offline     30
                e7a  ENET  storage   0    enabled  offline     30
-               e7b  ENET  storage   0    enabled  offline     30
+               e7b  ENET  storage 100    enabled  online      30
 cluster1::*>
 ----
 . Verify that storage switch sw1 is available:
@@ -162,10 +162,10 @@ Protocol  Port  Device (LLDP: ChassisID)  Interface	  Platform
 --------  ----  -----------------------   ---------   ---------
 node1/lldp
           e3a  sw1 (b8:ce:f6:19:1b:96)    swp1        -
-          e3b  nsw2 (b8:ce:f6:19:1a:7e)   swp1        -
+          e7b  nsw2 (b8:ce:f6:19:1a:7e)   swp1        -
 node2/lldp
           e3a  sw1 (b8:ce:f6:19:1b:96)    swp2        -
-          e3b  nsw2 (b8:ce:f6:19:1a:7e)   swp2        -
+          e7b  nsw2 (b8:ce:f6:19:1a:7e)   swp2        -
 cluster1::*>
 ----
 . Verify the shelf ports in the storage system:

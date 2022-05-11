@@ -200,8 +200,8 @@ DN     swp2s0    25G   9216   Trunk/L2                     Master: br_default(UP
 DN     swp2s1    25G   9216   Trunk/L2                     Master: br_default(UP)
 DN     swp2s2    25G   9216   Trunk/L2                     Master: br_default(UP)
 DN     swp2s3    25G   9216   Trunk/L2                     Master: br_default(UP)
-UP     swp3      100G  9216   Trunk/L2    node1 (e3b)      Master: br_default(UP)
-UP     swp4      100G  9216   Trunk/L2    node2 (e3b)      Master: br_default(UP)
+UP     swp3      100G  9216   Trunk/L2    node1 (e3a)      Master: br_default(UP)
+UP     swp4      100G  9216   Trunk/L2    node2 (e3a)      Master: br_default(UP)
 ...
 ...
 UP     swp15     100G  9216   BondMember  swp15            Master: cluster_isl(UP)
@@ -282,8 +282,8 @@ DN     swp2s0    25G   9216   Trunk/L2                     Master: br_default(UP
 DN     swp2s1    25G   9216   Trunk/L2                     Master: br_default(UP)
 DN     swp2s2    25G   9216   Trunk/L2                     Master: br_default(UP)
 DN     swp2s3    25G   9216   Trunk/L2                     Master: br_default(UP)
-UP     swp3      100G  9216   Trunk/L2    node1 (e3a)      Master: br_default(UP)
-UP     swp4      100G  9216   Trunk/L2    node2 (e3a)      Master: br_default(UP)
+UP     swp3      100G  9216   Trunk/L2    node1 (e3b)      Master: br_default(UP)
+UP     swp4      100G  9216   Trunk/L2    node2 (e3b)      Master: br_default(UP)
 ...
 ...
 UP     swp15     100G  9216   BondMember  swp15            Master: cluster_isl(UP)
@@ -328,7 +328,7 @@ cumulus@sw1:~$ *net show lldp*
 LocalPort  Speed  Mode        RemoteHost         RemotePort
 ---------  -----  ----------  -----------------  -----------
 swp3       100G   Trunk/L2    node1              e3a
-swp4       100G   Trunk/L2    node2              e3b
+swp4       100G   Trunk/L2    node2              e3a
 swp15      100G   BondMember  sw2                swp15
 swp16      100G   BondMember  sw2                swp16
 
@@ -336,7 +336,7 @@ cumulus@sw2:~$ *net show lldp*
 
 LocalPort  Speed  Mode        RemoteHost         RemotePort
 ---------  -----  ----------  -----------------  -----------
-swp3       100G   Trunk/L2    node1              e3a
+swp3       100G   Trunk/L2    node1              e3b
 swp4       100G   Trunk/L2    node2              e3b
 swp15      100G   BondMember  sw1                swp15
 swp16      100G   BondMember  sw1                swp16

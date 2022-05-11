@@ -324,7 +324,7 @@ node2      /lldp
             e3b    sw2 (b8:ce:f6:19:1b:96)   swp4            -
 ----
 
-. On switch sw1 and sw2, verify that all node cluster ports are up: `net show interface`
+. On switches sw1 and sw2, verify that all node cluster ports are up: `net show interface`
 +
 [subs=+quotes]
 ----
@@ -335,7 +335,7 @@ State  Name         Spd   MTU    Mode        LLDP                Summary
 ...
 ...
 UP     swp3         100G  9216   Trunk/L2    e3a                 Master: bridge(UP)
-UP     swp4         100G  9216   Trunk/L2    e3b                 Master: bridge(UP)
+UP     swp4         100G  9216   Trunk/L2    e3a                 Master: bridge(UP)
 UP     swp15        100G  9216   BondMember  sw2 (swp15)         Master: cluster_isl(UP)
 UP     swp16        100G  9216   BondMember  sw2 (swp16)         Master: cluster_isl(UP)
 
@@ -362,8 +362,8 @@ cumulus@sw1:~$ *net show lldp*
 
 LocalPort  Speed  Mode        RemoteHost          RemotePort
 ---------  -----  ----------  ------------------  -----------
-swp3       100G   Trunk/L2    sw2                 e3a
-swp4       100G   Trunk/L2    sw2                 e3b
+swp3       100G   Trunk/L2    node1               e3a
+swp4       100G   Trunk/L2    node2               e3a
 swp15      100G   BondMember  sw2                 swp15
 swp16      100G   BondMember  sw2                 swp16
 
@@ -371,8 +371,8 @@ cumulus@sw2:~$ *net show lldp*
 
 LocalPort  Speed  Mode        RemoteHost          RemotePort
 ---------  -----  ----------  ------------------  -----------
-swp3       100G   Trunk/L2    sw1                 e3a
-swp4       100G   Trunk/L2    sw1                 e3b
+swp3       100G   Trunk/L2    node1               e3b
+swp4       100G   Trunk/L2    node2               e3b
 swp15      100G   BondMember  sw1                 swp15
 swp16      100G   BondMember  sw1                 swp16
 ----

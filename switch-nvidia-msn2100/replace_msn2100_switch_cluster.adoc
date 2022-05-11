@@ -266,8 +266,8 @@ cumulus@sw1:~$ *net show lldp*
 
 LocalPort  Speed  Mode        RemoteHost         RemotePort
 ---------  -----  ----------  -----------------  -----------
-swp3       100G   Trunk/L2    nsw2               e3a
-swp4       100G   Trunk/L2    nsw2               e3a
+swp3       100G   Trunk/L2    node1              e3a
+swp4       100G   Trunk/L2    node2              e3a
 swp15      100G   BondMember  nsw2               swp15
 swp16      100G   BondMember  nsw2               swp16
 
@@ -276,8 +276,8 @@ cumulus@nsw2:~$ *net show lldp*
 
 LocalPort  Speed  Mode        RemoteHost         RemotePort
 ---------  -----  ----------  -----------------  -----------
-swp3       100G   Trunk/L2    sw1                e3b
-swp4       100G   Trunk/L2    sw1                e3b
+swp3       100G   Trunk/L2    node1                e3b
+swp4       100G   Trunk/L2    node2                e3b
 swp15      100G   BondMember  sw1                swp15
 swp16      100G   BondMember  sw1                swp16
 ----
@@ -303,7 +303,7 @@ cluster1::*> *cluster show*
 
 Node          Health  Eligibility
 ------------- ------- ------------
-node1         false   true
+node1         true    true
 node2         true    true
 ----
 
@@ -338,8 +338,8 @@ cumulus@sw1:~$ *net show lldp*
 
 LocalPort  Speed  Mode        RemoteHost      RemotePort
 ---------  -----  ----------  --------------  -----------
-swp3       100G   Trunk/L2    nsw2            e3a
-swp4       100G   Trunk/L2    nsw2            e3b
+swp3       100G   Trunk/L2    node1            e3a
+swp4       100G   Trunk/L2    node2            e3b
 swp15      100G   BondMember  nsw2            swp15
 swp16      100G   BondMember  nsw2            swp16
 ----
