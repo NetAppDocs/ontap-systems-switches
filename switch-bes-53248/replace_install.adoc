@@ -28,29 +28,32 @@ This procedure provides a summary of the process to install your switches and ge
  ** flow control: none
 . Log in to the switch as admin and press enter when prompted for a password. The default switch name is routing. At the prompt, `enable`. This gives you access to Privileged EXEC mode for switch configuration.
 +
+[subs=+quotes]
 ----
 User: admin
 Password:
-(Routing)> enable
+(Routing)> *enable*
 Password:
 (Routing) #
 ----
 
 . Change the switch name to cs2:
 +
+[subs=+quotes]
 ----
-(Routing) # hostname cs2
-(cs2) #
+(Routing)# *hostname cs2*
+(cs2)#
 ----
 
 . To set a static IP address, use the serviceport protocol, network protocol, and serviceport ip commands as shown in the example.
 +
 The serviceport is set to use DHCP by default. The IP address, subnet mask, and default gateway address are assigned automatically.
 +
+[subs=+quotes]
 ----
-(cs2) # serviceport protocol none
-(cs2) # network protocol none
-(cs2) # serviceport ip ipaddr netmask gateway
+(cs2)# *serviceport protocol none*
+(cs2)# *network protocol none*
+(cs2)# *serviceport ip ipaddr netmask gateway*
 ----
 
 . Verify the results using the command:
@@ -59,8 +62,9 @@ The serviceport is set to use DHCP by default. The IP address, subnet mask, and 
 +
 The following example shows IP information provided by DHCP server.
 +
+[subs=+quotes]
 ----
-(cs2) # show serviceport
+(cs2)# *show serviceport*
 Interface Status............................... Up
 IP Address..................................... 172.19.2.2
 Subnet Mask.................................... 255.255.255.0
@@ -78,12 +82,13 @@ Burned In MAC Address.......................... D8:C4:97:71:12:3C
 +
 `configure`
 +
+[subs=+quotes]
 ----
-(cs2) # configure
-(cs2) (Config)#ip domain name company.com
-(cs2) (Config)#ip name server 10.10.99.1 10.10.99.2
-(cs2) (Config)#exit
-(cs2) (Config)#
+(cs2)# *configure*
+(cs2) (Config)# *ip domain name company.com*
+(cs2) (Config)# *ip name server 10.10.99.1 10.10.99.2*
+(cs2) (Config)# *exit*
+(cs2)#
 ----
 
 . Configure the NTP server.
@@ -91,40 +96,42 @@ Burned In MAC Address.......................... D8:C4:97:71:12:3C
 +
 `sntp`
 +
+[subs=+quotes]
 ----
-(cs2) #
-(cs2) (Config)#sntp client mode unicast
-(cs2) (Config)#sntp server 10.99.99.5
-(cs2) (Config)#clock timezone -7
-(cs2) (Config)#exit
-(cs2) (Config)#
+(cs2)# *configure*
+(cs2) (Config)# *sntp client mode unicast*
+(cs2) (Config)# *sntp server 10.99.99.5*
+(cs2) (Config)# *clock timezone -7*
+(cs2) (Config)# *exit*
+(cs2)#
 ----
 
  .. Configure the time manually:
 +
 `clock`
 +
+[subs=+quotes]
 ----
-(cs2) #config
-(cs2) (Config)#no sntp client mode
-(cs2) (Config)#clock summer-time recurring 1 sun mar 02:00 1 sun nov 02:00 offset 60 zone EST
-(cs2) (Config)#clock timezone -5 zone EST
-(cs2) (Config)#clock set 07:00:00
-(cs2) (Config)#clock set 10/20/2020
+(cs2) # *configure*
+(cs2) (Config)# *no sntp client mode*
+(cs2) (Config)# *clock summer-time recurring 1 sun mar 02:00 1 sun nov 02:00 offset 60* zone EST
+(cs2) (Config)# *clock timezone -5 zone EST*
+(cs2) (Config)# *clock set 07:00:00*
+(cs2) (Config)# *clock set 10/20/2020*
 
-(cs2) (Config)#show clock
+(cs2) (Config)# *show clock*
 
 07:00:11 EST(UTC-5:00) Oct 20 2020
 No time source
 
-(cs2) (Config)#exit
+(cs2) (Config)# *exit*
 
-(cs2) #write memory
+(cs2)# *write memory*
 
 This operation may take a few minutes.
 Management interfaces will not be available during this time.
 
-Are you sure you want to save? (y/n) **y**
+Are you sure you want to save? (y/n) *y*
 
 Config file 'startup-config' created successfully .
 

@@ -129,11 +129,13 @@ For low-speed ports between 0/17 to 0/48 inclusive, uncomment the entire 8-port 
 == Edit a previously installed RCF file
 
 After you edit a previously installed RCF file and run the `script apply` command, you might get the following error message:
+
+[subs=+quotes]
 ----
-(CS1) #script apply BES-53248_RCF_v1.6-Cluster-HA.scr
- Are you sure you want to apply the configuration script? (y/n)
+(CS1)# *script apply BES-53248_RCF_v1.6-Cluster-HA.scr*
+Are you sure you want to apply the configuration script? (y/n) *y*
 ----
-After you select `y`, you get the following error message:
+After you select *y*, you get the following error message:
 ----
 config
  ...

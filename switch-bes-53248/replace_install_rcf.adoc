@@ -22,13 +22,12 @@ Before installing a new switch software version and RCFs, you must erase the Bro
 * This task resets the configuration of the management network.
 
 .Steps
-
-
 . Change to the elevated command prompt (`#`): `enable`
 +
+[subs=+quotes]
 ----
-(cs2)> enable
-(cs2) #
+(cs2)> *enable*
+(cs2)#
 ----
 
 . Erase the startup configuration and remove the banner
@@ -37,10 +36,11 @@ Before installing a new switch software version and RCFs, you must erase the Bro
 
 *`erase startup-config`*
 +
+[subs=+quotes]
 -----
-(cs2) #erase startup-config
-Are you sure you want to clear the configuration? (y/n) y
-(cs2) #
+(cs2)# *erase startup-config*
+Are you sure you want to clear the configuration? (y/n) *y*
+(cs2)#
 -----
 +
 
@@ -51,17 +51,19 @@ This command does not erase the banner.
 
 *`no set clibanner`*
 +
+[subs=+quotes]
 -----
-(cs2) #configure
-(cs2)(Config) # no set clibanner
-(cs2)(Config) #
+(cs2)# *configure*
+(cs2)(Config)# *no set clibanner*
+(cs2)(Config)#
 -----
 
 . Reboot the switch:
 *`(cs2) #reload*`
 +
+[subs=+quotes]
 ----
-Are you sure you would like to reset the system? (y/n) y
+Are you sure you would like to reset the system? (y/n) *y*
 ----
 +
 NOTE: If the system asks whether to save the unsaved or changed configuration before reloading the switch, select *No*.
@@ -78,20 +80,21 @@ The default user is "`admin`", and no password is set. A prompt similar to the f
 +
 `enable`
 +
+[subs=+quotes]
 ----
-Routing)> enable
-(Routing) #
+Routing)> *enable*
+(Routing)#
 ----
 
 . Set the service port protocol to `none`:
 +
 `serviceport protocol none`
 +
+[subs=+quotes]
 ----
-(Routing) #serviceport protocol none
+(Routing)# *serviceport protocol none*
 Changing protocol mode will reset ip configuration.
-Are you sure you want to continue? (y/n) y
-
+Are you sure you want to continue? (y/n) *y*
 (Routing) #
 ----
 
@@ -101,8 +104,9 @@ Are you sure you want to continue? (y/n) y
 +
 The following example shows a service port assigned IP address "10.10.10.10" with subnet "255.255.255.0" and gateway "10.10.10.1":
 +
+[subs=+quotes]
 ----
-(Routing) #serviceport ip 10.10.10.10 255.255.255.0 10.10.10.1
+(Routing)# *serviceport ip 10.10.10.10 255.255.255.0 10.10.10.1*
 ----
 
 . Verify that the service port is correctly configured:
@@ -111,9 +115,9 @@ The following example shows a service port assigned IP address "10.10.10.10" wit
 +
 The following example shows that the port is up and the correct addresses have been assigned:
 +
+[subs=+quotes]
 ----
-(Routing) #show serviceport
-
+(Routing)# *show serviceport*
 Interface Status............................... Up
 IP Address..................................... 10.10.10.10
 Subnet Mask.................................... 255.255.255.0
@@ -125,7 +129,6 @@ Configured IPv4 Protocol....................... None
 Configured IPv6 Protocol....................... None
 IPv6 AutoConfig Mode........................... Disabled
 Burned In MAC Address.......................... D8:C4:97:56:87:D7
-
 (Routing) #
 ----
 
@@ -135,23 +138,26 @@ NOTE: The RCF file disables the Telnet protocol. If you do not configure the SSH
 
  .. Generate RSA keys.
 +
+[subs=+quotes]
 ----
-(Routing) #configure
-(Routing) (Config)#crypto key generate rsa
+(Routing)# *configure*
+(Routing) (Config)# *crypto key generate rsa*
 ----
 
  .. Generate DSA keys (optional)
 +
+[subs=+quotes]
 ----
-(Routing) #configure
-(Routing) (Config)#crypto key generate dsa
+(Routing)# *configure*
+(Routing) (Config)# *crypto key generate dsa*
 ----
 
 .. If you are using the FIPS compliant version of EFOS, generate the ECDSA keys. The following example creates the keys with a length of 256. Valid values are 256, 384 or 521.
 +
+[subs=+quotes]
 -----
-(Routing) #configure
-(Routing) (Config)#crypto key generate ecdsa 256
+(Routing)# *configure*
+(Routing) (Config)# *crypto key generate ecdsa 256*
 -----
 +
 
@@ -159,9 +165,10 @@ NOTE: The RCF file disables the Telnet protocol. If you do not configure the SSH
 +
 If necessary, exit the configuration context.
 +
+[subs=+quotes]
 ----
-(Routing) (Config)#end
-(Routing) #ip ssh server enable
+(Routing) (Config)# *end*
+(Routing)# *ip ssh server enable*
 ----
 +
 NOTE: If keys already exist, then you might be asked to overwrite them.
@@ -172,25 +179,25 @@ NOTE: If keys already exist, then you might be asked to overwrite them.
 +
 The following example shows the `ip domain` and `ip name server` commands:
 +
+[subs=+quotes]
 ----
-(Routing) # configure
-(Routing) (Config)#ip domain name lab.netapp.com
-(Routing) (Config)#ip name server 10.99.99.1 10.99.99.2
-(Routing) (Config)#exit
-(Routing) (Config)#
+(Routing)# *configure*
+(Routing) (Config)# *ip domain name lab.netapp.com*
+(Routing) (Config)# *ip name server 10.99.99.1 10.99.99.2*
+(Routing) (Config)# *exit*
 ----
 
 . If desired, configure the time zone and time synchronization (SNTP).
 +
 The following example shows the `sntp` commands, specifying the IP address of the SNTP server and the relative time zone.
 +
+[subs=+quotes]
 ----
-(Routing) #
-(Routing) (Config)#sntp client mode unicast
-(Routing) (Config)#sntp server 10.99.99.5
-(Routing) (Config)#clock timezone -7
-(Routing) (Config)#exit
-(Routing) (Config)#
+(Routing)# *configure*
+(Routing) (Config)# *sntp client mode unicast*
+(Routing) (Config)# *sntp server 10.99.99.5*
+(Routing) (Config)# *clock timezone -7*
+(Routing) (Config)# *exit*
 ----
 
 . Configure the switch name:
@@ -199,10 +206,9 @@ The following example shows the `sntp` commands, specifying the IP address of th
 +
 The switch prompt will display the new name:
 +
+[subs=+quotes]
 ----
-(Routing) # hostname cs2
-
-(cs2) #
+(Routing)# *hostname cs2*
 ----
 
 . Save the configuration:
@@ -211,20 +217,18 @@ The switch prompt will display the new name:
 +
 You receive prompts and output similar to the following example:
 +
+[subs=+quotes]
 ----
-(cs2) #write memory
+(cs2)# *write memory*
 
 This operation may take a few minutes.
 Management interfaces will not be available during this time.
 
-Are you sure you want to save? (y/n) y
+Are you sure you want to save? (y/n) *y*
 
-Config file 'startup-config' created successfully .
-
+Config file 'startup-config' created successfully.
 
 Configuration Saved!
-
-(cs2) #
 ----
 
 . Repeat the previous steps on the other cluster switch.
@@ -239,8 +243,9 @@ If connectivity is an issue, use a nonrouted network and configure the service p
 +
 This example verifies that the switch is connected to the server at IP address 172.19.2.1:
 +
+[subs=+quotes]
 ----
-(cs2) # ping 172.19.2.1
+(cs2)# *ping 172.19.2.1*
 Pinging 172.19.2.1 with 0 bytes of data:
 
 Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
@@ -248,8 +253,9 @@ Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 
 . Install the RCF on the BES-53248 cluster switch using the copy command.
 +
+[subs=+quotes]
 ----
-(cs2) # copy http://172.19.2.1/tmp/BES-53248_RCF_v1.6-Cluster-HA.txt nvram:script BES-53248_RCF_v1.6-Cluster-HA.scr
+(cs2)# *copy http://172.19.2.1/tmp/BES-53248_RCF_v1.6-Cluster-HA.txt nvram:script BES-53248_RCF_v1.6-Cluster-HA.scr*
 
 Remote Password ********
 
@@ -264,7 +270,7 @@ File with same name already exists.
 WARNING:Continuing with this command will overwrite the existing file.
 
 Management access will be blocked for the duration of the transfer
-Are you sure you want to start? (y/n) y
+Are you sure you want to start? (y/n) *y*
 
 File transfer in progress. Management access will be blocked for the duration of the transfer. Please wait...
 
@@ -283,12 +289,13 @@ NOTE: The `.scr` extension must be set as part of the file name before invoking 
 +
 `script list`
 +
+[subs=+quotes]
 ----
-(cs2) # script list
+(cs2)# *script list*
 
 Configuration Script Name                  Size(Bytes)  Date of Modification
 -----------------------------------------  -----------  --------------------
-BES-53248_RCF_v1.6-Cluster-HA.scr        2241         2020 09 30 05:41:00
+BES-53248_RCF_v1.6-Cluster-HA.scr          2241         2020 09 30 05:41:00
 
 1 configuration script(s) found.
 ----
@@ -297,14 +304,15 @@ BES-53248_RCF_v1.6-Cluster-HA.scr        2241         2020 09 30 05:41:00
 +
 `script apply`
 +
+[subs=+quotes]
 ----
-(cs2) # script apply BES-53248_RCF_v1.6-Cluster-HA.scr
+(cs2)# *script apply BES-53248_RCF_v1.6-Cluster-HA.scr*
 
-Are you sure you want to apply the configuration script? (y/n) y
+Are you sure you want to apply the configuration script? (y/n) *y*
 
 The system has unsaved changes.
-Would you like to save them now? (y/n) y
-Config file 'startup-config' created successfully .
+Would you like to save them now? (y/n) *y*
+Config file 'startup-config' created successfully.
 Configuration Saved!
 
 Configuration script 'BES-53248_RCF_v1.6-Cluster-HA.scr' applied.
@@ -314,12 +322,13 @@ Configuration script 'BES-53248_RCF_v1.6-Cluster-HA.scr' applied.
 +
 `show port all | exclude Detach`
 +
+[subs=+quotes]
 ----
-(cs2) # show port all \| exclude Detach
+(cs2)# *show port all \| exclude Detach*
 
                  Admin     Physical     Physical   Link   Link    LACP   Actor
 Intf      Type   Mode      Mode         Status     Status Trap    Mode   Timeout
---------- ------ --------- ---------- ---------- ------ ------- ------ --------
+--------- ------ --------- ------------ ---------- ------ ------- ------ -------
 0/1              Enable    Auto                    Down   Enable  Enable long
 0/2              Enable    Auto                    Down   Enable  Enable long
 0/3              Enable    Auto                    Down   Enable  Enable long
@@ -350,20 +359,22 @@ Intf      Type   Mode      Mode         Status     Status Trap    Mode   Timeout
 +
 `show running-config`
 +
+[subs=+quotes]
 ----
-(cs2) # show running-config
+(cs2)# *show running-config*
 ----
 
 . Save the running configuration so that it becomes the startup configuration when you reboot the switch:
 +
 `write memory`
 +
+[subs=+quotes]
 ----
-(cs2) # write memory
+(cs2)# *write memory*
 This operation may take a few minutes.
 Management interfaces will not be available during this time.
 
-Are you sure you want to save? (y/n) y
+Are you sure you want to save? (y/n) *y*
 
 Config file 'startup-config' created successfully.
 
@@ -374,10 +385,11 @@ Configuration Saved!
 +
 `reload`
 +
+[subs=+quotes]
 ----
-(cs2) # reload
+(cs2)# *reload*
 
-Are you sure you would like to reset the system? (y/n) y
+Are you sure you would like to reset the system? (y/n) *y*
 
 System will now restart!
 ----

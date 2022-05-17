@@ -4,7 +4,7 @@ sidebar: sidebar
 keywords: bes, cluster, switch, base, model, license, 10gbe, 25gbe, 100gbe, port, add, purchasing, purchase, install licenses for bes-53248 cluster switches - bes-53248 switches
 summary: The BES-53248 cluster switch base model is licensed for 16 10GbE or 25GbE ports and two 100GbE ports. New ports can be added by purchasing more licenses.
 ---
-= Install licenses for BES-53248 cluster switches - BES-53248 switches
+= Install licenses for BES-53248 cluster switches
 :icons: font
 :imagesdir: ../media/
 
@@ -67,8 +67,9 @@ EFOS 3.4.4.6 and later
 +
 This example verifies that the switch is connected to the server at IP address 172.19.2.1:
 +
+[subs=+quotes]
 ----
-(cs2) # ping 172.19.2.1
+(cs2)# *ping 172.19.2.1*
 Pinging 172.19.2.1 with 0 bytes of data:
 
 Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
@@ -78,8 +79,9 @@ Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 +
 `show license`
 +
+[subs=+quotes]
 ----
-(cs2) # show license
+(cs2)# *show license*
 Reboot needed.................................. No
 Number of active licenses...................... 0
 
@@ -93,8 +95,9 @@ No license file found.
 +
 Repeat this step to load more licenses and to use different key index numbers.
 +
+[subs=+quotes]
 ----
-(cs2) #copy sftp://root@172.19.2.1/var/lib/tftpboot/license.dat nvram:license-key 1
+(cs2)# *copy sftp://root@172.19.2.1/var/lib/tftpboot/license.dat nvram:license-key 1*
 Remote Password:********
 
 Mode........................................... SFTP
@@ -104,7 +107,7 @@ Filename....................................... license.dat
 Data Type...................................... license
 
 Management access will be blocked for the duration of the transfer
-Are you sure you want to start? (y/n) y
+Are you sure you want to start? (y/n) *y*
 
 File transfer in progress. Management access will be blocked for the duration of the transfer. Please wait...
 
@@ -116,8 +119,9 @@ License Key transfer operation completed successfully. System reboot is required
 +
 `show license`
 +
+[subs=+quotes]
 ----
-(cs2) # show license
+(cs2)# *show license*
 
 Reboot needed.................................. Yes
 Number of active licenses...................... 0
@@ -134,8 +138,9 @@ License Index  License Type      Status
 +
 The ports from the additional license files are not displayed until after the switch is rebooted.
 +
+[subs=+quotes]
 ----
-(cs2) # show port all \| exclude Detach
+(cs2)# *show port all \| exclude Detach*
 
                  Admin     Physical   Physical   Link   Link    LACP   Actor
 Intf      Type   Mode      Mode       Status     Status Trap    Mode   Timeout
@@ -164,24 +169,26 @@ Intf      Type   Mode      Mode       Status     Status Trap    Mode   Timeout
 +
 `reload`
 +
+[subs=+quotes]
 ----
-(cs2) # reload
+(cs2)# *reload*
 
 The system has unsaved changes.
-Would you like to save them now? (y/n) y
+Would you like to save them now? (y/n) *y*
 
 Config file 'startup-config' created successfully .
 
 Configuration Saved!
-Are you sure you would like to reset the system? (y/n) y
+Are you sure you would like to reset the system? (y/n) *y*
 ----
 
 . Check that the new license is active and note that the license has been applied:
 +
 `show license`
 +
+[subs=+quotes]
 ----
-(cs2) # show license
+(cs2)# *show license*
 
 Reboot needed.................................. No
 Number of installed licenses................... 1
@@ -191,15 +198,15 @@ Total Uplink Ports enabled..................... 8
 License Index  License Type              Status
 -------------- ------------------------- -----------------------------------
 1              Port                      License applied
-(cs2) #
 ----
 
 . Check that all new ports are available:
 +
 `show port all | exclude Detach`
 +
+[subs=+quotes]
 ----
-(cs2) # show port all \| exclude Detach
+(cs2)# *show port all \| exclude Detach*
 
                  Admin     Physical   Physical   Link   Link    LACP   Actor
 Intf      Type   Mode      Mode       Status     Status Trap    Mode   Timeout
@@ -228,6 +235,4 @@ Intf      Type   Mode      Mode       Status     Status Trap    Mode   Timeout
 0/54             Disable   100G Full             Down   Enable  Enable long
 0/55             Disable   100G Full             Down   Enable  Enable long
 0/56             Disable   100G Full             Down   Enable  Enable long
-
-(cs2) #
 ----

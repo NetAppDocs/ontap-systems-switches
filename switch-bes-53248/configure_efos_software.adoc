@@ -11,7 +11,7 @@ summary: 'You can use this procedure to install the EFOS software on the BES-532
 [.lead]
 You can use this procedure to install the EFOS software on the BES-53248 cluster switch. You can download the applicable Broadcom EFOS software for your cluster switches from the Broadcom Ethernet Switch Support site.
 
-==== About this task
+=== About this task
 
 ====
 *Note the following:*
@@ -55,7 +55,7 @@ a|FIPS compliant
 a|Non-FIPS compliant
 |===
 
-IMPORTANT: Note that after upgrading BES-53248 cluster switches from EFOS 3.3.x.x or 3.4.x.x to EFOS 3.7.0.4 or 3.8.0.2, Inter-Switch Links (ISLs) and port channel are marked in the *Down* state. See this https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Systems/Fabric%2C_Interconnect_and_Management_Switches/BES-53248_Cluster_Switch_NDU_failed_upgrade_to_EFOS_3.7.0.4_and_later[KB article^] for further details. 
+IMPORTANT: Note that after upgrading BES-53248 cluster switches from EFOS 3.3.x.x or 3.4.x.x to EFOS 3.7.0.4 or 3.8.0.2, Inter-Switch Links (ISLs) and port channel are marked in the *Down* state. See this https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Systems/Fabric%2C_Interconnect_and_Management_Switches/BES-53248_Cluster_Switch_NDU_failed_upgrade_to_EFOS_3.7.0.4_and_later[KB article^] for further details.
 
 .Steps
 
@@ -64,8 +64,9 @@ IMPORTANT: Note that after upgrading BES-53248 cluster switches from EFOS 3.3.x.
 +
 This example verifies that the switch is connected to the server at IP address 172.19.2.1:
 +
+[subs=+quotes]
 ----
-(cs2) # ping 172.19.2.1
+(cs2)# *ping 172.19.2.1*
 Pinging 172.19.2.1 with 0 bytes of data:
 
 Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
@@ -75,51 +76,47 @@ Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 +
 `show bootvar`
 +
+[subs=+quotes]
 ----
-(cs2) # show bootvar
+(cs2)# *show bootvar*
 
  Image Descriptions
 
  active :
  backup :
 
-
  Images currently available on Flash
-
 --------------------------------------------------------------------
  unit      active      backup        current-active    next-active
 --------------------------------------------------------------------
-
     1      3.4.3.3     Q.10.22.1     3.4.3.3           3.4.3.3
-(cs2) # copy active backup
+
+(cs2)# *copy active backup*
 Copying active to backup
 Management access will be blocked for the duration of the operation
 Copy operation successful
 
-(cs2) # show bootvar
+(cs2)# *show bootvar*
 
 Image Descriptions
 
  active :
  backup :
-
-
  Images currently available on Flash
-
 --------------------------------------------------------------------
  unit      active      backup      current-active    next-active
 --------------------------------------------------------------------
-
     1      3.4.3.3     3.4.3.3     3.4.3.3           3.4.3.3
-(cs2) #
+(cs2)#
 ----
 
 . Verify the running version of the EFOS software:
 +
 `show version`
 +
+[subs=+quotes]
 ----
-(cs2) # show version
+(cs2)# *show version*
 
 Switch: 1
 
@@ -149,8 +146,9 @@ Additional Packages............................ BGP-4
 +
 Copying the image file to the active image means that when you reboot, that image establishes the running EFOS version. The previous image remains available as a backup.
 +
+[subs=+quotes]
 ----
-(cs2) # copy sftp://root@172.19.2.1//tmp/EFOS-3.4.4.6.stk active
+(cs2)# *copy sftp://root@172.19.2.1//tmp/EFOS-3.4.4.6.stk active*
 Remote Password:********
 
 Mode........................................... SFTP
@@ -161,7 +159,7 @@ Data Type...................................... Code
 Destination Filename........................... active
 
 Management access will be blocked for the duration of the transfer
-Are you sure you want to start? (y/n) y
+Are you sure you want to start? (y/n) *y*
 SFTP Code transfer starting...
 
 
@@ -172,21 +170,19 @@ File transfer operation completed successfully.
 +
 `show bootvar`
 +
+[subs=+quotes]
 ----
-(cs2) # show bootvar
+(cs2)# *show bootvar*
 
 Image Descriptions
 
  active :
  backup :
 
-
  Images currently available on Flash
-
 --------------------------------------------------------------------
  unit      active      backup     current-active        next-active
 --------------------------------------------------------------------
-
     1     3.4.3.3     3.4.3.3            3.4.3.3            3.4.4.6
 ----
 
@@ -194,11 +190,12 @@ Image Descriptions
 +
 `reload`
 +
+[subs=+quotes]
 ----
-(cs2) # reload
+(cs2)# *reload*
 
 The system has unsaved changes.
-Would you like to save them now? (y/n) y
+Would you like to save them now? (y/n) *y*
 
 Config file 'startup-config' created successfully .
 Configuration Saved!
@@ -209,8 +206,9 @@ System will now restart!
 +
 `show version`
 +
+[subs=+quotes]
 ----
-(cs2) # show version
+(cs2)# *show version*
 
 Switch: 1
 
@@ -236,7 +234,7 @@ Additional Packages............................ BGP-4
 ............................................... Prototype Open API
 ----
 
-== Upgrade EFOS using the ONIE OS installation
+.Upgrade EFOS using the ONIE OS installation
 You can perform the following steps if one EFOS version is FIPS compliant and the other EFOS version is non-FIPS compliant. These steps can be used to install the non-FIPS or FIPS compliant EFOS 3.7.x.x image from ONIE if the switch fails to boot.
 
 NOTE: This functionality is only available for EFOS 3.7.x.x or later non-FIPS compliant.
@@ -341,7 +339,7 @@ The software will install and then reboot the switch. Let the switch reboot norm
 +
 [subs=+quotes]
 ----
-(cs2) # *show bootvar*
+(cs2)# *show bootvar*
 Image Descriptions
 active :
 backup :
