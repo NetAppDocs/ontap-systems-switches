@@ -110,8 +110,8 @@ Capability Codes: (R) Router, (B) Bridge, (T) Telephone, (C) DOCSIS Cable Device
                   (W) WLAN Access Point, (P) Repeater, (S) Station (O) Other
 
 Device-ID             Local Intf     Holdtime    Capability           Port ID
-node1                 Eth1/11        121         S                    e0c
-node2                 Eth1/12        121         S                    e0c
+node1                 Eth1/1         121         S                    e0c
+node2                 Eth1/2         121         S                    e0c
 SHFGD1947000186       Eth1/10        120         S                    e0a         
 SHFGD1947000186       Eth1/11        120         S                    e0a         
 SHFGB2017000269       Eth1/12        120         S                    e0a         
@@ -122,13 +122,13 @@ S2# *show lldp neighbors*
 Capability Codes: (R) Router, (B) Bridge, (T) Telephone, (C) DOCSIS Cable Device,
                   (W) WLAN Access Point, (P) Repeater, (S) Station (O) Other
 
-Device-ID             Local Intf     Holdtime    Capability           Port ID
-node1                 Eth1/11         121         S                   e5b
-node2                 Eth1/12         121         S                   e5b
-SHFGD1947000186       Eth1/10         120         S                   e0b         
-SHFGD1947000186       Eth1/11         120         S                   e0b         
-SHFGB2017000269       Eth1/12         120         S                   e0b         
-SHFGB2017000269       Eth1/13         120         S                   e0b
+Device-ID             Local Intf     Holdtime    Capability          Port ID
+node1                 Eth1/1         121         S                   e5b
+node2                 Eth1/2         121         S                   e5b
+SHFGD1947000186       Eth1/10        120         S                   e0b         
+SHFGD1947000186       Eth1/11        120         S                   e0b         
+SHFGB2017000269       Eth1/12        120         S                   e0b         
+SHFGB2017000269       Eth1/13        120         S                   e0b
 ----
 
 . On switch sw2, shut down the ports connected to the storage ports and nodes of the disk shelves.
