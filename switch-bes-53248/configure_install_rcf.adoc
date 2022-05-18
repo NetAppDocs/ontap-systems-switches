@@ -60,6 +60,8 @@ File transfer operation completed successfully.
 NOTE: Depending on your environment, you might need to use a double slash in the `copy` command, for example: `+copy http://172.19.2.1//tmp/BES-53248_RCF_v1.6-Cluster-HA.txt nvram:script BES-53248_RCF_v1.6-Cluster-HA.scr+`.
 +
 NOTE: The `.scr` extension must be set as part of the file name before invoking the script. This extension is the extension for the EFOS operating system. The switch validates the script automatically when it is downloaded to the switch, and the output goes to the console. Also, you can change the name of the `.scr` to fit your console screen for easier readability, for example: `+copy http://172.19.2.1/tmp/BES-53248_RCF_v1.6-Cluster-HA.txt nvram:script RCF_v1.6-Cluster-HA.scr+`.
++
+NOTE: The file name must not include the symbols `\/:*?"<>|` and the maximum length allowed is 32 chars.
 
 . Verify that the script was downloaded and saved to the file name you gave it:
 +
