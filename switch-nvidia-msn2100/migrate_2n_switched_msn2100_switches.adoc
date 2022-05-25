@@ -183,7 +183,7 @@ cumulus@sw1:~$ *net pending*
 cumulus@sw1:~$ *net commit*
 ----
 
-. Verify that all ports are up on switch sw1: `net show interface all`
+. On switch sw1, verify that all ports are up: `net show interface all`
 +
 [subs=+quotes]
 ----
@@ -235,7 +235,6 @@ e3b       Cluster      Cluster          up   9000  auto/100000 healthy  false
 
 ----
 
-
 . Display information about the status of the nodes in the cluster: `cluster show`
 +
 The following example displays information about the health and eligibility of the nodes in the cluster:
@@ -265,7 +264,7 @@ cumulus@sw2:~$ *net pending*
 cumulus@sw2:~$ *net commit*
 ----
 
-. Verify that all ports are up on sw2: `net show interface all`
+. On switch sw2, verify that all ports are up: `net show interface all`
 +
 [subs=+quotes]
 ----
@@ -291,33 +290,7 @@ UP     swp16     100G  9216   BondMember  swp16            Master: cluster_isl(U
 ...
 ----
 
-. Verify that all cluster ports are up: `network port show -ipspace Cluster`
-+
-The following example shows that all of the cluster ports are up on node1 and node2:
-+
-[subs=+quotes]
-----
-cluster1::*> *network port show -ipspace Cluster*
-
-Node: node1
-                                                                       Ignore
-                                                  Speed(Mbps) Health   Health
-Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
---------- ------------ ---------------- ---- ---- ----------- -------- ------
-e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
-
-Node: node2
-                                                                       Ignore
-                                                  Speed(Mbps) Health   Health
-Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
---------- ------------ ---------------- ---- ---- ----------- -------- ------
-e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
-
-----
-
-. Verify that both nodes each have one connection to each switch: `net show lldp`
+. On both switches sw1 and sw2, verify that both nodes each have one connection to each switch: `net show lldp`
 +
 The following example shows the appropriate results for both switches sw1 and sw2:
 +
@@ -356,6 +329,32 @@ node1      /lldp
 node2      /lldp
             e3a    sw1 (b8:ce:f6:19:1a:7e)   swp4          -
             e3b    sw2 (b8:ce:f6:19:1b:96)   swp4          -
+----
+
+. Verify that all cluster ports are up: `network port show -ipspace Cluster`
++
+The following example shows that all of the cluster ports are up on node1 and node2:
++
+[subs=+quotes]
+----
+cluster1::*> *network port show -ipspace Cluster*
+
+Node: node1
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+
+Node: node2
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+
 ----
 
 . Enable auto-revert on all cluster LIFs: `net interface modify -vserver Cluster -lif * -auto-revert true`

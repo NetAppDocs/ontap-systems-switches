@@ -12,14 +12,19 @@ summary: 'Before configuring your NVIDIA SN2100 switch, review the following inf
 Before configuring your NVIDIA SN2100 switch, review the following information:
 
 . Only optical connections are supported on SN2100 switches with X1151A NIC, X1146A NIC, or onboard 100GbE ports on AFF A800.
-. When a QSA adapter is used to connect to the onboard Intel cluster ports on a platform, not all links come up. Example platforms are: (10G) FAS2750, AFF300, and FAS8200, and (25G) AFFA800. To resolve this issue, do the following:
+. When a QSA adapter is used to connect to the onboard Intel cluster ports on a platform, not all links come up.
++
+Example platforms are: FAS2750, AFF A300, and FAS8200 (all 10G) and AFF A250 (25G).
++
+To resolve this issue, do the following:
+
 .. For Intel 10G, manually set the swp1s0-3 link speed to 10000 and set auto-negotiation to offset
 .. For Chelsio 25G, manually set the swp2s0-3 link speed to 25000 and set auto-negotiation to off
 +
 
-NOTE: Using 10G/25G QSA, use the non-breakout 40/100G ports. Do not insert the QSA adapter on ports that are configured for breakout. This results in only one port being available for use.
+NOTE: Using 10G/25G QSA, use the non-breakout 40/100G ports. Do not insert the QSA adapter on ports that are configured for breakout.
 
-+
+
 . Depending on the transceiver in the switchport, you might need to set the speed on the switchport to fixed speed. If using 10G and 25G breakout ports, make sure that auto-negotiation is off and hard set the port speed on the switch. For example:
 +
 ----
