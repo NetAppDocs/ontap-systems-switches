@@ -1,7 +1,7 @@
 ---
-permalink: switch-nvidia-msn2100/migrate_cisco_msn2100_storage_switch.html
+permalink: switch-nvidia-sn2100/migrate_cisco_sn2100_storage_switch.html
 sidebar: sidebar
-keywords: migrating to a storage switch with NVIDIA SN2100 MSN2100 storage switches, how to migrate
+keywords: migrating to a storage switch with NVIDIA SN2100 storage switches, how to migrate
 summary: 'You can migrate nondisruptively older Cisco switches for an ONTAP cluster to NVIDIA SN2100 storage switches.'
 ---
 = Migrate from a Cisco storage switch to a NVIDIA SN2100 storage switch
@@ -40,9 +40,9 @@ The examples in this procedure use the following switch and node nomenclature:
 * The existing Cisco Nexus 9336C-FX2 storage switches are _S1_ and _S2_.
 * The new NVIDIA SN2100 storage switches are _sw1_ and _sw2_.
 * The nodes are _node1_ and _node2_.
-* The cluster LIFs are node1_clus1 and node1_clus2 on node 1, and node2_clus1 and node2_clus2 on node 2 respectively.
+* The cluster LIFs are _node1_clus1_ and _node1_clus2_ on node 1, and _node2_clus1_ and _node2_clus2_ on node 2 respectively.
 * The `cluster1::*>` prompt indicates the name of the cluster.
-* The network ports used in this procedure are e5a and e5b.
+* The network ports used in this procedure are _e5a_ and _e5b_.
 * Breakout ports take the format: swp1s0-3. For example four breakout ports on swp1 are _swp1s0_, _swp1s1_, _swp1s2_, and _swp1s3_.
 * Switch S2 is replaced by switch sw2 first and then switch S1 is replaced by switch sw1.
 ** Cabling between the nodes and S2 are then disconnected from S2 and reconnected to sw2.
@@ -249,7 +249,7 @@ node2      /lldp
 
 . Verify the final configuration: `storage port show`
 +
-Each port should display enabled for `State` and enbled for `Status`.
+Each port should display enabled for `State` and enabled for `Status`.
 +
 [subs=+quotes]
 ----

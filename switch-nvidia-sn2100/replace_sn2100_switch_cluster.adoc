@@ -1,7 +1,7 @@
 ---
-permalink: switch-nvidia-msn2100/replace_msn2100_switch_cluster.html
+permalink: switch-nvidia-sn2100/replace_sn2100_switch_cluster.html
 sidebar: sidebar
-keywords: replacing, replace, defective, nvidia, switch, cluster, network, nondisruptive, procedure, ndu, replace a nvidia msn2100 cluster switch - nvidia msn2100 SN2100
+keywords: replacing, replace, defective, nvidia, switch, cluster, network, nondisruptive, procedure, ndu, replace a nvidia msn2100 cluster switch - nvidia SN2100
 summary: Replacing a defective NVIDIA SN2100 switch in a cluster network is a nondisruptive procedure \(NDU\).
 ---
 = Replace a NVIDIA SN2100 cluster switch
@@ -38,9 +38,9 @@ The examples in this procedure use the following switch and node nomenclature:
 
 * The names of the existing NVIDIA SN2100 switches are _sw1_ and _sw2_.
 * The name of the new NVIDIA SN2100 switch is _nsw2_.
-* The node names are node1 and node2.
-* The cluster ports on each node are named e3a and e3b.
-* The cluster LIF names are node1_clus1 and _node1_clus2 for node1, and node2_clus1 and node2_clus2 for node2.
+* The node names are _node1_ and _node2_.
+* The cluster ports on each node are named _e3a_ and _e3b_.
+* The cluster LIF names are _node1_clus1_ and _node1_clus2_ for node1, and _node2_clus1_ and _node2_clus2_ for node2.
 * The prompt for changes to all cluster nodes is `cluster1::*>`
 * Breakout ports take the format: swp[port]s[breakout port 0-3]. For example, four breakout ports on swp1 are _swp1s0_, _swp1s1_, _swp1s2_, and _swp1s3_.
 +
@@ -125,10 +125,10 @@ The advanced prompt (*>) appears.
 
 . Install the appropriate RCF and image on the switch, nsw2, and make any necessary site preparations.
 +
-If necessary, verify, download, and install the appropriate versions of the RCF and Cumulus software for the new switch. If you have verified that the new switch is correctly set up and does not need updates to the RCF and Cumulus software, continue to step 3. See https://docs.netapp.com/us-en/ontap-systems-switches/switch-nvidia-msn2100/install_setup_msn2100_switches_overview.html[Setup and configure NVIDIA SN2100 switches].
+If necessary, verify, download, and install the appropriate versions of the RCF and Cumulus software for the new switch. If you have verified that the new switch is correctly set up and does not need updates to the RCF and Cumulus software, continue to step 3. See <<Setup and configure the NVIDIA SN2100 switches>> for further details. See link:/install_setup_sn2100_switches_overview.html[Setup and configure the NVIDIA SN2100 switches] for further details.
 +
  .. You can download the applicable Cumulus software for your cluster switches from the _NVIDIA Support_ site. Follow the steps on the Download page to download the Cumulus Linux for the version of ONTAP software you are installing.
- .. The appropriate RCF is available from the _NVIDIA Cluster and Storage Switches_ page (*add link when available*). Follow the steps on the Download page to download the correct RCF for the version of ONTAP software you are installing.
+ .. The appropriate RCF is available from the link:https://mysupport.netapp.com/site/products/all/details/nvidia-cluster-storage-switch/downloads-tab[_NVIDIA Cluster and Storage Switches_^] page. Follow the steps on the Download page to download the correct RCF for the version of ONTAP software you are installing.
 +
 . On the new switch nsw2, log in as admin and shut down all of the ports that will be connected to the node cluster interfaces (ports swp1 to swp14).
 +

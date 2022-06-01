@@ -1,7 +1,7 @@
 ---
-permalink: switch-nvidia-msn2100/migrate_2n_switched_msn2100_switches.html
+permalink: switch-nvidia-sn2100/migrate_2n_switched_sn2100_switches.html
 sidebar: sidebar
-keywords: two-node switchless cluster environments,migrating to a two-node switched NVIDIA SN2100 cluster environment,switchless cluster environments,NVIDIA MSN2100 SN2100 switches
+keywords: two-node switchless cluster environments,migrating to a two-node switched NVIDIA SN2100 cluster environment,switchless cluster environments,NVIDIA SN2100 switches
 summary: 'If you have an existing two-node switchless cluster environment, you can migrate to a two-node switched cluster environment using NVIDIA SN2100 switches to enable you to scale beyond two nodes in the cluster.'
 ---
 = Migrate to a two-node switched cluster with NVIDIA SN2100 cluster switches
@@ -24,7 +24,7 @@ You must be aware of certain configuration information, port connections, and ca
 * There must be console access to the cluster switches.
 * NVIDIA SN2100 node-to-node switch and switch-to-switch connections must use Twinax or fiber cables.
 +
-IMPORTANT: See https://docs.netapp.com/us-en/ontap-systems-switches/switch-nvidia-msn2100/install_cabling_config_considerations_msn2100.html[Cabling and configuration considerations] for caveats and further details.
+IMPORTANT: See <<Cabling and configuration considerations>> for caveats and further details.
 +
 The https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches^] contains more information about cabling.
 
@@ -39,9 +39,9 @@ The examples in this procedure use the following cluster switch and node nomencl
 
 * The names of the SN2100 switches are _sw1_ and _sw2_.
 * The names of the cluster SVMs are _node1_ and _node2_.
-* The names of the LIFs are node1_clus1 and node1_clus2 on node 1, and node2_clus1 and node2_clus2 on node 2 respectively.
+* The names of the LIFs are _node1_clus1_ and _node1_clus2_ on node 1, and _node2_clus1_ and _node2_clus2_ on node 2 respectively.
 * The `cluster1::*>` prompt indicates the name of the cluster.
-* The cluster ports used in this procedure are e3a and e3b.
+* The cluster ports used in this procedure are _e3a_ and _e3b_.
 * Breakout ports take the format: swp[port]s[breakout port 0-3]. For example, four breakout ports on swp1 are _swp1s0_, _swp1s1_, _swp1s2_, and _swp1s3_.
 +
 
