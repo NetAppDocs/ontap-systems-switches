@@ -33,8 +33,8 @@ Password (Enter)
 . On the console of each node, migrate clus2 to port e1a: `network interface migrate`
 +
 ----
-cluster::*> network interface migrate -vserver vs1 -lif clus2 -source-node node1 -destnode node1 -dest-port e1a
-cluster::*> network interface migrate -vserver vs2 -lif clus2 -source-node node2 -destnode node2 -dest-port e1a
+cluster::*> network interface migrate -vserver vs1 -lif clus2 -destnode node1 -dest-port e1a
+cluster::*> network interface migrate -vserver vs2 -lif clus2 -destnode node2 -dest-port e1a
 ----
 
 . On the console of each node, verify that the migration took place: `network interface show`
