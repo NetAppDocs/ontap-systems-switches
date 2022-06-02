@@ -4,21 +4,20 @@ sidebar: sidebar
 keywords: problem, install, license, debug, command, restriction, limitation, switch, restrictions and limitations - bes-53428 switches
 summary: Where problems arise when installing a license, the following debug commands should be run before running the copy command again to install the license.
 ---
-= Restrictions and limitations - BES-53248 switches
+= Restrictions and limitations
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
 Where problems arise when installing a license, the following debug commands should be run before running the `copy` command again to install the license.
 
-Debug commands to use:
+Debug commands to use are: `debug transfer` and `debug license`
 
-`debug transferdebug license`
-
+[subs=+quotes]
 ----
-(cs2) # debug transfer
+(cs2)# *debug transfer*
 Debug transfer output is enabled.
-(cs2) # debug license
+(cs2)# *debug license*
 Enabled capability licensing debugging.
 ----
 
@@ -57,8 +56,9 @@ Check for the following in the debug output:
 
 Use the `copy` command to backup port licenses to the server:
 
+[subs=+quotes]
 ----
-(cs2) # copy nvram:license-key 1 scp://<UserName>@<IP_address>/saved_license_1.dat
+(cs2)# *copy nvram:license-key 1 scp://<UserName>@<IP_address>/saved_license_1.dat*
 ----
 
 See link:configure-licenses.html[Installing licenses for BES-53248 cluster switches] for details of the firmware versions supported for available licenses.

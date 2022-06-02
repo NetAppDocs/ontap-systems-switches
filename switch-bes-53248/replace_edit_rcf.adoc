@@ -129,11 +129,13 @@ For low-speed ports between 0/17 to 0/48 inclusive, uncomment the entire 8-port 
 == Edit a previously installed RCF file
 
 After you edit a previously installed RCF file and run the `script apply` command, you might get the following error message:
+
+[subs=+quotes]
 ----
-(CS1) #script apply BES-53248_RCF_v1.6-Cluster-HA.scr
- Are you sure you want to apply the configuration script? (y/n)
+(CS1)# *script apply BES-53248_RCF_v1.6-Cluster-HA.scr*
+Are you sure you want to apply the configuration script? (y/n) *y*
 ----
-After you select `y`, you get the following error message:
+After you select *y*, you get the following error message:
 ----
 config
  ...
@@ -144,14 +146,13 @@ config
  Aborting script.
 ----
 
-To either avoid or resolve this issue, you can choose one of the following options:
+To avoid or resolve this issue, you can choose one of the following options:
 
 * To avoid the error, you can use following procedure:
-.	Create a second a RCF file containing the new port configuration only.
-.	Copy the second RCF file to the switch.
-.	Apply the script to the switch:
-+
-`script apply`
+.	Create a second RCF containing only the new port configuration.
+.	Copy the second RCF to the switch.
+.	Apply the script to the switch using the command: `script apply`.
+
 * To resolve the error, see the Knowledge Base article: link:++https://kb.netapp.com/?title=Advice_and_Troubleshooting%2FData_Storage_Systems%2FFabric%252C_Interconnect_and_Management_Switches%2FError%2521_in_configuration_script_file_at_line_number_XX_when_applying_a_new_RCF%20%20%20++[Error! in configuration script file at line number XX when applying a new RCF^]
 
 // BURT 1400328, 2021-11-18
