@@ -31,35 +31,27 @@ Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 +
 [subs=+quotes]
 ----
-(cs2)# *copy http://172.19.2.1/tmp/BES-53248_RCF_v1.6-Cluster-HA.txt nvram:script BES-53248_RCF_v1.6-Cluster-HA.scr*
+(cs2)# *copy sftp://172.19.2.1/tmp/BES-53248_RCF_v1.6-Cluster-HA.txt nvram:script BES-53248_RCF_v1.6-Cluster-HA.scr*
 
-Remote Password ********
+Remote Password:********
 
-Mode........................................... HTTP
+Mode........................................... SFTP
 Set Server IP.................................. 172.19.2.1
 Path........................................... //tmp/
 Filename....................................... BES-53248_RCF_v1.6-Cluster-HA.txt
 Data Type...................................... Config Script
 Destination Filename........................... BES-53248_RCF_v1.6-Cluster-HA.scr
 
-File with same name already exists.
-WARNING: Continuing with this command will overwrite the existing file.
-
 Management access will be blocked for the duration of the transfer
 Are you sure you want to start? (y/n) *y*
+SFTP Code transfer starting...
 
-File transfer in progress. Management access will be blocked for the duration of the transfer. Please wait...
-
-Validating configuration script...
-[the script is now displayed line by line]
-
-Configuration script validated.
 File transfer operation completed successfully.
 ----
 +
-NOTE: Depending on your environment, you might need to use a double slash in the `copy` command, for example: `+copy http://172.19.2.1//tmp/BES-53248_RCF_v1.6-Cluster-HA.txt nvram:script BES-53248_RCF_v1.6-Cluster-HA.scr+`.
+NOTE: Depending on your environment, you might need to use a double slash in the `copy` command, for example: `+copy sftp://172.19.2.1//tmp/BES-53248_RCF_v1.6-Cluster-HA.txt nvram:script BES-53248_RCF_v1.6-Cluster-HA.scr+`.
 +
-NOTE: The `.scr` extension must be set as part of the file name before invoking the script. This extension is the extension for the EFOS operating system. The switch validates the script automatically when it is downloaded to the switch, and the output goes to the console. Also, you can change the name of the `.scr` to fit your console screen for easier readability, for example: `+copy http://172.19.2.1/tmp/BES-53248_RCF_v1.6-Cluster-HA.txt nvram:script RCF_v1.6-Cluster-HA.scr+`.
+NOTE: The `.scr` extension must be set as part of the file name before invoking the script. This extension is the extension for the EFOS operating system. The switch validates the script automatically when it is downloaded to the switch, and the output goes to the console. Also, you can change the name of the `.scr` to fit your console screen for easier readability, for example: `+copy sftp://172.19.2.1/tmp/BES-53248_RCF_v1.6-Cluster-HA.txt nvram:script RCF_v1.6-Cluster-HA.scr+`.
 +
 NOTE: The file name must not include the symbols `\/:*?"<>|` and the maximum length allowed is 32 chars.
 
