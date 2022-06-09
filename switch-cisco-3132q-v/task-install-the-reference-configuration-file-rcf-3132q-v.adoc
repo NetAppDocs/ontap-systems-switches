@@ -20,7 +20,11 @@ The examples in this procedure use the following switch and node nomenclature:
 * The cluster LIF names are `cluster1-01_clus1`, `cluster1-01_clus2`, `cluster1-02_clus1`, `cluster1-02_clus2` , `cluster1-03_clus1`, `cluster1-03_clus2`, `cluster1-04_clus1`, and `cluster1-04_clus2`.
 * The `cluster1::*>` prompt indicates the name of the cluster.
 
-NOTE: The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
+[NOTE]
+====
+* The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
+* Ensure that you have a current backup of the switch configuration before you perform this procedure.
+====
 
 .Steps
 
@@ -192,9 +196,9 @@ cluster1-04          true    true          false
 cluster1::*>
 ----
 
-. Display and capture the existing configuration:
+. If you do not already have a current backup of the switch, you can save the current switch configuration by capturing the output of the following command to a log file.
 +
-`show run`
+`show running-config`
 
 . Clean the configuration on switch cs2 and perform a basic setup.
  .. Clean the configuration.
@@ -580,4 +584,4 @@ RPC status:
 ----
 
 // QA clean-up, 2022-03-03
-// 2022-056-02, 1453255
+// 2022-06-02, 1453255
