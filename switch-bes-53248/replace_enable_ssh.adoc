@@ -16,8 +16,9 @@ SSH is a requirement when using the Cluster Switch Health Monitor (CSHM) and log
 +
 *`crypto key generate`*
 +
+[subs=+quotes]
 ----
-(switch) # show ip ssh
+(switch)# *show ip ssh*
 
 SSH Configuration
 
@@ -31,32 +32,44 @@ Keys Present: ................................. DSA(1024) RSA(1024) ECDSA(521)
 Key Generation In Progress: ................... None
 SCP server Administrative Mode: ............... Disabled
 
-(switch) # config
+(switch)# *config*
 
-(switch) (Config)# crypto key generate rsa
+(switch) (Config)# *crypto key generate rsa*
 
-Do you want to overwrite the existing RSA keys? (y/n): y
-
-
-(switch) (Config)# crypto key generate dsa
-
-Do you want to overwrite the existing DSA keys? (y/n): y
+Do you want to overwrite the existing RSA keys? (y/n): *y*
 
 
-(switch) (Config)# crypto key generate ecdsa 521
+(switch) (Config)# *crypto key generate dsa*
 
-Do you want to overwrite the existing ECDSA keys? (y/n): y
+Do you want to overwrite the existing DSA keys? (y/n): *y*
 
 
-(switch) (Config)# exit
+(switch) (Config)# *crypto key generate ecdsa 521*
+
+Do you want to overwrite the existing ECDSA keys? (y/n): *y*
+
+(switch) (Config)# *aaa authorization commands "noCmdAuthList" none*
+(switch) (Config)# *exit*
+(switch)# *ip ssh server enable*
+(switch)# *ip ssh pubkey-auth*
+(switch)# *ip scp server enable*
+(switch)# *write mem*
+This operation may take a few minutes.
+Management interfaces will not be available during this time.
+Are you sure you want to save? (y/n) *y*
+
+Config file 'startup-config' created successfully .
+
+Configuration Saved!
 ----
 
 . Verify that SSH is enabled:
 +
 *`show ip ssh`*
 +
+[subs=+quotes]
 ----
-(switch) # show ip ssh
+(switch)# *show ip ssh*
 
 SSH Configuration
 
@@ -69,6 +82,4 @@ SSH Timeout (mins): ........................... 5
 Keys Present: ................................. DSA(1024) RSA(1024) ECDSA(521)
 Key Generation In Progress: ................... None
 SCP server Administrative Mode: ............... Disabled
-
-(switch) #
 ----

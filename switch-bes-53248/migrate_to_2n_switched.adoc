@@ -15,10 +15,10 @@ If you have a two-node switchless cluster, you can migrate, non-disruptively, to
 
 Most systems require two dedicated cluster-network ports on each controller.
 
-Ensure that the BES-53248 cluster switch is set up as described in the http://docs.netapp.com/platstor/topic/com.netapp.doc.hw-sw-ix8-setup/home.html[Switch Setup and Configuration Guide for Broadcom-supported BES-53248 switches^] guide before starting this migration process.
+Ensure that the BES-53248 cluster switch is set up as described in link:replace-requirements.html[Broadcom-supported BES-53248 switches setup and configuration^] before starting this migration process.
 
 NOTE: After your migration completes, you might need to install the required configuration file to support the Cluster Switch Health Monitor (CSHM) for BES-53248 cluster switches.
 
 See http://docs.netapp.com/platstor/topic/com.netapp.doc.hw-sw-ix8-setup/GUID-211616A4-C962-464A-A70E-5E057D7B13E1.html[Installing the Cluster Switch Health Monitor (CSHM) configuration file^] in the _Switch Setup and Configuration Guide for Broadcom-supported BES-53248 switches_ guide.
 
-Also, see _Configuring the cluster switch log collection feature_ in the http://docs.netapp.com/platstor/topic/com.netapp.doc.hw-sw-ix8-setup/home.html[Switch Setup and Configuration Guide for Broadcom-supported BES-53248 switches^] for the steps required to enable cluster health switch log collection used for collecting switch-related log files.
+Also, see See link:configure-health-monitor.html[Install the Cluster Switch Health Monitor (CSHM) configuration file] and link:configure-log-collection[Configure the cluster switch log collection feature] for the steps required to enable cluster health switch log collection used for collecting switch-related log files.
