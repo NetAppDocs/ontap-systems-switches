@@ -21,24 +21,22 @@ The following procedure removes the cluster switches in a two-node cluster and r
 
 image::../media/tnsc_clusterswitches_and_direct_connections.PNG[Cluster switches replaced with direct connections]
 
-The examples in the following procedure show nodes that are using "e0a" and "e0b" as cluster ports. Your nodes might be using different cluster ports as they vary by platform.
+The examples in the following procedure show nodes that are using "e0a" and "e0b" as cluster ports. Your nodes might be using different cluster ports as they vary by system.
 
 .Steps
 .	Change the privilege level to advanced, entering `y` when prompted to continue:
 +
 `set-privilege advanced`
 +
-The advanced prompt *> appears.
+The advanced prompt `*>` appears.
 
 . ONTAP 9.3 and later supports automatic detection of switchless clusters, which is enabled by default.
 +
-Example:
-+
-Verify that detection of switchless clusters is enabled by running the advanced privilege command:
+You can verify that detection of switchless clusters is enabled by running the advanced privilege command:
 +
 `network options detect-switchless-cluster show`
 +
-The following example shows if the option is enabled.
+The following example output shows if the option is enabled.
 +
 ----
 cluster::*> network options detect-switchless-cluster show
@@ -50,19 +48,17 @@ If "Enable Switchless Cluster Detection” is `false`, contact support.
 
 .	If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
 +
-`system node autosupport invoke -node * -type all -message MAINT=_number_of_hours_ h`
+`system node autosupport invoke -node * -type all -message MAINT=<number_of_hours>h`
 +
 where `h` is the duration of the maintenance window in hours. The message notifies technical support of this maintenance task so that they can suppress automatic case creation during the maintenance window.
 +
-Example
-+
-The following command suppresses automatic case creation for two hours:
+In the following example, the command suppresses automatic case creation for two hours:
 +
 ----
 cluster::*> system node autosupport invoke -node * -type all -message MAINT=2h
 ----
 
-.	Organize the cluster ports on each switch into groups so that all the cluster ports in group1 go to cluster switch1 and all the cluster ports in group2 go to cluster switch2. These groups are required later in the procedure.
+.	Organize the cluster ports on each switch into groups so that the cluster ports in group1 go to cluster switch1 and the cluster ports in group2 go to cluster switch2. These groups are required later in the procedure.
 .	Identify the cluster ports and verify link status and health:
 +
 `network port show -ipspace Cluster`
@@ -71,9 +67,7 @@ In the following example for nodes with cluster ports "e0a" and "e0b", one group
 +
 image::../media/tnsc_clusterswitch_connections.PNG[Cluster switch connections between node1 and node2]
 +
-Verify that the ports have a value of up for the “Link” column and a value of `healthy` for the “Health Status” column.
-+
-Example
+Verify that the ports have a value of `up` for the “Link” column and a value of `healthy` for the “Health Status” column, as shown in the following example:
 +
 ----
 cluster::> network port show -ipspace Cluster
@@ -95,11 +89,11 @@ e0b		Cluster		Cluster	         up	   9000	 auto/10000	 healthy
 
 .	Confirm that all the cluster LIFs are on their home ports.
 +
-Verify that the “Is Home” column is true for each of the cluster LIFs:
+Verify that the “is-home” column is `true` for each of the cluster LIFs:
 +
 `network interface show -vserver Cluster -fields is-home`
 +
-Example
+The system displays output similar to the following example:
 +
 ----
 cluster::*> net int show -vserver Cluster -fields is-home
@@ -120,7 +114,7 @@ If there are cluster LIFs that are not on their home ports, revert those LIFs to
 +
 `network interface modify -vserver Cluster -lif * -auto-revert false`
 +
-Example
+The system displays output similar to the following example:
 +
 ----
 cluster::> network interface modify -vserver Cluster -lif * -auto-revert false
@@ -197,7 +191,7 @@ The following example shows that cluster ports "e0a" and "e0b" are correctly con
 +
 `network interface modify -vserver Cluster -lif * -auto-revert true`
 +
-Example
+The system displays output similar to the following example:
 +
 ----
 cluster::> network interface modify -vserver Cluster -lif * -auto-revert true
@@ -207,9 +201,7 @@ cluster::> network interface modify -vserver Cluster -lif * -auto-revert true
 +
 `network interface show -vserver Cluster -lif *`
 +
-Example
-+
-The LIFs have been reverted if the “Is Home” column is `true` for `node1_clus2` and `node2_clus2`:
+The LIFs have been reverted if the “Is Home” column is `true`, as shown for `node1_clus2` and `node2_clus2` in the following example:
 +
 ----
 cluster::> network interface show -vserver Cluster -fields curr-port,is-home
@@ -226,7 +218,7 @@ Cluster  node2_clus2	 e0b       true
 +
 `cluster show`
 +
-The following example shows epsilon on both nodes to be false:
+The following example shows epsilon on both nodes to be `false`:
 +
 ----
 Node	Health	Eligibility	Epsilon
@@ -244,7 +236,7 @@ node2 true	  true      	false
 +
 `system node autosupport invoke -node * -type all -message MAINT=END`
 +
-Example
+The system displays output similar to the following example:
 +
 ----
 cluster::*> system node autosupport invoke -node * -type all -message MAINT=END
