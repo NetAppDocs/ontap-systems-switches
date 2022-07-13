@@ -51,12 +51,14 @@ The examples in this procedure use the following switch and node nomenclature:
 * The cluster ports on each node are named _e3a_ and _e3b_.
 * The cluster LIF names are `node1_clus1` and `node1_clus2` for node1, and `node2_clus1` and `node2_clus2` for node2.
 * The prompt for changes to all cluster nodes is cluster1::*>.
-
++
 [NOTE]
 The following procedure is based on the following network topology:
 
++
+[subs=+quotes]
 ----
-cluster1::*> network port show -ipspace Cluster
+cluster1::*> *network port show -ipspace Cluster*
 
 Node: node1
                                                                         Ignore
@@ -76,7 +78,7 @@ e3b       Cluster      Cluster          up   9000  auto/100000 healthy  false
 4 entries were displayed.
 
 
-cluster1::*> network interface show -vserver Cluster
+cluster1::*> *network interface show -vserver Cluster*
             Logical    Status     Network            Current       Current Is
 Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
 ----------- ---------- ---------- ------------------ ------------- ------- ----
@@ -87,7 +89,7 @@ Cluster
             node2_clus2  up/up    169.254.19.183/16  node2         e3b     true
 4 entries were displayed.
 
-cluster1::*> network device-discovery show -protocol cdp
+cluster1::*> *network device-discovery show -protocol cdp*
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
@@ -100,7 +102,7 @@ node1      /cdp
             e3b    sh2                       Eth1/1            N9K-C9336C
 4 entries were displayed.
 
-sh1# show cdp neighbors
+sh1# *show cdp neighbors*
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
                   V - VoIP-Phone, D - Remotely-Managed-Device,
@@ -112,7 +114,7 @@ sh2                Eth1/35        176    R S I s     N9K-C9336C    Eth1/35
 sh2 (FDO220329V5)   Eth1/36       176    R S I s     N9K-C9336C    Eth1/36
 Total entries displayed: 4
 
-sh2# show cdp neighbors
+sh2# *show cdp neighbors*
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
                   V - VoIP-Phone, D - Remotely-Managed-Device,
@@ -141,18 +143,21 @@ Where x is the duration of the maintenance window in hours.
 [start=3]
 . [[step3]]On the new switch, log in as admin and shut down all the ports that will be connected to the node cluster interfaces (ports 1/1 to 1/34).
 If the switch that you are replacing is not functional and is powered down, go to <<step4,Step 4>>. The LIFs on the cluster nodes should have already failed over to the other cluster port for each node.
-
++
+[subs=+quotes]
 ----
-newsh2# config
+newsh2# *config*
 Enter configuration commands, one per line. End with CNTL/Z.
-newsh2(config)# interface e1/1-34
-newsh2(config-if-range)# shutdown
+newsh2(config)# *interface e1/1-34*
+newsh2(config-if-range)# *shutdown*
 ----
 [start=4]
 . [[step4]]Verify that all cluster LIFs have auto-revert enabled.
 `network interface show - vserver Cluster -fields auto-revert`
++
+[subs=+quotes]
 ----
-cluster1::> network interface show -vserver Cluster -fields auto-revert
+cluster1::> *network interface show -vserver Cluster -fields auto-revert*
              Logical
 Vserver      Interface     Auto-revert
 ------------ ------------- -------------
@@ -165,9 +170,10 @@ Cluster      node2_clus2   true
 [start=5]
 . [[step5]]Verify that all the cluster LIFs can communicate:
 `cluster ping-cluster <node name>`
-
++
+[subs=+quotes]
 ----
-cluster1::*> cluster ping-cluster node1
+cluster1::*> *cluster ping-cluster node2*
 Host is node2
 Getting addresses from network interface table...
 Cluster node1_clus1 169.254.209.69 node1 e3a
@@ -194,13 +200,13 @@ RPC status:
 ----
 [start=6]
 . [[step6]]Shut down the ISL ports 1/35 and 1/36 on the Nexus 9336C-FX2 switch sh1.
-
++
+[subs=+quotes]
 ----
-sh1# configure
+sh1# *configure*
 Enter configuration commands, one per line. End with CNTL/Z.
-sh1(config)# interface e1/35-36
-sh1(config-if-range)# shutdown
-sh1(config-if-range)#
+sh1(config)# *interface e1/35-36*
+sh1(config-if-range)# *shutdown*
 ----
 [start=7]
 . [[step7]]Remove all the cables from the Nexus 9336C-FX2 sh2 switch, and then connect them to the same ports on the Nexus C9336C-FX2 newsh2 switch.
@@ -209,13 +215,14 @@ sh1(config-if-range)#
 Port-Channel should indicate Po1(SU) and Member Ports should indicate Eth1/35(P) and Eth1/36(P).
 +
 This example enables ISL ports 1/35 and 1/36 and displays the port channel summary on switch sh1.
-
++
+[subs=+quotes]
 ----
-sh1# configure
+sh1# *configure*
 Enter configuration commands, one per line. End with CNTL/Z.
-sh1 (config)# int e1/35-36
-sh1 (config-if-range)# no shutdown
-sh1 (config-if-range)# show port-channel summary
+sh1 (config)# *int e1/35-36*
+sh1 (config-if-range)# *no shutdown*
+sh1 (config-if-range)# *show port-channel summary*
 Flags:  D - Down        P - Up in port-channel (members)
         I - Individual  H - Hot-standby (LACP only)
         s - Suspended   r - Module-removed
@@ -237,9 +244,10 @@ sh1 (config-if-range)#
 `network port show ipspace Cluster`
 +
 The output should be like the following:
-
++
+[subs=+quotes]
 ----
-cluster1::*> network port show -ipspace Cluster
+cluster1::*> *network port show -ipspace Cluster*
 
 Node: node1
                                                                          Ignore
@@ -264,9 +272,10 @@ e3b       Cluster      Cluster          up   9000  auto/auto    -        false
 In this example, LIF node1_clus2 on node1 is successfully reverted if the Home value is true and the port is e3b.
 +
 The following commands return LIF node1_clus2 on node1 to home port e3a and displays information about the LIFs on both nodes. Bringing up the first node is successful if the Is Home column is *true* for both cluster interfaces and they show the correct port assignments, in this example e3a and e3b on node1.
-
++
+[subs=+quotes]
 ----
-cluster1::*> network interface show -vserver Cluster
+cluster1::*> *network interface show -vserver Cluster*
 
             Logical      Status     Network            Current    Current Is
 Vserver     Interface    Admin/Oper Address/Mask       Node       Port    Home
@@ -283,9 +292,10 @@ Cluster
 `cluster show`
 +
 This example shows that the node health for node1 and node2 in this cluster is true:
-
++
+[subs=+quotes]
 ----
-cluster1::*> cluster show
+cluster1::*> *cluster show*
 Node          Health  Eligibility
 ------------- ------- ------------
 node1         false   true
@@ -294,9 +304,10 @@ node2         true    true
 [start=12]
 . [[step12]]Verify that all physical cluster ports are up:
 `network port show ipspace Cluster`
-
++
+[subs=+quotes]
 ----
-cluster1::*> network port show -ipspace Cluster
+cluster1::*> *network port show -ipspace Cluster*
 
 Node node1                                                                Ignore
                                                     Speed(Mbps)  Health   Health
@@ -317,9 +328,10 @@ e3b       Cluster      Cluster          up    9000  auto/100000  healthy  false
 [start=13]
 . [[step13]]Verify that all the cluster LIFs can communicate:
 `cluster ping-cluster`
-
++
+[subs=+quotes]
 ----
-cluster1::*> cluster ping-cluster -node node2
+cluster1::*> *cluster ping-cluster -node node2*
 Host is node2
 Getting addresses from network interface table...
 Cluster node1_clus1 169.254.209.69 node1 e3a
@@ -347,8 +359,10 @@ RPC status:
 [start=14]
 . [[step14]]Confirm the following cluster network configuration:
 `network port show`
++
+[subs=+quotes]
 ----
-cluster1::*> network port show -ipspace Cluster
+cluster1::*> *network port show -ipspace Cluster*
 
 Node: node1
                                                                         Ignore
@@ -367,7 +381,7 @@ e3a       Cluster      Cluster          up   9000 auto/100000  healthy  false
 e3b       Cluster      Cluster          up   9000 auto/100000  healthy  false
 4 entries were displayed.
 
-cluster1::*> network interface show -vserver Cluster
+cluster1::*> *network interface show -vserver Cluster*
             Logical    Status     Network            Current       Current Is
 Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
 ----------- ---------- ---------- ------------------ ------------- ------- ----
@@ -378,7 +392,7 @@ Cluster
             node2_clus2  up/up    169.254.19.183/16  node2         e3b     true
 4 entries were displayed.
 
-cluster1::> network device-discovery show -protocol cdp
+cluster1::> *network device-discovery show -protocol cdp*
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
@@ -390,7 +404,7 @@ node1      /cdp
             e3b    newsh2                    0/1               N9K-C9336C
 4 entries were displayed.
 
-sh1# show cdp neighbors
+sh1# *show cdp neighbors*
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
                   V - VoIP-Phone, D - Remotely-Managed-Device,
@@ -402,7 +416,7 @@ newsh2               Eth1/35        176    R S I s     N9K-C9336C    Eth1/35
 newsh2               Eth1/36        176    R S I s     N9K-C9336C    Eth1/36
 Total entries displayed: 4
 
-sh2# show cdp neighbors
+sh2# *show cdp neighbors*
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
                   V - VoIP-Phone, D - Remotely-Managed-Device,
@@ -420,28 +434,29 @@ Total entries displayed: 4
 
 ** `system switch ethernet log setup password`
 ** `system switch ethernet log enable-collection`
-
++
+[subs=+quotes]
 ----
-cluster1::*> system switch ethernet log setup-password
+cluster1::*> *system switch ethernet log setup-password*
 Enter the switch name: <return>
 The switch name entered is not recognized.
 Choose from the following list:
-sh1
-sh2
-cluster1::*> system switch ethernet log setup-password
-Enter the switch name: sh1
+*sh1*
+*sh2*
+cluster1::*> *system switch ethernet log setup-password*
+Enter the switch name: *sh1*
 RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
-Do you want to continue? {y|n}::[n] y
+Do you want to continue? {y|n}::[n] *y*
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
-cluster1::*> system switch ethernet log setup-password
-Enter the switch name: sh2
+cluster1::*> *system switch ethernet log setup-password*
+Enter the switch name: *sh2*
 RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
-Do you want to continue? {y|n}:: [n] y
+Do you want to continue? {y|n}:: [n] *y*
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 cluster1::*> system  switch ethernet log enable-collection
-Do you want to enable cluster log collection for all nodes in the cluster? y|n}: [n] y
+Do you want to enable cluster log collection for all nodes in the cluster? y|n}: [n] *y*
 Enabling cluster switch log collection.
 cluster1::*>
 ----
@@ -454,9 +469,10 @@ If any of these commands return an error, contact NetApp support.
 . Verify the storage attached to HA pair 1, shared switch newsh2 is healthy.
 . Verify the storage attached to HA pair 2, shared switch newsh2 is healthy:
 `storage port show -port-type ENET`
-
++
+[subs=+quotes]
 ----
-storage::*> storage port show -port-type ENET
+storage::*> *storage port show -port-type ENET*
                                    Speed                            VLAN
 Node    Port    Type    Mode       (Gb/s)      State     Status       ID
 ------- ------- ------- ---------- ----------- --------- --------- -----
@@ -476,8 +492,10 @@ node2
 . [[step19]]Verify that the shelves are correctly cabled:
 `storage shelf port show -fields remote- device,remote-port`
 
++
+[subs=+quotes]
 ----
-cluster1::*> storage shelf port show -fields remote-device,remote-port
+cluster1::*> *storage shelf port show -fields remote-device,remote-port*
 shelf id remote-port  remote-device
 ----- -- ------------ ----------------------------
 3.20  0  Ethernet1/13 sh1
