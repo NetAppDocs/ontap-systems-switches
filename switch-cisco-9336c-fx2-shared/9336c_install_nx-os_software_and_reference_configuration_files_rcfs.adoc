@@ -51,7 +51,11 @@ The examples in this procedure use the following switch and node nomenclature:
 * The cluster LIF names are _cluster1-01_clus1_ and _cluster1-01_clus2_ for cluster1-01 and _cluster1-02_clus1_ and _cluster1-02_clus2_ for cluster1-02.
 * The cluster1::*> prompt indicates the name of the cluster.
 
-NOTE: The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
+[NOTE]
+====
+* The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
+* Before you perform this procedure, make sure that you have a current backup of the switch configuration.
+====
 
 .Steps
 [start=1]
@@ -67,8 +71,10 @@ The advanced prompt (*>) appears.
 [start=3]
 . [[step3]]Display how many cluster interconnect interfaces are configured in each node for each cluster interconnect switch:
 `network device-discovery show -protocol cdp`
++
+[subs=+quotes]
 ----
-cluster1:: network device-discovery show -protocol cdp
+cluster1:: *network device-discovery show -protocol cdp*
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------- --------
@@ -84,9 +90,10 @@ cluster1-01/cdp
 . [[step4]]Check the administrative or operational status of each cluster interface:
 .. Display the network port attributes:
 `network port show –ipspace Cluster`
-
++
+[subs=+quotes]
 ----
-cluster1::*> network port show -ipspace Cluster
+cluster1::*> *network port show -ipspace Cluster*
 Node: cluster1-02
                                                   Speed(Mbps)  Health
 Port      IPspace      Broadcast Domain Link MTU  Admin/Oper   Status
@@ -101,14 +108,14 @@ Port      IPspace      Broadcast Domain Link MTU  Admin/Oper   Status
 e3a       Cluster      Cluster          up   9000  auto/100000 healthy
 e3b       Cluster      Cluster          up   9000  auto/100000 healthy
 4 entries were displayed.
-
 ----
 [start=2]
 .. Display information about the LIFs:
 `network interface show - vserver Cluster`
-
++
+[subs=+quotes]
 ----
-cluster1::*> network interface show -vserver Cluster
+cluster1::*> *network interface show -vserver Cluster*
         Logical            Status     Network            Current    Current Is
 Vserver Interface          Admin/Oper Address/Mask       Node        Port   Home
 ------- ------------------ ---------- ------------------ ----------- ------ ----
@@ -122,8 +129,10 @@ Cluster
 [start=5]
 . [[step5]]Ping the remote cluster LIFs:
 `cluster ping-cluster -node node-name`
++
+[subs=+quotes]
 ----
-cluster1::*> cluster ping-cluster -node cluster1-02
+cluster1::*> *cluster ping-cluster -node cluster1-02*
 Host is cluster1-02
 Getting addresses from network interface table...
 Cluster cluster1-01_clus1 169.254.209.69 cluster1-01     e3a
@@ -151,9 +160,10 @@ RPC status:
 [start=6]
 . [[step6]]Verify that the auto-revert command is enabled on all cluster LIFs:
 `network interface show - vserver Cluster -fields auto-revert`
-
++
+[subs=+quotes]
 ----
-cluster1::*> network interface show -vserver Cluster -fields auto-revert
+cluster1::*> *network interface show -vserver Cluster -fields auto-revert*
           Logical
 Vserver   Interface            Auto-revert
 --------- ––––––-------------- ------------
@@ -166,12 +176,13 @@ Cluster
 ----
 [start=7]
 . [[step7]]Enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the following commands:
-
++
 ** `system switch ethernet log setup-password`
 ** `system switch ethernet log enable-collection`
-
++
+[subs=+quotes]
 ----
-cluster1::*> system switch ethernet log setup password
+cluster1::*> *system switch ethernet log setup password*
 Enter the switch name: <return>
 The switch name entered is not recognized.
 Choose from the following list:
@@ -198,7 +209,7 @@ cluster1::*>
 [NOTE]
 If any of these commands return an error, contact NetApp support.
 
-=== Install the NX-OS software on a Cisco Nexus 9336C- FX2 cluster switch
+=== Install the NX-OS software on a Cisco Nexus 9336C-FX2 cluster switch
 
 You can use this procedure to install the NX-OS software on the Cisco Nexus 9336C-FX2 cluster switch.
 
@@ -208,40 +219,42 @@ You can use this procedure to install the NX-OS software on the Cisco Nexus 9336
 . [[step2]]Use the `ping` command to verify connectivity to the server hosting the NX-OS software and the RCF.
 +
 This example verifies that the switch can reach the server at IP address `172.19.2.1`:
-
++
+[subs=+quotes]
 ----
-cs2# ping 172.19.2.1
+cs2# *ping 172.19.2.1*
 Pinging 172.19.2.1 with 0 bytes of data:
 Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 ----
 [start=3]
 . [[step3]]Copy the NX-OS software and EPLD images to the Nexus 9336C-FX2 switch.
-
++
+[subs=+quotes]
 ----
-cs2# copy sftp: bootflash: vrf management
-Enter source filename: /code/nxos.9.3.5.bin
-Enter hostname for the sftp server: 172.19.2.1
-Enter username: user1
+cs2# *copy sftp: bootflash: vrf management*
+Enter source filename: */code/nxos.9.3.5.bin*
+Enter hostname for the sftp server: *172.19.2.1*
+Enter username: *user1*
 Outbound-ReKey for 172.19.2.1:22
 Inbound-ReKey for 172.19.2.1:22
 user1@172.19.2.1's password:
 sftp> progress
 Progress meter enabled
-sftp> get   /code/nxos.9.3.5.bin  /bootflash/nxos.9.3.5.bin
+sftp> get /code/nxos.9.3.5.bin  /bootflash/nxos.9.3.5.bin
 /code/nxos.9.3.5.bin  100% 1261MB   9.3MB/s   02:15
 sftp> exit
 Copy complete, now saving to disk (please wait)...
 Copy complete.
-cs2# copy sftp: bootflash: vrf management
-Enter source filename: /code/n9000-epld.9.3.5.img
-Enter hostname for the sftp server: 172.19.2.1
-Enter username: user1
+cs2# *copy sftp: bootflash: vrf management*
+Enter source filename: */code/n9000-epld.9.3.5.img*
+Enter hostname for the sftp server: *172.19.2.1*
+Enter username: *user1*
 Outbound-ReKey for 172.19.2.1:22
 Inbound-ReKey for 172.19.2.1:22
 user1@172.19.2.1's password:
 sftp> progress
 Progress meter enabled
-sftp> get   /code/n9000-epld.9.3.5.img  /bootflash/n9000-epld.9.3.5.img
+sftp> get /code/n9000-epld.9.3.5.img  /bootflash/n9000-epld.9.3.5.img
 /code/n9000-epld.9.3.5.img  100%  161MB   9.5MB/s   00:16
 sftp> exit
 Copy complete, now saving to disk (please wait)...
@@ -250,8 +263,10 @@ Copy complete.
 [start=4]
 . [[step4]]Verify the running version of the NX-OS software:
 `show version`
++
+[subs=+quotes]
 ----
-cs2# show version
+cs2# *show version*
 Cisco Nexus Operating System (NX-OS) Software
 TAC support: http://www.cisco.com/tac
 Copyright (C) 2002-2020, Cisco and/or its affiliates.
@@ -296,12 +311,14 @@ cs2#
 ----
 [start=5]
 . [[step5]]Install the NX-OS image.
-
++
 [NOTE]
 Installing the image file causes it to be loaded every time the switch is rebooted.
 
++
+[subs=+quotes]
 ----
-cs2# install all nxos bootflash:nxos.9.3.5.bin
+cs2# *install all nxos bootflash:nxos.9.3.5.bin*
 Installer will perform compatibility check first. Please wait.
 Installer is forced disruptive
 Verifying image bootflash:/nxos.9.3.5.bin for boot variable "nxos".
@@ -343,9 +360,10 @@ Finishing the upgrade, switch will reboot in 10 seconds.
 [start=6]
 . [[step6]] Verify the new version of NX-OS software after the switch has rebooted:
 `show version`
-
++
+[subs=+quotes]
 ----
-cs2# show version
+cs2# *show version*
 Cisco Nexus Operating System (NX-OS) Software
 TAC support: http://www.cisco.com/tac
 Copyright (C) 2002-2020, Cisco and/or its affiliates.
@@ -388,9 +406,10 @@ Active Package(s):
 ----
 [start=7]
 . [[step7]]Upgrade the EPLD image and reboot the switch.
-
++
+[subs=+quotes]
 ----
-cs2# show version module 1 epld
+cs2# *show version module 1 epld*
 EPLD Device                     Version
 ---- -------------------------- -------
 MI   FPGA                        0x7
@@ -400,7 +419,7 @@ GEM  FPGA                        0x2
 GEM  FPGA                        0x2
 GEM  FPGA                        0x2
 GEM  FPGA                        0x2
-cs2# install epld bootflash:n9000-epld.9.3.5.img module 1
+cs2# *install epld bootflash:n9000-epld.9.3.5.img module 1*
 Compatibility check:
 Module      Type        Upgradable  Impact      Reason
 ------  -------------- ------------ ----------- -------
@@ -414,7 +433,7 @@ Module  Type   EPLD              Running-Version   New-Version  Upg-Required
      1  SUP    MI FPGA2          0x02              0x02         No
 The above modules require upgrade.
 The switch will be reloaded at the end of the upgrade
-Do you want to continue (y/n) ?  [n] y
+Do you want to continue (y/n) ?  [n] *y*
 Proceeding to upgrade Modules.
 Starting Module 1 EPLD Upgrade
 Module 1 : IO FPGA [Programming] : 100.00% (     64 of      64 sectors)
@@ -427,9 +446,10 @@ Module 1 EPLD upgrade is successful.
 ----
 [start=8]
 .  [[step8]]After the switch reboot, log in again and verify that the new version of EPLD loaded successfully.
-
++
+[subs=+quotes]
 ----
-cs2# show version module 1 epld
+cs2# *show version module 1 epld*
 EPLD Device                     Version
 ---- -------------------------- --------
 MI   FPGA                        0x7
@@ -441,7 +461,7 @@ GEM  FPGA                        0x2
 GEM  FPGA                        0x2
 ----
 
-=== Install the RCF on a Cisco Nexus 9336C- FX2 cluster switch
+=== Install the RCF on a Cisco Nexus 9336C-FX2 cluster switch
 
 You can install the RCF after setting up the Nexus 9336C-FX2 cluster switch for the first time. You can also use this procedure to upgrade your RCF version on your cluster switch.
 
@@ -455,15 +475,19 @@ The examples in this procedure use the following switch and node nomenclature:
 * The cluster1::*> prompt indicates the name of the cluster.
 
 [NOTE]
-The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
+====
+* The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
+* Before you perform this procedure, make sure that you have a current backup of the switch configuration.
+====
 
 .Steps
 [start=1]
 . [[step1]]Display the cluster ports on each node that are connected to the cluster switches:
 `network device-discovery show`
-
++
+[subs=+quotes]
 ----
-cluster1::*> network device-discovery show
+cluster1::*> *network device-discovery show*
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  --------
@@ -486,9 +510,10 @@ cluster1::*>
 [start=3]
 . [[step3]]Verify that all the cluster ports are up with a healthy status:
 `network port show –role cluster`
-
++
+[subs=+quotes]
 ----
-cluster1::*> network port show -role cluster
+cluster1::*> *network port show -role cluster*
 Node: cluster1-01
                                                                        Ignore
                                                   Speed(Mbps) Health   Health
@@ -524,9 +549,10 @@ cluster1::*>
 [start=4]
 . [[step4]]Verify that all the cluster interfaces (LIFs) are on the home port:
 `network interface show -role cluster`
-
++
+[subs=+quotes]
 ----
-cluster1::*> network interface show -role cluster
+cluster1::*> *network interface show -role cluster*
         Logical            Status     Network         Current      Current Is
 Vserver Interface          Admin/Oper Address/Mask    Node         Port    Home
 ------- ------------------ ---------- --------------- ------------ ------- ----
@@ -545,9 +571,10 @@ cluster1::*>
 [start=5]
 . [[step5]]Verify that the cluster displays information for both cluster switches:
 `system cluster-switch show -is-monitoring-enabled-operational true`
-
++
+[subs=+quotes]
 ----
-cluster1::*> system cluster-switch show -is-monitoring-enabled-operational true
+cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true*
 Switch                      Type               Address          Model
 --------------------------- ------------------ ---------------- -----
 cs1                         cluster-network    10.233.205.90    N9K-C9336C
@@ -568,23 +595,26 @@ cluster1::*>
 ----
 [start=6]
 . [[step6]]Disable auto-revert on the cluster LIFs.
-
++
+[subs=+quotes]
 ----
-cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert false
+cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert false*
 ----
 [start=7]
 . [[step7]]On cluster switch cs2, shut down the ports connected to the cluster ports of the nodes.
-
++
+[subs=+quotes]
 ----
-cs2(config)# interface eth1/1/1-2,eth1/7-8
-cs2(config-if-range)# shutdown
+cs2(config)# *interface eth1/1/1-2,eth1/7-8*
+cs2(config-if-range)# *shutdown*
 ----
 [start=8]
 . [[step8]]Verify that the cluster LIFs have migrated to the ports hosted on cluster switch cs1. This might take a few seconds:
 `network interface show -role cluster`
-
++
+[subs=+quotes]
 ----
-cluster1::*> network interface show -role cluster
+cluster1::*> *network interface show -role cluster*
         Logical           Status     Network          Current      Current  Is
 Vserver Interface         Admin/Oper Address/Mask     Node         Port     Home
 ------- ----------------- --------- ---------------- ------------- ------- ----
@@ -603,9 +633,10 @@ cluster1::*>
 [start=9]
 . [[step9]]Verify that the cluster is healthy:
 `cluster show`
-
++
+[subs=+quotes]
 ----
-cluster1::*> cluster show
+cluster1::*> *cluster show*
 Node                 Health  Eligibility   Epsilon
 -------------------- ------- ------------  -------
 cluster1-01          true    true          false
@@ -616,45 +647,54 @@ cluster1-04          true    true          false
 cluster1::*>
 ----
 [start=10]
-. [[step10]]Clean the configuration on switch cs2 and perform a basic setup.
-.. Clean the configuration. This step requires a console connection to the switch.
-
+. [[step10]]If you have not already done so, save the current switch configuration by copying the output of the following command to a log file:
++
 ----
-cs2# write erase
+show running-config
+----
+[start=11]
+. [[step11]]Clean the configuration on switch cs2 and perform a basic setup.
+.. Clean the configuration. This step requires a console connection to the switch.
++
+[subs=+quotes]
+----
+cs2# *write erase*
 Warning: This command will erase the startup-configuration.
-Do you wish to proceed anyway? (y/n)  [n] y
-cs2# reload
-This command will reboot the system. (y/n)?  [n] y
+Do you wish to proceed anyway? (y/n)  [n] *y*
+cs2# *reload*
+This command will reboot the system. (y/n)?  [n] *y*
 cs2#
 ----
 [start=2]
 .. Perform a basic setup of the switch.
 
-[start=11]
-. [[step11]]Copy the RCF to the bootflash of switch cs2 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. For more information about Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/products-command-reference-list.html[Cisco Nexus 9000 Series NX-OS Command Reference guides].
+[start=12]
+. [[step12]]Copy the RCF to the bootflash of switch cs2 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. For more information about Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/products-command-reference-list.html[Cisco Nexus 9000 Series NX-OS Command Reference guides].
 +
 This example shows TFTP being used to copy an RCF to the bootflash on switch cs2.
-
++
+[subs=+quotes]
 ----
-cs2# copy tftp: bootflash: vrf management
-Enter source filename: Nexus_9336C_RCF_v1.6-Cluster-HA-Breakout.txt
-Enter hostname for the tftp server: 172.22.201.50
+cs2# *copy tftp: bootflash: vrf management*
+Enter source filename: *Nexus_9336C_RCF_v1.6-Cluster-HA-Breakout.txt*
+Enter hostname for the tftp server: *172.22.201.50*
 Trying to connect to tftp server......Connection to Server Established.
 TFTP get operation was successful
 Copy complete, now saving to disk (please wait)...
 ----
-[start=12]
-. [[step12]]Apply the RCF previously downloaded to the bootflash.
+[start=13]
+. [[step13]]Apply the RCF previously downloaded to the bootflash.
 For more information about Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/products-command-reference-list.html[Cisco Nexus 9000 Series NX-OS Command Reference guides].
 +
 This example shows the RCF file `Nexus_9336C_RCF_v1.6-Cluster-HA-Breakout.txt` being installed on switch cs2.
-
++
+[subs=+quotes]
 ----
-cs2# copy Nexus_9336C_RCF_v1.6-Cluster-HA-Breakout.txt running-config echo-commands
+cs2# *copy Nexus_9336C_RCF_v1.6-Cluster-HA-Breakout.txt running-config echo-commands*
 ----
-[start=13]
-. [[step13]]Examine the banner output from the `show banner motd` command. You must read and follow these instructions to ensure the proper configuration and operation of the switch.
-
+[start=14]
+. [[step14]]Examine the banner output from the `show banner motd` command. You must read and follow these instructions to ensure the proper configuration and operation of the switch.
++
 ----
 cs2# show banner motd
 ***************************************************************************
@@ -689,8 +729,8 @@ cs2# show banner motd
 *
 ***************************************************************************
 ----
-[start=14]
-. [[step14]]Verify that the RCF file is the correct newer version:
+[start=15]
+. [[step15]]Verify that the RCF file is the correct newer version:
 `show running-config`
 +
 When you check the output to verify you have the correct RCF, make sure that the following information is correct:
@@ -704,31 +744,35 @@ The output varies according to your site configuration. Check the port settings 
 . After you verify the RCF versions and switch settings are correct, copy the running-config file to the startup-config file.
 +
 For more information about Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/products-command-reference-list.html[Cisco Nexus 9000 Series NX-OS Command Reference guides].
-
++
+[subs=+quotes]
 ----
-cs2# copy running-config startup-config [########################################] 100% Copy complete
-----
-[start=16]
-. [[step16]]Reboot switch cs2. You can ignore the “cluster ports down” events reported on the nodes while the switch reboots.
-
-----
-cs2# reload
-This command will reboot the system. (y/n)?  [n] y
+cs2# *copy running-config startup-config* [########################################] 100% Copy complete
 ----
 [start=17]
-. [[step17]]Apply the same RCF and save the running configuration for a second time.
-
+. [[step17]]Reboot switch cs2. You can ignore the “cluster ports down” events reported on the nodes while the switch reboots.
++
+[subs=+quotes]
 ----
-cs2# copy Nexus_9336C_RCF_v1.6-Cluster-HA-Breakout.txt running-config echo-commands
-cs2# copy running-config startup-config [########################################] 100% Copy complete
+cs2# *reload*
+This command will reboot the system. (y/n)?  [n] *y*
 ----
 [start=18]
-. [[step18]]Verify the health of cluster ports on the cluster.
+. [[step18]]Apply the same RCF and save the running configuration for a second time.
++
+[subs=+quotes]
+----
+cs2# *copy Nexus_9336C_RCF_v1.6-Cluster-HA-Breakout.txt running-config echo-commands*
+cs2# *copy running-config startup-config* [########################################] 100% Copy complete
+----
+[start=19]
+. [[step19]]Verify the health of cluster ports on the cluster.
 .. Verify that e0d ports are up and healthy across all nodes in the cluster:
 `network port show -role cluster`
-
++
+[subs=+quotes]
 ----
-cluster1::*> network port show -role cluster
+cluster1::*> *network port show -role cluster*
 Node: cluster1-01
                                                                    Ignore
                                              Speed(Mbps)  Health   Health
@@ -764,9 +808,10 @@ e0d    Cluster      Cluster        up   9000  auto/100000 healthy  false
 ----
 [start=2]
 .. Verify the switch health from the cluster (this might not show switch cs2, since LIFs are not homed on e0d).
-
++
+[subs=+quotes]
 ----
-cluster1::*> network device-discovery show -protocol cdp
+cluster1::*> *network device-discovery show -protocol cdp*
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------- --------
@@ -782,7 +827,7 @@ cluster01-3/cdp
 cluster1-04/cdp
             e3a    cs1                       Ethernet1/1/2     N9K-C9336C
             e3b    cs2                       Ethernet1/1/2     N9K-C9336C
-cluster1::*> system cluster-switch show -is-monitoring-enabled-operational true
+cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true*
 Switch                      Type               Address          Model
 --------------------------- ------------------ ---------------- -----
 cs1                         cluster-network    10.233.205.90    NX9-C9336C
@@ -801,28 +846,31 @@ cs2                         cluster-network    10.233.205.91    NX9-C9336C
     Version Source: CDP
 2 entries were displayed.
 ----
-
++
 [NOTE]
 You might observe the following output on the cs1 switch console depending on the RCF version previously loaded on the switch.
++
 
 ----
 2020 Nov 17 16:07:18 cs1 %$ VDC-1 %$ %STP-2-UNBLOCK_CONSIST_PORT: Unblocking port port-channel1 on VLAN0092. Port consistency restored.
 2020 Nov 17 16:07:23 cs1 %$ VDC-1 %$ %STP-2-BLOCK_PVID_PEER: Blocking port-channel1 on VLAN0001. Inconsistent peer vlan.
 2020 Nov 17 16:07:23 cs1 %$ VDC-1 %$ %STP-2-BLOCK_PVID_LOCAL: Blocking port-channel1 on VLAN0092. Inconsistent local vlan.
 ----
-[start=19]
-. [[step19]]On cluster switch cs1, shut down the ports connected to the cluster ports of the nodes. The following example uses the interface example output from step 1:
-
-----
-cs1(config)# interface eth1/1/1-2,eth1/7-8
-cs1(config-if-range)# shutdown
-----
 [start=20]
-. [[step20]]Verify that the cluster LIFs have migrated to the ports hosted on switch cs2. This might take a few seconds:
-`network interface show -role cluster`
-
+. [[step20]]On cluster switch cs1, shut down the ports connected to the cluster ports of the nodes. The following example uses the interface example output from step 1:
++
+[subs=+quotes]
 ----
-cluster1::*> network interface show -role cluster
+cs1(config)# *interface eth1/1/1-2,eth1/7-8*
+cs1(config-if-range)# *shutdown*
+----
+[start=21]
+. [[step21]]Verify that the cluster LIFs have migrated to the ports hosted on switch cs2. This might take a few seconds:
+`network interface show -role cluster`
++
+[subs=+quotes]
+----
+cluster1::*> *network interface show -role cluster*
         Logical            Status      Network         Current      Current Is
 Vserver Interface          Admin/Oper  Address/Mask    Node         Port    Home
 ------- ------------------ ----------- --------------- ------------ ------- ----
@@ -838,12 +886,13 @@ Cluster
 8 entries were displayed.
 cluster1::*>
 ----
-[start=21]
-. [[step21]]Verify that the cluster is healthy:
+[start=22]
+. [[step22]]Verify that the cluster is healthy:
 `cluster show`
-
++
+[subs=+quotes]
 ----
-cluster1::*> cluster show
+cluster1::*> *cluster show*
 Node                 Health   Eligibility   Epsilon
 -------------------- -------- ------------- -------
 cluster1-01          true     true          false
@@ -853,25 +902,28 @@ cluster1-04          true     true          false
 4 entries were displayed.
 cluster1::*>
 ----
-[start=22]
-. [[step22]]Repeat Steps 7 to 14 on switch cs1.
+[start=23]
+. [[step23]]Repeat Steps 7 to 14 on switch cs1.
 . Enable auto-revert on the cluster LIFs.
-
++
+[subs=+quotes]
 ----
-cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert True
-----
-[start=24]
-. [[step24]]Reboot switch cs1. You do this to trigger the cluster LIFs to revert to their home ports. You can ignore the “cluster ports down” events reported on the nodes while the switch reboots.
-
-----
-cs1# reload
-This command will reboot the system. (y/n)?  [n] y
+cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert True*
 ----
 [start=25]
-. [[step25]]Verify that the switch ports connected to the cluster ports are up.
-
+. [[step25]]Reboot switch cs1. You do this to trigger the cluster LIFs to revert to their home ports. You can ignore the “cluster ports down” events reported on the nodes while the switch reboots.
++
+[subs=+quotes]
 ----
-cs1# show interface brief | grep up
+cs1# *reload*
+This command will reboot the system. (y/n)?  [n] *y*
+----
+[start=26]
+. [[step26]]Verify that the switch ports connected to the cluster ports are up.
++
+[subs=+quotes]
+----
+cs1# *show interface brief | grep up*
 .
 .
 Eth1/1/1      1       eth  access up      none                   100G(D) --
@@ -881,12 +933,13 @@ Eth1/8        1       eth  trunk  up      none                   100G(D) --
 .
 .
 ----
-[start=26]
-. [[step26]]Verify that the ISL between cs1 and cs2 is functional:
+[start=27]
+. [[step27]]Verify that the ISL between cs1 and cs2 is functional:
 `show port-channel summary`
-
++
+[subs=+quotes]
 ----
-cs1# show port-channel summary
+cs1# *show port-channel summary*
 Flags:  D - Down        P - Up in port-channel (members)
         I - Individual  H - Hot-standby (LACP only)
         s - Suspended   r - Module-removed
@@ -901,12 +954,13 @@ Group Port-       Type     Protocol  Member Ports      Channel
 1     Po1(SU)     Eth      LACP      Eth1/35(P)        Eth1/36(P)
 cs1#
 ----
-[start=27]
-. [[step27]]Verify that the cluster LIFs have reverted to their home port:
+[start=28]
+. [[step28]]Verify that the cluster LIFs have reverted to their home port:
 `network interface show -role cluster`
-
++
+[subs=+quotes]
 ----
-cluster1::*> network interface show -role cluster
+cluster1::*> *network interface show -role cluster*
         Logical            Status     Network           Current     Current Is
 Vserver Interface          Admin/Oper Address/Mask      Node        Port    Home
 ------- ------------------ ---------- ----------------- ----------- ------- ----
@@ -922,12 +976,13 @@ Cluster
 8 entries were displayed.
 cluster1::*>
 ----
-[start=28]
-. [[step28]]Verify that the cluster is healthy:
+[start=29]
+. [[step29]]Verify that the cluster is healthy:
 `cluster show`
-
++
+[subs=+quotes]
 ----
-cluster1::*> cluster show
+cluster1::*> *cluster show*
 Node                 Health  Eligibility   Epsilon
 -------------------- ------- ------------- -------
 cluster1-01          true    true          false
@@ -937,12 +992,13 @@ cluster1-04          true    true          false
 4 entries were displayed.
 cluster1::*>
 ----
-[start=29]
-. [[step29]]Ping the remote cluster interfaces to verify connectivity:
+[start=30]
+. [[step30]]Ping the remote cluster interfaces to verify connectivity:
 `cluster ping-cluster -node local`
-
++
+[subs=+quotes]
 ----
-cluster1::*> cluster ping-cluster -node local
+cluster1::*> *cluster ping-cluster -node local*
 Host is cluster1-03
 Getting addresses from network interface table...
 Cluster cluster1-03_clus1 169.254.1.3 cluster1-03 e3a
@@ -1012,7 +1068,10 @@ The examples in this procedure use the following switch and node nomenclature:
 * The nodes are _node1_ and _node2_.
 
 [NOTE]
-The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
+====
+* The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
+* Before you perform this procedure, make sure that you have a current backup of the switch configuration.
+====
 
 .Steps
 
@@ -1022,9 +1081,10 @@ Where x is the duration of the maintenance window in hours.
 
 . Check that the storage switches are available:
 `system switch ethernet show`
-
++
+[subs=+quotes]
 ----
-storage::*> system switch ethernet show
+storage::*> *system switch ethernet show*
 Switch                    Type               Address          Model
 ------------------------- ------------------ ---------------- ---------------
 st1
@@ -1049,9 +1109,10 @@ storage::*>
 [start=3]
 . [[step3]]Verify that the node ports are healthy and operational:
 `storage port show -port-type ENET`
-
++
+[subs=+quotes]
 ----
-storage::*> storage port show -port-type ENET
+storage::*> *storage port show -port-type ENET*
                                    Speed                            VLAN
 Node     Port   Type    Mode       (Gb/s)     State     Status        ID
 ------- ------- ------- ---------- ---------- --------- ----------- -----
@@ -1069,18 +1130,20 @@ node2
 [start=4]
 . [[step4]]Check that there are no storage switch or cabling issues with the cluster:
 `system health alert show -instance`
-
++
+[subs=+quotes]
 ----
-storage::*> system health alert show -instance
+storage::*> *system health alert show -instance*
 There are no entries matching your query.
 ----
 [start=5]
 . [[step5]]Download the NX-OS image to switch st2.
 
 . Install the system image so that the new version will be loaded the next time switch st2 is rebooted. The switch will be reboot in 10 seconds with the new image as shown in the following output:
-
++
+[subs=+quotes]
 ----
-st2# install all nxos bootflash:nxos.9.3. 5.bin
+st2# *install all nxos bootflash:nxos.9.3. 5.bin*
 Installer will perform compatibility check first. Please wait.
 Installer is forced disruptive
 Verifying image bootflash:/nxos.9.3.4.bin for boot variable "nxos".
@@ -1106,9 +1169,9 @@ Module Image        Running-Version(pri:alt)               New-Version  Upg
  1     nxos                                     9.3(3)          9.3(4)       yes
  1     bios      v08.37(01/28/2020):v08.23(09/23/2015)   v08.38(05/29/2020)   no
 Switch will be reloaded for disruptive upgrade.
-Do you want to continue with the installation (y/n)? [n] y
+Do you want to continue with the installation (y/n)? [n] *y*
 input string too long
-Do you want to continue with the installation (y/n)? [n] y
+Do you want to continue with the installation (y/n)? [n] *y*
 Install is in progress, please wait.
 Performing runtime checks.
 [####################] 100% -- SUCCESS
@@ -1126,18 +1189,20 @@ st2#
 . [[step7]]Save the configuration.
 +
 You are prompted to reboot the system as shown in the following example:
-
++
+[subs=+quotes]
 ----
-st2# copy running-config startup-config
+st2# *copy running-config startup-config*
 [########################################] 100% Copy complete.
-st2# reload
-This command will reboot the system. (y/n)? [n] y
+st2# *reload*
+This command will reboot the system. (y/n)? [n] *y*
 ----
 [start=8]
 . [[step8]]Confirm that the new NX-OS version number is on the switch.
-
++
+[subs=+quotes]
 ----
-st2# show version
+st2# *show version*
 Cisco Nexus Operating System (NX-OS) Software
 TAC support: http://www.cisco.com/tac
 Upgrading a Cisco Nexus 9336C Storage Switch 6
@@ -1185,9 +1250,10 @@ st2#
 For more information about Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/products-command-reference-list.html[Cisco Nexus 9000 Series NX-OS Command Reference guides].
 +
 The following example shows HTTP being used to copy an RCF to the bootflash on switch st2:
-
++
+[subs=+quotes]
 ----
-st2# copy http://172.16.10.1//cfg/Nexus_9336C_RCF_v1.6-Storage.txt bootflash: vrf management
+st2# *copy http://172.16.10.1//cfg/Nexus_9336C_RCF_v1.6-Storage.txt bootflash: vrf management*
 % Total % Received % Xferd   Average   Speed  Time   Time   Time
 Current
    Dload     Upload  Total Spent   Left
@@ -1203,9 +1269,10 @@ st2#
 `copy bootflash`.
 +
 The following example shows the RCF file `Nexus_9336C_RCF_v1.6-Storage.txt` being installed on switch st2:
-
++
+[subs=+quotes]
 ----
-st2# copy Nexus_9336C_RCF_v1.6-Storage.txt running-config echo-commands
+st2# *copy Nexus_9336C_RCF_v1.6-Storage.txt running-config echo-commands*
 ----
 [start=11]
 . [[step11]]Verify that the RCF file is the correct newer version:
@@ -1220,7 +1287,7 @@ When you check the output to verify you have the correct RCF, make sure that the
 The output varies according to your site configuration. Check the port settings and refer to the release notes for any changes specific to the RCF that you have installed.
 +
 *Important:* In the banner output from the `show banner motd` command, you must read and follow the instructions in the *IMPORTANT NOTES *section to ensure the proper configuration and operation of the switch.
-
++
 ----
 st2# show banner motd
 ******************************************************************************
@@ -1261,17 +1328,19 @@ st2#
 For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/products-command-reference-list.html[Cisco Nexus 9000 Series NX-OS Command Reference guides].
 +
 The following example shows the `running-config` file successfully copied to the `startup-config` file:
-
++
+[subs=+quotes]
 ----
-st2# copy running-config startup-config
+st2# *copy running-config startup-config*
 [########################################] 100% Copy complete.
 ----
 [start=13]
 . [[step13]]Recheck that the storage switches are available after the reboot:
 `system switch ethernet show`
-
++
+[subs=+quotes]
 ----
-storage::*> system switch ethernet show
+storage::*> *system switch ethernet show*
 Switch                       Type               Address          Model
 ---------------------------- ------------------ ---------------- ---------------
 st1
@@ -1296,9 +1365,10 @@ storage::*
 [start=14]
 . [[step14]]Verify that the switch ports are healthy and operational after the reboot:
 `storage port show -port-type ENET`
-
++
+[subs=+quotes]
 ----
-storage::*> storage port show -port-type ENET
+storage::*> *storage port show -port-type ENET*
                                    Speed                            VLAN
 Node    Port    Type    Mode       (Gb/s)      State     Status       ID
 ------- ------- ------- ---------- ----------- --------- --------- -----
@@ -1316,9 +1386,10 @@ node2
 [start=15]
 . [[step15]]Recheck that there is no storage switch or cabling issues with the cluster:
 `system health alert show -instance`
-
++
+[subs=+quotes]
 ----
-storage::*> system health alert show -instance
+storage::*> *system health alert show -instance*
 There are no entries matching your query.
 ----
 [start=16]
@@ -1344,9 +1415,10 @@ From ONTAP 9.9.1, you can use Cisco Nexus 9336C-FX2 switches to combine storage 
 For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/products-command-reference-list.html[Cisco Nexus 9000 Series NX-OS Command Reference guides].
 +
 The following example shows HTTP being used to copy an RCF to the bootflash on switch sh2:
-
++
+[subs=+quotes]
 ----
-sh2# copy http://172.16.10.1//cfg/Nexus_9336C_RCF_v1.7-Cluster-Ha-Storage.txt bootflash: vrf management
+sh2# *copy http://172.16.10.1//cfg/Nexus_9336C_RCF_v1.7-Cluster-Ha-Storage.txt bootflash: vrf management*
 % Total % Received % Xferd   Average   Speed  Time   Time   Time
 Current
    Dload     Upload  Total Spent   Left
@@ -1362,9 +1434,10 @@ sh2#
 `copy bootflash`.
 +
 The following example shows the RCF file `Nexus_9336C_RCF_v1.7-Cluster-HA-Storage.txt `   being installed on switch sh2:
-
++
+[subs=+quotes]
 ----
-sh2# copy Nexus_9336C_RCF_v1.7-Cluster-HA-Storage.txt running-config echo-commands
+sh2# *copy Nexus_9336C_RCF_v1.7-Cluster-HA-Storage.txt running-config echo-commands*
 ----
 [start=3]
 . [[step3]]Verify that the RCF file is the correct newer version:  `show running-config`
@@ -1378,7 +1451,7 @@ When you check the output to verify you have the correct RCF, make sure that the
 The output varies according to your site configuration. Check the port settings and refer to the release notes for any changes specific to the RCF that you have installed.
 +
 *Important:* In the banner output from the `show banner motd` command, you must read and follow the instructions in the *IMPORTANT NOTES *section to ensure the proper configuration and operation of the switch.
-
++
 ----
 sh2# show banner motd
 ******************************************************************************
@@ -1424,9 +1497,10 @@ sh2#
 For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/products-command-reference-list.html[Cisco Nexus 9000 Series NX-OS Command Reference guides].
 +
 The following example shows the `running-config` file successfully copied to the `startup-config` file:
-
++
+[subs=+quotes]
 ----
-sh2# copy running-config startup-config
+sh2# *copy running-config startup-config*
 [########################################] 100% Copy complete.
 ----
 [start=5]

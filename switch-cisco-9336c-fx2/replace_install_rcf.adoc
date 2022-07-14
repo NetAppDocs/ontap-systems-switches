@@ -18,7 +18,11 @@ The examples in this procedure use the following switch and node nomenclature:
 * The cluster LIF names are cluster1-01_clus1, cluster1-01_clus2, cluster1-02_clus1, cluster1-02_clus2 , cluster1-03_clus1, cluster1-03_clus2, cluster1-04_clus1, and cluster1-04_clus2.
 * The `cluster1::*>` prompt indicates the name of the cluster.
 
-NOTE: The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
+[NOTE]
+====
+* The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
+* Before performing this procedure, make sure that you have a current backup of the switch configuration.
+====
 
 .Steps
 . Display the cluster ports on each node that are connected to the cluster switches: `network device-discovery show`
@@ -175,6 +179,11 @@ cluster1-04          true    true          false
 cluster1::*>
 ----
 
+. If you have not already done so, save the current switch configuration by copying the output of the following command to a log file:
++
+----
+show running-config
+----
 . Clean the configuration on switch cs2 and perform a basic setup.
  .. Clean the configuration. This step requires a console connection to the switch.
 +
