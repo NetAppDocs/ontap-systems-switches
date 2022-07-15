@@ -22,7 +22,8 @@ The examples in this procedure use the following switch and node nomenclature:
 
 [NOTE]
 ====
-The procedure requires the -se of both ONTAP commands and Cisco Nexus 3000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
+* The procedure requires the -se of both ONTAP commands and Cisco Nexus 3000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
+* Before you perform this procedure, make sure that you have a current backup of the switch configuration.
 ====
 
 .Steps
@@ -188,6 +189,10 @@ cluster1-04          true    true          false
 4 entries were displayed.
 cluster1::*>
 ----
+
+. If you do not already have a current backup of the switch, you can save the current switch configuration by copying the output of the following command to a log file:
++
+`show running-config`
 
 . Clean the configuration on switch cs2 and perform a basic setup.
  .. Clean the configuration. This step requires a console connection to the switch.
@@ -567,3 +572,5 @@ RPC status:
 6 paths up, 0 paths down (tcp check)
 6 paths up, 0 paths down (udp check)
 ----
+
+// BURT 1453255, 2022-06-10
