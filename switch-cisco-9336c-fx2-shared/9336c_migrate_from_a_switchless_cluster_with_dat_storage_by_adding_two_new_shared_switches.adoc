@@ -75,21 +75,23 @@ The advanced prompt (*>) appears.
 . Disable all node-facing ports (not ISL ports) on both the new cluster switches cs1 and cs2. You must not disable the ISL ports.
 +
 The following example shows that node-facing ports 1 through 34 are disabled on switch cs1:
-
++
+[subs=+quotes]
 ----
-cs1# config
+cs1# *config*
 Enter configuration commands, one per line. End with CNTL/Z.
-cs1(config)# interface e/1-34
-cs1(config-if-range)# shutdown
+cs1(config)# *interface e/1-34*
+cs1(config-if-range)# *shutdown*
 ----
 [start=4]
 . [[step4]]Verify that the ISL and the physical ports on the ISL between the two 9336C-FX2 switches cs1 and cs2 are up on ports 1/35 and 1/36:
 `show port-channel summary`
 +
 The following example shows that the ISL ports are up on switch cs1:
-
++
+[subs=+quotes]
 ----
-cs1# show port-channel summary
+cs1# *show port-channel summary*
 Flags:  D - Down        P - Up in port-channel (members)
         I - Individual  H - Hot-standby (LACP only)
         s - Suspended   r - Module-removed
@@ -104,11 +106,12 @@ Group Port-       Type     Protocol  Member Ports
 --------------------------------------------------------------------------------
 1     Po1(SU)     Eth      LACP      Eth1/35(P)   Eth1/36(P)
 ----
-
++
 The following example shows that the ISL ports are up on switch cs2:
-
++
+[subs=+quotes]
 ----
-       cs2# show port-channel summary
+       cs2# *show port-channel summary*
         Flags:  D - Down        P - Up in port-channel (members)
         I - Individual  H - Hot-standby (LACP only)
         s - Suspended   r - Module-removed
@@ -125,12 +128,13 @@ Group Port-       Type     Protocol  Member Ports
 ----
 [start=5]
 . [[step5]]Display the list of neighboring devices:
-`show cdp neighbors`.
+`show cdp neighbors`
 +
 This command provides information about the devices that are connected to the system. The following example lists the neighboring devices on switch cs1:
-
++
+[subs=+quotes]
 ----
-cs1# show cdp neighbors
+cs1# *show cdp neighbors*
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
                   V - VoIP-Phone, D - Remotely-Managed-Device,
@@ -140,11 +144,12 @@ cs2                Eth1/35        175    R S I s     N9K-C9336C    Eth1/35
 cs2                Eth1/36        175    R S I s     N9K-C9336C    Eth1/36
 Total entries displayed: 2
 ----
-
++
 The following example lists the neighboring devices on switch cs2:
-
++
+[subs=+quotes]
 ----
-cs2# show cdp neighbors
+cs2# *show cdp neighbors*
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
                   V - VoIP-Phone, D - Remotely-Managed-Device,
@@ -160,9 +165,10 @@ Total entries displayed: 2
 `network port show - ipspace Cluster`
 +
 Each port should display up for Link and healthy for Health Status:
-
++
+[subs=+quotes]
 ----
-cluster1::*> network port show -ipspace Cluster
+cluster1::*> *network port show -ipspace Cluster*
 
 Node: node1
                                                   Speed(Mbps)  Health
@@ -184,9 +190,10 @@ e3b       Cluster      Cluster          up   9000  auto/100000 healthy
 `network interface show - vserver Cluster`
 +
 Each cluster LIF should display true for `Is Home` and have a Status Admin/Oper of up/up.
-
++
+[subs=+quotes]
 ----
-cluster1::*> network interface show -vserver Cluster
+cluster1::*> *network interface show -vserver Cluster*
             Logical     Status     Network            Current       Current Is
 Vserver     Interface   Admin/Oper Address/Mask       Node          Port    Home
 ----------- ---------- ---------- ------------------ ------------- ------- -----
@@ -200,9 +207,10 @@ Cluster
 [start=8]
 . [[step8]]Verify that auto-revert is enabled on all cluster LIFs:
 `network interface show - vserver Cluster -fields auto-revert`
-
++
+[subs=+quotes]
 ----
-cluster1::*> network interface show -vserver Cluster -fields auto-revert
+cluster1::*> *network interface show -vserver Cluster -fields auto-revert*
        Logical
 Vserver   Interface     Auto-revert
 --------- ------------- ------------
@@ -222,21 +230,23 @@ The NetApp https://hwu.netapp.com[Hardware Universe] contains more information a
 . Enable all node-facing ports on cluster switch cs1.
 +
 The following example shows that ports 1/1 through 1/34 are enabled on switch cs1:
-
++
+[subs=+quotes]
 ----
-cs1# config
+cs1# *config*
 Enter configuration commands, one per line. End with CNTL/Z.
-cs1(config)# interface e1/1-34
-cs1(config-if-range)# no shutdown
+cs1(config)# *interface e1/1-34*
+cs1(config-if-range)# *no shutdown*
 ----
 [start=12]
 . [[step12]]Verify that all cluster LIFs are *up*, operational, and display as true for `Is Home`:
 `network interface show - vserver Cluster`
 +
 The following example shows that all the LIFs are *up* on node1 and node2 and that `Is Home` results are *true*:
-
++
+[subs=+quotes]
 ----
-cluster1::*> network interface show -vserver Cluster
+cluster1::*> *network interface show -vserver Cluster*
           Logical      Status     Network            Current     Current Is
 Vserver   Interface    Admin/Oper Address/Mask       Node        Port    Home
 --------- ------------ ---------- ------------------ ----------- ------- ----
@@ -252,9 +262,10 @@ Cluster
 `cluster show`
 +
 The following example displays information about the health and eligibility of the nodes in the cluster:
-
++
+[subs=+quotes]
 ----
-cluster1::*> cluster show
+cluster1::*> *cluster show*
 Node                 Health  Eligibility   Epsilon
 -------------------- ------- ------------  ------------
 node1                true    true          false
@@ -267,21 +278,23 @@ node2                true    true          false
 . Enable all node-facing ports on cluster switch cs2.
 +
 The following example shows that ports 1/1 through 1/34 are enabled on switch cs2:
-
++
+[subs=+quotes]
 ----
-cs2# config
+cs2# *config*
 Enter configuration commands, one per line. End with CNTL/Z.
-cs2(config)# interface e1/1-34
-cs2(config-if-range)# no shutdown
+cs2(config)# *interface e1/1-34*
+cs2(config-if-range)# *no shutdown*
 ----
 [start=17]
 .  [[step17]]Verify that all cluster ports are up:
 `network port show - ipspace Cluster`
 +
 The following example shows that all the cluster ports are up on node1 and node2:
-
++
+[subs=+quotes]
 ----
-cluster1::*> network port show -ipspace Cluster
+cluster1::*> *network port show -ipspace Cluster*
 
 Node: node1
                                                                         Ignore
@@ -303,14 +316,16 @@ e3b       Cluster      Cluster          up   9000  auto/100000 healthy  false
 [start=18]
 . [[step18]]Verify that all interfaces display true for `Is Home`:
 `network interface show - vserver Cluster`
-
++
 [NOTE]
 This might take several minutes to complete.
-
++
 The following example shows that all LIFs are *up* on node1 and node2 and that `Is Home` results are true:
 
++
+[subs=+quotes]
 ----
-cluster1::*> network interface show -vserver Cluster
+cluster1::*> *network interface show -vserver Cluster*
           Logical      Status     Network            Current    Current Is
 Vserver   Interface    Admin/Oper Address/Mask       Node       Port    Home
 --------- ------------ ---------- ------------------ ---------- ------- ----
@@ -326,9 +341,10 @@ Cluster
 `show cdp neighbors`
 +
 The following example shows the appropriate results for both switches:
-
++
+[subs=+quotes]
 ----
-cs1# show cdp neighbors
+cs1# *show cdp neighbors*
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
                   V - VoIP-Phone, D - Remotely-Managed-Device,
@@ -354,9 +370,10 @@ Total entries displayed: 4
 [start=20]
 .  [[step20]]Display information about the discovered network devices in your cluster:
 `network device-discovery show -protocol cdp`
-
++
+[subs=+quotes]
 ----
-cluster1::*> network device-discovery show -protocol cdp
+cluster1::*> *network device-discovery show -protocol cdp*
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
@@ -372,9 +389,10 @@ node1       /cdp
 [start=21]
 . [[step21]]Verify that the storage configuration of HA pair 1 (and HA pair 2) is correct and error free:
 `system switch ethernet show`
-
++
+[subs=+quotes]
 ----
-storage::*> system switch ethernet show
+storage::*> *system switch ethernet show*
 Switch                    Type                   Address         Model
 ------------------------- ---------------------- --------------- ----------
 sh1
@@ -400,14 +418,16 @@ storage::*>
 [start=22]
 . [[step22]]Verify that the settings are disabled:
 `network options switchless-cluster show`
-
++
 [NOTE]
 It might take several minutes for the command to complete. Wait for the '3-minute lifetime to expire' announcement.
-
++
 The `false` output in the following example shows that the configuration settings are disabled:
 
++
+[subs=+quotes]
 ----
-cluster1::*> network options switchless-cluster show
+cluster1::*> *network options switchless-cluster show*
 Enable Switchless Cluster: false
 ----
 [start=23]
@@ -415,9 +435,10 @@ Enable Switchless Cluster: false
 `cluster show`
 +
 The following example shows information about the health and eligibility of the nodes in the cluster:
-
++
+[subs=+quotes]
 ----
-cluster1::*> cluster show
+cluster1::*> *cluster show*
 Node                 Health  Eligibility   Epsilon
 -------------------- ------- ------------  --------
 node1                true    true          false
@@ -426,9 +447,10 @@ node2                true    true          false
 [start=24]
 . [[step24]]Ensure that the cluster network has full connectivity:
 `cluster ping-cluster -node node-name`
-
++
+[subs=+quotes]
 ----
-cluster1::*> cluster ping-cluster -node node2
+cluster1::*> *cluster ping-cluster -node node2*
 Host is node2
 Getting addresses from network interface table...
 Cluster node1_clus1 169.254.209.69 node1 e3a
@@ -459,29 +481,30 @@ RPC status:
 . Enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the commands:
 ** `system switch ethernet log setup-password`
 ** `system switch ethernet log enable-collection`
-
++
+[subs=+quotes]
 ----
-cluster1::*> system switch ethernet log setup-password
+cluster1::*> *system switch ethernet log setup-password*
 Enter the switch name: <return>
 The switch name entered is not recognized.
 
 Choose from the following list:
-cs1
-cs2
-cluster1::*> system switch ethernet log setup-password
-Enter the switch name: cs1
+*cs1*
+*cs2*
+cluster1::*> *system switch ethernet log setup-password*
+Enter the switch name: *cs1*
 RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
-Do you want to continue? {y|n}::[n] y
+Do you want to continue? {y|n}::[n] *y*
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
-cluster1::*> system switch ethernet log setup-password
-Enter the switch name: cs2
+cluster1::*> *system switch ethernet log setup-password*
+Enter the switch name: *cs2*
 RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
-Do you want to continue? {y|n}:: [n] y
+Do you want to continue? {y|n}:: [n] *y*
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
-cluster1::*> system  switch ethernet log enable-collection
-Do you want to enable cluster log collection for all nodes in the cluster? {y|n}: [n] y
+cluster1::*> *system  switch ethernet log enable-collection*
+Do you want to enable cluster log collection for all nodes in the cluster? {y|n}: [n] *y*
 Enabling cluster switch log collection.
 cluster1::*>
 ----
@@ -500,9 +523,10 @@ The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Serie
 
 . Verify that the storage configuration of HA pair 1 (and HA pair 2) is correct and error free:
 `system switch ethernet show`
-
++
+[subs=+quotes]
 ----
-storage::*> system switch ethernet show
+storage::*> *system switch ethernet show*
 Switch                    Type                   Address         Model
 ------------------------- ---------------------  --------------- -------
 sh1
@@ -528,9 +552,10 @@ storage::*>
 [start=2]
 . [[step2]]Verify that the storage node ports are healthy and operational:
 `storage port show -port-type ENET`
-
++
+[subs=+quotes]
 ----
-storage::*> storage port show -port-type ENET
+storage::*> *storage port show -port-type ENET*
                                    Speed                             VLAN
 Node    Port    Type    Mode       (Gb/s)      State      Status       ID
 ------- ------- ------- ---------- ----------- ---------- ---------- -----
@@ -552,9 +577,10 @@ node2
 . Install a cable from HA pair 1, node2, path A to sh1 port range 11-22.
 . Verify that the node ports are healthy and operational:
 `storage port show -port-type ENET`
-
++
+[subs=+quotes]
 ----
-storage::*> storage port show -port-type ENET
+storage::*> *storage port show -port-type ENET*
                                    Speed                             VLAN
 Node    Port    Type    Mode       (Gb/s)      State      Status       ID
 ------- ------- ------- ---------- ----------- ---------- ---------- -----
@@ -573,9 +599,10 @@ node2
 [start=7]
 . [[step7]]Check that there are no storage switch or cabling issues with the cluster:
 `system health alert show -instance`
-
++
+[subs=+quotes]
 ----
-storage::*> system health alert show -instance
+storage::*> *system health alert show -instance*
 There are no entries matching your query.
 ----
 [start=8]
@@ -584,9 +611,10 @@ There are no entries matching your query.
 . Install a cable from HA pair 1, node2, path B to sh2 port range 11-22.
 . Verify that the node ports are healthy and operational:
 `storage port show -port-type ENET`
-
++
+[subs=+quotes]
 ----
-storage::*> storage port show -port-type ENET
+storage::*> *storage port show -port-type ENET*
                                    Speed                             VLAN
 Node    Port    Type    Mode       (Gb/s)      State      Status       ID
 ------- ------- ------- ---------- ----------- ---------- ---------- -----
@@ -605,9 +633,10 @@ node2
 [start=12]
 . [[step12]]Verify that the storage configuration of HA pair 1 is correct and error free:
 `system switch ethernet show`
-
++
+[subs=+quotes]
 ----
-storage::*> system switch ethernet show
+storage::*> *system switch ethernet show*
 Switch                    Type                   Address          Model
 ------------------------- ---------------------- ---------------- ----------
 sh1
@@ -632,7 +661,8 @@ storage::*>
 ----
 [start=13]
 . [[step13]]Reconfigure the unused (controller) secondary storage ports on HA pair 1 from storage to networking. If more than one NS224 was direct attached, there will be ports that should be reconfigured.
-
++
+[subs=+quotes]
 ----
 storage port modify –node [node name] –port [port name] –mode network
 ----
