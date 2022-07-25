@@ -948,7 +948,7 @@ cluster::> *system cluster-switch delete –device CL1*
 cluster::> *system cluster-switch delete –device CL2*
 ----
 
-. Configure clusters clus1 and clus2 to auto revert on each node and confirm:
+. Configure clusters clus1 and clus2 to auto-revert on each node and confirm:
 +
 ----
 cluster::*> network interface modify -vserver node1 -lif clus1 -auto-revert true
@@ -956,6 +956,8 @@ cluster::*> network interface modify -vserver node1 -lif clus2 -auto-revert true
 cluster::*> network interface modify -vserver node2 -lif clus1 -auto-revert true
 cluster::*> network interface modify -vserver node2 -lif clus2 -auto-revert true
 ----
++
+NOTE: Verify that auto-revert is enabled. If it is not enabled, enable it manually using the command: `network interface revert -vserver _vserver_name_ -lif _lif_name_`
 
 . Verify that the proper cluster switches are monitored: `system cluster-switch show`
 +

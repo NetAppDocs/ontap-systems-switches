@@ -131,20 +131,29 @@ The following example shows ports 1 through 30 being disabled on Nexus 3132Q-V c
 +
 `NX3132_RCF_v1.1_24p10g_26p40g.txt`:
 +
-[subs=+quotes]
 ----
-C1# *copy running-config startup-config*
+C1# copy running-config startup-config
 [########################################] 100%
 Copy complete.
+----
++
+[subs=+quotes]
+----
 C1# *configure*
 C1(config)# *int e1/1/1-4,e1/2/1-4,e1/3/1-4,e1/4/1-4,e1/5/1-4,e1/6/1-4,e1/7-30*
 C1(config-if-range)# *shutdown*
 C1(config-if-range)# *exit*
 C1(config)# *exit*
-
-C2# *copy running-config startup-config*
+----
++
+----
+C2# copy running-config startup-config
 [########################################] 100%
 Copy complete.
+----
++
+[subs=+quotes]
+----
 C2# *configure*
 C2(config)# *int e1/1/1-4,e1/2/1-4,e1/3/1-4,e1/4/1-4,e1/5/1-4,e1/6/1-4,e1/7-30*
 C2(config-if-range)# *shutdown*
@@ -490,8 +499,8 @@ C2(config)# *exit*
 The following example shows the specified ports being brought up:
 +
 ----
-	cluster::*> network port modify -node n1 -port e4e -up-admin true
-	cluster::*> network port modify -node n2 -port e4e -up-admin true
+cluster::*> network port modify -node n1 -port e4e -up-admin true
+cluster::*> network port modify -node n2 -port e4e -up-admin true
 ----
 
 . For each node, revert all of the migrated cluster interconnect LIFs:
@@ -501,8 +510,8 @@ The following example shows the specified ports being brought up:
 The following example shows the migrated LIFs being reverted to their home ports.
 +
 ----
-	cluster::*> network interface revert -vserver Cluster -lif n1_clus2
-	cluster::*> network interface revert -vserver Cluster -lif n2_clus2
+cluster::*> network interface revert -vserver Cluster -lif n1_clus2
+cluster::*> network interface revert -vserver Cluster -lif n2_clus2
 ----
 
 . Verify that all of the cluster interconnect ports are now reverted to their home ports:
