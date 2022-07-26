@@ -175,4 +175,7 @@ Cluster
           cluster1-02_clus2   true
 4 entries were displayed.
 ----
++
+NOTE: Verify too that the Cluster LIFs have reverted back to their home ports. If this is not the case, revert them manually using the command: `network interface revert -vserver vserver_name -lif lif_name`
+
 // QA clean-up, 2022-03-03

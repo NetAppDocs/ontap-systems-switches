@@ -483,7 +483,7 @@ cluster1::*>
 cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert True*
 ----
 +
-NOTE: Verify that auto-revert is enabled. Verify too that the LIFs have reverted back to their home ports. If this is not the case, revert them manually using the command: `network interface revert -vserver _vserver_name_ -lif _lif_name_`
+NOTE: Verify that auto-revert is enabled. Verify too that the Cluster LIFs have reverted back to their home ports. If this is not the case, revert them manually using the command: `network interface revert -vserver _vserver_name_ -lif _lif_name_`
 
 . Reboot switch cs1.You do this to trigger the cluster LIFs to revert to their home ports. You can ignore the `cluster ports down` events reported on the nodes while the switch reboots.
 +
