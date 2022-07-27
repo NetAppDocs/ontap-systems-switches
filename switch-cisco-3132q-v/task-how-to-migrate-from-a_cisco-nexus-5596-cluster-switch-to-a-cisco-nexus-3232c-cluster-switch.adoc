@@ -173,7 +173,9 @@ cluster::*> network interface modify -vserver node1 -lif clus2 -auto-revert fals
 cluster::*> network interface modify -vserver node2 -lif clus1 -auto-revert false
 cluster::*> network interface modify -vserver node2 -lif clus2 -auto-revert false
 ----
-
++
+Ensure auto-revert is disabled after running these commands.
+s
 . Verify that the appropriate RCF and image are installed on the new 3132Q-V switches as necessary for your requirements, and make the essential site customizations, such as users and passwords, network addresses, and so on.
 +
 You must prepare both switches at this time. If you need to upgrade the RCF and image, follow these steps:
@@ -957,7 +959,7 @@ cluster::*> network interface modify -vserver node2 -lif clus1 -auto-revert true
 cluster::*> network interface modify -vserver node2 -lif clus2 -auto-revert true
 ----
 +
-NOTE: Verify that auto-revert is enabled. Verify too that the Cluster LIFs have reverted back to their home ports. If this is not the case, revert them manually using the command: `network interface revert -vserver _vserver_name_ -lif _lif_name_`
+Ensure that auto-revert is enabled after running these commands.
 
 . Verify that the proper cluster switches are monitored: `system cluster-switch show`
 +

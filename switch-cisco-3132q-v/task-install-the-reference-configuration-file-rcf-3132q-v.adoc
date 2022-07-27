@@ -105,18 +105,18 @@ cluster1::*>
 [subs=+quotes]
 ----
 cluster1::*> *network interface show -vserver Cluster*
-            Logical            Status     Network           Current      Current Is
-Vserver     Interface          Admin/Oper Address/Mask      Node         Port    Home
------------ ------------------ ---------- ----------------- ------------ ------- ----
+            Logical            Status     Network         Current      Current Is
+Vserver     Interface          Admin/Oper Address/Mask    Node         Port    Home
+----------- ------------------ ---------- --------------- ------------ ------- ----
 Cluster
-            cluster1-01_clus1  up/up     169.254.3.4/23     cluster1-01  e0a     true
-            cluster1-01_clus2  up/up     169.254.3.5/23     cluster1-01  e0d     true
-            cluster1-02_clus1  up/up     169.254.3.8/23     cluster1-02  e0a     true
-            cluster1-02_clus2  up/up     169.254.3.9/23     cluster1-02  e0d     true
-            cluster1-03_clus1  up/up     169.254.1.3/23     cluster1-03  e0a     true
-            cluster1-03_clus2  up/up     169.254.1.1/23     cluster1-03  e0b     true
-            cluster1-04_clus1  up/up     169.254.1.6/23     cluster1-04  e0a     true
-            cluster1-04_clus2  up/up     169.254.1.7/23     cluster1-04  e0b     true
+            cluster1-01_clus1  up/up     169.254.3.4/23   cluster1-01  e0a     true
+            cluster1-01_clus2  up/up     169.254.3.5/23   cluster1-01  e0d     true
+            cluster1-02_clus1  up/up     169.254.3.8/23   cluster1-02  e0a     true
+            cluster1-02_clus2  up/up     169.254.3.9/23   cluster1-02  e0d     true
+            cluster1-03_clus1  up/up     169.254.1.3/23   cluster1-03  e0a     true
+            cluster1-03_clus2  up/up     169.254.1.1/23   cluster1-03  e0b     true
+            cluster1-04_clus1  up/up     169.254.1.6/23   cluster1-04  e0a     true
+            cluster1-04_clus2  up/up     169.254.1.7/23   cluster1-04  e0b     true
 8 entries were displayed.
 cluster1::*>
 ----
@@ -257,7 +257,6 @@ cs2# *copy Nexus_3132QV_RCF_v1.6-Cluster-HA-Breakout.txt running-config echo-com
 ----
 cs2# show banner motd
 
-
 ******************************************************************************
 * NetApp Reference Configuration File (RCF)
 *
@@ -305,9 +304,9 @@ The output varies according to your site configuration. Check the port settings 
 +
 For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-installation-guides-list.html[Cisco Nexus 3000 Series NX-OS Command Reference] guides.
 +
-[subs=+quotes]
 ----
-cs2# *copy running-config startup-config* [########################################] 100% Copy complete
+cs2# copy running-config startup-config
+[########################################] 100% Copy complete
 ----
 
 . Reboot switch cs2. You can ignore the "cluster ports down" events reported on the nodes while the switch reboots.
@@ -320,10 +319,10 @@ This command will reboot the system. (y/n)?  [n] *y*
 
 . Apply the same RCF and save the running configuration for a second time.
 +
-[subs=+quotes]
 ----
-cs2# *copy Nexus_3132QV_RCF_v1.6-Cluster-HA-Breakout.txt running-config echo-commands*
-cs2# *copy running-config startup-config* [########################################] 100% Copy complete
+cs2# copy Nexus_3132QV_RCF_v1.6-Cluster-HA-Breakout.txt running-config echo-commands
+cs2# copy running-config startup-config
+[########################################] 100% Copy complete
 ----
 
 . Verify the health of cluster ports on the cluster.
@@ -483,7 +482,7 @@ cluster1::*>
 cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert True*
 ----
 +
-NOTE: Verify that auto-revert is enabled. Verify too that the Cluster LIFs have reverted back to their home ports. If this is not the case, revert them manually using the command: `network interface revert -vserver _vserver_name_ -lif _lif_name_`
+Verify that auto-revert is enabled.
 
 . Reboot switch cs1.You do this to trigger the cluster LIFs to revert to their home ports. You can ignore the `cluster ports down` events reported on the nodes while the switch reboots.
 +
@@ -497,7 +496,7 @@ This command will reboot the system. (y/n)?  [n] *y*
 +
 [subs=+quotes]
 ----
-cs1# *show interface brief \| grep up*
+cs1# *show interface brief | grep up*
 .
 .
 Eth1/1/1      1       eth  access up      none                    10G(D) --
@@ -538,18 +537,18 @@ cs1#
 [subs=+quotes]
 ----
 cluster1::*> *network interface show -vserver Cluster*
-            Logical            Status     Network            Current             Current Is
-Vserver     Interface          Admin/Oper Address/Mask       Node                Port    Home
------------ ------------------ ---------- ------------------ ------------------- ------- ----
+        Logical            Status     Network            Current             Current Is
+Vserver Interface          Admin/Oper Address/Mask       Node                Port    Home
+------- ------------------ ---------- ------------------ ------------------- ------- ----
 Cluster
-            cluster1-01_clus1  up/up      169.254.3.4/23     cluster1-01         e0d     true
-            cluster1-01_clus2  up/up      169.254.3.5/23     cluster1-01         e0d     true
-            cluster1-02_clus1  up/up      169.254.3.8/23     cluster1-02         e0d     true
-            cluster1-02_clus2  up/up      169.254.3.9/23     cluster1-02         e0d     true
-            cluster1-03_clus1  up/up      169.254.1.3/23     cluster1-03         e0b     true
-            cluster1-03_clus2  up/up      169.254.1.1/23     cluster1-03         e0b     true
-            cluster1-04_clus1  up/up      169.254.1.6/23Updates    cluster1-04         e0b     true
-            cluster1-04_clus2  up/up      169.254.1.7/23     cluster1-04         e0b     true
+        cluster1-01_clus1  up/up      169.254.3.4/23     cluster1-01         e0d     true
+        cluster1-01_clus2  up/up      169.254.3.5/23     cluster1-01         e0d     true
+        cluster1-02_clus1  up/up      169.254.3.8/23     cluster1-02         e0d     true
+        cluster1-02_clus2  up/up      169.254.3.9/23     cluster1-02         e0d     true
+        cluster1-03_clus1  up/up      169.254.1.3/23     cluster1-03         e0b     true
+        cluster1-03_clus2  up/up      169.254.1.1/23     cluster1-03         e0b     true
+        cluster1-04_clus1  up/up      169.254.1.6/23     cluster1-04         e0b     true
+        cluster1-04_clus2  up/up      169.254.1.7/23     cluster1-04         e0b     true
 8 entries were displayed.
 cluster1::*>
 ----
