@@ -125,8 +125,21 @@ cluster::> network interface modify -vserver Cluster -lif * -auto-revert false
 `network device-discovery show -port _cluster_port_`
 +
 The “Discovered Device” column should be the name of the cluster switch that the port is connected to. The following example shows that cluster ports "e0a" and "e0b" are correctly connected to cluster switches "cs1" and "cs2".
-
-
++
+----
+cluster::> network device-discovery show -port e0a|e0b
+  (network device-discovery show)
+Node/       Local  Discovered
+Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
+----------- ------ ------------------------- ----------------  ----------------
+Node1/cdp
+            e0a    cs01                      0/11              BES-53248
+            e0b    cs01                      0/12              BES-53248
+Node2/cdp
+            e0a    cs01                      0/9               BES-53248
+            e0b    cs02                      0/9               BES-53248
+4 entries were displayed.
+----
 
 .	Verify the cluster connectivity:
 +
@@ -185,7 +198,27 @@ image::../media/tnsc_node1_and_node2_direct_connection.PNG[Direct connection bet
 `network device-discovery show`
 +
 The following example shows that cluster ports "e0a" and "e0b" are correctly connected to the corresponding port on the cluster partner:
-
++
+----
+cluster::> net device-discovery show -port e0a|e0b
+  (network device-discovery show)
+Node/       Local  Discovered
+Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
+----------- ------ ------------------------- ----------------  ----------------
+node1/cdp
+            e0a    node2                     e0a               AFF8060
+            e0b    node2                     e0b               AFF8060
+node1/lldp
+            e0a    node2                     e0a               -
+            e0b    node2                     e0b               -
+node2/cdp
+            e0a    node1                     e0a               AFF8060
+            e0b    node1                     e0b               AFF8060
+node2/lldp
+            e0a    node1                     e0a               -
+            e0b    node1                     e0b               -
+8 entries were displayed.
+----
 
 .	Reenable auto-revert for the cluster LIFs:
 +
@@ -213,6 +246,10 @@ Cluster  node2_clus1	 e0a       true
 Cluster  node2_clus2	 e0b       true
 4 entries were displayed.
 ----
++
+If any cluster LIFS have not returned to their home ports, revert them manually:
++
+`network interface revert -vserver _vserver_name_ -lif _lif_name_`
 
 .	Check the cluster status of the nodes from the system console of either node:
 +
