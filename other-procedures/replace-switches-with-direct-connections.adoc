@@ -129,15 +129,15 @@ The “Discovered Device” column should be the name of the cluster switch that
 ----
 cluster::> network device-discovery show -port e0a|e0b
   (network device-discovery show)
-Node/       Local  Discovered
-Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
------------ ------ ------------------------- ----------------  ----------------
+Node/     Local  Discovered
+Protocol  Port   Device (LLDP: ChassisID)  Interface  Platform
+--------- ------ ------------------------- ---------- ----------
 node1/cdp
-            e0a    cs01                      0/11              BES-53248
-            e0b    cs01                      0/12              BES-53248
+          e0a    cs1                       0/11       BES-53248
+          e0b    cs1                       0/12       BES-53248
 node2/cdp
-            e0a    cs01                      0/9               BES-53248
-            e0b    cs02                      0/9               BES-53248
+          e0a    cs1                       0/9        BES-53248
+          e0b    cs2                       0/9        BES-53248
 4 entries were displayed.
 ----
 
@@ -202,37 +202,31 @@ The following example shows that cluster ports "e0a" and "e0b" are correctly con
 ----
 cluster::> net device-discovery show -port e0a|e0b
   (network device-discovery show)
-Node/       Local  Discovered
-Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
------------ ------ ------------------------- ----------------  ----------------
+Node/      Local  Discovered
+Protocol   Port   Device (LLDP: ChassisID)  Interface  Platform
+---------- ------ ------------------------- ---------- ----------
 node1/cdp
-            e0a    node2                     e0a               AFF8060
-            e0b    node2                     e0b               AFF8060
+           e0a    node2                     e0a        AFF8060
+           e0b    node2                     e0b        AFF8060
 node1/lldp
-            e0a    node2                     e0a               -
-            e0b    node2                     e0b               -
+           e0a    node2                     e0a        -
+           e0b    node2                     e0b        -
 node2/cdp
-            e0a    node1                     e0a               AFF8060
-            e0b    node1                     e0b               AFF8060
+           e0a    node1                     e0a        AFF8060
+           e0b    node1                     e0b        AFF8060
 node2/lldp
-            e0a    node1                     e0a               -
-            e0b    node1                     e0b               -
+           e0a    node1                     e0a        -
+           e0b    node1                     e0b        -
 8 entries were displayed.
 ----
 
 .	Reenable auto-revert for the cluster LIFs:
 +
 `network interface modify -vserver Cluster -lif * -auto-revert true`
-+
-The system displays output similar to the following example:
-+
-----
-cluster::> network interface modify -vserver Cluster -lif * -auto-revert true
-----
 
 .	Verify that all LIFs are home. This might take a few seconds:
 +
-`network interface show -vserver Cluster -lif *`
+`network interface show -vserver Cluster -lif _lif_name_`
 +
 The LIFs have been reverted if the “Is Home” column is `true`, as shown for `node1_clus2` and `node2_clus2` in the following example:
 +
