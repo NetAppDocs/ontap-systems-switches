@@ -177,12 +177,12 @@ The following example shows that the ISL ports are up on switch sw1:
 ----
 cumulus@sw1:~$ *net show interface*
 
-State  Name         Spd   MTU    Mode        LLDP             Summary
------  -----------  ----  -----  ----------  ---------------  ----------------------
+State  Name         Spd   MTU    Mode        LLDP           Summary
+-----  -----------  ----  -----  ----------  -------------- ----------------------
 ...
 ...
-UP     swp15        100G  9216   BondMember  nsw2 (swp15)     Master: cluster_isl(UP)
-UP     swp16        100G  9216   BondMember  nsw2 (swp16)     Master: cluster_isl(UP)
+UP     swp15        100G  9216   BondMember  nsw2 (swp15)   Master: cluster_isl(UP)
+UP     swp16        100G  9216   BondMember  nsw2 (swp16)   Master: cluster_isl(UP)
 ----
 +
 The following example shows that the ISL ports are up on switch nsw2:
@@ -191,12 +191,12 @@ The following example shows that the ISL ports are up on switch nsw2:
 ----
 cumulus@nsw2:~$ *net show interface*
 
-State  Name         Spd   MTU    Mode        LLDP             Summary
------  -----------  ----  -----  ----------  ---------------  -----------------------
+State  Name         Spd   MTU    Mode        LLDP           Summary
+-----  -----------  ----  -----  ----------  -------------  -----------------------
 ...
 ...
-UP     swp15        100G  9216   BondMember  sw1 (swp15)      Master: cluster_isl(UP)
-UP     swp16        100G  9216   BondMember  sw1 (swp16)      Master: cluster_isl(UP)
+UP     swp15        100G  9216   BondMember  sw1 (swp15)    Master: cluster_isl(UP)
+UP     swp16        100G  9216   BondMember  sw1 (swp16)    Master: cluster_isl(UP)
 ----
 
 . Verify that port `e3b` is up on all nodes: `network port show -ipspace Cluster`
@@ -246,14 +246,14 @@ node2      /lldp
 ----
 cumulus@nsw2:~$ *net show interface*
 
-State  Name         Spd   MTU    Mode        LLDP                Summary
------  -----------  ----  -----  ----------  ------------------- ----------------------
+State  Name         Spd   MTU    Mode        LLDP              Summary
+-----  -----------  ----  -----  ----------  ----------------- ----------------------
 ...
 ...
-UP     swp3         100G  9216   Trunk/L2                        Master: bridge(UP)
-UP     swp4         100G  9216   Trunk/L2                        Master: bridge(UP)
-UP     swp15        100G  9216   BondMember  sw1 (swp15)         Master: cluster_isl(UP)
-UP     swp16        100G  9216   BondMember  sw1 (swp16)         Master: cluster_isl(UP)
+UP     swp3         100G  9216   Trunk/L2                      Master: bridge(UP)
+UP     swp4         100G  9216   Trunk/L2                      Master: bridge(UP)
+UP     swp15        100G  9216   BondMember  sw1 (swp15)       Master: cluster_isl(UP)
+UP     swp16        100G  9216   BondMember  sw1 (swp16)       Master: cluster_isl(UP)
 ----
 
 . Verify that both nodes each have one connection to each switch: `net show lldp`
@@ -354,8 +354,8 @@ cluster1::*> *system switch ethernet log setup-password*
 Enter the switch name: <return>
 The switch name entered is not recognized.
 Choose from the following list:
-sw1
-nsw2
+*sw1*
+*nsw2*
 
 cluster1::*> *system switch ethernet log setup-password*
 

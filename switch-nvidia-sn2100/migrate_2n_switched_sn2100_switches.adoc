@@ -189,23 +189,23 @@ cumulus@sw1:~$ *net commit*
 ----
 cumulus@sw1:~$ *net show interface all*
 
-State  Name      Spd   MTU    Mode       LLDP              Summary
------  --------- ----  -----  ---------- ----------------- --------
+State  Name      Spd   MTU    Mode       LLDP            Summary
+-----  --------- ----  -----  ---------- --------------- --------
 ...
-DN     swp1s0    10G   9216   Trunk/L2                     Master: br_default(UP)
-DN     swp1s1    10G   9216   Trunk/L2                     Master: br_default(UP)
-DN     swp1s2    10G   9216   Trunk/L2                     Master: br_default(UP)
-DN     swp1s3    10G   9216   Trunk/L2                     Master: br_default(UP)
-DN     swp2s0    25G   9216   Trunk/L2                     Master: br_default(UP)
-DN     swp2s1    25G   9216   Trunk/L2                     Master: br_default(UP)
-DN     swp2s2    25G   9216   Trunk/L2                     Master: br_default(UP)
-DN     swp2s3    25G   9216   Trunk/L2                     Master: br_default(UP)
-UP     swp3      100G  9216   Trunk/L2    node1 (e3a)      Master: br_default(UP)
-UP     swp4      100G  9216   Trunk/L2    node2 (e3a)      Master: br_default(UP)
+DN     swp1s0    10G   9216   Trunk/L2                   Master: br_default(UP)
+DN     swp1s1    10G   9216   Trunk/L2                   Master: br_default(UP)
+DN     swp1s2    10G   9216   Trunk/L2                   Master: br_default(UP)
+DN     swp1s3    10G   9216   Trunk/L2                   Master: br_default(UP)
+DN     swp2s0    25G   9216   Trunk/L2                   Master: br_default(UP)
+DN     swp2s1    25G   9216   Trunk/L2                   Master: br_default(UP)
+DN     swp2s2    25G   9216   Trunk/L2                   Master: br_default(UP)
+DN     swp2s3    25G   9216   Trunk/L2                   Master: br_default(UP)
+UP     swp3      100G  9216   Trunk/L2    node1 (e3a)    Master: br_default(UP)
+UP     swp4      100G  9216   Trunk/L2    node2 (e3a)    Master: br_default(UP)
 ...
 ...
-UP     swp15     100G  9216   BondMember  swp15            Master: cluster_isl(UP)
-UP     swp16     100G  9216   BondMember  swp16            Master: cluster_isl(UP)
+UP     swp15     100G  9216   BondMember  swp15          Master: cluster_isl(UP)
+UP     swp16     100G  9216   BondMember  swp16          Master: cluster_isl(UP)
 ...
 ----
 
@@ -270,23 +270,23 @@ cumulus@sw2:~$ *net commit*
 ----
 cumulus@sw2:~$ *net show interface all*
 
-State  Name      Spd   MTU    Mode       LLDP              Summary
------  --------- ----  -----  ---------- ----------------- --------
+State  Name      Spd   MTU    Mode       LLDP            Summary
+-----  --------- ----  -----  ---------- --------------- --------
 ...
-DN     swp1s0    10G   9216   Trunk/L2                     Master: br_default(UP)
-DN     swp1s1    10G   9216   Trunk/L2                     Master: br_default(UP)
-DN     swp1s2    10G   9216   Trunk/L2                     Master: br_default(UP)
-DN     swp1s3    10G   9216   Trunk/L2                     Master: br_default(UP)
-DN     swp2s0    25G   9216   Trunk/L2                     Master: br_default(UP)
-DN     swp2s1    25G   9216   Trunk/L2                     Master: br_default(UP)
-DN     swp2s2    25G   9216   Trunk/L2                     Master: br_default(UP)
-DN     swp2s3    25G   9216   Trunk/L2                     Master: br_default(UP)
-UP     swp3      100G  9216   Trunk/L2    node1 (e3b)      Master: br_default(UP)
-UP     swp4      100G  9216   Trunk/L2    node2 (e3b)      Master: br_default(UP)
+DN     swp1s0    10G   9216   Trunk/L2                   Master: br_default(UP)
+DN     swp1s1    10G   9216   Trunk/L2                   Master: br_default(UP)
+DN     swp1s2    10G   9216   Trunk/L2                   Master: br_default(UP)
+DN     swp1s3    10G   9216   Trunk/L2                   Master: br_default(UP)
+DN     swp2s0    25G   9216   Trunk/L2                   Master: br_default(UP)
+DN     swp2s1    25G   9216   Trunk/L2                   Master: br_default(UP)
+DN     swp2s2    25G   9216   Trunk/L2                   Master: br_default(UP)
+DN     swp2s3    25G   9216   Trunk/L2                   Master: br_default(UP)
+UP     swp3      100G  9216   Trunk/L2    node1 (e3b)    Master: br_default(UP)
+UP     swp4      100G  9216   Trunk/L2    node2 (e3b)    Master: br_default(UP)
 ...
 ...
-UP     swp15     100G  9216   BondMember  swp15            Master: cluster_isl(UP)
-UP     swp16     100G  9216   BondMember  swp16            Master: cluster_isl(UP)
+UP     swp15     100G  9216   BondMember  swp15          Master: cluster_isl(UP)
+UP     swp16     100G  9216   BondMember  swp16          Master: cluster_isl(UP)
 ...
 ----
 
@@ -371,7 +371,6 @@ Cluster
           node1_clus2   true
           node2_clus1   true
           node2_clus2   true
-
 ----
 
 . Verify that all interfaces display true for `Is Home`: `net interface show -vserver Cluster`
@@ -461,8 +460,8 @@ cluster1::*> *system switch ethernet log setup-password*
 Enter the switch name: <return>
 The switch name entered is not recognized.
 Choose from the following list:
-sw1
-sw2
+*sw1*
+*sw2*
 
 cluster1::*> *system switch ethernet log setup-password*
 

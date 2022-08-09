@@ -195,16 +195,16 @@ cluster1::*>
 ----
 cumulus@sw2:~$ *net show interface*
 
-State  Name    Spd   MTU    Mode        LLDP                    Summary
------  ------  ----  -----  ----------  ----------------------  --------------------
+State  Name    Spd   MTU    Mode        LLDP                  Summary
+-----  ------  ----  -----  ----------  --------------------  --------------------
 ...
 ...
-UP     swp1    100G  9216   Trunk/L2   node1 (e5b)               Master: bridge(UP)
-UP     swp2    100G  9216   Trunk/L2   node2 (e5b)               Master: bridge(UP)
-UP     swp3    100G  9216   Trunk/L2   SHFFG1826000112 (e0b)     Master: bridge(UP)
-UP     swp4    100G  9216   Trunk/L2   SHFFG1826000112 (e0b)     Master: bridge(UP)
-UP     swp5    100G  9216   Trunk/L2   SHFFG1826000102 (e0b)     Master: bridge(UP)
-UP     swp6    100G  9216   Trunk/L2   SHFFG1826000102 (e0b)     Master: bridge(UP))
+UP     swp1    100G  9216   Trunk/L2   node1 (e5b)             Master: bridge(UP)
+UP     swp2    100G  9216   Trunk/L2   node2 (e5b)             Master: bridge(UP)
+UP     swp3    100G  9216   Trunk/L2   SHFFG1826000112 (e0b)   Master: bridge(UP)
+UP     swp4    100G  9216   Trunk/L2   SHFFG1826000112 (e0b)   Master: bridge(UP)
+UP     swp5    100G  9216   Trunk/L2   SHFFG1826000102 (e0b)   Master: bridge(UP)
+UP     swp6    100G  9216   Trunk/L2   SHFFG1826000102 (e0b)   Master: bridge(UP))
 ...
 ...
 ----
@@ -275,16 +275,16 @@ cluster1::*>
 ----
 cumulus@sw2:~$ *net show interface*
 
-State  Name    Spd   MTU    Mode        LLDP                    Summary
------  ------  ----  -----  ----------  ----------------------  --------------------
+State  Name    Spd   MTU    Mode        LLDP                  Summary
+-----  ------  ----  -----  ----------  --------------------  --------------------
 ...
 ...
-UP     swp1    100G  9216   Trunk/L2   node1 (e5b)               Master: bridge(UP)
-UP     swp2    100G  9216   Trunk/L2   node2 (e5b)               Master: bridge(UP)
-UP     swp3    100G  9216   Trunk/L2   SHFFG1826000112 (e0b)     Master: bridge(UP)
-UP     swp4    100G  9216   Trunk/L2   SHFFG1826000112 (e0b)     Master: bridge(UP)
-UP     swp5    100G  9216   Trunk/L2   SHFFG1826000102 (e0b)     Master: bridge(UP)
-UP     swp6    100G  9216   Trunk/L2   SHFFG1826000102 (e0b)     Master: bridge(UP))
+UP     swp1    100G  9216   Trunk/L2   node1 (e5b)             Master: bridge(UP)
+UP     swp2    100G  9216   Trunk/L2   node2 (e5b)             Master: bridge(UP)
+UP     swp3    100G  9216   Trunk/L2   SHFFG1826000112 (e0b)   Master: bridge(UP)
+UP     swp4    100G  9216   Trunk/L2   SHFFG1826000112 (e0b)   Master: bridge(UP)
+UP     swp5    100G  9216   Trunk/L2   SHFFG1826000102 (e0b)   Master: bridge(UP)
+UP     swp6    100G  9216   Trunk/L2   SHFFG1826000102 (e0b)   Master: bridge(UP))
 ...
 ...
 ----
@@ -330,8 +330,8 @@ cluster1::*> *system switch ethernet log setup-password*
 Enter the switch name: <return>
 The switch name entered is not recognized.
 Choose from the following list:
-sw1
-sw2
+*sw1*
+*sw2*
 
 cluster1::*> *system switch ethernet log setup-password*
 

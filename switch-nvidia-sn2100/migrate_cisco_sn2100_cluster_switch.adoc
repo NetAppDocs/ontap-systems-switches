@@ -66,8 +66,6 @@ The advanced prompt (*>) appears.
 cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert false*
 
 Warning: Disabling the auto-revert feature of the cluster logical interface may effect the availability of your cluster network. Are you sure you want to continue? {y|n}: *y*
-
-4 entries were modified.
 ----
 
 . Determine the administrative or operational status for each cluster interface:
@@ -203,7 +201,7 @@ RPC status:
 Enter configuration commands, one per line. End with CNTL/Z.
 
 (c2)(Config)# *interface*
-(c2)(config-if-range)# *shutdown _interface-list_*
+(c2)(config-if-range)# *shutdown _<interface_list>_*
 (c2)(config-if-range)# *exit*
 (c2)(Config)# *exit*
 (c2)#
@@ -256,14 +254,14 @@ node2      /lldp
 ----
 cumulus@sw2:~$ *net show interface*
 
-State  Name         Spd   MTU    Mode        LLDP                Summary
------  -----------  ----  -----  ----------  ------------------- ----------------------
+State  Name         Spd   MTU    Mode        LLDP              Summary
+-----  -----------  ----  -----  ----------  ----------------- ----------------------
 ...
 ...
-UP     swp3         100G  9216   Trunk/L2    e3b                 Master: bridge(UP)
-UP     swp4         100G  9216   Trunk/L2    e3b                 Master: bridge(UP)
-UP     swp15        100G  9216   BondMember  sw1 (swp15)         Master: cluster_isl(UP)
-UP     swp16        100G  9216   BondMember  sw1 (swp16)         Master: cluster_isl(UP)
+UP     swp3         100G  9216   Trunk/L2    e3b               Master: bridge(UP)
+UP     swp4         100G  9216   Trunk/L2    e3b               Master: bridge(UP)
+UP     swp15        100G  9216   BondMember  sw1 (swp15)       Master: cluster_isl(UP)
+UP     swp16        100G  9216   BondMember  sw1 (swp16)       Master: cluster_isl(UP)
 ----
 
 . On switch c1, shut down the ports connected to the cluster ports of the nodes.
@@ -274,7 +272,7 @@ UP     swp16        100G  9216   BondMember  sw1 (swp16)         Master: cluster
 Enter configuration commands, one per line. End with CNTL/Z.
 
 (c1)(Config)# *interface*
-(c1)(config-if-range)# *shutdown _interface-list_*
+(c1)(config-if-range)# *shutdown _<interface_list>_*
 (c1)(config-if-range)# *exit*
 (c1)(Config)# *exit*
 (c1)#
@@ -330,26 +328,26 @@ node2      /lldp
 ----
 cumulus@sw1:~$ *net show interface*
 
-State  Name         Spd   MTU    Mode        LLDP                Summary
------  -----------  ----  -----  ----------  ------------------- ----------------------
+State  Name         Spd   MTU    Mode        LLDP              Summary
+-----  -----------  ----  -----  ----------  ----------------- ----------------------
 ...
 ...
-UP     swp3         100G  9216   Trunk/L2    e3a                 Master: bridge(UP)
-UP     swp4         100G  9216   Trunk/L2    e3a                 Master: bridge(UP)
-UP     swp15        100G  9216   BondMember  sw2 (swp15)         Master: cluster_isl(UP)
-UP     swp16        100G  9216   BondMember  sw2 (swp16)         Master: cluster_isl(UP)
+UP     swp3         100G  9216   Trunk/L2    e3a               Master: bridge(UP)
+UP     swp4         100G  9216   Trunk/L2    e3a               Master: bridge(UP)
+UP     swp15        100G  9216   BondMember  sw2 (swp15)       Master: cluster_isl(UP)
+UP     swp16        100G  9216   BondMember  sw2 (swp16)       Master: cluster_isl(UP)
 
 
 cumulus@sw2:~$ *net show interface*
 
-State  Name         Spd   MTU    Mode        LLDP                Summary
------  -----------  ----  -----  ----------  ------------------- -----------------------
+State  Name         Spd   MTU    Mode        LLDP              Summary
+-----  -----------  ----  -----  ----------  ----------------- -----------------------
 ...
 ...
-UP     swp3         100G  9216   Trunk/L2    e3b                 Master: bridge(UP)
-UP     swp4         100G  9216   Trunk/L2    e3b                 Master: bridge(UP)
-UP     swp15        100G  9216   BondMember  sw1 (swp15)         Master: cluster_isl(UP)
-UP     swp16        100G  9216   BondMember  sw1 (swp16)         Master: cluster_isl(UP)
+UP     swp3         100G  9216   Trunk/L2    e3b               Master: bridge(UP)
+UP     swp4         100G  9216   Trunk/L2    e3b               Master: bridge(UP)
+UP     swp15        100G  9216   BondMember  sw1 (swp15)       Master: cluster_isl(UP)
+UP     swp16        100G  9216   BondMember  sw1 (swp16)       Master: cluster_isl(UP)
 ----
 
 . Verify that both nodes each have one connection to each switch: `net show lldp`
@@ -405,8 +403,8 @@ cluster1::*> *system switch ethernet log setup-password*
 Enter the switch name: <return>
 The switch name entered is not recognized.
 Choose from the following list:
-sw1
-sw2
+*sw1*
+*sw2*
 
 cluster1::*> *system switch ethernet log setup-password*
 

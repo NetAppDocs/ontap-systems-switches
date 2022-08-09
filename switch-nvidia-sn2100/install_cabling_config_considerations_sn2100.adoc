@@ -29,14 +29,15 @@ NOTE: Using 10G/25G QSA, use the non-breakout 40/100G ports. Do not insert the Q
 
 . Depending on the transceiver in the switchport, you might need to set the speed on the switchport to fixed speed. If using 10G and 25G breakout ports, make sure that auto-negotiation is off and hard set the port speed on the switch. For example:
 +
+[subs=+quotes]
 ----
-cumulus@cumulus:mgmt:~$ net add int swp1s3 link autoneg on && net com
+cumulus@cumulus:mgmt:~$ net add int swp1s3 link autoneg off && net com
 --- /etc/network/interfaces     2019-11-17 00:17:13.470687027 +0000
 +++ /run/nclu/ifupdown2/interfaces.tmp  2019-11-24 00:09:19.435226258 +0000
 @@ -37,21 +37,21 @@
      alias 10G Intra-Cluster Node
      link-autoneg off
-     link-speed 10000
+     *link-speed 10000*
      mstpctl-bpduguard yes
      mstpctl-portadminedge yes
      mtu 9216
@@ -46,7 +47,7 @@ iface swp1s3
      alias 10G Intra-Cluster Node
 -    link-autoneg off
 +    link-autoneg on
-     link-speed 10000
+     *link-speed 10000*
      mstpctl-bpduguard yes
      mstpctl-portadminedge yes
      mtu 9216
@@ -55,5 +56,5 @@ auto swp2s0
 iface swp2s0
      alias 25G Intra-Cluster Node
      link-autoneg off
-     link-speed 25000
+     *link-speed 25000*
 ----
