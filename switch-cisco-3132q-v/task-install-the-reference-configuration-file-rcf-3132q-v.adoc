@@ -32,8 +32,9 @@ The examples in this procedure use the following switch and node nomenclature:
 +
 `network device-discovery show`
 +
+[subs=+quotes]
 ----
-cluster1::*> network device-discovery show
+cluster1::*> *network device-discovery show*
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ------------
@@ -55,10 +56,11 @@ cluster1::*>
 . Check the administrative and operational status of each cluster port.
  .. Verify that all the cluster ports are up with a healthy status:
 +
-`network port show –role cluster`
+`network port show –ipspace Cluster`
 +
+[subs=+quotes]
 ----
-cluster1::*> network port show -role cluster
+cluster1::*> *network port show -ipspace Cluster*
 
 Node: cluster1-01
                                                                        Ignore
@@ -98,22 +100,23 @@ cluster1::*>
 
  .. Verify that all the cluster interfaces (LIFs) are on the home port:
 +
-`network interface show -role cluster`
+`network interface show -vserver cluster`
 +
+[subs=+quotes]
 ----
-cluster1::*> network interface show -role cluster
-            Logical            Status     Network           Current      Current Is
-Vserver     Interface          Admin/Oper Address/Mask      Node         Port    Home
------------ ------------------ ---------- ----------------- ------------ ------- ----
+cluster1::*> *network interface show -vserver Cluster*
+            Logical            Status     Network         Current      Current Is
+Vserver     Interface          Admin/Oper Address/Mask    Node         Port    Home
+----------- ------------------ ---------- --------------- ------------ ------- ----
 Cluster
-            cluster1-01_clus1  up/up     169.254.3.4/23     cluster1-01  e0a     true
-            cluster1-01_clus2  up/up     169.254.3.5/23     cluster1-01  e0d     true
-            cluster1-02_clus1  up/up     169.254.3.8/23     cluster1-02  e0a     true
-            cluster1-02_clus2  up/up     169.254.3.9/23     cluster1-02  e0d     true
-            cluster1-03_clus1  up/up     169.254.1.3/23     cluster1-03  e0a     true
-            cluster1-03_clus2  up/up     169.254.1.1/23     cluster1-03  e0b     true
-            cluster1-04_clus1  up/up     169.254.1.6/23     cluster1-04  e0a     true
-            cluster1-04_clus2  up/up     169.254.1.7/23     cluster1-04  e0b     true
+            cluster1-01_clus1  up/up     169.254.3.4/23   cluster1-01  e0a     true
+            cluster1-01_clus2  up/up     169.254.3.5/23   cluster1-01  e0d     true
+            cluster1-02_clus1  up/up     169.254.3.8/23   cluster1-02  e0a     true
+            cluster1-02_clus2  up/up     169.254.3.9/23   cluster1-02  e0d     true
+            cluster1-03_clus1  up/up     169.254.1.3/23   cluster1-03  e0a     true
+            cluster1-03_clus2  up/up     169.254.1.1/23   cluster1-03  e0b     true
+            cluster1-04_clus1  up/up     169.254.1.6/23   cluster1-04  e0a     true
+            cluster1-04_clus2  up/up     169.254.1.7/23   cluster1-04  e0b     true
 8 entries were displayed.
 cluster1::*>
 ----
@@ -122,8 +125,9 @@ cluster1::*>
 +
 `system cluster-switch show -is-monitoring-enabled-operational true`
 +
+[subs=+quotes]
 ----
-cluster1::*> system cluster-switch show -is-monitoring-enabled-operational true
+cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true*
 Switch                      Type               Address          Model
 --------------------------- ------------------ ---------------- ---------------
 cs1                         cluster-network    10.0.0.1         NX3132QV
@@ -144,26 +148,32 @@ cs2                         cluster-network    10.0.0.2         NX3132QV
 
 2 entries were displayed.
 ----
++
+NOTE: For ONTAP 9.8 and later, use the command `system ethernet switch show -is-monitoring-enabled-operational true`
+
 . Disable auto-revert on the cluster LIFs.
 +
 ----
-cluster1::*> network interface modify -vserver Cluster -lif \* -auto-revert false
-
+cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert false
 ----
++
+Ensure that auto-revert is disabled after running this command.
 
 . On cluster switch cs2, shut down the ports connected to the cluster ports of the nodes.
 +
+[subs=+quotes]
 ----
-cs2(config)# interface eth1/1/1-2,eth1/7-8
-cs2(config-if-range)# shutdown
+cs2(config)# *interface eth1/1/1-2,eth1/7-8*
+cs2(config-if-range)# *shutdown*
 ----
 
 . Verify that the cluster ports have migrated to the ports hosted on cluster switch cs1. This might take a few seconds.
 +
-`network interface show -role cluster`
+`network interface show -vserver Cluster`
 +
+[subs=+quotes]
 ----
-cluster1::*> network interface show -role cluster
+cluster1::*> *network interface show -vserver Cluster*
             Logical           Status     Network            Current       Current Is
 Vserver     Interface         Admin/Oper Address/Mask       Node          Port    Home
 ----------- ----------------- ---------- ------------------ ------------- ------- ----
@@ -184,8 +194,9 @@ cluster1::*>
 +
 `cluster show`
 +
+[subs=+quotes]
 ----
-cluster1::*> cluster show
+cluster1::*> *cluster show*
 Node                 Health  Eligibility   Epsilon
 -------------------- ------- ------------  -------
 cluster1-01          true    true          false
@@ -205,12 +216,13 @@ cluster1::*>
 +
 NOTE: This step requires a console connection to the switch.
 +
+[subs=+quotes]
 ----
-cs2# write erase
+cs2# *write erase*
 Warning: This command will erase the startup-configuration.
-Do you wish to proceed anyway? (y/n)  [n] y
+Do you wish to proceed anyway? (y/n)  [n] *y*
 cs2# reload
-This command will reboot the system. (y/n)?  [n] y
+This command will reboot the system. (y/n)?  [n] *y*
 cs2#
 ----
 
@@ -219,10 +231,11 @@ cs2#
 +
 This example shows TFTP being used to copy an RCF to the bootflash on switch cs2:
 +
+[subs=+quotes]
 ----
-cs2# copy tftp: bootflash: vrf management
-Enter source filename: Nexus_3132QV_RCF_v1.6-Cluster-HA-Breakout.txt
-Enter hostname for the tftp server: 172.22.201.50
+cs2# *copy tftp: bootflash: vrf management*
+Enter source filename: *Nexus_3132QV_RCF_v1.6-Cluster-HA-Breakout.txt*
+Enter hostname for the tftp server: *172.22.201.50*
 Trying to connect to tftp server......Connection to Server Established.
 TFTP get operation was successful
 Copy complete, now saving to disk (please wait)...
@@ -234,15 +247,15 @@ For more information on Cisco commands, see the appropriate guide in the https:/
 +
 This example shows the RCF file `Nexus_3132QV_RCF_v1.6-Cluster-HA-Breakout.txt` being installed on switch cs2:
 +
+[subs=+quotes]
 ----
-cs2# copy Nexus_3132QV_RCF_v1.6-Cluster-HA-Breakout.txt running-config echo-commands
+cs2# *copy Nexus_3132QV_RCF_v1.6-Cluster-HA-Breakout.txt running-config echo-commands*
 ----
 
 . Examine the banner output from the `show banner motd` command. You must read and follow the instructions under *Important Notes* to ensure the proper configuration and operation of the switch.
 +
 ----
 cs2# show banner motd
-
 
 ******************************************************************************
 * NetApp Reference Configuration File (RCF)
@@ -292,30 +305,34 @@ The output varies according to your site configuration. Check the port settings 
 For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-installation-guides-list.html[Cisco Nexus 3000 Series NX-OS Command Reference] guides.
 +
 ----
-cs2# copy running-config startup-config [########################################] 100% Copy complete
+cs2# copy running-config startup-config
+[########################################] 100% Copy complete
 ----
 
 . Reboot switch cs2. You can ignore the "cluster ports down" events reported on the nodes while the switch reboots.
 +
+[subs=+quotes]
 ----
-cs2# reload
-This command will reboot the system. (y/n)?  [n] y
+cs2# *reload*
+This command will reboot the system. (y/n)?  [n] *y*
 ----
 
 . Apply the same RCF and save the running configuration for a second time.
 +
 ----
 cs2# copy Nexus_3132QV_RCF_v1.6-Cluster-HA-Breakout.txt running-config echo-commands
-cs2# copy running-config startup-config [########################################] 100% Copy complete
+cs2# copy running-config startup-config
+[########################################] 100% Copy complete
 ----
 
 . Verify the health of cluster ports on the cluster.
- .. Verify that e0d ports are up and healthy across all nodes in the cluster:
+ .. Verify that cluster ports are up and healthy across all nodes in the cluster:
 +
-`network port show -role cluster`
+`network port show -ipspace Cluster`
 +
+[subs=+quotes]
 ----
-cluster1::*> network port show -role cluster
+cluster1::*> *network port show -ipspace Cluster*
 
 Node: cluster1-01
                                                                        Ignore
@@ -351,10 +368,11 @@ e0d       Cluster      Cluster          up   9000  auto/100000 healthy false
 8 entries were displayed.
 ----
 
- .. Verify the switch health from the cluster (this might not show switch cs2, since LIFs are not homed on e0d).
+ .. Verify the switch health from the cluster.
 +
+[subs=+quotes]
 ----
-cluster1::*> network device-discovery show -protocol cdp
+cluster1::*> *network device-discovery show -protocol cdp*
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------- --------
@@ -371,7 +389,7 @@ cluster1-04/cdp
             e0a    cs1                       Ethernet1/1/2     N3K-C3132Q-V
             e0b    cs2                       Ethernet1/1/2     N3K-C3132Q-V
 
-cluster1::*> system cluster-switch show -is-monitoring-enabled-operational true
+cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true*
 Switch                      Type               Address          Model
 --------------------------- ------------------ ---------------- -----
 cs1                         cluster-network    10.233.205.90    N3K-C3132Q-V
@@ -392,34 +410,37 @@ cs2                         cluster-network    10.233.205.91    N3K-C3132Q-V
 
 2 entries were displayed.
 ----
-
++
+NOTE: For ONTAP 9.8 and later, use the command `system ethernet switch show -is-monitoring-enabled-operational true`.
 +
 [NOTE]
 ====
 You might observe the following output on the cs1 switch console depending on the RCF version previously loaded on the switch:
 
-```
+----
 2020 Nov 17 16:07:18 cs1 %$ VDC-1 %$ %STP-2-UNBLOCK_CONSIST_PORT: Unblocking port port-channel1 on VLAN0092. Port consistency restored.
 2020 Nov 17 16:07:23 cs1 %$ VDC-1 %$ %STP-2-BLOCK_PVID_PEER: Blocking port-channel1 on VLAN0001. Inconsistent peer vlan.
 2020 Nov 17 16:07:23 cs1 %$ VDC-1 %$ %STP-2-BLOCK_PVID_LOCAL: Blocking port-channel1 on VLAN0092. Inconsistent local vlan.
-```
-
+----
 ====
+
 . On cluster switch cs1, shut down the ports connected to the cluster ports of the nodes.
 +
 The following example uses the interface example output from step 1:
 +
+[subs=+quotes]
 ----
-cs1(config)# interface eth1/1/1-2,eth1/7-8
-cs1(config-if-range)# shutdown
+cs1(config)# *interface eth1/1/1-2,eth1/7-8*
+cs1(config-if-range)# *shutdown*
 ----
 
 . Verify that the cluster LIFs have migrated to the ports hosted on switch cs2. This might take a few seconds.
 +
-`network interface show -role cluster`
+`network interface show -vserver Cluster`
 +
+[subs=+quotes]
 ----
-cluster1::*> network interface show -role cluster
+cluster1::*> *network interface show -vserver Cluster*
             Logical            Status     Network            Current             Current Is
 Vserver     Interface          Admin/Oper Address/Mask       Node                Port    Home
 ----------- ------------------ ---------- ------------------ ------------------- ------- ----
@@ -440,8 +461,9 @@ cluster1::*>
 +
 `cluster show`
 +
+[subs=+quotes]
 ----
-cluster1::*> cluster show
+cluster1::*> *cluster show*
 Node                 Health   Eligibility   Epsilon
 -------------------- -------- ------------- -------
 cluster1-01          true     true          false
@@ -452,24 +474,29 @@ cluster1-04          true     true          false
 cluster1::*>
 ----
 
-. Repeat Steps 7 to 14 on switch cs1.
+. Repeat Steps 7 to 16 on switch cs1.
 . Enable auto-revert on the cluster LIFs.
 +
+[subs=+quotes]
 ----
-cluster1::*> network interface modify -vserver Cluster -lif \* -auto-revert True
+cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert True*
 ----
-
-. Reboot switch cs1.You do this to trigger the cluster LIFs to revert to their home ports. You can ignore the "cluster ports down" events reported on the nodes while the switch reboots.
 +
+Verify that auto-revert is enabled.
+
+. Reboot switch cs1.You do this to trigger the cluster LIFs to revert to their home ports. You can ignore the `cluster ports down` events reported on the nodes while the switch reboots.
++
+[subs=+quotes]
 ----
-cs1# reload
-This command will reboot the system. (y/n)?  [n] y
+cs1# *reload*
+This command will reboot the system. (y/n)?  [n] *y*
 ----
 
 . Verify that the switch ports connected to the cluster ports are up.
 +
+[subs=+quotes]
 ----
-cs1# show interface brief \| grep up
+cs1# *show interface brief | grep up*
 .
 .
 Eth1/1/1      1       eth  access up      none                    10G(D) --
@@ -484,8 +511,9 @@ Eth1/8        1       eth  trunk  up      none                   100G(D) --
 +
 `show port-channel summary`
 +
+[subs=+quotes]
 ----
-cs1# show port-channel summary
+cs1# *show port-channel summary*
 Flags:  D - Down        P - Up in port-channel (members)
         I - Individual  H - Hot-standby (LACP only)
         s - Suspended   r - Module-removed
@@ -504,22 +532,23 @@ cs1#
 
 . Verify that the cluster LIFs have reverted to their home port:
 +
-`network interface show -role cluster`
+`network interface show -vserver Cluster`
 +
+[subs=+quotes]
 ----
-cluster1::*> network interface show -role cluster
-            Logical            Status     Network            Current             Current Is
-Vserver     Interface          Admin/Oper Address/Mask       Node                Port    Home
------------ ------------------ ---------- ------------------ ------------------- ------- ----
+cluster1::*> *network interface show -vserver Cluster*
+        Logical            Status     Network            Current             Current Is
+Vserver Interface          Admin/Oper Address/Mask       Node                Port    Home
+------- ------------------ ---------- ------------------ ------------------- ------- ----
 Cluster
-            cluster1-01_clus1  up/up      169.254.3.4/23     cluster1-01         e0d     true
-            cluster1-01_clus2  up/up      169.254.3.5/23     cluster1-01         e0d     true
-            cluster1-02_clus1  up/up      169.254.3.8/23     cluster1-02         e0d     true
-            cluster1-02_clus2  up/up      169.254.3.9/23     cluster1-02         e0d     true
-            cluster1-03_clus1  up/up      169.254.1.3/23     cluster1-03         e0b     true
-            cluster1-03_clus2  up/up      169.254.1.1/23     cluster1-03         e0b     true
-            cluster1-04_clus1  up/up      169.254.1.6/23     cluster1-04         e0b     true
-            cluster1-04_clus2  up/up      169.254.1.7/23     cluster1-04         e0b     true
+        cluster1-01_clus1  up/up      169.254.3.4/23     cluster1-01         e0d     true
+        cluster1-01_clus2  up/up      169.254.3.5/23     cluster1-01         e0d     true
+        cluster1-02_clus1  up/up      169.254.3.8/23     cluster1-02         e0d     true
+        cluster1-02_clus2  up/up      169.254.3.9/23     cluster1-02         e0d     true
+        cluster1-03_clus1  up/up      169.254.1.3/23     cluster1-03         e0b     true
+        cluster1-03_clus2  up/up      169.254.1.1/23     cluster1-03         e0b     true
+        cluster1-04_clus1  up/up      169.254.1.6/23     cluster1-04         e0b     true
+        cluster1-04_clus2  up/up      169.254.1.7/23     cluster1-04         e0b     true
 8 entries were displayed.
 cluster1::*>
 ----
@@ -528,8 +557,9 @@ cluster1::*>
 +
 `cluster show`
 +
+[subs=+quotes]
 ----
-cluster1::*> cluster show
+cluster1::*> *cluster show*
 Node                 Health  Eligibility   Epsilon
 -------------------- ------- ------------- -------
 cluster1-01          true    true          false
@@ -544,8 +574,9 @@ cluster1::*>
 +
 `cluster ping-cluster -node local`
 +
+[subs=+quotes]
 ----
-cluster1::*> cluster ping-cluster -node local
+cluster1::*> *cluster ping-cluster -node local*
 Host is cluster1-03
 Getting addresses from network interface table...
 Cluster cluster1-03_clus1 169.254.1.3 cluster1-03 e0a
@@ -582,6 +613,109 @@ RPC status:
 6 paths up, 0 paths down (tcp check)
 6 paths up, 0 paths down (udp check)
 ----
+
+. For ONTAP 9.8 and later, enable the Ethernet switch health monitor log collection feature for collecting switch-related log files by using the commands:
++
+`system switch ethernet log setup-password`
++
+`system switch ethernet log enable-collection`
++
+Enter: `system switch ethernet log setup-password`
++
+[subs=+quotes]
+----
+cluster1::*> *system switch ethernet log setup-password*
+Enter the switch name: *<return>*
+The switch name entered is not recognized.
+Choose from the following list:
+*cs1*
+*cs2*
+
+cluster1::*> *system switch ethernet log setup-password*
+
+Enter the switch name: *cs1*
+RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
+Do you want to continue? {y|n}::[n] *y*
+
+Enter the password: *<enter switch password>*
+Enter the password again: *<enter switch password>*
+
+cluster1::*> *system switch ethernet log setup-password*
+
+Enter the switch name: *cs2*
+RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
+Do you want to continue? {y|n}:: [n] *y*
+Enter the password: *<enter switch password>*
+Enter the password again: *<enter switch password>*
+----
++
+Followed by: `system switch ethernet log enable-collection`
++
+[subs=+quotes]
+----
+cluster1::*> *system  switch ethernet log enable-collection*
+
+Do you want to enable cluster log collection for all nodes in the cluster?
+{y|n}: [n] *y*
+
+Enabling cluster switch log collection.
+
+cluster1::*>
+----
++
+NOTE: If any of these commands return an error, contact NetApp support.
+
+. For ONTAP releases 9.5P16, 9.6P12, and 9.7P10 and later patch releases, enable the Ethernet switch health monitor log collection feature for collecting switch-related log files by using the commands:
++
+`system cluster-switch log setup-password`
++
+`system cluster-switch log enable-collection`
++
+Enter: `system cluster-switch log setup-password`
++
+[subs=+quotes]
+----
+cluster1::*> *system cluster-switch log setup-password*
+Enter the switch name: *<return>*
+The switch name entered is not recognized.
+Choose from the following list:
+*cs1*
+*cs2*
+
+cluster1::*> *system cluster-switch log setup-password*
+
+Enter the switch name: *cs1*
+RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
+Do you want to continue? {y|n}::[n] *y*
+
+Enter the password: *<enter switch password>*
+Enter the password again: *<enter switch password>*
+
+cluster1::*> *system cluster-switch log setup-password*
+
+Enter the switch name: *cs2*
+RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
+Do you want to continue? {y|n}:: [n] *y*
+
+Enter the password: *<enter switch password>*
+Enter the password again: *<enter switch password>*
+----
++
+Followed by: `system cluster-switch log enable-collection`
++
+[subs=+quotes]
+----
+cluster1::*> *system cluster-switch log enable-collection*
+
+Do you want to enable cluster log collection for all nodes in the cluster?
+{y|n}: [n] *y*
+
+Enabling cluster switch log collection.
+
+cluster1::*>
+----
++
+NOTE: If any of these commands return an error, contact NetApp support.
 
 // QA clean-up, 2022-03-03
 // 2022-06-02, 1453255

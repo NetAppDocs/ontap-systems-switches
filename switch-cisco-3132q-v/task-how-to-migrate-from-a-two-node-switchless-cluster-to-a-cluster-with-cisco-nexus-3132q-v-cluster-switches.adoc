@@ -74,9 +74,10 @@ The AutoSupport message notifies technical support of this maintenance task so t
 +
 `network port show`
 +
+[subs=+quotes]
 ----
-cluster::*> network port show –role cluster
-  (network port show)
+cluster::*> *network port show –ipspace Cluster*
+(network port show)
 Node: n1
                                                                        Ignore
                                                   Speed(Mbps) Health   Health
@@ -99,9 +100,9 @@ e4e       Cluster      Cluster          up   9000 auto/40000  -        -
 +
 `network interface show`
 +
+[subs=+quotes]
 ----
-cluster::*> network interface show -role cluster
- (network interface show)
+cluster::*> *network interface show -vserver Cluster*
             Logical    Status     Network            Current       Current Is
 Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
 ----------- ---------- ---------- ------------------ ------------- ------- ----
@@ -134,20 +135,30 @@ The following example shows ports 1 through 30 being disabled on Nexus 3132Q-V c
 C1# copy running-config startup-config
 [########################################] 100%
 Copy complete.
-C1# configure
-C1(config)# int e1/1/1-4,e1/2/1-4,e1/3/1-4,e1/4/1-4,e1/5/1-4,e1/6/1-4,e1/7-30
-C1(config-if-range)# shutdown
-C1(config-if-range)# exit
-C1(config)# exit
-
+----
++
+[subs=+quotes]
+----
+C1# *configure*
+C1(config)# *int e1/1/1-4,e1/2/1-4,e1/3/1-4,e1/4/1-4,e1/5/1-4,e1/6/1-4,e1/7-30*
+C1(config-if-range)# *shutdown*
+C1(config-if-range)# *exit*
+C1(config)# *exit*
+----
++
+----
 C2# copy running-config startup-config
 [########################################] 100%
 Copy complete.
-C2# configure
-C2(config)# int e1/1/1-4,e1/2/1-4,e1/3/1-4,e1/4/1-4,e1/5/1-4,e1/6/1-4,e1/7-30
-C2(config-if-range)# shutdown
-C2(config-if-range)# exit
-C2(config)# exit
+----
++
+[subs=+quotes]
+----
+C2# *configure*
+C2(config)# *int e1/1/1-4,e1/2/1-4,e1/3/1-4,e1/4/1-4,e1/5/1-4,e1/6/1-4,e1/7-30*
+C2(config-if-range)# *shutdown*
+C2(config-if-range)# *exit*
+C2(config)# *exit*
 ----
 
 . Connect ports 1/31 and 1/32 on C1 to the same ports on C2 using supported cabling.
@@ -155,8 +166,9 @@ C2(config)# exit
 +
 `show port-channel summary`
 +
+[subs=+quotes]
 ----
-C1# show port-channel summary
+C1# *show port-channel summary*
 Flags: D - Down         P - Up in port-channel (members)
        I - Individual   H - Hot-standby (LACP only)
        s - Suspended    r - Module-removed
@@ -169,7 +181,7 @@ Group Port-        Type   Protocol  Member Ports
 --------------------------------------------------------------------------------
 1     Po1(SU)      Eth    LACP      Eth1/31(P)   Eth1/32(P)
 
-C2# show port-channel summary
+C2# *show port-channel summary*
 Flags: D - Down         P - Up in port-channel (members)
        I - Individual   H - Hot-standby (LACP only)
        s - Suspended    r - Module-removed
@@ -187,8 +199,9 @@ Group Port-        Type   Protocol  Member Ports
 +
 `show cdp neighbors`
 +
+[subs=+quotes]
 ----
-C1# show cdp neighbors
+C1# *show cdp neighbors*
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
                   V - VoIP-Phone, D - Remotely-Managed-Device,
@@ -200,7 +213,7 @@ C2                 Eth1/32        174    R S I s     N3K-C3132Q-V  Eth1/32
 
 Total entries displayed: 2
 
-C2# show cdp neighbors
+C2# *show cdp neighbors*
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
                   V - VoIP-Phone, D - Remotely-Managed-Device,
@@ -219,8 +232,9 @@ Total entries displayed: 2
 +
 The following example shows a two-node switchless cluster configuration.
 +
+[subs=+quotes]
 ----
-cluster::*> network device-discovery show
+cluster::*> *network device-discovery show*
             Local  Discovered
 Node        Port   Device              Interface        Platform
 ----------- ------ ------------------- ---------------- ----------------
@@ -249,9 +263,9 @@ cluster::*> network interface migrate -vserver Cluster -lif n2_clus1 -source-nod
 +
 `network interface show`
 +
+[subs=+quotes]
 ----
-
-cluster::*> network interface show -role cluster
+cluster::*> *network interface show -vserver Cluster*
  (network interface show)
             Logical    Status     Network            Current       Current Is
 Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
@@ -277,8 +291,9 @@ cluster::*> network port modify -node n2 -port e4a -up-admin false
 +
 `cluster ping-cluster`
 +
+[subs=+quotes]
 ----
-cluster::*> cluster ping-cluster -node n1
+cluster::*> *cluster ping-cluster -node local*
 Host is n1
 Getting addresses from network interface table...
 Cluster n1_clus1 n1		e4a	10.10.0.1
@@ -321,12 +336,13 @@ The following example shows ports 1 through 30 being enabled on Nexus 3132Q-V cl
 +
 `NX3132_RCF_v1.1_24p10g_26p40g.txt`:
 +
+[subs=+quotes]
 ----
-C1# configure
-C1(config)# int e1/1/1-4,e1/2/1-4,e1/3/1-4,e1/4/1-4,e1/5/1-4,e1/6/1-4,e1/7-30
-C1(config-if-range)# no shutdown
-C1(config-if-range)# exit
-C1(config)# exit
+C1# *configure*
+C1(config)# *int e1/1/1-4,e1/2/1-4,e1/3/1-4,e1/4/1-4,e1/5/1-4,e1/6/1-4,e1/7-30*
+C1(config-if-range)# *no shutdown*
+C1(config-if-range)# *exit*
+C1(config)# *exit*
 ----
 
 . Enable the first cluster port, e4a, on each node:
@@ -342,9 +358,9 @@ cluster::*> network port modify -node n2 -port e4a -up-admin true
 +
 `network port show`
 +
+[subs=+quotes]
 ----
-cluster::*> network port show –role cluster
-  (network port show)
+cluster::*> *network port show –ipspace Cluster*
 Node: n1
                                                                        Ignore
                                                   Speed(Mbps) Health   Health
@@ -380,8 +396,9 @@ cluster::*> network interface revert -vserver Cluster -lif n2_clus1
 +
 The `Is Home` column should display a value of `true` for all of the ports listed in the `Current Port` column. If the displayed value is `false`, the port has not been reverted.
 +
+[subs=+quotes]
 ----
-cluster::*> network interface show -role cluster
+cluster::*> *network interface show -vserver Cluster*
  (network interface show)
             Logical    Status     Network            Current       Current Is
 Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
@@ -398,8 +415,9 @@ Cluster
 +
 `network device-discovery show`
 +
+[subs=+quotes]
 ----
-cluster::*> network device-discovery show
+cluster::*> *network device-discovery show*
             Local  Discovered
 Node        Port   Device              Interface        Platform
 ----------- ------ ------------------- ---------------- ----------------
@@ -437,9 +455,9 @@ The following example shows the specified ports being shut down on both nodes:
 +
 `network interface show`
 +
+[subs=+quotes]
 ----
-cluster::*> network interface show -role cluster
- (network interface show)
+cluster::*> *network interface show -vserver Cluster*
             Logical    Status     Network            Current       Current Is
 Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
 ----------- ---------- ---------- ------------------ ------------- ------- ----
@@ -465,12 +483,13 @@ The following example shows ports 1 through 30 being enabled on Nexus 3132Q-V cl
 +
 `NX3132_RCF_v1.1_24p10g_26p40g.txt`:
 +
+[subs=+quotes]
 ----
-C2# configure
-C2(config)# int e1/1/1-4,e1/2/1-4,e1/3/1-4,e1/4/1-4,e1/5/1-4,e1/6/1-4,e1/7-30
-C2(config-if-range)# no shutdown
-C2(config-if-range)# exit
-C2(config)# exit
+C2# *configure*
+C2(config)# *int e1/1/1-4,e1/2/1-4,e1/3/1-4,e1/4/1-4,e1/5/1-4,e1/6/1-4,e1/7-30*
+C2(config-if-range)# *no shutdown*
+C2(config-if-range)# *exit*
+C2(config)# *exit*
 ----
 
 . Enable the second cluster port, e4e, on each node:
@@ -480,8 +499,8 @@ C2(config)# exit
 The following example shows the specified ports being brought up:
 +
 ----
-	cluster::*> network port modify -node n1 -port e4e -up-admin true
-	cluster::*> network port modify -node n2 -port e4e -up-admin true
+cluster::*> network port modify -node n1 -port e4e -up-admin true
+cluster::*> network port modify -node n2 -port e4e -up-admin true
 ----
 
 . For each node, revert all of the migrated cluster interconnect LIFs:
@@ -491,8 +510,8 @@ The following example shows the specified ports being brought up:
 The following example shows the migrated LIFs being reverted to their home ports.
 +
 ----
-	cluster::*> network interface revert -vserver Cluster -lif n1_clus2
-	cluster::*> network interface revert -vserver Cluster -lif n2_clus2
+cluster::*> network interface revert -vserver Cluster -lif n1_clus2
+cluster::*> network interface revert -vserver Cluster -lif n2_clus2
 ----
 
 . Verify that all of the cluster interconnect ports are now reverted to their home ports:
@@ -501,9 +520,9 @@ The following example shows the migrated LIFs being reverted to their home ports
 +
 The `Is Home` column should display a value of `true` for all of the ports listed in the `Current Port` column. If the displayed value is `false`, the port has not been reverted.
 +
+[subs=+quotes]
 ----
-cluster::*> network interface show -role cluster
- (network interface show)
+cluster::*> *network interface show -vserver Cluster*
             Logical    Status     Network            Current       Current Is
 Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
 ----------- ---------- ---------- ------------------ ------------- ------- ----
@@ -517,9 +536,9 @@ Cluster
 
 . Verify that all of the cluster interconnect ports are in the `up` state.
 +
+[subs=+quotes]
 ----
-cluster::*> network port show –role cluster
-  (network port show)
+cluster::*> *network port show –ipspace Cluster*
 Node: n1
                                                                        Ignore
                                                   Speed(Mbps) Health   Health
@@ -542,8 +561,9 @@ e4e       Cluster      Cluster          up   9000 auto/40000  -        -
 +
 `network device-discovery show`
 +
+[subs=+quotes]
 ----
-	cluster::*> network device-discovery show
+cluster::*> *network device-discovery show*
             Local  Discovered
 Node        Port   Device              Interface        Platform
 ----------- ------ ------------------- ---------------- ----------------
@@ -559,8 +579,9 @@ n2         /cdp
 +
 `system cluster-switch show`
 +
+[subs=+quotes]
 ----
-cluster::*> system cluster-switch show
+cluster::*> *system cluster-switch show*
 
 Switch                      Type               Address          Model
 --------------------------- ------------------ ---------------- ---------------
@@ -582,11 +603,15 @@ C2                          cluster-network     10.10.1.102      NX3132V
 
 2 entries were displayed.
 ----
++
+NOTE: For ONTAP 9.8 and later, use the command `system ethernet switch show -is-monitoring-enabled-operational true`.
++
 
 . Disable the two-node switchless configuration settings on any node:
 +
 `network options switchless-cluster`
 +
+[subs=+quotes]
 ----
 network options switchless-cluster modify -enabled false
 ----
@@ -601,8 +626,9 @@ network options switchless-cluster show
 +
 `cluster ping-cluster`
 +
+[subs=+quotes]
 ----
-cluster::*> cluster ping-cluster -node n1
+cluster::*> *cluster ping-cluster -node local*
 Host is n1
 Getting addresses from network interface table...
 Cluster n1_clus1 n1		e4a	10.10.0.1
@@ -629,46 +655,105 @@ RPC status:
 1 paths up, 0 paths down (ucp check)
 ----
 
-. Enable the cluster switch health monitor log collection feature for collecting switch-related log files:
+. For ONTAP 9.8 and later, enable the Ethernet switch health monitor log collection feature for collecting switch-related log files by using the commands:
++
+`system switch ethernet log setup-password`
++
+`system switch ethernet log enable-collection`
++
+Enter: `system switch ethernet log setup-password`
++
+[subs=+quotes]
+----
+cluster1::*> *system switch ethernet log setup-password*
+Enter the switch name: *<return>*
+The switch name entered is not recognized.
+Choose from the following list:
+*cs1*
+*cs2*
+
+cluster1::*> *system switch ethernet log setup-password*
+
+Enter the switch name: *cs1*
+RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
+Do you want to continue? {y|n}::[n] *y*
+
+Enter the password: *<enter switch password>*
+Enter the password again: *<enter switch password>*
+
+cluster1::*> *system switch ethernet log setup-password*
+
+Enter the switch name: *cs2*
+RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
+Do you want to continue? {y|n}:: [n] *y*
+Enter the password: *<enter switch password>*
+Enter the password again: *<enter switch password>*
+----
++
+Followed by: `system switch ethernet log enable-collection`
++
+[subs=+quotes]
+----
+cluster1::*> *system  switch ethernet log enable-collection*
+
+Do you want to enable cluster log collection for all nodes in the cluster?
+{y|n}: [n] *y*
+
+Enabling cluster switch log collection.
+
+cluster1::*>
+----
++
+NOTE: If any of these commands return an error, contact NetApp support.
+
+. For ONTAP releases 9.5P16, 9.6P12, and 9.7P10 and later patch releases, enable the Ethernet switch health monitor log collection feature for collecting switch-related log files by using the commands:
 +
 `system cluster-switch log setup-password`
 +
 `system cluster-switch log enable-collection`
 +
+Enter: `system cluster-switch log setup-password`
++
+[subs=+quotes]
 ----
-cluster::*> **system cluster-switch log setup-password**
-Enter the switch name: <return>
+cluster1::*> *system cluster-switch log setup-password*
+Enter the switch name: *<return>*
 The switch name entered is not recognized.
 Choose from the following list:
-C1
-C2
+*cs1*
+*cs2*
 
-cluster::*> system cluster-switch log setup-password
+cluster1::*> *system cluster-switch log setup-password*
 
-Enter the switch name: C1
+Enter the switch name: *cs1*
 RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
-Do you want to continue? {y|n}::[n] y
+Do you want to continue? {y|n}::[n] *y*
 
-Enter the password: <enter switch password>
-Enter the password again: <enter switch password>
+Enter the password: *<enter switch password>*
+Enter the password again: *<enter switch password>*
 
-cluster::*> system cluster-switch log setup-password
+cluster1::*> *system cluster-switch log setup-password*
 
-Enter the switch name: C2
+Enter the switch name: *cs2*
 RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
-Do you want to continue? {y|n}:: [n] y
+Do you want to continue? {y|n}:: [n] *y*
 
-Enter the password: <enter switch password>
-Enter the password again: <enter switch password>
-
-cluster::*> system cluster-switch log enable-collection
+Enter the password: *<enter switch password>*
+Enter the password again: *<enter switch password>*
+----
++
+Followed by: `system cluster-switch log enable-collection`
++
+[subs=+quotes]
+----
+cluster1::*> *system cluster-switch log enable-collection*
 
 Do you want to enable cluster log collection for all nodes in the cluster?
-{y|n}: [n] y
+{y|n}: [n] *y*
 
 Enabling cluster switch log collection.
 
-cluster::*>
+cluster1::*>
 ----
 +
 NOTE: If any of these commands return an error, contact NetApp support.
