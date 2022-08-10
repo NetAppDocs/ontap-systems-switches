@@ -113,12 +113,6 @@ If there are cluster LIFs that are not on their home ports, revert those LIFs to
 .	Disable auto-revert for the cluster LIFs:
 +
 `network interface modify -vserver Cluster -lif * -auto-revert false`
-+
-The system displays output similar to the following example:
-+
-----
-cluster::> network interface modify -vserver Cluster -lif * -auto-revert false
-----
 
 . Verify that all ports listed in the previous step are connected to a network switch:
 +
@@ -243,7 +237,7 @@ Cluster  node2_clus2	 e0b       true
 +
 If any cluster LIFS have not returned to their home ports, revert them manually:
 +
-`network interface revert -vserver _vserver_name_ -lif _lif_name_`
+`network interface revert -vserver Cluster -lif _lif_name_`
 
 .	Check the cluster status of the nodes from the system console of either node:
 +
@@ -266,12 +260,7 @@ node2 true	  true      	false
 .	If you suppressed automatic case creation, reenable it by invoking an AutoSupport message:
 +
 `system node autosupport invoke -node * -type all -message MAINT=END`
-+
-The system displays output similar to the following example:
-+
-----
-cluster::*> system node autosupport invoke -node * -type all -message MAINT=END
-----
+
 .	Change the privilege level back to admin:
 +
 `set -privilege admin`
