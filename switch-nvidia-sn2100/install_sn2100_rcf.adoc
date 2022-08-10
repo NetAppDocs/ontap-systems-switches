@@ -23,7 +23,7 @@ There are two RCF scripts available for Clustering and Storage applications. The
 * Storage: *MSN2100-RCF-v1.8-Storage*
 
 
-NOTE: The following example procedure shows how to download and apply the RCF script for Clusters.
+NOTE: The following example procedure shows how to download and apply the RCF script for Cluster switches.
 
 .Steps
 . Display the available interfaces on the SN2100 switch:
@@ -53,7 +53,7 @@ ADMDN  swp14  N/A  9216   NotConfigured
 ADMDN  swp15  N/A  9216   NotConfigured
 ADMDN  swp16  N/A  9216   NotConfigured
 ----
-. Copy the python RCF script to the switch:
+. Copy the RCF python script to the switch:
 +
 [subs=+quotes]
 ----
@@ -63,7 +63,7 @@ cumulus@cumulus:mgmt: */tmp$ scp ssologin@_<file_location>_/MSN2100-RCF-v1.8-Clu
 ssologin@_<ip_address>_'s password:
 MSN2100-RCF-v1.8-Cluster                 100% 8607   111.2KB/s         00:00
 ----
-. Apply the python RCF script *MSN2100-RCF-v1.8-Cluster*:
+. Apply the RCF python script *MSN2100-RCF-v1.8-Cluster*:
 +
 [subs=+quotes]
 ----
@@ -97,6 +97,7 @@ The RCF script completes the following steps:
 .. Modifies the RoCE configuration for HA and Cluster RDMA
 .. Reboots the switch
 +
+NOTE: If the RCF python script fails at any stage, contact https://mysupport.netapp.com/[NetApp support^] for assistance.
 
 . Verify the configuration after the reboot:
 +

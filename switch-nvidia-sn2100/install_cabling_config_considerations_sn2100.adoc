@@ -37,7 +37,7 @@ cumulus@cumulus:mgmt:~$ net add int swp1s3 link autoneg off && net com
 @@ -37,21 +37,21 @@
      alias 10G Intra-Cluster Node
      link-autoneg off
-     *link-speed 10000*
+     *link-speed 10000*  <---- port speed set
      mstpctl-bpduguard yes
      mstpctl-portadminedge yes
      mtu 9216
@@ -47,7 +47,7 @@ iface swp1s3
      alias 10G Intra-Cluster Node
 -    link-autoneg off
 +    link-autoneg on
-     *link-speed 10000*
+     *link-speed 10000* <---- port speed set
      mstpctl-bpduguard yes
      mstpctl-portadminedge yes
      mtu 9216
@@ -56,5 +56,5 @@ auto swp2s0
 iface swp2s0
      alias 25G Intra-Cluster Node
      link-autoneg off
-     *link-speed 25000*
+     *link-speed 25000* <---- port speed set
 ----
