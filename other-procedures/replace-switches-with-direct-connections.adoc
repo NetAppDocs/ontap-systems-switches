@@ -75,15 +75,15 @@ Node: node1
                                              Speed(Mbps) Health
 Port  IPspace   Broadcast Domain Link  MTU   Admin/Oper	 Status
 ----- --------- ---------------- ----- ----- ----------- --------
-e0a		Cluster		Cluster		       up	   9000	 auto/10000	 healthy
-e0b		Cluster		Cluster	         up	   9000	 auto/10000	 healthy
+e0a   Cluster   Cluster          up    9000  auto/10000  healthy
+e0b   Cluster   Cluster          up    9000  auto/10000  healthy
 
 Node: node2
                                              Speed(Mbps) Health
 Port  IPspace   Broadcast Domain Link  MTU   Admin/Oper	 Status
 ----- --------- ---------------- ----- ----- ----------- --------
-e0a		Cluster		Cluster		       up		 9000	 auto/10000	 healthy
-e0b		Cluster		Cluster	         up	   9000	 auto/10000	 healthy
+e0a   Cluster   Cluster          up    9000  auto/10000  healthy
+e0b   Cluster   Cluster          up    9000  auto/10000  healthy
 4 entries were displayed.
 ----
 
@@ -98,7 +98,7 @@ The system displays output similar to the following example:
 ----
 cluster::*> net int show -vserver Cluster -fields is-home
 (network interface show)
-vserver  lif	        is-home
+vserver  lif          is-home
 -------- ------------ --------
 Cluster  node1_clus1  true
 Cluster  node1_clus2  true
@@ -226,12 +226,12 @@ The LIFs have been reverted if the “Is Home” column is `true`, as shown for 
 +
 ----
 cluster::> network interface show -vserver Cluster -fields curr-port,is-home
-vserver  lif	         curr-port is-home
+vserver  lif           curr-port is-home
 -------- ------------- --------- -------
-Cluster  node1_clus1	 e0a		   true
-Cluster  node1_clus2	 e0b		   true
-Cluster  node2_clus1	 e0a       true
-Cluster  node2_clus2	 e0b       true
+Cluster  node1_clus1   e0a       true
+Cluster  node1_clus2   e0b       true
+Cluster  node2_clus1   e0a       true
+Cluster  node2_clus2   e0b       true
 4 entries were displayed.
 ----
 +
@@ -246,10 +246,10 @@ If any cluster LIFS have not returned to their home ports, revert them manually:
 The following example shows epsilon on both nodes to be `false`:
 +
 ----
-Node	Health	Eligibility	Epsilon
+Node  Health  Eligibility Epsilon
 ----- ------- ----------- --------
-node1 true	  true	      false
-node2 true	  true      	false
+node1 true    true        false
+node2 true    true        false
 2 entries were displayed.
 ----
 
