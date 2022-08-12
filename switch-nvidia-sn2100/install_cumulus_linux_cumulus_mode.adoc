@@ -30,6 +30,8 @@ The baud rate requirement must be set to 115200 on the serial console switch for
 * parity: none
 * flow control: none
 
+//NOTE: Example command output uses switch management IP address 10.233.204.71, netmask 255.255.254.0 and default gateway 10.233.204.1.
+
 .Steps
 . Log in to the switch.  First time log in to the switch requires username/password of *cumulus*/*cumulus* with `sudo` privileges:
 +
@@ -76,8 +78,8 @@ CAUTION: Do not use an underscore (_), apostrophe ('), or non-ASCII characters i
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:~$ *net add hostname sw1*
-cumulus@cumulus:mgmt:~$ *net add interface eth0 ip address _<ip_address>_*
-cumulus@cumulus:mgmt:~$ *net add interface eth0 ip gateway _<ip_gateway>_*
+cumulus@cumulus:mgmt:~$ *net add interface eth0 ip address 10.233.204.71*
+cumulus@cumulus:mgmt:~$ *net add interface eth0 ip gateway 10.233.204.1*
 cumulus@cumulus:mgmt:~$ *net pending*
 cumulus@cumulus:mgmt:~$ *net commit*
 ----
@@ -119,7 +121,7 @@ cumulus@sw1:~$ *sudo dpkg-reconfigure tzdata*
 +
 [subs=+quotes]
 ----
-cumulus@sw1:mgmt:~$ *sudo onie-install -a -i _<file_location>_/cumulus-linux-4.4.2-mlx-amd64.bin*
+cumulus@sw1:mgmt:~$ *sudo onie-install -a -i http://_<web-server>/<path>_/cumulus-linux-4.4.2-mlx-amd64.bin*
 ----
 The installer starts the download.  Type *y* when prompted.
 . Reboot the NVIDIA SN2100 switch:

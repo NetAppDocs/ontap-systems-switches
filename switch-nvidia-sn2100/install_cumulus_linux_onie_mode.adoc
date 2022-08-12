@@ -19,6 +19,8 @@ NOTE: If your host is IPv6-enabled, make sure it is running a web server. If you
 
 This procedure demonstrates how to upgrade Cumulus Linux after the admin has booted in ONIE.
 
+//NOTE: Example command output uses switch management IP address 10.233.204.71, netmask 255.255.254.0 and default gateway 10.233.204.1.
+
 .Steps
 . Download the Cumulus Linux installation file to the root directory of the web server. Rename this file `onie-installer`.
 . Connect your host to the management Ethernet port of the switch using an Ethernet cable.
@@ -70,7 +72,7 @@ default         10.233.204.1    0.0.0.0         UG    0      0      0   eth0
 +
 [subs=+quotes]
 ----
-ONIE:/ # *ifconfig eth0 _<ip_address>_ netmask _<netmask>_*
+ONIE:/ # *ifconfig eth0 10.233.204.71 netmask 255.255.254.0*
 ONIE:/ # *route add default gw 10.233.204.1*
 ----
 . Repeat step 9 to verify that the static information is correctly entered.
@@ -82,7 +84,7 @@ ONIE:/ # *route*
 
   Kernel IP routing table
 
-  ONIE:/ # *onie-nos-install _<file_location>_/cumulus-linux-4.4.2-mlx-amd64.bin*
+  ONIE:/ # *onie-nos-install http://_<web-server>/<path>_/cumulus-linux-4.4.2-mlx-amd64.bin*
 
   Stopping: discover... done.
   Info: Attempting http://10.60.132.97/x/eng/testbedN,svl/nic/files/cumulus-linux-4.4.2-mlx-amd64.bin ...
