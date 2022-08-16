@@ -26,7 +26,7 @@ The examples in the following procedure show nodes that are using "e0a" and "e0b
 .Steps
 .	Change the privilege level to advanced, entering `y` when prompted to continue:
 +
-`set-privilege advanced`
+`set -privilege advanced`
 +
 The advanced prompt `*>` appears.
 
@@ -109,7 +109,7 @@ Cluster  node2_clus2  true
 +
 If there are cluster LIFs that are not on their home ports, revert those LIFs to their home ports:
 +
-`network interface revert -vserver Cluster - lif *`
+`network interface revert -vserver Cluster -lif *`
 .	Disable auto-revert for the cluster LIFs:
 +
 `network interface modify -vserver Cluster -lif * -auto-revert false`
@@ -128,7 +128,7 @@ Protocol  Port   Device (LLDP: ChassisID)  Interface  Platform
 --------- ------ ------------------------- ---------- ----------
 node1/cdp
           e0a    cs1                       0/11       BES-53248
-          e0b    cs1                       0/12       BES-53248
+          e0b    cs2                       0/12       BES-53248
 node2/cdp
           e0a    cs1                       0/9        BES-53248
           e0b    cs2                       0/9        BES-53248
@@ -145,7 +145,7 @@ node2/cdp
 All units must be either master or secondary.
 .	Set up the switchless configuration for the ports in group 1.
 +
-IMPORTANT: To avoid potential networking issues, you must disconnect the reconnect the ports as quickly as possible, for example, *in less than 20 seconds*.
+IMPORTANT: To avoid potential networking issues, you must disconnect and reconnect the ports as quickly as possible, for example, *in less than 20 seconds*.
 
 ..	Disconnect all the cables from the ports in group1 at the same time.
 +
@@ -175,7 +175,7 @@ Enable Switchless Cluster: true
 
 .	Set up the switchless configuration for the ports in group 2.
 +
-IMPORTANT: To avoid potential networking issues, you must disconnect the reconnect the ports as quickly as possible, for example, *in less than 20 seconds*.
+IMPORTANT: To avoid potential networking issues, you must disconnect and reconnect the ports as quickly as possible, for example, *in less than 20 seconds*.
 
 ..	Disconnect all the cables from the ports in group2 at the same time.
 +
@@ -189,7 +189,7 @@ In the following example, "e0a" on node1 is connected to "e0a" on node2 and "e0b
 image::../media/tnsc_node1_and_node2_direct_connection.PNG[Direct connection between ports on node1 and node2]
 .	Verify that the ports on both nodes are correctly connected:
 +
-`network device-discovery show`
+`network device-discovery show -port _cluster_port_`
 +
 The following example shows that cluster ports "e0a" and "e0b" are correctly connected to the corresponding port on the cluster partner:
 +
