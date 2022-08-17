@@ -72,18 +72,20 @@ Verify that the ports have a value of `up` for the “Link” column and a value
 ----
 cluster::> network port show -ipspace Cluster
 Node: node1
-                                             Speed(Mbps) Health
-Port  IPspace   Broadcast Domain Link  MTU   Admin/Oper	 Status
------ --------- ---------------- ----- ----- ----------- --------
-e0a   Cluster   Cluster          up    9000  auto/10000  healthy
-e0b   Cluster   Cluster          up    9000  auto/10000  healthy
+                                                                 Ignore
+                                             Speed(Mbps) Health  Health
+Port  IPspace   Broadcast Domain Link  MTU   Admin/Oper	 Status  Status
+----- --------- ---------------- ----- ----- ----------- ------- -------
+e0a   Cluster   Cluster          up    9000  auto/10000  healthy false
+e0b   Cluster   Cluster          up    9000  auto/10000  healthy false
 
 Node: node2
-                                             Speed(Mbps) Health
-Port  IPspace   Broadcast Domain Link  MTU   Admin/Oper	 Status
------ --------- ---------------- ----- ----- ----------- --------
-e0a   Cluster   Cluster          up    9000  auto/10000  healthy
-e0b   Cluster   Cluster          up    9000  auto/10000  healthy
+                                                                 Ignore
+                                             Speed(Mbps) Health  Health
+Port  IPspace   Broadcast Domain Link  MTU   Admin/Oper	 Status  Status
+----- --------- ---------------- ----- ----- ----------- ------- -------
+e0a   Cluster   Cluster          up    9000  auto/10000  healthy false
+e0b   Cluster   Cluster          up    9000  auto/10000  healthy false
 4 entries were displayed.
 ----
 
