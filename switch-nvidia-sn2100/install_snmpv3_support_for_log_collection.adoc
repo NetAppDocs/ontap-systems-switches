@@ -14,23 +14,21 @@ This release includes support for SNMPv3 for switch log collection for Switch He
 .About this task
 The following commands configure an SNMPv3 username on NVIDIA SN2100 switches:
 
-* For no authentication, run:
+* For *no authentication*:
 `net add snmp-server username [SNMPv3_USER] auth-none`
-* For MD5/SHA authentication, run:
+* For *MD5/SHA authentication*:
 `net add snmp-server username [SNMPv3_USER] [auth-md5/auth-sha] [AUTH-PASSWORD]`
-* For MD5/SHA authentication with AES/DES encryption, run:
+* For *MD5/SHA authentication with AES/DES encryption*:
 `net add snmp-server username [SNMPv3_USER] [auth-md5/auth-sha] [AUTH-PASSWORD] [encrypt-aes/encrypt-des] [PRIV-PASSWORD]`
 
 The following command configures an SNMPv3 username on the ONTAP side:
-`security login create -user-or-group-name [SNMPv3_USER] -application snmp -authentication-method usm -remote-switch-ipaddress [ADDRESS]`
+`cluster1::*> security login create -user-or-group-name [SNMPv3_USER] -application snmp -authentication-method usm -remote-switch-ipaddress [ADDRESS]`
 
 The following command establishes the SNMPv3 username with SHM:
-`system switch ethernet modify -device [DEVICE] -snmp-version SNMPv3 -community-or-username [SNMPv3_USER]`
-
-The following procedure sets up the SNMPv3 user on the switch to use authentication and encryption.
+`cluster1::*> system switch ethernet modify -device [DEVICE] -snmp-version SNMPv3 -community-or-username [SNMPv3_USER]`
 
 .Steps
-. Setup the SNMP user on the switch:
+. Setup the SNMPv3 user on the switch to use authentication and encryption:
 +
 [subs=+quotes]
 ----
@@ -45,7 +43,7 @@ Version 1 and 2c Community String  Configured
 Version 3 Usernames                Not Configured
 ---------------------------------  ----------------
 cumulus@sw1:~$
-cumulus@sw1:~$ *net add snmp-server username cumulus auth-md5 netapp1! encrypt-aes netapp1!*
+cumulus@sw1:~$ *net add snmp-server username SNMPv3User auth-md5 netapp1! encrypt-aes netapp1!*
 cumulus@sw1:~$ *net commit*
 --- /etc/snmp/snmpd.conf        2020-08-02 21:09:34.686949282 +0000
 +++ /run/nclu/snmp/snmpd.conf   2020-08-11 00:13:51.826126655 +0000
@@ -106,7 +104,7 @@ cumulus@sw1:~$
 +
 [subs=+quotes]
 ----
-cluster1::*> *security login create -user-or-group-name cumulus -application snmp -authentication-method usm -remote-switch-ipaddress 10.231.80.212*
+cluster1::*> *security login create -user-or-group-name SNMPv3User -application snmp -authentication-method usm -remote-switch-ipaddress 10.231.80.212*
 
 Enter the authoritative entity's EngineID [remote EngineID]:
 
