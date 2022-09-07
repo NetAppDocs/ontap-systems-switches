@@ -1,28 +1,36 @@
 ---
-permalink: switch-nvidia-sn2100/install_snmpv3_support_for_log_monitoring.html
+permalink: switch-nvidia-sn2100/install_snmpv3_support_for_log_collection.html
 sidebar: sidebar
 keywords: sn2100 SN2100 cabling setup, sn2100 switches configuration, cumulus linux os
 summary: 'This release includes support for SNMPv3 for log monitoring.'
 ---
-= SNMPv3 support for log monitoring
+= Configure SNMPv3 for switch log collection
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-This release includes support for SNMPv3 for log monitoring.
+This release includes support for SNMPv3 for switch log collection for Switch Health Monitoring (SHM).
 
 .About this task
-The following commands are used:
+The following commands configure an SNMPv3 username on NVIDIA SN2100 switches:
 
-* For *No AUTH*:
-`net add snmp-server username [USER] auth-none`
-* For *Only AUTH*:
-`net add snmp-server username [USER] [auth-md5/auth-sha] [AUTH-PASSWORD]`
-* For *AUTH and PRIV*:
-`net add snmp-server username [USER] [auth-md5/auth-sha] [AUTH-PASSWORD] [encrypt-aes/encrypt-des] [PRIV-PASSWORD]`
+* For no authentication, run:
+`net add snmp-server username [SNMPv3_USER] auth-none`
+* For MD5/SHA authentication, run:
+`net add snmp-server username [SNMPv3_USER] [auth-md5/auth-sha] [AUTH-PASSWORD]`
+* For MD5/SHA authentication with AES/DES encryption, run:
+`net add snmp-server username [SNMPv3_USER] [auth-md5/auth-sha] [AUTH-PASSWORD] [encrypt-aes/encrypt-des] [PRIV-PASSWORD]`
+
+The following command configures an SNMPv3 username on the ONTAP side:
+`security login create -user-or-group-name [SNMPv3_USER] -application snmp -authentication-method usm -remote-switch-ipaddress [ADDRESS]`
+
+The following command establishes the SNMPv3 username with SHM:
+`system switch ethernet modify -device [DEVICE] -snmp-version SNMPv3 -community-or-username [SNMPv3_USER]`
+
+The following procedure sets up the SNMPv3 user on the switch to use authentication and encryption.
 
 .Steps
-. Setup the SNMP user on the switch to use AUTH and PRIV:
+. Setup the SNMP user on the switch:
 +
 [subs=+quotes]
 ----
