@@ -527,7 +527,7 @@ Enter the password again: <password of switch's admin user>
 ----
 
 Followed by: `system cluster-switch log enable-collection`
-+
+
 [subs=+quotes]
 ----
 cluster1::*> *system cluster-switch log enable-collection*
@@ -546,4 +546,6 @@ cluster1::*>
 
 // end of collapsible content
 
-. If you suppressed automatic case creation, reenable it by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=END`
+[start=27]
+
+. [[Step27]]If you suppressed automatic case creation, reenable it by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=END`
