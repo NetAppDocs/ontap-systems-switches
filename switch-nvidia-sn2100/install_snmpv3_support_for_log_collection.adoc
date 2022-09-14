@@ -15,17 +15,17 @@ This release includes support for SNMPv3 for switch log collection for Switch He
 The following commands configure an SNMPv3 username on NVIDIA SN2100 switches:
 
 * For *no authentication*:
-`net add snmp-server username [SNMPv3_USER] auth-none`
+`net add snmp-server username _SNMPv3_USER_ auth-none`
 * For *MD5/SHA authentication*:
-`net add snmp-server username [SNMPv3_USER] [auth-md5/auth-sha] [AUTH-PASSWORD]`
+`net add snmp-server username _SNMPv3_USER_ [auth-md5|auth-sha] _AUTH-PASSWORD_`
 * For *MD5/SHA authentication with AES/DES encryption*:
-`net add snmp-server username [SNMPv3_USER] [auth-md5/auth-sha] [AUTH-PASSWORD] [encrypt-aes/encrypt-des] [PRIV-PASSWORD]`
+`net add snmp-server username _SNMPv3_USER_ [auth-md5|auth-sha] _AUTH-PASSWORD_ [encrypt-aes|encrypt-des] _PRIV-PASSWORD_`
 
 The following command configures an SNMPv3 username on the ONTAP side:
-`cluster1::*> security login create -user-or-group-name [SNMPv3_USER] -application snmp -authentication-method usm -remote-switch-ipaddress [ADDRESS]`
+`cluster1::*> security login create -user-or-group-name _SNMPv3_USER_ -application snmp -authentication-method usm -remote-switch-ipaddress _ADDRESS_`
 
 The following command establishes the SNMPv3 username with SHM:
-`cluster1::*> system switch ethernet modify -device [DEVICE] -snmp-version SNMPv3 -community-or-username [SNMPv3_USER]`
+`cluster1::*> system switch ethernet modify -device _DEVICE_ -snmp-version SNMPv3 -community-or-username _SNMPv3_USER_`
 
 .Steps
 . Setup the SNMPv3 user on the switch to use authentication and encryption:
