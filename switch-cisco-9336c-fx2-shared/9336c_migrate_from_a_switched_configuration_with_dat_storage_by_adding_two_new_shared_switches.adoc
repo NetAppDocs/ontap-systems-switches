@@ -77,9 +77,10 @@ Where x is the duration of the maintenance window in hours.
 . Check the administrative and operational status of each cluster port.
 . Verify that all the cluster ports are up with a healthy status:
 `network port show –role cluster`
-
++
+[subs=+quotes]
 ----
-cluster1::*> network port show -role cluster
+cluster1::*> *network port show -role cluster*
 Node: node1
                                                                    Ignore
                                              Speed(Mbps)  Health   Health
@@ -101,9 +102,10 @@ cluster1::*>
 [start=4]
 . [[step4]]Verify that all the cluster interfaces (LIFs) are on the home port:
 `network interface show -role cluster`
-
++
+[subs=+quotes]
 ----
-cluster1::*> network interface show -role cluster
+cluster1::*> *network interface show -role cluster*
          Logical     Status     Network           Current     Current Is
 Vserver  Interface   Admin/Oper Address/Mask      Node        Port    Home
 -------  ----------- ---------- ----------------- ----------- ------- ----
@@ -118,9 +120,10 @@ cluster1::*>
 [start=5]
 . [[step5]]Verify that the cluster displays information for both cluster switches:
 `system cluster-switch show -is-monitoring-enabled-operational true`
-
++
+[subs=+quotes]
 ----
-cluster1::*> system cluster-switch show -is-monitoring-enabled-operational true
+cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true*
 Switch                    Type               Address          Model
 ------------------------- ------------------ ---------------- ------
 sh1                       cluster-network    10.233.205.90    N9K-C9336C
@@ -141,26 +144,29 @@ cluster1::*>
 ----
 [start=6]
 . [[step6]]Disable auto-revert on the cluster LIFs.
-
++
+[subs=+quotes]
 ----
-cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert false
+cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert false*
 ----
 [start=7]
 . [[step7]]Shutdown the c2 switch:
-
++
+[subs=+quotes]
 ----
-c2# configure terminal
+c2# *configure terminal*
 Enter configuration commands, one per line. End with CNTL/Z.
-c2(config)# interface ethernet <int range>
-c2(config)#shutdown
+c2(config)# *interface ethernet <int range>*
+c2(config)# *shutdown*
 ----
 [start=8]
 . [[step8]]Verify that the cluster LIFs have migrated to the ports hosted on cluster switch sh1:
 `network interface show -role cluster`
 This might take a few seconds.
-
++
+[subs=+quotes]
 ----
-cluster1::*> network interface show -role cluster
+cluster1::*> *network interface show -role cluster*
           Logical     Status     Network         Current      Current  Is
 Vserver   Interface   Admin/Oper Address/Mask    Node         Port     Home
 --------- ----------- ---------- --------------- ------------ -------- -----
@@ -176,18 +182,20 @@ cluster1::*>
 . [[step9]]Replace switch c2 with the new switch sh2 and re-cable the new switch.
 . Verify that the ports are back up on sh2. *Note* that the LIFs are still on switch c1.
 . Shutdown the c1 switch:
-
++
+[subs=+quotes]
 ----
-c1# configure terminal
+c1# *configure terminal*
 Enter configuration commands, one per line. End with CNTL/Z.
-c1(config)# interface ethernet <int range>
-c1(config)#shutdown
+c1(config)# *interface ethernet <int range>*
+c1(config)# *shutdown*
 ----
 [start=12]
 . [[step12]]Verify that the cluster LIFs have migrated to the ports hosted on cluster switch sh2. This might take a few seconds.
-
++
+[subs=+quotes]
 ----
-cluster1::*> network interface show -role cluster
+cluster1::*> *network interface show -role cluster*
          Logical        Status     Network         Current   Current Is
 Vserver  Interface      Admin/Oper Address/Mask    Node      Port    Home
 -------- -------------- ---------- --------------- --------- ------- ----
@@ -203,16 +211,18 @@ cluster1::*>
 . [[step13]]Replace switch c1 with the new switch sh1 and re-cable the new switch.
 . Verify that the ports are back up on sh1. *Note* that the LIFs are still on switch c2.
 . Enable auto-revert on the cluster LIFs:
-
++
+[subs=+quotes]
 ----
-cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert True
+cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert True*
 ----
 [start=16]
 . [[step16]]Verify that the cluster is healthy:
 `cluster show`
-
++
+[subs=+quotes]
 ----
-cluster1::*> cluster show
+cluster1::*> *cluster show*
 Node                 Health  Eligibility   Epsilon
 -------------------- ------- ------------- -------
 node1                true    true          false

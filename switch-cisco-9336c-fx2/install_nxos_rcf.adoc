@@ -19,7 +19,11 @@ The examples in this procedure use the following switch and node nomenclature:
 * The cluster LIF names are cluster1-01_clus1, cluster1-01_clus2, cluster1-02_clus1, cluster1-02_clus2 , cluster1-03_clus1, cluster1-03_clus2, cluster1-04_clus1, and cluster1-04_clus2.
 * The `cluster1::*>` prompt indicates the name of the cluster.
 
-NOTE: The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
+[NOTE]
+====
+* The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
+* Before you perform this procedure make sure that you have a current backup of the switch configuration.
+====
 
 .Steps
 . Display the cluster ports on each node that are connected to the cluster switches: `network device-discovery show`
@@ -176,6 +180,12 @@ cluster1-04          true    true          false
 cluster1::*>
 ----
 +
+. If you have not already done so, save the current switch configuration by copying the output of the following command to a log file:
++
+----
+show running-config
+----
+
 . Clean the configuration on switch cs2 and perform a basic setup.
 +
 CAUTION: When updating or applying a new RCF, you must erase the switch settings and perform basic configuration. You must be connected to the switch using the serial console to erase switch settings.
@@ -268,7 +278,7 @@ The output varies according to your site configuration. Check the port settings 
 For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
 +
 ----
-cs2# copy running-config startup-config \[\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\] 100% Copy complete
+cs2# copy running-config startup-config [########################################] 100% Copy complete
 ----
 
 . Reboot switch cs2. You can ignore the "`cluster ports down`" events reported on the nodes while the switch reboots.

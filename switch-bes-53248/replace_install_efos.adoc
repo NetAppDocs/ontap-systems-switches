@@ -11,7 +11,7 @@ summary: 'You can use this procedure to install the EFOS software on the BES-532
 [.lead]
 You can use this procedure to install the EFOS software on the BES-53248 cluster switch. You can download the applicable Broadcom EFOS software for your cluster switches from the Broadcom Ethernet Switch Support site.
 
-==== About this task
+== About this task
 
 ====
 *Note the following:*
@@ -55,7 +55,7 @@ a|FIPS compliant
 a|Non-FIPS compliant
 |===
 
-IMPORTANT: Note that after upgrading BES-53248 cluster switches from EFOS 3.3.x.x or 3.4.x.x to EFOS 3.7.0.4 or 3.8.0.2, Inter-Switch Links (ISLs) and port channels are marked in the *Down* state. See this https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Systems/Fabric%2C_Interconnect_and_Management_Switches/BES-53248_Cluster_Switch_NDU_failed_upgrade_to_EFOS_3.7.0.4_and_later[KB article^] for further details. 
+IMPORTANT: Note that after upgrading BES-53248 cluster switches from EFOS 3.3.x.x or 3.4.x.x to EFOS 3.7.0.4 or 3.8.0.2, Inter-Switch Links (ISLs) and port channels are marked in the *Down* state. See this https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Systems/Fabric%2C_Interconnect_and_Management_Switches/BES-53248_Cluster_Switch_NDU_failed_upgrade_to_EFOS_3.7.0.4_and_later[KB article^] for further details.
 
 .Steps
 . Connect the BES-53248 cluster switch to the management network.
@@ -63,8 +63,9 @@ IMPORTANT: Note that after upgrading BES-53248 cluster switches from EFOS 3.3.x.
 +
 This example verifies that the switch is connected to the server at IP address 172.19.2.1:
 +
+[subs=+quotes]
 ----
-(cs2) # ping 172.19.2.1
+(cs2)# *ping 172.19.2.1*
 Pinging 172.19.2.1 with 0 bytes of data:
 
 Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
@@ -151,7 +152,7 @@ Additional Packages............................ BGP-4
 Copying the image file to the active image means that when you reboot, that image establishes the running EFOS version. The previous image remains available as a backup.
 +
 ----
-(cs2) # copy sftp://root@172.19.2.1//tmp/EFOS-3.4.4.6.stk active
+(cs2)# *copy sftp://root@172.19.2.1//tmp/EFOS-3.4.4.6.stk active*
 Remote Password:********
 
 Mode........................................... SFTP
@@ -162,7 +163,7 @@ Data Type...................................... Code
 Destination Filename........................... active
 
 Management access will be blocked for the duration of the transfer
-Are you sure you want to start? (y/n) y
+Are you sure you want to start? (y/n) *y*
 SFTP Code transfer starting...
 
 
