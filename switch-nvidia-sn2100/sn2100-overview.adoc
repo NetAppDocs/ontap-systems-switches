@@ -1,0 +1,82 @@
+---
+permalink: switch-nvidia-sn2100/sn2100-overview.html
+sidebar: sidebar
+keywords: nvidia SN2100 switches
+summary: If you want to build ONTAP clusters with more than two nodes, you need two supported cluster network switches. You can use additional management switches, which are optional.
+---
+= NVIDIA SN2100 switch
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+From ONTAP 9.10.1P3, you can use NVIDIA SN2100 switches to combine storage and cluster functionality into a shared switch confguration.
+
+If you want to build ONTAP clusters with more than two nodes, you need two supported cluster network switches. You can use additional management switches, which are optional.
+
+You install the NVIDIA SN2100 switch (X190006/X190106) in the NVIDIA dual/single switch cabinet with the standard brackets that are included with the switch.
+
+.SN2100 switches and rail kit details
+The following table lists the part number and description for the MSN2100 switches and rail kits:
+
+[options="header" cols="1,2"]
+|===
+| Part number| Description
+a|
+X190006-PE
+a|
+Cluster Switch, NVIDIA SN2100, 16PT 100G, PTSX
+a|
+X190006-PI
+a|
+Cluster Switch, NVIDIA SN2100, 16PT 100G, PSIN
+a|
+X190106-FE-PE
+a|
+Switch, NVIDIA SN2100, 16PT 100G, PTSX, Front End
+a|
+X190106-FE-PI
+a|
+Switch, NVIDIA SN2100, 16PT 100G, PSIN, Front End
+a|
+X-MTEF-KIT-D
+a|
+Rail Kit, NVIDIA Dual switch side by side
+a|
+X-MTEF-KIT-E
+a|
+Rail Kit, NVIDIA Single switch short depth
+|===
+
+IMPORTANT: See NVIDIA documentation for details on https://docs.nvidia.com/networking/display/sn2000pub/Installation[installing your SN2100 switch and rail kit^].
+
+.Available documentation
+The following table lists the documentation available for the NVIDIA SN2100 switches.
+
+[options="header" cols="1,2"]
+|===
+| Title | Description
+a|
+link:install_setup_sn2100_switches_overview.html[_Setup and configure your NVIDIA SN2100 switches_^]
+a|
+Describes how to setup and configure your NVIDIA SN2100 switches, including installing Cumulus Linux and applicable RCFs.
+a|
+link:migrate_cisco_sn2100_cluster_switch.html[_Migrate from a Cisco cluster switch to a NVIDIA SN2100 cluster switch_^]
+a|
+Describes how to migrate from environments that use Cisco cluster switches to environments that use NVIDIA SN2100 cluster switches.
+a|
+link:migrate_cisco_sn2100_storage_switch.html[_Migrate from a Cisco storage switch to a NVIDIA storage switch_^]
+a|
+Describes how to migrate from environments that use Cisco storage switches to environments that use NVIDIA SN2100 storage switches.
+a|
+link:migrate_2n_switched_sn2100_switches.html[_Migrate to a two-node switched cluster with NVIDIA SN2100 cluster switches_^]
+a|
+Describes how to migrate to a two-node switched environment using NVIDIA SN2100 cluster switches.
+a|
+link:replace_sn2100_switch_cluster.html[_Replace a NVIDIA SN2100 cluster switch_^]
+a|
+Describes the procedure to replace a defective NVIDIA SN2100 switch in a cluster and download Cumulus Linux and reference configuration file.
+a|
+link:replace_sn2100_switch_storage.html[_Replace a NVIDIA SN2100 storage switch_^]
+a|
+Describes the procedure to replace a defective NVIDIA SN2100 storage switch and download Cumulus Linux and reference configuration file.
+|===
