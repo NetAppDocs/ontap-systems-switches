@@ -4,14 +4,16 @@ sidebar: sidebar
 keywords: BES-53248 switches,upgrading,BES-53248 switches
 summary: 'Upgrading BES-53248 cluster switches starts with preparing the controller for upgrade, installing the EFOS software, licenses, and reference configuration file \(RCF\). After the installation, you can restore the controller configuration in a nondisruptive upgrade \(NDU\) and nondisruptive operation \(NDO\) environment.'
 ---
-= Upgrade a BES-53248 cluster switch in an NDO/NDU environment
+= Overview of upgrade process
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-Upgrading BES-53248 cluster switches starts with preparing the controller for upgrade, installing the EFOS software, licenses, and reference configuration file (RCF). After the installation, you can restore the controller configuration in a nondisruptive upgrade (NDU) and nondisruptive operation (NDO) environment.
+Upgrading BES-53248 cluster switches starts with preparing the controller for upgrade, installing the EFOS software, licenses, and reference configuration file (RCF).
 
-.Before you begin
+After the installation, you can restore the controller configuration in a nondisruptive upgrade (NDU) and nondisruptive operation (NDO) environment.
+
+.Requirements
 The following conditions must exist before you install the EFOS software, licenses, and the RCF file on an existing NetApp BES-53248 cluster switch:
 
 * The cluster must be a fully functioning cluster (no error log messages or other issues).
@@ -22,10 +24,11 @@ The following conditions must exist before you install the EFOS software, licens
 * The ONTAP `cluster ping-cluster -node node1` advanced privilege command must indicate that `larger than PMTU communication` is successful on all paths.
 * There might be command dependencies between command syntax in the RCF and EFOS versions.
 
-.About this task
+.Switch compatibility
 You must consult the switch compatibility table on the NetApp BES-53248 switches page for the supported EFOS, RCF, and ONTAP versions at: http://mysupport.netapp.com/site[NetApp BES-53248 switches^].
 
-This procedure applies to a functioning cluster and allows for NDU and NDO. The examples in this procedure use the following switch and node nomenclature:
+.Switch and node nomenclature
+The examples in this procedure use the following switch and node nomenclature:
 
 * The NetApp switch names are `cs1` and `cs2`.
 * The example used in this procedure starts the upgrade on the second switch, _cs2._
