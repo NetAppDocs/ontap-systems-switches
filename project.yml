@@ -2,7 +2,7 @@ settings:
   name: Cluster and storage switches
   search: ontap-systems-switches
   internal:
-    pdf_enabled: true
+    pdf_enabled: false
   prod:
     pdf_enabled: true
     harmony_enabled: true
@@ -13,15 +13,26 @@ sidebar:
   entries:
     - title: AFF and FAS switch docs
       url: "/index.html"
-    - section: switch-bes-53248
-    - section: switch-cisco-3132q-v
-    - section: switch-cisco-3232c
-    - section: switch-cisco-9336c-fx2
-    - section: switch-cisco-9336c-fx2-shared
-    - section: switch-cisco-92300
-    - section: switch-nvidia-sn2100
-    - section: other
-    - section: other-procedures
+    - title: Cluster switches
+      entries:
+        - section: switch-bes-53248
+        - section: switch-cisco-3132q-v
+        - section: switch-cisco-3232c
+        - section: switch-cisco-9336c-fx2
+        - section: switch-cisco-92300
+        - section: switch-nvidia-sn2100
+    - title: Storage switches
+      entries:
+        - section: switch-cisco-3232c
+        - section: switch-cisco-9336c-fx2
+        - section: switch-nvidia-sn2100
+    - title: Shared switches
+      entries:
+        - section: switch-cisco-9336c-fx2-shared
+    - title: Earlier models
+      entries:
+        - section: other
+        - section: other-procedures
     - title: Legal notices
       url: "/legal-notices.html"
 
