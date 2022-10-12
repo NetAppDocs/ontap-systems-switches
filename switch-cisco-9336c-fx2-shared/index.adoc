@@ -6,7 +6,7 @@ summary: From ONTAP 9.9.1, you can use Cisco Nexus 9336C-FX2 switches to combine
 
 ---
 
-= Overview of Cisco 9336C-FX2 shared switches
+= Overview and requirements
 :hardbreaks:
 :nofooter:
 :icons: font
@@ -18,7 +18,7 @@ From ONTAP 9.9.1, you can use Cisco Nexus 9336C-FX2 switches to combine storage 
 
 If you want to build ONTAP clusters with more than two nodes, you need two supported network switches.
 
-== Nexus 9336C-FX2
+== Overview of Nexus 9336C-FX2
 You can install the Cisco Nexus 9336C-FX2 switch (X190200/X190210) in a NetApp system cabinet or third-party cabinet with the standard brackets that are included with the switch.
 
 The following table lists the part number and description for the 9336C-FX2 switch, fans, and power supplies:
@@ -43,11 +43,16 @@ The following table lists the part number and description for the 9336C-FX2 swit
 |===
 
 
-== Required configuration information
-For configuration, you need the appropriate number and type of cables and cable connectors for your switches. Depending on the type of switch you are initially configuring, you need to connect to the switch console port with the included console cable; you also need to provide specific network information.
+== Requirements
+Learn about the cnfiguration and network requiements for shared switches.
 
-== Required network information for all switches
-You need the following network information for all switch configurations:
+=== Configuration requirements
+For configuration, you need the appropriate number and type of cables and cable connectors for your switches.
+
+Depending on the type of switch you are initially configuring, you need to connect to the switch console port with the included console cable; you also need to provide specific network information.
+
+=== Network requirements
+You need the following network information for all switch configurations.
 
 * IP subnet for management network traffic
 * Host names and IP addresses for each of the storage system controllers and all applicable switches
@@ -55,99 +60,9 @@ You need the following network information for all switch configurations:
 // andris /ontap-systems-switches/pull/30
 * Refer to the https://hwu.netapp.com[Hardware Universe] for the latest information.
 
-== Required network information for Cisco Nexus 9336C-FX2 switches
-
-For the Cisco Nexus 9336C-FX2 switch, you need to provide applicable responses to the following initial setup questions when you first boot the switch. Your site's security policy defines the responses and services to enable:
-
-. Abort Auto Provisioning and continue with normal setup? (yes/no)
-+
-Respond with *yes*. The default is no.
-
-. Do you want to enforce secure password standard? (yes/no)
-+
-Respond with *yes*. The default is yes.
-
-. Enter the password for admin.
-+
-The default password is admin; you must create a new, strong password.
-+
-A weak password can be rejected.
-
-. Would you like to enter the basic configuration dialog? (yes/no)
-+
-Respond with *yes* at the initial configuration of the switch.
-
-. Create another login account? (yes/no)
-+
-Your answer depends on your site's policies on alternate administrators. The default is no.
-
-. Configure read-only SNMP community string? (yes/no)
-+
-Respond with *no*. The default is no.
-
-. Configure read-write SNMP community string? (yes/no)
-+
-Respond with *no*. The default is no.
-
-. Enter the switch name.
-+
-The switch name is limited to 63 alphanumeric characters.
-
-. Continue with out-of-band (mgmt0) management configuration? (yes/no)
-+
-Respond with *yes* (the default) at that prompt. At the mgmt0 IPv4 address: prompt, enter your IP address: ip_address
-
-. Configure the default-gateway? (yes/no)
-+
-Respond with *yes*. At the IPv4 address of the default-gateway: prompt, enter your default_gateway.
-
-. Configure advanced IP options? (yes/no)
-+
-Respond with *no*. The default is no.
-
-. Enable the telnet service? (yes/no)
-+
-Respond with *no*. The default is no.
-
-. Enable SSH service? (yes/no)
-+
-Respond with *yes*. The default is yes.
-
-NOTE: SSH is recommended when using Cluster Switch Health Monitor (CSHM) for its log collection features. SSHv2 is also recommended for enhanced security.
-
-[start=14]
-. [[step14]]Enter the type of SSH key you want to generate (dsa/rsa/rsa1). The default is rsa.
-. Enter the number of key bits (1024- 2048).
-. Configure the NTP server? (yes/no)
-+
-Respond with *no*. The default is no.
-
-. Configure default interface layer (L3/L2):
-+
-Respond with *L2*. The default is L2.
-
-. Configure default switch port interface state (shut/noshut):
-+
-Respond with *noshut*. The default is noshut.
-
-. Configure CoPP system profile (strict/moderate/lenient/dense):
-+
-Respond with *strict*. The default is strict.
-
-. Would you like to edit the configuration? (yes/no)
-+
-You should see the new configuration at this point. Review and make any necessary changes to the configuration you just entered. Respond with no at the prompt if you are satisfied with the configuration. Respond with *yes* if you want to edit your configuration settings.
-
-. Use this configuration and save it? (yes/no)
-+
-Respond with *yes* to save the configuration. This automatically updates the kickstart and system images.
-
-+
-NOTE: If you do not save the configuration at this stage, none of the changes will be in effect the next time you reboot the switch.
-
 For more information about the initial configuration of your switch, see the following guide: https://www.cisco.com/c/en/us/td/docs/dcn/hw/nx-os/nexus9000/9336c-fx2-e/cisco-nexus-9336c-fx2-e-nx-os-mode-switch-hardware-installation-guide.html[Cisco Nexus 9336C-FX2 Installation and Upgrade Guide].
 
-== Required documentation for shared switches
+.Required documentation
 
 You need specific switch and controller documentation to set up your ONTAP network.
 
