@@ -12,14 +12,7 @@ summary:
 :linkattrs:
 :imagesdir: ./media/
 
-//
-// This file was created with NDAC Version 2.0 (August 17, 2020)
-//
-// 2021-04-29 11:40:03.169772
-//
-
-== Install NX-OS software and RCFs on Cisco Nexus 9336C-FX2 switches
-
+[.lead]
 The Cisco NX-OS software and reference configuration file (RCF) must be installed on Cisco Nexus 9336C-FX2 cluster switches.
 
 .Before you begin
@@ -38,12 +31,13 @@ See https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet 
 See https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html[Cisco Nexus 9000 Series Switches] for more information.
 * You must have the current RCF.
 
-.Initial setup
+== Initial install
 The examples in this procedure use two nodes. These nodes use two 100GbE cluster interconnect ports e3a and e3b, as per the A400 controller.
 See the https://hwu.netapp.com[Hardware Universe] to verify the correct cluster ports on your platforms.
 
 NOTE: The command outputs might vary depending on different releases of ONTAP.
 
+.Switch and node nomenclature
 The examples in this procedure use the following switch and node nomenclature:
 
 * The names of the two Cisco switches are _cs1_ and _cs2_.
