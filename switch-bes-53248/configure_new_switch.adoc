@@ -4,16 +4,18 @@ sidebar: sidebar
 keywords: BES-53248 switches, initial installation, configure new bes-53248 switch
 summary: 'You can configure a new BES-53248 cluster switch by completing the steps detailed in this chapter.'
 ---
-= Configure a new BES-53248 cluster switch
+= Overview
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-You can configure a new BES-53248 cluster switch by completing the steps detailed in this chapter.
+Installing the BES-53248 cluster switch on systems running ONTAP starts with setting up an IP address and configuration to allow the switch to communicate through the management interface.
 
-.About this task
+Next, you can install the Ethernet Fabric OS (EFOS) software, reference configuration file (RCF), and other licenses as needed.
 
-Installing the BES-53248 cluster switch on systems running ONTAP starts with setting up an IP address and configuration to allow the switch to communicate through the management interface. Then you can install the Ethernet Fabric OS (EFOS) software, reference configuration file (RCF), and other licenses as needed. This procedure is intended for preparing the BES-53248 switch before controllers are added. In addition, you might need to install the required configuration file to support the Cluster Switch Health Monitor (CSHM) for the BES-53248 cluster switches. See link:configure-health-monitor.html[Installing the Cluster Switch Health Monitor (CSHM) configuration file] for more details.
+In addition, you might need to install the required configuration file to support the Cluster Switch Health Monitor (CSHM) for the BES-53248 cluster switches. See link:configure-health-monitor.html[Installing the Cluster Switch Health Monitor (CSHM) configuration file] for more details.
+
+.Switch and node nomenclature
 
 The examples in this procedure use the following switch and node nomenclature:
 
