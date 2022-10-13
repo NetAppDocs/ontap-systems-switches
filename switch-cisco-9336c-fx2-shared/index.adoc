@@ -3,7 +3,6 @@ sidebar: sidebar
 permalink: switch-cisco-9336c-fx2-shared/index.html
 keywords: shared storage cluster switch
 summary: From ONTAP 9.9.1, you can use Cisco Nexus 9336C-FX2 switches to combine storage and cluster functionality into a shared switch scenario.
-
 ---
 
 = Overview and requirements
@@ -83,43 +82,3 @@ To set up the Cisco Nexus 9336C-FX2 shared switches, see the https://www.cisco.c
 |link:https://www.cisco.com/c/en/us/td/docs/switches/datacenter/mds9000/hw/regulatory/compliance/RCSI.html[Regulatory Compliance and Safety Information for Cisco Nexus 9000 Series]
 |Provides international agency compliance, safety, and statutory information for the Nexus 9000 series switches.
 |===
-
-== Cisco Nexus 9336C-FX2 cabling details
-
-You can use the following cabling images to complete the cabling between the controllers and the switches.
-If you want to cable NS224 storage as switch-attached, follow the switch-attached diagram:
-// andris /ontap-systems-switches/pull/30
-
-image:9336c_image1.jpg[Switch-attached]
-
-If you want to cable NS224 storage as direct-attached instead of using the shared switch storage ports, follow the direct-attached diagram:
-// andris /ontap-systems-switches/pull/30
-
-image:9336c_image2.jpg[Direct-attached]
-
-=== Cisco Nexus 9336C-FX2 cabling worksheet
-
-If you want to document the supported platforms, you must complete the blank cabling worksheet by using completed sample cabling worksheet as a guide.
-
-The sample port definition on each pair of switches is as follows:
-image:cabling_worksheet.jpg[Cabling worksheet]
-
-Where:
-
-* 100G ISL to switch A port 35
-* 100G ISL to switch A port 36
-* 100G ISL to switch B port 35
-* 100G ISL to switch B port 36
-
-=== Blank cabling worksheet
-
-You can use the blank cabling worksheet to document the platforms that are supported as nodes in a cluster. The Supported Cluster Connections table of the Hardware Universe defines the cluster ports used by the platform.
-
-image:blank_cabling_worksheet.jpg[Blank cabling worksheet]
-
-Where:
-
-* 100G ISL to switch A port 35
-* 100G ISL to switch A port 36
-* 100G ISL to switch B port 35
-* 100G ISL to switch B port 36
