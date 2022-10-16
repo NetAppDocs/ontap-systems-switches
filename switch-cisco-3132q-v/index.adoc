@@ -35,11 +35,31 @@ You need the following network information for all switch configurations:
 
 Refer to the https://hwu.netapp.com[Hardware Universe^] for latest information.
 
+== Smart Call Home requirements
+[.lead]
+Smart Call Home monitors the hardware and software components on your network, to generate an email-based notification of critical system conditions. When an event occurs on your device, Smart Call Home raises an alert to all the recipients that are configured in your destination profile.
+
+You must configure a cluster network switch to communicate using email with the Smart Call Home system. You can optionally set up your cluster network switch to take advantage of Cisco's embedded Smart Call Home support feature.
+
+Before you can use Smart Call Home feature, you need to be aware of the following considerations:
+
+* An email server must be in place.
+* The switch must have IP connectivity to the email server.
+* The contact name (SNMP server contact), phone number, and street address information must be configured.
+* This is required to determine the origin of messages received.
+* A CCO ID must be associated with an appropriate Cisco SMARTnet Service contract for your company.
+* Cisco SMARTnet Service must be in place for the device to be registered.
+
+The Cisco support site contains information about the commands to configure Smart Call Home.
+
+http://www.cisco.com/c/en/us/products/switches/index.html[Cisco support site^]
+
+
 == Documentation requirements
 [.lead]
 You need specific switch and controller documentation to set up your ONTAP cluster.
 
-.Cluster network switches documentation
+=== Cluster network switches documentation
 To set up the Cisco Nexus 9336C-FX2 and 92300YC switches, you need the following documentation from the https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html[Cisco Nexus 9000 Series Switches Support^] page:
 
 [options="header" cols="1,2"]
@@ -151,7 +171,7 @@ a|
 Provides international agency compliance, safety, and statutory information for the Nexus 5000 series switches.
 |===
 
-.ONTAP systems documentation
+=== ONTAP systems documentation
 
 To set up an ONTAP system, you need the following documents for your version of the operating system from the https://docs.netapp.com/ontap-9/index.jsp[ONTAP 9 Documentation Center^].
 
