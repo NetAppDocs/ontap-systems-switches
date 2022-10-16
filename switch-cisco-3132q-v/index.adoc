@@ -20,3 +20,275 @@ You can use the Cisco Nexus 3132Q-V switches as cluster switches in your AFF or 
 * You can replace Cisco Nexus 5596, Nexus 5020, or Nexus 5010 cluster switches with Cisco Nexus 3132Q-V switches.
 
 * You can replace NetApp CN1610 switches with Cisco Nexus 3132Q-V cluster switches.
+
+== Configuration Requirements
+[.lead]
+To configure your cluster, you need the appropriate number and type of cables and cable connectors for your switches. Depending on the type of switch you are initially configuring, you need to connect to the switch console port with the included console cable; you also need to provide specific network information.
+
+== Required network information for all switches
+
+You need the following network information for all switch configurations:
+
+* IP subnet for management network traffic
+* Host names and IP addresses for each of the storage system controllers and all applicable switches
+* Most storage system controllers are managed through the e0M interface by connecting to the Ethernet service port (wrench icon). On AFF A800 and AFF A700 systems, the e0M interface uses a dedicated Ethernet port.
+
+Refer to the https://hwu.netapp.com[Hardware Universe^] for latest information.
+
+== Required network information for Cisco Nexus 9336C-FX2, 92300YC, 3232C, 3132Q-V, and 5596UP/5596T switches
+
+For the Cisco Nexus 9336C-FX2, 92300YC, 3232C, 3132Q-V, and 5596UP/5596T switches, you need to provide applicable responses to the following initial setup questions when you first boot the switch. Your site's security policy defines the responses and services to enable.
+
+* Abort Auto Provisioning and continue with normal setup? (yes/no)
++
+Respond with *yes*. The default is no.
+
+* Do you want to enforce secure password standard? (yes/no)
++
+Respond with *yes*. The default is yes.
+
+* Enter the password for admin:
++
+The default password is "`admin`"; you must create a new, strong password. A weak password can be rejected.
+
+* Would you like to enter the basic configuration dialog? (yes/no)
++
+Respond with *yes* at the initial configuration of the switch.
+
+* Create another login account? (yes/no)
++
+Your answer depends on your site's policies on alternate administrators. The default is *no*.
+
+* Configure read-only SNMP community string? (yes/no)
++
+Respond with *no*. The default is no.
+
+* Configure read-write SNMP community string? (yes/no)
++
+Respond with *no*. The default is no.
+
+* Enter the switch name.
++
+The switch name is limited to 63 alphanumeric characters.
+
+* Continue with Out-of-band (mgmt0) management configuration? (yes/no)
++
+Respond with *yes* (the default) at that prompt. At the mgmt0 IPv4 address: prompt, enter your IP address: ip_address.
+
+* Configure the default-gateway? (yes/no)
++
+Respond with *yes*. At the IPv4 address of the default-gateway: prompt, enter your default_gateway.
+
+* Configure advanced IP options? (yes/no)
++
+Respond with *no*. The default is no.
+
+* Enable the telnet service? (yes/no)
++
+Respond with *no*. The default is no.
+
+* Enabled SSH service? (yes/no)
++
+Respond with *yes*. The default is yes.
++
+NOTE: SSH is recommended when using Cluster Switch Health Monitor (CSHM) for its log collection features. SSHv2 is also recommended for enhanced security.
+
+* Enter the type of SSH key you want to generate (dsa/rsa/rsa1). The default is *rsa*.
+* Enter the number of key bits (1024-2048).
+* Configure the NTP server? (yes/no)
++
+Respond with *no*. The default is no.
+
+* Configure default interface layer (L3/L2):
++
+Respond with *L2*. The default is L2.
+
+* Configure default switch port interface state (shut/noshut):
++
+Respond with *noshut*. The default is noshut.
+
+* Configure CoPP system profile (strict/moderate/lenient/dense):
++
+Respond with *strict*. The default is strict.
+
+* Would you like to edit the configuration? (yes/no)
++
+You should see the new configuration at this point. Review and make any necessary changes to the configuration you just entered. Respond with *no* at the prompt if you are satisfied with the configuration. Respond with *yes* if you want to edit your configuration settings.
+
+* Use this configuration and save it? (yes/no)
++
+Respond with *yes* to save the configuration. This automatically updates the kickstart and system images.
++
+NOTE: If you do not save the configuration at this stage, none of the changes will be in effect the next time you reboot the switch.
++
+For more information about the initial configuration of your switch, see the following guides:
++
+https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#InstallandUpgradeGuides[Cisco Nexus 9336C-FX2 Installation and Upgrade Guides^]
++
+https://www.cisco.com/c/en/us/support/switches/nexus-92300yc-switch/model.html#InstallandUpgradeGuides[Cisco Nexus 92300YC Installation and Upgrade Guides^]
++
+https://www.cisco.com/c/en/us/support/switches/nexus-5000-series-switches/products-installation-guides-list.html[Cisco Nexus 5000 Series Hardware Installation Guide^]
++
+https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-installation-guides-list.html[Cisco Nexus 3000 Series Hardware Installation Guide^]
+
+== Documentation requirements
+[.lead]
+You need specific switch and controller documentation to set up your ONTAP cluster.
+
+.Cluster network switches documentation
+To set up the Cisco Nexus 9336C-FX2 and 92300YC switches, you need the following documentation from the https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html[Cisco Nexus 9000 Series Switches Support^] page:
+
+[options="header" cols="1,2"]
+|===
+| Document title| Description
+a|
+_Nexus 9000 Series Hardware Installation Guide_
+a|
+Provides detailed information about site requirements, switch hardware details, and installation options.
+a|
+_Cisco Nexus 9000 Series Switch Software Configuration Guides_ (choose the guide for the NX-OS release installed on your switches)
+a|
+Provides initial switch configuration information that you need before you can configure the switch for ONTAP operation.
+a|
+_Cisco Nexus 9000 Series NX-OS Software Upgrade and Downgrade Guide_ (choose the guide for the NX-OS release installed on your switches)
+a|
+Provides information on how to downgrade the switch to ONTAP supported switch software, if necessary.
+a|
+_Cisco Nexus 9000 Series NX-OS Command Reference Master Index_
+a|
+Provides links to the various command references provided by Cisco.
+a|
+_Cisco Nexus 9000 MIBs Reference_
+a|
+Describes the Management Information Base (MIB) files for the Nexus 9000 switches.
+a|
+_Nexus 9000 Series NX-OS System Message Reference_
+a|
+Describes the system messages for Cisco Nexus 9000 series switches, those that are informational, and others that might help diagnose problems with links, internal hardware, or the system software.
+a|
+_Cisco Nexus 9000 Series NX-OS Release Notes (choose the notes for the NX-OS release installed on your switches)_
+a|
+Describes the features, bugs, and limitations for the Cisco Nexus 9000 Series.
+a|
+Regulatory Compliance and Safety Information for Cisco Nexus 9000 Series
+a|
+Provides international agency compliance, safety, and statutory information for the Nexus 9000 series switches.
+|===
+To set up the Cisco Nexus 3232C and 3132Q-V switches, you need the following documentation from the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/series.html[Cisco Nexus 3000 Series Switches Support^] page:
+
+[options="header" cols="1,2"]
+|===
+| Document title| Description
+a|
+_Nexus 3000 Series Hardware Installation Guide_
+a|
+Provides detailed information about site requirements, switch hardware details, and installation options.
+a|
+_Cisco Nexus 3000 Series Switch Software Configuration Guides_ (choose the guide for the NX-OS release installed on your switches)
+a|
+Provides initial switch configuration information that you need before you can configure the switch for ONTAP operation.
+a|
+_Cisco Nexus 3000 Series NX-OS Software Upgrade and Downgrade Guide_ (choose the guide for the NX-OS release installed on your switches)
+a|
+Provides information on how to downgrade the switch to ONTAP supported switch software, if necessary.
+a|
+_Cisco Nexus 3000 Series NX-OS Command Reference Master Index_
+a|
+Provides links to the various command references provided by Cisco.
+a|
+_Cisco Nexus 3000 MIBs Reference_
+a|
+Describes the Management Information Base (MIB) files for the Nexus 3000 switches.
+a|
+_Nexus 3000 Series NX-OS System Message Reference_
+a|
+Describes the system messages for Cisco Nexus 3000 series switches, those that are informational, and others that might help diagnose problems with links, internal hardware, or the system software.
+a|
+_Cisco Nexus 3000 Series NX-OS Release Notes (choose the notes for the NX-OS release installed on your switches)_
+a|
+Describes the features, bugs, and limitations for the Cisco Nexus 3000 Series.
+a|
+Regulatory, Compliance, and Safety Information for the Cisco Nexus 6000, Cisco Nexus 5000 Series, Cisco Nexus 3000 Series, and Cisco Nexus 2000 Series
+a|
+Provides international agency compliance, safety, and statutory information for the Nexus 3000 series switches.
+|===
+To set up the Cisco Nexus 5596 switch, you need the following documents from https://www.cisco.com/c/en/us/support/switches/nexus-5000-series-switches/series.html[Cisco Nexus 5000 Series Switches Support^] page:
+
+[options="header" cols="1,2"]
+|===
+| Document title| Description
+a|
+_Nexus 5000 Series Hardware Installation Guide_
+a|
+Provides detailed information about site requirements, switch hardware details, and installation options.
+a|
+_Cisco Nexus 5000 Series Switch Software Configuration Guide_ (choose the guide for the software you are using)
+a|
+Provides initial switch configuration information that you need before you can configure the switch for ONTAP operation.
+a|
+_Cisco Nexus 5000 Series NX-OS Software Upgrade and Downgrade Guide_
+a|
+Provides information about how to downgrade the switch to the supported ONTAP switch software, if necessary.
+a|
+_Cisco Nexus 5000 Series NX-OS Command Reference Master Index_
+a|
+Provides an alphabetical list of all the commands supported for a specific NX-OS release.
+a|
+_Cisco Nexus 5000 and Nexus 2000 MIBs Reference_
+a|
+Describes the Management Information Base (MIB) files for the Nexus 5000 switches.
+a|
+_Nexus 5000 Series NX-OS System Message Reference_
+a|
+Describes troubleshooting information.
+a|
+_Regulatory, Compliance, and Safety Information for the Cisco Nexus 6000 Series, Cisco Nexus 5000 Series, Cisco Nexus 3000 Series, and Cisco Nexus 2000 Series_
+a|
+Provides international agency compliance, safety, and statutory information for the Nexus 5000 series switches.
+|===
+
+.ONTAP systems documentation
+
+To set up an ONTAP system, you need the following documents for your version of the operating system from the https://docs.netapp.com/ontap-9/index.jsp[ONTAP 9 Documentation Center^].
+
+[options="header" cols="1,2"]
+|===
+| Name| Description
+a|
+Controller-specific _Installation and Setup Instructions_
+a|
+Describes how to install NetApp hardware.
+a|
+ONTAP documentation
+a|
+Provides detailed information about all aspects of the ONTAP releases.
+a|
+https://hwu.netapp.com[Hardware Universe^]
+a|
+Provides NetApp hardware configuration and compatibility information.
+|===
+
+.Rail kit and cabinet documentation
+
+To install a Cisco switch in a NetApp cabinet, see the following hardware documentation:
+
+[options="header" cols="1,2"]
+|===
+| Name| Description
+a|
+https://library.netapp.com/ecm/ecm_download_file/ECMM1280394[42U System Cabinet, Deep Guide^]
+a|
+Describes the FRUs associated with the 42U system cabinet, and provides maintenance and FRU replacement instructions.
+a|
+https://library.netapp.com/ecm/ecm_get_file/ECMLP2843148[Installing a Cisco Nexus 3232C cluster switch and pass-through panel in a NetApp cabinet^]
+a|
+Describes how to install a Cisco Nexus 3232C switch in a four-post NetApp cabinet.
+a|
+https://library.netapp.com/ecm/ecm_download_file/ECMLP2518305[Installing a Cisco Nexus 3132Q-V switch and pass-through panel in a NetApp Cabinet^]
+a|
+Describes how to install a Cisco Nexus 3132Q-V switch in a four-post NetApp cabinet.
+a|
+https://library.netapp.com/ecm/ecm_download_file/ECMP1141864[Installing a Cisco Nexus 5596 switch and pass-through panel in a NetApp Cabinet^]
+a|
+Describes how to install a Cisco Nexus 5596 switch in a NetApp cabinet.
+|===
