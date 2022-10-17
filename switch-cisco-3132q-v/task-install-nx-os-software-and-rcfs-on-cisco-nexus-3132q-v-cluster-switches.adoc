@@ -4,12 +4,18 @@ sidebar: sidebar
 keywords: install, nx-os software, rcfs, cisco nexus 3132q-v, cluster switches
 summary: "The Cisco NX-OS software and reference configuration files (RCFs) must be installed on Cisco Nexus 3132Q-V cluster switches."
 ---
-= Install NX-OS software and RCFs on Cisco Nexus 3132Q-V cluster switches
+= Set up install environment
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-The Cisco NX-OS software and reference configuration files (RCFs) must be installed on Cisco Nexus 3132Q-V cluster switches.
+Learn how to prepare the NX-OS software and NX-OS software and Reference Configurations Files (RCFs).
+
+The examples in this procedure use two nodes. These nodes use two 10GbE cluster interconnect ports `e0a` and `e0b`.
+
+See the link:https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe^] to verify the correct cluster ports on your platforms.
+
+NOTE: The command outputs might vary depending on different releases of ONTAP.
 
 .Before you begin
 
@@ -26,14 +32,7 @@ The following conditions must exist before you install the NX-OS software and Re
 
 * You must have the current RCF.
 
-.Initial setup
-
-The examples in this procedure use two nodes. These nodes use two 10GbE cluster interconnect ports `e0a` and `e0b`.
-
-See the link:https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe^] to verify the correct cluster ports on your platforms.
-
-NOTE: The command outputs might vary depending on different releases of ONTAP.
-
+.Switch and node nomenclature
 The examples in this procedure use the following switch and node nomenclature:
 
 * The names of the two Cisco switches are `cs1` and `cs2`.
