@@ -11,6 +11,21 @@ summary: "You can nondisruptively replace a defective Cisco Nexus 3232C switch i
 [.lead]
 You can nondisruptively replace a defective Cisco Nexus 3232C switch in a cluster by performing a specific sequence of tasks.
 
+.Switch and node nomenclature
+This replacement procedure replaces the second Nexus 3232C cluster switch CL2 with the new 3232C switch C2.
+
+The examples in this procedure use the following switch and node nomenclature:
+
+* The four nodes are n1, n2, n3, and n4.
+* n1_clus1 is the first cluster logical interface (LIF) connected to cluster switch C1 for node n1.
+* n1_clus2 is the first cluster LIF connected to cluster switch CL2 or C2 for node n1.
+* n1_clus3 is the second LIF connected to cluster switch C2 for node n1.-
+* n1_clus4 is the second LIF connected to cluster switch CL1, for node n1.
+
+The number of 10 GbE and 40/100 GbE ports are defined in the reference configuration files (RCFs) available on the https://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco® Cluster Network Switch Reference Configuration File Download^] page.
+
+The examples in this replacement procedure use four nodes. Two of the nodes use four 10 GB cluster interconnect ports: e0a, e0b, e0c, and e0d. The other two nodes use two 40 GB cluster interconnect ports: e4a and e4e. See the link:https://hwu.netapp.com/SWITCH/INDEX.html[Hardware Universe^] to verify the correct cluster ports for your platform.
+
 .Before you begin
 
 The existing cluster and network configuration must have the following characteristics:
@@ -29,21 +44,6 @@ The replacement Cisco Nexus 3232C switch must have the following characteristics
 * Console access to the replacement switch must be in place.
 * The appropriate RCF and NX-OS operating system image must be loaded onto the switch.
 * Initial customization of the switch must be complete.
-
-.Switch and node nomenclature
-This replacement procedure replaces the second Nexus 3232C cluster switch CL2 with the new 3232C switch C2.
-
-The examples in this procedure use the following switch and node nomenclature:
-
-* The four nodes are n1, n2, n3, and n4.
-* n1_clus1 is the first cluster logical interface (LIF) connected to cluster switch C1 for node n1.
-* n1_clus2 is the first cluster LIF connected to cluster switch CL2 or C2 for node n1.
-* n1_clus3 is the second LIF connected to cluster switch C2 for node n1.-
-* n1_clus4 is the second LIF connected to cluster switch CL1, for node n1.
-
-The number of 10 GbE and 40/100 GbE ports are defined in the reference configuration files (RCFs) available on the https://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco® Cluster Network Switch Reference Configuration File Download^] page.
-
-The examples in this replacement procedure use four nodes. Two of the nodes use four 10 GB cluster interconnect ports: e0a, e0b, e0c, and e0d. The other two nodes use two 40 GB cluster interconnect ports: e4a and e4e. See the link:https://hwu.netapp.com/SWITCH/INDEX.html[Hardware Universe^] to verify the correct cluster ports for your platform.
 
 .About this task
 This replacement procedure describes the following scenario:
