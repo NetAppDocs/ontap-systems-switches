@@ -1,0 +1,147 @@
+---
+permalink: switch-cisco-3132q-v/setup-switch.html
+sidebar: sidebar
+keywords: require, configuration, information, documentation, cluster, management, network, switches, set up the switches - cisco nexus 9336c-fx2
+summary: If you do not already have the required configuration information and documentation, you need to gather that information before setting up your cluster and management network switches.
+---
+= Set up the switch
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+Learn how to set up the Cisco Nexus 3132Q-V switch.
+
+.Before you begin
+* You must have access to an HTTP, FTP or TFTP server at the installation site to download the applicable NX-OS and reference configuration file (RCF) releases.
+* You must have the required cluster network and management network switch documentation.
++
+See xref:setup-required-documentation.adoc[Required documentation] for more information.
+
+* You must have the required controller documentation and ONTAP documentation.
++
+https://netapp.com/us/documenation/index.aspx[NetApp documentation^]
+
+* You must have the applicable licenses, network and configuration information, and cables.
+* You must have the completed cabling worksheets.
++
+NOTE: Due to the complexity that can result from illustrating layers of cabling, this guide does not provide cabling graphics. This guide does provide sample worksheets with recommended port assignments and blank worksheets that you can use to set up your cluster.
++
+NOTE: For more information refer to the https://hwu.netapp.com[Hardware Universe^].
++
+
+* All Cisco cluster network and management network switches arrive with the standard Cisco factory-default configuration. These switches also have the current version of the NX-OS software but do not have the RCFs loaded.
+
+NOTE: You must download the applicable NetApp cluster network and management network RCFs from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com^] for the switches that you receive.
+
+
+.Steps
+. Rack the cluster network and management network switches and controllers.
++
+[options="header" cols="1,2"]
+|===
+| If you are installing your...| Then...
+a|
+Cisco Nexus 3132Q-V in a NetApp system cabinet
+a|
+See the _Installing a Cisco Nexus 3132Q-V cluster switch and pass-through panel in a NetApp cabinet_ guide for instructions to install the switch in a NetApp cabinet.
+a|
+Equipment in a Telco rack
+a|
+See the procedures provided in the switch hardware installation guides and the NetApp installation and setup instructions.
+|===
+
+. Cable the cluster network and management network switches to the controllers using the completed cabling worksheets.
+. Power on the cluster network and management network switches and controllers.
+. Perform an initial configuration of the cluster network switches.
++
+Provide applicable responses to the following initial setup questions when you first boot the switch. Your site's security policy defines the responses and services to enable.
++
+* Abort Auto Provisioning and continue with normal setup? (yes/no)
++
+Respond with *yes*. The default is no.
+
+* Do you want to enforce secure password standard? (yes/no)
++
+Respond with *yes*. The default is yes.
+
+* Enter the password for admin:
++
+The default password is "`admin`"; you must create a new, strong password. A weak password can be rejected.
+
+* Would you like to enter the basic configuration dialog? (yes/no)
++
+Respond with *yes* at the initial configuration of the switch.
+
+* Create another login account? (yes/no)
++
+Your answer depends on your site's policies on alternate administrators. The default is *no*.
+
+* Configure read-only SNMP community string? (yes/no)
++
+Respond with *no*. The default is no.
+
+* Configure read-write SNMP community string? (yes/no)
++
+Respond with *no*. The default is no.
+
+* Enter the switch name.
++
+The switch name is limited to 63 alphanumeric characters.
+
+* Continue with Out-of-band (mgmt0) management configuration? (yes/no)
++
+Respond with *yes* (the default) at that prompt. At the mgmt0 IPv4 address: prompt, enter your IP address: ip_address.
+
+* Configure the default-gateway? (yes/no)
++
+Respond with *yes*. At the IPv4 address of the default-gateway: prompt, enter your default_gateway.
+
+* Configure advanced IP options? (yes/no)
++
+Respond with *no*. The default is no.
+
+* Enable the telnet service? (yes/no)
++
+Respond with *no*. The default is no.
+
+* Enabled SSH service? (yes/no)
++
+Respond with *yes*. The default is yes.
++
+NOTE: SSH is recommended when using Cluster Switch Health Monitor (CSHM) for its log collection features. SSHv2 is also recommended for enhanced security.
+
+* Enter the type of SSH key you want to generate (dsa/rsa/rsa1). The default is *rsa*.
+* Enter the number of key bits (1024-2048).
+* Configure the NTP server? (yes/no)
++
+Respond with *no*. The default is no.
+
+* Configure default interface layer (L3/L2):
++
+Respond with *L2*. The default is L2.
+
+* Configure default switch port interface state (shut/noshut):
++
+Respond with *noshut*. The default is noshut.
+
+* Configure CoPP system profile (strict/moderate/lenient/dense):
++
+Respond with *strict*. The default is strict.
+
+* Would you like to edit the configuration? (yes/no)
++
+You should see the new configuration at this point. Review and make any necessary changes to the configuration you just entered. Respond with *no* at the prompt if you are satisfied with the configuration. Respond with *yes* if you want to edit your configuration settings.
+
+* Use this configuration and save it? (yes/no)
++
+Respond with *yes* to save the configuration. This automatically updates the kickstart and system images.
++
+NOTE: If you do not save the configuration at this stage, none of the changes will be in effect the next time you reboot the switch.
+. Verify the configuration choices you made in the display that appears at the end of the setup, and make sure that you save the configuration.
+. Check the version on the cluster network switches, and if necessary, download the NetApp-supported version of the software to the switches.
++
+If you download the NetApp-supported version of the software, then you must also download the _NetApp Cluster Network Switch Reference Configuration File_ and merge it with the configuration you saved in Step 5. You can download the file and the instructions from the https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches^] page.
+
+. Check the software version on the network switches and, if necessary, download the NetApp-supported version of the software to the switches. If you have your own switches, refer to the https://cisco.com[Cisco site^].
++
+If you download the NetApp-supported version of the software, then you must also download the _NetApp Management Network Switch Reference Configuration File_ and merge it with the configuration you saved in Step 5. You can download the file and instructions from the https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches^] page.
