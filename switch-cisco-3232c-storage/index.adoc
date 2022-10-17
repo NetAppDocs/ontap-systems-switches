@@ -9,47 +9,73 @@ summary: "You can use Cisco Nexus 3232C switches as cluster switches in your AFF
 :imagesdir: ../media/
 
 [.lead]
-You can use Cisco Nexus 3232C switches as cluster switches in your AFF or FAS cluster.
+You can use Cisco Nexus 3232C switches as storage switches.
 
-.Overview
-* You can replace a Cisco Nexus 3232C storage switch.
-* You can install the Cisco Nexus 3232C switch (X190100) NetApp system cabinet with the custom brackets that come with the switch, or you can install it in a rack with the standard
-  that are also included with the switch.
+  == Network requirements
 
-.Available documentation
-The following table lists the documentation available for the Cisco Nexus 3232C switches.
-["options="header"]
-|===
-| Title| Description
-a|
-https://docs.netapp.com/us-en/ontap-systems-switches/switch-cisco-3232c/task-install-a-cisco-nexus-3232c-cluster-switch-and-pass-through-panel-in-a-netapp-cabinet.html[_Install a Cisco® Nexus 3232C cluster switch and pass-through panel in a NetApp® cabinet_^]
-a|
-Describes how to install the pass-through panel in system cabinets where power connectors are at the front of the chassis and power distribution units are located in the rear of the chassis.
-a|
-https://docs.netapp.com/us-en/ontap-systems-switches/switch-cisco-9336c-fx2/setup-switches.html[_Setup the Cisco® Nexus 3232C cluster switches_^]
-a| Describes how to setup and configure your Cisco Nexus 3232C cluster switches.
-a|
-https://docs.netapp.com/us-en/ontap-systems-switches/switch-cisco-3232c/task-install-nx-os-software-and-rcfs-on-cisco-nexus-3232-cluster-switches-running-ontap-9-4-and-later.html[_Install NX-OS and Reference Configuration Files (RCFs)_^]
-a|
-Describes how to install NX-OS and reference configuration files (RCFs) on Nexus 3232C cluster switch.
-a|
-https://docs.netapp.com/us-en/ontap-systems-switches/switch-cisco-3232c/concept-migrate-from-a-cisco-5596-switch-to-a-cisco-nexus-3232c.html[_Migrate from a Cisco Nexus 5596 Switch to a Cisco Nexus 3232C Switch_^]
-a|
-Describes how to migrate from environments that use older Cisco switches to environments that use Cisco 3232C switches.
-a|
-https://docs.netapp.com/us-en/ontap-systems-switches/switch-cisco-3232c/concept-migrate-a-cn1610-switch-to-a-cisco-nexus-3232c-cluster-switch.html[_Migrate from a CN1610 Switch to a Cisco Nexus 3232C Switch_^]
-a|
-Describes the procedure to replace a CN1610 switch with a Cisco Nexus 3232C cluster switch.
-a|
-https://docs.netapp.com/us-en/ontap-systems-switches/switch-cisco-3232c/concept-migrate-from-a-two-node-switchless-cluster-to-a-cluster-with-cisco-nexus-3232c-cluster-switches.html[_Migrate from a two-node Switchless Cluster_^]
-a|
-Describes how to migrate from a two-node switchless cluster environment to a two-node switched environment using Cisco Nexus 3232C cluster switches.
-a|
-https://docs.netapp.com/us-en/ontap-systems-switches/switch-cisco-3232c/concept-replace-a-cisco-nexus-3232c-cluster-switch.html[_Replace a Cisco Nexus 3232C Cluster Switch_^]
-a|
-Describes the procedure to replace a defective Cisco Nexus 3232C switch in a cluster and download the switch operating system and reference configuration file.
-a|
-https://docs.netapp.com/us-en/ontap-systems-switches/switch-cisco-3232c/concept-replace-a-cisco-nexus-3232c-storage-switch.html[_Replace a Cisco Nexus 3232C Storage Switch_^]
-a|
-Describes the procedure to replace a defective Cisco Nexus 3232C storage switch and download the switch operating system and reference configuration file.
-|===
+  You need the following network information for all switch configurations:
+
+  * IP subnet for management network traffic
+  * Host names and IP addresses for each of the storage system controllers and all applicable switches
+  * Most storage system controllers are managed through the e0M interface by connecting to the Ethernet service port (wrench icon). On AFF A800 and AFF A700 systems, the e0M interface uses a dedicated Ethernet port.
+
+  Refer to the https://hwu.netapp.com[Hardware Universe^] for latest information.
+
+  == Smart Call Home requirements
+  [.lead]
+  Smart Call Home monitors the hardware and software components on your network, to generate an email-based notification of critical system conditions. When an event occurs on your device, Smart Call Home raises an alert to all the recipients that are configured in your destination profile.
+
+  You must configure a cluster network switch to communicate using email with the Smart Call Home system. You can optionally set up your cluster network switch to take advantage of Cisco's embedded Smart Call Home support feature.
+
+  Before you can use Smart Call Home feature, you need to be aware of the following considerations:
+
+  * An email server must be in place.
+  * The switch must have IP connectivity to the email server.
+  * The contact name (SNMP server contact), phone number, and street address information must be configured. This is required to determine the origin of messages received.
+  * A CCO ID must be associated with an appropriate Cisco SMARTnet Service contract for your company.
+  * Cisco SMARTnet Service must be in place for the device to be registered.
+
+  The http://www.cisco.com/c/en/us/products/switches/index.html[Cisco support site^] contains information about the commands to configure Smart Call Home.
+
+  == Documentation requirements
+  You need specific switch and controller documentation to set up your Cisco Nexus 3232C storage switches.
+
+  === Switch documentation
+  To set up the Cisco Nexus 3232C switches, you need the following documentation from the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/series.html[Cisco Nexus 3000 Series Switches Support^] page.
+
+  [options="header" cols="1,2"]
+  |===
+  | Document title| Description
+  a|
+  _Nexus 3000 Series Hardware Installation Guide_
+  a|
+  Provides detailed information about site requirements, switch hardware details, and installation options.
+  a|
+  _Cisco Nexus 3000 Series Switch Software Configuration Guides_ (choose the guide for the NX-OS release installed on your switches)
+  a|
+  Provides initial switch configuration information that you need before you can configure the switch for ONTAP operation.
+  a|
+  _Cisco Nexus 3000 Series NX-OS Software Upgrade and Downgrade Guide_ (choose the guide for the NX-OS release installed on your switches)
+  a|
+  Provides information on how to downgrade the switch to ONTAP supported switch software, if necessary.
+  a|
+  _Cisco Nexus 3000 Series NX-OS Command Reference Master Index_
+  a|
+  Provides links to the various command references provided by Cisco.
+  a|
+  _Cisco Nexus 3000 MIBs Reference_
+  a|
+  Describes the Management Information Base (MIB) files for the Nexus 3000 switches.
+  a|
+  _Nexus 3000 Series NX-OS System Message Reference_
+  a|
+  Describes the system messages for Cisco Nexus 3000 series switches, those that are informational, and others that might help diagnose problems with links, internal hardware, or the system software.
+  a|
+  _Cisco Nexus 3000 Series NX-OS Release Notes (choose the notes for the NX-OS release installed on your switches)_
+  a|
+  Describes the features, bugs, and limitations for the Cisco Nexus 3000 Series.
+  a|
+  Regulatory, Compliance, and Safety Information for the Cisco Nexus 6000, Cisco Nexus 5000 Series, Cisco Nexus 3000 Series, and Cisco Nexus 2000 Series
+  a|
+  Provides international agency compliance, safety, and statutory information for the Nexus 3000 series switches.
+  |===
