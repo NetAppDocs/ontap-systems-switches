@@ -27,7 +27,7 @@ By default, the RCF is structured to use the first QSFP port.
 +
 You can make four SFP+ ports active instead of a QSFP port for Nexus 3132Q-V by using the `hardware profile front portmode sfp-plus` command. Similarly, you can reset Nexus 3132Q-V to use a QSFP port instead of four SFP+ ports by using the `hardware profile front portmode qsfp` command.
 
-* You must have configured some of the ports on Nexus 3132Q-V to run at 10 GbE or 40/100 GbE.
+* Make sure configured some of the ports on Nexus 3132Q-V to run at 10 GbE or 40/100 GbE.
 +
 You can break-out the first six ports into 4x10 GbE mode by using the `interface breakout module 1 port 1-6 map 10g-4x` command. Similarly, you can regroup the first six QSFP+ ports from breakout configuration by using the `no interface breakout module 1 port 1-6 map 10g-4x` command.
 
