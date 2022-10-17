@@ -1,58 +1,67 @@
 ---
-permalink: switch-cisco-3132q-v/task-how-to-migrate-from-a-cisco-nexus-5596-cluster-switch-to-a-cisco-nexus-3232c-cluster-switch.html
+permalink: switch-cisco-3232c/task-how-to-migrate-from-a-cisco-nexus-5596-cluster-switch-to-a-cisco-nexus-3232c-cluster-switch.html
 sidebar: sidebar
-keywords: replace, cisco nexus 5596 cluster switch, 3132q-v
-summary: "To replace an existing Nexus 5596 cluster switch with a Nexus 3132Q-V cluster switch, you must perform a specific sequence of tasks."
+keywords: migrate, cisco nexus 5596 switch, 3232c
+summary: "To replace existing Cisco Nexus 5596 cluster switches in a cluster with Nexus 3232C cluster switches, you must perform a specific sequence of tasks."
 ---
-= Replace a Cisco Nexus 5596 cluster switch with a Cisco Nexus 3132Q-V cluster switch
+= Migrate from a Cisco Nexus 5596 cluster switch to a Cisco Nexus 3232C cluster switch
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-Learn how to replace an existing Nexus 5596 cluster switch with a Nexus 3132Q-V cluster switch.
+To replace existing Cisco Nexus 5596 cluster switches in a cluster with Nexus 3232C cluster switches, you must perform a specific sequence of tasks.
 
-The examples in this procedure describe replacing Nexus 5596 switches with Nexus 3132Q-V switches. You can use these steps (with modifications) to replace other older Cisco switches.
+.About this task
 
-.Switch and node nomenclature
-The procedure uses the following switch and node nomenclature:
+The examples in this procedure describe replacing Cisco Nexus 5596 switches with Cisco Nexus 3232C switches. You can use these steps (with modifications) for other older Cisco switches (for example, 3132Q-V). The procedure also uses the following switch and node nomenclature:
 
 * The command outputs might vary depending on different releases of ONTAP.
 * The Nexus 5596 switches to be replaced are CL1 and CL2.
-* The Nexus 3132Q-V switches to replace the Nexus 5596 switches are C1 and C2.
+* The Nexus 3232C switches to replace the Nexus 5596 switches are C1 and C2.
 * n1_clus1 is the first cluster logical interface (LIF) connected to cluster switch 1 (CL1 or C1) for node n1.
 * n1_clus2 is the first cluster LIF connected to cluster switch 2 (CL2 or C2) for node n1.
 * n1_clus3 is the second LIF connected to cluster switch 2 (CL2 or C2) for node n1.
-* n1_clus4 is the second LIF connected to cluster switch 1 (CL1 or C1) for node n1.
-* The nodes are n1, n2, n3, and n4.
-* The examples in this procedure use four nodes: Two nodes use four 10 GbE cluster interconnect ports: e0a, e0b, e0c, and e0d. The other two nodes use two 40/100 GbE cluster interconnect ports: e4a, e4e. The link:https://hwu.netapp.com/[Hardware Universe^] lists the actual cluster ports on your platforms.
+* n1_clus4 is the second LIF connected to cluster switch 1 (CL1 or C1) for node n1.-
 * The number of 10 GbE and 40/100 GbE ports are defined in the reference configuration files (RCFs) available on the https://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco® Cluster Network Switch Reference Configuration File Download^] page.
-+
-NOTE: The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
+* The nodes are n1, n2, n3, and n4.
 
-.About this task
+[NOTE]
+====
+The examples in this procedure use four nodes: Two nodes use four 10 GbE cluster interconnect ports: e0a, e0b, e0c, and e0d. The other two nodes use two 40 GbE cluster interconnect ports: e4a, e4e. The link:https://hwu.netapp.com/[_Hardware Universe_^] lists the actual cluster ports on your platforms.
+====
+
 This procedure covers the following scenarios:
 
-* The cluster starts with two nodes connected and functioning in a 2 Nexus 5596 cluster switches.
-* The cluster switch CL2 to be replaced by C2 (<<step1_replace5596_3232q, Steps 1>> - <<step19_replace5596_3232q, 19>>)
+* The cluster starts with two nodes connected and functioning in a two Nexus 5596 cluster switches.
+* The cluster switch CL2 to be replaced by C2 (steps 1 to 19):
  ** Traffic on all cluster ports and LIFs on all nodes connected to CL2 are migrated onto the first cluster ports and LIFs connected to CL1.
  ** Disconnect cabling from all cluster ports on all nodes connected to CL2, and then use supported break-out cabling to reconnect the ports to new cluster switch C2.
  ** Disconnect cabling between ISL ports between CL1 and CL2, and then use supported break-out cabling to reconnect the ports from CL1 to C2.
  ** Traffic on all cluster ports and LIFs connected to C2 on all nodes is reverted.
-* The cluster switch CL2 to be replaced by C2 (<<step20_replace5596_3232q, Steps 20>> - <<step33_replace5596_3232q, 33>>)
+* The cluster switch CL2 to be replaced by C2 (steps 20 to 33)
  ** Traffic on all cluster ports or LIFs on all nodes connected to CL1 are migrated onto the second cluster ports or LIFs connected to C2.
  ** Disconnect cabling from all cluster port on all nodes connected to CL1 and reconnect, using supported break-out cabling, to new cluster switch C1.
  ** Disconnect cabling between ISL ports between CL1 and C2, and reconnect using supported cabling, from C1 to C2.
  ** Traffic on all cluster ports or LIFs connected to C1 on all nodes is reverted.
-* Two FAS9000 nodes have been added to cluster with examples showing cluster details (<<step34_replace5596_3232q, Steps 34>> - <<step37_replace5596_3232q, 37>>).
+* Two FAS9000 nodes have been added to cluster with examples showing cluster details (steps 34 to 37).
+
+[NOTE]
+====
+The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
+====
 
 .Steps
-To replace an existing Nexus 5596 cluster switch with a Nexus 3132Q-V cluster switch, you must perform a specific sequence of tasks.
 
-. [[step1_replace5596_3232q]]If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=xh`
+. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
++
+`system node autosupport invoke -node * -type all - message MAINT=xh`
 +
 _x_ is the duration of the maintenance window in hours.
 +
-NOTE: The message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
+[NOTE]
+====
+The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
+====
 
 . Display information about the devices in your configuration:
 +
@@ -81,9 +90,9 @@ n2         /cdp
 . Determine the administrative or operational status for each cluster interface:
  .. Display the network port attributes:
 +
-`network port show`
+`network port show -role cluster`
 +
-The following example displays the network port attributes on a system:
+The following example displays the network port attributes on nodes n1 and n2:
 +
 ----
 cluster::*> network port show –role cluster
@@ -111,10 +120,10 @@ e0d       Cluster      Cluster          up   9000  auto/10000 -        -
 ----
 
  .. Display information about the logical interfaces:
- +
-`network interface show`
 +
-The following example displays the general information about all of the LIFs on your system:
+`network interface show -role cluster`
++
+The following example displays the general information about all of the LIFs on the cluster, including their current ports:
 +
 ----
 cluster::*> network interface show -role cluster
@@ -135,10 +144,10 @@ Cluster
 ----
 
  .. Display information about the discovered cluster switches:
- +
++
 `system cluster-switch show`
 +
-The following example displays the cluster switches that are known to the cluster, along with their management IP addresses:
+The following example shows the active cluster switches:
 +
 ----
 cluster::*> system cluster-switch show
@@ -162,37 +171,33 @@ CL2                           cluster-network    10.10.1.102     NX5596
 
 2 entries were displayed.
 ----
-. Set the `-auto-revert` parameter to `false` on cluster LIFs clus1 and clus2 on both nodes:
+. Verify that the appropriate RCF and image are installed on the new 3232C switches as necessary for your requirements, and make the essential site customizations, such as users and passwords, network addresses, and other customizations.
 +
-`network interface modify`
+[NOTE]
+====
+You must prepare both switches at this time.
+====
 +
-----
+If you need to upgrade the RCF and image, you must complete the following steps:
 
-cluster::*> network interface modify -vserver node1 -lif clus1 -auto-revert false
-cluster::*> network interface modify -vserver node1 -lif clus2 -auto-revert false
-cluster::*> network interface modify -vserver node2 -lif clus1 -auto-revert false
-cluster::*> network interface modify -vserver node2 -lif clus2 -auto-revert false
-----
-
-. Verify that the appropriate RCF and image are installed on the new 3132Q-V switches as necessary for your requirements, and make the essential site customizations, such as users and passwords, network addresses, and so on.
+ .. Go to the _Cisco Ethernet Switches_ page on the NetApp Support Site.
 +
-You must prepare both switches at this time. If you need to upgrade the RCF and image, follow these steps:
+http://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switches^]
 
- .. Go to the link:http://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switches^] page on the NetApp Support Site.
  .. Note your switch and the required software versions in the table on that page.
  .. Download the appropriate version of the RCF.
  .. Click *CONTINUE* on the *Description* page, accept the license agreement, and then follow the instructions on the *Download* page to download the RCF.
  .. Download the appropriate version of the image software.
 +
-See the __ONTAP 8.x or later Cluster and Management Network Switch Reference Configuration Files__Download page, and then click the appropriate version.
+See the __ONTAP 8.x or later Cluster and Management Network Switch Reference Configuration Files__ Download page, and then click the appropriate version.
 +
 To find the correct version, see the _ONTAP 8.x or later Cluster Network Switch Download page_.
 
 . Migrate the LIFs associated with the second Nexus 5596 switch to be replaced:
 +
-`network interface migrate`
+`network interface migrate -vserver Cluster -lif _lif-name_ -source-node _source-node-name_ – destination-node _node-name_ -destination-port _destination-port-name_`
 +
-The following example shows n1 and n2, but LIF migration must be done on all of the nodes:
+The following example shows the LIFs being migrated for nodes n1 and n2; LIF migration must be done on all of the nodes:
 +
 ----
 cluster::*> network interface migrate -vserver Cluster -lif n1_clus2 -source-node n1 –
@@ -207,9 +212,9 @@ destination-node n2 -destination-port e0d
 
 . Verify the cluster's health:
 +
-`network interface show`
+`network interface show -role cluster`
 +
-The following example shows the result of the previous `network interface migrate` command:
+The following example shows the current status of each cluster:
 +
 ----
 cluster::*> network interface show -role cluster
@@ -231,7 +236,7 @@ Cluster
 
 . Shut down the cluster interconnect ports that are physically connected to switch CL2:
 +
-`network port modify`
+`network port modify -node _node-name_ -port _port-name_ -up-admin false`
 +
 The following commands shut down the specified ports on n1 and n2, but the ports must be shut down on all nodes:
 +
@@ -245,9 +250,9 @@ cluster::*> network port modify -node n2 -port e0c -up-admin false
 
 . Ping the remote cluster interfaces and perform an RPC server check:
 +
-`cluster ping-cluster`
+`cluster ping-cluster -node _node-name_`
 +
-The following example shows how to ping the remote cluster interfaces:
+The following example shows node n1 being pinged and the RPC status indicated afterward:
 +
 ----
 cluster::*> cluster ping-cluster -node n1
@@ -293,11 +298,14 @@ RPC status:
 4 paths up, 0 paths down (udp check
 ----
 
-. Shut down the ISL ports 41 through 48 on the active Nexus 5596 switch CL1:
+. Shut down ISLs 41 through 48 on CL1, the active Nexus 5596 switch using the Cisco `shutdown` command.
 +
-The following example shows how to shut down ISL ports 41 through 48 on the Nexus 5596 switch CL1:
+For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-command-reference-list.html[Cisco Nexus 3000 Series NX-OS Command References^].
++
+The following example shows ISLs 41 through 48 being shut down on the Nexus 5596 switch CL1:
 +
 ----
+
 
 (CL1)# configure
 (CL1)(Config)# interface e1/41-48
@@ -306,13 +314,14 @@ The following example shows how to shut down ISL ports 41 through 48 on the Nexu
 (CL1)(Config)# exit
 (CL1)#
 ----
-+
-If you are replacing a Nexus 5010 or 5020, specify the appropriate port numbers for ISL from page 1.
 
-. Build a temporary ISL between CL1 and C2.
+. Build a temporary ISL between CL1 and C2 using the appropriate Cisco commands.
++
+For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-command-reference-list.html[Cisco Nexus 3000 Series NX-OS Command References^].
 +
 The following example shows a temporary ISL being set up between CL1 and C2:
 +
+[source,nolinebreak]
 ----
 
 C2# configure
@@ -331,14 +340,15 @@ C2(config-if)# exit
 
 . On all nodes, remove all cables attached to the Nexus 5596 switch CL2.
 +
-With supported cabling, reconnect disconnected ports on all nodes to the Nexus 3132Q-V switch C2.
+With supported cabling, reconnect disconnected ports on all nodes to the Nexus 3232C switch C2.
 
 . Remove all the cables from the Nexus 5596 switch CL2.
 +
-Attach the appropriate Cisco QSFP to SFP+ break-out cables connecting port 1/24 on the new Cisco 3132Q-V switch, C2, to ports 45 to 48 on existing Nexus 5596, CL1.
+Attach the appropriate Cisco QSFP to SFP+ break-out cables connecting port 1/24 on the new Cisco 3232C switch, C2, to ports 45 to 48 on existing Nexus 5596, CL1.
 
-. Verify that interfaces eth1/45-48 already have `channel-group 1 mode active` in their running configuration.
 . Bring up ISLs ports 45 through 48 on the active Nexus 5596 switch CL1.
++
+For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-command-reference-list.html[Cisco Nexus 3000 Series NX-OS Command References^].
 +
 The following example shows ISLs ports 45 through 48 being brought up:
 +
@@ -352,14 +362,14 @@ The following example shows ISLs ports 45 through 48 being brought up:
 (CL1)#
 ----
 
-. Verify that the ISLs are `up` on the Nexus 5596 switch CL1:
+. Verify that the ISLs are `up` on the Nexus 5596 switch CL1.
 +
-`show port-channel summary`
+For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-command-reference-list.html[Cisco Nexus 3000 Series NX-OS Command References^].
 +
-Ports eth1/45 through eth1/48 should indicate (P) meaning that the ISL ports are `up` in the port-channel:
+The following example shows Ports eth1/45 through eth1/48 indicating (P), meaning that the ISL ports are `up` in the port-channel.
 +
 ----
-Example
+
 CL1# show port-channel summary
 Flags: D - Down         P - Up in port-channel (members)
        I - Individual   H - Hot-standby (LACP only)
@@ -376,32 +386,10 @@ Group Port-        Type   Protocol  Member Ports
                                     Eth1/47(P)   Eth1/48(P)
 ----
 
-. Verify that the ISLs are `up` on the 3132Q-V switch C2:
+. Verify that interfaces eth1/45-48 already have `channel-group 1 mode active`in their running configuration.
+. On all nodes, bring up all the cluster interconnect ports connected to the 3232C switch C2:
 +
-`show port-channel summary`
-+
-Ports eth1/24/1, eth1/24/2, eth1/24/3, and eth1/24/4 should indicate (P) meaning that the ISL ports are `up` in the port-channel:
-+
-----
-C2# show port-channel summary
-Flags: D - Down         P - Up in port-channel (members)
-       I - Individual   H - Hot-standby (LACP only)
-       s - Suspended    r - Module-removed
-       S - Switched     R - Routed
-       U - Up (port-channel)
-       M - Not in use. Min-links not met
---------------------------------------------------------------------------------
-Group Port-        Type   Protocol  Member Ports
-      Channel
---------------------------------------------------------------------------------
-1     Po1(SU)      Eth    LACP      Eth1/31(D)   Eth1/32(D)
-2     Po2(SU)      Eth    LACP      Eth1/24/1(P)  Eth1/24/2(P)  Eth1/24/3(P)
-                                    Eth1/24/4(P)
-----
-
-. On all nodes, bring up all the cluster interconnect ports connected to the 3132Q-V switch C2:
-+
-`network port modify`
+`network port modify -node _node-name_ -port _port-name_ -up-admin true`
 +
 The following example shows the specified ports being brought up on nodes n1 and n2:
 +
@@ -413,24 +401,22 @@ cluster::*> network port modify -node n2 -port e0b -up-admin true
 cluster::*> network port modify -node n2 -port e0c -up-admin true
 ----
 
-. [[step19_replace5596_3232q]]On all nodes, revert all of the migrated cluster interconnect LIFs connected to C2:
+. On all nodes, revert all of the migrated cluster interconnect LIFs connected to C2:
 +
-`network interface revert`
+`network interface revert -vserver Cluster -lif _lif-name_`
 +
-The following example shows the migrated cluster LIFs being reverted to their home ports on nodes n1 and n2:
+The following example shows the migrated cluster LIFs being reverted to their home ports:
 +
 ----
-
-
 cluster::*> network interface revert -vserver Cluster -lif n1_clus2
 cluster::*> network interface revert -vserver Cluster -lif n1_clus3
 cluster::*> network interface revert -vserver Cluster -lif n2_clus2
 cluster::*> network interface revert -vserver Cluster -lif n2_clus3
 ----
 
-. [[step20_replace5596_3232q]]Verify all the cluster interconnect ports are now reverted to their home:
+. Verify all the cluster interconnect ports are now reverted to their home:
 +
-`network interface show`
+`network interface show -role cluster`
 +
 The following example shows that the LIFs on clus2 reverted to their home ports and shows that the LIFs are successfully reverted if the ports in the Current Port column have a status of `true` in the `Is Home` column. If the `Is Home` value is `false`, the LIF has not been reverted.
 +
@@ -454,7 +440,7 @@ Cluster
 
 . Verify that the clustered ports are connected:
 +
-`network port show`
+`network port show -role cluster`
 +
 The following example shows the result of the previous `network port modify` command, verifying that all the cluster interconnects are `up`:
 +
@@ -485,9 +471,9 @@ e0d       Cluster      Cluster          up   9000  auto/10000 -        -
 
 . Ping the remote cluster interfaces and perform an RPC server check:
 +
-`cluster ping-cluster`
+`cluster ping-cluster -node node-name`
 +
-The following example shows how to ping the remote cluster interfaces:
+The following example shows node n1 being pinged and the RPC status indicated afterward:
 +
 ----
 cluster::*> cluster ping-cluster -node n1
@@ -535,7 +521,7 @@ RPC status:
 
 . On each node in the cluster, migrate the interfaces associated with the first Nexus 5596 switch, CL1, to be replaced:
 +
-`network interface migrate`
+`network interface migrate -vserver Cluster -lif _lif-name_ -source-node _source-node-name_ - destination-node _destination-node-name_ -destination-port _destination-port-name_`
 +
 The following example shows the ports or LIFs being migrated on nodes n1 and n2:
 +
@@ -551,14 +537,15 @@ cluster::*> network interface migrate -vserver Cluster -lif n2_clus4 -source-nod
 destination-node n2 -destination-port e0c
 ----
 
-. Verify the cluster status:
+. Verify the cluster's status:
 +
 `network interface show`
 +
-The following example shows that the required cluster LIFs have been migrated to appropriate cluster ports hosted on cluster switch C2:
+The following example shows that the required cluster LIFs have been migrated to appropriate cluster ports hosted on cluster switch, C2:
 +
 ----
- (network interface show)
+cluster::*> network interface show
+
             Logical    Status     Network            Current       Current Is
 Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
 ----------- ---------- ---------- ------------------ ------------- ------- ----
@@ -578,7 +565,7 @@ Cluster
 
 . On all the nodes, shut down the node ports that are connected to CL1:
 +
-`network port modify`
+`network port modify -node _node-name_ -port _port-name_ -up-admin false`
 +
 The following example shows the specified ports being shut down on nodes n1 and n2:
 +
@@ -590,10 +577,13 @@ cluster::*> network port modify -node n2 -port e0a -up-admin false
 cluster::*> network port modify -node n2 -port e0d -up-admin false
 ----
 
-. Shut down the ISL ports 24, 31, and 32 on the active 3132Q-V switch C2: `shutdown`
+. Shut down ISL 24, 31 and 32 on the active 3232C switch C2.
 +
-The following example shows how to shut down ISLs 24, 31, and 32:
+For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-command-reference-list.html[Cisco Nexus 3000 Series NX-OS Command References^].
 +
+The following example shows ISLs being shutdown:
++
+[source,noline]
 ----
 
 C2# configure
@@ -609,14 +599,19 @@ C2#
 
 . On all nodes, remove all cables attached to the Nexus 5596 switch CL1.
 +
-With supported cabling, reconnect disconnected ports on all nodes to the Nexus 3132Q-V switch C1.
+With supported cabling, reconnect disconnected ports on all nodes to the Nexus 3232C switch C1.
 
-. Remove the QSFP breakout cable from Nexus 3132Q-V C2 ports e1/24.
+. Remove the QSFP breakout cable from Nexus 3232C C2 ports e1/24.
 +
 Connect ports e1/31 and e1/32 on C1 to ports e1/31 and e1/32 on C2 using supported Cisco QSFP optical fiber or direct-attach cables.
 
 . Restore the configuration on port 24 and remove the temporary Port Channel 2 on C2.
 +
+For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-command-reference-list.html[Cisco Nexus 3000 Series NX-OS Command References^].
++
+The following example shows the configuration on port m24 being restored using the appropriate Cisco commands:
++
+[source,nolinebreak]
 ----
 
 C2# configure
@@ -634,26 +629,24 @@ C2# copy running-config startup-config
 Copy Complete.
 ----
 
-. Bring up ISL ports 31 and 32 on C2, the active 3132Q-V switch: `no shutdown`
+. Bring up ISL ports 31 and 32 on C2, the active 3232C switch, by entering the following Cisco command: `no shutdown`
 +
-The following example shows how to bring up ISLs 31 and 32 on the 3132Q-V switch C2:
+For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-command-reference-list.html[Cisco Nexus 3000 Series NX-OS Command References^].
++
+The following example shows the Cisco commands `switchname configure` brought up on the 3232C switch C2:
 +
 ----
-
 
 C2# configure
 C2(config)# interface ethernet 1/31-32
 C2(config-if-range)# no shutdown
-C2(config-if-range)# exit
-C2(config)# exit
-C2# copy running-config startup-config
-[########################################] 100%
-Copy Complete.
 ----
 
-. Verify that the ISL connections are `up` on the 3132Q-V switch C2: `show port-channel summary`
+. Verify that the ISL connections are `up` on the 3232C switch C2.
 +
-Ports Eth1/31 and Eth1/32 should indicate `(P)`, meaning that both the ISL ports are `up` in the port-channel:
+For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-command-reference-list.html[Cisco Nexus 3000 Series NX-OS Command References^].
++
+Ports eth1/31 and eth1/32 should indicate (P) meaning that both ISL ports up in the port-channel
 +
 ----
 
@@ -671,11 +664,9 @@ Group Port-        Type   Protocol  Member Ports
 1     Po1(SU)      Eth    LACP      Eth1/31(P)   Eth1/32(P)
 ----
 
-. On all nodes, bring up all the cluster interconnect ports connected to the new 3132Q-V switch C1:
+. On all nodes, bring up all the cluster interconnect ports connected to the new 3232C switch C1: `network port modify`
 +
-`network port modify`
-+
-The following example shows all the cluster interconnect ports being brought up for n1 and n2 on the 3132Q-V switch C1:
+The following example shows all the cluster interconnect ports being brought up for n1 and n2 on the 3232C switch C1:
 +
 ----
 
@@ -685,9 +676,11 @@ cluster::*> network port modify -node n2 -port e0a -up-admin true
 cluster::*> network port modify -node n2 -port e0d -up-admin true
 ----
 
-. [[step33_replace5596_3232q]]Verify the status of the cluster node port: `network port show`
+. Verify the status of the cluster node port:
 +
-The following example verifies that all cluster interconnect ports on all nodes on the new 3132Q-V switch C1 are `up`:
+`network port show`
++
+The following example shows verifies that all cluster interconnect ports on all nodes on the new 3232C switch C1 are up:
 +
 ----
 cluster::*> network port show –role cluster
@@ -714,14 +707,13 @@ e0d       Cluster      Cluster          up   9000  auto/10000 -        -
 8 entries were displayed.
 ----
 
-. [[step34_replace5596_3232q]]On all nodes, revert the specific cluster LIFs to their home ports:
+. On all nodes, revert the specific cluster LIFs to their home ports:
 +
-`network interface revert`
+`network interface revert -server Cluster -lif _lif-name_`
 +
 The following example shows the specific cluster LIFs being reverted to their home ports on nodes n1 and n2:
 +
 ----
-
 cluster::*> network interface revert -vserver Cluster -lif n1_clus1
 cluster::*> network interface revert -vserver Cluster -lif n1_clus4
 cluster::*> network interface revert -vserver Cluster -lif n2_clus1
@@ -730,9 +722,9 @@ cluster::*> network interface revert -vserver Cluster -lif n2_clus4
 
 . Verify that the interface is home:
 +
-`network interface show`
+`network interface show -role cluster`
 +
-The following example shows the status of cluster interconnect interfaces is `up` and `Is home` for n1 and n2:
+The following example shows the status of cluster interconnect interfaces are `up` and `Is Home` for n1 and n2:
 +
 ----
 cluster::*> network interface show -role cluster
@@ -752,11 +744,11 @@ Cluster
 8 entries were displayed.
 ----
 
-. Ping the remote cluster interfaces and then perform a remote procedure call server check:
+. Ping the remote cluster interfaces and perform an RPC server check:
 +
-`cluster ping-cluster`
+`cluster ping-cluster -node _node-name_`
 +
-The following example shows how to ping the remote cluster interfaces:
+The following example shows node n1 being pinged and the RPC status indicated afterward:
 +
 ----
 cluster::*> cluster ping-cluster -node n1
@@ -802,14 +794,15 @@ RPC status:
 4 paths up, 0 paths down (udp check)
 ----
 
-. [[step37_replace5596_3232q]]Expand the cluster by adding nodes to the Nexus 3132Q-V cluster switches.
+. Expand the cluster by adding nodes to the Nexus 3232C cluster switches.
++
+The following examples show nodes n3 and n4 have 40 GbE cluster ports connected to ports e1/7 and e1/8 respectively on both the Nexus 3232C cluster switches, and both nodes have joined the cluster. The 40 GbE cluster interconnect ports used are e4a and e4e.
+
 . Display the information about the devices in your configuration:
  ** `network device-discovery show`
  ** `network port show -role cluster`
  ** `network interface show -role cluster`
  ** `system cluster-switch show`
- +
-The following examples show nodes n3 and n4 with 40 GbE cluster ports connected to ports e1/7 and e1/8, respectively on both the Nexus 3132Q-V cluster switches, and both nodes have joined the cluster. The 40 GbE cluster interconnect ports used are e4a and e4e.
 
 +
 ----
@@ -818,25 +811,26 @@ cluster::> network device-discovery show
 Node        Port   Device              Interface        Platform
 ----------- ------ ------------------- ---------------- ----------------
 n1         /cdp
-            e0a    C1                 Ethernet1/1/1    N3K-C3132Q-V
-            e0b    C2                 Ethernet1/1/1    N3K-C3132Q-V
-            e0c    C2                 Ethernet1/1/2    N3K-C3132Q-V
-            e0d    C1                 Ethernet1/1/2    N3K-C3132Q-V
+            e0a    C1                 Ethernet1/1/1    N3K-C3232C
+            e0b    C2                 Ethernet1/1/1    N3K-C3232C
+            e0c    C2                 Ethernet1/1/2    N3K-C3232C
+            e0d    C1                 Ethernet1/1/2    N3K-C3232C
 n2         /cdp
-            e0a    C1                 Ethernet1/1/3    N3K-C3132Q-V
-            e0b    C2                 Ethernet1/1/3    N3K-C3132Q-V
-            e0c    C2                 Ethernet1/1/4    N3K-C3132Q-V
-            e0d    C1                 Ethernet1/1/4    N3K-C3132Q-V
+            e0a    C1                 Ethernet1/1/3    N3K-C3232C
+            e0b    C2                 Ethernet1/1/3    N3K-C3232C
+            e0c    C2                 Ethernet1/1/4    N3K-C3232C
+            e0d    C1                 Ethernet1/1/4    N3K-C3232C
 n3         /cdp
-            e4a    C1                 Ethernet1/7      N3K-C3132Q-V
-            e4e    C2                 Ethernet1/7      N3K-C3132Q-V
+            e4a    C1                 Ethernet1/7      N3K-C3232C
+            e4e    C2                 Ethernet1/7      N3K-C3232C
 n4         /cdp
-            e4a    C1                 Ethernet1/8      N3K-C3132Q-V
-            e4e    C2                 Ethernet1/8      N3K-C3132Q-V
+            e4a    C1                 Ethernet1/8      N3K-C3232C
+            e4e    C2                 Ethernet1/8      N3K-C3232C
 12 entries were displayed.
 ----
 
 +
+
 ----
 cluster::*> network port show –role cluster
   (network port show)
@@ -879,6 +873,7 @@ e4e       Cluster      Cluster          up   9000 auto/40000  -        -
 ----
 
 +
+
 ----
 cluster::*> network interface show -role cluster
  (network interface show)
@@ -902,12 +897,13 @@ Cluster
 ----
 
 +
+
 ----
 cluster::*> system cluster-switch show
 
 Switch                      Type               Address          Model
 --------------------------- ------------------ ---------------- ---------------
-C1                          cluster-network    10.10.1.103      NX3132V
+C1                          cluster-network    10.10.1.103      NX3232C
      Serial Number: FOX000001
       Is Monitored: true
             Reason:
@@ -915,7 +911,7 @@ C1                          cluster-network    10.10.1.103      NX3132V
                     7.0(3)I4(1)
     Version Source: CDP
 
-C2                          cluster-network     10.10.1.104      NX3132V
+C2                          cluster-network     10.10.1.104      NX3232C
      Serial Number: FOX000002
       Is Monitored: true
             Reason:
@@ -939,26 +935,13 @@ CL2                           cluster-network    10.10.1.102     NX5596
     Version Source: CDP
 
 4 entries were displayed.
-
-----
-. Remove the replaced Nexus 5596 if they are not automatically removed: `system cluster-switch delete`
-+
-The following example shows how to remove the Nexus 5596:
-+
 ----
 
+. Remove the replaced Nexus 5596 by using the `system cluster-switch delete` command, if it is not automatically removed: `system cluster-switch delete -device switch-name`
++
+----
 cluster::> system cluster-switch delete –device CL1
 cluster::> system cluster-switch delete –device CL2
-----
-
-. Configure clusters clus1 and clus2 to auto revert on each node and confirm:
-+
-----
-
-cluster::*> network interface modify -vserver node1 -lif clus1 -auto-revert true
-cluster::*> network interface modify -vserver node1 -lif clus2 -auto-revert true
-cluster::*> network interface modify -vserver node2 -lif clus1 -auto-revert true
-cluster::*> network interface modify -vserver node2 -lif clus2 -auto-revert true
 ----
 
 . Verify that the proper cluster switches are monitored: `system cluster-switch show`
@@ -968,7 +951,7 @@ cluster::> system cluster-switch show
 
 Switch                      Type               Address          Model
 --------------------------- ------------------ ---------------- ---------------
-C1                          cluster-network    10.10.1.103      NX3132V
+C1                          cluster-network    10.10.1.103      NX3232C
      Serial Number: FOX000001
       Is Monitored: true
             Reason:
@@ -976,7 +959,7 @@ C1                          cluster-network    10.10.1.103      NX3132V
                     7.0(3)I4(1)
     Version Source: CDP
 
-C2                          cluster-network     10.10.1.104      NX3132V
+C2                          cluster-network     10.10.1.104      NX3232C
      Serial Number: FOX000002
       Is Monitored: true
             Reason:
@@ -1004,13 +987,13 @@ C2
 cluster::*> system cluster-switch log setup-password
 
 Enter the switch name: C1
-**RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
+RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
 Do you want to continue? {y|n}::[n] y
 
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 
-cluster::*> system cluster-switch log setup-password
+cluster1::*> system cluster-switch log setup-password
 
 Enter the switch name: C2
 RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
@@ -1029,16 +1012,17 @@ Enabling cluster switch log collection.
 cluster::*>
 ----
 +
-NOTE: If any of these commands return an error, contact NetApp support.
+[NOTE]
+====
+If any of these commands return an error, contact NetApp support.
+====
 
-. If you suppressed automatic case creation, reenable it by invoking an AutoSupport message:
+. If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
 +
 `system node autosupport invoke -node * -type all -message MAINT=END`
 
-.More information
+*Related information*
 
 http://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switch description page^]
 
 http://hwu.netapp.com[Hardware Universe^]
-
-// QA clean-up, 2022-03-03
