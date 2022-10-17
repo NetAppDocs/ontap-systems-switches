@@ -4,7 +4,7 @@ sidebar: sidebar
 keywords: replace, cisco nexus 3232c, cluster switch
 summary: "You can nondisruptively replace a defective Cisco Nexus 3232C switch in a cluster by performing a specific sequence of tasks."
 ---
-= How to replace a Cisco Nexus 3232C cluster switch
+= Replace a Cisco Nexus 3232C cluster switch
 :icons: font
 :imagesdir: ../media/
 
@@ -30,16 +30,10 @@ The replacement Cisco Nexus 3232C switch must have the following characteristics
 * The appropriate RCF and NX-OS operating system image must be loaded onto the switch.
 * Initial customization of the switch must be complete.
 
-.About this task
+.Switch and node nomenclature
+This replacement procedure replaces the second Nexus 3232C cluster switch CL2 with the new 3232C switch C2.
 
-*Procedure summary*
-
-* *Display and migrate the cluster ports to switch C2 (Steps <<one,1>>-<<seven,7)>>*
-* *Reconnect ISL cables from switch CL2 to switch C2, then migrate ISLs to switch CL1 and C2 (Steps <<eight,8>>-<<fourteen,14)>>*
-* *Revert all LIFs to originally assigned ports (Steps <<fifteen,15>>-<<eighteen,18)>>*
-* *Verify all ports and LIF are correctly migrated (Steps <<nineteen,19>>-<<twentyone,21>>)*
-
-This procedure replaces the second Nexus 3232C cluster switch CL2 with the new 3232C switch C2. The examples in this procedure use the following switch and node nomenclature:
+The examples in this procedure use the following switch and node nomenclature:
 
 * The four nodes are n1, n2, n3, and n4.
 * n1_clus1 is the first cluster logical interface (LIF) connected to cluster switch C1 for node n1.
@@ -49,15 +43,18 @@ This procedure replaces the second Nexus 3232C cluster switch CL2 with the new 3
 
 The number of 10 GbE and 40/100 GbE ports are defined in the reference configuration files (RCFs) available on the https://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco® Cluster Network Switch Reference Configuration File Download^] page.
 
-The examples in this procedure use four nodes. Two of the nodes use four 10 GB cluster interconnect ports: e0a, e0b, e0c, and e0d. The other two nodes use two 40 GB cluster interconnect ports: e4a and e4e. See the link:https://hwu.netapp.com/SWITCH/INDEX.html[Hardware Universe^] to verify the correct cluster ports for your platform.
+The examples in this replacement procedure use four nodes. Two of the nodes use four 10 GB cluster interconnect ports: e0a, e0b, e0c, and e0d. The other two nodes use two 40 GB cluster interconnect ports: e4a and e4e. See the link:https://hwu.netapp.com/SWITCH/INDEX.html[Hardware Universe^] to verify the correct cluster ports for your platform.
 
-This procedure describes the following scenario:
+.About this task
+This replacement procedure describes the following scenario:
 
 * The cluster initially has four nodes connected to two Nexus 3232C cluster switches, CL1 and CL2.
 * You plan to replace cluster switch CL2 with C2 (steps 1 to 21):
  ** On each node, you migrate the cluster LIFs connected to cluster switch CL2 to cluster ports connected to cluster switch CL1.
  ** You disconnect the cabling from all ports on cluster switch CL2 and reconnect the cabling to the same ports on the replacement cluster switch C2.
  ** You revert the migrated cluster LIFs on each node.
+
+== Step 1: Display and migrate the cluster ports to switch
 
 .Steps
 
@@ -344,6 +341,7 @@ Larger than PMTU communication succeeds on 32 path(s) RPC status:
 8	paths up, 0 paths down (udp check)
 ----
 
+== Step 2: Migrate ISLs to switch CL1 and C2
 . [[eight]]Shut down the ports 1/31 and 1/32 on cluster switch CL1.
 +
 For more information on Cisco commands, see the guides listed in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-command-reference-list.html[Cisco Nexus 3000 Series NX-OS Command References^].
@@ -423,6 +421,7 @@ cluster::*> network port modify -node n3 -port e4e -up-admin true
 cluster::*> network port modify -node n4 -port e4e -up-admin true
 ----
 
+== Step 3: Revert all LIFs to originally assigned ports
 . [[fifteen]]Revert all the migrated cluster interconnect LIFs on all the nodes:
 +
 `network interface revert -vserver cluster -lif _lif-name_`
@@ -574,6 +573,7 @@ Larger than PMTU communication succeeds on 32 path(s) RPC status:
 8	paths up, 0 paths down (udp check)
 ----
 
+== Step 4: Verify all ports and LIF are correctly migrated
 . [[nineteen]]Display the information about the devices in your configuration by entering the following commands:
 +
 You can execute the following commands in any order:
