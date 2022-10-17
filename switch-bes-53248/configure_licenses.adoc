@@ -61,7 +61,7 @@ a|
 EFOS 3.4.4.6 and later
 |===
 
-== Install licences
+== Install licence files
 Learn how to install licenses for BES-53248 cluster switches.
 
 .Steps
@@ -243,7 +243,7 @@ Intf      Type   Mode      Mode       Status     Status Trap    Mode   Timeout
 
 CAUTION: When installing additional licenses, you must configure the new interfaces manually. Re-applying an RCF to an existing working production switch is not advisable.
 
-== Debug commands
+== Troubleshoot install issues
 Where problems arise when installing a license, the following debug commands should be run before running the `copy` command again to install the license.
 
 Debug commands to use: `debug transfer` and `debug license`
@@ -294,8 +294,6 @@ Use the `copy` command to backup port licenses to the server:
 ----
 (cs2)# *copy nvram:license-key 1 scp://<UserName>@<IP_address>/saved_license_1.dat*
 ----
-
-See link:configure-licenses.html[Installing licenses for BES-53248 cluster switches] for details of the firmware versions supported for available licenses.
 
 CAUTION: If you need to downgrade the switch software from version 3.4.4.6, the licenses are removed. This is expected behavior.
 
