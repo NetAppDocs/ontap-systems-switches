@@ -44,11 +44,13 @@ a|
 X-PSU-190005-R
 a|
 Power supply, port side intake X190005
+
 Port-side intake airflow (reverse air): Cool air enters the chassis through the port end in the cold aisle and exhausts through the fan and power supply modules in the hot aisle.
 a|
 X-PSU-190005-F
 a|
 Power supply, port side exhaust X190005
+
 Port-side exhaust airflow (standard air): Cool air enters the chassis through the fan and power supply modules in the cold aisle and exhausts through the port end of the chassis in the hot aisle. Blue coloring indicates port-side exhaust airflow. This is the most common option.
 |===
 
@@ -95,7 +97,10 @@ The SFP28/SFP+ port speed must be the same (10GbE or 25GbE) across all ports in 
 [.lead]
 You need specific switch and controller documentation to set up your Cluster-Mode configuration.
 
-== Required documentation
+== Documentation requirements
+You need specific switch and controller documentation to set up your BES-53248 cluster switch and ONTAP cluster.
+
+== Broadcom documentation
 To set up the BES-53248 cluster switch, you need the following documents available from the Broadcom Support Site: https://www.broadcom.com/support/bes-switch[Broadcom Ethernet Switch Product Line^]
 
 [options="header" cols="1,2"]
@@ -131,7 +136,7 @@ a|
 Provides release-specific information about BES-53248 software.
 |===
 
-=== Required documentation for supported ONTAP systems
+=== ONTAP systems documentation
 To set up an ONTAP system, you need the following documents from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com^]
 
 [options="header" cols="1,2"]
