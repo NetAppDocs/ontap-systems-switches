@@ -9,7 +9,7 @@ summary: Broadcom-supported BES-53248 Cluster Switches
 :imagesdir: ../media/
 
 [.lead]
-BES-53248 is a switch running on a Broadcom-embedded OS known as Ethernet Fabric OS (EFOS).
+The BES-53248 switch runs on a Broadcom-embedded OS known as Ethernet Fabric OS (EFOS).
 
 Broadcom-supported BES-53248 cluster switches are designed to work in clusters ranging in size from two to 24 nodes in ONTAP 9.5P8 and later. Support for 40/100 GbE cluster ports starts with EFOS firmware version 3.4.4.6 and later.
 
@@ -54,12 +54,6 @@ Power supply, port side exhaust X190005
 Port-side exhaust airflow (standard air): Cool air enters the chassis through the fan and power supply modules in the cold aisle and exhausts through the port end of the chassis in the hot aisle. Blue coloring indicates port-side exhaust airflow. This is the most common option.
 |===
 
-See the https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/MetroCluster/How_to_add_Additional_Port_Licensing_for_the_Broadcom-Supported_BES-53248_Switch[NetApp KB article: How to add additional port licensing for the Broadcom-supported BES-53248 switch^] for details on adding additional port licenses.
-
-For information on the relevant connectors and cable options to use along with their part numbers, see the https://hwu.netapp.com/Home/Index[NetApp Hardware Universe^].
-
-For more information, see the _Cluster Network and Management Network Compatibility Matrix_ available from the BES-53248 switch download site https://mysupport.netapp.com/site/products/all/details/broadcom-cluster-switches/downloads-tab[Broadcom cluster switches^].
-
 == Configuration requirements
 To configure your cluster, you need the appropriate number and type of cables and cable connectors for your cluster switches. Depending on the type of cluster switch you are initially configuring, you need to connect to the switch console port with the included console cable and you need specific network information.
 
@@ -100,7 +94,7 @@ You need specific switch and controller documentation to set up your Cluster-Mod
 == Documentation requirements
 You need specific switch and controller documentation to set up your BES-53248 cluster switch and ONTAP cluster.
 
-== Broadcom documentation
+=== Broadcom documentation
 To set up the BES-53248 cluster switch, you need the following documents available from the Broadcom Support Site: https://www.broadcom.com/support/bes-switch[Broadcom Ethernet Switch Product Line^]
 
 [options="header" cols="1,2"]
@@ -155,3 +149,10 @@ ONTAP 9
 a|
 Provides detailed information about all aspects of the ONTAP 9 release.
 |===
+
+.More information
+* For details on adding additional port licenses, see the https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/MetroCluster/How_to_add_Additional_Port_Licensing_for_the_Broadcom-Supported_BES-53248_Switch[NetApp KB article: How to add additional port licensing for the Broadcom-supported BES-53248 switch^]
+
+* For information on the relevant connectors and cable options to use along with their part numbers, see the https://hwu.netapp.com/Home/Index[NetApp Hardware Universe^].
+
+* For more information on network compatibility, see the _Cluster Network and Management Network Compatibility Matrix_ available from the BES-53248 switch download site https://mysupport.netapp.com/site/products/all/details/broadcom-cluster-switches/downloads-tab[Broadcom cluster switches^].
