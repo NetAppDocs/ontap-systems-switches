@@ -11,12 +11,8 @@ summary: "You must be aware of certain configuration information, port connectio
 [.lead]
 Make sure you understand the configuration requirements, port connections and cabling requirements when you replace cluster switches.
 
-// start tabbed area
-
-[role="tabbed-block"]
 
 == Cisco Nexus 3132Q-V requirements
---
 * The Cisco Nexus 3132Q-V cluster switch is supported.
 * The number of 10 GbE and 40/100 GbE ports are defined in the reference configuration files (RCFs) available on the link:https://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco® Cluster Network Switch Reference Configuration File Download^] page.
 * The cluster switches use the Inter-Switch Link (ISL) ports e1/31-32.
@@ -46,7 +42,6 @@ The link:http://mysupport.netapp.com/NOW/download/software/cm_switches/[Cisco Et
 --
 
 == Cisco Nexus 5596 requirements
---
 * The following cluster switches are supported:
  ** Nexus 5596
  ** Nexus 3132Q-V
@@ -86,10 +81,7 @@ NOTE: You can break out the first six ports into 4x10 GbE mode by using the `int
 
 // QA clean-up, 2022-03-03
 
---
-
 == NetApp CN1610 requirements
---
 * The following cluster switches are supported:
  ** NetApp CN1610
  ** Cisco Nexus 3132Q-V
@@ -133,7 +125,3 @@ You can break out the first six ports into 4x 10 GbE mode by using the `interfac
 * The ONTAP and FASTPATH versions that are supported in this procedure are listed on the link:http://support.netapp.com/NOW/download/software/cm_switches_ntap/[NetApp CN1601 and CN1610 Switches^] page.
 
 // QA clean-up, 2022-03-04
-
---
-
-// end tabbed area
