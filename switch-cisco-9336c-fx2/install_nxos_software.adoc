@@ -11,6 +11,31 @@ summary: You can use this procedure to install the NX-OS software on the Nexus 9
 [.lead]
 You can use this procedure to install the NX-OS software on the Nexus 9336C-FX2 cluster switch.
 
+.Switch and node nomenclature
+The examples in this procedure use the following switch and node nomenclature:
+
+* The names of the two Cisco switches are cs1 and cs2.
+* The node names arecluster1-01, cluster1-02, cluster1-03, and cluster1-04.
+* The cluster LIF names are cluster1-01_clus1, cluster1-01_clus2, cluster1-02_clus1, cluster1-02_clus2 , cluster1-03_clus1, cluster1-03_clus2, cluster1-04_clus1, and cluster1-04_clus2.
+* The `cluster1::*>` prompt indicates the name of the cluster.
+
+NOTE: The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
+
+.Before you begin
+The following conditions must exist before you install the Reference Configuration File (RCF) on the cluster switch.
+
+* Make sure that you have a current backup of the switch configuration.
+* The cluster must be fully functioning (there should be no errors in the logs or similar issues).
+* You must have checked or set your desired boot configuration in the RCF to reflect the desired boot images if you are installing only NX-OS and keeping your current RCF version.
+* If you need to change the boot configuration to reflect the current boot images, you must do so before reapplying the RCF so that the correct version is instantiated on future reboots.
+* You must have a console connection to the switch, required when installing the RCF.
+* You must have consulted the switch compatibility table on the https://mysupport.netapp.com/site/info/cisco-ethernet-switch[_Cisco Ethernet switch_^] page for the supported ONTAP, NX-OS, and RCF versions.
+
+* There can be command dependencies between the command syntax in the RCF and that found in versions of NX-OS.
+* You must have referred to the appropriate software and upgrade guides available on the Cisco web site for the Cisco switch upgrade and downgrade procedures. See https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series Switches^].
+
+* You must have the current RCF.
+
 .Steps
 . Connect the cluster switch to the management network.
 . Use the ping command to verify connectivity to the server hosting the NX-OS software and the RCF.

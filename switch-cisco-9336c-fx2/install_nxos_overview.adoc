@@ -5,38 +5,17 @@ keywords: cisco, nx-os, software, reference, configuration, file, rcf, install, 
 summary: The Cisco NX-OS software and reference configuration files \(RCFs\) must be installed on Cisco Nexus 9336C-FX2 cluster switches.
 ---
 
-= Install NX-OS software and RCFs on Cisco Nexus 9336C-FX2 cluster switches
+= Prepare to install NX-OS software and RCF
 
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-The Cisco NX-OS software and reference configuration files (RCFs) must be installed on Cisco Nexus 9336C-FX2 cluster switches.
+Learn how to prepare to install the Cisco NX-OS software and reference configuration files (RCFs) on Cisco Nexus 9336C-FX2 cluster switches.
 
-The following conditions must exist before you install the NX-OS software and Reference Configurations Files (RCFs) on the cluster switch:
+NOTE: The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 
-* The cluster must be fully functioning (there should be no errors in the logs or similar issues).
-* You must have checked or set your desired boot configuration in the RCF to reflect the desired boot images if you are installing only NX-OS and keeping your current RCF version.
-* If you need to change the boot configuration to reflect the current boot images, you must do so before reapplying the RCF so that the correct version is instantiated on future reboots.
-* You must have a console connection to the switch, required when installing the RCF.
-* You must have consulted the switch compatibility table on the https://mysupport.netapp.com/site/info/cisco-ethernet-switch[_Cisco Ethernet switch_^] page for the supported ONTAP, NX-OS, and RCF versions.
-
-* There can be command dependencies between the command syntax in the RCF and that found in versions of NX-OS.
-* You must have referred to the appropriate software and upgrade guides available on the Cisco web site for complete documentation on the Cisco switch upgrade and downgrade procedures on *Cisco Nexus 9000 Series Switches*.
-+
-https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series Switches^]
-
-* You must have the current RCF.
-
-CAUTION: Before installing a new switch software version and RCFs, you must erase the switch settings and perform basic configuration. You must be connected to the switch using the serial console. This task resets the configuration of the management network.
-
-The examples in this procedure use two nodes. These nodes use two 10GbE cluster interconnect ports e0a and e0b.
-
-
-See the https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe] to verify the correct cluster ports on your platforms.
-
-NOTE: The command outputs might vary depending on different releases of ONTAP.
-
+.Switch and node nomenclature
 The examples in this procedure use the following switch and node nomenclature:
 
 * The names of the two Cisco switches are cs1 and cs2.
@@ -44,7 +23,7 @@ The examples in this procedure use the following switch and node nomenclature:
 * The cluster LIF names are cluster1-01_clus1 and cluster1-01_clus2 for cluster1-01 and cluster1-02_clus1 and cluster1-02_clus2 for cluster1-02.
 * The `cluster1::*>` prompt indicates the name of the cluster.
 
-NOTE: The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
+.Steps
 
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=x h`
 +
