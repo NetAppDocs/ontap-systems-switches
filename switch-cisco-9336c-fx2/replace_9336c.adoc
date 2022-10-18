@@ -11,6 +11,16 @@ summary: Replacing a defective Nexus 9336C-FX2 switch in a cluster network is a 
 [.lead]
 Replacing a defective Nexus 9336C-FX2 switch in a cluster network is a nondisruptive procedure (NDU).
 
+.Switch and node nomenclature
+The examples in this procedure use the following switch and node nomenclature:
+
+* The names of the existing Nexus 9336C-FX2 switches are cs1 and cs2.
+* The name of the new Nexus 9336C-FX2 switch is newcs2.
+* The node names are node1 and node2.
+* The cluster ports on each node are named e0a and e0b.
+* The cluster LIF names are node1_clus1 and node1_clus2 for node1, and node2_clus1 and node2_clus2 for node2.
+* The prompt for changes to all cluster nodes is cluster1::*>
+
 .Before you begin
 The following conditions must exist before performing the switch replacement in the current environment and on the replacement switch.
 
@@ -33,16 +43,8 @@ Any previous site customizations, such as STP, SNMP, and SSH, should be copied t
 
 You must execute the command for migrating a cluster LIF from the node where the cluster LIF is hosted.
 
-The examples in this procedure use the following switch and node nomenclature:
-
-* The names of the existing Nexus 9336C-FX2 switches are cs1 and cs2.
-* The name of the new Nexus 9336C-FX2 switch is newcs2.
-* The node names are node1 and node2.
-* The cluster ports on each node are named e0a and e0b.
-* The cluster LIF names are node1_clus1 and node1_clus2 for node1, and node2_clus1 and node2_clus2 for node2.
-* The prompt for changes to all cluster nodes is cluster1::*>
-
-NOTE: The following procedure is based on the following cluster network topology:
+.About this task
+The following procedure is based on the following cluster network topology:
 
 ----
 cluster1::*> network port show -ipspace Cluster

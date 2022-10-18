@@ -16,33 +16,21 @@ You must verify that the following conditions exist before installing the NX-OS 
 
 * Your system can support Cisco Nexus 9336C-FX2 storage switches.
 * You must have consulted the switch compatibility table on the Cisco Ethernet Switch page for the supported ONTAP, NX-OS, and RCF versions.
-+
-NOTE: You should be aware that there can be dependencies between command syntax in the RCF and NX-OS versions.
-
-* You must have referred to the appropriate software and upgrade guides available on the Cisco web site for complete documentation on the Cisco switch upgrade and downgrade procedures.
+* You must have referred to the appropriate software and upgrade guides available on the Cisco web site.
 Cisco Nexus 3000 Series Switches
 * You must have downloaded the applicable RCFs.
+* The existing network configuration must have the following characteristics:
+
+** The Cisco Ethernet Switches page has the latest RCF and NX-OS versions on your switches.
+** Management connectivity must exist on both switches.
+* The replacement Cisco Nexus 9336C-FX2 switch must have the following characteristics:
+** Management network connectivity must be functional.
+** Console access to the replacement switch must be in place.
+** The appropriate RCF and NX-OS operating system image must be loaded onto the switch.
+** Initial confiugration of the switch must be complete.
 
 .About this task
-The existing network configuration must have the following characteristics:
-
-* The Cisco Ethernet Switches page has the latest RCF and NX-OS versions on your switches.
-* Management connectivity must exist on both switches.
-+
-NOTE: Make sure that all troubleshooting steps have been completed to confirm that your switch
-needs replacing.
-
-+
-The replacement Cisco Nexus 9336C-FX2 switch must have the following characteristics:
-+
-* Management network connectivity must be functional.
-* Console access to the replacement switch must be in place.
-* The appropriate RCF and NX-OS operating system image must be loaded onto the switch.
-* Initial customization of the switch must be complete.
-
-== Procedure summary
-This procedure replaces the second Nexus 9336C-FX2 storage switch S2 with the new 9336C-FX2
-switch NS2. The two nodes are node1 and node2.
+This procedure replaces the second Nexus 9336C-FX2 storage switch S2 with the new 9336C-FX switch NS2. The two nodes are node1 and node2.
 
 Steps to complete:
 
@@ -50,6 +38,9 @@ Steps to complete:
 * Disconnect the cables from switch S2.
 * Reconnect the cables to switch NS2.
 * Verify all device configurations on switch NS2.
+
++
+NOTE: There can be dependencies between command syntax in the RCF and NX-OS versions.
 
 .Steps
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
