@@ -9,9 +9,9 @@ summary: In order to activate newly licensed ports, you need to edit the latest 
 :imagesdir: ../media/
 
 [.lead]
-In order to activate newly licensed ports, you need to edit the latest version of the RCF and uncomment the applicable port details. The default license activates ports 0/1 to 0/16 and 0/55 to 0/56 while the newly licensed ports will be between ports 0/17 to 0/54 depending on the type and number of licenses available.
+In order to activate newly licensed ports, you need to edit the latest version of the RCF and uncomment the applicable port details.
 
-For details of the available license types for use on the BES-53248 cluster switch, see link:configure-licenses.html[Installing licenses for BES-53248 cluster switches^].
+The default license activates ports 0/1 to 0/16 and 0/55 to 0/56 while the newly licensed ports will be between ports 0/17 to 0/54 depending on the type and number of licenses available.
 
 For example to activate the SW-BES54248-40-100G-LIC license, you must uncomment the following section in the RCF:
 
@@ -115,11 +115,8 @@ exit
 .
 ----
 
-NOTE: For high-speed ports between 0/49 to 0/54 inclusive, uncomment each port but only uncomment one *speed* line in the RCF for each of these ports, either:
-
-* speed 100G full-duplex
-* speed 40G full-duplex
-
-as shown in the example.
-
+NOTE: For high-speed ports between 0/49 to 0/54 inclusive, uncomment each port but only uncomment one *speed* line in the RCF for each of these ports, either: *speed 100G full-duplex* or *speed 40G full-duplex* as shown in the example.
 For low-speed ports between 0/17 to 0/48 inclusive, uncomment the entire 8-port section when an appropriate license has been activated.
+
+.More information
+For details of the available license types for use on the BES-53248 cluster switch, see link:configure-licenses.html[Install licenses^].

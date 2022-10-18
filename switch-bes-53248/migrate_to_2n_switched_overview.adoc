@@ -17,33 +17,32 @@ The migration process works for all cluster node ports using optical or Twinax p
 
 Most systems require two dedicated cluster-network ports on each controller.
 
-Make sure that the BES-53248 cluster switch is set up as described in link:replace-requirements.html[Broadcom-supported BES-53248 switches setup and configuration^] before starting this migration process.
+* Make sure that the BES-53248 cluster switch is set up as described in link:replace-requirements.html[Broadcom-supported BES-53248 switches setup and configuration^] before starting this migration process.
 
-.What you'll need
+* Two-node switchless configuration:
 
-Two-node switchless configuration:
+** The two-node switchless configuration must be properly set up and functioning.
+** The nodes must be running ONTAP 9.5P8 and later. Support for 40/100 GbE cluster ports starts with EFOS firmware version 3.4.4.6 and later.
+** All cluster ports must be in the up state.
+** All cluster logical interfaces (LIFs) must be in the up state and on their home ports.
 
-* The two-node switchless configuration must be properly set up and functioning.
-* The nodes must be running ONTAP 9.5P8 and later. Support for 40/100 GbE cluster ports starts with EFOS firmware version 3.4.4.6 and later.
-* All cluster ports must be in the up state.
-* All cluster logical interfaces (LIFs) must be in the up state and on their home ports.
+* Broadcom-supported BES-53248 cluster switch configuration:
 
-Broadcom-supported BES-53248 cluster switch configuration:
-
-* The BES-53248 cluster switch must be fully functional on both switches.
-* Both switches must have management network connectivity.
-* There must be console access to the cluster switches.
-* BES-53248 node-to-node switch and switch-to-switch connections must use Twinax or fiber cables.
+** The BES-53248 cluster switch must be fully functional on both switches.
+** Both switches must have management network connectivity.
+** There must be console access to the cluster switches.
+** BES-53248 node-to-node switch and switch-to-switch connections must use Twinax or fiber cables.
 +
 The https://hwu.netapp.com/Home/Index[_NetApp Hardware Universe_^] contains information about ONTAP compatibility, supported EFOS firmware, and cabling to BES-53248 switches.
 
 * Inter-Switch Link (ISL) cables must be connected to ports 0/55 and 0/56 on both BES-53248 switches.
+
 * Initial customization of both the BES-53248 switches must be completed. So that the:
  ** BES-53248 switches are running the latest version of software
  ** BES-53248 switches have optional port licenses installed, if purchased
  ** Reference Configuration Files (RCFs) have been applied to the switches
-+
-Any site customization, such as SMTP, SNMP, and SSH must be configured on the new switches.
+
+* Any site customization, such as SMTP, SNMP, and SSH must be configured on the new switches.
 
 .About this task
 
