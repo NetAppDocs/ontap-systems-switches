@@ -13,7 +13,7 @@ Upgrading BES-53248 cluster switches starts with preparing the controller for up
 
 After the installation, you can restore the controller configuration in a nondisruptive upgrade (NDU) and nondisruptive operation (NDO) environment.
 
-== Requirements
+== Required conditions for upgrade
 The following conditions must exist before you install the EFOS software, licenses, and the RCF file on an existing NetApp BES-53248 cluster switch:
 
 * The cluster must be a fully functioning cluster (no error log messages or other issues).
@@ -25,10 +25,10 @@ The following conditions must exist before you install the EFOS software, licens
 * There might be command dependencies between command syntax in the RCF and EFOS versions.
 
 == Switch compatibility
-You must consult the switch compatibility table on the NetApp BES-53248 switches page for the supported EFOS, RCF, and ONTAP versions at: http://mysupport.netapp.com/site[NetApp BES-53248 switches^].
+Consult the switch compatibility table on the http://mysupport.netapp.com/site[NetApp BES-53248 switches^] page for the supported EFOS, RCF, and ONTAP versions.
 
 == Switch and node nomenclature
-The examples in this procedure use the following switch and node nomenclature:
+The examples in the upgrade procedure use the following switch and node nomenclature:
 
 * The NetApp switch names are `cs1` and `cs2`.
 * The example used in this procedure starts the upgrade on the second switch, _cs2._
@@ -39,6 +39,7 @@ The examples in this procedure use the following switch and node nomenclature:
 +
 See the https://hwu.netapp.com/Home/Index[_NetApp Hardware Universe_^] for the actual cluster ports supported on your platform.
 
+== Ports and node connections
 * The Inter-Switch Links (ISLs) supported for the NetApp cluster switches are ports 0/55 and 0/56.
 * The node connections supported for the NetApp cluster switches are ports 0/1 through 0/16 with default licensing.
 * The examples in this procedure use two nodes, but you can have up to 24 nodes in a cluster.
