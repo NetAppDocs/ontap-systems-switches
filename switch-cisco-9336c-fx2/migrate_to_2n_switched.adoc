@@ -4,37 +4,16 @@ sidebar: sidebar
 keywords: two-node switchless cluster environments,migrating to a two-node switched 9336C-FX2 cluster environment,switchless cluster environments,9336C-FX2 switches
 summary: 'If you have an existing two-node switchless cluster environment, you can migrate to a two-node switched cluster environment using Cisco Nexus 9336C-FX2 switches to enable you to scale beyond two nodes in the cluster.'
 ---
-= How to migrate to a switched NetApp cluster environment with Cisco Nexus 9336C-FX2 cluster switches
+= Migrate to two-node switched cluster
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
 If you have an existing two-node switchless cluster environment, you can migrate to a two-node switched cluster environment using Cisco Nexus 9336C-FX2 switches to enable you to scale beyond two nodes in the cluster.
 
-Two-node switchless configuration:
+The migrate process works for all nodes using optical or Twinax ports but is not supported on this switch if nodes are using onboard 10Gb BASE-T RJ45 ports for the cluster-network ports.
 
-* The two-node switchless configuration must be properly set up and functioning.
-* The nodes must be running ONTAP 9.8 and later.
-* All cluster ports must be in the up state.
-* All cluster logical interfaces (LIFs) must be in the up state and on their home ports.
-
-Cisco Nexus 9336C-FX2 switch configuration:
-
-* Both switches must have management network connectivity.
-* There must be console access to the cluster switches.
-* Nexus 9336C-FX2 node-to-node switch and switch-to-switch connections must use Twinax or fiber cables.
-+
-The https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches^] contains more information about cabling.
-+
-
-https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches^]
-
-* Inter-Switch Link (ISL) cables must be connected to ports 1/35 and 1/36 on both 9336C-FX2 switches.
-* Initial customization of both the 9336C-FX2 switches must be completed. So that the:
- ** 9336C-FX2 switches are running the latest version of software
- ** Reference Configuration Files (RCFs) have been applied to the switches
-Any site customization, such as SMTP, SNMP, and SSH must be configured on the new switches.
-
+.Switch and node nomenclature
 The examples in this procedure use the following cluster switch and node nomenclature:
 
 * The names of the 9336C-FX2 switches are cs1 and cs2.
@@ -42,9 +21,32 @@ The examples in this procedure use the following cluster switch and node nomencl
 * The names of the LIFs are node1_clus1 and node1_clus2 on node 1, and node2_clus1 and node2_clus2 on node 2 respectively.
 * The `cluster1::*>` prompt indicates the name of the cluster.
 * The cluster ports used in this procedure are e0a and e0b.
-+
 
-The https://hwu.netapp.com[Hardware Universe^] contains the latest information about the actual cluster ports for your platforms.
+See https://hwu.netapp.com[Hardware Universe^] for information about the cluster ports for your platforms.
+
+.Before you begin
+
+* Two-node switchless configuration:
+
+** The two-node switchless configuration must be properly set up and functioning.
+** The nodes must be running ONTAP 9.8 and later.
+** All cluster ports must be in the up state.
+** All cluster logical interfaces (LIFs) must be in the up state and on their home ports.
+
+* Cisco Nexus 9336C-FX2 switch configuration:
+
+** Both switches must have management network connectivity.
+** There must be console access to the cluster switches.
+** Nexus 9336C-FX2 node-to-node switch and switch-to-switch connections must use Twinax or fiber cables.
++
+See https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches^] for more information about cabling.
+
+* Inter-Switch Link (ISL) cables must be connected to ports 1/35 and 1/36 on both 9336C-FX2 switches.
+* Initial customization of both the 9336C-FX2 switches must be completed. So that the:
+ ** 9336C-FX2 switches are running the latest version of software
+ ** Reference Configuration Files (RCFs) have been applied to the switches
+Any site customization, such as SMTP, SNMP, and SSH must be configured on the new switches.
+
 
 .Steps
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=xh`

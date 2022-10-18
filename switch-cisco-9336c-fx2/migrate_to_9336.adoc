@@ -4,7 +4,7 @@ sidebar: sidebar
 keywords: migrating to a cluster with Cisco Nexus 9336C-FX2 cluster switches, how to migrate
 summary: 'You can migrate nondisruptively older Cisco cluster switches for an ONTAP cluster to Cisco Nexus 9336C-FX2 cluster network switches.'
 ---
-= How to migrate from an older Cisco switch to a Cisco Nexus 9336C-FX2 cluster switch
+= Migrate from an older Cisco switch to a Cisco Nexus 9336C-FX2 cluster switch
 :icons: font
 :imagesdir: ../media/
 
@@ -12,16 +12,18 @@ summary: 'You can migrate nondisruptively older Cisco cluster switches for an ON
 You can migrate nondisruptively older Cisco cluster switches for an ONTAP cluster to Cisco Nexus 9336C-FX2 cluster network switches.
 
 .Before you begin
-The following conditions must exist before replacing an older Cisco Nexus cluster switch with a Cisco Nexus 9336C-FX2 cluster switch:
+The following conditions must exist before migrating an older Cisco Nexus cluster switch to a Cisco Nexus 9336C-FX2 cluster switch:
 
+* You have configured some of the ports on Nexus 9336C-FX2 switches to run at 10 GbE or 40 GbE.
+* You have planned, migrated, and documented 10 GbE and 40 GbE connectivity from nodes to Nexus 9336C-FX2 cluster switches.
 * The cluster must be fully functioning (there should be no errors in the logs or similar issues).
 * Initial customization of the Cisco Nexus 9336C-FX2 switches must be completed. So that the:
-- 9336C-FX2 switches are running the latest recommended version of software
-- Reference Configuration Files (RCFs)  have been applied to the switches
-- Any site customization, such as DNS, NTP, SMTP, SNMP, and SSH must be configured on the new switches.
+** 9336C-FX2 switches are running the latest recommended version of software
+** Reference Configuration Files (RCFs)  have been applied to the switches
+** Any site customization, such as DNS, NTP, SMTP, SNMP, and SSH must be configured on the new switches.
 * You must have consulted the switch compatibility table on the https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches^] page for the supported ONTAP, NX-OS, and RCF versions.
 
-* You must have referred to the appropriate software and upgrade guides available on the Cisco web site for complete documentation on the Cisco switch upgrade and downgrade procedures on https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.htmlCisco[Nexus 9000 Series Switches^].
+* You must have referred to the appropriate software and upgrade guides available on the Cisco web site for the Cisco switch upgrade and downgrade procedures on https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.htmlCisco[Nexus 9000 Series Switches^].
 
 .About this task
 The examples in this procedure use two nodes. These nodes use two 10GbE cluster interconnect ports e0a and e0b. See the https://hwu.netapp.com/[Hardware Universe^] to verify the correct cluster ports on your platforms.
