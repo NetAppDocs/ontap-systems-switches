@@ -9,7 +9,15 @@ summary: "The Cisco NX-OS software and reference configuration files (RCFs) can 
 :imagesdir: ../media/
 
 [.lead]
-The Cisco NX-OS software and reference configuration files (RCFs) can be upgraded on Cisco Nexus 3232C storage switches.
+Learn how to upgrade the Cisco NX-OS software and reference configuration files (RCF) on Cisco Nexus 3232C switches.
+
+.Switch and node nomenclature
+The examples in this procedure use the following switch and node nomenclature:
+
+* The names of the two storage switches are S1 and S2.
+* The nodes are node1 and node2.
+
+NOTE: The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 
 .Before you begin
 
@@ -24,6 +32,12 @@ If you need to change the boot variables to reflect the current boot images, you
 
 * The number of 10 GbE and 40/100 GbE ports are defined in the reference configuration files (RCFs) available on the https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco® Ethernet Switches^] page.
 
+.About this task
+
+The examples in this procedure use two nodes; node1 with two storage ports and node2 with two storage ports. See the link:https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe^] to verify the correct storage ports on your platforms.
+
+NOTE: The command outputs might vary depending on different releases of ONTAP.
+
 *Procedure summary:*
 
 * **I. Check the health status of switches and ports (<<step1_upgrade_3232c, Steps 1>>- <<step4_upgrade_3232c, 4>>)**
@@ -32,16 +46,6 @@ If you need to change the boot variables to reflect the current boot images, you
 * **IV. Recheck the health status of switches and ports (<<step13_upgrade_3232c, Steps 13>> - <<step15_upgrade_3232c, 15>>)**
 * **V. Repeat <<step1_upgrade_3232c, Steps 1>>- <<step17_upgrade_3232c, 17>> for Cisco switch S1.**
 
-The examples in this procedure use two nodes; node1 with two storage ports and node2 with two storage ports. See the link:https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe^] to verify the correct storage ports on your platforms.
-
-NOTE: The command outputs might vary depending on different releases of ONTAP.
-
-The examples in this procedure use the following switch and node nomenclature:
-
-* The names of the two storage switches are S1 and S2.
-* The nodes are node1 and node2.
-
-NOTE: The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 
 .Steps
 
