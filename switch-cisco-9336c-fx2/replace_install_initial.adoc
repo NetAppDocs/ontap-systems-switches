@@ -4,18 +4,36 @@ sidebar: sidebar
 keywords: initial setup steps, cisco cluster switch install
 summary: 'You can use this procedure to perform the initial installation of the Cisco Nexus 9336C-FX2 switch.'
 ---
-= Initial installation of the Nexus 9336C-FX2 cluster switch
+= Configure the Nexus 9336C-FX2 cluster switch
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-You can use this procedure to perform the initial installation of the Cisco Nexus 9336C-FX2 switch.
+Learn how to configure the Cisco Nexus 9336C-FX2 switch.
 
-You can download the applicable NetApp Cisco NX-OS software for your switches from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com^].
+Configuring the Nexus 9336C-FX2 switch on systems running ONTAP 9.8 and later, starts with setting up an IP address and configuration to allow the switch to communicate through the management interface.
 
-NX-OS is a network operating system for the Nexus series of Ethernet switches and MDS series of Fibre Channel (FC) storage area network switches provided by Cisco Systems.
+You can then install the NX-OS software and reference configuration file (RCF).
 
-This procedure provides a summary of the process to install your switches and get them running.
+The configure procedure is intended for preparing the Nexus 9336C-FX2 switch before controllers are added.
+
+.Switch and node nomenclature
+The examples in this procedure use the following switch and node nomenclature:
+
+* The Nexus 9336C-FX2 switch names are cs1 and cs2.
+* The example used in this procedure starts the upgrade on the second switch, _*cs2*._
+* The cluster LIF names are node1_clus1 and node1_clus2 for node1, and node2_clus1 and node2_clus2 for node2.
+* The IPspace name is Cluster.
+* The `cluster1::*>` prompt indicates the name of the cluster.
+* The cluster ports on each node are named e0a and e0b.
+
+.Node connections and ports
+The examples in this procedure use two nodes, but you can have up to 24 nodes in a cluster.
+
+* The node connections supported for the Nexus 9336C-FX2 switches are ports 1/1 through 1/34.
+* The Inter-Switch Links (ISLs) supported for the Nexus 9336C-FX2 switches are ports 1/35 and 1/36.
+
+See https://hwu.netapp.com[Hardware Universe^] for the cluster ports supported on your platform.
 
 .Steps
 . Connect the serial port to the host or serial port of your choice.

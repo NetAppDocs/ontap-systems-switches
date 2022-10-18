@@ -11,6 +11,7 @@ summary: 'You can install the RCF after setting up the Nexus 9336C-FX2 switch fo
 [.lead]
 You can install the RCF after setting up the Nexus 9336C-FX2 switch for the first time. You can also use this procedure to upgrade your RCF version.
 
+.Switch and node nomenclature
 The examples in this procedure use the following switch and node nomenclature:
 
 * The names of the two Cisco switches are cs1 and cs2.
@@ -18,11 +19,11 @@ The examples in this procedure use the following switch and node nomenclature:
 * The cluster LIF names are cluster1-01_clus1, cluster1-01_clus2, cluster1-02_clus1, cluster1-02_clus2 , cluster1-03_clus1, cluster1-03_clus2, cluster1-04_clus1, and cluster1-04_clus2.
 * The `cluster1::*>` prompt indicates the name of the cluster.
 
-[NOTE]
-====
-* The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
-* Before performing this procedure, make sure that you have a current backup of the switch configuration.
-====
+.Before you begin
+Make sure that you have a current backup of the switch configuration.
+
+.About this task
+The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 
 .Steps
 . Display the cluster ports on each node that are connected to the cluster switches: `network device-discovery show`
