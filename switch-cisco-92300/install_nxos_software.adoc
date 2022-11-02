@@ -11,6 +11,36 @@ summary: 'You can use this procedure to install the NX-OS software on the Nexus 
 [.lead]
 You can use this procedure to install the NX-OS software on the Nexus 92300YC switch.
 
+NX-OS is a network operating system for the Nexus series of Ethernet switches and MDS series of Fibre Channel (FC) storage area network switches provided by Cisco Systems.
+
+.Switch and node nomenclature
+The examples in this procedure use the following switch and node nomenclature:
+
+* The Nexus 92300YC switch names are `cs1` and `cs2`.
+* The example used in this procedure starts the upgrade on the second switch, _*cs2*._
+* The cluster LIF names are `node1_clus1` and `node1_clus2` for node1, and `node2_clus1` and `node2_clus2` for node2.
+* The IPspace name is `Cluster`.
+* The `cluster1::*>` prompt indicates the name of the cluster.
+* The cluster ports on each node are named `e0a` and `e0b`.
++
+See the link:https://hwu.netapp.com/Home/Index[_Hardware Universe^_] for the actual cluster ports supported on your platform.
+
+.Supported ports and node connections
+* The Inter-Switch Links (ISLs) supported for the Nexus 92300YC switches are ports 1/65 and 1/66.
+* The node connections supported for the Nexus 92300YC switches are ports 1/1 through 1/66.
+
+.Before you begin
+* Download the applicable NetApp Cisco NX-OS software for your switches from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com]
+* The cluster must be fully functioning (there should be no errors in the logs or similar issues).
+* You must have checked or set your desired boot configuration in the RCF to reflect the desired boot images if you are installing only NX-OS and keeping your current RCF version.
+* If you need to change the boot configuration to reflect the current boot images, you must do so before reapplying the RCF so that the correct version is instantiated on future reboots.
+* You must have consulted the switch compatibility table on the https://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet switch^] page for the supported ONTAP, NX-OS, and RCF versions.
+* There can be command dependencies between the command syntax in the RCF and that found in versions of NX-OS.
+
+
+.About this task
+The examples in this procedure use two nodes, but you can have up to 24 nodes in a cluster.
+
 .Steps
 . Connect the cluster switch to the management network.
 . Use the `ping` command to verify connectivity to the server hosting the NX-OS software and the RCF.

@@ -21,6 +21,7 @@ Learn how to set up and configure the Cisco Nexus 92300YC switch.
  ** parity: none
  ** flow control: none
 . Booting for the first time or rebooting after erasing the running configuration, the Nexus 92300YC switch loops in a boot cycle. Interrupt this cycle by typing *yes* to abort Power on Auto Provisioning. You are then presented with the System Admin Account setup:
++
 [subs=+quotes]
 ----
 $ VDC-1 %$ %POAP-2-POAP_INFO:   - Abort Power On Auto Provisioning [yes - continue with normal setup, skip - bypass password and basic configuration, no - continue with Power On Auto Provisioning] (yes/skip/no)[no]: *y*
@@ -31,6 +32,7 @@ Disabling POAP.......Disabling POAP
 
 Do you want to enforce secure password standard (yes/no) [y]:
 ----
++
 . Type *y* to enforce secure password standard:
 +
 [subs=+quotes]
