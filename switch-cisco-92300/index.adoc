@@ -1,8 +1,8 @@
 ---
-permalink: switch-cisco-9336c-fx2/index.html
+permalink: switch-cisco-92300/index.html
 sidebar: sidebar
-keywords: cisco, switch, cisco 9336 switch
-summary: Cisco 9336-FX2` switches
+keywords: cisco nexus 92300YC
+summary: If you want to build ONTAP clusters with more than two nodes, you need two supported cluster network switches. You can use additional management switches, which are optional.
 ---
 = Overview and requirements
 :icons: font
@@ -11,51 +11,42 @@ summary: Cisco 9336-FX2` switches
 [.lead]
 If you want to build ONTAP clusters with more than two nodes, you need two supported cluster network switches. You can use additional management switches, which are optional.
 
-You can install the Cisco Nexus 9336C-FX2 switch (X190200/X190210) in a NetApp system cabinet or third-party cabinet with the standard brackets that are included with the switch.
-
 == Switch components
-The following table lists the part number and description for the 9336C-FX2 switch, fans, and power supplies:
+The following table lists the part number and description for the 92300YC switch, fans, and power supplies:
 
 [options="header" cols="1,2"]
 |===
 | Part number| Description
 a|
-X190200-CS-PE
+190003
 a|
-N9K-9336C-FX2, CS, PTSX, 36PT10/25/40/100GQSFP28
+Cisco 92300YC, CLSW, 48Pt10/25GB, 18Pt100G, PTSX (PTSX = Port Side Exhaust)
 a|
-X190200-CS-PI
+190003R
 a|
-N9K-9336C-FX2, CS, PSIN, 36PT10/25/40/100GQSFP28
+Cisco 92300YC, CLSW, 48Pt10/25GB, 18Pt100G, PSIN (PSIN = Port Side Intake)
 a|
-X190210-FE-PE
+X-NXA-FAN-35CFM-B
 a|
-N9K-9336C, FTE, PTSX, 36PT10/25/40/100GQSFP28
+Fan, Cisco N9K port side intake airflow
 a|
-X190210-FE-PI
+X-NXA-FAN-35CFM-F
 a|
-N9K-9336C, FTE, PSIN, 36PT10/25/40/100GQSFP28
+Fan, Cisco N9K port side exhaust airflow
 a|
-X190002
+X-NXA-PAC-650W-B
 a|
-Accessory Kit X190001/X190003
+Power supply, Cisco 650W - port side intake
 a|
-X-NXA-PAC-1100W-PE2
+X-NXA-PAC-650W-F
 a|
-N9K-9336C AC 1100W PSU - Port side exhaust airflow
-a|
-X-NXA-PAC-1100W-PI2
-a|
-N9K-9336C AC 1100W PSU - Port side Intake airflow
-a|
-X-NXA-FAN-65CFM-PE
-a|
-N9K-9336C 65CFM, Port side exhaust airflow
-a|
-X-NXA-FAN-65CFM-PI
-a|
-N9K-9336C 65CFM, Port side intake airflow
+Power supply, Cisco 650W - port side exhaust
 |===
+
+Cisco Nexus 92300YC switch airflow details:
+
+ ** Port-side exhaust airflow (standard air) --Cool air enters the chassis through the fan and power supply modules in the cold aisle and exhausts through the port end of the chassis in the hot aisle. Port-side exhaust airflow with blue coloring.
+ ** Port-side intake airflow (reverse air) --Cool air enters the chassis through the port end in the cold aisle and exhausts through the fan and power supply modules in the hot aisle. Port-side intake airflow with burgundy coloring.
 
 == Configuration requirements
 [.lead]
@@ -88,10 +79,10 @@ Before you can use Smart Call Home feature, you need to be aware of the followin
 The http://www.cisco.com/c/en/us/products/switches/index.html[Cisco support site^] contains information about the commands to configure Smart Call Home.
 
 == Documentation requirements
-You need specific switch and controller documentation to set up your Cisco 9336-FX2 switches and ONTAP cluster.
+You need specific switch and controller documentation to set up your Cisco Nexus 92300YC switches and ONTAP cluster.
 
 === Switch documentation
-To set up the Cisco Nexus 9336C-FX2 switches, you need the following documentation from the https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html[Cisco Nexus 9000 Series Switches Support^] page:
+To set up the Cisco Nexus 92300YC switches, you need the following documentation from the https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html[Cisco Nexus 9000 Series Switches Support^] page:
 
 [options="header" cols="1,2"]
 |===
@@ -153,7 +144,7 @@ Provides NetApp hardware configuration and compatibility information.
 
 === Rail kit and cabinet documentation
 
-To install a Cisco 9336-FX2 switch in a NetApp cabinet, see the following hardware documentation.
+To install a Cisco Nexus 92300YC switch in a NetApp cabinet, see the following hardware documentation.
 
 [options="header" cols="1,2"]
 |===
@@ -163,7 +154,7 @@ https://library.netapp.com/ecm/ecm_download_file/ECMM1280394[42U System Cabinet,
 a|
 Describes the FRUs associated with the 42U system cabinet, and provides maintenance and FRU replacement instructions.
 a|
-link:install-switch-and-passthrough-panel.html[Install a Cisco 9336-FX2 switch in a NetApp Cabinet^]
+link:install-switch-and-passthrough-panel.html[Install a Cisco Nexus 92300YC switch in a NetApp Cabinet^]
 a|
-Describes how to install a Cisco Nexus 9336C-FX2 switch in a four-post NetApp cabinet.
+Describes how to install a Cisco Nexus 92300YC switch in a four-post NetApp cabinet.
 |===
