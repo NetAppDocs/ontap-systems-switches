@@ -28,12 +28,12 @@ See the link:https://hwu.netapp.com/Home/Index[_Hardware Universe^_] for the act
 * The examples in this procedure use two nodes. These nodes use two 10GbE cluster interconnect ports `e0a` and `e0b`. See the https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe^] to verify the correct cluster ports on your platforms.
 
 .Before you begin
+* You must have the current RCF.
 * The cluster must be fully functioning (there should be no errors in the logs or similar issues).
 * You must have checked or set your desired boot configuration in the RCF to reflect the desired boot images if you are installing only NX-OS and keeping your current RCF version.
 * If you need to change the boot configuration to reflect the current boot images, you must do so before reapplying the RCF so that the correct version is instantiated on future reboots.
 * You must have consulted the switch compatibility table on the https://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet switch^] page for the supported ONTAP, NX-OS, and RCF versions.
 * There can be command dependencies between the command syntax in the RCF and that found in versions of NX-OS.
-* You must have the current RCF.
 
 .About this task
 The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
