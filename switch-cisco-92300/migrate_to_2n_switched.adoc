@@ -11,6 +11,14 @@ summary: 'If you have an existing two-node switchless cluster environment, you c
 [.lead]
 If you have an existing two-node switchless cluster environment, you can migrate to a two-node switched cluster environment using Cisco Nexus 92300YC switches to enable you to scale beyond two nodes in the cluster.
 
+The procedure you use depends on whether you have two dedicated cluster-network ports on each controller or a single cluster port on each controller. The process documented works for all nodes using optical or twinax ports but is not supported on this switch if nodes are using onboard 10Gb BASE-T RJ45 ports for the cluster-network ports.
+
+Most systems require two dedicated cluster-network ports on each controller.
+
+NOTE: After your migration completes, you might need to install the required configuration file to support the Cluster Switch Health Monitor (CSHM) for 92300YC cluster switches. See
+link:switch-cisco-92300/setup-install-cshm-file.html[Install the Cluster Switch Health Monitor (CSHM)].
+
+
 .Before you begin
 Two-node switchless configuration:
 

@@ -11,17 +11,10 @@ summary: 'You can migrate nondisruptively older Cisco cluster switches for an ON
 [.lead]
 You can migrate nondisruptively older Cisco cluster switches for an ONTAP cluster to Cisco Nexus 92300YC cluster network switches.
 
-.About this task
+NOTE: After your migration completes, you might need to install the required configuration file to support the Cluster Switch Health Monitor (CSHM) for 92300YC cluster switches. See
+link:switch-cisco-92300/setup-install-cshm-file.html[Install the Cluster Switch Health Monitor (CSHM)].
 
-* The existing cluster must be properly set up and functioning.
-* All cluster ports must be in the up state to ensure nondisruptive operations.
-* The Nexus 92300YC cluster switches must be configured and operating under the proper version of NX-OS installed and reference configuration file (RCF) applied.
-* The existing cluster network configuration must have the following:
- ** A redundant and fully functional NetApp cluster using both older Cisco switches.
- ** Management connectivity and console access to both the older Cisco switches and the new switches.
- ** All cluster LIFs in the up state with the cluster LIFs are on their home ports.
- ** ISL ports enabled and cabled between the older Cisco switches and between the new switches.
-
+.Switch and node nomenclature
 The examples in this procedure use the following switch and node nomenclature:
 
 * The existing Cisco Nexus 5596UP cluster switches are c1 and c2.
@@ -33,6 +26,35 @@ The examples in this procedure use the following switch and node nomenclature:
  ** Cabling between the nodes and c2 are then disconnected from c2 and reconnected to cs2.
  ** Cabling between the nodes and c1 are then disconnected from c1 and reconnected to cs1.
  ** The temporary ISL between c1 and cs1 is then removed.
+
+.Ports used for connections
+* The cluster switches use the following ports for connections to nodes:
+ ** Ports e1/1-48 (10/25 GbE), e1/49-64 (40/100 GbE): Nexus 92300YC
+ ** Ports e1/1-40 (10 GbE): Nexus 5596UP
+ ** Ports e1/1-32 (10 GbE): Nexus 5020
+ ** Ports e1/1-12, e2/1-6 (10 GbE): Nexus 5010 with expansion module
+* The cluster switches use the following Inter-Switch Link (ISL) ports:
+ ** Ports e1/65-66 (100 GbE): Nexus 92300YC
+ ** Ports e1/41-48 (10 GbE): Nexus 5596UP
+ ** Ports e1/33-40 (10 GbE): Nexus 5020
+ ** Ports e1/13-20 (10 GbE): Nexus 5010
+* The https://hwu.netapp.com/SWITCH/INDEX[_Hardware Universe - Switches_^] contains information about supported cabling for all cluster switches.
+
+* The ONTAP and NX-OS versions supported in this procedure are on the https://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switches^] page.
+
+
+.Before you begin
+
+* The existing cluster must be properly set up and functioning.
+* You have configured some of the ports on Nexus 92300YC switches to run at 10 GbE or 40 GbE.
+* You have planned, migrated, and documented 10 GbE and 40 GbE connectivity from nodes to Nexus 92300YC cluster switches.
+* All cluster ports must be in the up state to ensure nondisruptive operations.
+* The Nexus 92300YC cluster switches must be configured and operating under the proper version of NX-OS installed and reference configuration file (RCF) applied.
+* The existing cluster network configuration must have the following:
+ ** A redundant and fully functional NetApp cluster using both older Cisco switches.
+ ** Management connectivity and console access to both the older Cisco switches and the new switches.
+ ** All cluster LIFs in the up state with the cluster LIFs are on their home ports.
+ ** ISL ports enabled and cabled between the older Cisco switches and between the new switches.
 
 .Steps
 . Change the privilege level to advanced, entering *y* when prompted to continue:
