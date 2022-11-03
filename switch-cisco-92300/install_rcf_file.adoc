@@ -275,52 +275,7 @@ banner motd #
 *                                                                              *
 ********************************************************************************
 ----
-//. Examine the banner output from the `show banner motd` command. You must read and follow the instructions under *Important Notes* to ensure the proper configuration and operation of the switch.
-//+
-//[subs=+quotes]
-//----
-//cs2# *show banner motd*
 
-//******************************************************************************
-//* NetApp Reference Configuration File (RCF)
-//*
-//* Switch   : Cisco Nexus 3232C
-//* Filename : Nexus_3232C_RCF_v1.6-Cluster-HA-Breakout.txt
-//* Date     : Oct-20-2020
-//* Version  : v1.6
-//*
-//* Port Usage : Breakout configuration
-//* Ports  1- 3: Breakout mode (4x10GbE) Intra-Cluster Ports, int e1/1/1-4,
-//* e1/2/1-4, e1/3/1-4
-//* Ports  4- 6: Breakout mode (4x25GbE) Intra-Cluster/HA Ports, int e1/4/1-4,
-//* e1/5/1-4, e1/6/1-4
-//* Ports  7-30: 40/100GbE Intra-Cluster/HA Ports, int e1/7-30
-//* Ports 31-32: Intra-Cluster ISL Ports, int e1/31-32
-//* Ports 33-34: 10GbE Intra-Cluster 10GbE Ports, int e1/33-34
-//*
-//* IMPORTANT NOTES
-//* - Load Nexus_3232C_RCF_v1.6-Cluster-HA.txt for non breakout config
-//*
-//* - This RCF utilizes QoS and requires TCAM re-configuration, requiring RCF
-//*   to be loaded twice with the Cluster Switch rebooted in between.
-//*
-//* - Perform the following 4 steps to ensure proper RCF installation:
-//*
-//*   (1) Apply RCF first time, expect following messages:
-//*       - Please save config and reload the system...
-//*       - Edge port type (portfast) should only be enabled on ports...
-//*       - TCAM region is not configured for feature QoS class IPv4 ingress...
-//*
-//*   (2) Save running-configuration and reboot Cluster Switch
-//*
-//*   (3) After reboot, apply same RCF second time and expect following messages:
-//*       - % Invalid command at '^' marker
-//*       - Syntax error while parsing...
-//*
-//*   (4) Save running-configuration again
-//******************************************************************************
-//----
-+
 NOTE: When applying the RCF for the first time, the *ERROR: Failed to write VSH commands* message is expected and can be ignored.
 
 . Verify that the RCF file is the correct newer version:
@@ -349,16 +304,8 @@ cs2# *copy running-config startup-config [######################################
 cs2# *reload*
 This command will reboot the system. (y/n)?  [n] *y*
 ----
-+
-//. NOT REQUIRED Apply the same RCF and save the running configuration for a second time.
-//+
-//[subs=+quotes]
-//----
-//cs2# *copy Nexus_3232C_RCF_v1.6-Cluster-HA-Breakout.txt running-config echo-commands*
-//cs2# *copy running-config startup-config [########################################] 100% Copy complete*
-//----
 
-. Verify the health of cluster ports on the cluster.
+. Verify the health of the cluster ports on the cluster.
  .. Verify that e0d ports are up and healthy across all nodes in the cluster:
 `network port show -ipspace cluster`
 +
@@ -372,7 +319,7 @@ Node: node1
 Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ---- ----------- -------- ------
 e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e0d       Cluster      Cluster          up   9000  auto/10000 healthy  false
 
 Node: node2
                                                                        Ignore
@@ -380,7 +327,7 @@ Node: node2
 Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ---- ----------- -------- ------
 e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e0d       Cluster      Cluster          up   9000  auto/10000 healthy  false
 ----
 
  .. Verify the switch health from the cluster (this might not show switch cs2, since LIFs are not homed on e0d).
@@ -428,8 +375,8 @@ You might observe the following output on the cs1 switch console depending on th
  2020 Nov 17 16:07:18 cs1 %$ VDC-1 %$ %STP-2-UNBLOCK_CONSIST_PORT: Unblocking port port-channel1 on VLAN0092. Port consistency restored.
  2020 Nov 17 16:07:23 cs1 %$ VDC-1 %$ %STP-2-BLOCK_PVID_PEER: Blocking port-channel1 on VLAN0001. Inconsistent peer vlan.
  2020 Nov 17 16:07:23 cs1 %$ VDC-1 %$ %STP-2-BLOCK_PVID_LOCAL: Blocking port-channel1 on VLAN0092. Inconsistent local vlan.
-
 ====
+
 . On cluster switch cs1, shut down the ports connected to the cluster ports of the nodes.
 +
 The following example uses the interface example output from step 1:
