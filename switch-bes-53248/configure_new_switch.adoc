@@ -2,32 +2,38 @@
 permalink: switch-bes-53248/configure-new-switch.html
 sidebar: sidebar
 keywords: BES-53248 switches, initial installation, configure new bes-53248 switch
-summary: 'You can configure a new BES-53248 cluster switch by completing the steps detailed in this chapter.'
+summary: 'Before configuring BES-53248 cluster switches, review an overview of the process and the nomenclature.'
 ---
-= Overview of install process
+= Overview of configuration process for BES-53248 switches
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-Installing the BES-53248 cluster switch on systems running ONTAP starts with setting up an IP address and configuration to allow the switch to communicate through the management interface.
+Before configuring BES-53248 cluster switches, review the procedure overview and the nomenclature.
 
-Next, you can install the Ethernet Fabric OS (EFOS) software, reference configuration file (RCF), and other licenses as needed.
+== Procedure overview
 
-In addition, you might need to install the required configuration file to support the Cluster Switch Health Monitor (CSHM) for the BES-53248 cluster switches. See link:configure-health-monitor.html[Installing the Cluster Switch Health Monitor (CSHM) configuration file] for more details.
+To initially configure a BES-53248 cluster switch on systems running ONTAP, follow these steps:
 
-.Switch and node nomenclature
+. link:configure-install-initial.html[Configure the BES-53248 cluster switch]. Set up an IP address and configuration to allow the switch to communicate through the management interface.
+. link:configure-efos-software.html[Install the EFOS software]. Download and install the Ethernet Fabric OS (EFOS) software on the BES-53248 cluster switch.
+. link:configure-licenses.html[Install licenses for BES-53248 cluster switches]. Optionally, add new ports by purchasing and installing more licenses. The switch base model is licensed for 16 10GbE or 25GbE ports and two 100GbE ports.
+. link:configure-install-rcf.html[Install the Reference Configuration File (RCF)]. Install or upgrade the RCF on the BES-53248 cluster switch, and then verify the ports for an additional license after the RCF is applied.
+. link:configure-health-monitor.html[Install the Cluster Switch Health Monitor (CSHM) configuration file]. Install the applicable configuration file for cluster switch health monitoring.
+. link:configure-ssh.html[Enable SSH on BES-53248 cluster switches]. If you use the Cluster Switch Health Monitor (CSHM) and log collection features, enable SSH on the switches.
+. link:configure-log-collection.html[Enable the log collection feature]. Use this feature to collect switch-related log files in ONTAP.
 
-The examples in this procedure use the following switch and node nomenclature:
 
-* The NetApp switch names are `cs1` and `cs2`.
-* The example used in this procedure starts the upgrade on the second switch, _cs2._
+== Switch and node nomenclature
+
+The examples in the configuration procedures use the following switch and node nomenclature:
+
+* The NetApp switch names are `cs1` and `cs2`. The upgrade starts on the second switch, _cs2._
 * The cluster LIF names are `node1_clus1` and `node1_clus2` for node1, and `node2_clus1` and `node2_clus2` for node2.
 * The IPspace name is Cluster.
 * The `cluster1::>` prompt indicates the name of the cluster.
-* The cluster ports on each node are named e0a and e0b.
-+
-See the https://hwu.netapp.com/Home/Index[NetApp Hardware Universe^] for the actual cluster ports supported on your platform.
+* The cluster ports on each node are named `e0a` and `e0b`. See the https://hwu.netapp.com/Home/Index[NetApp Hardware Universe^] for the actual cluster ports supported on your platform.
 
 * The Inter-Switch Links (ISLs) supported for the NetApp switches are ports 0/55 and 0/56.
 * The node connections supported for the NetApp switches are ports 0/1 through 0/16 with default licensing.
-* The examples in this procedure use two nodes, but you can have up to 24 nodes in a cluster.
+* The examples use two nodes, but you can have up to 24 nodes in a cluster.

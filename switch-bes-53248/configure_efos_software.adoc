@@ -9,14 +9,13 @@ summary: 'You can use this procedure to install the EFOS software on the BES-532
 :imagesdir: ../media/
 
 [.lead]
-Learn how to install the EFOS software on the BES-53248 cluster switch.
+Follow these steps to install the Ethernet Fabric OS (EFOS) software on the BES-53248 cluster switch.
 
-EFOS is a wide-ranging software set of advanced networking features and protocols necessary to develop a variety of Ethernet and IP infrastructure systems for data center applications.
-
-EFOS software is an architecture suitable for any network organizational device using leading-edge applications that require thorough packet inspection or separation.
+EFOS is a wide-ranging software set of advanced networking features and protocols necessary to develop a variety of Ethernet and IP infrastructure systems for data center applications. This software is an architecture suitable for any network organizational device using leading-edge applications that require thorough packet inspection or separation.
 
 .Before you begin
-Download the applicable Broadcom EFOS software for your cluster switches from the https://www.broadcom.com/support/bes-switch[Broadcom Ethernet Switch Support^] site.
+* Download the applicable Broadcom EFOS software for your cluster switches from the https://www.broadcom.com/support/bes-switch[Broadcom Ethernet Switch Support^] site.
+* Review the following notes regarding EFOS versions.
 
 ====
 *Note the following:*
@@ -25,7 +24,7 @@ Download the applicable Broadcom EFOS software for your cluster switches from th
 
 * The configuration for EFOS 3.4.x.x and 3.7.x.x or later are different. Changing the EFOS version from 3.4.x.x to 3.7.x.x or later, or vice versa, requires the switch to be reset to factory defaults and the RCF files for the corresponding EFOS version to be (re)applied. This procedure requires access through the serial console port.
 
-* Beginning with EFOS version 3.7.x.x or later, a non-FIPS compliant and a FIPS compliant version is available. Different steps apply when moving to from a non-FIPS compliant to a FIPS compliant version or vice versa. Changing EFOS from a non-FIPS compliant to a FIPS compliant version or vice versa will reset the switch to factory defaults. This procedure requires access through the serial console port.
+* Beginning with EFOS version 3.7.x.x or later, a non-FIPS compliant and a FIPS compliant version is available. Different steps apply when moving from a non-FIPS compliant to a FIPS compliant version or vice versa. Changing EFOS from a non-FIPS compliant to a FIPS compliant version or vice versa will reset the switch to factory defaults. This procedure requires access through the serial console port.
 ====
 // BURT-1392530
 
@@ -36,7 +35,7 @@ h| *Procedure* h| *Current EFOS version* h| *New EFOS version* h| *High level st
 .5+a|Steps to upgrade EFOS between two (non) FIPS compliant versions
 a| 3.4.x.x
 a| 3.4.x.x
-a| Install the new EFOS image using method 1)
+a| Install the new EFOS image using method 1.
 The configuration and license information is retained
 a| 3.4.4.6 (or later 3.4.x.x)
 a| 3.7.x.x or later non-FIPS compliant
@@ -60,7 +59,10 @@ a|FIPS compliant
 a|Non-FIPS compliant
 |===
 
-IMPORTANT: Note that after upgrading BES-53248 cluster switches from EFOS 3.3.x.x or 3.4.x.x to EFOS 3.7.0.4 or 3.8.0.2, Inter-Switch Links (ISLs) and port channel are marked in the *Down* state. See this https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Systems/Fabric%2C_Interconnect_and_Management_Switches/BES-53248_Cluster_Switch_NDU_failed_upgrade_to_EFOS_3.7.0.4_and_later[KB article^] for further details.
+IMPORTANT: Note that after upgrading BES-53248 cluster switches from EFOS 3.3.x.x or 3.4.x.x to EFOS 3.7.0.4 or 3.8.0.2, Inter-Switch Links (ISLs) and port channel are marked in the *Down* state. See this KB article: https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Systems/Fabric%2C_Interconnect_and_Management_Switches/BES-53248_Cluster_Switch_NDU_failed_upgrade_to_EFOS_3.7.0.4_and_later[BES-53248 Cluster Switch NDU failed upgrade to EFOS 3.7.0.4 and later^] for further details.
+
+== Method 1: Install EFOS
+You can perform the following steps to install or upgrade the EROS software.
 
 .Steps
 
@@ -239,7 +241,7 @@ Additional Packages............................ BGP-4
 ............................................... Prototype Open API
 ----
 
-== Upgrade EFOS using the ONIE OS installation
+== Method 2: Upgrade EFOS using the ONIE OS installation
 You can perform the following steps if one EFOS version is FIPS compliant and the other EFOS version is non-FIPS compliant. These steps can be used to install the non-FIPS or FIPS compliant EFOS 3.7.x.x image from ONIE if the switch fails to boot.
 
 NOTE: This functionality is only available for EFOS 3.7.x.x or later non-FIPS compliant.

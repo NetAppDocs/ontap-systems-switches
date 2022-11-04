@@ -9,9 +9,9 @@ summary: The BES-53248 cluster switch base model is licensed for 16 10GbE or 25G
 :imagesdir: ../media/
 
 [.lead]
-The BES-53248 cluster switch base model is licensed for 16 10GbE or 25GbE ports and two 100GbE ports. New ports can be added by purchasing more licenses.
+The BES-53248 cluster switch base model is licensed for 16 10GbE or 25GbE ports and two 100GbE ports. You can add new ports by purchasing more licenses.
 
-.Available licenses
+== Review available licenses
 The following licenses are available for use on the BES-53248 cluster switch:
 
 [options="header" cols="1,2"]
@@ -61,8 +61,8 @@ a|
 EFOS 3.4.4.6 and later
 |===
 
-== Install licence files
-Learn how to install licenses for BES-53248 cluster switches.
+== Install license files
+Follow these steps to install licenses for BES-53248 cluster switches.
 
 .Steps
 
@@ -83,6 +83,10 @@ Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 +
 `show license`
 +
+.Show license output
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
 (cs2)# *show license*
@@ -95,10 +99,17 @@ License Index  License Type     Status
 No license file found.
 ----
 
-. Install the license file. The following example uses SFTP to copy a license file to a key index 1.
+====
++
+. Install the license file.
++
+The following example uses SFTP to copy a license file to a key index 1.
 +
 Repeat this step to load more licenses and to use different key index numbers.
 +
+.Example copy operation
+[%collapsible]
+====
 [subs=+quotes]
 ----
 (cs2)# *copy sftp://root@172.19.2.1/var/lib/tftpboot/license.dat nvram:license-key 1*
@@ -118,11 +129,15 @@ File transfer in progress. Management access will be blocked for the duration of
 
 License Key transfer operation completed successfully. System reboot is required.
 ----
-
+====
++
 . Display all current license information and note the license status before switch cs2 is rebooted:
 +
 `show license`
 +
+.Show license output
+[%collapsible]
+====
 [subs=+quotes]
 ----
 (cs2)# *show license*
@@ -135,13 +150,17 @@ License Index  License Type      Status
 -------------- ----------------- -------------------------------
 1              Port              License valid but not applied
 ----
-
+====
++
 . Display all licensed ports:
 +
 `show port all | exclude Detach`
 +
 The ports from the additional license files are not displayed until after the switch is rebooted.
 +
+.Show port all output
+[%collapsible]
+====
 [subs=+quotes]
 ----
 (cs2)# *show port all \| exclude Detach*
@@ -168,11 +187,15 @@ Intf      Type   Mode      Mode       Status     Status Trap    Mode   Timeout
 0/55             Disable   Auto                  Down   Enable  Enable long
 0/56             Disable   Auto                  Down   Enable  Enable long
 ----
-
+====
++
 . Reboot the switch:
 +
 `reload`
 +
+.Show reload output
+[%collapsible]
+====
 [subs=+quotes]
 ----
 (cs2)# *reload*
@@ -185,11 +208,15 @@ Config file 'startup-config' created successfully .
 Configuration Saved!
 Are you sure you would like to reset the system? (y/n) *y*
 ----
-
+====
++
 . Check that the new license is active and note that the license has been applied:
 +
 `show license`
 +
+.Show license output
+[%collapsible]
+====
 [subs=+quotes]
 ----
 (cs2)# *show license*
@@ -203,11 +230,16 @@ License Index  License Type              Status
 -------------- ------------------------- -----------------------------------
 1              Port                      License applied
 ----
+====
 
 . Check that all new ports are available:
 +
 `show port all | exclude Detach`
 +
+.Show port all output
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
 (cs2)# *show port all \| exclude Detach*
@@ -240,6 +272,7 @@ Intf      Type   Mode      Mode       Status     Status Trap    Mode   Timeout
 0/55             Disable   100G Full             Down   Enable  Enable long
 0/56             Disable   100G Full             Down   Enable  Enable long
 ----
+====
 
 CAUTION: When installing additional licenses, you must configure the new interfaces manually. Re-applying an RCF to an existing working production switch is not advisable.
 
@@ -256,8 +289,11 @@ Debug transfer output is enabled.
 Enabled capability licensing debugging.
 ----
 
-When you run the `copy` command with the `debug transfer` and `debug license` options enabled, the following log output is returned:
+When you run the `copy` command with the `debug transfer` and `debug license` options enabled, the log output is returned.
 
+.Log output
+[%collapsible]
+====
 ----
 transfer.c(3083):Transfer process  key or certificate file type = 43
 transfer.c(3229):Transfer process  key/certificate cmd = cp /mnt/download//license.dat.1 /mnt/fastpath/ >/dev/null 2>&1CAPABILITY LICENSING :
@@ -281,6 +317,7 @@ CAPABILITY LICENSING : Fri Sep 11 13:41:32 2020: Model BES-53248 matched.
 CAPABILITY LICENSING : Fri Sep 11 13:41:32 2020: Feature not found in license file with index = 1.
 CAPABILITY LICENSING : Fri Sep 11 13:41:32 2020: Applying license file 1.
 ----
+====
 
 Check for the following in the debug output:
 
@@ -298,3 +335,117 @@ Use the `copy` command to backup port licenses to the server:
 CAUTION: If you need to downgrade the switch software from version 3.4.4.6, the licenses are removed. This is expected behavior.
 
 You must install an appropriate older license before reverting to an older version of the software.
+
+== Activate newly licensed ports
+
+To activate newly licensed ports, you need to edit the latest version of the RCF and uncomment the applicable port details.
+
+The default license activates ports 0/1 to 0/16 and 0/55 to 0/56 while the newly licensed ports will be between ports 0/17 to 0/54 depending on the type and number of licenses available. For example, to activate the SW-BES54248-40-100G-LIC license, you must uncomment the following section in the RCF:
+
+
+.Section to uncomment
+[%collapsible]
+====
+----
+.
+.
+!
+! 2-port or 6-port 40/100GbE node port license block
+!
+interface 0/49
+no shutdown
+description "40/100GbE Node Port"
+!speed 100G full-duplex
+speed 40G full-duplex
+service-policy in WRED_100G
+spanning-tree edgeport
+mtu 9216
+switchport mode trunk
+datacenter-bridging
+priority-flow-control mode on
+priority-flow-control priority 5 no-drop
+exit
+exit
+!
+interface 0/50
+no shutdown
+description "40/100GbE Node Port"
+!speed 100G full-duplex
+speed 40G full-duplex
+service-policy in WRED_100G
+spanning-tree edgeport
+mtu 9216
+switchport mode trunk
+datacenter-bridging
+priority-flow-control mode on
+priority-flow-control priority 5 no-drop
+exit
+exit
+!
+interface 0/51
+no shutdown
+description "40/100GbE Node Port"
+speed 100G full-duplex
+!speed 40G full-duplex
+service-policy in WRED_100G
+spanning-tree edgeport
+mtu 9216
+switchport mode trunk
+datacenter-bridging
+priority-flow-control mode on
+priority-flow-control priority 5 no-drop
+exit
+exit
+!
+interface 0/52
+no shutdown
+description "40/100GbE Node Port"
+speed 100G full-duplex
+!speed 40G full-duplex
+service-policy in WRED_100G
+spanning-tree edgeport
+mtu 9216
+switchport mode trunk
+datacenter-bridging
+priority-flow-control mode on
+priority-flow-control priority 5 no-drop
+exit
+exit
+!
+interface 0/53
+no shutdown
+description "40/100GbE Node Port"
+speed 100G full-duplex
+!speed 40G full-duplex
+service-policy in WRED_100G
+spanning-tree edgeport
+mtu 9216
+switchport mode trunk
+datacenter-bridging
+priority-flow-control mode on
+priority-flow-control priority 5 no-drop
+exit
+exit
+!
+interface 0/54
+no shutdown
+description "40/100GbE Node Port"
+speed 100G full-duplex
+!speed 40G full-duplex
+service-policy in WRED_100G
+spanning-tree edgeport
+mtu 9216
+switchport mode trunk
+datacenter-bridging
+priority-flow-control mode on
+priority-flow-control priority 5 no-drop
+exit
+exit
+!
+.
+.
+----
+====
+
+NOTE: For high-speed ports between 0/49 to 0/54 inclusive, uncomment each port but only uncomment one *speed* line in the RCF for each of these ports, either: *speed 100G full-duplex* or *speed 40G full-duplex* as shown in the example.
+For low-speed ports between 0/17 to 0/48 inclusive, uncomment the entire 8-port section when an appropriate license has been activated.

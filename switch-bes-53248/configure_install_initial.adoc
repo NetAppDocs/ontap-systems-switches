@@ -4,25 +4,25 @@ sidebar: sidebar
 keywords: switches initial setup,initial setup,efos download
 summary: 'You can use this procedure to perform the initial installation of the BES-53248 cluster switch.'
 ---
-= Install the BES-53248 cluster switch
+= Configure the BES-53248 cluster switch
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-Learn how to install the BES-53248 cluster switch.
+Follow these steps to configure the BES-53248 cluster switch.
 
 .Steps
 
-. Connect the serial port to the host or serial port of your choice.
+. Connect the serial port to a host or serial port.
 . Connect the management port (the RJ-45 wrench port on the left side of the switch) to the same network where your TFTP server is located.
-. At the console, set the host side serial settings:
+. At the console, set the host-side serial settings:
  ** 115200 baud
  ** 8 data bits
  ** 1 stop bit
  ** parity: none
  ** flow control: none
-. Log in to the switch as admin and press enter when prompted for a password.
-The default switch name is routing. At the prompt, `enable`. This gives you access to Privileged EXEC mode for switch configuration.
+. Log in to the switch as `admin` and press *Enter* when prompted for a password.
+The default switch name is *routing*. At the prompt, enter `enable`. This gives you access to Privileged EXEC mode for switch configuration.
 +
 [subs=+quotes]
 ----
@@ -33,7 +33,7 @@ Password:
 (Routing)#
 ----
 
-. Change the switch name to cs2:
+. Change the switch name to *cs2*:
 +
 [subs=+quotes]
 ----
@@ -56,7 +56,7 @@ The serviceport is set to use DHCP by default. The IP address, subnet mask, and 
 +
 `show serviceport`
 +
-The following example shows IP information provided by DHCP server.
+The following example shows IP information provided by the DHCP server.
 +
 [subs=+quotes]
 ----
