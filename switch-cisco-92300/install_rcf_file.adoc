@@ -581,7 +581,7 @@ Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 ----
 
-Followed by: system switch ethernet log enable-collection
+Followed by: ``system switch ethernet log enable-collection``
 
 [subs=+quotes]
 ----
@@ -598,6 +598,7 @@ cluster1::*>
 
 .For ONTAP 9.4 and later
 
+--
 For ONTAP 9.4 and later, enable the cluster switch health monitor log collection feature for collecting switch-related log files using the commands:
 
 `system cluster-switch log setup-password` and `system cluster-switch log enable-collection`
@@ -620,12 +621,7 @@ Do you want to continue? {y|n}::[n] *y*
 
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
-----
 
-Followed by: `system cluster-switch log setup-password`
-
-[subs=+quotes]
-----
 cluster1::*> *system cluster-switch log setup-password*
 
 Enter the switch name: *cs2*
@@ -634,7 +630,12 @@ Do you want to continue? {y|n}:: [n] *y*
 
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
+----
 
+Followed by: ``system cluster-switch log enable-collection``
+
+[subs=+quotes]
+----
 cluster1::*> *system cluster-switch log enable-collection*
 
 Do you want to enable cluster log collection for all nodes in the cluster?
