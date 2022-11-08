@@ -424,7 +424,7 @@ cluster1::*>
 +
 [subs=+quotes]
 ----
-cluster1::*>**network interface modify -vserver Cluster -lif * -auto-revert True**
+cluster1::*> **network interface modify -vserver Cluster -lif * -auto-revert True**
 ----
 
 . Reboot switch cs1. You do this to trigger the cluster LIFs to revert to their home ports. You can ignore the "cluster ports down" events reported on the nodes while the switch reboots.
@@ -551,9 +551,9 @@ RPC status:
 -- 
 For ONTAP 9.8 and later, enable the cluster switch health monitor log collection feature for collecting switch-related log files, using the commands:
 `system switch ethernet log setup-password` and `system switch ethernet log enable-collection`
-+
+
 Enter: ``system switch ethernet log setup-password``
-+
+
 [subs=+quotes]
 ----
 cluster1::*> *system switch ethernet log setup-password*
@@ -580,9 +580,9 @@ Do you want to continue? {y|n}:: [n] *y*
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 ----
-+
+
 Followed by: system switch ethernet log enable-collection
-+
+
 [subs=+quotes]
 ----
 cluster1::*> *system switch ethernet log enable-collection*
@@ -598,10 +598,10 @@ cluster1::*>
 
 .For ONTAP 9.4 and later
 
-. For ONTAP 9.4 and later, enable the cluster switch health monitor log collection feature for collecting switch-related log files using the commands:
-+
+For ONTAP 9.4 and later, enable the cluster switch health monitor log collection feature for collecting switch-related log files using the commands:
+
 `system cluster-switch log setup-password` and `system cluster-switch log enable-collection`
-+
+
 Enter: `system cluster-switch log setup-password`
 [subs=+quotes]
 ----
@@ -621,9 +621,9 @@ Do you want to continue? {y|n}::[n] *y*
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 ----
-+
+
 Followed by: `system cluster-switch log setup-password`
-+
+
 [subs=+quotes]
 ----
 cluster1::*> *system cluster-switch log setup-password*
@@ -648,7 +648,7 @@ cluster1::*>
 ==== 
 
 // end of tabbed content 
-+
+
 NOTE: If any of these commands return an error, contact NetApp support.
 
 // BURT 1453255, 2022-06-10
