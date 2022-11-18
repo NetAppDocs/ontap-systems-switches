@@ -13,24 +13,9 @@ Replacing a defective Broadcom-supported BES-53248 cluster switch in a cluster n
 
 .Before you begin
 
-The following conditions must exist before performing the switch replacement in the current environment and on the replacement switch.
+Review the requirements in //
 
-* Existing cluster and network infrastructure:
- ** The existing cluster must be verified as completely functional, with at least one fully connected cluster switch.
- ** All cluster ports must be up.
- ** All cluster logical interfaces (LIFs) must be administratively and operationally up and on their home ports.
- ** The ONTAP `cluster ping-cluster -node node1` command must indicate that `basic connectivity` and `larger than PMTU communication` are successful on all paths.
-* BES-53248 replacement cluster switch:
- ** Management network connectivity on the replacement switch must be functional.
- ** Console access to the replacement switch must be in place.
- ** The node connections are ports 0/1 through 0/16 with default licensing.
- ** All Inter-Switch Link (ISL) ports must be disabled on ports 0/55 and 0/56.
- ** The desired reference configuration file (RCF) and EFOS operating system switch image must be loaded onto the switch.
- ** Initial customization of the switch must be complete, as detailed in xref:configure-new-switch.adoc[Configuring a new Broadcom-supported BES-53248 switch].
-+
-Any previous site customizations, such as STP, SNMP, and SSH, should be copied to the new switch.
-
-.About this task
+.About the examples
 
 The examples in this procedure use the following switch and node nomenclature:
 
@@ -41,7 +26,11 @@ The examples in this procedure use the following switch and node nomenclature:
 * The cluster LIF names are `node1_clus1` and `node1_clus2` for node1, and `node2_clus1` and `node2_clus2` for node2.
 * The prompt for changes to all cluster nodes is `cluster1::>`
 
-NOTE: The following procedure is based on the following cluster network topology:
+The following procedure is based on the following cluster network topology:
+
+.Show network topology
+[%collapsible]
+====
 
 [subs=+quotes]
 ----
@@ -115,6 +104,8 @@ node2                    0/2       165       H          FAS2750          e0b
 cs1                      0/55      179       R          BES-53248        0/55
 cs1                      0/56      179       R          BES-53248        0/56
 ----
+====
+
 
 .Steps
 
@@ -380,9 +371,3 @@ cs1          0/56    179         R             BES-53248   0/56
 ----
 
 See link:configure-log-collection.html[Configure the cluster switch log collection feature] for the steps required to enable cluster health switch log collection used for collecting switch-related log files.
-
-.For more information
-
-* https://mysupport.netapp.com/[NetApp Support Site^]
-
-* https://hwu.netapp.com/[NetApp Hardware Universe^]
