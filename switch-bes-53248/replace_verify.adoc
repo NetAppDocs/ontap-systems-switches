@@ -9,7 +9,7 @@ summary: You can use the commands provided here to verify that all is operationa
 :imagesdir: ../media/
 
 [.lead]
-You can use the commands provided here to verify that all is operational after a BES-53248 cluster switch upgrade.
+You can use these recommended commands to verify operations after a BES-53248 cluster switch upgrade.
 
 .Steps
 
@@ -19,8 +19,12 @@ You can use the commands provided here to verify that all is operational after a
 +
 `Link` must have the value `up` and `Health Status` must be `healthy`.
 +
+.Example of network port show -ipspace Cluster command
+[%collapsible]
+====
+
 The following example shows the output from the command:
-+
+
 [subs=+quotes]
 ----
 cluster1::> *network port show -ipspace Cluster*
@@ -41,11 +45,16 @@ Port   IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 e0a    Cluster      Cluster          up   9000  auto/10000 healthy  false
 e0b    Cluster      Cluster          up   9000  auto/10000 healthy  false
 ----
+====
 
 . Verify that for each LIF `Is Home` is `true` and `Status Admin/Oper` is `up` on both nodes using the command:
 +
 `network interface show -vserver Cluster`
 +
+.Example of network interface show -vserver Cluster command
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
 cluster1::> *network interface show -vserver Cluster*
@@ -59,9 +68,13 @@ Cluster
             node2_clus1  up/up    169.254.252.125/16 node2         e0a     true
             node2_clus2  up/up    169.254.110.131/16 node2         e0b     true
 ----
+====
 
 . Verify that the `Health Status` of each node is `true` using the command: `cluster show`
 +
+.Example of cluster show command
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::> *cluster show*
@@ -71,3 +84,4 @@ Node                 Health  Eligibility   Epsilon
 node1                true    true          false
 node2                true    true          false
 ----
+====

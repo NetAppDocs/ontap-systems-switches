@@ -16,8 +16,6 @@ In ONTAP releases 9.5P7 and earlier and 9.6P2 and earlier, you must download the
 .Before you begin
 Before you set up the switch health monitor for BES-53248 cluster switches, you must ensure that the ONTAP cluster is up and running.
 
-NOTE: To use all features available in CSHM, you should enable SSH as described in link:configure-ssh.html[Enable SSH on BES-53248 cluster switches].
-
 .Steps
 
 . Download the cluster switch health monitor configuration zip file based on the corresponding ONTAP release version. This file is available from the page: https://mysupport.netapp.com/NOW/cgi-bin/software/[NetApp Software download^]
@@ -60,3 +58,7 @@ cluster1::> *system cluster-switch show*
 ----
 +
 NOTE: If at any time you revert to an earlier version of ONTAP, you will need to install the CSHM configuration file again to enable switch health monitoring of BES-53248 cluster switches.
+
+.What's next?
+
+To use all features available in CSHM, you should enable SSH as described in link:configure-ssh.html[Enable SSH on BES-53248 cluster switches].

@@ -9,16 +9,22 @@ summary: 'The cluster switch health monitor log collection feature is used to co
 :imagesdir: ../media/
 
 [.lead]
-The cluster switch health monitor log collection feature is used to collect switch-related log files in ONTAP. You must make sure that you have set up your environment using the BES-53248 cluster switch CLI as detailed here.
+Follow these steps to enable the cluster switch health monitor log collection feature, which is used to collect switch-related log files in ONTAP. You must make sure that you have set up your environment using the BES-53248 cluster switch CLI as detailed here.
+
+== For ONTAP 9.8 and later
+
+Enable the cluster switch health monitor log collection feature for collecting switch-related log files, using the commands:
+
+`system switch ethernet log setup-password` and `system switch ethernet log enable-collection`
 
 .Steps
 
-. For ONTAP 9.8 and later, enable the cluster switch health monitor log collection feature for collecting switch-related log files, using the commands:
+. Enter: `system switch ethernet log setup-password`
 +
-`system switch ethernet log setup-password` and `system switch ethernet log enable-collection`
-+
-Enter: `system switch ethernet log setup-password`
-+
+.Example of system switch ethernet log setup-password command
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
 cluster1::*> *system switch ethernet log setup-password*
@@ -45,8 +51,14 @@ Do you want to continue? {y|n}:: [n] *y*
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 ----
-Followed by: `system switch ethernet log enable-collection`
+====
+
+. Enter: `system switch ethernet log enable-collection`
 +
+.Example of system switch ethernet log enable-collection command
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
 cluster1::*> *system switch ethernet log enable-collection*
@@ -58,12 +70,24 @@ Enabling cluster switch log collection.
 
 cluster1::*>
 ----
-. For ONTAP 9.5P15, 9.6P11, 9.7P8 and later patch releases, enable the cluster switch health monitor log collection feature for collecting switch-related log files, using the commands:
-+
+==== 
+
+
+== For ONTAP 9.5P15, 9.6P11, 9.7P8 and later patch releases
+
+
+
+Enable the cluster switch health monitor log collection feature for collecting switch-related log files, using the commands:
+
 `system cluster-switch log setup-password` and `system cluster-switch log enable-collection`
+
+.Steps
+
+. Enter: `system cluster-switch log setup-password`
 +
-Enter: `system cluster-switch log setup-password`
-+
+.Example of system cluster-switch log setup-password command
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *system cluster-switch log setup-password*
@@ -91,8 +115,13 @@ Do you want to continue? {y|n}:: [n] *y*
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 ----
-Followed by: `system cluster-switch log enable-collection`
+====
+
+. Enter: `system cluster-switch log enable-collection`
 +
+.Example of system cluster-switch log enable-collection command
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *system cluster-switch log enable-collection*
@@ -102,10 +131,14 @@ Do you want to enable cluster log collection for all nodes in the cluster?
 
 Enabling cluster switch log collection.
 ----
+====
 
 NOTE: The log collect command is not available at this time. See link:https://mysupport.netapp.com/site/bugs-online/product/ONTAP/BURT/1225042[Bug 1225042^] for further details.
 
 CAUTION: If any of these commands return an error, contact NetApp support.
+
+.What's next?
+If you are upgrading the switch, go to link:replace-verify.html[Verify upgrade configuration].
 
 
 

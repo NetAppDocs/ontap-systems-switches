@@ -69,8 +69,11 @@ Follow these steps to install licenses for BES-53248 cluster switches.
 . Connect the cluster switch to the management network.
 . Use the `ping` command to verify connectivity to the server hosting EFOS, licenses, and the RCF file.
 +
+.Example of ping command
+[%collapsible]
+====
 This example verifies that the switch is connected to the server at IP address 172.19.2.1:
-+
+
 [subs=+quotes]
 ----
 (cs2)# *ping 172.19.2.1*
@@ -78,12 +81,13 @@ Pinging 172.19.2.1 with 0 bytes of data:
 
 Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 ----
+====
 
 . Check the current license usage on switch cs2:
 +
 `show license`
 +
-.Show license output
+.Example of show license command
 [%collapsible]
 ====
 
@@ -98,7 +102,6 @@ License Index  License Type     Status
 
 No license file found.
 ----
-
 ====
 +
 . Install the license file.
@@ -107,9 +110,10 @@ The following example uses SFTP to copy a license file to a key index 1.
 +
 Repeat this step to load more licenses and to use different key index numbers.
 +
-.Example copy operation
+.Example of copy command
 [%collapsible]
 ====
+
 [subs=+quotes]
 ----
 (cs2)# *copy sftp://root@172.19.2.1/var/lib/tftpboot/license.dat nvram:license-key 1*
@@ -135,7 +139,7 @@ License Key transfer operation completed successfully. System reboot is required
 +
 `show license`
 +
-.Show license output
+.Example of show license command
 [%collapsible]
 ====
 [subs=+quotes]
@@ -158,7 +162,7 @@ License Index  License Type      Status
 +
 The ports from the additional license files are not displayed until after the switch is rebooted.
 +
-.Show port all output
+.Example of show port all command
 [%collapsible]
 ====
 [subs=+quotes]
@@ -193,7 +197,7 @@ Intf      Type   Mode      Mode       Status     Status Trap    Mode   Timeout
 +
 `reload`
 +
-.Show reload output
+.Example of reload command
 [%collapsible]
 ====
 [subs=+quotes]
@@ -214,7 +218,7 @@ Are you sure you would like to reset the system? (y/n) *y*
 +
 `show license`
 +
-.Show license output
+.Example of show license command
 [%collapsible]
 ====
 [subs=+quotes]
@@ -236,7 +240,7 @@ License Index  License Type              Status
 +
 `show port all | exclude Detach`
 +
-.Show port all output
+.Example of show port all command
 [%collapsible]
 ====
 
@@ -277,10 +281,14 @@ Intf      Type   Mode      Mode       Status     Status Trap    Mode   Timeout
 CAUTION: When installing additional licenses, you must configure the new interfaces manually. Re-applying an RCF to an existing working production switch is not advisable.
 
 == Troubleshoot install issues
+
 Where problems arise when installing a license, the following debug commands should be run before running the `copy` command again to install the license.
 
 Debug commands to use: `debug transfer` and `debug license`
 
+.Example of debug command
+[%collapsible]
+====
 [subs=+quotes]
 ----
 (cs2)# *debug transfer*
@@ -288,10 +296,11 @@ Debug transfer output is enabled.
 (cs2)# *debug license*
 Enabled capability licensing debugging.
 ----
+====
 
 When you run the `copy` command with the `debug transfer` and `debug license` options enabled, the log output is returned.
 
-.Log output
+.Example of log output
 [%collapsible]
 ====
 ----
@@ -449,3 +458,7 @@ exit
 
 NOTE: For high-speed ports between 0/49 to 0/54 inclusive, uncomment each port but only uncomment one *speed* line in the RCF for each of these ports, either: *speed 100G full-duplex* or *speed 40G full-duplex* as shown in the example.
 For low-speed ports between 0/17 to 0/48 inclusive, uncomment the entire 8-port section when an appropriate license has been activated.
+
+.What's next?
+
+link:configure-install-rcf.html[Install the Reference Configuration File (RCF)].

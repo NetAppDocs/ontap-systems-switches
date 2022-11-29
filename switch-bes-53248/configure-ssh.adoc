@@ -15,8 +15,11 @@ If you are using the Cluster Switch Health Monitor (CSHM) and log collection fea
 
 . Generate the SSH keys:
 +
-*`crypto key generate`*
+`crypto key generate`
 +
+.Example of SSH key generation commands
+[%collapsible]
+====
 [subs=+quotes]
 ----
 (switch)# *show ip ssh*
@@ -63,11 +66,16 @@ Config file 'startup-config' created successfully.
 
 Configuration Saved!
 ----
+====
 
 . Verify that SSH is enabled:
 +
-*`show ip ssh`*
+`show ip ssh`
 +
+.Example of show ip ssh command
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
 (switch)# *show ip ssh*
@@ -84,3 +92,8 @@ Keys Present: ................................. DSA(1024) RSA(1024) ECDSA(521)
 Key Generation In Progress: ................... None
 SCP server Administrative Mode: ............... Disabled
 ----
+====
+
+.What's next?
+
+link:configure-log-collection.html[Enable the log collection feature].

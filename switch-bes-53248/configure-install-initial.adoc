@@ -11,6 +11,13 @@ summary: 'You can use this procedure to perform the initial installation of the 
 [.lead]
 Follow these steps to configure the BES-53248 cluster switch.
 
+.Before you begin
+
+Review the following:
+
+* link:/switch-bes-53248/index.html[Overview and requirements for BES-53248 switches]
+* link:configure-new-switch.html[Installation overview and nomenclature]
+
 .Steps
 
 . Connect the serial port to a host or serial port.
@@ -56,8 +63,10 @@ The serviceport is set to use DHCP by default. The IP address, subnet mask, and 
 +
 `show serviceport`
 +
-The following example shows IP information provided by the DHCP server.
-+
+.Example of IP information provided by the DHCP server
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
 (cs2)# *show serviceport*
@@ -73,11 +82,16 @@ Configured IPv6 Protocol....................... None
 IPv6 AutoConfig Mode........................... Disabled
 Burned In MAC Address.......................... D8:C4:97:71:12:3C
 ----
+====
 
 . Configure the domain and name server:
 +
 `configure`
 +
+.Example of configure command
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
 (cs2)# *configure*
@@ -86,12 +100,17 @@ Burned In MAC Address.......................... D8:C4:97:71:12:3C
 (cs2) (Config)# *exit*
 (cs2) (Config)#
 ----
+====
 
 . Configure the NTP server.
  .. Configure the time zone and time synchronization (SNTP):
 +
 `sntp`
 +
+.Example of sntp command
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
 (cs2)#
@@ -101,11 +120,16 @@ Burned In MAC Address.......................... D8:C4:97:71:12:3C
 (cs2) (Config)# *exit*
 (cs2) (Config)#
 ----
+====
 
  .. Configure the time manually:
 +
 `clock`
 +
+.Example of clock command
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
 (cs2)# *config*
@@ -133,3 +157,8 @@ Config file 'startup-config' created successfully.
 
 Configuration Saved!
 ----
+====
+
+.What's next?
+
+link:configure-efos-software.html[Install the EFOS software].
