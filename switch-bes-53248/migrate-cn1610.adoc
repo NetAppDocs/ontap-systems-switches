@@ -102,7 +102,7 @@ The advanced prompt (*>) appears.
 +
 `network interface show -vserver Cluster -fields auto-revert`
 +
-.Show example of auto-revert status
+.Example of network interface show
 [%collapsible]
 ====
 
@@ -125,7 +125,7 @@ Cluster
 +
 `network device-discovery show -protocol cdp`
 +
-.Show example of interface status
+.Example of network device-discovery show
 [%collapsible]
 ====
 
@@ -151,7 +151,7 @@ node1      /cdp
 +
 `network port show -ipspace Cluster`
 +
-.Show example of port attributes
+.Example of network port show
 [%collapsible]
 ====
 
@@ -181,7 +181,7 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 +
 `network interface show -vserver Cluster`
 +
-.Show example of interface status
+.Example of network interface show
 [%collapsible]
 ====
 
@@ -205,7 +205,7 @@ Cluster
 +
 `cluster ping-cluster -node node-name`
 +
-.Show example of a ping
+.Example of cluster ping-cluster
 [%collapsible]
 ====
 
@@ -249,7 +249,7 @@ RPC status:
 +
 `shutdown`
 +
-.Show example of a shutdown
+.Example of shutdown command
 [%collapsible]
 ====
 
@@ -268,7 +268,7 @@ The following example shows how to shut down ISL ports 13 through 16 on the CN16
 
 . Build a temporary ISL between CN1610 CL1 and new BES-53248 cs2. The ISL will only be defined on cs2 as the existing ISL on CL1 can be reused.
 +
-.Show example of building a temp ISL
+.Example of building a temp ISL
 [%collapsible]
 ====
 
@@ -322,7 +322,7 @@ You must attach appropriate approved cabling connecting port 0/13 to 0/16 on the
 
 . Bring up ISLs 13 through 16 on the active CN1610 switch CL1.
 +
-.Show example of bringing up ports
+.Example of bringing up ports
 [%collapsible]
 ====
 
@@ -345,7 +345,7 @@ The following example illustrates the process of bringing up ISL ports 13 throug
 +
 The `Link State` should be "Up", `Type` should be "Static", and `Port Active` should be "True" for ports 0/13 to 0/16:
 +
-.Show example of port status
+.Example of show port-channel
 [%collapsible]
 ====
 
@@ -379,7 +379,7 @@ Ports    Timeout        Speed       Active
 +
 `show port-channel`
 +
-.Show example of port status
+.Example of show port-channel
 [%collapsible]
 ====
 
@@ -415,7 +415,7 @@ Ports   Timeout       Speed     Active
 +
 `network interface show -vserver Cluster`
 +
-.Show example of port status
+.Example of network interface show
 [%collapsible]
 ====
 
@@ -437,7 +437,7 @@ Cluster
 +
 `network port show -ipspace Cluster`
 +
-.Show example of port status
+.Example of network port show
 [%collapsible]
 ====
 
@@ -469,7 +469,7 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 +
 `cluster ping-cluster -node _node-name_`
 +
-.Show example of a ping
+.Show example of cluster ping-cluster
 [%collapsible]
 ====
 
@@ -510,7 +510,7 @@ You must then reconnect the disconnected ports on all nodes to the new BES-53248
 . Remove four ISL cables from ports 13 to 16 on BES-53248 switch cs2.
 . Remove the temporary port-channel 2 on cs2.
 +
-.Show example of removing port channel
+.Example of removing port channel
 [%collapsible]
 ====
 
@@ -541,7 +541,7 @@ Config file 'startup-config' created successfully .
 +
 The following example verifies that all of the cluster interconnect ports on node1 and node2 are `up`:
 +
-.Show example of cluster port status
+.Example of network port show 
 [%collapsible]
 ====
 
@@ -573,7 +573,7 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 +
 `network interface show -vserver Cluster`
 +
-.Show example of cluster interface status
+.Example of network interface show
 [%collapsible]
 ====
 
@@ -597,7 +597,7 @@ Cluster
 +
 `cluster ping-cluster -node _node-name_`
 +
-.Show example of pinging
+.Example of cluster ping-cluster
 [%collapsible]
 ====
 
@@ -636,7 +636,7 @@ RPC status:
 +
 `network device-discovery show -protocol cdp`
 +
-.Show example of node status
+.Example of network device-discovery show
 [%collapsible]
 ====
 
@@ -678,7 +678,7 @@ cluster::*> *system cluster-switch delete –device CL1*
 cluster::*> *system node autosupport invoke -node \* -type all -message MAINT=END*
 ----
 
-.After you finish
+.What's next?
 
 After your migration completes, you might need to install the required configuration file to support the Cluster Switch Health Monitor (CSHM) for BES-53248 cluster switches.
 

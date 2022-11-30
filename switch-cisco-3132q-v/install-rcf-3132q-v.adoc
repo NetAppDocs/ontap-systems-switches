@@ -1,17 +1,34 @@
 ---
-permalink: switch-cisco-3132q-v/task-install-the-reference-configuration-file-rcf-3132q-v.html
+permalink: switch-cisco-3132q-v/install-rcf-3132q-v.html
 sidebar: sidebar
 keywords: install rcf
-summary: "You can install the RCF after setting up the Nexus 3132Q-V switch for the first time.You can also use this procedure to upgrade your RCF version."
+summary: "You can install the RCF after setting up the Nexus 3132Q-V switch for the first time. You can also use this procedure to upgrade your RCF version."
 ---
 = Install the Reference Configuration File (RCF)
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-You can install the RCF after setting up the Nexus 3132Q-V switch for the first time. You can also use this procedure to upgrade your RCF version.
+Follow this procedure to install the RCF after setting up the Nexus 3132Q-V switch for the first time. You can also use this procedure to upgrade your RCF version.
 
-.Switch and node nomenclature
+== Requirements for this procedure
+
+.What you'll need
+
+* A current backup of the switch configuration.
+* A fully functioning cluster (no errors in the logs or similar issues).
+* The current Reference Configuration File (RCF).
+* A boot configuration in the RCF that reflects the desired boot images, required if you are installing only NX-OS and keeping your current RCF version. If you need to change the boot configuration to reflect the current boot images, you must do so before reapplying the RCF so that the correct version is instantiated on future reboots
+* A console connection to the switch, required when installing the RCF.
+
+.Suggested documentation
+
+* link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet switch^] page. Consult the switch compatibility table on the  for the supported ONTAP, NX-OS, and RCF versions. Note that there can be command dependencies between the command syntax in the RCF and that found in versions of NX-OS.
+* https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-installation-guides-list.html[Cisco Nexus 3000 Series Switches^]. Consult the appropriate software and upgrade guides available on the Cisco web site for complete documentation on the Cisco switch upgrade and downgrade procedures.
+
+== Install the file
+
+.About the examples
 
 The examples in this procedure use the following switch and node nomenclature:
 
@@ -20,32 +37,22 @@ The examples in this procedure use the following switch and node nomenclature:
 * The cluster LIF names are `cluster1-01_clus1`, `cluster1-01_clus2`, `cluster1-02_clus1`, `cluster1-02_clus2` , `cluster1-03_clus1`, `cluster1-03_clus2`, `cluster1-04_clus1`, and `cluster1-04_clus2`.
 * The `cluster1::*>` prompt indicates the name of the cluster.
 
-
-.Before you begin
-
-The following conditions must exist before you install the RCF on the cluster switch:
-
-* Make sure that you have a current backup of the switch configuration.
-* The cluster must be fully functioning (there should be no errors in the logs or similar issues).
-* You must have checked or set your desired boot configuration in the RCF to reflect the desired boot images if you are installing only NX-OS and keeping your current RCF version.
-* If you need to change the boot configuration to reflect the current boot images, you must do so before reapplying the RCF so that the correct version is instantiated on future reboots.
-* You must have a console connection to the switch, required when installing the RCF.
-* You must have consulted the switch compatibility table on the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet switch^] page for the supported ONTAP, NX-OS, and RCF versions.
-* There can be command dependencies between the command syntax in the RCF and that found in versions of NX-OS.
-* You must have referred to the appropriate software and upgrade guides available on the Cisco web site for complete documentation on the Cisco switch upgrade and downgrade procedures on https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-installation-guides-list.html[Cisco Nexus 3000 Series Switches^].
-* You must have the current RCF.
-
 .About this task
 
 The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 
+Be sure to complete the procedure in link:setup-switch.html[Prepare to install NX-OS and RCF], and then follow the steps below.
 
-.Steps
+=== Step 1: Check port status
 
 . Display the cluster ports on each node that are connected to the cluster switches:
 +
 `network device-discovery show`
 +
+.Example of network device-discovery show
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
 cluster1::*> *network device-discovery show*
@@ -66,12 +73,17 @@ cluster1-04/cdp
             e0b    cs2                       Ethernet1/1/2     N3K-C3132Q-V
 cluster1::*>
 ----
+====
 
 . Check the administrative and operational status of each cluster port.
  .. Verify that all the cluster ports are up with a healthy status:
 +
 `network port show -ipspace Cluster`
 +
+.Example of network port show
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
 cluster1::*> *network port show -ipspace Cluster*
@@ -111,11 +123,16 @@ e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
 e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 cluster1::*>
 ----
+====
 
  .. Verify that all the cluster interfaces (LIFs) are on the home port:
 +
 `network interface show -vserver Cluster`
 +
+.Example of network interface show
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
 cluster1::*> *network interface show -vserver Cluster*
@@ -133,11 +150,16 @@ Cluster
             cluster1-04_clus2  up/up     169.254.1.7/23     cluster1-04  e0b     true
 cluster1::*>
 ----
+====
 
  .. Verify that the cluster displays information for both cluster switches:
 +
 `system cluster-switch show -is-monitoring-enabled-operational true`
 +
+.Example of system cluster-switch show
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
 cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true*
@@ -161,6 +183,8 @@ cs2                         cluster-network    10.0.0.2         NX3132QV
 
 2 entries were displayed.
 ----
+====
+
 +
 NOTE: For ONTAP 9.8 and later, use the command `system ethernet switch show -is-monitoring-enabled-operational true`.
 
@@ -184,6 +208,10 @@ cs2(config-if-range)# *shutdown*
 +
 `network interface show -vserver Cluster`
 +
+.Example of network interface show
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
 cluster1::*> *network interface show -vserver Cluster*
@@ -201,11 +229,16 @@ Cluster
             cluster1-04_clus2 up/up      169.254.1.7/23     cluster1-04   e0a     false
 cluster1::*>
 ----
+====
 
 . Verify that the cluster is healthy:
 +
 `cluster show`
 +
+.Example of cluster show
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
 cluster1::*> *cluster show*
@@ -217,16 +250,25 @@ cluster1-03          true    true          true
 cluster1-04          true    true          false
 cluster1::*>
 ----
+====
+
+=== Step 2: Configure and verify the setup
 
 . If you do not already have a current backup of the switch, you can save the current switch configuration by copying the output of the following command to a log file:
 +
 `show running-config`
 
-. Clean the configuration on switch cs2 and perform a basic setup.
- .. Clean the configuration.
+. Clean the configuration on switch cs2 and perform a basic setup. 
+.. Clean the configuration. 
++
+`write erase`
 +
 NOTE: This step requires a console connection to the switch.
 +
+.Example of write erase
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
 cs2# *write erase*
@@ -236,12 +278,16 @@ cs2# *reload*
 This command will reboot the system. (y/n)?  [n] *y*
 cs2#
 ----
+====
 
  .. Perform a basic setup of the switch.
+
 . Copy the RCF to the bootflash of switch cs2 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-installation-guides-list.html[Cisco Nexus 3000 Series NX-OS Command Reference^] guides.
 +
-This example shows TFTP being used to copy an RCF to the bootflash on switch cs2:
-+
+
+.Example of TFTP being used to copy an RCF to the bootflash on switch cs2
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cs2# *copy tftp: bootflash: vrf management*
@@ -251,20 +297,27 @@ Trying to connect to tftp server......Connection to Server Established.
 TFTP get operation was successful
 Copy complete, now saving to disk (please wait)...
 ----
+====
 
 . Apply the RCF previously downloaded to the bootflash.
 +
 For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-installation-guides-list.html[Cisco Nexus 3000 Series NX-OS Command Reference^] guides.
 +
-This example shows the RCF file `Nexus_3132QV_RCF_v1.6-Cluster-HA-Breakout.txt` being installed on switch cs2:
-+
+
+.Example of the RCF file `Nexus_3132QV_RCF_v1.6-Cluster-HA-Breakout.txt` being installed on switch cs2
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cs2# *copy Nexus_3132QV_RCF_v1.6-Cluster-HA-Breakout.txt running-config echo-commands*
 ----
+====
 
 . Examine the banner output from the `show banner motd` command. You must read and follow the instructions under *Important Notes* to ensure the proper configuration and operation of the switch.
 +
+.Example of show banner motd command
+[%collapsible]
+====
 ----
 cs2# show banner motd
 
@@ -299,6 +352,7 @@ cs2# show banner motd
 *
 ******************************************************************************
 ----
+====
 
 . Verify that the RCF file is the correct newer version:
 +
@@ -335,10 +389,15 @@ cs2# copy running-config startup-config [#######################################
 ----
 
 . Verify the health of cluster ports on the cluster.
+
  .. Verify that cluster ports are up and healthy across all nodes in the cluster:
 +
 `network port show -ipspace Cluster`
 +
+.Example of network port show command
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
 cluster1::*> *network port show -ipspace Cluster*
@@ -375,9 +434,15 @@ Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 e0a       Cluster      Cluster          up   9000  auto/100000 healthy false
 e0d       Cluster      Cluster          up   9000  auto/100000 healthy false
 ----
+====
 
  .. Verify the switch health from the cluster.
 +
+`network device-discovery show -protocol cdp`
++
+.Example of network device-discovery show command
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network device-discovery show -protocol cdp*
@@ -418,6 +483,7 @@ cs2                         cluster-network    10.233.205.91    N3K-C3132Q-V
 
 2 entries were displayed.
 ----
+====
 +
 NOTE: For ONTAP 9.8 and later, use the command `system ethernet switch show -is-monitoring-enabled-operational true`.
 +
@@ -432,20 +498,28 @@ You might observe the following output on the cs1 switch console depending on th
 ```
 
 ====
++
 . On cluster switch cs1, shut down the ports connected to the cluster ports of the nodes.
 +
-The following example uses the interface example output from step 1:
-+
+.Example of interface example output 
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
 cs1(config)# *interface eth1/1/1-2,eth1/7-8*
 cs1(config-if-range)# *shutdown*
 ----
+====
 
 . Verify that the cluster LIFs have migrated to the ports hosted on switch cs2. This might take a few seconds.
 +
 `network interface show -vserver Cluster`
 +
+.Example of network interface show command 
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
 cluster1::*> *network interface show -vserver Cluster*
@@ -463,11 +537,15 @@ Cluster
             cluster1-04_clus2  up/up      169.254.1.7/23     cluster1-04         e0b     true
 cluster1::*>
 ----
+====
 
 . Verify that the cluster is healthy:
 +
 `cluster show`
 +
+.Example of cluster show command 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *cluster show*
@@ -480,8 +558,12 @@ cluster1-04          true     true          false
 4 entries were displayed.
 cluster1::*>
 ----
+====
 
-. Repeat Steps 7 to 16 on switch cs1.
+. Repeat Steps 1 to 10 on switch cs1.
+
+== Step 3: Reboot and verify the configuration
+
 . Enable auto-revert on the cluster LIFs.
 +
 ----
@@ -498,6 +580,12 @@ This command will reboot the system. (y/n)?  [n] *y*
 
 . Verify that the switch ports connected to the cluster ports are up.
 +
+`show interface brief | grep up`
++
+.Example of show interface brief | grep up command 
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
 cs1# *show interface brief | grep up*
@@ -510,11 +598,16 @@ Eth1/8        1       eth  trunk  up      none                   100G(D) --
 .
 .
 ----
+====
 
 . Verify that the ISL between cs1 and cs2 is functional:
 +
 `show port-channel summary`
 +
+.Example of show port-channel summary command 
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
 cs1# *show port-channel summary*
@@ -533,11 +626,16 @@ Group Port-       Type     Protocol  Member Ports
 1     Po1(SU)     Eth      LACP      Eth1/31(P)   Eth1/32(P)
 cs1#
 ----
+====
 
 . Verify that the cluster LIFs have reverted to their home port:
 +
 `network interface show -vserver Cluster`
 +
+.Example of network interface show command 
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
 cluster1::*> *network interface show -vserver Cluster*
@@ -555,11 +653,16 @@ Cluster
             cluster1-04_clus2  up/up      169.254.1.7/23     cluster1-04         e0b     true
 cluster1::*>
 ----
+====
 
 . Verify that the cluster is healthy:
 +
 `cluster show`
 +
+.Example of cluster show command 
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
 cluster1::*> *cluster show*
@@ -571,11 +674,16 @@ cluster1-03          true    true          true
 cluster1-04          true    true          false
 cluster1::*>
 ----
+====
 
 . Ping the remote cluster interfaces to verify connectivity:
 +
 `cluster ping-cluster -node local`
 +
+.Example of cluster ping-cluster command 
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
 cluster1::*> *cluster ping-cluster -node local*
@@ -615,15 +723,21 @@ RPC status:
 6 paths up, 0 paths down (tcp check)
 6 paths up, 0 paths down (udp check)
 ----
+====
 
++
 . For ONTAP 9.8 and later, enable the Ethernet switch health monitor log collection feature for collecting switch-related log files by using the commands:
 +
 `system switch ethernet log setup-password` and
 +
 `system switch ethernet log enable-collection`
 +
-Enter: `system switch ethernet log setup-password`
+.. Enter: `system switch ethernet log setup-password`
 +
+.Example of system switch ethernet log setup-password 
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
 cluster1::*> *system switch ethernet log setup-password*
@@ -651,8 +765,14 @@ Do you want to continue? {y|n}:: [n] *y*
 Enter the password: *<enter switch password>*
 Enter the password again: *<enter switch password>*
 ----
-Followed by: `system switch ethernet log enable-collection`
+====
+
+.. Enter: `system switch ethernet log enable-collection`
 +
+.Example of system switch ethernet log enable-collection 
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
 cluster1::*> *system  switch ethernet log enable-collection*
@@ -664,6 +784,8 @@ Enabling cluster switch log collection.
 
 cluster1::*>
 ----
+====
+
 +
 NOTE: If any of these commands return an error, contact NetApp support.
 
@@ -673,8 +795,11 @@ NOTE: If any of these commands return an error, contact NetApp support.
 +
 `system cluster-switch log enable-collection`
 +
-Enter: `system cluster-switch log setup-password`
+.. Enter: `system cluster-switch log setup-password`
 +
+.Example of system cluster-switch log setup-password 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *system cluster-switch log setup-password*
@@ -702,8 +827,14 @@ Do you want to continue? {y|n}:: [n] *y*
 Enter the password: *<enter switch password>*
 Enter the password again: *<enter switch password>*
 ----
-Followed by: `system cluster-switch log enable-collection`
+====
+
+.. Enter: `system cluster-switch log enable-collection`
 +
+.Example of system cluster-switch log enable-collection 
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
 cluster1::*> *system cluster-switch log enable-collection*
@@ -715,6 +846,8 @@ Enabling cluster switch log collection.
 
 cluster1::*>
 ----
+====
+
 +
 NOTE: If any of these commands return an error, contact NetApp support.
 

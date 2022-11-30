@@ -87,7 +87,7 @@ The advanced prompt (`*>`) appears.
 +
 NOTE: You must not disable the ISL ports.
 +
-.Show example of disabled ports
+.Example of disabled ports
 [%collapsible]
 ====
 
@@ -107,7 +107,7 @@ The following example shows that node-facing ports 1 through 16 are disabled on 
 +
 `show port-channel`
 +
-.Show examples of port status
+.Example of show port-channel
 [%collapsible]
 ====
 The following example shows that the ISL ports are up on switch cs1:
@@ -134,7 +134,7 @@ Ports  Timeout       Speed      Active
 (cs1) #
 ----
 
-The following example shows that the ISL ports are up on switch cs2 :
+The following example shows that the ISL ports are up on switch cs2:
 
 [subs=+quotes]
 ----
@@ -164,7 +164,7 @@ Ports  Timeout       Speed      Active
 +
 This command provides information about the devices that are connected to the system.
 +
-.Show examples of neighboring devices
+.Example of show isdp neighbors
 [%collapsible]
 ====
 The following example lists the neighboring devices on switch cs1:
@@ -202,7 +202,7 @@ cs2            0/56     176       R            BES-53248   0/56
 +
 Each port should display "up" for `Link` and "healthy" for `Health Status`.
 +
-.Show examples of cluster port status
+.Example of network port show -ipspace Cluster
 [%collapsible]
 ====
 
@@ -232,7 +232,7 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy
 +
 Each cluster LIF should display "true" for `Is Home` and have a `Status Admin/Oper` of "up/up"
 +
-.Show example of cluster LIF status
+.Example of cluster LIF status
 [%collapsible]
 ====
 
@@ -253,7 +253,7 @@ Cluster
 
 . Verify that `auto-revert` is enabled on all cluster LIFs: `network interface show -vserver Cluster -fields auto-revert`
 +
-.Show example of auto-revert status
+.Example of auto-revert status
 [%collapsible]
 ====
 
@@ -279,7 +279,7 @@ The https://hwu.netapp.com/Home/Index[_NetApp Hardware Universe_^] contains more
 . Disconnect the cable from cluster port e0a on node2, and then connect e0a to port 2 on cluster switch cs1, using the appropriate cabling supported by the BES-53248 switches.
 . Enable all node-facing ports on cluster switch cs1.
 +
-.Show example of node-facing ports status
+.Example of node-facing ports status
 [%collapsible]
 ====
 
@@ -299,7 +299,7 @@ The following example shows that ports 1 through 16 are enabled on switch cs1:
 +
 `network interface show -vserver Cluster`
 +
-.Show example of cluster LIFs status
+.Example of network interface show
 [%collapsible]
 ====
 
@@ -324,7 +324,7 @@ Cluster
 +
 `cluster show`
 +
-.Show example of cluster node status
+.Example of cluster show
 [%collapsible]
 ====
 
@@ -345,7 +345,7 @@ node2                true    true          false
 . Disconnect the cable from cluster port e0b on node2, and then connect e0b to port 2 on cluster switch cs2, using the appropriate cabling supported by the BES-53248 switches.
 . Enable all node-facing ports on cluster switch cs2.
 +
-.Show example of port status
+.Example of port configure
 [%collapsible]
 ====
 
@@ -365,7 +365,7 @@ The following example shows that ports 1 through 16 are enabled on switch cs2:
 +
 `network port show -ipspace Cluster`
 +
-.Show example of cluster port status
+.Example of network port show
 [%collapsible]
 ====
 
@@ -401,7 +401,7 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 +
 NOTE: This might take several minutes to complete.
 +
-.Show example of node status
+.Example of network interface show 
 [%collapsible]
 ====
 
@@ -426,7 +426,7 @@ Cluster
 +
 `show isdp neighbors`
 +
-.Show example of switch status
+.Example of show isdp neighbors
 [%collapsible]
 ====
 
@@ -463,7 +463,7 @@ cs1            0/56         175       R            BES-53248   0/56
 +
 `network device-discovery show -protocol cdp`
 +
-.Show example of device status
+.Example of network device-discovery show
 [%collapsible]
 ====
 
@@ -501,7 +501,7 @@ Enable Switchless Cluster: false
 +
 `cluster show`
 +
-.Show example of health and eligibility status
+.Example of cluster show
 [%collapsible]
 ====
 
@@ -522,7 +522,7 @@ node2                true    true          false
 +
 `cluster ping-cluster -node _node-name_`
 +
-.Show example of connectivity status
+.Example of cluster ping-cluster
 [%collapsible]
 ====
 
@@ -559,6 +559,7 @@ RPC status:
 . Change the privilege level back to admin:
 +
 `set -privilege admin`
+
 . If you suppressed automatic case creation, reenable it by invoking an AutoSupport message:
 +
 `system node autosupport invoke -node * -type all -message MAINT=END`
@@ -567,7 +568,7 @@ RPC status:
 cluster1::*> system node autosupport invoke -node \* -type all -message MAINT=END
 ----
 
-.After you finish
+.What's next?
 
 After your migration completes, you might need to install the required configuration file to support the Cluster Switch Health Monitor (CSHM) for BES-53248 cluster switches.
 

@@ -26,9 +26,9 @@ The examples in this procedure use the following switch and node nomenclature:
 * The cluster LIF names are `node1_clus1` and `node1_clus2` for node1, and `node2_clus1` and `node2_clus2` for node2.
 * The prompt for changes to all cluster nodes is `cluster1::>`
 
-The following procedure is based on the following cluster network topology:
+This procedure is based on the following cluster network topology:
 
-.Show network topology
+.Cluster network topology
 [%collapsible]
 ====
 
@@ -170,6 +170,9 @@ Cluster   node2_clus2  true
 +
 The Link State for port-channel 1/1 should be up and all member ports should be True under the Port Active heading.
 +
+.Example of bringing up ISL ports
+[%collapsible]
+====
 This example enables ISL ports 0/55 and 0/56 and displays the Link State for port-channel 1/1 on switch cs1:
 +
 [subs=+quotes]
@@ -197,6 +200,7 @@ Ports  Timeout       Speed      Active
 0/56   actor/long    100G Full  True
        partner/long
 ----
+====
 
 . On the new switch newcs2, re-enable all of the ports that are connected to the node cluster interfaces (ports 1 to 16).
 +
@@ -219,8 +223,11 @@ Password:
 +
 `network port show -ipspace Cluster`
 +
+.Example of network port show output
+[%collapsible]
+====
 The output should be similar to the following:
-+
+
 [subs=+quotes]
 ----
 cluster1::> *network port show -ipspace Cluster*
@@ -241,13 +248,16 @@ Port      IPspace      Broadcast Domain Link MTU   Admin/Oper  Status   Status
 e0a       Cluster      Cluster          up   9000  auto/10000  healthy  false
 e0b       Cluster      Cluster          up   9000  auto/auto   -        false
 ----
+====
 
 . On the same node as you used in the previous step, wait for the cluster LIF node1_clus2 on node1 to auto-revert.
 +
+.Example of network interface show
+[%collapsible]
+====
 In this example, LIF node1_clus2 on node1 is successfully reverted if `Is Home` is `true` and the port is e0b.
-+
+
 The following command displays information about the LIFs on both nodes. Bringing up the first node is successful if `Is Home` is `true` for both cluster interfaces and they show the correct port assignments, in this example `e0a` and `e0b` on node1.
-+
 [subs=+quotes]
 ----
 cluster::> *network interface show -vserver Cluster*
@@ -261,9 +271,14 @@ Cluster
             node2_clus1  up/up      169.254.47.194/16  node2      e0a     true
             node2_clus2  up/up      169.254.19.183/16  node2      e0a     false
 ----
+====
 
-. Display information about the nodes in a cluster: `cluster show`
+. Display information about the nodes in a cluster: 
+`cluster show`
 +
+.Example of cluster show
+[%collapsible]
+====
 This example shows that the node health for `node1` and `node2` in this cluster is `true`:
 +
 [subs=+quotes]
@@ -274,11 +289,15 @@ Node   Health   Eligibility   Epsilon
 node1  true     true          true
 node2  true     true          true
 ----
+====
 
 . Confirm the following cluster network configuration:
 +
 `network port show`
 +
+.Example of network port show
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::> *network port show -ipspace Cluster*
@@ -311,6 +330,7 @@ Cluster
             node2_clus2  up/up    169.254.19.183/16  node2         e0b     true
 4 entries were displayed.
 ----
+
 +
 [subs=+quotes]
 ----
@@ -341,11 +361,15 @@ node2              Eth1/2         124    H           FAS2980       e0b
 cs1(FDO220329KU)   Eth1/65        178    R S I s     N9K-C92300YC  Eth1/65
 cs1(FDO220329KU)   Eth1/66        178    R S I s     N9K-C92300YC  Eth1/66
 ----
+====
 
 . Verify that the cluster network is healthy:
 +
 `show isdp neighbors`
 +
+.Example of show isdp neighbors
+[%collapsible]
+====
 [subs=+quotes]
 ----
 (cs1)# *show isdp neighbors*
@@ -369,5 +393,7 @@ node2        0/2     165         H             FAS2750     e0b
 cs1          0/55    179         R             BES-53248   0/55
 cs1          0/56    179         R             BES-53248   0/56
 ----
+====
 
-See link:configure-log-collection.html[Configure the cluster switch log collection feature] for the steps required to enable cluster health switch log collection used for collecting switch-related log files.
+.What's next?
+See link:configure-log-collection.html[Enable the log collection feature] for the steps required to enable cluster health switch log collection used for collecting switch-related log files.
