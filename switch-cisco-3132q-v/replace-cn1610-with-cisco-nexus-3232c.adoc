@@ -1,5 +1,5 @@
 ---
-permalink: switch-cisco-3132q-v/task-how-to-replace-cn1610-cluster-switches-with-cisco-nexus-3232c-cluster-switches.html
+permalink: switch-cisco-3132q-v/replace-cn1610-with-cisco-nexus-3232c.html
 sidebar: sidebar
 keywords: replace, cn1610 cluster switches, cisco nexus 3132q-v
 summary: "To replace the existing CN1610 cluster switches in a cluster with Cisco Nexus 3132Q-V cluster switches, you must perform a specific sequence of tasks."
@@ -9,7 +9,12 @@ summary: "To replace the existing CN1610 cluster switches in a cluster with Cisc
 :imagesdir: ../media/
 
 [.lead]
-Learn how to replace the existing CN1610 cluster switches with Cisco Nexus 3132Q-V cluster switches.
+Follow this procedure to replace the existing CN1610 cluster switches with Cisco Nexus 3132Q-V cluster switches.
+
+== Requirements for this procedure
+Review the NetApp CN1610 requirements requirements in link:switch-requirements.html[Requirements for replacing Cisco Nexus 3132Q-V cluster switches].
+
+== Replace the switch
 
 .Switch and node nomenclature
 The examples in this procedure use the following switch and node nomenclature:
@@ -23,9 +28,7 @@ The examples in this procedure use the following switch and node nomenclature:
 * n1_clus4 is the second LIF that is connected to cluster switch 1 (CL1 or C1) for node n1. The nodes are n1, n2, n3, and n4.
 * The number of 10 GbE and 40/100 GbE ports are defined in the reference configuration files (RCFs) available on the https://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco® Cluster Network Switch Reference Configuration File Download^] page.
 
-
-
-.About this task
+.About the examples
 The examples in this procedure use four nodes: 
 
 * Two nodes use four 10 GbE cluster interconnect ports: e0a, e0b, e0c, and e0d.
@@ -33,15 +36,16 @@ The examples in this procedure use four nodes:
 
 The link:https://hwu.netapp.com/[Hardware Universe^] has information about the cluster fiber cables on your platforms.
 
+.About this task
 This procedure covers the following scenario:
 
 * The cluster starts with two nodes connected to two CN1610 cluster switches.
-* Cluster switch CL2 to be replaced by C2 (<<step2_replacecn1610,Steps 2>> - <<step22_replacecn1610, 22>>)
+* Cluster switch CL2 to be replaced by C2 
  ** Traffic on all cluster ports and LIFs on all nodes connected to CL2 are migrated onto the first cluster ports and LIFs connected to CL1.
  ** Disconnect cabling from all cluster ports on all nodes connected to CL2, and then use supported breakout cabling to reconnect the ports to new cluster switch C2.
  ** Disconnect cabling between ISL ports CL1 and CL2, and then use supported breakout cabling to reconnect the ports from CL1 to C2.
  ** Traffic on all cluster ports and LIFs connected to C2 on all nodes is reverted.
-* Cluster switch CL1 to be replaced by C1 (<<step23_replacecn1610,Steps 23>> - <<step43_replacecn1610, 43>>)
+* Cluster switch CL1 to be replaced by C1 
  ** Traffic on all cluster ports and LIFs on all nodes connected to CL1 are migrated onto the second cluster ports and LIFs connected to C2.
  ** Disconnect cabling from all cluster ports on all nodes connected to CL1, and then use supported breakout cabling to reconnect the ports to new cluster switch C1.
  ** Disconnect cabling between ISL ports CL1 and C2, and then use supported breakout cabling to reconnect the ports from C1 to C2.
@@ -49,7 +53,7 @@ This procedure covers the following scenario:
 
 NOTE: The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 
-.Steps
+=== Step 1: Prepare for replacement
 
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
 +
@@ -59,10 +63,15 @@ _x_ is the duration of the maintenance window in hours.
 +
 NOTE: The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
 
-. [[step2_replacecn1610]]Display information about the devices in your configuration: `network device-discovery show`
+. Display information about the devices in your configuration: 
 +
+`network device-discovery show`
++
+.Example of network device-discovery show
+[%collapsible]
+====
 The following example displays how many cluster interconnect interfaces have been configured in each node for each cluster interconnect switch:
-+
+
 ----
 cluster::> network device-discovery show
 
@@ -82,12 +91,17 @@ n2     /cdp
 
 8 entries were displayed.
 ----
+====
 
 . Determine the administrative or operational status for each cluster interface.
+
  .. Display the cluster network port attributes: `network port show`
 +
+.Example of network port show 
+[%collapsible]
+====
 The following example displays the network port attributes on a system:
-+
+
 ----
 cluster::*> network port show -role cluster
        (network port show)
@@ -112,11 +126,17 @@ e0d   cluster   cluster    up    9000  auto/10000     -        -
 
 8 entries were displayed.
 ----
+====
 
- .. Display information about the logical interfaces: `network interface show`
+ .. Display information about the logical interfaces: 
+ +
+ `network interface show`
 +
+.Example of network interface show 
+[%collapsible]
+====
 The following example displays the general information about all of the LIFs on your system:
-+
+
 ----
 cluster::*> network interface show -role cluster
        (network interface show)
@@ -136,11 +156,17 @@ Cluster
 
 8 entries were displayed.
 ----
+====
 
- .. Display information about the discovered cluster switches: `system cluster-switch show`
+ .. Display information about the discovered cluster switches: 
 +
+`system cluster-switch show`
++
+.Example of system cluster-switch show
+[%collapsible]
+====
 The following example displays the cluster switches that are known to the cluster, along with their management IP addresses:
-+
+
 ----
 cluster::> system cluster-switch show
 
@@ -162,15 +188,22 @@ CL2                           cluster-network  10.10.1.102   CN1610
 
 2 entries were displayed.
 ----
-. Set the `-auto-revert` parameter to false on cluster LIFs clus1 and clus4 on both nodes: `network interface modify`
-+
-----
+====
 
+. Set the `-auto-revert` parameter to false on cluster LIFs clus1 and clus4 on both nodes: 
++
+`network interface modify`
++
+.Example of network interface modify 
+[%collapsible]
+====
+----
 cluster::*> network interface modify -vserver node1 -lif clus1 -auto-revert false
 cluster::*> network interface modify -vserver node1 -lif clus4 -auto-revert false
 cluster::*> network interface modify -vserver node2 -lif clus1 -auto-revert false
 cluster::*> network interface modify -vserver node2 -lif clus4 -auto-revert false
 ----
+====
 
 . Verify that the appropriate RCF and image are installed on the new 3132Q-V switches as necessary for your requirements, and make any essential site customizations, such as users and passwords, network addresses, and so on.
 +
@@ -185,15 +218,20 @@ You must prepare both switches at this time. If you need to upgrade the RCF and 
 +
 http://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco® Cluster and Management Network Switch Reference Configuration File Download^]
 
-. Migrate the LIFs associated with the second CN1610 switch to be replaced: `network interface migrate`
+. Migrate the LIFs associated with the second CN1610 switch to be replaced: 
++
+`network interface migrate`
 +
 [NOTE]
 ====
 You must migrate the cluster LIFs from a connection to the node, either through the service processor or node management interface, which owns the cluster LIF being migrated.
 ====
 +
+.Example of network interface migrate
+[%collapsible]
+====
 The following example shows n1 and n2, but LIF migration must be done on all the nodes:
-+
+
 ----
 
 cluster::*> network interface migrate -vserver Cluster -lif n1_clus2 -destination-node  n1  -destination-port  e0a
@@ -201,11 +239,17 @@ cluster::*> network interface migrate -vserver Cluster -lif n1_clus3 -destinatio
 cluster::*> network interface migrate -vserver Cluster -lif n2_clus2 -destination-node  n2  -destination-port  e0a
 cluster::*> network interface migrate -vserver Cluster -lif n2_clus3 -destination-node  n2  -destination-port  e0d
 ----
+====
 
-. Verify the cluster's health: `network interface show`
+. Verify the cluster's health: 
 +
+`network interface show`
++
+.Example of network interface show
+[%collapsible]
+====
 The following example shows the result of the previous `network interface migrate` command:
-+
+
 ----
 cluster::*> network interface show -role cluster
        (network interface show)
@@ -225,23 +269,34 @@ Cluster
 
 8 entries were displayed.
 ----
+====
 
-. Shut down the cluster interconnect ports that are physically connected to switch CL2: `network port modify`
+. Shut down the cluster interconnect ports that are physically connected to switch CL2: 
 +
+`network port modify`
++
+.Example of network port modify 
+[%collapsible]
+====
 The following commands shut down the specified ports on n1 and n2, but the ports must be shut down on all nodes:
-+
-----
 
+----
 cluster::*> network port modify -node n1 -port e0b -up-admin false
 cluster::*> network port modify -node n1 -port e0c -up-admin false
 cluster::*> network port modify -node n2 -port e0b -up-admin false
 cluster::*> network port modify -node n2 -port e0c -up-admin false
 ----
+====
 
-. Ping the remote cluster interfaces, and then perform a remote procedure call server check: `cluster ping-cluster`
+. Ping the remote cluster interfaces, and then perform a remote procedure call server check: 
 +
+`cluster ping-cluster`
++
+.Example of cluster ping-cluster 
+[%collapsible]
+====
 The following example shows how to ping the remote cluster interfaces:
-+
+
 ----
 cluster::*> cluster ping-cluster -node n1
 Host is n1
@@ -286,13 +341,18 @@ RPC status:
 4 paths up, 0 paths down (tcp check)
 4 paths up, 0 paths down (udp check)
 ----
+====
 
-. Shut down the ISL ports 13 through 16 on the active CN1610 switch CL1: `shutdown`
+. Shut down the ISL ports 13 through 16 on the active CN1610 switch CL1: 
 +
+`shutdown`
++
+.Example of a shutdown
+[%collapsible]
+====
 The following example shows how to shut down ISL ports 13 through 16 on the CN1610 switch CL1:
-+
-----
 
+----
 (CL1)# configure
 (CL1)(Config)# interface 0/13-0/16
 (CL1)(Interface 0/13-0/16)# shutdown
@@ -300,6 +360,7 @@ The following example shows how to shut down ISL ports 13 through 16 on the CN16
 (CL1)(Config)# exit
 (CL1)#
 ----
+====
 
 . Build a temporary ISL between CL1 and C2:
 +
@@ -320,6 +381,8 @@ C2(config-if-range)# exit
 C2(config-if)# exit
 ----
 
+=== Step 2: Configure ports
+
 . On all nodes, remove the cables that are attached to the CN1610 switch CL2.
 +
 With supported cabling, you must reconnect the disconnected ports on all of the nodes to the Nexus 3132Q-V switch C2.
@@ -337,7 +400,6 @@ This configuration matches with the ISL configuration on the 3132Q-V switch C2 w
 The following example shows the configuration of the ISL interface 3/1 using the `no port-channel static` command to make the ISL dynamic:
 +
 ----
-
 (CL1)# configure
 (CL1)(Config)# interface 3/1
 (CL1)(Interface 3/1)# no port-channel static
@@ -351,7 +413,6 @@ The following example shows the configuration of the ISL interface 3/1 using the
 The following example illustrates the process of bringing up ISL ports 13 through 16 on the port-channel interface 3/1:
 +
 ----
-
 (CL1)# configure
 (CL1)(Config)# interface 0/13-0/16,3/1
 (CL1)(Interface 0/13-0/16,3/1)# no shutdown
@@ -360,10 +421,15 @@ The following example illustrates the process of bringing up ISL ports 13 throug
 (CL1)#
 ----
 
-. Verify that the ISLs are `up` on the CN1610 switch CL1: `show port-channel`
+. Verify that the ISLs are `up` on the CN1610 switch CL1: 
++
+`show port-channel`
 +
 The "Link State" should be `Up`, "Type" should be `Dynamic`, and the "Port Active" column should be `True` for ports 0/13 to 0/16:
 +
+.Example of show port-channel
+[%collapsible]
+====
 ----
 (CL1)# show port-channel 3/1
 Local Interface................................ 3/1
@@ -386,11 +452,18 @@ Ports  Timeout       Speed       Active
 0/16   actor/long    10 Gb Full  True
        partner/long
 ----
+====
 
-. Verify that the ISLs are `up` on the 3132Q-V switch C2: `show port-channel summary`
+. Verify that the ISLs are `up` on the 3132Q-V switch C2: 
 +
+`show port-channel summary`
++
+.Example of show port-channel summary
+[%collapsible]
+====
+
 Ports Eth1/24/1 through Eth1/24/4 should indicate `(P)`, meaning that all four ISL ports are up in the port-channel. Eth1/31 and Eth1/32 should indicate `(D)` as they are not connected:
-+
+
 ----
 C2# show port-channel summary
 
@@ -408,33 +481,49 @@ Group Port-       Type     Protocol  Member Ports
 2     Po2(SU)     Eth      LACP      Eth1/24/1(P) Eth1/24/2(P) Eth1/24/3(P)
                                      Eth1/24/4(P)
 ----
+====
 
-. Bring up all of the cluster interconnect ports that are connected to the 3132Q-V switch C2 on all of the nodes: `network port modify`
+. Bring up all of the cluster interconnect ports that are connected to the 3132Q-V switch C2 on all of the nodes: 
 +
+`network port modify`
++
+.Example of network port modify 
+[%collapsible]
+====
 The following example shows how to bring up the cluster interconnect ports connected to the 3132Q-V switch C2:
-+
-----
 
+----
 cluster::*> network port modify -node n1 -port e0b -up-admin true
 cluster::*> network port modify -node n1 -port e0c -up-admin true
 cluster::*> network port modify -node n2 -port e0b -up-admin true
 cluster::*> network port modify -node n2 -port e0c -up-admin true
 ----
+====
 
-. Revert all of the migrated cluster interconnect LIFs that are connected to C2 on all of the nodes: `network interface revert`
+. Revert all of the migrated cluster interconnect LIFs that are connected to C2 on all of the nodes: 
 +
+`network interface revert`
++
+.Example of network interface revert 
+[%collapsible]
+====
 ----
-
 cluster::*> network interface revert -vserver cluster -lif n1_clus2
 cluster::*> network interface revert -vserver cluster -lif n1_clus3
 cluster::*> network interface revert -vserver cluster -lif n2_clus2
 cluster::*> network interface revert -vserver cluster -lif n2_clus3
 ----
+====
 
-. Verify that all of the cluster interconnect ports are reverted to their home ports: `network interface show`
+. Verify that all of the cluster interconnect ports are reverted to their home ports: 
 +
+`network interface show`
++
+.Example of network interface show
+[%collapsible]
+====
 The following example shows that the LIFs on clus2 are reverted to their home ports, and shows that the LIFs are successfully reverted if the ports in the "Current Port" column have a status of `true` in the "Is Home" column. If the Is Home value is `false`, then the LIF is not reverted.
-+
+
 ----
 cluster::*> network interface show -role cluster
        (network interface show)
@@ -454,11 +543,17 @@ Cluster
 
 8 entries were displayed.
 ----
+====
 
-. Verify that all of the cluster ports are connected: `network port show`
+. Verify that all of the cluster ports are connected: 
 +
+`network port show`
++
+.Example of network port show 
+[%collapsible]
+====
 The following example shows the result of the previous `network port modify` command, verifying that all of the cluster interconnects are `up`:
-+
+
 ----
 cluster::*> network port show -role cluster
        (network port show)
@@ -483,11 +578,17 @@ e0d   cluster   cluster     up    9000  auto/10000     -        -
 
 8 entries were displayed.
 ----
+====
 
-. [[step22_replacecn1610]]Ping the remote cluster interfaces and then perform a remote procedure call server check: `cluster ping-cluster`
+. Ping the remote cluster interfaces and then perform a remote procedure call server check: 
 +
+`cluster ping-cluster`
++
+.Example of cluster ping-cluster
+[%collapsible]
+====
 The following example shows how to ping the remote cluster interfaces:
-+
+
 ----
 cluster::*> cluster ping-cluster -node n1
 Host is n1
@@ -532,13 +633,18 @@ RPC status:
 4 paths up, 0 paths down (tcp check)
 4 paths up, 0 paths down (udp check)
 ----
+====
 
-. [[step23_replacecn1610]]On each node in the cluster, migrate the interfaces that are associated with the first CN1610 switch CL1, to be replaced: `network interface migrate`
+. On each node in the cluster, migrate the interfaces that are associated with the first CN1610 switch CL1, to be replaced: 
 +
+`network interface migrate`
++
+.Example of network interface migrate 
+[%collapsible]
+====
 The following example shows the ports or LIFs being migrated on nodes n1 and n2:
-+
-----
 
+----
 cluster::*> network interface migrate -vserver cluster -lif n1_clus1 -source-node n1
 -destination-node n1 -destination-port e0b
 cluster::*> network interface migrate -vserver cluster -lif n1_clus4 -source-node n1
@@ -548,11 +654,17 @@ cluster::*> network interface migrate -vserver cluster -lif n2_clus1 -source-nod
 cluster::*> network interface migrate -vserver cluster -lif n2_clus4 -source-node n2
 -destination-node n2 -destination-port e0c
 ----
+====
 
-. Verify the cluster status: `network interface show`
+. Verify the cluster status: 
 +
+`network interface show`
++
+.Example of network interface show 
+[%collapsible]
+====
 The following example shows that the required cluster LIFs have been migrated to the appropriate cluster ports hosted on cluster switch C2:
-+
+
 ----
 cluster::*> network interface show -role cluster
        (network interface show)
@@ -572,25 +684,34 @@ Cluster
 
 8 entries were displayed.
 ----
+====
 
-. Shut down the node ports that are connected to CL1 on all of the nodes: `network port modify`
+. Shut down the node ports that are connected to CL1 on all of the nodes: 
 +
+`network port modify`
++
+.Example of network port modify 
+[%collapsible]
+====
 The following example shows how to shut down the specified ports on nodes n1 and n2:
-+
-----
 
+----
 cluster::*> network port modify -node n1 -port e0a -up-admin false
 cluster::*> network port modify -node n1 -port e0d -up-admin false
 cluster::*> network port modify -node n2 -port e0a -up-admin false
 cluster::*> network port modify -node n2 -port e0d -up-admin false
 ----
+====
 
-. Shut down the ISL ports 24, 31, and 32 on the active 3132Q-V switch C2: `shutdown`
+. Shut down the ISL ports 24, 31, and 32 on the active 3132Q-V switch C2: 
 +
+`shutdown`
++
+.Example of a shutdown
+[%collapsible]
+====
 The following example shows how to shut down ISLs 24, 31, and 32 on the active 3132Q-V switch C2:
-+
 ----
-
 C2# configure
 C2(config)# interface ethernet 1/24/1-4
 C2(config-if-range)# shutdown
@@ -601,6 +722,7 @@ C2(config-if-range)# exit
 C2(config)# exit
 C2#
 ----
+====
 
 . Remove the cables that are attached to the CN1610 switch CL1 on all of the nodes.
 +
@@ -610,10 +732,13 @@ With supported cabling, you must reconnect the disconnected ports on all of the 
 +
 You must connect ports e1/31 and e1/32 on C1 to ports e1/31 and e1/32 on C2 using supported Cisco QSFP optical fiber or direct-attach cables.
 
-. Restore the configuration on port 24 and remove the temporary port-channel 2 on C2:
+. Restore the configuration on port 24 and remove the temporary port-channel 2 on C2, by copying the `running-configuration` file to the `startup-configuration` file.
 +
+.Example of configure commands
+[%collapsible]
+====
 The following example copies the `running-configuration` file to the `startup-configuration` file:
-+
+
 ----
 C2# configure
 C2(config)# no interface breakout module 1 port 24 map 10g-4x
@@ -629,11 +754,17 @@ C2# copy running-config startup-config
 [########################################] 100%
 Copy Complete.
 ----
+====
 
-. Bring up ISL ports 31 and 32 on C2, the active 3132Q-V switch: `no shutdown`
+. Bring up ISL ports 31 and 32 on C2, the active 3132Q-V switch: 
 +
+`no shutdown`
++
+.Example of no shutdown
+[%collapsible]
+====
 The following example shows how to bring up ISLs 31 and 32 on the 3132Q-V switch C2:
-+
+
 ----
 
 C2# configure
@@ -645,11 +776,17 @@ C2# copy running-config startup-config
 [########################################] 100%
 Copy Complete.
 ----
+====
 
-. Verify that the ISL connections are `up` on the 3132Q-V switch C2: `show port-channel summary`
+. Verify that the ISL connections are `up` on the 3132Q-V switch C2: 
++
+`show port-channel summary`
 +
 Ports Eth1/31 and Eth1/32 should indicate `(P)`, meaning that both the ISL ports are `up` in the port-channel.
 +
+.Example of show port-channel summary 
+[%collapsible]
+====
 ----
 
 C1# show port-channel summary
@@ -665,23 +802,34 @@ Group Port-       Type     Protocol  Member Ports
 ------------------------------------------------------------------------------
 1     Po1(SU)     Eth      LACP      Eth1/31(P)   Eth1/32(P)
 ----
+====
 
-. Bring up all of the cluster interconnect ports connected to the new 3132Q-V switch C1 on all of the nodes: `network port modify`
+. Bring up all of the cluster interconnect ports connected to the new 3132Q-V switch C1 on all of the nodes: 
 +
+`network port modify`
++
+.Example of network port modify 
+[%collapsible]
+====
 The following example shows how to bring up all of the cluster interconnect ports connected to the new 3132Q-V switch C1:
-+
-----
 
+----
 cluster::*> network port modify -node n1 -port e0a -up-admin true
 cluster::*> network port modify -node n1 -port e0d -up-admin true
 cluster::*> network port modify -node n2 -port e0a -up-admin true
 cluster::*> network port modify -node n2 -port e0d -up-admin true
 ----
+====
 
-. Verify the status of the cluster node port: `network port show`
+. Verify the status of the cluster node port: 
 +
+`network port show`
++
+.Example of network port show 
+[%collapsible]
+====
 The following example verifies that all of the cluster interconnect ports on n1 and n2 on the new 3132Q-V switch C1 are `up`:
-+
+
 ----
 cluster::*> network port show -role cluster
        (network port show)
@@ -706,23 +854,34 @@ e0d   cluster   cluster    up    9000  auto/10000     -        -
 
 8 entries were displayed.
 ----
+====
 
-. Revert all of the migrated cluster interconnect LIFs that were originally connected to C1 on all of the nodes: `network interface revert`
+. Revert all of the migrated cluster interconnect LIFs that were originally connected to C1 on all of the nodes: 
 +
+`network interface revert`
++
+.Example of network interface revert 
+[%collapsible]
+====
 The following example shows how to revert the migrated cluster LIFs to their home ports:
-+
-----
 
+----
 cluster::*> network interface revert -vserver cluster -lif n1_clus1
 cluster::*> network interface revert -vserver cluster -lif n1_clus4
 cluster::*> network interface revert -vserver cluster -lif n2_clus1
 cluster::*> network interface revert -vserver cluster -lif n2_clus4
 ----
+====
 
-. Verify that the interface is now home: `network interface show`
+. Verify that the interface is now home: 
 +
+`network interface show`
++
+.Example of network interface show 
+[%collapsible]
+====
 The following example shows the status of cluster interconnect interfaces is `up` and `Is home` for n1 and n2:
-+
+
 ----
 cluster::*> network interface show -role cluster
        (network interface show)
@@ -742,11 +901,17 @@ Cluster
 
 8 entries were displayed.
 ----
+====
 
-. Ping the remote cluster interfaces and then perform a remote procedure call server check: `cluster ping-cluster`
+. Ping the remote cluster interfaces and then perform a remote procedure call server check: 
 +
+`cluster ping-cluster`
++
+.Example of cluster ping-cluster
+[%collapsible]
+====
 The following example shows how to ping the remote cluster interfaces:
-+
+
 ----
 cluster::*> cluster ping-cluster -node n1
 Host is n1
@@ -791,18 +956,22 @@ RPC status:
 4 paths up, 0 paths down (tcp check)
 4 paths up, 0 paths down (udp check)
 ----
+====
 
 . Expand the cluster by adding nodes to the Nexus 3132Q-V cluster switches.
+
+
 . Display the information about the devices in your configuration:
  ** `network device-discovery show`
  ** `network port show -role cluster`
  ** `network interface show -role cluster`
  ** `system cluster-switch show`
 +
+.Example of network device commands
+[%collapsible]
+====
 
 The following examples show nodes n3 and n4 with 40 GbE cluster ports connected to ports e1/7 and e1/8, respectively on both the Nexus 3132Q-V cluster switches, and both nodes have joined the cluster. The 40 GbE cluster interconnect ports used are e4a and e4e.
-
-+
 
 ----
 cluster::*> network device-discovery show
@@ -830,7 +999,6 @@ n4     /cdp
 12 entries were displayed.
 ----
 
-+
 ----
 cluster::*> network port show -role cluster
        (network port show)
@@ -870,7 +1038,6 @@ e4e   cluster   cluster    up    9000  auto/40000     -        -
 12 entries were displayed.
 ----
 
-+
 ----
 cluster::*> network interface show -role cluster
        (network interface show)
@@ -895,7 +1062,6 @@ Cluster
 12 entries were displayed.
 ----
 
-+
 ----
 cluster::> system cluster-switch show
 
@@ -933,29 +1099,46 @@ CL2                         cluster-network  10.10.1.102    CN1610
 
 4 entries were displayed.
 ----
+====
 
-. Remove the replaced CN1610 switches if they are not automatically removed: `system cluster-switch delete`
+. Remove the replaced CN1610 switches if they are not automatically removed: 
 +
+`system cluster-switch delete`
++
+.Example of system cluster-switch delete 
+[%collapsible]
+====
 The following example shows how to remove the CN1610 switches:
-+
+
 ----
 
 cluster::> system cluster-switch delete –device CL1
 cluster::> system cluster-switch delete –device CL2
 ----
+====
 
 . Configure clusters clus1 and clus4 to `-auto-revert` on each node and confirm:
 +
+.Example of auto-revert
+[%collapsible]
+====
 ----
-
 cluster::*> network interface modify -vserver node1 -lif clus1 -auto-revert true
 cluster::*> network interface modify -vserver node1 -lif clus4 -auto-revert true
 cluster::*> network interface modify -vserver node2 -lif clus1 -auto-revert true
 cluster::*> network interface modify -vserver node2 -lif clus4 -auto-revert true
 ----
+====
 
-. Verify that the proper cluster switches are monitored: `system cluster-switch show`
+=== Step 3: Verify the configuration
+
+. Verify that the proper cluster switches are monitored: 
 +
+`system cluster-switch show`
++
+.Example of system cluster-switch show 
+[%collapsible]
+====
 ----
 cluster::> system cluster-switch show
 
@@ -979,6 +1162,7 @@ C2                          cluster-network    10.10.1.104      NX3132V
 
 2 entries were displayed.
 ----
+====
 
 . Enable the cluster switch health monitor log collection feature for collecting switch-related log files:
 +
@@ -986,6 +1170,9 @@ C2                          cluster-network    10.10.1.104      NX3132V
 +
 `system cluster-switch log enable-collection`
 +
+.Example log commands
+[%collapsible]
+====
 ----
 cluster::*> system cluster-switch log setup-password
 Enter the switch name: <return>
@@ -1021,6 +1208,7 @@ Enabling cluster switch log collection.
 
 cluster::*>
 ----
+====
 +
 NOTE: If any of these commands return an error, contact NetApp support.
 
@@ -1028,10 +1216,10 @@ NOTE: If any of these commands return an error, contact NetApp support.
 
 .For more information
 
-http://support.netapp.com/NOW/download/software/cm_switches_ntap/[NetApp CN1601 and CN1610 description page^]
+* http://support.netapp.com/NOW/download/software/cm_switches_ntap/[NetApp CN1601 and CN1610 description page^]
 
-http://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switch description page^]
+* http://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switch description page^]
 
-http://hwu.netapp.com[Hardware Universe^]
+* http://hwu.netapp.com[Hardware Universe^]
 
 // QA clean-up, 2022-03-03

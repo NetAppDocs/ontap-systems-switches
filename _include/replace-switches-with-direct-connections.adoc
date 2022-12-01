@@ -1,25 +1,35 @@
 
 You can migrate from a cluster with a switched cluster network to one where two nodes are directly connected for ONTAP 9.3 and later.
 
-Migrating to a two-node switchless cluster configuration is a nondisruptive operation. Most systems have two dedicated cluster interconnect ports on each node, but you can also use this procedure for systems with a larger number of dedicated cluster interconnect ports on each node, such as four, six or eight.
+== Requirements for this procedure
 
-You cannot use the switchless cluster interconnect feature with more than two nodes.
+.Guidelines
 
-If you have an existing two-node cluster that uses cluster interconnect switches and is running ONTAP 9.3 or later, you can replace the switches with direct, back-to-back connections between the nodes.
+Review the following guidelines:
 
-.Before you begin
+* Migrating to a two-node switchless cluster configuration is a nondisruptive operation. Most systems have two dedicated cluster interconnect ports on each node, but you can also use this procedure for systems with a larger number of dedicated cluster interconnect ports on each node, such as four, six or eight.
 
-* The cluster must be healthy and consist of two nodes connected by cluster switches, and the nodes must be running the same ONTAP release.
-* Each node must have the required number of dedicated cluster ports that provide redundant cluster interconnect connections to support your system configuration, for example, two redundant ports for a system with two dedicated cluster interconnect ports on each node.
+* You cannot use the switchless cluster interconnect feature with more than two nodes.
+
+* If you have an existing two-node cluster that uses cluster interconnect switches and is running ONTAP 9.3 or later, you can replace the switches with direct, back-to-back connections between the nodes.
+
+.What you'll need
+
+* A healthy cluster that consists of two nodes connected by cluster switches. The nodes must be running the same ONTAP release.
+* Each node with the required number of dedicated cluster ports, which provide redundant cluster interconnect connections to support your system configuration. For example, there are two redundant ports for a system with two dedicated cluster interconnect ports on each node.
+
+== Migrate the switches 
 
 .About this task
 The following procedure removes the cluster switches in a two-node cluster and replaces each connection to the switch with a direct connection to the partner node.
 
 image::../media/tnsc_clusterswitches_and_direct_connections.PNG[Cluster switches replaced with direct connections]
 
+.About the examples
 The examples in the following procedure show nodes that are using "e0a" and "e0b" as cluster ports. Your nodes might be using different cluster ports as they vary by system.
 
-.Steps
+=== Step 1: Prepare for migration
+
 .	Change the privilege level to advanced, entering `y` when prompted to continue:
 +
 `set -privilege advanced`
@@ -32,13 +42,17 @@ You can verify that detection of switchless clusters is enabled by running the a
 +
 `network options detect-switchless-cluster show`
 +
+.Example showing if the option is enabled
+[%collapsible]
+====
 The following example output shows if the option is enabled.
-+
+
 ----
 cluster::*> network options detect-switchless-cluster show
    (network options detect-switchless-cluster show)
 Enable Switchless Cluster Detection: true
 ----
+====
 +
 If "Enable Switchless Cluster Detection” is `false`, contact support.
 
@@ -63,8 +77,12 @@ In the following example for nodes with cluster ports "e0a" and "e0b", one group
 +
 image::../media/tnsc_clusterswitch_connections.PNG[Cluster switch connections between node1 and node2]
 +
-Verify that the ports have a value of `up` for the “Link” column and a value of `healthy` for the “Health Status” column, as shown in the following example:
+Verify that the ports have a value of `up` for the “Link” column and a value of `healthy` for the “Health Status” column.
 +
+.Example showing correct status:
+[%collapsible]
+====
+
 ----
 cluster::> network port show -ipspace Cluster
 Node: node1
@@ -84,6 +102,7 @@ e0a   Cluster   Cluster          up    9000  auto/10000  healthy false
 e0b   Cluster   Cluster          up    9000  auto/10000  healthy false
 4 entries were displayed.
 ----
+====
 
 .	Confirm that all the cluster LIFs are on their home ports.
 +
@@ -91,8 +110,9 @@ Verify that the “is-home” column is `true` for each of the cluster LIFs:
 +
 `network interface show -vserver Cluster -fields is-home`
 +
-The system displays output similar to the following example:
-+
+.Example of typical output
+[%collapsible]
+====
 ----
 cluster::*> net int show -vserver Cluster -fields is-home
 (network interface show)
@@ -104,6 +124,7 @@ Cluster  node2_clus1  true
 Cluster  node2_clus2  true
 4 entries were displayed.
 ----
+====
 +
 If there are cluster LIFs that are not on their home ports, revert those LIFs to their home ports:
 +
@@ -116,8 +137,13 @@ If there are cluster LIFs that are not on their home ports, revert those LIFs to
 +
 `network device-discovery show -port _cluster_port_`
 +
-The “Discovered Device” column should be the name of the cluster switch that the port is connected to. The following example shows that cluster ports "e0a" and "e0b" are correctly connected to cluster switches "cs1" and "cs2".
+The “Discovered Device” column should be the name of the cluster switch that the port is connected to. 
 +
+.Example showing correct connection
+[%collapsible]
+====
+The following example shows that cluster ports "e0a" and "e0b" are correctly connected to cluster switches "cs1" and "cs2".
+
 ----
 cluster::> network device-discovery show -port e0a|e0b
   (network device-discovery show)
@@ -132,6 +158,7 @@ node2/cdp
           e0b    cs2                       0/9        BES-53248
 4 entries were displayed.
 ----
+====
 
 .	Verify the cluster connectivity:
 +
@@ -171,6 +198,8 @@ Enable Switchless Cluster: true
 +
 `cluster ping-cluster -node local`
 
+=== Step 2: Configure ports
+
 .	Set up the switchless configuration for the ports in group 2.
 +
 IMPORTANT: To avoid potential networking issues, you must disconnect the ports from group2 and reconnect them back-to-back as quickly as possible, for example, *in less than 20 seconds*.
@@ -189,8 +218,11 @@ image::../media/tnsc_node1_and_node2_direct_connection.PNG[Direct connection bet
 +
 `network device-discovery show -port _cluster_port_`
 +
+.Example showing correct connection
+[%collapsible]
+====
 The following example shows that cluster ports "e0a" and "e0b" are correctly connected to the corresponding port on the cluster partner:
-+
+
 ----
 cluster::> net device-discovery show -port e0a|e0b
   (network device-discovery show)
@@ -211,6 +243,7 @@ node2/lldp
            e0b    node1 (00:a0:98:da:87:49) e0b        -
 8 entries were displayed.
 ----
+====
 
 .	Reenable auto-revert for the cluster LIFs:
 +
@@ -220,8 +253,11 @@ node2/lldp
 +
 `network interface show -vserver Cluster -lif _lif_name_`
 +
+.Example showing correct status:
+[%collapsible]
+====
 The LIFs have been reverted if the “Is Home” column is `true`, as shown for `node1_clus2` and `node2_clus2` in the following example:
-+
+
 ----
 cluster::> network interface show -vserver Cluster -fields curr-port,is-home
 vserver  lif           curr-port is-home
@@ -232,17 +268,23 @@ Cluster  node2_clus1   e0a       true
 Cluster  node2_clus2   e0b       true
 4 entries were displayed.
 ----
+====
 +
 If any cluster LIFS have not returned to their home ports, revert them manually:
 +
 `network interface revert -vserver Cluster -lif _lif_name_`
 
+=== Step 3: Verify the configuration
+
 .	Check the cluster status of the nodes from the system console of either node:
 +
 `cluster show`
 +
+.Example showing correct status:
+[%collapsible]
+====
 The following example shows epsilon on both nodes to be `false`:
-+
+
 ----
 Node  Health  Eligibility Epsilon
 ----- ------- ----------- --------
@@ -250,6 +292,7 @@ node1 true    true        false
 node2 true    true        false
 2 entries were displayed.
 ----
+====
 
 .	Confirm connectivity between the cluster ports:
 +

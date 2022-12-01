@@ -1,16 +1,17 @@
 ---
-permalink: switch-cisco-3132q-v/task-how-to-migrate-from-a-two-node-switchless-cluster-to-a-cluster-with-cisco-nexus-3132q-v-cluster-switches.html
+permalink: switch-cisco-3132q-v/migrate-from-switchless-cluster-to-cisco-nexus-3132q-v.html
 sidebar: sidebar
 keywords: migrate, two-node switched cluster, cisco nexus 3132q-v
 summary: "If you have a two-node switchless cluster, you can migrate nondisruptively to a two-node switched cluster that includes Cisco Nexus 3132Q-V cluster network switches."
 ---
-= Migrate a two-node switched cluster with Cisco Nexus 3132Q-V cluster switches
+= Migrate from a switchless cluster to a two-node switched cluster
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-If you have a two-node switchless cluster, you can migrate nondisruptively to a two-node switched cluster that includes Cisco Nexus 3132Q-V cluster network switches.
+If you have a two-node switchless cluster, you can follow this procedure to migrate to a two-node switched cluster that includes Cisco Nexus 3132Q-V cluster network switches. The replacement procedure is a nondisruptive procedure (NDO).
 
+== Requirements for this procedure
 
 .Ports and node connections
 Make sure you understand the port and node connections and cabling requirements when you migrate to a two-node switched cluster with Cisco Nexus 3132Q-V cluster switches.
@@ -36,16 +37,15 @@ You can break-out the first six ports into 4x10 GbE mode by using the `interface
 
 * The number of 10 GbE and 40/100 GbE ports are defined in the reference configuration files (RCFs) available on the https://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco ® Cluster Network Switch Reference Configuration File Download^] page.
 
-.Before you begin
+.What you'll need
 
-* The configurations must be properly set up and functioning.
-* The nodes must be running ONTAP 9.4 or later.
-* All cluster ports must be in the `up` state.
-* The Cisco Nexus 3132Q-V cluster switch must be supported.
-* The existing cluster network configuration must have:
+* Configurations properly set up and functioning.
+* Nodes running ONTAP 9.4 or later.
+* All cluster ports in the `up` state.
+* The Cisco Nexus 3132Q-V cluster switch is supported.
+* The existing cluster network configuration has:
  ** The Nexus 3132 cluster infrastructure that is redundant and fully functional on both switches.
-+
-The latest RCF and NX-OS versions on your switches.
+ ** The latest RCF and NX-OS versions on your switches.
 +
 The link:http://mysupport.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switches^] page has information about the ONTAP and NX-OS versions supported in this procedure.
 
@@ -55,9 +55,11 @@ The link:http://mysupport.netapp.com/NOW/download/software/cm_switches/[Cisco Et
  ** Initial customization of the switch.
  ** All the ISL ports enabled and cabled.
 
- * You must have done the planning, migration, and read the required documentation on 10 GbE and 40/100 GbE connectivity from nodes to Nexus 3132Q-V cluster switches.
+In addition, you must plan, migrate, and read the required documentation on 10 GbE and 40/100 GbE connectivity from nodes to Nexus 3132Q-V cluster switches.
 
-.About this task
+== Migrate the switches
+
+.About the examples
 
 The examples in this procedure use the following switch and node nomenclature:
 
@@ -68,6 +70,9 @@ The examples in this procedure use the following switch and node nomenclature:
 ====
 The examples in this procedure use two nodes, each utilizing two 40/100 GbE cluster interconnect ports e4a and e4e. The link:https://hwu.netapp.com/[Hardware Universe^] has details about the cluster ports on your platforms.
 ====
+
+.About this task
+This procedure covers the following scenarios:
 
 * n1_clus1 is the first cluster logical interface (LIF) to be connected to cluster switch C1 for node n1.
 * n1_clus2 is the first cluster LIF to be connected to cluster switch C2 for node n1.
@@ -81,13 +86,13 @@ The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Serie
 ====
 
 * The cluster starts with two nodes connected and functioning in a two-node switchless cluster setting.
-* The first cluster port moved to C1 (<<step1_migrate_2node3132q, Steps 1>>- <<step20_migrate_2node3132q,20>>)
-* The second cluster port moved to C2 (<<step21_migrate_2node3132q, Steps 21>>- <<step32_migrate_2node3132q,32>>).
-* Disable the two-node switchless cluster option (<<step33_migrate_2node3132q, Steps 33>>- <<step35_migrate_2node3132q,35>>)
+* The first cluster port is moved to C1.
+* The second cluster port is moved to C2.
+* The two-node switchless cluster option is disabled.
 
-.Steps
+=== Step 1: Prepare for migration
 
-. [[step1_migrate_2node3132q]]If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
+. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
 +
 `system node autosupport invoke -node * -type all - message MAINT=xh`
 +
@@ -103,6 +108,9 @@ The AutoSupport message notifies technical support of this maintenance task so t
 +
 `network port show`
 +
+.Example of network port show
+[%collapsible]
+====
 ----
 cluster::*> network port show –role cluster
   (network port show)
@@ -123,11 +131,15 @@ e4a       Cluster      Cluster          up   9000 auto/40000  -        -
 e4e       Cluster      Cluster          up   9000 auto/40000  -        -
 4 entries were displayed.
 ----
+====
 
  .. Display information about the logical interfaces:
 +
 `network interface show`
 +
+.Example of network interface show
+[%collapsible]
+====
 ----
 cluster::*> network interface show -role cluster
  (network interface show)
@@ -141,6 +153,8 @@ Cluster
             n2_clus2   up/up      10.10.0.4/24       n2            e4e     true
 4 entries were displayed.
 ----
+====
+
 . Verify that the appropriate RCFs and image are installed on the new 3132Q-V switches as necessary for your requirements, and make any essential site customizations, such as users and passwords, network addresses, and so on.
 +
 You must prepare both switches at this time. If you need to upgrade the RCF and image software, you must follow these steps:
@@ -153,12 +167,17 @@ You must prepare both switches at this time. If you need to upgrade the RCF and 
  .. Download the appropriate version of the image software.
 
 . Click *CONTINUE* on the *Description* page, accept the license agreement, and then follow the instructions on the *Download* page to download the RCF.
+
+=== Step 2: Move first cluster port to C1
+
 . On Nexus 3132Q-V switches C1 and C2, disable all node-facing ports C1 and C2, but do not disable the ISL ports.
 +
-The following example shows ports 1 through 30 being disabled on Nexus 3132Q-V cluster switches C1 and C2 using a configuration supported in RCF
-+
-`NX3132_RCF_v1.1_24p10g_26p40g.txt`:
-+
+.Example of disabled ports
+[%collapsible]
+====
+
+The following example shows ports 1 through 30 being disabled on Nexus 3132Q-V cluster switches C1 and C2 using a configuration supported in RCF `NX3132_RCF_v1.1_24p10g_26p40g.txt`:
+
 ----
 C1# copy running-config startup-config
 [########################################] 100%
@@ -178,12 +197,16 @@ C2(config-if-range)# shutdown
 C2(config-if-range)# exit
 C2(config)# exit
 ----
+====
 
 . Connect ports 1/31 and 1/32 on C1 to the same ports on C2 using supported cabling.
 . Verify that the ISL ports are operational on C1 and C2:
 +
 `show port-channel summary`
 +
+.Example of show port-channel summary
+[%collapsible]
+====
 ----
 C1# show port-channel summary
 Flags: D - Down         P - Up in port-channel (members)
@@ -211,11 +234,15 @@ Group Port-        Type   Protocol  Member Ports
 --------------------------------------------------------------------------------
 1     Po1(SU)      Eth    LACP      Eth1/31(P)   Eth1/32(P)
 ----
+====
 
 . Display the list of neighboring devices on the switch:
 +
 `show cdp neighbors`
 +
+.Example of show cdp neighbors
+[%collapsible]
+====
 ----
 C1# show cdp neighbors
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
@@ -241,13 +268,17 @@ C1                 Eth1/32        178    R S I s     N3K-C3132Q-V  Eth1/32
 
 Total entries displayed: 2
 ----
+====
 
 . Display the cluster port connectivity on each node:
 +
 `network device-discovery show`
 +
+.Example of network device-discovery show
+[%collapsible]
+====
 The following example shows a two-node switchless cluster configuration.
-+
+
 ----
 cluster::*> network device-discovery show
             Local  Discovered
@@ -260,6 +291,7 @@ n2         /cdp
             e4a    n1                  e4a              FAS9000
             e4e    n1                  e4e              FAS9000
 ----
+====
 
 . Migrate the clus1 interface to the physical port hosting clus2:
 +
@@ -267,17 +299,24 @@ n2         /cdp
 +
 Execute this command from each local node.
 +
+.Example of network interface migrate
+[%collapsible]
+====
 ----
 cluster::*> network interface migrate -vserver Cluster -lif n1_clus1 -source-node n1
 –destination-node n1 -destination-port e4e
 cluster::*> network interface migrate -vserver Cluster -lif n2_clus1 -source-node n2
 –destination-node n2 -destination-port e4e
 ----
+====
 
 . Verify the cluster interfaces migration:
 +
 `network interface show`
 +
+.Example of network interface show
+[%collapsible]
+====
 ----
 
 cluster::*> network interface show -role cluster
@@ -292,6 +331,7 @@ Cluster
             n2_clus2   up/up      10.10.0.4/24       n2            e4e     true
 4 entries were displayed.
 ----
+====
 
 . Shut down cluster ports clus1 LIF on both nodes:
 +
@@ -306,6 +346,9 @@ cluster::*> network port modify -node n2 -port e4a -up-admin false
 +
 `cluster ping-cluster`
 +
+.Example of cluster ping-cluster
+[%collapsible]
+====
 ----
 cluster::*> cluster ping-cluster -node n1
 Host is n1
@@ -333,6 +376,7 @@ RPC status:
 1 paths up, 0 paths down (tcp check)
 1 paths up, 0 paths down (ucp check)
 ----
+====
 
 . Disconnect the cable from e4a on node n1.
 +
@@ -346,10 +390,11 @@ You can refer to the running configuration and connect e4a to the next available
 
 . Enable all node-facing ports on C1.
 +
-The following example shows ports 1 through 30 being enabled on Nexus 3132Q-V cluster switches C1 and C2 using the configuration supported in RCF
-+
-`NX3132_RCF_v1.1_24p10g_26p40g.txt`:
-+
+.Example of port configuration
+[%collapsible]
+====
+The following example shows ports 1 through 30 being enabled on Nexus 3132Q-V cluster switches C1 and C2 using the configuration supported in RCF `NX3132_RCF_v1.1_24p10g_26p40g.txt`:
+
 ----
 C1# configure
 C1(config)# int e1/1/1-4,e1/2/1-4,e1/3/1-4,e1/4/1-4,e1/5/1-4,e1/6/1-4,e1/7-30
@@ -357,6 +402,7 @@ C1(config-if-range)# no shutdown
 C1(config-if-range)# exit
 C1(config)# exit
 ----
+====
 
 . Enable the first cluster port, e4a, on each node:
 +
@@ -371,6 +417,9 @@ cluster::*> network port modify -node n2 -port e4a -up-admin true
 +
 `network port show`
 +
+.Example of network port show
+[%collapsible]
+====
 ----
 cluster::*> network port show –role cluster
   (network port show)
@@ -391,6 +440,7 @@ e4a       Cluster      Cluster          up   9000 auto/40000  -        -
 e4e       Cluster      Cluster          up   9000 auto/40000  -        -
 4 entries were displayed.
 ----
+====
 
 . For each node, revert all of the migrated cluster interconnect LIFs:
 +
@@ -403,12 +453,15 @@ cluster::*> network interface revert -vserver Cluster -lif n1_clus1
 cluster::*> network interface revert -vserver Cluster -lif n2_clus1
 ----
 
-. [[step20_migrate_2node3132q]]Verify that all of the cluster interconnect ports are now reverted to their home ports:
+. Verify that all of the cluster interconnect ports are now reverted to their home ports:
 +
 `network interface show`
 +
 The `Is Home` column should display a value of `true` for all of the ports listed in the `Current Port` column. If the displayed value is `false`, the port has not been reverted.
 +
+.Example of network interface show
+[%collapsible]
+====
 ----
 cluster::*> network interface show -role cluster
  (network interface show)
@@ -422,11 +475,18 @@ Cluster
             n2_clus2   up/up      10.10.0.4/24       n2            e4e     true
 4 entries were displayed.
 ----
+====
 
-. [[step21_migrate_2node3132q]]Display the cluster port connectivity on each node:
+=== Step 3: Move second cluster port to C2
+
+. Display the cluster port connectivity on each node:
 +
 `network device-discovery show`
 +
+.Example of network device-discovery show
+[%collapsible]
+====
+
 ----
 cluster::*> network device-discovery show
             Local  Discovered
@@ -439,17 +499,22 @@ n2         /cdp
             e4a    C1                  Ethernet1/8      N3K-C3132Q-V
             e4e    n1                  e4e              FAS9000
 ----
+====
 
 . On the console of each node, migrate clus2 to port e4a:
 +
 `network interface migrate`
 +
+.Example of network interface migrate
+[%collapsible]
+====
 ----
 cluster::*> network interface migrate -vserver Cluster -lif n1_clus2 -source-node n1
 –destination-node n1 -destination-port e4a
 cluster::*> network interface migrate -vserver Cluster -lif n2_clus2 -source-node n2
 –destination-node n2 -destination-port e4a
 ----
+====
 
 . Shut down cluster ports clus2 LIF on both nodes:
 +
@@ -466,6 +531,9 @@ The following example shows the specified ports being shut down on both nodes:
 +
 `network interface show`
 +
+.Example of network interface show
+[%collapsible]
+====
 ----
 cluster::*> network interface show -role cluster
  (network interface show)
@@ -479,6 +547,7 @@ Cluster
             n2_clus2   up/up      10.10.0.4/24       n2            e4a     false
 4 entries were displayed.
 ----
+====
 
 . Disconnect the cable from e4e on node n1.
 +
@@ -490,10 +559,12 @@ You can refer to the running configuration and connect e4e to the next available
 
 . Enable all node-facing ports on C2.
 +
-The following example shows ports 1 through 30 being enabled on Nexus 3132Q-V cluster switches C1 and C2 using a configuration supported in RCF
-+
-`NX3132_RCF_v1.1_24p10g_26p40g.txt`:
-+
+.Example of enabling ports
+[%collapsible]
+====
+
+The following example shows ports 1 through 30 being enabled on Nexus 3132Q-V cluster switches C1 and C2 using a configuration supported in RCF `NX3132_RCF_v1.1_24p10g_26p40g.txt`:
+
 ----
 C2# configure
 C2(config)# int e1/1/1-4,e1/2/1-4,e1/3/1-4,e1/4/1-4,e1/5/1-4,e1/6/1-4,e1/7-30
@@ -501,6 +572,7 @@ C2(config-if-range)# no shutdown
 C2(config-if-range)# exit
 C2(config)# exit
 ----
+====
 
 . Enable the second cluster port, e4e, on each node:
 +
@@ -530,6 +602,9 @@ The following example shows the migrated LIFs being reverted to their home ports
 +
 The `Is Home` column should display a value of `true` for all of the ports listed in the `Current Port` column. If the displayed value is `false`, the port has not been reverted.
 +
+.Example of network interface show
+[%collapsible]
+====
 ----
 cluster::*> network interface show -role cluster
  (network interface show)
@@ -543,9 +618,15 @@ Cluster
             n2_clus2   up/up      10.10.0.4/24       n2            e4e     true
 4 entries were displayed.
 ----
+====
 
 . Verify that all of the cluster interconnect ports are in the `up` state.
 +
+`network port show –role cluster`
++
+.Example of network port show
+[%collapsible]
+====
 ----
 cluster::*> network port show –role cluster
   (network port show)
@@ -566,11 +647,17 @@ e4a       Cluster      Cluster          up   9000 auto/40000  -        -
 e4e       Cluster      Cluster          up   9000 auto/40000  -        -
 4 entries were displayed.
 ----
+====
 
-. [[step32_migrate_2node3132q]]Display the cluster switch port numbers each cluster port is connected to on each node:
+=== Step 4: Disable the two-node switchless cluster option
+
+. Display the cluster switch port numbers each cluster port is connected to on each node:
 +
 `network device-discovery show`
 +
+.Example of network device-discovery show
+[%collapsible]
+====
 ----
 	cluster::*> network device-discovery show
             Local  Discovered
@@ -583,11 +670,15 @@ n2         /cdp
             e4a    C1                  Ethernet1/8      N3K-C3132Q-V
             e4e    C2                  Ethernet1/8      N3K-C3132Q-V
 ----
+====
 
-. [[step33_migrate_2node3132q]]Display discovered and monitored cluster switches:
+. Display discovered and monitored cluster switches:
 +
 `system cluster-switch show`
 +
+.Example of system cluster-switch show
+[%collapsible]
+====
 ----
 cluster::*> system cluster-switch show
 
@@ -611,6 +702,7 @@ C2                          cluster-network     10.10.1.102      NX3132V
 
 2 entries were displayed.
 ----
+====
 
 . Disable the two-node switchless configuration settings on any node:
 +
@@ -620,16 +712,20 @@ C2                          cluster-network     10.10.1.102      NX3132V
 network options switchless-cluster modify -enabled false
 ----
 
-. [[step35_migrate_2node3132q]]Verify that the `switchless-cluster` option has been disabled.
+. Verify that the `switchless-cluster` option has been disabled.
 +
 ----
 network options switchless-cluster show
 ----
+=== Step 5: Verify the configuration
 
 . Ping the remote cluster interfaces and perform an RPC server check:
 +
 `cluster ping-cluster`
 +
+.Example of cluster ping-cluster
+[%collapsible]
+====
 ----
 cluster::*> cluster ping-cluster -node n1
 Host is n1
@@ -657,6 +753,7 @@ RPC status:
 1 paths up, 0 paths down (tcp check)
 1 paths up, 0 paths down (ucp check)
 ----
+====
 
 . Enable the cluster switch health monitor log collection feature for collecting switch-related log files:
 +
@@ -664,6 +761,9 @@ RPC status:
 +
 `system cluster-switch log enable-collection`
 +
+.Example of system cluster-switch log commands
+[%collapsible]
+====
 ----
 cluster::*> **system cluster-switch log setup-password**
 Enter the switch name: <return>
@@ -699,6 +799,7 @@ Enabling cluster switch log collection.
 
 cluster::*>
 ----
+====
 +
 NOTE: If any of these commands return an error, contact NetApp support.
 
