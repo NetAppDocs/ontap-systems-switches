@@ -13,7 +13,7 @@ Follow these steps to upgrade the BES-53248 cluster switch.
 
 This procedure applies to a functioning cluster and allows for a nondisruptive upgrade (NDU) and nondisruptive operation (NDO) environment.
 
-== Requirements for upgrade
+== Review requirements
 
 The following conditions must exist before you install the EFOS software, licenses, and the RCF file on an existing NetApp BES-53248 cluster switch:
 
@@ -38,7 +38,7 @@ Follow this procedure to prepare the controller for a BES-53248 cluster switch u
 +
 If this is an issue, use a nonrouted network and configure the service port using IP address 192.168.x or 172.19.x. You can reconfigure the service port to the production management IP address later.
 +
-.Example of ping command
+.Show example
 [%collapsible]
 ====
 This example verifies that the switch is connected to the server at IP address 172.19.2.1:
@@ -56,7 +56,7 @@ Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 +
 `network port show -ipspace Cluster`
 +
-.Example of network port show -ipspace Cluster command
+.Show example
 [%collapsible]
 ====
 The following example shows the type of output with all ports having a `Link` value of up and a `Health Status` of healthy:
@@ -87,7 +87,7 @@ e0b    Cluster      Cluster          up   9000  auto/10000 healthy  false
 +
 `network interface show -vserver Cluster`
 +
-.Example of network interface show -vserver Cluster command
+.Show example
 [%collapsible]
 ====
 In this example, the `-vserver` parameter displays information about the LIFs that are associated with cluster ports. `Status Admin/Oper` must be up and `Is Home` must be true:

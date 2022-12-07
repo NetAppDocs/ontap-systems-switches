@@ -11,7 +11,7 @@ summary: "If you have a two-node switchless cluster, you can migrate nondisrupti
 [.lead]
 If you have a two-node switchless cluster, you can follow this procedure to migrate to a two-node switched cluster that includes Cisco Nexus 3132Q-V cluster network switches. The replacement procedure is a nondisruptive procedure (NDO).
 
-== Requirements for this procedure
+== Review requirements
 
 .Ports and node connections
 Make sure you understand the port and node connections and cabling requirements when you migrate to a two-node switched cluster with Cisco Nexus 3132Q-V cluster switches.
@@ -108,7 +108,7 @@ The AutoSupport message notifies technical support of this maintenance task so t
 +
 `network port show`
 +
-.Example of network port show
+.Show example
 [%collapsible]
 ====
 ----
@@ -137,7 +137,7 @@ e4e       Cluster      Cluster          up   9000 auto/40000  -        -
 +
 `network interface show`
 +
-.Example of network interface show
+.Show example
 [%collapsible]
 ====
 ----
@@ -172,7 +172,7 @@ You must prepare both switches at this time. If you need to upgrade the RCF and 
 
 . On Nexus 3132Q-V switches C1 and C2, disable all node-facing ports C1 and C2, but do not disable the ISL ports.
 +
-.Example of disabled ports
+.Show example
 [%collapsible]
 ====
 
@@ -204,7 +204,7 @@ C2(config)# exit
 +
 `show port-channel summary`
 +
-.Example of show port-channel summary
+.Show example
 [%collapsible]
 ====
 ----
@@ -240,7 +240,7 @@ Group Port-        Type   Protocol  Member Ports
 +
 `show cdp neighbors`
 +
-.Example of show cdp neighbors
+.Show example
 [%collapsible]
 ====
 ----
@@ -274,7 +274,7 @@ Total entries displayed: 2
 +
 `network device-discovery show`
 +
-.Example of network device-discovery show
+.Show example
 [%collapsible]
 ====
 The following example shows a two-node switchless cluster configuration.
@@ -299,7 +299,7 @@ n2         /cdp
 +
 Execute this command from each local node.
 +
-.Example of network interface migrate
+.Show example
 [%collapsible]
 ====
 ----
@@ -314,7 +314,7 @@ cluster::*> network interface migrate -vserver Cluster -lif n2_clus1 -source-nod
 +
 `network interface show`
 +
-.Example of network interface show
+.Show example
 [%collapsible]
 ====
 ----
@@ -346,7 +346,7 @@ cluster::*> network port modify -node n2 -port e4a -up-admin false
 +
 `cluster ping-cluster`
 +
-.Example of cluster ping-cluster
+.Show example
 [%collapsible]
 ====
 ----
@@ -390,7 +390,7 @@ You can refer to the running configuration and connect e4a to the next available
 
 . Enable all node-facing ports on C1.
 +
-.Example of port configuration
+.Show example
 [%collapsible]
 ====
 The following example shows ports 1 through 30 being enabled on Nexus 3132Q-V cluster switches C1 and C2 using the configuration supported in RCF `NX3132_RCF_v1.1_24p10g_26p40g.txt`:
@@ -408,16 +408,20 @@ C1(config)# exit
 +
 `network port modify`
 +
+.Show example
+[%collapsible]
+====
 ----
 cluster::*> network port modify -node n1 -port e4a -up-admin true
 cluster::*> network port modify -node n2 -port e4a -up-admin true
 ----
+====
 
 . Verify that the clusters are up on both nodes:
 +
 `network port show`
 +
-.Example of network port show
+.Show example
 [%collapsible]
 ====
 ----
@@ -446,12 +450,15 @@ e4e       Cluster      Cluster          up   9000 auto/40000  -        -
 +
 `network interface revert`
 +
+.Show example
+[%collapsible]
+====
 The following example shows the migrated LIFs being reverted to their home ports.
-+
 ----
 cluster::*> network interface revert -vserver Cluster -lif n1_clus1
 cluster::*> network interface revert -vserver Cluster -lif n2_clus1
 ----
+====
 
 . Verify that all of the cluster interconnect ports are now reverted to their home ports:
 +
@@ -459,7 +466,7 @@ cluster::*> network interface revert -vserver Cluster -lif n2_clus1
 +
 The `Is Home` column should display a value of `true` for all of the ports listed in the `Current Port` column. If the displayed value is `false`, the port has not been reverted.
 +
-.Example of network interface show
+.Show example
 [%collapsible]
 ====
 ----
@@ -483,7 +490,7 @@ Cluster
 +
 `network device-discovery show`
 +
-.Example of network device-discovery show
+.Show example
 [%collapsible]
 ====
 
@@ -505,7 +512,7 @@ n2         /cdp
 +
 `network interface migrate`
 +
-.Example of network interface migrate
+.Show example
 [%collapsible]
 ====
 ----
@@ -531,7 +538,7 @@ The following example shows the specified ports being shut down on both nodes:
 +
 `network interface show`
 +
-.Example of network interface show
+.Show example
 [%collapsible]
 ====
 ----
@@ -559,7 +566,7 @@ You can refer to the running configuration and connect e4e to the next available
 
 . Enable all node-facing ports on C2.
 +
-.Example of enabling ports
+.Show example
 [%collapsible]
 ====
 
@@ -602,7 +609,7 @@ The following example shows the migrated LIFs being reverted to their home ports
 +
 The `Is Home` column should display a value of `true` for all of the ports listed in the `Current Port` column. If the displayed value is `false`, the port has not been reverted.
 +
-.Example of network interface show
+.Show example
 [%collapsible]
 ====
 ----
@@ -624,7 +631,7 @@ Cluster
 +
 `network port show –role cluster`
 +
-.Example of network port show
+.Show example
 [%collapsible]
 ====
 ----
@@ -655,7 +662,7 @@ e4e       Cluster      Cluster          up   9000 auto/40000  -        -
 +
 `network device-discovery show`
 +
-.Example of network device-discovery show
+.Show example
 [%collapsible]
 ====
 ----
@@ -676,7 +683,7 @@ n2         /cdp
 +
 `system cluster-switch show`
 +
-.Example of system cluster-switch show
+.Show example
 [%collapsible]
 ====
 ----
@@ -717,13 +724,14 @@ network options switchless-cluster modify -enabled false
 ----
 network options switchless-cluster show
 ----
+
 === Step 5: Verify the configuration
 
 . Ping the remote cluster interfaces and perform an RPC server check:
 +
 `cluster ping-cluster`
 +
-.Example of cluster ping-cluster
+.Show example
 [%collapsible]
 ====
 ----
@@ -761,7 +769,7 @@ RPC status:
 +
 `system cluster-switch log enable-collection`
 +
-.Example of system cluster-switch log commands
+.Show example
 [%collapsible]
 ====
 ----

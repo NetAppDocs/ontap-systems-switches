@@ -4,7 +4,7 @@ sidebar: sidebar
 keywords: install, nx-os software, rcfs, cisco nexus 3132q-v, cluster switches
 summary: "The Cisco NX-OS software and reference configuration files (RCFs) must be installed on Cisco Nexus 3132Q-V cluster switches."
 ---
-= Prepare to install NX-OS and RCF
+= Prepare to install NX-OS software and Reference Configuration file
 :icons: font
 :imagesdir: ../media/
 
@@ -48,7 +48,7 @@ The advanced prompt (`*>`) appears.
 +
 `network device-discovery show -protocol cdp`
 +
-.Example of network device-discovery show
+.Show example
 [%collapsible]
 ====
 
@@ -73,7 +73,7 @@ cluster1-01/cdp
 +
 `network port show –ipspace Cluster`
 +
-.Example of network port show
+.Show example
 [%collapsible]
 ====
 
@@ -101,7 +101,7 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy
 +
 `network interface show -vserver Cluster`
 +
-.Example of network interface show
+.Show example
 [%collapsible]
 ====
 
@@ -124,7 +124,7 @@ Cluster
 +
 `cluster ping-cluster -node local`
 +
-.Example of cluster ping-cluster 
+.Show example 
 [%collapsible]
 ====
 
@@ -161,7 +161,7 @@ RPC status:
 +
 `network interface show -vserver Cluster -fields auto-revert`
 +
-.Example of network interface show
+.Show example
 [%collapsible]
 ====
 

@@ -69,7 +69,7 @@ Follow these steps to install licenses for BES-53248 cluster switches.
 . Connect the cluster switch to the management network.
 . Use the `ping` command to verify connectivity to the server hosting EFOS, licenses, and the RCF file.
 +
-.Example of ping command
+.Show example
 [%collapsible]
 ====
 This example verifies that the switch is connected to the server at IP address 172.19.2.1:
@@ -87,7 +87,7 @@ Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 +
 `show license`
 +
-.Example of show license command
+.Show example
 [%collapsible]
 ====
 
@@ -110,7 +110,7 @@ The following example uses SFTP to copy a license file to a key index 1.
 +
 Repeat this step to load more licenses and to use different key index numbers.
 +
-.Example of copy command
+.Show example
 [%collapsible]
 ====
 
@@ -139,7 +139,7 @@ License Key transfer operation completed successfully. System reboot is required
 +
 `show license`
 +
-.Example of show license command
+.Show example
 [%collapsible]
 ====
 [subs=+quotes]
@@ -162,7 +162,7 @@ License Index  License Type      Status
 +
 The ports from the additional license files are not displayed until after the switch is rebooted.
 +
-.Example of show port all command
+.Show example
 [%collapsible]
 ====
 [subs=+quotes]
@@ -197,7 +197,7 @@ Intf      Type   Mode      Mode       Status     Status Trap    Mode   Timeout
 +
 `reload`
 +
-.Example of reload command
+.Show example
 [%collapsible]
 ====
 [subs=+quotes]
@@ -218,7 +218,7 @@ Are you sure you would like to reset the system? (y/n) *y*
 +
 `show license`
 +
-.Example of show license command
+.Show example
 [%collapsible]
 ====
 [subs=+quotes]
@@ -240,7 +240,7 @@ License Index  License Type              Status
 +
 `show port all | exclude Detach`
 +
-.Example of show port all command
+.Show example
 [%collapsible]
 ====
 
@@ -286,7 +286,7 @@ Where problems arise when installing a license, the following debug commands sho
 
 Debug commands to use: `debug transfer` and `debug license`
 
-.Example of debug command
+.Show example
 [%collapsible]
 ====
 [subs=+quotes]
@@ -300,7 +300,7 @@ Enabled capability licensing debugging.
 
 When you run the `copy` command with the `debug transfer` and `debug license` options enabled, the log output is returned.
 
-.Example of log output
+.Show example
 [%collapsible]
 ====
 ----
@@ -352,7 +352,7 @@ To activate newly licensed ports, you need to edit the latest version of the RCF
 The default license activates ports 0/1 to 0/16 and 0/55 to 0/56 while the newly licensed ports will be between ports 0/17 to 0/54 depending on the type and number of licenses available. For example, to activate the SW-BES54248-40-100G-LIC license, you must uncomment the following section in the RCF:
 
 
-.Section to uncomment
+.Show section to uncomment
 [%collapsible]
 ====
 ----

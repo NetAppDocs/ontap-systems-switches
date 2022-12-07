@@ -11,7 +11,7 @@ summary: "Replacing a defective Cisco Nexus 3132Q-V switch in a cluster network 
 [.lead]
 Follow this procedure to replace a defective Cisco Nexus 3132Q-V switch in a cluster network. The replacement procedure is a nondisruptive procedure (NDO).
 
-== Requirements for this procedure
+== Review requirements
 
 .Switch requirements
 Review the link:switch-requirements.html[Requirements for replacing Cisco Nexus 3132Q-V cluster switches].
@@ -73,7 +73,7 @@ The AutoSupport message notifies technical support of this maintenance task so t
 +
 `network device-discovery show`
 +
-.Example of network device-discovery show
+.Show example
 [%collapsible]
 ====
 ----
@@ -107,7 +107,7 @@ n4         /cdp
 +
 `network port show`
 +
-.Example of network port show
+.Show example
 [%collapsible]
 ====
 ----
@@ -157,7 +157,7 @@ e4e       Cluster      Cluster          up   9000 auto/40000  -        -
 +
 `network interface show`
 +
-.Example of network interface show
+.Show example
 [%collapsible]
 ====
 ----
@@ -189,7 +189,7 @@ Cluster
 +
 `system cluster-switch show`
 +
-.Example of system cluster-switch show
+.Show example
 [%collapsible]
 ====
 ----
@@ -231,7 +231,7 @@ You must prepare the replacement switch at this time. If you need to upgrade the
 +
 `network interface migrate`
 +
-.Example of network interface migrate
+.Show example
 [%collapsible]
 ====
 This example shows that the LIF migration is done on all the nodes:
@@ -251,7 +251,7 @@ cluster::*> network interface migrate -vserver Cluster -lif n4_clus2 -source-nod
 +
 `network interface show`
 +
-.Example of network interface show
+.Show example
 [%collapsible]
 ====
 ----
@@ -282,7 +282,7 @@ Cluster
 +
 `network port modify`
 +
-.Example of network port modify
+.Show example
 [%collapsible]
 ====
 This example shows the specified ports being shut down on all nodes:
@@ -301,7 +301,7 @@ cluster::*> network port modify -node n4 -port e4e -up-admin false
 +
 `cluster ping-cluster`
 +
-.Example of cluster ping-cluster
+.Show example
 [%collapsible]
 ====
 ----
@@ -374,7 +374,7 @@ RPC status:
 +
 `shutdown`
 +
-.Example of shutdown
+.Show example
 [%collapsible]
 ====
 This example shows the ISL ports 1/31 and 1/32 being shut down on switch CL1:
@@ -410,7 +410,7 @@ This example shows the ISL ports 1/31 and 1/32 being shut down on switch CL1:
 +
 Ports Eth1/31 and Eth1/32 should indicate `(P)`, which means that the ISL ports are up in the port-channel.
 +
-.Example of show port-channel
+.Show example
 [%collapsible]
 ====
 ----
@@ -435,7 +435,7 @@ Group Port-        Type   Protocol  Member 						Ports
 +
 Ports Eth1/31 and Eth1/32 should indicate `(P)`, which means that both ISL ports are up in the port-channel.
 +
-.Example of show port-channel summary
+.Show example
 [%collapsible]
 ====
 ----
@@ -458,7 +458,7 @@ Group Port-        Type   Protocol  Member Ports
 +
 `network port modify`
 +
-.Example of network port modify
+.Show example
 [%collapsible]
 ====
 ----
@@ -475,7 +475,7 @@ cluster::*> network port modify -node n4 -port e4e -up-admin true
 +
 `network interface revert`
 +
-.Example of network interface revert
+.Show example
 [%collapsible]
 ====
 ----
@@ -492,11 +492,11 @@ Cluster::*> network interface revert –vserver Cluster –lif n4_clus2
 +
 `network interface show`
 +
-This example shows that all the LIFs are successfully reverted because the ports listed under the `Current Port` column have a status of `true` in the `Is Home` column. If the `Is Home` column value is `false`, the LIF has not been reverted.
-+
-.Example of network interface show
+.Show example
 [%collapsible]
 ====
+This example shows that all the LIFs are successfully reverted because the ports listed under the `Current Port` column have a status of `true` in the `Is Home` column. If the `Is Home` column value is `false`, the LIF has not been reverted.
+
 ----
 cluster::*> network interface show -role cluster
  (network interface show)
@@ -524,7 +524,7 @@ Cluster
 +
 `network port show`
 +
-.Example of network port show
+.Show example
 [%collapsible]
 ====
 ----
@@ -573,7 +573,7 @@ e4e       Cluster      Cluster          up   9000 auto/40000  -        -
 +
 `cluster ping-cluster`
 +
-.Example of cluster ping-cluster
+.Show example
 [%collapsible]
 ====
 ----
@@ -651,7 +651,7 @@ RPC status:
  ** `system cluster-switch show`
 
 +
-.Example of device information commands
+.Show example
 [%collapsible]
 ====
 ----
@@ -785,7 +785,7 @@ cluster::*> system cluster-switch delete –device CL2
 +
 `system cluster-switch show`
 +
-.Example of system cluster-switch show
+.Show example
 [%collapsible]
 ====
 ----
@@ -819,7 +819,7 @@ C2                          cluster-network     10.10.1.103      NX3132V
 +
 `system cluster-switch log enable-collection`
 +
-.Example of log commands
+.Show example
 [%collapsible]
 ====
 ----

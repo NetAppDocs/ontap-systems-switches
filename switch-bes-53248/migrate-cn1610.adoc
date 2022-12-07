@@ -16,7 +16,7 @@ The following cluster switches are supported:
 * CN1610
 * BES-53248
 
-== Requirements for this migration
+== Review requirements
 Review the configuration information, port connections, and cabling requirements.
 
 === Node connections
@@ -87,7 +87,6 @@ NOTE: The AutoSupport message notifies technical support of this maintenance tas
 +
 The following command suppresses automatic case creation for two hours:
 +
-
 ----
 cluster1::*> system node autosupport invoke -node \* -type all -message MAINT=2h
 ----
@@ -102,7 +101,7 @@ The advanced prompt (*>) appears.
 +
 `network interface show -vserver Cluster -fields auto-revert`
 +
-.Example of network interface show
+.Show example
 [%collapsible]
 ====
 
@@ -125,7 +124,7 @@ Cluster
 +
 `network device-discovery show -protocol cdp`
 +
-.Example of network device-discovery show
+.Show example
 [%collapsible]
 ====
 
@@ -151,7 +150,7 @@ node1      /cdp
 +
 `network port show -ipspace Cluster`
 +
-.Example of network port show
+.Show example
 [%collapsible]
 ====
 
@@ -181,7 +180,7 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 +
 `network interface show -vserver Cluster`
 +
-.Example of network interface show
+.Show example
 [%collapsible]
 ====
 
@@ -205,7 +204,7 @@ Cluster
 +
 `cluster ping-cluster -node node-name`
 +
-.Example of cluster ping-cluster
+.Show example
 [%collapsible]
 ====
 
@@ -249,7 +248,7 @@ RPC status:
 +
 `shutdown`
 +
-.Example of shutdown command
+.Show example
 [%collapsible]
 ====
 
@@ -268,11 +267,11 @@ The following example shows how to shut down ISL ports 13 through 16 on the CN16
 
 . Build a temporary ISL between CN1610 CL1 and new BES-53248 cs2. The ISL will only be defined on cs2 as the existing ISL on CL1 can be reused.
 +
-.Example of building a temp ISL
+.Show example
 [%collapsible]
 ====
 
-The following example builds a temporary ISL on cs2 (ports 13-16) to be connected to the existing ISL on CL1 (ports 13-16):
+The following example builds a temporary ISL on cs2 (ports 13-16) to be connected to the existing ISL on CL1 (ports 13-16).
 
 [subs=+quotes]
 ----
@@ -311,7 +310,6 @@ Ports   Timeout        Speed     Active
 ----
 ====
 
-
 . On all nodes, remove the cables that are attached to the CN1610 switch CL2.
 +
 You must then reconnect the disconnected ports on all nodes to the new BES-53248 switch cs2. Refer to the https://hwu.netapp.com/Home/Index[_NetApp Hardware Universe_^] for approved cabling options.
@@ -322,7 +320,7 @@ You must attach appropriate approved cabling connecting port 0/13 to 0/16 on the
 
 . Bring up ISLs 13 through 16 on the active CN1610 switch CL1.
 +
-.Example of bringing up ports
+.Show example
 [%collapsible]
 ====
 
@@ -345,7 +343,7 @@ The following example illustrates the process of bringing up ISL ports 13 throug
 +
 The `Link State` should be "Up", `Type` should be "Static", and `Port Active` should be "True" for ports 0/13 to 0/16:
 +
-.Example of show port-channel
+.Show example
 [%collapsible]
 ====
 
@@ -379,7 +377,7 @@ Ports    Timeout        Speed       Active
 +
 `show port-channel`
 +
-.Example of show port-channel
+.Show example
 [%collapsible]
 ====
 
@@ -415,7 +413,7 @@ Ports   Timeout       Speed     Active
 +
 `network interface show -vserver Cluster`
 +
-.Example of network interface show
+.Show example
 [%collapsible]
 ====
 
@@ -437,7 +435,7 @@ Cluster
 +
 `network port show -ipspace Cluster`
 +
-.Example of network port show
+.Show example
 [%collapsible]
 ====
 
@@ -469,7 +467,7 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 +
 `cluster ping-cluster -node _node-name_`
 +
-.Show example of cluster ping-cluster
+.Show example
 [%collapsible]
 ====
 
@@ -510,7 +508,7 @@ You must then reconnect the disconnected ports on all nodes to the new BES-53248
 . Remove four ISL cables from ports 13 to 16 on BES-53248 switch cs2.
 . Remove the temporary port-channel 2 on cs2.
 +
-.Example of removing port channel
+.Show example
 [%collapsible]
 ====
 
@@ -541,7 +539,7 @@ Config file 'startup-config' created successfully .
 +
 The following example verifies that all of the cluster interconnect ports on node1 and node2 are `up`:
 +
-.Example of network port show 
+.Show example
 [%collapsible]
 ====
 
@@ -573,7 +571,7 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 +
 `network interface show -vserver Cluster`
 +
-.Example of network interface show
+.Show example
 [%collapsible]
 ====
 
@@ -597,7 +595,7 @@ Cluster
 +
 `cluster ping-cluster -node _node-name_`
 +
-.Example of cluster ping-cluster
+.Show example
 [%collapsible]
 ====
 
@@ -636,7 +634,7 @@ RPC status:
 +
 `network device-discovery show -protocol cdp`
 +
-.Example of network device-discovery show
+.Show example
 [%collapsible]
 ====
 
@@ -661,13 +659,18 @@ node2      /cdp
 +
 `system cluster-switch delete -device _device-name_`
 +
+.Show example
+[%collapsible]
+====
+
 The following example shows how to remove the CN1610 switches:
-+
+
 [subs=+quotes]
 ----
 cluster::*> *system cluster-switch delete –device CL2*
 cluster::*> *system cluster-switch delete –device CL1*
 ----
+====
 
 . If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
 +

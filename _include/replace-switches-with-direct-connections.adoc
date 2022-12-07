@@ -1,7 +1,7 @@
 
 You can migrate from a cluster with a switched cluster network to one where two nodes are directly connected for ONTAP 9.3 and later.
 
-== Requirements for this procedure
+== Review requirements
 
 .Guidelines
 
@@ -42,7 +42,7 @@ You can verify that detection of switchless clusters is enabled by running the a
 +
 `network options detect-switchless-cluster show`
 +
-.Example showing if the option is enabled
+.Show example
 [%collapsible]
 ====
 The following example output shows if the option is enabled.
@@ -79,7 +79,7 @@ image::../media/tnsc_clusterswitch_connections.PNG[Cluster switch connections be
 +
 Verify that the ports have a value of `up` for the “Link” column and a value of `healthy` for the “Health Status” column.
 +
-.Example showing correct status:
+.Show example
 [%collapsible]
 ====
 
@@ -110,7 +110,7 @@ Verify that the “is-home” column is `true` for each of the cluster LIFs:
 +
 `network interface show -vserver Cluster -fields is-home`
 +
-.Example of typical output
+.Show example
 [%collapsible]
 ====
 ----
@@ -139,7 +139,7 @@ If there are cluster LIFs that are not on their home ports, revert those LIFs to
 +
 The “Discovered Device” column should be the name of the cluster switch that the port is connected to. 
 +
-.Example showing correct connection
+.Show example
 [%collapsible]
 ====
 The following example shows that cluster ports "e0a" and "e0b" are correctly connected to cluster switches "cs1" and "cs2".
@@ -218,7 +218,7 @@ image::../media/tnsc_node1_and_node2_direct_connection.PNG[Direct connection bet
 +
 `network device-discovery show -port _cluster_port_`
 +
-.Example showing correct connection
+.Show example
 [%collapsible]
 ====
 The following example shows that cluster ports "e0a" and "e0b" are correctly connected to the corresponding port on the cluster partner:
@@ -253,7 +253,7 @@ node2/lldp
 +
 `network interface show -vserver Cluster -lif _lif_name_`
 +
-.Example showing correct status:
+.Show example
 [%collapsible]
 ====
 The LIFs have been reverted if the “Is Home” column is `true`, as shown for `node1_clus2` and `node2_clus2` in the following example:
@@ -280,7 +280,7 @@ If any cluster LIFS have not returned to their home ports, revert them manually:
 +
 `cluster show`
 +
-.Example showing correct status:
+.Show example
 [%collapsible]
 ====
 The following example shows epsilon on both nodes to be `false`:

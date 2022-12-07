@@ -13,7 +13,7 @@ If you have an existing two-node switchless cluster environment, you can migrate
 
 The migration process works for all cluster node ports using optical or Twinax ports, but it is not supported on this switch if nodes are using onboard 10GBASE-T RJ45 ports for the cluster network ports.
 
-== Requirements for this migration
+== Review requirements 
 Review the following requirements for the cluster environment.
 
 * Be aware that most systems require two dedicated cluster-network ports on each controller.
@@ -70,7 +70,6 @@ NOTE: The AutoSupport message notifies technical support of this maintenance tas
 +
 The following command suppresses automatic case creation for two hours:
 +
-
 ----
 cluster1::*> system node autosupport invoke -node \* -type all -message MAINT=2h
 ----
@@ -87,7 +86,7 @@ The advanced prompt (`*>`) appears.
 +
 NOTE: You must not disable the ISL ports.
 +
-.Example of disabled ports
+.Show example 
 [%collapsible]
 ====
 
@@ -107,7 +106,7 @@ The following example shows that node-facing ports 1 through 16 are disabled on 
 +
 `show port-channel`
 +
-.Example of show port-channel
+.Show example
 [%collapsible]
 ====
 The following example shows that the ISL ports are up on switch cs1:
@@ -164,7 +163,7 @@ Ports  Timeout       Speed      Active
 +
 This command provides information about the devices that are connected to the system.
 +
-.Example of show isdp neighbors
+.Show example
 [%collapsible]
 ====
 The following example lists the neighboring devices on switch cs1:
@@ -202,7 +201,7 @@ cs2            0/56     176       R            BES-53248   0/56
 +
 Each port should display "up" for `Link` and "healthy" for `Health Status`.
 +
-.Example of network port show -ipspace Cluster
+.Show example
 [%collapsible]
 ====
 
@@ -232,7 +231,7 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy
 +
 Each cluster LIF should display "true" for `Is Home` and have a `Status Admin/Oper` of "up/up"
 +
-.Example of cluster LIF status
+.Show example
 [%collapsible]
 ====
 
@@ -253,7 +252,7 @@ Cluster
 
 . Verify that `auto-revert` is enabled on all cluster LIFs: `network interface show -vserver Cluster -fields auto-revert`
 +
-.Example of auto-revert status
+.Show example
 [%collapsible]
 ====
 
@@ -279,7 +278,7 @@ The https://hwu.netapp.com/Home/Index[_NetApp Hardware Universe_^] contains more
 . Disconnect the cable from cluster port e0a on node2, and then connect e0a to port 2 on cluster switch cs1, using the appropriate cabling supported by the BES-53248 switches.
 . Enable all node-facing ports on cluster switch cs1.
 +
-.Example of node-facing ports status
+.Show example
 [%collapsible]
 ====
 
@@ -299,7 +298,7 @@ The following example shows that ports 1 through 16 are enabled on switch cs1:
 +
 `network interface show -vserver Cluster`
 +
-.Example of network interface show
+.Show example
 [%collapsible]
 ====
 
@@ -324,7 +323,7 @@ Cluster
 +
 `cluster show`
 +
-.Example of cluster show
+.Show example
 [%collapsible]
 ====
 
@@ -345,7 +344,7 @@ node2                true    true          false
 . Disconnect the cable from cluster port e0b on node2, and then connect e0b to port 2 on cluster switch cs2, using the appropriate cabling supported by the BES-53248 switches.
 . Enable all node-facing ports on cluster switch cs2.
 +
-.Example of port configure
+.Show example
 [%collapsible]
 ====
 
@@ -365,7 +364,7 @@ The following example shows that ports 1 through 16 are enabled on switch cs2:
 +
 `network port show -ipspace Cluster`
 +
-.Example of network port show
+.Show example
 [%collapsible]
 ====
 
@@ -401,7 +400,7 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 +
 NOTE: This might take several minutes to complete.
 +
-.Example of network interface show 
+.Show example
 [%collapsible]
 ====
 
@@ -426,7 +425,7 @@ Cluster
 +
 `show isdp neighbors`
 +
-.Example of show isdp neighbors
+.Show example
 [%collapsible]
 ====
 
@@ -463,7 +462,7 @@ cs1            0/56         175       R            BES-53248   0/56
 +
 `network device-discovery show -protocol cdp`
 +
-.Example of network device-discovery show
+.Show example
 [%collapsible]
 ====
 
@@ -501,7 +500,7 @@ Enable Switchless Cluster: false
 +
 `cluster show`
 +
-.Example of cluster show
+.Show example
 [%collapsible]
 ====
 
@@ -522,7 +521,7 @@ node2                true    true          false
 +
 `cluster ping-cluster -node _node-name_`
 +
-.Example of cluster ping-cluster
+.Show example
 [%collapsible]
 ====
 

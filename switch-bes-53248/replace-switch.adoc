@@ -28,7 +28,7 @@ The examples in this procedure use the following switch and node nomenclature:
 
 This procedure is based on the following cluster network topology:
 
-.Cluster network topology
+.Show example topology
 [%collapsible]
 ====
 
@@ -170,7 +170,7 @@ Cluster   node2_clus2  true
 +
 The Link State for port-channel 1/1 should be up and all member ports should be True under the Port Active heading.
 +
-.Example of bringing up ISL ports
+.Show example
 [%collapsible]
 ====
 This example enables ISL ports 0/55 and 0/56 and displays the Link State for port-channel 1/1 on switch cs1:
@@ -223,7 +223,7 @@ Password:
 +
 `network port show -ipspace Cluster`
 +
-.Example of network port show output
+.Show example
 [%collapsible]
 ====
 The output should be similar to the following:
@@ -252,7 +252,7 @@ e0b       Cluster      Cluster          up   9000  auto/auto   -        false
 
 . On the same node as you used in the previous step, wait for the cluster LIF node1_clus2 on node1 to auto-revert.
 +
-.Example of network interface show
+.Show example
 [%collapsible]
 ====
 In this example, LIF node1_clus2 on node1 is successfully reverted if `Is Home` is `true` and the port is e0b.
@@ -276,7 +276,7 @@ Cluster
 . Display information about the nodes in a cluster: 
 `cluster show`
 +
-.Example of cluster show
+.Show example
 [%collapsible]
 ====
 This example shows that the node health for `node1` and `node2` in this cluster is `true`:
@@ -295,7 +295,7 @@ node2  true     true          true
 +
 `network port show`
 +
-.Example of network port show
+.Show example
 [%collapsible]
 ====
 [subs=+quotes]
@@ -367,7 +367,7 @@ cs1(FDO220329KU)   Eth1/66        178    R S I s     N9K-C92300YC  Eth1/66
 +
 `show isdp neighbors`
 +
-.Example of show isdp neighbors
+.Show example
 [%collapsible]
 ====
 [subs=+quotes]

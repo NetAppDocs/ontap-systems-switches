@@ -19,7 +19,7 @@ If you are upgrading an RCF from an older version, you must reset the Broadcom s
 +
 If connectivity is an issue, use a nonrouted network and configure the service port using IP address 192.168.x or 172.19.x. You can reconfigure the service port to the production management IP address later.
 +
-.Example of ping command
+.Show example
 [%collapsible]
 ====
 
@@ -35,7 +35,7 @@ Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 
 . Install the RCF on the BES-53248 cluster switch using the `copy` command.
 +
-.Example of copy command
+.Show example
 [%collapsible]
 ====
 
@@ -70,7 +70,7 @@ NOTE: The file name must not include the symbols `\/:*?"<>|` and the maximum len
 +
 `script list`
 +
-.Example of script list command
+.Show example
 [%collapsible]
 ====
 
@@ -90,7 +90,7 @@ BES-53248_RCF_v1.6-Cluster-HA.scr        2241         2020 09 30 05:41:00
 +
 `script apply`
 +
-.Example of script apply command
+.Show example
 [%collapsible]
 ====
 
@@ -113,7 +113,7 @@ Configuration script 'BES-53248_RCF_v1.6-Cluster-HA.scr' applied.
 +
 `show port all | exclude Detach`
 +
-.Example of show port all | exclude Detach command
+.Show example
 [%collapsible]
 ====
 
@@ -165,7 +165,7 @@ Intf      Type   Mode      Mode         Status     Status Trap    Mode   Timeout
 +
 `write memory`
 +
-.Example of write memory command
+.Show example
 [%collapsible]
 ====
 
@@ -187,7 +187,7 @@ Configuration Saved!
 +
 `reload`
 +
-.Example of reload command
+.Show example
 [%collapsible]
 ====
 
