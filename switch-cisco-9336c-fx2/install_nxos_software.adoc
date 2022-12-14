@@ -9,48 +9,56 @@ summary: You can use this procedure to install the NX-OS software on the Nexus 9
 :imagesdir: ../media/
 
 [.lead]
-You can use this procedure to install the NX-OS software on the Nexus 9336C-FX2 cluster switch.
+Follow this procedure to install the NX-OS software on the Nexus 9336C-FX2 cluster switch.
+
+
+== Review requirements
+
+.What you'll need
+
+* A current backup of the switch configuration.
+* A fully functioning cluster (no errors in the logs or similar issues).
+* link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet switch page^]. Consult the switch compatibility table for the supported ONTAP and NX-OS versions.
+* Appropriate software and upgrade guides available on the Cisco web site for the Cisco switch upgrade and downgrade procedures. See https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series Switches^].
+
 
 .Switch and node nomenclature
 The examples in this procedure use the following switch and node nomenclature:
 
 * The names of the two Cisco switches are cs1 and cs2.
-* The node names arecluster1-01, cluster1-02, cluster1-03, and cluster1-04.
+* The node names are cluster1-01, cluster1-02, cluster1-03, and cluster1-04.
 * The cluster LIF names are cluster1-01_clus1, cluster1-01_clus2, cluster1-02_clus1, cluster1-02_clus2 , cluster1-03_clus1, cluster1-03_clus2, cluster1-04_clus1, and cluster1-04_clus2.
 * The `cluster1::*>` prompt indicates the name of the cluster.
 
-NOTE: The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
+== Install the software
 
-.Before you begin
-The following conditions must exist before you install the Reference Configuration File (RCF) on the cluster switch.
+The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 
-* Make sure that you have a current backup of the switch configuration.
-* The cluster must be fully functioning (there should be no errors in the logs or similar issues).
-* You must have checked or set your desired boot configuration in the RCF to reflect the desired boot images if you are installing only NX-OS and keeping your current RCF version.
-* If you need to change the boot configuration to reflect the current boot images, you must do so before reapplying the RCF so that the correct version is instantiated on future reboots.
-* You must have a console connection to the switch, required when installing the RCF.
-* You must have consulted the switch compatibility table on the https://mysupport.netapp.com/site/info/cisco-ethernet-switch[_Cisco Ethernet switch_^] page for the supported ONTAP, NX-OS, and RCF versions.
-
-* There can be command dependencies between the command syntax in the RCF and that found in versions of NX-OS.
-* You must have referred to the appropriate software and upgrade guides available on the Cisco web site for the Cisco switch upgrade and downgrade procedures. See https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series Switches^].
-
-* You must have the current RCF.
+Be sure to complete the procedure in link:install-nxos-overview.html[Prepare to install NX-OS and RCF], and then follow the steps below.
 
 .Steps
+
 . Connect the cluster switch to the management network.
 . Use the ping command to verify connectivity to the server hosting the NX-OS software and the RCF.
 +
+.Show example
+[%collapsible]
+====
 This example verifies that the switch can reach the server at IP address 172.19.2.1:
-+
+
 ----
 cs2# ping 172.19.2.1
 Pinging 172.19.2.1 with 0 bytes of data:
 
 Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 ----
+====
 
 . Copy the NX-OS software and EPLD images to the Nexus 9336C-FX2 switch.
 +
+.Show example
+[%collapsible]
+====
 ----
 cs2# copy sftp: bootflash: vrf management
 Enter source filename: /code/nxos.9.3.5.bin
@@ -86,9 +94,15 @@ sftp> exit
 Copy complete, now saving to disk (please wait)...
 Copy complete.
 ----
+====
 
 . Verify the running version of the NX-OS software:
 +
+`show version`
++
+.Show example
+[%collapsible]
+====
 ----
 cs2# show version
 Cisco Nexus Operating System (NX-OS) Software
@@ -142,11 +156,15 @@ Active Package(s):
 
 cs2#
 ----
+====
 
 . Install the NX-OS image.
 +
 Installing the image file causes it to be loaded every time the switch is rebooted.
 +
+.Show example
+[%collapsible]
+====
 ----
 cs2# install all nxos bootflash:nxos.9.3.5.bin
 
@@ -209,9 +227,15 @@ Warning: please do not remove or power off the module at this time.
 
 Finishing the upgrade, switch will reboot in 10 seconds.
 ----
+====
 
-. Verify the new version of NX-OS software after the switch has rebooted: `show version`
+. Verify the new version of NX-OS software after the switch has rebooted: 
 +
+`show version`
++
+.Show example
+[%collapsible]
+====
 ----
 cs2# show version
 
@@ -262,9 +286,13 @@ plugin
 
 Active Package(s):
 ----
+====
 
 . Upgrade the EPLD image and reboot the switch.
 +
+.Show example
+[%collapsible]
+====
 ----
 cs2# show version module 1 epld
 
@@ -309,9 +337,13 @@ EPLDs upgraded.
 
 Module 1 EPLD upgrade is successful.
 ----
+====
 
 . After the switch reboot, log in again and verify that the new version of EPLD loaded successfully.
 +
+.Show example
+[%collapsible]
+====
 ----
 cs2# show version module 1 epld
 
@@ -325,3 +357,7 @@ GEM  FPGA                        0x2
 GEM  FPGA                        0x2
 GEM  FPGA                        0x2
 ----
+====
+.What's next?
+
+link:install-nxos-rcf.html[Install RCF config file].
