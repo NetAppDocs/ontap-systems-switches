@@ -4,22 +4,25 @@ sidebar: sidebar
 keywords: cisco 3232c, cluster switches
 summary: "You can use Cisco Nexus 3232C switches as cluster switches in your AFF or FAS cluster."
 ---
-= Cisco Nexus 3232C switches
+= Overview and requirements: Cisco Nexus 3232C switches
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-You can use Cisco Nexus 3232C switches as cluster switches in your AFF or FAS cluster.
+For Cisco Nexus 3232C switch installation and maintenance, be sure to review all requirements and recommended documentation. 
 
-* You can install the Cisco Nexus 3232C switch (X190100) NetApp system cabinet with the custom brackets that come with the switch, or you can install it in a rack with the standard brackets that are also included with the switch.
-* You can install the switch, migrate from an existing switch, replace a switch, and update the RCF files on the switch.
-* You can install NX-OS and reference configuration files (RCF's) on the Cisco Nexus 3232C cluster switch.
-* You can migrate from a two-node switchless cluster to a cluster with Cisco Nexus 3232C cluster switches.
-* You can replace a Cisco Nexus 3232C cluster switch.
-* You can replace a Cisco Nexus 3232C storage switch.
+== Task overview
+
+You can use Cisco Nexus 3232C switches as cluster switches in your AFF or FAS cluster. Installation and maintenance tasks include:
+
+* Installing the Cisco Nexus 3232C switch (X190100) in a NetApp system cabinet with the custom brackets that come with the switch, or installing it in a rack with the standard brackets that are also included with the switch.
+* Installing NX-OS software and reference configuration files (RCF's) on the Cisco Nexus 3232C cluster switch.
+* Migrating from a two-node switchless cluster to a cluster with Cisco Nexus 3232C cluster switches.
+* Replacing  a Cisco Nexus 3232C cluster switch.
+* Replacing a Cisco Nexus 3232C storage switch.
 
 == Configuration requirements
-[.lead]
+
 To configure your cluster, you need the appropriate number and type of cables and cable connectors for your switches. Depending on the type of switch you are initially configuring, you need to connect to the switch console port with the included console cable; you also need to provide specific network information.
 
 == Network requirements
@@ -33,7 +36,7 @@ You need the following network information for all switch configurations:
 Refer to the https://hwu.netapp.com[Hardware Universe^] for latest information.
 
 == Smart Call Home requirements
-[.lead]
+
 Smart Call Home monitors the hardware and software components on your network, to generate an email-based notification of critical system conditions. When an event occurs on your device, Smart Call Home raises an alert to all the recipients that are configured in your destination profile.
 
 You must configure a cluster network switch to communicate using email with the Smart Call Home system. You can optionally set up your cluster network switch to take advantage of Cisco's embedded Smart Call Home support feature.
@@ -49,9 +52,11 @@ Before you can use Smart Call Home feature, you need to be aware of the followin
 The http://www.cisco.com/c/en/us/products/switches/index.html[Cisco support site^] contains information about the commands to configure Smart Call Home.
 
 == Documentation requirements
+
 You need specific switch and controller documentation to set up your Cisco Nexus 3232C switches and ONTAP cluster.
 
 === Switch documentation
+
 To set up the Cisco Nexus 3232C switches, you need the following documentation from the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/series.html[Cisco Nexus 3000 Series Switches Support^] page.
 
 [options="header" cols="1,2"]

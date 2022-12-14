@@ -9,10 +9,10 @@ summary: 'You can use this procedure to perform the initial installation of the 
 :imagesdir: ../media/
 
 [.lead]
-Learn how to set up and configure the Cisco Nexus 92300YC switch.
+Follow this procedure to set up and configure the Cisco Nexus 92300YC switch.
 
 .Steps
-. Connect the serial port to the host or serial port of your choice.
+. Connect the serial port to a host or serial port.
 . Connect the management port (on the non-port side of the switch) to the same network where your SFTP server is located.
 . At the console, set the host side serial settings:
  ** 9600 baud
@@ -20,7 +20,9 @@ Learn how to set up and configure the Cisco Nexus 92300YC switch.
  ** 1 stop bit
  ** parity: none
  ** flow control: none
-. Booting for the first time or rebooting after erasing the running configuration, the Nexus 92300YC switch loops in a boot cycle. Interrupt this cycle by typing *yes* to abort Power on Auto Provisioning. You are then presented with the System Admin Account setup:
+. When booting for the first time or rebooting after erasing the running configuration, the Nexus 92300YC switch loops in a boot cycle. Interrupt this cycle by typing *yes* to abort Power on Auto Provisioning. 
++ 
+The System Admin Account setup is displayed.
 +
 [subs=+quotes]
 ----
@@ -32,7 +34,7 @@ Disabling POAP.......Disabling POAP
 
 Do you want to enforce secure password standard (yes/no) [y]:
 ----
-+
+
 . Type *y* to enforce secure password standard:
 +
 [subs=+quotes]
@@ -47,7 +49,7 @@ Enter the password for "admin":
 Confirm the password for "admin":
 ----
 
-. Enter the Basic System Configuration dialog:
+. Type *yes* to enter the Basic System Configuration dialog.
 +
 ----
 This setup utility will guide you through the basic configuration of
@@ -64,6 +66,7 @@ to skip the remaining dialogs.
 
 Would you like to enter the basic configuration dialog (yes/no):
 ----
+
 
 . Create another login account:
 +
@@ -151,3 +154,7 @@ Use this configuration and save it? (yes/no) [y]: *y*
 Copy complete, now saving to disk (please wait)...
 Copy complete.
 ----
+
+.What's next?
+
+link:install-nxos-overview.html[Prepare to install NX-OS software and RCF].

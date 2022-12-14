@@ -9,9 +9,11 @@ summary: 'You can use this procedure to install the NX-OS software on the Nexus 
 :imagesdir: ../media/
 
 [.lead]
-You can use this procedure to install the NX-OS software on the Nexus 92300YC switch.
+Follow this procedure to install the NX-OS software on the Nexus 92300YC switch.
 
 NX-OS is a network operating system for the Nexus series of Ethernet switches and MDS series of Fibre Channel (FC) storage area network switches provided by Cisco Systems.
+
+== Review requirements
 
 .Switch and node nomenclature
 The examples in this procedure use the following switch and node nomenclature:
@@ -29,13 +31,14 @@ See the link:https://hwu.netapp.com/Home/Index[_Hardware Universe^_] for the act
 * The Inter-Switch Links (ISLs) supported for the Nexus 92300YC switches are ports 1/65 and 1/66.
 * The node connections supported for the Nexus 92300YC switches are ports 1/1 through 1/66.
 
-.Before you begin
-* Download the applicable NetApp Cisco NX-OS software for your switches from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com]
-* The cluster must be fully functioning (there should be no errors in the logs or similar issues).
-* You must have checked or set your desired boot configuration in the RCF to reflect the desired boot images if you are installing only NX-OS and keeping your current RCF version.
-* If you need to change the boot configuration to reflect the current boot images, you must do so before reapplying the RCF so that the correct version is instantiated on future reboots.
-* You must have consulted the switch compatibility table on the https://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet switch^] page for the supported ONTAP, NX-OS, and RCF versions.
-* There can be command dependencies between the command syntax in the RCF and that found in versions of NX-OS.
+.What you'll need
+
+* Applicable NetApp Cisco NX-OS software for your switches from the NetApp Support Site, available from http://mysupport.netapp.com/[mysupport.netapp.com]
+* A fully functioning cluster (no errors in the logs or similar issues).
+* link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet switch page^]. Consult the switch compatibility table for the supported ONTAP and NX-OS versions.
+
+
+== Install the software
 
 .About this task
 The examples in this procedure use two nodes, but you can have up to 24 nodes in a cluster.
@@ -44,8 +47,11 @@ The examples in this procedure use two nodes, but you can have up to 24 nodes in
 . Connect the cluster switch to the management network.
 . Use the `ping` command to verify connectivity to the server hosting the NX-OS software and the RCF.
 +
+.Show example
+[%collapsible]
+====
 This example verifies that the switch can reach the server at IP address 172.19.2.1:
-+
+
 [subs=+quotes]
 ----
 cs2# *ping 172.19.2.1*
@@ -53,9 +59,13 @@ Pinging 172.19.2.1 with 0 bytes of data:
 
 Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 ----
+====
 
 . Copy the NX-OS software and EPLD images to the Nexus 92300YC switch.
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cs2# *copy sftp: bootflash: vrf management*
@@ -91,9 +101,15 @@ sftp> exit
 Copy complete, now saving to disk (please wait)...
 Copy complete.
 ----
+====
 
 . Verify the running version of the NX-OS software:
 +
+`show version`
++
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cs2# *show version*
@@ -146,11 +162,15 @@ Active Package(s):
 
 cs2#
 ----
+====
 
 . Install the NX-OS image.
 +
 Installing the image file causes it to be loaded every time the switch is rebooted.
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cs2# *install all nxos bootflash:nxos.9.2.2.bin*
@@ -215,11 +235,15 @@ Warning: please do not remove or power off the module at this time.
 
 Finishing the upgrade, switch will reboot in 10 seconds.
 ----
+====
 
 . Verify the new version of NX-OS software after the switch has rebooted:
 +
 `show version`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cs2# *show version*
@@ -271,9 +295,13 @@ plugin
 
 Active Package(s):
 ----
+====
 
 . Upgrade the EPLD image and reboot the switch.
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cs2# *show version module 1 epld*
@@ -320,10 +348,14 @@ EPLDs upgraded.
 
 Module 1 EPLD upgrade is successful.
 ----
+====
 
 . After the switch reboot, log in again and verify that the new version of EPLD loaded successfully.
 +
 [subs=+quotes]
+.Show example
+[%collapsible]
+====
 ----
 cs2# *show version module 1 epld*
 
@@ -337,3 +369,9 @@ GEM FPGA                         0x2
 GEM FPGA                         0x2
 GEM FPGA                         0x2
 ----
+
+====
+
+.What's next?
+
+link:install-the-rcf-file.html[Install the Reference Configuration File (RCF)].

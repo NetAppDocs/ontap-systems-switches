@@ -4,11 +4,13 @@ sidebar: sidebar
 keywords: cisco nexus 92300YC
 summary: If you want to build ONTAP clusters with more than two nodes, you need two supported cluster network switches. You can use additional management switches, which are optional.
 ---
-= Overview and requirements
+= Overview and requirements: Cisco Nexus 92300YC switches
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
+For Cisco Nexus 92300YC switch installation and maintenance, be sure to review all requirements and recommended documentation. 
+
 If you want to build ONTAP clusters with more than two nodes, you need two supported cluster network switches. You can use additional management switches, which are optional.
 
 == Switch components
@@ -45,11 +47,11 @@ Power supply, Cisco 650W - port side exhaust
 
 Cisco Nexus 92300YC switch airflow details:
 
- ** Port-side exhaust airflow (standard air) --Cool air enters the chassis through the fan and power supply modules in the cold aisle and exhausts through the port end of the chassis in the hot aisle. Port-side exhaust airflow with blue coloring.
- ** Port-side intake airflow (reverse air) --Cool air enters the chassis through the port end in the cold aisle and exhausts through the fan and power supply modules in the hot aisle. Port-side intake airflow with burgundy coloring.
+ ** Port-side exhaust airflow (standard air) -- Cool air enters the chassis through the fan and power supply modules in the cold aisle and exhausts through the port end of the chassis in the hot aisle. Port-side exhaust airflow with blue coloring.
+ ** Port-side intake airflow (reverse air) -- Cool air enters the chassis through the port end in the cold aisle and exhausts through the fan and power supply modules in the hot aisle. Port-side intake airflow with burgundy coloring.
 
 == Configuration requirements
-[.lead]
+
 To configure your cluster, you need the appropriate number and type of cables and cable connectors for your switches. Depending on the type of switch you are initially configuring, you need to connect to the switch console port with the included console cable; you also need to provide specific network information.
 
 == Network requirements
@@ -63,7 +65,7 @@ You need the following network information for all switch configurations:
 Refer to the https://hwu.netapp.com[Hardware Universe^] for latest information.
 
 == Smart Call Home requirements
-[.lead]
+
 Smart Call Home monitors the hardware and software components on your network, to generate an email-based notification of critical system conditions. When an event occurs on your device, Smart Call Home raises an alert to all the recipients that are configured in your destination profile.
 
 You must configure a cluster network switch to communicate using email with the Smart Call Home system. You can optionally set up your cluster network switch to take advantage of Cisco's embedded Smart Call Home support feature.

@@ -1,5 +1,5 @@
 ---
-permalink: switch-cisco-3232c/task-install-the-nx-os-software-3232c-cluster-switch.html
+permalink: switch-cisco-3232c/install-nx-os-software-3232c.html
 sidebar: sidebar
 keywords: install, nx-os software
 summary: "You can use this procedure to install the NX-OS software on the Nexus 3232C cluster switch."
@@ -11,36 +11,44 @@ summary: "You can use this procedure to install the NX-OS software on the Nexus 
 [.lead]
 You can use this procedure to install the NX-OS software on the Nexus 3232C cluster switch.
 
-.Before you begin
+== Review requirements
 
-The following conditions must exist before you install the NX-OS software on the cluster switch:
+.What you'll need
 
-* Make sure that you have a current backup of the switch configuration.
-* The cluster must be fully functioning (there should be no errors in the logs or similar -ssues).
-* You must have checked or set your desired boot configuration in the RCF to reflect the desired boot images if you are installing only NX-OS and keeping your current RCF version.
-* If you need to change the boot configuration to reflect the current boot images, you must do so before reapplying the RCF so that the correct version is instantiated on future reboots.
-* You must have a console connection to the switch, required when installing the RCF.
-* You must have consulted the switch compatibility table on the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet switch page^] for the supported ONTAP, NX-OS, and RCF versions.
-* There can be command dependencies between the command syntax in the RCF and that found in versions of NX-OS.
-* You must have referred to the appropriate software and upgrade guides available on the Cisco web site for complete documentation on the Cisco switch upgrade and downgrade procedures on link:https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-installation-guides-list.html[Cisco Nexus 3000 Series Switches^].
-* You must have the current RCF.
+* A current backup of the switch configuration.
+* A fully functioning cluster (no errors in the logs or similar issues).
+* link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet switch page^]. Consult the switch compatibility table for the supported ONTAP and NX-OS versions.
+* link:https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-installation-guides-list.html[Cisco Nexus 3000 Series Switches^]. Refer to the appropriate software and upgrade guides available on the Cisco web site for complete documentation on the Cisco switch upgrade and downgrade procedures. 
 
+== Install the software
+
+The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
+
+Be sure to complete the procedure in link:setup-switch.html[Prepare to install NX-OS and RCF], and then follow the steps below.
 
 .Steps
 
 . Connect the cluster switch to the management network.
 . Use the `ping` command to verify connectivity to the server hosting the NX-OS software and the RCF.
 +
+.Show example
+[%collapsible]
+====
+
 This example verifies that the switch can reach the server at IP address 172.19.2.1:
-+
+
 ----
 cs2# ping 172.19.2.1
 Pinging 172.19.2.1 with 0 bytes of data:
 
 Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 ----
+====
+
 . Copy the NX-OS software and EPLD images to the Nexus 3232C switch.
-+
+.Show example
+[%collapsible]
+====
 ----
 cs2# copy sftp: bootflash: vrf management
 Enter source filename: /code/nxos.9.3.4.bin
@@ -75,9 +83,15 @@ sftp> exit
 Copy complete, now saving to disk (please wait)...
 Copy complete.
 ----
+====
 
 . Verify the running version of the NX-OS software:
 +
+`show version`
++
+.Show example
+[%collapsible]
+====
 ----
 cs2# show version
 Cisco Nexus Operating System (NX-OS) Software
@@ -129,11 +143,14 @@ Active Package(s):
 
 cs2#
 ----
+====
 
 . Install the NX-OS image.
 +
 Installing the image file causes it to be loaded every time the switch is rebooted.
-+
+.Show example
+[%collapsible]
+====
 ----
 cs2# install all nxos bootflash:nxos.9.3.4.bin
 Installer will perform compatibility check first. Please wait.
@@ -193,10 +210,13 @@ Warning: please do not remove or power off the module at this time.
 Finishing the upgrade, switch will reboot in 10 seconds.
 cs2#
 ----
+====
 
 . Verify the new version of NX-OS software after the switch has rebooted:
 `show version`
-+
+.Show example
+[%collapsible]
+====
 ----
 cs2# show version
 Cisco Nexus Operating System (NX-OS) Software
@@ -248,9 +268,13 @@ Active Package(s):
 
 cs2#
 ----
+====
 
 . Upgrade the EPLD image and reboot the switch.
 +
+.Show example
+[%collapsible]
+====
 ----
 cs2# show version module 1 epld
 
@@ -288,9 +312,13 @@ Module        Type  Upgrade-Result
 Module 1 EPLD upgrade is successful.
 cs2#
 ----
+====
 
 . After the switch reboot, log in again, upgrade the EPLD golden image and reboot the switch once again.
 +
+.Show example
+[%collapsible]
+====
 ----
 cs2# install epld bootflash:n9000-epld.9.3.4.img module 1 golden
 Digital signature verification is successful
@@ -320,9 +348,13 @@ EPLDs upgraded.
 Module 1 EPLD upgrade is successful.
 cs2#
 ----
+====
 
 . After the switch reboot, log in to verify that the new version of EPLD loaded successfully.
 +
+.Show example
+[%collapsible]
+====
 ----
 cs2# show version module 1 epld
 
@@ -331,3 +363,8 @@ EPLD Device                     Version
 MI   FPGA                        0x12
 IO   FPGA                        0x12
 ----
+====
+
+.What's next?
+
+link:install-rcf-3132q-v.html[Install RCF config file].

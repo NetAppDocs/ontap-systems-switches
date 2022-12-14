@@ -10,9 +10,23 @@ summary: You can install the RCF after setting up the Nexus 92300YC switch for t
 :imagesdir: ../media/
 
 [.lead]
-You can install the RCF after setting up the Nexus 92300YC switch for the first time. You can also use this procedure to upgrade your RCF version.
+Follow this procedure to install the RCF after setting up the Nexus 92300YC switch for the first time. You can also use this procedure to upgrade your RCF version.
 
-.About this task
+== Review requirements
+
+.What you'll need
+* A current backup of the switch configuration.
+* A fully functioning cluster (no errors in the logs or similar issues).
+* The current Reference Configuration File (RCF).
+* A boot configuration in the RCF that reflects the desired boot images, required if you are installing only NX-OS and keeping your current RCF version. If you need to change the boot configuration to reflect the current boot images, you must do so before reapplying the RCF so that the correct version is instantiated on future reboots.
+* A console connection to the switch, required when installing the RCF.
+
+.Suggested documentation
+* link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet switch page^] Consult the switch compatibility table for the supported ONTAP and RCF versions. Note that there can be command dependencies between the command syntax in the RCF and that found in versions of NX-OS.
+
+== Install the file
+
+.Switch and node nomenclature
 
 The examples in this procedure use the following switch and node nomenclature:
 
@@ -21,17 +35,19 @@ The examples in this procedure use the following switch and node nomenclature:
 * The cluster LIF names are `node1_clus1`, `node1_clus2`, `node2_clus1`, and `node2_clus2`.
 * The `cluster1::*>` prompt indicates the name of the cluster.
 
-[NOTE]
-====
-* The procedure requires the use of both ONTAP commands and https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html#InstallandUpgrade[Cisco Nexus 9000 Series Switches^]; ONTAP commands are used unless otherwise indicated.
-* Before you perform this procedure, make sure that you have a current backup of the switch configuration.
-====
+
+.About this task
+The procedure requires the use of both ONTAP commands and https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html#InstallandUpgrade[Cisco Nexus 9000 Series Switches^]; ONTAP commands are used unless otherwise indicated.
 
 .Steps
 
 . Display the cluster ports on each node that are connected to the cluster switches:
++
 `network device-discovery show`
 +
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network device-discovery show*
@@ -46,11 +62,18 @@ node2/cdp
             e0b    cs2                       Ethernet1/1/2     N9K-C92300YC
 cluster1::*>
 ----
+====
 
 . Check the administrative and operational status of each cluster port.
+
  .. Verify that all the cluster ports are up with a healthy status:
++
 `network port show -ipspace Cluster`
 +
+.Show example 
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
 cluster1::*> *network port show -ipspace Cluster*
@@ -72,10 +95,15 @@ e0c       Cluster      Cluster          up   9000  auto/100000 healthy false
 e0d       Cluster      Cluster          up   9000  auto/100000 healthy false
 cluster1::*>
 ----
+====
 
  .. Verify that all the cluster interfaces (LIFs) are on the home port:
+ +
 `network interface show -vserver Cluster`
 +
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network interface show -vserver Cluster*
@@ -89,10 +117,15 @@ Cluster
             node2_clus2        up/up      169.254.3.9/23    node2        e0d     true
 cluster1::*>
 ----
+====
 
  .. Verify that the cluster displays information for both cluster switches:
+ +
 `system cluster-switch show -is-monitoring-enabled-operational true`
 +
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true*
@@ -116,6 +149,7 @@ cs2                         cluster-network    10.233.205.93    N9K-C92300YC
 
 2 entries were displayed.
 ----
+====
 
 . Disable auto-revert on the cluster LIFs.
 +
@@ -133,8 +167,13 @@ cs2(config-if-range)# *shutdown*
 ----
 
 . Verify that the cluster ports have migrated to the ports hosted on cluster switch cs1. This might take a few seconds.
++
 `network interface show -vserver Cluster`
 +
+.Show example 
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
 cluster1::*> *network interface show -vserver Cluster*
@@ -148,10 +187,16 @@ Cluster
             node2_clus2       up/up      169.254.3.9/23     node2         e0c     false
 cluster1::*>
 ----
+====
 
 . Verify that the cluster is healthy:
++
 `cluster show`
 +
+.Show example 
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
 cluster1::*> *cluster show*
@@ -161,14 +206,19 @@ node1          true    true          false
 node2          true    true          false
 cluster1::*>
 ----
+====
 
 . If you do not already have a current backup of the switch, you can save the current switch configuration by copying the output of the following command to a log file:
 +
 `show running-config`
 
 . Clean the configuration on switch cs2 and perform a basic setup.
+
  .. Clean the configuration. This step requires a console connection to the switch.
 +
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cs2# *write erase*
@@ -178,12 +228,17 @@ cs2# *reload*
 This command will reboot the system. (y/n)?  [n] *y*
 cs2#
 ----
+====
 
  .. Perform a basic setup of the switch.
+
 . Copy the RCF to the bootflash of switch cs2 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html#InstallandUpgrade[Cisco Nexus 9000 Series Switches^] guides.
 +
+.Show example 
+[%collapsible]
+====
 This example shows TFTP being used to copy an RCF to the bootflash on switch cs2:
-+
+
 [subs=+quotes]
 ----
 cs2# *copy tftp: bootflash: vrf management*
@@ -202,13 +257,17 @@ tftp> *exit*
 Copy complete, now saving to disk (please wait)...
 Copy complete.
 ----
+====
 
 . Apply the RCF previously downloaded to the bootflash.
 +
 For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html#InstallandUpgrade[Cisco Nexus 9000 Series Switches^] guides.
 +
+.Show example 
+[%collapsible]
+====
 This example shows the RCF file `Nexus_92300YC_RCF_v1.0.2.txt` being installed on switch cs2:
-+
+
 [subs=+quotes]
 ----
 cs2# *copy Nexus_92300YC_RCF_v1.0.2.txt running-config echo-commands*
@@ -235,11 +294,15 @@ Edge Port Type (Portfast) has been configured on Ethernet1/1 but will only
 Copy complete, now saving to disk (please wait)...
 Copy complete.
 ----
+====
 
 . Verify on the switch that the RCF has been merged successfully:
 +
 `show running-config`
 +
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cs2# *show running-config*
@@ -276,11 +339,13 @@ banner motd #
 *                                                                              *
 ********************************************************************************
 ----
+====
 
 NOTE: When applying the RCF for the first time, the *ERROR: Failed to write VSH commands* message is expected and can be ignored.
 
 [start=12]
 . [[step12]]Verify that the RCF file is the correct newer version:
++
 `show running-config`
 +
 When you check the output to verify you have the correct RCF, make sure that the following information is correct:
@@ -288,6 +353,7 @@ When you check the output to verify you have the correct RCF, make sure that the
  ** The RCF banner
  ** The node and port settings
  ** Customizations
++
 The output varies according to your site configuration. Check the port settings and refer to the release notes for any changes specific to the RCF that you have installed.
 
 . After you verify the RCF versions and switch settings are correct, copy the running-config file to the startup-config file.
@@ -309,9 +375,15 @@ This command will reboot the system. (y/n)?  [n] *y*
 ----
 
 . Verify the health of the cluster ports on the cluster.
+
  .. Verify that e0d ports are up and healthy across all nodes in the cluster:
++
 `network port show -ipspace Cluster`
 +
+.Show example 
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
 cluster1::*> *network port show -ipspace Cluster*
@@ -332,9 +404,13 @@ Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
 e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 ----
+====
 
  .. Verify the switch health from the cluster (this might not show switch cs2, since LIFs are not homed on e0d).
 +
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network device-discovery show -protocol cdp*
@@ -369,6 +445,7 @@ cs2                         cluster-network    10.233.205.91    N9K-C92300YC
 
 2 entries were displayed.
 ----
+====
 
 +
 [NOTE]
@@ -392,6 +469,9 @@ cs1(config-if-range)# *shutdown*
 
 . Verify that the cluster LIFs have migrated to the ports hosted on switch cs2. This might take a few seconds. `network interface show -vserver Cluster`
 +
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network interface show -vserver Cluster*
@@ -405,10 +485,15 @@ Cluster
             node2_clus2      up/up      169.254.3.9/23     node2             e0d     true
 cluster1::*>
 ----
+====
 
 . Verify that the cluster is healthy:
++
 `cluster show`
 +
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *cluster show*
@@ -418,6 +503,7 @@ node1          true     true          false
 node2          true     true          false
 cluster1::*>
 ----
+====
 
 . Repeat Steps 7 to 14 on switch cs1.
 . Enable auto-revert on the cluster LIFs.
@@ -437,6 +523,9 @@ This command will reboot the system. (y/n)?  [n] *y*
 
 . Verify that the switch ports connected to the cluster ports are up.
 +
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cs1# *show interface brief | grep up*
@@ -449,10 +538,15 @@ Ethernet1/4      1       eth  trunk  up      none                   100G(D) --
 .
 .
 ----
+====
 
 . Verify that the ISL between cs1 and cs2 is functional:
++
 `show port-channel summary`
 +
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cs1# *show port-channel summary*
@@ -471,10 +565,16 @@ Group Port-       Type     Protocol  Member Ports
 1     Po1(SU)     Eth      LACP      Eth1/65(P)   Eth1/66(P)
 cs1#
 ----
+====
 
 . Verify that the cluster LIFs have reverted to their home port:
++
 `network interface show -vserver Cluster`
 +
+.Show example 
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
 cluster1::*> *network interface show -vserver Cluster*
@@ -488,11 +588,17 @@ Cluster
             node2_clus2   up/up      169.254.3.9/23     node2         e0d     true
 cluster1::*>
 ----
+====
 
 . Verify that the cluster is healthy:
++
 `cluster show`
 +
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
+
 ----
 cluster1::*> *cluster show*
 Node           Health  Eligibility   Epsilon
@@ -500,10 +606,15 @@ Node           Health  Eligibility   Epsilon
 node1          true    true          false
 node2          true    true          false
 ----
+====
 
 . Ping the remote cluster interfaces to verify connectivity:
++
 `cluster ping-cluster -node local`
 +
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *cluster ping-cluster -node local*
@@ -539,13 +650,13 @@ RPC status:
 6 paths up, 0 paths down (tcp check)
 6 paths up, 0 paths down (udp check)
 ----
+====
 
 // start of tabbed content 
 
 [role="tabbed-block"] 
 
 ==== 
-
 .For ONTAP 9.8 and later
 
 -- 
@@ -555,6 +666,7 @@ For ONTAP 9.8 and later, enable the cluster switch health monitor log collection
 Enter: ``system switch ethernet log setup-password``
 
 [subs=+quotes]
+
 ----
 cluster1::*> *system switch ethernet log setup-password*
 Enter the switch name: <return>
@@ -581,7 +693,10 @@ Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 ----
 
-Followed by: ``system switch ethernet log enable-collection``
+
+Followed by: 
+
+``system switch ethernet log enable-collection``
 
 [subs=+quotes]
 ----
@@ -604,6 +719,7 @@ For ONTAP 9.4 and later, enable the cluster switch health monitor log collection
 `system cluster-switch log setup-password` and `system cluster-switch log enable-collection`
 
 Enter: `system cluster-switch log setup-password`
+
 [subs=+quotes]
 ----
 cluster1::*> *system cluster-switch log setup-password*
@@ -632,7 +748,10 @@ Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 ----
 
-Followed by: ``system cluster-switch log enable-collection``
+
+Followed by: 
+
+``system cluster-switch log enable-collection``
 
 [subs=+quotes]
 ----
@@ -645,8 +764,9 @@ Enabling cluster switch log collection.
 
 cluster1::*>
 ----
+
 --
-==== 
+
 
 // end of tabbed content 
 
@@ -654,3 +774,8 @@ NOTE: If any of these commands return an error, contact NetApp support.
 
 // BURT 1453255, 2022-06-10
 // BURT 1509298, 2022-11-03 - adding new steps for Install RCF
+
+
+.What's next?
+
+link:setup-install-cshm-file.html[Install the Cluster Switch Health Monitor (CSHM) configuration file ].
