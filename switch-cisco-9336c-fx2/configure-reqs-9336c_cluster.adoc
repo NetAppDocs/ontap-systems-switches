@@ -1,0 +1,39 @@
+---
+sidebar: sidebar
+permalink: switch-cisco-9336c-fx2-shared/configure-reqs-9336c-cluster
+.html
+keywords: shared storage cluster switch
+summary: From ONTAP 9.9.1, you can use Cisco Nexus 9336C-FX2 switches to combine storage and cluster functionality into a shared switch scenario.
+---
+= Configuration requirements for Cisco Nexus 9336C-FX2 switches
+:hardbreaks:
+:nofooter:
+:icons: font
+:linkattrs:
+:imagesdir: ./media/
+
+[.lead]
+For Cisco Nexus 9336C-FX2 switch installation and maintenance, be sure to review configuration and network requirements.
+
+== ONTAP support
+
+From ONTAP 9.9.1, you can use Cisco Nexus 9336C-FX2 switches to combine storage and cluster functionality into a shared switch configuration.
+
+If you want to build ONTAP clusters with more than two nodes, you need two supported network switches.
+
+== Configuration requirements
+For configuration, you need the appropriate number and type of cables and cable connectors for your switches.
+
+Depending on the type of switch you are initially configuring, you need to connect to the switch console port with the included console cable; you also need to provide specific network information.
+
+== Network requirements
+You need the following network information for all switch configurations.
+
+* IP subnet for management network traffic
+* Host names and IP addresses for each of the storage system controllers and all applicable switches
+* Most storage system controllers are managed through the e0M interface by connecting to the Ethernet service port (wrench icon). On AFF A800 and AFF A700s systems, the e0M interface uses a dedicated Ethernet port.
+// andris /ontap-systems-switches/pull/30
+* Refer to the https://hwu.netapp.com[Hardware Universe] for the latest information.
+
+For more information about the initial configuration of your switch, see the following guide: https://www.cisco.com/c/en/us/td/docs/dcn/hw/nx-os/nexus9000/9336c-fx2-e/cisco-nexus-9336c-fx2-e-nx-os-mode-switch-hardware-installation-guide.html[Cisco Nexus 9336C-FX2 Installation and Upgrade Guide].
+
