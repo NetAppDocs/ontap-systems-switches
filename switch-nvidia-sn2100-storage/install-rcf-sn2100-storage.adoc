@@ -1,5 +1,5 @@
 ---
-permalink: switch-nvidia-sn2100/install-sn2100-rcf.html
+permalink: switch-nvidia-sn2100/install-rcf-sn2100-storage.html
 sidebar: sidebar
 keywords: install rcf script, python script, sn2100 SN2100 switches, cumulus
 summary: 'Ensure that the following are available on the switch before installing the RCF script'
@@ -17,8 +17,6 @@ Before installing the RCF script, ensure that the following are available on the
 * Cumulus Linux 4.4.2 is installed.
 * IP address, subnet mask, and default gateway defined via DHCP or manually configured.
 
-IMPORTANT: See link:cabling-considerations-sn2100.html[Cabling and configuration considerations^] for caveats and further details.
-
 .Current RCF script versions
 There are two RCF scripts available for Clustering and Storage applications. The procedure for each is the same.
 
@@ -32,6 +30,11 @@ NOTE: Example command output uses switch management IP address 10.233.204.71, ne
 .Steps
 . Display the available interfaces on the SN2100 switch:
 +
+`net show interface all`
++
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:~$ *net show interface all*
@@ -57,6 +60,8 @@ ADMDN  swp14  N/A  9216   NotConfigured
 ADMDN  swp15  N/A  9216   NotConfigured
 ADMDN  swp16  N/A  9216   NotConfigured
 ----
+====
+
 . Copy the RCF python script to the switch:
 +
 [subs=+quotes]
@@ -89,22 +94,17 @@ Step 12: Configure SNMP
 Step 13: Reboot the switch
 ----
 +
-The RCF script completes the following steps:
-+
-.. Updates the banner MOTD
-.. Disables the apt-get for OS updates
-.. Defines breakout and non-breakout interfaces
-.. Configures interfaces and SNMP
-.. Disables CDP
-.. Changes the LLDP configuration
-.. Adds a RoCE configuration
-.. Modifies the RoCE configuration for HA and Cluster RDMA
-.. Reboots the switch
+The RCF script completes the steps listed above.
 +
 NOTE: For any RCF python script issues that cannot be corrected, contact https://mysupport.netapp.com/[NetApp Support^] for assistance.
 
 . Verify the configuration after the reboot:
 +
+`net show interface all`
++
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:~$ *net show interface all*
@@ -167,9 +167,15 @@ switch-priority  TC  ETS
 2                 2  DWRR 28%
 5                 5  DWRR 43%
 ----
+====
+
 . Verify information for the transceiver in the interface:
++
 `net show interface pluggables`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:~$ *net show interface pluggables*
@@ -180,9 +186,15 @@ swp4       0x11 (QSFP28)  AVAGO        332-00440        AF1815GU05Z 
 swp15      0x11 (QSFP28)  Amphenol     112-00573        APF21109348001  B0
 swp16      0x11 (QSFP28)  Amphenol     112-00573        APF21109347895  B0
 ----
+====
+
 . Verify that the nodes each have a connection to each switch:
++
 `net show lldp`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:~$ *net show lldp*
@@ -194,9 +206,17 @@ swp4       100G   Trunk/L2    sw2                     e3b
 swp15      100G   BondMember  sw13                    swp15
 swp16      100G   BondMember  sw14                    swp16
 ----
+====
+
 . Verify the health of cluster ports on the cluster.
-.. Verify that e0d ports are up and healthy across all nodes in the cluster: `network port show -role cluster`
+
+.. Verify that e0d ports are up and healthy across all nodes in the cluster: 
 +
+`network port show -role cluster`
++
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network port show -role cluster*
@@ -217,9 +237,13 @@ Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
 e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 ----
+====
 +
 .. Verify the switch health from the cluster (this might not show switch sw2, since LIFs are not homed on e0d).
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network device-discovery show -protocol lldp*
@@ -254,3 +278,7 @@ sw2                         cluster-network    10.233.205.91    MSN2100-CB2RC
                     Technologies Ltd. MSN2100
     Version Source: LLDP
 ----
+====
+
+.What's next?
+link:install-snmpv3-sn2100-cluster.html[Configure switch log collection].

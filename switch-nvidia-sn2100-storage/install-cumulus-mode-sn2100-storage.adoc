@@ -1,5 +1,5 @@
 ---
-permalink: switch-nvidia-sn2100/install-cumulus-linux-cumulus-mode.html
+permalink: switch-nvidia-sn2100/install-cumulus-mode-sn2100-storage.html
 sidebar: sidebar
 keywords: install cumulus mode, sn2100 SN2100 switches setup, cumulus linux, cumulus mode
 summary: 'Cumulus Linux (CL) OS can be installed either when the switch is running Cumulus Linux or ONIE.'
@@ -11,7 +11,7 @@ summary: 'Cumulus Linux (CL) OS can be installed either when the switch is runni
 [.lead]
 Follow this procedure to install Cumulus Linux (CL) OS when the switch is running in Cumulus mode. 
 
-NOTE: Cumulus Linux (CL) OS can be installed either when the switch is running Cumulus Linux or ONIE (see link:install-cumulus-linux-onie-mode.html[Install in ONIE mode]).
+NOTE: Cumulus Linux (CL) OS can be installed either when the switch is running Cumulus Linux or ONIE (see link:install-onie-mode-sn2100-cluster.html[Install in ONIE mode]).
 
 .What you'll need
 
@@ -56,9 +56,10 @@ Retype new password: *netapp1!*
 ----
 ====
 
+
 . Check the Cumulus Linux version:
 +
-`net show system``
+`net show system`
 +
 .Show example
 [%collapsible]
@@ -89,9 +90,9 @@ Manufacturer..... Mellanox
 +
 NOTE: A Cumulus Linux switch provides at least one dedicated Ethernet management port called `eth0`. This interface is specifically for out-of-band management use. By default, the management interface uses DHCPv4 for addressing.
 +
-
 CAUTION: Do not use an underscore (_), apostrophe ('), or non-ASCII characters in the hostname.
 +
+
 .Show example
 [%collapsible]
 ====
@@ -139,6 +140,7 @@ unreachable default metric 4278198272
 
 .. On a terminal, run the following command:
 +
+[subs=+quotes]
 ----
 cumulus@sw1:~$ *sudo dpkg-reconfigure tzdata*
 ----
@@ -167,7 +169,7 @@ cumulus@sw1:mgmt:~$ *sudo reboot*
 . Repeat steps 1 to 4 to log in.
 . Verify that the Cumulus Linux version is 4.4.2:
 +
-`net show version``
+`net show version`
 +
 .Show example
 [%collapsible]
@@ -232,3 +234,5 @@ admin@sw1:mgmt:~$
 ----
 ====
 
+.What's next?
+link:install-rcf-sn2100-cluster.html[Install RCF script].
