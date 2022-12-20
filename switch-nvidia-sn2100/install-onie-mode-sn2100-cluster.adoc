@@ -1,5 +1,5 @@
 ---
-permalink: switch-nvidia-sn2100/install-cumulus-linux-onie-mode.html
+permalink: switch-nvidia-sn2100/install-onie-mode-sn2100-cluster.html
 sidebar: sidebar
 keywords: install cumulus onie mode, sn2100 SN2100 switches setup, cumulus linux, onie mode
 summary: 'Cumulus Linux (CL) OS can be installed either when the switch is running Cumulus Linux or ONIE.'
@@ -11,7 +11,7 @@ summary: 'Cumulus Linux (CL) OS can be installed either when the switch is runni
 [.lead]
 Follow this procedure to install Cumulus Linux (CL) OS when the switch is running in ONIE mode.  
 
-Cumulus Linux (CL) OS can be installed either when the switch is running Cumulus Linux or ONIE (see link:install-cumulus-linux-cumulus-mode.html[Install in Cumulus mode]).
+NOTE: Cumulus Linux (CL) OS can be installed either when the switch is running Cumulus Linux or ONIE (see link:install-cumulus-mode-sn2100-cluster.html[Install in Cumulus mode]).
 
 .About this task
 You can install the Cumulus Linux using Open Network Install Environment (ONIE) that allows for automatic discovery of a network installer image. This facilitates the system model of securing switches with an operating system choice, such as Cumulus Linux. The easiest way to install Cumulus Linux with ONIE is with local HTTP discovery.
@@ -35,9 +35,9 @@ NOTE: Each time Cumulus Linux is installed, the entire file system structure is 
 ----
 cumulus@cumulus:mgmt:~$ *sudo reboot*
 ----
-. Hit the *Esc* key at the GNU GRUB screen to interrupt the normal boot process, select *ONIE* and press Enter.
+. Press the *Esc* key at the GNU GRUB screen to interrupt the normal boot process, select *ONIE* and press *Enter*.
 . On the next screen displayed, select *ONIE: Install OS*.
-. The ONIE installer discovery process runs searching for the automatic installation.  Press Enter to temporarily stop the process.
+. The ONIE installer discovery process runs searching for the automatic installation.  Press *Enter* to temporarily stop the process.
 . When the discovery process has stopped:
 +
 [subs=+quotes]
@@ -49,6 +49,11 @@ No such process done.
 ----
 . If the DHCP service is running on your network, verify that the IP address, subnet mask, and the default gateway are correctly assigned:
 +
+`ifconfig eth0`
++
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 ONIE:/ # *ifconfig eth0*
@@ -69,6 +74,8 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 default         10.233.204.1    0.0.0.0         UG    0      0      0   eth0
 10.233.204.0    *               255.255.254.0   U     0      0      0   eth0
 ----
+====
+
 . If the IP addressing scheme is manually defined, do the following:
 +
 [subs=+quotes]
@@ -96,6 +103,9 @@ ONIE:/ # *route*
 ----
 . Once the installation has completed, log in to the switch:
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cumulus login: *cumulus*
@@ -106,8 +116,15 @@ Current password: *cumulus*
 New password: *netapp1!*
 Retype new password: *netapp1!*
 ----
+====
+
 . Verify the Cumulus Linux version:
 +
+`net show version`
++
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:~$ *net show version*
@@ -116,3 +133,7 @@ DISTRIB_ID="Cumulus Linux"
 DISTRIB_RELEASE=*4.4.2*
 DISTRIB_DESCRIPTION=*"Cumulus Linux 4.4.2”*
 ----
+====
+
+.What's next?
+link:install-rcf-sn2100-cluster.html[Install RCF script].
