@@ -1,0 +1,171 @@
+---
+permalink: switch-cisco-9336c-fx2/index.html
+sidebar: sidebar
+keywords: cisco, switch, cisco 9336 switch
+summary: Cisco 9336-FX2` switches
+---
+= Overview and requirements: Cisco Nexus 9336C-FX2 switches
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+For Cisco Nexus 9336C-FX2 switch installation and maintenance, be sure to review configuration requirements and documentation requirements.
+
+If you want to build ONTAP clusters with more than two nodes, you need two supported cluster network switches. You can use additional management switches, which are optional.
+
+You can install the Cisco Nexus 9336C-FX2 switch (X190200/X190210) in a NetApp system cabinet or third-party cabinet with the standard brackets that are included with the switch.
+
+== Switch components
+The following table lists the part number and description for the 9336C-FX2 switch, fans, and power supplies:
+
+[options="header" cols="1,2"]
+|===
+| Part number| Description
+a|
+X190200-CS-PE
+a|
+N9K-9336C-FX2, CS, PTSX, 36PT10/25/40/100GQSFP28
+a|
+X190200-CS-PI
+a|
+N9K-9336C-FX2, CS, PSIN, 36PT10/25/40/100GQSFP28
+a|
+X190210-FE-PE
+a|
+N9K-9336C, FTE, PTSX, 36PT10/25/40/100GQSFP28
+a|
+X190210-FE-PI
+a|
+N9K-9336C, FTE, PSIN, 36PT10/25/40/100GQSFP28
+a|
+X190002
+a|
+Accessory Kit X190001/X190003
+a|
+X-NXA-PAC-1100W-PE2
+a|
+N9K-9336C AC 1100W PSU - Port side exhaust airflow
+a|
+X-NXA-PAC-1100W-PI2
+a|
+N9K-9336C AC 1100W PSU - Port side Intake airflow
+a|
+X-NXA-FAN-65CFM-PE
+a|
+N9K-9336C 65CFM, Port side exhaust airflow
+a|
+X-NXA-FAN-65CFM-PI
+a|
+N9K-9336C 65CFM, Port side intake airflow
+|===
+
+== Configuration requirements
+
+To configure your cluster, you need the appropriate number and type of cables and cable connectors for your switches. Depending on the type of switch you are initially configuring, you need to connect to the switch console port with the included console cable; you also need to provide specific network information.
+
+== Network requirements
+
+You need the following network information for all switch configurations:
+
+* IP subnet for management network traffic
+* Host names and IP addresses for each of the storage system controllers and all applicable switches
+* Most storage system controllers are managed through the e0M interface by connecting to the Ethernet service port (wrench icon). On AFF A800 and AFF A700 systems, the e0M interface uses a dedicated Ethernet port.
+
+Refer to the https://hwu.netapp.com[Hardware Universe^] for latest information.
+
+== Smart Call Home requirements
+
+Smart Call Home monitors the hardware and software components on your network, to generate an email-based notification of critical system conditions. When an event occurs on your device, Smart Call Home raises an alert to all the recipients that are configured in your destination profile.
+
+You must configure a cluster network switch to communicate using email with the Smart Call Home system. You can optionally set up your cluster network switch to take advantage of Cisco's embedded Smart Call Home support feature.
+
+Before you can use Smart Call Home feature, you need to be aware of the following considerations:
+
+* An email server must be in place.
+* The switch must have IP connectivity to the email server.
+* The contact name (SNMP server contact), phone number, and street address information must be configured. This is required to determine the origin of messages received.
+* A CCO ID must be associated with an appropriate Cisco SMARTnet Service contract for your company.
+* Cisco SMARTnet Service must be in place for the device to be registered.
+
+The http://www.cisco.com/c/en/us/products/switches/index.html[Cisco support site^] contains information about the commands to configure Smart Call Home.
+
+== Documentation requirements
+You need specific switch and controller documentation to set up your Cisco 9336-FX2 switches and ONTAP cluster.
+
+=== Switch documentation
+To set up the Cisco Nexus 9336C-FX2 switches, you need the following documentation from the https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html[Cisco Nexus 9000 Series Switches Support^] page:
+
+[options="header" cols="1,2"]
+|===
+| Document title| Description
+a|
+_Nexus 9000 Series Hardware Installation Guide_
+a|
+Provides detailed information about site requirements, switch hardware details, and installation options.
+a|
+_Cisco Nexus 9000 Series Switch Software Configuration Guides_ (choose the guide for the NX-OS release installed on your switches)
+a|
+Provides initial switch configuration information that you need before you can configure the switch for ONTAP operation.
+a|
+_Cisco Nexus 9000 Series NX-OS Software Upgrade and Downgrade Guide_ (choose the guide for the NX-OS release installed on your switches)
+a|
+Provides information on how to downgrade the switch to ONTAP supported switch software, if necessary.
+a|
+_Cisco Nexus 9000 Series NX-OS Command Reference Master Index_
+a|
+Provides links to the various command references provided by Cisco.
+a|
+_Cisco Nexus 9000 MIBs Reference_
+a|
+Describes the Management Information Base (MIB) files for the Nexus 9000 switches.
+a|
+_Nexus 9000 Series NX-OS System Message Reference_
+a|
+Describes the system messages for Cisco Nexus 9000 series switches, those that are informational, and others that might help diagnose problems with links, internal hardware, or the system software.
+a|
+_Cisco Nexus 9000 Series NX-OS Release Notes (choose the notes for the NX-OS release installed on your switches)_
+a|
+Describes the features, bugs, and limitations for the Cisco Nexus 9000 Series.
+a|
+Regulatory Compliance and Safety Information for Cisco Nexus 9000 Series
+a|
+Provides international agency compliance, safety, and statutory information for the Nexus 9000 series switches.
+|===
+
+=== ONTAP systems documentation
+
+To set up an ONTAP system, you need the following documents for your version of the operating system from the https://docs.netapp.com/ontap-9/index.jsp[ONTAP 9 Documentation Center^].
+
+[options="header" cols="1,2"]
+|===
+| Name| Description
+a|
+Controller-specific _Installation and Setup Instructions_
+a|
+Describes how to install NetApp hardware.
+a|
+ONTAP documentation
+a|
+Provides detailed information about all aspects of the ONTAP releases.
+a|
+https://hwu.netapp.com[Hardware Universe^]
+a|
+Provides NetApp hardware configuration and compatibility information.
+|===
+
+=== Rail kit and cabinet documentation
+
+To install a Cisco 9336-FX2 switch in a NetApp cabinet, see the following hardware documentation.
+
+[options="header" cols="1,2"]
+|===
+| Name| Description
+a|
+https://library.netapp.com/ecm/ecm_download_file/ECMM1280394[42U System Cabinet, Deep Guide^]
+a|
+Describes the FRUs associated with the 42U system cabinet, and provides maintenance and FRU replacement instructions.
+a|
+link:install-switch-and-passthrough-panel.html[Install a Cisco 9336-FX2 switch in a NetApp Cabinet^]
+a|
+Describes how to install a Cisco Nexus 9336C-FX2 switch in a four-post NetApp cabinet.
+|===
