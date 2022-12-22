@@ -4,19 +4,22 @@ sidebar: sidebar
 keywords: sn2100 SN2100 switches setup, sn2100 SN2100 switches install, cumulus linux
 summary: 'The NVIDIA SN2100 switch is a 10/25/40/100 GbE Ethernet switch running Cumulus Linux. The SN2100 switch serves Cluster and Storage applications in ONTAP 9.10.1 over different switch-pairs.'
 ---
-= Overview of configuration process for NVIDIA SN2100 switches
+= Overview of installation and configuration for NVIDIA SN2100 switches
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-Before configuring NVIDIA SN2100 switches, review the requirements and the procedure overview.
+Before configuring NVIDIA SN2100 switches, review the procedure overview.
 
 
 To configure a NVIDIA SN2100 switch on systems running ONTAP, follow these steps:
 
-* link:install-cumulus-mode-sn2100-cluster.html[Install in Cumulus mode] or link:install-onie-mode-sn2100-cluster.html[install in ONIE mode]. Cumulus Linux (CL) OS can be installed either when the switch is running Cumulus Linux or ONIE.
-* link:install-rcf-sn2100-cluster[Install the RCF script]. There are two RCF scripts available for Clustering and Storage applications. 
-* link:install-snmpv3-sn2100-cluster[ Configure SNMPv3 for switch log collection]. This release includes support for SNMPv3 for switch log collection and for Switch Health Monitoring (SHM).
+. link:install-hardware-sn2100-cluster.html[Install switch]. Refer to NVIDIA’s documentation at https://docs.nvidia.com/networking/display/sn2000pub/Installation[NVIDIA Switch Installation Guide^].
+. link:cabling-considerations-sn2100-cluster.html[Cabling and configuration considerations]. Review requirements for optical connections, the QSA adapter, and the switchport speed.
+. link:install-cable-shelves-sn2100-cluster.html[Cable NS224 shelves]. Follow these procedures if you have a system in which the NS224 drive shelves need to be cabled as switch-attached storage (not direct-attached storage).
+. link:install-cumulus-mode-sn2100-cluster.html[Install in Cumulus mode] or link:install-onie-mode-sn2100-cluster.html[install in ONIE mode]. Cumulus Linux (CL) OS can be installed either when the switch is running Cumulus Linux or ONIE.
+. link:install-rcf-sn2100-cluster[Install the RCF script]. There are two RCF scripts available for Clustering and Storage applications. 
+. link:install-snmpv3-sn2100-cluster[ Configure SNMPv3 for switch log collection]. This release includes support for SNMPv3 for switch log collection and for Switch Health Monitoring (SHM).
 
 
 NOTE: The procedures use Network Command Line Utility (NCLU), which is a command line interface that ensures Cumulus Linux is fully accessible to all. The net command is the wrapper utility you use to execute actions from a terminal.

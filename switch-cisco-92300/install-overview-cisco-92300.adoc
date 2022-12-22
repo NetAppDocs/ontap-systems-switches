@@ -4,23 +4,19 @@ sidebar: sidebar
 keywords: install, cisco nexus 92300 switch,
 summary: 'Before configuring Cisco Nexus 92300 switches, review an overview of the process and the nomenclature.'
 ---
-= Overview of configuration process for Cisco Nexus 92300 switches
+= Overview of installation and configuration for Cisco Nexus 92300 switches
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-Before configuring Cisco Nexus 92300 switches, review the requirements and the procedure overview.
-
-== Requirements
-Be sure to review the link:index.html[Overview and requirements].
-
-== Procedure overview
+Before configuring Cisco Nexus 92300 switches, review the procedure overview.
 
 To initially configure a Cisco Nexus 92300 switch on systems running ONTAP, follow these steps:
 
-. link:setup_worksheet_92300yc[Complete cabling worksheet].
-. link:configure-install-initial.html[Configure the switch].
-. link:install-nxos-overview.html[Prepare to install NX-OS software and Reference Configuration file].
-. link:install-nxos-software.html[Install the NX-OS software].
-. link:install-the-rcf-file.html[Install the Reference Configuration File (RCF)].
-. link:setup-install-cshm-file.html[Install the Cluster Switch Health Monitor (CSHM) configuration file ].
+. link:setup_worksheet_92300yc[Complete cabling worksheet]. The sample cabling worksheet provides examples of recommended port assignments from the switches to the controllers. The blank worksheet provides a template that you can use in setting up your cluster.
+. link:configure-install-initial.html[Configure the switch]. Set up and configure the Cisco Nexus 92300YC switch.
+. link:install-nxos-overview.html[Prepare to install NX-OS software and Reference Configuration file]. Prepare for installing the NX-OS software and the Reference Configuration File (RCF)
+. link:install-nxos-software.html[Install the NX-OS software]. Install the NX-OS software on the Nexus 92300YC switch. NX-OS is a network operating system for the Nexus series of Ethernet switches and MDS series of Fibre Channel (FC) storage area network switches provided by Cisco Systems.
+. link:install-the-rcf-file.html[Install the Reference Configuration File (RCF)]. Install the RCF after setting up the Nexus 92300YC switch for the first time. You can also use this procedure to upgrade your RCF version.
+. link:setup-install-cshm-file.html[Install the Cluster Switch Health Monitor (CSHM) configuration file]. Install the applicable configuration file for cluster switch health monitoring of Nexus 92300YC cluster switches. 
+
