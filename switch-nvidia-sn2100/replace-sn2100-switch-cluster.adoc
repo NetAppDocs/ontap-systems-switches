@@ -11,7 +11,7 @@ summary: Replacing a defective NVIDIA SN2100 switch in a cluster network is a no
 [.lead]
 Replacing a defective NVIDIA SN2100 switch in a cluster network is a nondisruptive procedure (NDU).
 
-.Before you begin
+.What you'll need
 The following conditions must exist before performing the switch replacement in the current environment and on the replacement switch.
 
 * Existing cluster and network infrastructure:
@@ -33,7 +33,7 @@ Any previous site customizations, such as STP, SNMP, and SSH, should be copied t
 
 You must execute the command for migrating a cluster LIF from the node where the cluster LIF is hosted.
 
-.About this task
+.About the examples
 The examples in this procedure use the following switch and node nomenclature:
 
 * The names of the existing NVIDIA SN2100 switches are _sw1_ and _sw2_.
@@ -44,9 +44,13 @@ The examples in this procedure use the following switch and node nomenclature:
 * The prompt for changes to all cluster nodes is `cluster1::*>`
 * Breakout ports take the format: swp[port]s[breakout port 0-3]. For example, four breakout ports on swp1 are _swp1s0_, _swp1s1_, _swp1s2_, and _swp1s3_.
 +
-NOTE: The following procedure is based on the following cluster network topology:
-+
+.About the cluster network topology
 
+The following procedure is based on the following cluster network topology:
++
+.Show example topology
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network port show -ipspace Cluster*
@@ -113,13 +117,19 @@ swp4       100G   Trunk/L2    sw1                e3b
 swp15      100G   BondMember  sw1                swp15
 swp16      100G   BondMember  sw1                swp16
 ----
+====
 
 .Steps
-. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=xh`
+
+. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: 
++
+`system node autosupport invoke -node * -type all -message MAINT=xh`
 +
 where _x_ is the duration of the maintenance window in hours.
 
-. Change the privilege level to advanced, entering *y* when prompted to continue: `set -privilege advanced`
+. Change the privilege level to advanced, entering *y* when prompted to continue: 
++
+`set -privilege advanced`
 +
 The advanced prompt (*>) appears.
 
@@ -134,14 +144,20 @@ If necessary, verify, download, and install the appropriate versions of the RCF 
 +
 If the switch that you are replacing is not functional and is powered down, go to Step 4. The LIFs on the cluster nodes should have already failed over to the other cluster port for each node.
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cumulus@nsw2:~$ *net add interface swp1s0-3, swp2s0-3, swp3-14 link down*
 cumulus@nsw2:~$ *net pending*
 cumulus@nsw2:~$ *net commit*
 ----
+====
 +
-. Disable auto-revert on the cluster LIFs: `network interface modify -vserver Cluster -lif * -auto-revert false`
+. Disable auto-revert on the cluster LIFs: 
++
+`network interface modify -vserver Cluster -lif * -auto-revert false`
 +
 [subs=+quotes]
 ----
@@ -151,28 +167,38 @@ Warning: Disabling the auto-revert feature of the cluster logical interface may 
 ----
 //. Verify that all cluster LIFs have auto-revert enabled: `net interface show -vserver Cluster -fields auto-revert`
 
-. Shut down the ISL ports swp15 and swp16 on the SN2100 switch sw1:
+. Shut down the ISL ports swp15 and swp16 on the SN2100 switch sw1.
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cumulus@sw1:~$ *net add interface swp15-16 link down*
 cumulus@sw1:~$ *net pending*
 cumulus@sw1:~$ *net commit*
 ----
+====
+
 . Remove all the cables from the SN2100 sw1 switch, and then connect them to the same ports on the SN2100 nsw2 switch.
 
 . Bring up the ISL ports swp15 and swp16 between the sw1 and nsw2 switches.
 +
+.Show example
+[%collapsible]
+====
 The following commands enable ISL ports swp15 and swp16 on switch sw1:
-+
+
 [subs=+quotes]
 ----
 cumulus@sw1:~$ *net del interface swp15-16 link down*
 cumulus@sw1:~$ *net pending*
 cumulus@sw1:~$ *net commit*
 ----
+
+
 The following example shows that the ISL ports are up on switch sw1:
-+
+
 [subs=+quotes]
 ----
 cumulus@sw1:~$ *net show interface*
@@ -198,9 +224,15 @@ State  Name         Spd   MTU    Mode        LLDP           Summary
 UP     swp15        100G  9216   BondMember  sw1 (swp15)    Master: cluster_isl(UP)
 UP     swp16        100G  9216   BondMember  sw1 (swp16)    Master: cluster_isl(UP)
 ----
+====
 
-. Verify that port `e3b` is up on all nodes: `network port show -ipspace Cluster`
+. Verify that port `e3b` is up on all nodes: 
 +
+`network port show -ipspace Cluster`
++
+.Show example
+[%collapsible]
+====
 The output should be similar to the following:
 +
 [subs=+quotes]
@@ -224,8 +256,13 @@ Port      IPspace      Broadcast Domain Link MTU   Admin/Oper  Status    Status
 e3a       Cluster      Cluster          up   9000  auto/100000  healthy  false
 e3b       Cluster      Cluster          up   9000  auto/100000  healthy  false
 ----
+====
+
 . The cluster ports on each node are now connected to cluster switches in the following way, from the nodes' perspective:
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network device-discovery show -protocol lldp*
@@ -239,9 +276,15 @@ node2      /lldp
             e3a    sw1  (b8:ce:f6:19:1a:7e)   swp4          -
             e3b    nsw2 (b8:ce:f6:19:1b:b6)   swp4          -
 ----
+====
 
-. Verify that all node cluster ports are up: `net show interface`
+. Verify that all node cluster ports are up: 
 +
+`net show interface`
++
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cumulus@nsw2:~$ *net show interface*
@@ -255,11 +298,17 @@ UP     swp4         100G  9216   Trunk/L2                      Master: bridge(UP
 UP     swp15        100G  9216   BondMember  sw1 (swp15)       Master: cluster_isl(UP)
 UP     swp16        100G  9216   BondMember  sw1 (swp16)       Master: cluster_isl(UP)
 ----
+====
 
-. Verify that both nodes each have one connection to each switch: `net show lldp`
+. Verify that both nodes each have one connection to each switch: 
 +
+`net show lldp`
++
+.Show example
+[%collapsible]
+====
 The following example shows the appropriate results for both switches:
-+
+
 [subs=+quotes]
 ----
 cumulus@sw1:~$ *net show lldp*
@@ -281,22 +330,32 @@ swp4       100G   Trunk/L2    node2                e3b
 swp15      100G   BondMember  sw1                swp15
 swp16      100G   BondMember  sw1                swp16
 ----
+====
 
 . Enable auto-revert on the cluster LIFs: `cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert true`
 
 . On switch nsw2, bring up the ports connected to the network ports of the nodes.
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cumulus@nsw2:~$ *net del interface swp1-14 link down*
 cumulus@nsw2:~$ *net pending*
 cumulus@nsw2:~$ *net commit*
 ----
+====
 
-. Display information about the nodes in a cluster: `cluster show`
+. Display information about the nodes in a cluster: 
 +
+`cluster show`
++
+.Show example
+[%collapsible]
+====
 This example shows that the node health for node1 and node2 in this cluster is true:
-+
+
 [subs=+quotes]
 ----
 cluster1::*> *cluster show*
@@ -306,9 +365,15 @@ Node          Health  Eligibility
 node1         true    true
 node2         true    true
 ----
+====
 
-. Verify that all physical cluster ports are up: `network port show ipspace Cluster`
+. Verify that all physical cluster ports are up: 
 +
+`network port show ipspace Cluster`
++
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network port show -ipspace Cluster*
@@ -327,11 +392,14 @@ Port      IPspace      Broadcast Domain Link  MTU   Admin/Oper  Status   Status
 --------- ------------ ---------------- ----- ----- ----------- -------- ------
 e3a       Cluster      Cluster          up    9000  auto/10000  healthy  false
 e3b       Cluster      Cluster          up    9000  auto/10000  healthy  false
-
 ----
+====
 
 . Verify that the cluster network is healthy:
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cumulus@sw1:~$ *net show lldp*
@@ -343,11 +411,17 @@ swp4       100G   Trunk/L2    node2           e3a
 swp15      100G   BondMember  nsw2            swp15
 swp16      100G   BondMember  nsw2            swp16
 ----
+====
 
-. Enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the commands: `system switch ethernet log setup-password` and `system switch ethernet log enable-collection`
+. Enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the commands: 
++
+`system switch ethernet log setup-password` and `system switch ethernet log enable-collection`
 +
 Enter: `system switch ethernet log setup-password`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *system switch ethernet log setup-password*
@@ -375,9 +449,13 @@ Do you want to continue? {y|n}:: [n] *y*
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 ----
+====
 +
 Followed by: `system switch ethernet log enable-collection`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *system switch ethernet log enable-collection*
@@ -389,13 +467,19 @@ Enabling cluster switch log collection.
 
 cluster1::*>
 ----
+====
 +
 NOTE: If any of these commands return an error, contact NetApp support.
 
-. Initiate the switch log collection feature: `system switch ethernet log collect -device *`
+. Initiate the switch log collection feature: 
++
+`system switch ethernet log collect -device *`
 +
 Wait for 10 minutes and then check that the log collection was successful using the command: `system switch ethernet log show`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *system switch ethernet log show*
@@ -406,7 +490,12 @@ Index  Switch                       Log Timestamp        Status
 1      sw1 (b8:ce:f6:19:1b:42)      4/29/2022 03:05:25   complete   
 2      nsw2 (b8:ce:f6:19:1b:96)     4/29/2022 03:07:42   complete
 ----
+====
 
-. Change the privilege level back to admin: `set -privilege admin`
+. Change the privilege level back to admin: 
++
+`set -privilege admin`
 
-. If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=END`
+. If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message: 
++
+`system node autosupport invoke -node * -type all -message MAINT=END`

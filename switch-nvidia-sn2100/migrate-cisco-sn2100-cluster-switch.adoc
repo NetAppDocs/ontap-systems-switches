@@ -11,6 +11,8 @@ summary: 'You can migrate nondisruptively older Cisco cluster switches for an ON
 [.lead]
 You can migrate nondisruptively Cisco cluster switches for an ONTAP cluster to NVIDIA SN2100 cluster switches. 
 
+== Review requirements
+
 You must be aware of certain configuration information, port connections and cabling requirements when you are replacing some older Cisco cluster switches with NVIDIA SN2100 cluster switches.
 
 The following Cisco cluster switches are supported:
@@ -21,7 +23,7 @@ The following Cisco cluster switches are supported:
 * Nexus 3232C
 * Nexus 3132Q-V
 
-.Before you begin
+.What you'll need
 You can migrate nondisruptively older Cisco cluster switches for an ONTAP cluster to NVIDIA SN2100 cluster switches.
 
 * The existing cluster must be properly set up and functioning.
@@ -38,6 +40,8 @@ You can migrate nondisruptively older Cisco cluster switches for an ONTAP cluste
 +
 NOTE: In this procedure, Cisco Nexus 3232C cluster switches are used for example commands and outputs.
 
+== Migrate the switches
+
 .About this task
 The examples in this procedure use the following switch and node nomenclature:
 
@@ -52,30 +56,48 @@ The examples in this procedure use the following switch and node nomenclature:
 ** Cabling between the nodes and c2 are then disconnected from c2 and reconnected to sw2.
 ** Cabling between the nodes and c1 are then disconnected from c1 and reconnected to sw1.
 
-.Steps
-. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=xh`
+=== Step 1: Prepare for migration
+
+. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: 
++
+`system node autosupport invoke -node * -type all -message MAINT=xh`
 +
 where _x_ is the duration of the maintenance window in hours.
 
-. Change the privilege level to advanced, entering *y* when prompted to continue: `set -privilege advanced`
+. Change the privilege level to advanced, entering *y* when prompted to continue: 
++
+`set -privilege advanced`
 +
 The advanced prompt (*>) appears.
 
-. Disable auto-revert on the cluster LIFs: `network interface modify -vserver Cluster -lif * -auto-revert false`
+. Disable auto-revert on the cluster LIFs: 
 +
+`network interface modify -vserver Cluster -lif * -auto-revert false`
++
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert false*
 
 Warning: Disabling the auto-revert feature of the cluster logical interface may effect the availability of your cluster network. Are you sure you want to continue? {y|n}: *y*
 ----
+====
+
+=== Step 2: Configure ports and cabling
 
 . Determine the administrative or operational status for each cluster interface:
 +
 Each port should display up for `Link` and healthy for `Health Status`.
 +
-.. Display the network port attributes: `network port show -ipspace Cluster`
+.. Display the network port attributes: 
 +
+`network port show -ipspace Cluster`
++
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network port show -ipspace Cluster*
@@ -96,11 +118,17 @@ Port      IPspace    Broadcast Domain Link MTU   Admin/Oper   Status   Status
 e3a       Cluster    Cluster          up   9000  auto/100000  healthy  false
 e3b       Cluster    Cluster          up   9000  auto/100000  healthy  false
 ----
+====
 
-.. Display information about the logical interfaces and their designated home nodes: `network interface show -vserver Cluster`
+.. Display information about the logical interfaces and their designated home nodes: 
++
+`network interface show -vserver Cluster`
 +
 Each LIF should display up/up for `Status Admin/Oper` and true for `Is Home`.
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network interface show -vserver Cluster*
@@ -115,9 +143,15 @@ Cluster
             node2_clus2  up/up      169.254.19.183/16  node2       e3b     true
 
 ----
+====
 
-. The cluster ports on each node are connected to existing cluster switches in the following way (from the nodes' perspective) using the command: `network device-discovery show -protocol lldp`
+. The cluster ports on each node are connected to existing cluster switches in the following way (from the nodes' perspective) using the command: 
 +
+`network device-discovery show -protocol lldp`
++
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network device-discovery show -protocol lldp*
@@ -131,9 +165,15 @@ node2      /lldp
             e3a    c1 (6a:ad:4f:98:3b:3f)    Eth1/2            -
             e3b    c2 (6a:ad:4f:98:4c:a4)    Eth1/2            -
 ----
+====
 
-. The cluster ports and switches are connected in the following way (from the switches' perspective) using the command: `show cdp neighbors`
+. The cluster ports and switches are connected in the following way (from the switches' perspective) using the command: 
 +
+`show cdp neighbors`
++
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 c1# *show cdp neighbors*
@@ -163,9 +203,15 @@ node2                 Eth1/2        124    H           AFF-A400         e3b
 c1                    Eth1/31       175    S I s       N3K-C3232C       Eth1/31
 c1                    Eth1/32       175    S I s       N3K-C3232C       Eth1/32
 ----
+====
 
-. Ensure that the cluster network has full connectivity using the command: `cluster ping-cluster -node node-name`
+. Ensure that the cluster network has full connectivity using the command: 
 +
+`cluster ping-cluster -node node-name`
++
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *cluster ping-cluster -node node2*
@@ -194,9 +240,13 @@ RPC status:
 2 paths up, 0 paths down (tcp check)
 2 paths up, 0 paths down (udp check)
 ----
+====
 
 . On switch c2, shut down the ports connected to the cluster ports of the nodes.
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 (c2)# *configure*
@@ -208,11 +258,17 @@ Enter configuration commands, one per line. End with CNTL/Z.
 (c2)(Config)# *exit*
 (c2)#
 ----
+====
 
 . Move the node cluster ports from the old switch c2 to the new switch sw2, using appropriate cabling supported by NVIDIA SN2100.
 
-. Display the network port attributes: `network port show -ipspace Cluster`
+. Display the network port attributes: 
 +
+`network port show -ipspace Cluster`
++
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network port show -ipspace Cluster*
@@ -233,9 +289,13 @@ Port      IPspace    Broadcast Domain Link MTU   Admin/Oper   Status   Status
 e3a       Cluster    Cluster          up   9000  auto/100000  healthy  false
 e3b       Cluster    Cluster          up   9000  auto/100000  healthy  false
 ----
+====
 
 . The cluster ports on each node are now connected to cluster switches in the following way, from the nodes' perspective:
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network device-discovery show -protocol lldp*
@@ -250,8 +310,15 @@ node2      /lldp
             e3a    c1  (6a:ad:4f:98:3b:3f)   Eth1/2            -
             e3b    sw2 (b8:ce:f6:19:1b:96)   swp4              -
 ----
-. On switch sw2, verify that all node cluster ports are up: `net show interface`
+====
+
+. On switch sw2, verify that all node cluster ports are up: 
 +
+`net show interface`
++
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cumulus@sw2:~$ *net show interface*
@@ -265,9 +332,13 @@ UP     swp4         100G  9216   Trunk/L2    e3b               Master: bridge(UP
 UP     swp15        100G  9216   BondMember  sw1 (swp15)       Master: cluster_isl(UP)
 UP     swp16        100G  9216   BondMember  sw1 (swp16)       Master: cluster_isl(UP)
 ----
+====
 
 . On switch c1, shut down the ports connected to the cluster ports of the nodes.
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 (c1)# *configure*
@@ -279,13 +350,19 @@ Enter configuration commands, one per line. End with CNTL/Z.
 (c1)(Config)# *exit*
 (c1)#
 ----
+====
 
 . Move the node cluster ports from the old switch c1 to the new switch sw1, using appropriate cabling supported by NVIDIA SN2100.
 
-. Verify the final configuration of the cluster: `network port show -ipspace Cluster`
+. Verify the final configuration of the cluster: 
++
+`network port show -ipspace Cluster`
 +
 Each port should display up for `Link` and healthy for `Health Status`.
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network port show -ipspace Cluster*
@@ -306,9 +383,13 @@ Port      IPspace    Broadcast Domain Link MTU   Admin/Oper   Status   Status
 e3a       Cluster    Cluster          up   9000  auto/100000  healthy  false
 e3b       Cluster    Cluster          up   9000  auto/100000  healthy  false
 ----
+====
 
 . The cluster ports on each node are now connected to cluster switches in the following way, from the nodes' perspective:
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network device-discovery show -protocol lldp*
@@ -323,9 +404,15 @@ node2      /lldp
             e3a    sw1 (b8:ce:f6:19:1a:7e)   swp4            -
             e3b    sw2 (b8:ce:f6:19:1b:96)   swp4            -
 ----
+====
 
-. On switches sw1 and sw2, verify that all node cluster ports are up: `net show interface`
+. On switches sw1 and sw2, verify that all node cluster ports are up: 
 +
+`net show interface`
++
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cumulus@sw1:~$ *net show interface*
@@ -351,11 +438,17 @@ UP     swp4         100G  9216   Trunk/L2    e3b               Master: bridge(UP
 UP     swp15        100G  9216   BondMember  sw1 (swp15)       Master: cluster_isl(UP)
 UP     swp16        100G  9216   BondMember  sw1 (swp16)       Master: cluster_isl(UP)
 ----
+====
 
-. Verify that both nodes each have one connection to each switch: `net show lldp`
+. Verify that both nodes each have one connection to each switch: 
 +
+`net show lldp`
++
+.Show example
+[%collapsible]
+====
 The following example shows the appropriate results for both switches:
-+
+
 [subs=+quotes]
 ----
 cumulus@sw1:~$ *net show lldp*
@@ -376,11 +469,19 @@ swp4       100G   Trunk/L2    node2               e3b
 swp15      100G   BondMember  sw1                 swp15
 swp16      100G   BondMember  sw1                 swp16
 ----
+====
 
-. Enable auto-revert on the cluster LIFs: `cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert true`
-
-. Verify that all cluster network LIFs are back on their home ports: `network interface show`
+. Enable auto-revert on the cluster LIFs: 
 +
+`cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert true`
+
+. Verify that all cluster network LIFs are back on their home ports: 
++
+`network interface show`
++
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network interface show -vserver Cluster*
@@ -394,11 +495,19 @@ Cluster
             node2_clus1  up/up    169.254.47.194/16  node2         e3a     true
             node2_clus2  up/up    169.254.19.183/16  node2         e3b     true
 ----
+====
 
-. Enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the two commands: `system switch ethernet log setup-password` and `system switch ethernet log enable-collection`
+=== Step 3: Complete the procedure
+
+. Enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the two commands: 
++
+`system switch ethernet log setup-password` and `system switch ethernet log enable-collection`
 +
 Enter: `system switch ethernet log setup-password`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *system switch ethernet log setup-password*
@@ -426,9 +535,13 @@ Do you want to continue? {y|n}:: [n] *y*
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 ----
+====
 +
 Followed by: `system switch ethernet log enable-collection`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *system  switch ethernet log enable-collection*
@@ -440,13 +553,21 @@ Enabling cluster switch log collection.
 
 cluster1::*>
 ----
+====
 +
 NOTE: If any of these commands return an error, contact NetApp support.
 
-. Initiate the switch log collection feature: `system switch ethernet log collect -device *`
+. Initiate the switch log collection feature: 
 +
-Wait for 10 minutes and then check that the log collection was successful using the command: `system switch ethernet log show`
+`system switch ethernet log collect -device *`
 +
+Wait for 10 minutes and then check that the log collection was successful using the command: 
++
+`system switch ethernet log show`
++
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> system switch ethernet log show
@@ -457,7 +578,12 @@ Index  Switch                       Log Timestamp        Status
 1      sw1 (b8:ce:f6:19:1b:42)      4/29/2022 03:05:25   complete   
 2      sw2 (b8:ce:f6:19:1b:96)      4/29/2022 03:07:42   complete
 ----
+====
 
-. Change the privilege level back to admin: `set -privilege admin`
+. Change the privilege level back to admin: 
++
+`set -privilege admin`
 
-. If you suppressed automatic case creation, reenable it by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=END`
+. If you suppressed automatic case creation, reenable it by invoking an AutoSupport message: 
++
+`system node autosupport invoke -node * -type all -message MAINT=END`
