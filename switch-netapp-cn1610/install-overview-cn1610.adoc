@@ -1,0 +1,29 @@
+---
+permalink: switch-netapp-cn1610/install-overview-cn1610.html
+sidebar: sidebar
+keywords: install, fastpath, software, rcfs
+summary: cn1610, switch, netapp
+---
+= Overview of installation and configuration for NetApp CN1610 switches
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+Before configuring NetApp CN1610 switches, review the procedure overview.
+
+The CN1610 is a high bandwidth, managed Layer 2 switch that provides 16 10-Gigabit Small Form-Factor Pluggable Plus (SFP+) ports. The switch includes redundant power supplies and fan trays that support hot swapping for high availability. This 1U switch can be installed in a standard 19-inch NetApp 42U system cabinet or third-party cabinet.
+
+The switch supports local management through the console port or remote management by using Telnet or SSH through a network connection. The CN1610 includes a dedicated 1-Gigabit Ethernet RJ45 management port for out-of-band switch management. You can manage the switch by entering commands into the command-line interface (CLI) or by using an SNMP-based network management system (NMS).
+
+To initially configure a NetApp CN1610 switch on systems running ONTAP, follow these steps:
+
+. link:install-hardware-cn1610.html[Install the hardware]
+. Install FASTPATH and RCFs:
+.. link:prepare-install-fastpath-rcfs.html[Prepare to install FASTPATH and RCFs]
+.. link:install-fastpath-software.html[Install FASTPATH software]
+.. link:install-rcf-file.html[Install a Reference Configuration File]
++
+NOTE: If the switches are running ONTAP 8.3.1 or later, follow the instructions in link:install-fastpath-rcf-831.html[Install FASTPATH and RCFs on switches running ONTAP 8.3.1 and later.]
++
+. link:configure-hardware-cn1610.html[Configure the switch].
+
