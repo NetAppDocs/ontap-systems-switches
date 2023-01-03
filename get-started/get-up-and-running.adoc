@@ -15,4 +15,31 @@ Deploying the switch involves the following workflow:
 
 /image here/
 
-/ more info to come/
+1.	Install and set up AFF and FAS hardware.
+To install your AFF/FAS storage controller, you must prepare the physical site for your new storage system and
+rack and cable your storage system. Access the Installation and Setup instructions for your model:
+
+https://docs.netapp.com/us-en/ontap-systems/index.html
+
+2. Configure ONTAP
+To configure ONTAP, you must initialize your cluster, create a local tier, configure protocols, and provision storage for your storage system. See the steps to Configure ONTAP.
+<Link to ONTAP page>
+
+Review the recommended port assignments from the switches to the controllers. 
+The sample cabling worksheet provides examples of recommended port assignments from the switches to the controllers. The blank worksheet provides a template that you can use in setting up your cluster.
+https://review.docs.netapp.com/us-en/ontap-systems-switches_jackie-redesign/switch-cisco-9336c-fx2/setup-worksheet-9336c-cluster.html
+
+3. Install switch in NetApp cabinet.
+Install the Cisco Nexus 9336C-FX2 switch and pass-through panel in a NetApp cabinet with the standard brackets that are included with the switch.
+
+4. Configure switch. 
+Set up and configure the your switch depending on your model:
+
+5. Prepare to install NX-OS and RCF. 
+Follow preliminary procedures in preparation for installing the Cisco NX-OS software and reference configuration files (RCFs).
+
+6. Install the NX-OS software. 
+Install the NX-OS software on the Nexus 9336C-FX2 cluster switch.
+
+7. Install the RCF config file. 
+Install the RCF after setting up the Nexus 9336C-FX2 switch for the first time. You can also use this procedure to upgrade your RCF version.
