@@ -20,6 +20,20 @@ Follow these steps to perform an initial set up of the BES-53248 cluster switch.
 ** link:components-bes53248.html[Components and part numbers]
 ** link:required-documentation-53248.html[Documentation requirements]
 
+.Switch and node nomenclature
+
+The examples in the configuration procedures use the following switch and node nomenclature:
+
+* The NetApp switch names are `cs1` and `cs2`. The upgrade starts on the second switch, _cs2._
+* The cluster LIF names are `node1_clus1` and `node1_clus2` for node1, and `node2_clus1` and `node2_clus2` for node2.
+* The IPspace name is Cluster.
+* The `cluster1::>` prompt indicates the name of the cluster.
+* The cluster ports on each node are named `e0a` and `e0b`. See the https://hwu.netapp.com/Home/Index[NetApp Hardware Universe^] for the actual cluster ports supported on your platform.
+* The Inter-Switch Links (ISLs) supported for the NetApp switches are ports 0/55 and 0/56.
+* The node connections supported for the NetApp switches are ports 0/1 through 0/16 with default licensing.
+* The examples use two nodes, but you can have up to 24 nodes in a cluster.
+
+
 .Steps
 
 . Connect the serial port to a host or serial port.

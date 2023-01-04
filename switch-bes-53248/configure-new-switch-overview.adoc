@@ -2,14 +2,16 @@
 permalink: switch-bes-53248/configure-new-switch-overview.html
 sidebar: sidebar
 keywords: BES-53248 switches, initial installation, configure new bes-53248 switch
-summary: 'Before configuring BES-53248 cluster switches, review an overview of the process and the nomenclature.'
+summary: 'Before configuring BES-53248 cluster switches, review the configuration overview.'
 ---
 = Overview of configuration process for BES-53248 switches
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-Before configuring BES-53248 cluster switches for an initial installation, review the procedural overview and the nomenclature used in the steps.
+BES-53248 cluster switches are designed to work in clusters ranging in size from two to 24 controllers in ONTAP 9.6 and later. The BES-53248 is a bare metal switch running on a Broadcom-embedded Operating System known as Ethernet Fabric OS (EFOS).
+
+Before configuring BES-53248 cluster switches for an initial installation, review the configuration overview.
 
 == Initial configuration overview
 
@@ -24,15 +26,3 @@ To initially configure a BES-53248 cluster switch on systems running ONTAP, foll
 . link:configure-ssh.html[Enable SSH on BES-53248 cluster switches]. If you use the Cluster Switch Health Monitor (CSHM) and log collection features, enable SSH on the switches.
 . link:configure-log-collection.html[Enable the log collection feature]. Use this feature to collect switch-related log files in ONTAP.
 
-== Switch and node nomenclature
-
-The examples in the configuration procedures use the following switch and node nomenclature:
-
-* The NetApp switch names are `cs1` and `cs2`. The upgrade starts on the second switch, _cs2._
-* The cluster LIF names are `node1_clus1` and `node1_clus2` for node1, and `node2_clus1` and `node2_clus2` for node2.
-* The IPspace name is Cluster.
-* The `cluster1::>` prompt indicates the name of the cluster.
-* The cluster ports on each node are named `e0a` and `e0b`. See the https://hwu.netapp.com/Home/Index[NetApp Hardware Universe^] for the actual cluster ports supported on your platform.
-* The Inter-Switch Links (ISLs) supported for the NetApp switches are ports 0/55 and 0/56.
-* The node connections supported for the NetApp switches are ports 0/1 through 0/16 with default licensing.
-* The examples use two nodes, but you can have up to 24 nodes in a cluster.
