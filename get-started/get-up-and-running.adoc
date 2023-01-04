@@ -15,31 +15,55 @@ Deploying the switch involves the following workflow:
 
 /image here/
 
-1.	Install and set up AFF and FAS hardware.
-To install your AFF/FAS storage controller, you must prepare the physical site for your new storage system and
-rack and cable your storage system. Access the Installation and Setup instructions for your model:
+== Step 1: Install AFF and FAS hardware
+To install your AFF/FAS hardware, you prepare the physical site for your new storage system and
+rack and cable your storage system. Access the Installation and Setup instructions for your AFF/FAS platform model:
 
-https://docs.netapp.com/us-en/ontap-systems/index.html
+.AFF systems
+[%collapsible]
+====
+/c190/install-setup.html[C190]
+/a200/install-setup.html[A200]
+/a220/install-setup.html[A220]
+/a250/install-setup.html[A250]
+/a300/install-setup.html[A300]
+/a320/install-setup.html[A320]
+/a400/install-setup.html[A400]
+/a700/install-setup.html[A700]
+/a700s/install-setup.html[A700s]
+/a800/install-setup.html[A800]
+/a900/install-setup.html[A900]
+====
 
-2. Configure ONTAP
-To configure ONTAP, you must initialize your cluster, create a local tier, configure protocols, and provision storage for your storage system. See the steps to Configure ONTAP.
-<Link to ONTAP page>
+.FAS systems
+[%collapsible]
+====
+/fas500f/install-setup.html[FAS500f]
+/fas2600/install-setup.html[FAS2600]
+/fas2700/install-setup.html[FAS2700]
+/fas8200/install-setup.html[FAS8200]
+/fas8300/install-setup.html[FAS8300]
+/fas8700/install-setup.html[FAS8700]
+/fas9000/install-setup.html[FAS9000]
+/fas9500/install-setup.html[FAS9500]
+====
 
-Review the recommended port assignments from the switches to the controllers. 
-The sample cabling worksheet provides examples of recommended port assignments from the switches to the controllers. The blank worksheet provides a template that you can use in setting up your cluster.
-https://review.docs.netapp.com/us-en/ontap-systems-switches_jackie-redesign/switch-cisco-9336c-fx2/setup-worksheet-9336c-cluster.html
+== Step 2: Set up and configure ONTAP
+To set up and configure ONTAP, you assign a node-management IP address, initialize your cluster, create a local tier, configure protocols, and provision storage for your storage system. You can set up and configure ONTAP using either System Manager or the CLI.
 
-3. Install switch in NetApp cabinet.
-Install the Cisco Nexus 9336C-FX2 switch and pass-through panel in a NetApp cabinet with the standard brackets that are included with the switch.
+Select the interface you want to use:
+* https://docs.netapp.com/us-en/ontap/task_configure_ontap.html[System Manager]
+* https://docs.netapp.com/us-en/ontap/software_setup/concept_set_up_the_cluster.html[CLI]
 
-4. Configure switch. 
-Set up and configure the your switch depending on your model:
+== Step 3: Complete ONTAP configuration
+To complete the configuration of ONTAP, you need to configure networking, set up the Service Processor, lay out your aggregates, create and configure data storage virtual machines (SVMs), and configure event notifications.
 
-5. Prepare to install NX-OS and RCF. 
-Follow preliminary procedures in preparation for installing the Cisco NX-OS software and reference configuration files (RCFs).
+* https://docs.netapp.com/us-en/ontap/software_setup/concept_additional_system_configuration_tasks_to_complete.html[Additional ONTAP configuration tasks to complete]
 
-6. Install the NX-OS software. 
-Install the NX-OS software on the Nexus 9336C-FX2 cluster switch.
+== Step 4: Install and configure switch
+To configure your switch, you install the switch hardware and then configure the switch software. Access the configure instructions for your switch model:
 
-7. Install the RCF config file. 
-Install the RCF after setting up the Nexus 9336C-FX2 switch for the first time. You can also use this procedure to upgrade your RCF version.
+* /switch-bes-53248/configure-new-switch-overview.html[BES-53248 switches]
+* /switch-cisco-9336c-fx2/configure-switch-overview-9336c-cluster.html[Cisco Nexus 9336C-FX2]
+* /switch-nvidia-sn2100/configure-overview-sn2100-cluster.html[NVIDIA SN2100]
+* 
