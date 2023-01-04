@@ -4,21 +4,30 @@ sidebar: sidebar
 keywords: install, cisco nexus 3232c switch,
 summary: 'Before configuring Cisco Nexus 3232c switches, review an overview of the process and the nomenclature.'
 ---
-= Overview of configuration process for Cisco Nexus 3232c switches
+= Overview of installation and configuration for Cisco Nexus 3232c switches
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-Before configuring Cisco Nexus 3232c switches, review the procedure overview.
+Cisco Nexus 3232C switches can be used as cluster switches in your AFF or FAS cluster. Cluster switches allow you to build ONTAP clusters with more than two nodes. 
 
+== Initial configuration overview
 
 To initially configure a Cisco Nexus 3232c switch on systems running ONTAP, follow these steps:
 
-. link:/switch-cisco-3232c/setup_worksheet_3232c[Complete cabling worksheet]. The sample cabling worksheet provides examples of recommended port assignments from the switches to the controllers. The blank worksheet provides a template that you can use in setting up your cluster.
-. link:/switch-cisco-3232c/install-cisco-nexus-3232c.html"[Install the switch in a NetApp cabinet]. Install the Cisco Nexus 3232C cluster switch and pass-through panel in a NetApp cabinet with the standard brackets that are included with the switch.
-. link:/switch-cisco-3232c/setup-switch.html[Configure the 3232C cluster switch]. Set up and configure the Cisco Nexus 3232C switch.
-. link:/switch-cisco-3232c/prepare-install-cisco-nexus-3232c.html"[Prepare to install NX-OS software and Reference Configuration file]. Prepare to install the NX-OS software and the Reference Configuration File (RCF).
-. link:/switch-cisco-3232c/install-nx-os-software-3232c.html[Install the NX-OS software]. Install the NX-OS software on the Nexus 3232C cluster switch.
-. link:/switch-cisco-3232c/install-rcf-3232c.html[Install the Reference Configuration File (RCF)]. Install the RCF after setting up the Nexus 3232C switch for the first time. You can also use this procedure to upgrade your RCF version.
+. link:setup_worksheet_3232c.html[Complete Cisco Nexus 3232C cabling worksheet]. The sample cabling worksheet provides examples of recommended port assignments from the switches to the controllers. The blank worksheet provides a template that you can use in setting up your cluster.
+. link:install-cisco-nexus-3232c.html[Install a Cisco Nexus 3232C cluster switch in a NetApp cabinet]. Install the Cisco Nexus 3232C cluster switch and pass-through panel in a NetApp cabinet with the standard brackets that are included with the switch.
+. link:setup-switch.html[Configure the 3232C cluster switch]. Set up and configure the Cisco Nexus 3232C switch.
+. link:prepare-install-cisco-nexus-3232c.html[Prepare to install NX-OS software and Reference Configuration File]. Prepare to install the NX-OS software and the Reference Configuration File (RCF).
+. link:install-nx-os-software-3232c.html[Install the NX-OS software]. Install the NX-OS software on the Nexus 3232C cluster switch.
+. link:install-rcf-3232c.html[Install the Reference Configuration File (RCF)]. Install the RCF after setting up the Nexus 3232C switch for the first time. You can also use this procedure to upgrade your RCF version.
 
+
+== Additional information
+
+Before you begin installation or maintenance, be sure to review the following:
+
+* link:configure-reqs-3232c.html[Configuration requirements]
+* link:required-documentation-3232c.html[Required documentation]
+* link:smart-call-home-3232c.html[Smart Call Home requirements]
 

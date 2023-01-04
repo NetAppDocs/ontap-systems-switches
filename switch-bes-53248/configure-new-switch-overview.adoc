@@ -4,21 +4,19 @@ sidebar: sidebar
 keywords: BES-53248 switches, initial installation, configure new bes-53248 switch
 summary: 'Before configuring BES-53248 cluster switches, review the configuration overview.'
 ---
-= Overview of configuration process for BES-53248 switches
+= Overview of installation and configuration for BES-53248 switches
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-BES-53248 cluster switches are designed to work in clusters ranging in size from two to 24 controllers in ONTAP 9.6 and later. The BES-53248 is a bare metal switch running on a Broadcom-embedded Operating System known as Ethernet Fabric OS (EFOS).
-
-Before configuring BES-53248 cluster switches for an initial installation, review the configuration overview.
+The BES-53248 is a bare metal switch designed to work in ONTAP clusters ranging from two to 24 nodes. 
 
 == Initial configuration overview
 
 To initially configure a BES-53248 cluster switch on systems running ONTAP, follow these steps:
 
-. link:install-hardware-bes53248.html[Install the switch]. Follow the instructions in: https://library.netapp.com/ecm/ecm_download_file/ECMLP2864537[Broadcom-supported BES-53248 Cluster Switch Installation Guide^].
-. link:configure-install-initial.html[Configure the switch]. Perform an initial set up of the BES-53248 cluster switch.
+. link:install-hardware-bes53248.html[Install the hardware for the BES-53248 cluster switch]. Instructions are available in the _Broadcom-supported BES-53248 Cluster Switch Installation Guide_.
+. link:configure-install-initial.html[Configure the BES-53248 cluster switch]. Perform an initial setup of the BES-53248 cluster switch.
 . link:configure-efos-software.html[Install the EFOS software]. Download and install the Ethernet Fabric OS (EFOS) software on the BES-53248 cluster switch.
 . link:configure-licenses.html[Install licenses for BES-53248 cluster switches]. Optionally, add new ports by purchasing and installing more licenses. The switch base model is licensed for 16 10GbE or 25GbE ports and two 100GbE ports.
 . link:configure-install-rcf.html[Install the Reference Configuration File (RCF)]. Install or upgrade the RCF on the BES-53248 cluster switch, and then verify the ports for an additional license after the RCF is applied.
@@ -26,3 +24,12 @@ To initially configure a BES-53248 cluster switch on systems running ONTAP, foll
 . link:configure-ssh.html[Enable SSH on BES-53248 cluster switches]. If you use the Cluster Switch Health Monitor (CSHM) and log collection features, enable SSH on the switches.
 . link:configure-log-collection.html[Enable the log collection feature]. Use this feature to collect switch-related log files in ONTAP.
 
+== Additional information
+
+Before you begin installation or maintenance, be sure to review the following:
+
+* link:configure-reqs-bes53248.html[Configuration requirements]
+* link:components-bes53248.html[Components and part numbers]
+* link:required-documentation-bes53248.html[Required documentation]
+
+ 

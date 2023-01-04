@@ -4,19 +4,29 @@ sidebar: sidebar
 keywords: install, Cisco Nexus 3132Q-V
 summary: 'Before configuring Cisco Nexus 3132Q-V switches, review an overview of the process and the nomenclature.'
 ---
-= Overview of configuration process for Cisco Nexus 3132Q-V switches
+= Overview of installation and configuration for Cisco Nexus 3132Q-V switches
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-Before configuring Cisco Nexus 3132Q-V switches, review the requirements and the procedure overview.
+Cisco Nexus 3132Q-V switches can be used as cluster switches in your AFF or FAS cluster. Cluster switches allow you to build ONTAP clusters with more than two nodes. 
 
+== Initial configuration overview
 
 To initially configure a Cisco Nexus 3132Q-V switch on systems running ONTAP, follow these steps:
 
-. link:switch-cisco-3132q-v/setup_worksheet_3132q.html[Complete cabling worksheet].
-. link:install-cisco-nexus-3232c.html[Install a Cisco Nexus 3132Q-V cluster switch in a NetApp cabinet].
-. link:setup-switch.html[Configure the Cisco Nexus 3132Q-V switch].
-. link:prepare-install-cisco-nexus-3132q.html[Prepare to install NX-OS software and Reference Configuration file].
-. link:install-nx-os-software-3132q-v.html[Install the NX-OS software].
-. link:install-rcf-3132q-v.html[Install the Reference Configuration File (RCF)].
+. link:setup_worksheet_3132q.html[Complete Cisco Nexus 3132Q-V cabling worksheet]. The sample cabling worksheet provides examples of recommended port assignments from the switches to the controllers. The blank worksheet provides a template that you can use in setting up your cluster.
+. link:install-cisco-nexus-3232c.html[Install a Cisco Nexus 3132Q-V cluster switch in a NetApp cabinet]. install the Cisco Nexus 3132Q-V switch and pass-through panel in a NetApp cabinet with the standard brackets that are included with the switch.
+. link:setup-switch.html[Configure the Cisco Nexus 3132Q-V switch]. Set up and configure the Cisco Nexus 3132Q-V switch.
+. link:prepare-install-cisco-nexus-3132q.html[Prepare to install NX-OS software and Reference Configuration File]. Prepare to install the NX-OS software and the Reference Configuration File (RCF).
+. link:install-nx-os-software-3132q-v.html[Install the NX-OS software]. Follow this procedure to install the NX-OS software on the Nexus 3132Q-V cluster switch.
+. link:install-rcf-3132q-v.html[Install the Reference Configuration File (RCF)]. Follow this procedure to install the RCF after setting up the Nexus 3132Q-V switch for the first time. You can also use this procedure to upgrade your RCF version.
+
+== Additional information
+
+Before you begin installation or maintenance, be sure to review the following:
+
+* link:configure-reqs-3132q.html[Configuration requirements]
+* link:required-documentation-3132q.html[Required documentation]
+* link:smart-call-home-3132q.html[Smart Call Home requirements]
+
