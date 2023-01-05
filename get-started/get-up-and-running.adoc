@@ -15,9 +15,8 @@ Deploying the switch involves the following workflow:
 
 /image here/
 
-== Step 1: Install AFF and FAS hardware
-To install your AFF/FAS hardware, you prepare the physical site for your new storage system and
-rack and cable your storage system. Access the Installation and Setup instructions for your AFF/FAS platform model:
+== Step 1: Install hardware
+To install your AFF/FAS controllers, access the Installation and Setup instructions for your AFF/FAS platform model:
 
 .AFF systems
 [%collapsible]
@@ -48,7 +47,26 @@ rack and cable your storage system. Access the Installation and Setup instructio
 * https://docs.netapp.com/us-en/ontap-systems/fas9500/install-setup.html[FAS9500]
 ====
 
-== Step 2: Set up and configure ONTAP
+
+== Step 2: Connect cables
+The AFF/FAS Installation and Setup instructions (Step 1) include instructions for connecting cables. However, if you need lists of supported cables and transceivers, best practices for cabling, and detailed information about the host ports for your controller, access the following instructions for your switch model:
+
+* link:../switch-bes-53248/configure-reqs-bes53248.html#configuration-requirements[BES-53248 switches]
+* link:../switch-cisco-9336c-fx2/configure-reqs-9336c-cluster.html#configuration-requirements[Cisco Nexus 9336C-FX2]
+* link:../switch-nvidia-sn2100/cabling-considerations-sn2100-cluster.html[NVIDIA SN2100]
+
+== Step 3: Install switch
+To install the switch hardware, management network, data network, and management ports on the controllers are connected to switches. The cluster interconnect and HA ports are cabled on to the cluster/HA switch. Access the configure instructions for your switch model:
+
+* link:../switch-bes-53248/configure-install-initial.html[BES-53248 switches]
+* link:../switch-cisco-9336c-fx2/setup-switch-9336c-cluster.html[Cisco Nexus 9336C-FX2]
+* link:../switch-nvidia-sn2100/configure-overview-sn2100-cluster.html[NVIDIA SN2100]
+
+== Step 4: Configure software on switch
+Access the configure instructions for your switch model:
+
+
+== Step 5: Set up and configure ONTAP
 To set up and configure ONTAP, you assign a node-management IP address, initialize your cluster, create a local tier, configure protocols, and provision storage for your storage system. You can set up and configure ONTAP using either System Manager or the CLI.
 
 Select the interface you want to use:
@@ -56,14 +74,14 @@ Select the interface you want to use:
 * https://docs.netapp.com/us-en/ontap/task_configure_ontap.html[System Manager]
 * https://docs.netapp.com/us-en/ontap/software_setup/concept_set_up_the_cluster.html[CLI]
 
-== Step 3: Complete ONTAP configuration
-To complete the configuration of ONTAP, you need to configure networking, set up the Service Processor, lay out your aggregates, create and configure data storage virtual machines (SVMs), and configure event notifications.
-
-* https://docs.netapp.com/us-en/ontap/software_setup/concept_additional_system_configuration_tasks_to_complete.html[Additional ONTAP configuration tasks to complete]
-
-== Step 4: Install and configure switch
-To configure your switch, you install the switch hardware and then configure the switch software. Access the configure instructions for your switch model:
+== Step 2: Configure switch software
+To install the switch hardware, access the configure instructions for your switch model:
 
 * link:../switch-bes-53248/configure-new-switch-overview.html[BES-53248 switches]
 * link:../switch-cisco-9336c-fx2/configure-switch-overview-9336c-cluster.html[Cisco Nexus 9336C-FX2]
 * link:../switch-nvidia-sn2100/configure-overview-sn2100-cluster.html[NVIDIA SN2100]
+
+== Step 3: Complete ONTAP configuration
+To complete the configuration of ONTAP, you need to configure networking, set up the Service Processor, lay out your aggregates, create and configure data storage virtual machines (SVMs), and configure event notifications.
+
+* https://docs.netapp.com/us-en/ontap/software_setup/concept_additional_system_configuration_tasks_to_complete.html[Additional ONTAP configuration tasks to complete]
