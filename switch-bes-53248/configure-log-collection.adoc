@@ -9,11 +9,13 @@ summary: 'The cluster switch health monitor log collection feature is used to co
 :imagesdir: ../media/
 
 [.lead]
-Follow these steps to enable the cluster switch health monitor log collection feature, which is used to collect switch-related log files in ONTAP. You must make sure that you have set up your environment using the BES-53248 cluster switch CLI as detailed here.
+You can enable the log collection feature, which is used to collect switch-related log files in ONTAP. 
+
+Make sure that you have set up your environment using the BES-53248 cluster switch CLI.
 
 == For ONTAP 9.8 and later
 
-Enable the cluster switch health monitor log collection feature for collecting switch-related log files, using the commands:
+Enable the log collection feature using the commands:
 
 `system switch ethernet log setup-password` and `system switch ethernet log enable-collection`
 
@@ -75,9 +77,7 @@ cluster1::*>
 
 == For ONTAP 9.5P15, 9.6P11, 9.7P8 and later patch releases
 
-
-
-Enable the cluster switch health monitor log collection feature for collecting switch-related log files, using the commands:
+Enable the log collection feature using the commands:
 
 `system cluster-switch log setup-password` and `system cluster-switch log enable-collection`
 

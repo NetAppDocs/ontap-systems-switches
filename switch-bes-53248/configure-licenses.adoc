@@ -106,13 +106,12 @@ No license file found.
 +
 . Install the license file.
 +
-The following example uses SFTP to copy a license file to a key index 1.
-+
 Repeat this step to load more licenses and to use different key index numbers.
 +
 .Show example
 [%collapsible]
 ====
+The following example uses SFTP to copy a license file to a key index 1.
 
 [subs=+quotes]
 ----
@@ -278,11 +277,11 @@ Intf      Type   Mode      Mode       Status     Status Trap    Mode   Timeout
 ----
 ====
 
-CAUTION: When installing additional licenses, you must configure the new interfaces manually. Re-applying an RCF to an existing working production switch is not advisable.
+CAUTION: When installing additional licenses, you must configure the new interfaces manually. Do not re-apply an RCF to an existing working production switch.
 
 == Troubleshoot install issues
 
-Where problems arise when installing a license, the following debug commands should be run before running the `copy` command again to install the license.
+Where problems arise when installing a license, run the following debug commands before running the `copy` command again.
 
 Debug commands to use: `debug transfer` and `debug license`
 
@@ -335,7 +334,8 @@ Check for the following in the debug output:
 * Check that the specified license index was not used previously. Where a license index is already used, the following error is returned: `License file /mnt/download//license.dat.1 already exists.`
 * A port license is not a feature license. Therefore, the following statement is expected: `Feature not found in license file with index = 1.`
 
-Use the `copy` command to backup port licenses to the server:
+Use the `copy` command to back up port licenses to the server:
+
 [subs=+quotes]
 ----
 (cs2)# *copy nvram:license-key 1 scp://<UserName>@<IP_address>/saved_license_1.dat*
@@ -352,7 +352,7 @@ To activate newly licensed ports, you need to edit the latest version of the RCF
 The default license activates ports 0/1 to 0/16 and 0/55 to 0/56 while the newly licensed ports will be between ports 0/17 to 0/54 depending on the type and number of licenses available. For example, to activate the SW-BES54248-40-100G-LIC license, you must uncomment the following section in the RCF:
 
 
-.Show section to uncomment
+.Show example 
 [%collapsible]
 ====
 ----

@@ -54,7 +54,7 @@ Enable Switchless Cluster Detection: true
 ----
 ====
 +
-If "Enable Switchless Cluster Detection” is `false`, contact support.
+If "Enable Switchless Cluster Detection" is `false`, contact NetApp support.
 
 .	If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
 +
@@ -302,10 +302,10 @@ node2 true    true        false
 +
 `system node autosupport invoke -node * -type all -message MAINT=END`
 
++
+For more information, see link:https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Software/ONTAP_OS/How_to_suppress_automatic_case_creation_during_scheduled_maintenance_windows_-_ONTAP_9[NetApp KB Article 1010449: How to suppress automatic case creation during scheduled maintenance windows^].
++
 .	Change the privilege level back to admin:
 +
 `set -privilege admin`
 
-*More information*
-
-link:https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Software/ONTAP_OS/How_to_suppress_automatic_case_creation_during_scheduled_maintenance_windows_-_ONTAP_9[NetApp KB Article 1010449: How to suppress automatic case creation during scheduled maintenance windows^]

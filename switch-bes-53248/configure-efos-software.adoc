@@ -11,7 +11,7 @@ summary: 'Follow these steps to install the Ethernet Fabric OS (EFOS) software o
 [.lead]
 Follow these steps to install the Ethernet Fabric OS (EFOS) software on the BES-53248 cluster switch.
 
-EFOS is a wide-ranging software set of advanced networking features and protocols necessary to develop a variety of Ethernet and IP infrastructure systems for data center applications. This software is an architecture suitable for any network organizational device using leading-edge applications that require thorough packet inspection or separation. 
+EFOS software includes a set of advanced networking features and protocols for developing Ethernet and IP infrastructure systems. This software architecture is suitable for any network organizational device using applications that require thorough packet inspection or separation. 
 
 == Prepare for installation
 
@@ -64,6 +64,10 @@ a|Non-FIPS compliant
 IMPORTANT: Note that after upgrading BES-53248 cluster switches from EFOS 3.3.x.x or 3.4.x.x to EFOS 3.7.0.4 or 3.8.0.2, Inter-Switch Links (ISLs) and port channel are marked in the *Down* state. See this KB article: https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Systems/Fabric%2C_Interconnect_and_Management_Switches/BES-53248_Cluster_Switch_NDU_failed_upgrade_to_EFOS_3.7.0.4_and_later[BES-53248 Cluster Switch NDU failed upgrade to EFOS 3.7.0.4 and later^] for further details.
 
 == Install the software
+Use one of the following methods:
+
+* <<Method 1: Install EFOS>>. Use for most cases (see the table above).
+* <<Method 2: Upgrade EFOS using the ONIE OS installation>>. Use if one EFOS version is FIPS compliant and the other EFOS version is non-FIPS compliant.
 
 === Method 1: Install EFOS
 Perform the following steps to install or upgrade the EFOS software.
@@ -289,8 +293,11 @@ NOTE: This functionality is only available for EFOS 3.7.x.x or later non-FIPS co
 .Steps
 . Boot the switch into ONIE installation mode.
 +
-During boot, select ONIE when the following screen appears:
+During boot, select ONIE when you see the prompt.
 +
+.Show example
+[%collapsible]
+====
 ----
 +--------------------------------------------------------------------+
 |EFOS                                                                |
@@ -307,9 +314,13 @@ During boot, select ONIE when the following screen appears:
 |                                                                    |
 +--------------------------------------------------------------------+
 ----
+====
 +
-After you select *ONIE*, the switch will then load and present you with the following choices:
+After you select *ONIE*, the switch loads and presents you with several choices. Select *Install OS*.
 +
+.Show example
+[%collapsible]
+====
 ----
 +--------------------------------------------------------------------+
 |*ONIE: Install OS                                                   |
@@ -326,18 +337,19 @@ After you select *ONIE*, the switch will then load and present you with the foll
 |                                                                    |
 +--------------------------------------------------------------------+
 ----
+====
 +
-The switch now will boot into ONIE installation mode.
+The switch boots into ONIE installation mode.
 
 . Stop the ONIE discovery and configure the Ethernet interface.
 +
-Once the following message appears, press <Enter> to invoke the ONIE console:
+When the following message appears, press *Enter* to invoke the ONIE console:
 +
 ----
 Please press Enter to activate this console. Info: eth0:  Checking link... up.
  ONIE:/ #
 ----
-NOTE: The ONIE discovery will continue and messages will be printed to the console.
+NOTE: The ONIE discovery continues and messages are printed to the console.
 +
 ----
 Stop the ONIE discovery
@@ -395,9 +407,10 @@ Preparing image archive ... OK.
 ----
 ====
 +
-The software will install and then reboot the switch. Let the switch reboot normally into the new EFOS version.
+The software installs and then reboots the switch. Let the switch reboot normally into the new EFOS version.
 +
 . Verify that the new switch software is installed: 
++
 `show bootvar`
 +
 .Show example

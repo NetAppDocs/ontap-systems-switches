@@ -22,7 +22,7 @@ Follow this procedure to install the NX-OS software on the Nexus 9336C-FX2 clust
 * Appropriate software and upgrade guides available on the Cisco web site for the Cisco switch upgrade and downgrade procedures. See https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series Switches^].
 
 
-.Switch and node nomenclature
+.About the examples
 The examples in this procedure use the following switch and node nomenclature:
 
 * The names of the two Cisco switches are cs1 and cs2.
@@ -34,10 +34,9 @@ The examples in this procedure use the following switch and node nomenclature:
 
 The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 
-Be sure to complete the procedure in link:configure-switch-overview-9336c-cluster.html[Prepare to install NX-OS and RCF], and then follow the steps below.
-
 .Steps
 
+. Complete the procedure in link:install-nxos-overview-9336c-cluster.html[Prepare to install NX-OS and RCF].
 . Connect the cluster switch to the management network.
 . Use the ping command to verify connectivity to the server hosting the NX-OS software and the RCF.
 +
@@ -361,4 +360,4 @@ GEM  FPGA                        0x2
 
 .What's next?
 
-link:install-nxos-rcf-9336c-cluster.html[Install RCF config file].
+link:install-nxos-rcf-9336c-cluster.html[Install the Reference Configuration File (RCF)].

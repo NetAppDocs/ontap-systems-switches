@@ -11,10 +11,6 @@ summary: Replacing a defective Broadcom-supported BES-53248 cluster switch in a 
 [.lead]
 Replacing a defective Broadcom-supported BES-53248 cluster switch in a cluster network is a nondisruptive procedure (NDU).
 
-.Before you begin
-
-Review the link:replace-switch-reqs.html[Replacement requirements].
-
 .About the examples
 
 The examples in this procedure use the following switch and node nomenclature:
@@ -25,6 +21,8 @@ The examples in this procedure use the following switch and node nomenclature:
 * The cluster ports on each node are named `e0a` and `e0b`.
 * The cluster LIF names are `node1_clus1` and `node1_clus2` for node1, and `node2_clus1` and `node2_clus2` for node2.
 * The prompt for changes to all cluster nodes is `cluster1::>`
+
+.About the topology
 
 This procedure is based on the following cluster network topology:
 
@@ -109,14 +107,16 @@ cs1                      0/56      179       R          BES-53248        0/56
 
 .Steps
 
-. Install the appropriate RCF and image on the switch, newcs2, and make any necessary site preparations.
+. Review the link:replace-switch-reqs.html[Replacement requirements].
+
+. Install the appropriate Reference Configuration File (RCF) and image on the switch, newcs2, and make any necessary site preparations.
 +
 If necessary, verify, download, and install the appropriate versions of the RCF and EFOS software for the new switch. If you have verified that the new switch is correctly set up and does not need updates to the RCF and EFOS software, continue to step 2.
 
  .. You can download the applicable Broadcom EFOS software for your cluster switches from the https://www.broadcom.com/support/bes-switch[Broadcom Ethernet Switch Support^] site. Follow the steps on the Download page to download the EFOS file for the version of ONTAP software you are installing.
  .. The appropriate RCF is available from the https://mysupport.netapp.com/site/products/all/details/broadcom-cluster-switches/downloads-tab[Broadcom Cluster Switches^] page. Follow the steps on the Download page to download the correct RCF for the version of ONTAP software you are installing.
 
-. On the new switch, log in as admin and shut down all of the ports that will be connected to the node cluster interfaces (ports 1 to 16).
+. On the new switch, log in as `admin` and shut down all of the ports that will be connected to the node cluster interfaces (ports 1 to 16).
 +
 NOTE: If you purchased additional licenses for additional ports, shut down these ports too.
 +
@@ -124,7 +124,9 @@ If the switch that you are replacing is not functional and is powered down, the 
 +
 NOTE: No password is required to enter `enable` mode.
 +
-
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 User: *admin*
@@ -137,11 +139,15 @@ Password:
 (newcs2)(config)# *exit*
 (newcs2)#
 ----
+====
 
 . Verify that all cluster LIFs have `auto-revert` enabled:
 +
 `network interface show -vserver Cluster -fields auto-revert`
 +
+.Show example topology
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::> *network interface show -vserver Cluster -fields auto-revert*
@@ -153,8 +159,8 @@ Cluster   node1_clus1  true
 Cluster   node1_clus2  true
 Cluster   node2_clus1  true
 Cluster   node2_clus2  true
-
 ----
+====
 
 . Shut down the ISL ports 0/55 and 0/56 on the BES-53248 switch cs1:
 +
@@ -168,13 +174,13 @@ Cluster   node2_clus2  true
 . Remove all cables from the BES-53248 cs2 switch, and then connect them to the same ports on the BES-53248 newcs2 switch.
 . Bring up the ISLs ports 0/55 and 0/56 between the cs1 and newcs2 switches, and then verify the port channel operation status.
 +
-The Link State for port-channel 1/1 should be up and all member ports should be True under the Port Active heading.
+The Link State for port-channel 1/1 should be *up* and all member ports should be True under the Port Active heading.
 +
 .Show example
 [%collapsible]
 ====
 This example enables ISL ports 0/55 and 0/56 and displays the Link State for port-channel 1/1 on switch cs1:
-+
+
 [subs=+quotes]
 ----
 (cs1)# *config*
@@ -206,7 +212,9 @@ Ports  Timeout       Speed      Active
 +
 NOTE: If you purchased additional licenses for additional ports, shut down these ports too.
 +
-
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 User:admin
@@ -218,8 +226,9 @@ Password:
 (newcs2)(interface 0/1-0/16)# *exit*
 (newcs2)(config)# *exit*
 ----
+====
 
-. Verify that port e0b is `up`:
+. Verify that port e0b is *up*:
 +
 `network port show -ipspace Cluster`
 +
@@ -274,13 +283,14 @@ Cluster
 ====
 
 . Display information about the nodes in a cluster: 
++
 `cluster show`
 +
 .Show example
 [%collapsible]
 ====
 This example shows that the node health for `node1` and `node2` in this cluster is `true`:
-+
+
 [subs=+quotes]
 ----
 cluster1::> *cluster show*

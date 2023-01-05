@@ -9,24 +9,21 @@ summary: 'You can migrate nondisruptively older Cisco cluster switches for an ON
 :imagesdir: ../media/
 
 [.lead]
-You can migrate nondisruptively older Cisco cluster switches for an ONTAP cluster to Cisco Nexus 9336C-FX2 cluster network switches.
+You can can perform a nondisruptive migration from an older Cisco cluster switch to a Cisco Nexus 9336C-FX2 cluster network switch.
 
 == Review requirements
 
-.What you'll need
+Ensure that:
 
 * Some of the ports on Nexus 9336C-FX2 switches are configured to run at 10 GbE or 40 GbE.
-* 10 GbE and 40 GbE connectivity from nodes to Nexus 9336C-FX2 cluster switches have been planned, migrated, and documented.
+* The 10 GbE and 40 GbE connectivity from nodes to Nexus 9336C-FX2 cluster switches have been planned, migrated, and documented.
 * The cluster is fully functioning (there should be no errors in the logs or similar issues).
-* Initial customization of the Cisco Nexus 9336C-FX2 switches is complete, so that the:
-** 9336C-FX2 switches are running the latest recommended version of software
-** Reference Configuration Files (RCFs) have been applied to the switches
-** Any site customization, such as DNS, NTP, SMTP, SNMP, and SSH must be configured on the new switches.
-
-.Required documentation
-
-* Switch compatibility table on the https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches^] page for the supported ONTAP, NX-OS, and RCF versions.
-* Appropriate software and upgrade guides available on the Cisco web site for the Cisco switch upgrade and downgrade procedures on https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.htmlCisco[Nexus 9000 Series Switches^].
+* Initial customization of the Cisco Nexus 9336C-FX2 switches is complete, so that:
+** 9336C-FX2 switches are running the latest recommended version of software.
+** Reference Configuration Files (RCFs) have been applied to the switches.
+** Any site customization, such as DNS, NTP, SMTP, SNMP, and SSH, are configured on the new switches.
+* You have access to the switch compatibility table on the https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches^] page for the supported ONTAP, NX-OS, and RCF versions.
+* You have reviewed the appropriate software and upgrade guides available on the Cisco web site for the Cisco switch upgrade and downgrade procedures at https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html[Cisco Nexus 9000 Series Switches Support^] page.
 
 == Migrate the switches
 
@@ -43,16 +40,15 @@ The examples in this procedure use the following switch and node nomenclature:
 * The cluster LIF names are *node1_clus1* and *node1_clus2* for node 1, and *node2_clus1* and *node2_clus2* for node 2.
 * The *cluster1::*>* prompt indicates the name of the cluster.
 
-.About this task
-
-The procedure requires the use of both ONTAP commands and https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.htmlCisco[Nexus 9000 Series Switches^] commands; ONTAP commands are used, unless otherwise indicated.
-
-
-.Initial switch setup
-
 During this procedure, refer to the following example:
 
 image::../media/Initial_setup.png[Initial switch setup]
+
+.About this task
+
+The procedure requires the use of both ONTAP commands and https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html[Nexus 9000 Series Switches^] commands; ONTAP commands are used, unless otherwise indicated.
+
+
 
 === Step 1: Prepare for migration
 
@@ -62,7 +58,9 @@ where _x_ is the duration of the maintenance window in hours.
 +
 NOTE: The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
 
-. Change the privilege level to advanced, entering *y* when prompted to continue: `set -privilege advanced`
+. Change the privilege level to advanced, entering *y* when prompted to continue: 
++
+`set -privilege advanced`
 +
 The advanced prompt (*>) appears.
 
@@ -133,9 +131,9 @@ node2      /cdp
 
 . Determine the administrative or operational status for each cluster port.
 
- .. Verify that all the cluster ports are up with a healthy status: 
- +
- `network port show -ipspace Cluster`
+.. Verify that all the cluster ports are up with a healthy status: 
++
+`network port show -ipspace Cluster`
 +
 .Show example 
 [%collapsible]
@@ -162,9 +160,9 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 ----
 ====
 
- .. Verify that all the cluster interfaces (LIFs) are on their home ports: 
- +
- `network interface show -vserver Cluster`
+.. Verify that all the cluster interfaces (LIFs) are on their home ports: 
++
+`network interface show -vserver Cluster`
 +
 .Show example 
 [%collapsible]
@@ -232,10 +230,11 @@ cs2(config-if-range)# *shutdown*
 . Verify that the cluster LIFs have migrated to the ports hosted on cluster switch cs1. This might take a few seconds.
 +
 `network interface show -vserver Cluster`
++
 .Show example 
 [%collapsible]
 ====
-+
+
 [subs=+quotes]
 ----
 cluster1::*> *network interface show -vserver Cluster*
@@ -301,16 +300,17 @@ e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
 e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 ----
 ====
-
++
 All cluster ports that were moved should be up.
-
++
 . Check neighbor information on the cluster ports:
 +
 `network device-discovery show -protocol cdp`
++
 .Show example 
 [%collapsible]
 ====
-+
+
 [subs=+quotes]
 ----
 cluster1::*> *network device-discovery show -protocol cdp*
@@ -327,9 +327,9 @@ node2      /cdp
             e0b    cs2-new                   Ethernet1/1/2  N9K-C9336C-FX2
 ----
 ====
-
++
 Verify that the moved cluster ports see the cs2-new switch as the neighbor.
-
++
 . Confirm the switch port connections from switch cs2-new’s perspective:
 +
 [subs=+quotes]
@@ -420,9 +420,9 @@ e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
 e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 ----
 ====
-
++
 All cluster ports that were moved should be up.
-
++
 . Check neighbor information on the cluster ports: 
 +
 `network device-discovery show`
@@ -445,9 +445,9 @@ node2      /cdp
             e0b    cs2-new                   Ethernet1/1/2   N9K-C9336C-FX2
 ----
 ====
-
++
 Verify that the moved cluster ports see the cs1-new switch as the neighbor.
-
++
 . Confirm the switch port connections from switch cs1-new’s perspective:
 +
 [subs=+quotes]
@@ -671,6 +671,4 @@ cluster1::*>
 --
 ====
 
-// end of collapsible content
-+
-. If you suppressed automatic case creation, reenable it by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=END`
+If you suppressed automatic case creation, reenable it by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=END`

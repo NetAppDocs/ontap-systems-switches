@@ -13,12 +13,11 @@ summary: Follow this procedure to set up and configure the Cisco Nexus 9336C-FX2
 Follow this procedure to set up and configure the Cisco Nexus 9336C-FX2 switch.
 
 .What you'll need
-* Access to an HTTP, FTP or TFTP server at the installation site to download the applicable NX-OS and reference configuration file (RCF) releases.
+* Access to an HTTP, FTP, or TFTP server at the installation site to download the applicable NX-OS and Reference Configuration File (RCF) releases.
 * Applicable licenses, network and configuration information, and cables.
 * Completed link:setup-worksheet-9336c-cluster.html[cabling worksheets].
 * Applicable NetApp cluster network and management network RCFs downloaded from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com^]. All Cisco cluster network and management network switches arrive with the standard Cisco factory-default configuration. These switches also have the current version of the NX-OS software but do not have the RCFs loaded.
-* Required cluster network and management network switch documentation. See link:required-documentation-9336c-cluster.html[Required documentation] for more information.
-* Required controller documentation and ONTAP documentation. See https://netapp.com/us/documenation/index.aspx[NetApp documentation^].
+* link:required-documentation-9336c-cluster.html[Required switch and ONTAP documentation].
 
 
 .Steps
@@ -26,7 +25,7 @@ Follow this procedure to set up and configure the Cisco Nexus 9336C-FX2 switch.
 +
 [options="header" cols="1,2"]
 |===
-| If you are installing your...| Then...
+| If you are installing the...| Then...
 a|
 Cisco Nexus 9336C-FX2 in a NetApp system cabinet
 a|
@@ -77,7 +76,7 @@ Respond with *no*. The default is no.
 a|
 Enter the switch name.
 a|
-The switch name is limited to 63 alphanumeric characters.
+Enter the switch name, which is limited to 63 alphanumeric characters.
 a|
 Continue with Out-of-band (mgmt0) management configuration? (yes/no)
 a|
@@ -147,4 +146,4 @@ If you download the NetApp-supported version of the software, then you must also
 
 .What's next?
 
-link:configure-switch-overview-9336c-cluster.html[Prepare to install NX-OS and RCF].
+link:install-nxos-overview-9336c-cluster.html[Prepare to install NX-OS and RCF].

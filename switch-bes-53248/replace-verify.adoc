@@ -9,7 +9,7 @@ summary: You can use the commands provided here to verify that all is operationa
 :imagesdir: ../media/
 
 [.lead]
-You can use these recommended commands to verify operations after a BES-53248 cluster switch upgrade.
+You can use recommended commands to verify operations after a BES-53248 cluster switch upgrade.
 
 .Steps
 
@@ -47,7 +47,7 @@ e0b    Cluster      Cluster          up   9000  auto/10000 healthy  false
 ----
 ====
 
-. Verify that for each LIF `Is Home` is `true` and `Status Admin/Oper` is `up` on both nodes using the command:
+. For each LIF, verify that `Is Home` is `true` and `Status Admin/Oper` is `up` on both nodes, using the command:
 +
 `network interface show -vserver Cluster`
 +
@@ -70,7 +70,9 @@ Cluster
 ----
 ====
 
-. Verify that the `Health Status` of each node is `true` using the command: `cluster show`
+. Verify that the `Health Status` of each node is `true` using the command: 
++
+`cluster show`
 +
 .Show example
 [%collapsible]

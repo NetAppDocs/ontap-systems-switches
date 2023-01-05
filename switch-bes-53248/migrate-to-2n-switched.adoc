@@ -9,7 +9,7 @@ summary: 'If you have a two-node switchless cluster, you can migrate, non-disrup
 :imagesdir: ../media/
 
 [.lead]
-If you have an existing two-node switchless cluster environment, you can migrate to a two-node switched cluster environment using Broadcom-supported BES-53248 cluster switches, which enables you to scale beyond two nodes in the cluster.
+If you have an existing two-node _switchless_ cluster environment, you can migrate to a two-node _switched_ cluster environment using Broadcom-supported BES-53248 cluster switches, which enables you to scale beyond two nodes in the cluster.
 
 The migration process works for all cluster node ports using optical or Twinax ports, but it is not supported on this switch if nodes are using onboard 10GBASE-T RJ45 ports for the cluster network ports.
 
@@ -22,10 +22,10 @@ Review the following requirements for the cluster environment.
 
 * For the two-node switchless configuration, ensure that:
 
-** The two-node switchless configuration are properly set up and functioning.
+** The two-node switchless configuration is properly set up and functioning.
 ** The nodes are running ONTAP 9.5P8 and later. Support for 40/100 GbE cluster ports starts with EFOS firmware version 3.4.4.6 and later.
-** All cluster ports are in the up state.
-** All cluster logical interfaces (LIFs) are in the up state and on their home ports.
+** All cluster ports are in the *up* state.
+** All cluster logical interfaces (LIFs) are in the *up* state and on their home ports.
 
 * For the Broadcom-supported BES-53248 cluster switch configuration, ensure that:
 
@@ -39,9 +39,9 @@ The https://hwu.netapp.com/Home/Index[_NetApp Hardware Universe_^] contains info
 * Inter-Switch Link (ISL) cables are connected to ports 0/55 and 0/56 on both BES-53248 switches.
 
 * Initial customization of both the BES-53248 switches is complete, so that:
- ** BES-53248 switches are running the latest version of software
- ** BES-53248 switches have optional port licenses installed, if purchased
- ** Reference Configuration Files (RCFs) have been applied to the switches
+ ** BES-53248 switches are running the latest version of software.
+ ** BES-53248 switches have optional port licenses installed, if purchased.
+ ** Reference Configuration Files (RCFs) are applied to the switches.
 
 * Any site customization (SMTP, SNMP, and SSH) are configured on the new switches.
 
@@ -102,14 +102,14 @@ The following example shows that node-facing ports 1 through 16 are disabled on 
 ----
 ====
 
-. Verify that the ISL and the physical ports on the ISL between the two BES-53248 switches cs1 and cs2 are `up`:
+. Verify that the ISL and the physical ports on the ISL between the two BES-53248 switches cs1 and cs2 are *up*:
 +
 `show port-channel`
 +
 .Show example
 [%collapsible]
 ====
-The following example shows that the ISL ports are up on switch cs1:
+The following example shows that the ISL ports are *up* on switch cs1:
 
 [subs=+quotes]
 ----
@@ -133,7 +133,7 @@ Ports  Timeout       Speed      Active
 (cs1) #
 ----
 
-The following example shows that the ISL ports are up on switch cs2:
+The following example shows that the ISL ports are *up* on switch cs2:
 
 [subs=+quotes]
 ----
@@ -328,7 +328,7 @@ Cluster
 ====
 
 The following example displays information about the health and eligibility of the nodes in the cluster:
-+
+
 [subs=+quotes]
 ----
 cluster1::*> *cluster show*
@@ -360,7 +360,7 @@ The following example shows that ports 1 through 16 are enabled on switch cs2:
 ----
 ====
 
-. Verify that all cluster ports are `up`:
+. Verify that all cluster ports are *up*:
 +
 `network port show -ipspace Cluster`
 +
@@ -368,7 +368,7 @@ The following example shows that ports 1 through 16 are enabled on switch cs2:
 [%collapsible]
 ====
 
-The following example shows that all of the cluster ports are up on node1 and node2:
+The following example shows that all of the cluster ports are *up* on node1 and node2:
 
 [subs=+quotes]
 ----
@@ -505,7 +505,7 @@ Enable Switchless Cluster: false
 ====
 
 The following example shows information about the health and eligibility of the nodes in the cluster:
-+
+
 [subs=+quotes]
 ----
 cluster1::*> *cluster show*
@@ -569,7 +569,7 @@ cluster1::*> system node autosupport invoke -node \* -type all -message MAINT=EN
 
 .What's next?
 
-After your migration completes, you might need to install the required configuration file to support the Cluster Switch Health Monitor (CSHM) for BES-53248 cluster switches. See link:configure-health-monitor.html[Install the CSHM configuration file] and link:configure-log-collection.html[Enable the log collection feature].
+After your migration completes, you might need to install the required configuration file to support the Cluster Switch Health Monitor (CSHM) for BES-53248 cluster switches. See link:configure-health-monitor.html[Install the Cluster Switch Health Monitor (CSHM) configuration file] and link:configure-log-collection.html[Enable the log collection feature].
 
 
 .For more information

@@ -9,36 +9,36 @@ summary: 'If you have an existing two-node switchless cluster environment, you c
 :imagesdir: ../media/
 
 [.lead]
-If you have an existing two-node switchless cluster environment, you can migrate to a two-node switched cluster environment using Cisco Nexus 9336C-FX2 switches to enable you to scale beyond two nodes in the cluster.
+If you have an existing two-node _switchless_ cluster environment, you can migrate to a two-node _switched_ cluster environment using Cisco Nexus 9336C-FX2 switches.
 
-The migrate process works for all nodes using optical or Twinax ports but is not supported on this switch if nodes are using onboard 10Gb BASE-T RJ45 ports for the cluster-network ports.
+The migraation process works for all nodes using optical or Twinax ports, but is not supported on this switch if nodes are using onboard 10Gb BASE-T RJ45 ports for the cluster-network ports.
 
 == Review requirements
 
 .What you'll need
 
-* Two-node switchless configuration:
+* For the two-node switchless configuration:
 
-** The two-node switchless configuration must be properly set up and functioning.
-** The nodes must be running ONTAP 9.8 and later.
-** All cluster ports must be in the up state.
-** All cluster logical interfaces (LIFs) must be in the up state and on their home ports.
+** The two-node switchless configuration is properly set up and functioning.
+** The nodes are running ONTAP 9.8 and later.
+** All cluster ports are in the *up* state.
+** All cluster logical interfaces (LIFs) are in the *up* state and on their home ports.
 
-* Cisco Nexus 9336C-FX2 switch configuration:
+* For the Cisco Nexus 9336C-FX2 switch configuration:
 
-** Both switches must have management network connectivity.
-** There must be console access to the cluster switches.
-** Nexus 9336C-FX2 node-to-node switch and switch-to-switch connections must use Twinax or fiber cables.
+** Both switches have management network connectivity.
+** There is console access to the cluster switches.
+** Nexus 9336C-FX2 node-to-node switch and switch-to-switch connections use Twinax or fiber cables.
 +
 See https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches^] for more information about cabling.
 
-* Inter-Switch Link (ISL) cables must be connected to ports 1/35 and 1/36 on both 9336C-FX2 switches.
-* Initial customization of both the 9336C-FX2 switches must be completed. So that the:
- ** 9336C-FX2 switches are running the latest version of software
- ** Reference Configuration Files (RCFs) have been applied to the switches
-Any site customization, such as SMTP, SNMP, and SSH must be configured on the new switches.
+* Inter-Switch Link (ISL) cables are connected to ports 1/35 and 1/36 on both 9336C-FX2 switches.
+* Initial customization of both the 9336C-FX2 switches are completed, so that:
+ ** 9336C-FX2 switches are running the latest version of software.
+ ** Reference Configuration Files (RCFs) are applied to the switches.
+Any site customization, such as SMTP, SNMP, and SSH, is configured on the new switches.
 
-.Switch and node nomenclature
+.About the examples
 The examples in this procedure use the following cluster switch and node nomenclature:
 
 * The names of the 9336C-FX2 switches are cs1 and cs2.
@@ -53,13 +53,17 @@ See https://hwu.netapp.com[Hardware Universe^] for information about the cluster
 
 === Step 1: Prepare for migration
 
-. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=xh`
+. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: 
++
+`system node autosupport invoke -node * -type all -message MAINT=xh`
 +
 where x is the duration of the maintenance window in hours.
 +
 NOTE: The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
 
-. Change the privilege level to advanced, entering `y` when prompted to continue: `set -privilege advanced`
+. Change the privilege level to advanced, entering `y` when prompted to continue: 
++
+`set -privilege advanced`
 +
 The advanced prompt (`*>`) appears.
 
@@ -67,7 +71,7 @@ The advanced prompt (`*>`) appears.
 
 . Disable all node-facing ports (not ISL ports) on both the new cluster switches cs1 and cs2.
 +
-You must not disable the ISL ports.
+Do not disable the ISL ports.
 +
 .Show example 
 [%collapsible]
@@ -211,7 +215,7 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy
 +
 `network interface show -vserver Cluster`
 +
-Each cluster LIF should display true for `Is Home` and have a `Status Admin/Oper` of up/up
+Each cluster LIF should display `true` for `Is Home` and have a `Status Admin/Oper` of up/up
 +
 .Show example 
 [%collapsible]
@@ -256,7 +260,7 @@ Cluster
 
 . Disconnect the cable from cluster port e0a on node1, and then connect e0a to port 1 on cluster switch cs1, using the appropriate cabling supported by the 9336C-FX2 switches.
 +
-The https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches] contains more information about cabling.
+The https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches^] contains more information about cabling.
 +
 https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches^]
 
@@ -277,7 +281,7 @@ cs1(config-if-range)# no shutdown
 ----
 ====
 
-. Verify that all cluster LIFs are up, operational, and display as true for `Is Home`: 
+. Verify that all cluster LIFs are up, operational, and display as `true` for `Is Home`: 
 +
 `network interface show -vserver Cluster`
 +
