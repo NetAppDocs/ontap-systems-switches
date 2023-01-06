@@ -9,37 +9,42 @@ summary: 'You can migrate nondisruptively older Cisco switches for an ONTAP clus
 :imagesdir: ../media/
 
 [.lead]
-You must be aware of certain configuration information, port connections and cabling requirements when you are replacing some older Cisco switches with NVIDIA SN2100 storage switches.
+You can migrate from older Cisco switches for an ONTAP cluster to NVIDIA SN2100 storage switches. This is a nondisruptive procedure.
 
 == Review requirements
 
+You must be aware of certain configuration information, port connections and cabling requirements when you are replacing some older Cisco switches with NVIDIA SN2100 storage switches. See link:configure-overview-sn2100-cluster.html[Overview of installation and configuration for NVIDIA SN2100 switches].
+
+.Supported switches
+
 The following storage switches are supported:
+
 * Cisco Nexus 9336C-FX2
 * Cisco Nexus 3232C
 
-See the https://hwu.netapp.com/[Hardware Universe^] for full details of supported ports and their configurations.
+For details of supported ports and their configurations, see the https://hwu.netapp.com/[Hardware Universe^].
 
 .What you'll need
 
-You can migrate nondisruptively older Cisco storage switches for an ONTAP cluster to NVIDIA SN2100 storage switches.
+Ensure that:
 
-* The existing cluster must be properly set up and functioning.
-* All storage ports must be in the up state to ensure nondisruptive operations.
-* The NVIDIA SN2100  storage switches must be configured and operating under the proper version of Cumulus Linux installed with the reference configuration file (RCF) applied.
-* The existing storage network configuration must have the following:
+* The existing cluster is properly set up and functioning.
+* All storage ports are in the up state to ensure nondisruptive operations.
+* The NVIDIA SN2100  storage switches are configured and operating under the proper version of Cumulus Linux installed with the reference configuration file (RCF) applied.
+* The existing storage network configuration has the following:
 ** A redundant and fully functional NetApp cluster using both older Cisco switches.
 ** Management connectivity and console access to both the older Cisco switches and the new switches.
-** All cluster LIFs in the up state with the cluster LIfs are on their home ports.
+** All cluster LIFs in the *up* state with the cluster LIfs are on their home ports.
 ** ISL ports enabled and cabled between the older Cisco switches and between the new switches.
-* See the https://hwu.netapp.com/[Hardware Universe^] for full details of supported ports and their configurations.
-* You have configured some of the ports on NVIDIA SN2100 switches to run at 100 GbE.
+* Some of the ports on NVIDIA SN2100 switches are configured to run at 100 GbE.
 * You have planned, migrated, and documented 100 GbE connectivity from nodes to NVIDIA SN2100 storage switches.
-+
-NOTE: In this procedure, Cisco Nexus 9336C-FX2 storage switches are used for example commands and outputs.
 
 == Migrate the switches
 
-.About this task
+.About the examples
+
+In this procedure, Cisco Nexus 9336C-FX2 storage switches are used for example commands and outputs.
+
 The examples in this procedure use the following switch and node nomenclature:
 
 * The existing Cisco Nexus 9336C-FX2 storage switches are _S1_ and _S2_.
@@ -70,7 +75,7 @@ The advanced prompt (*>) appears.
 
 === Step 2: Configure ports and cabling
 
-. Determine the administrative or operational status for each storage interface:
+. Determine the administrative or operational status for each storage interface.
 +
 Each port should display enabled for  `Status`.
 +
@@ -407,7 +412,7 @@ swp6       100G   Trunk/L2  SHFFG1826000102        e0b
 +
 `system switch ethernet log setup-password` and `system switch ethernet log enable-collection`
 +
-Enter: `system switch ethernet log setup-password`
+.. Enter: `system switch ethernet log setup-password`
 +
 .Show example
 [%collapsible]
@@ -441,7 +446,7 @@ Enter the password again: <enter switch password>
 ----
 ====
 +
-Followed by: `system switch ethernet log enable-collection`
+.. Followed by: `system switch ethernet log enable-collection`
 +
 .Show example
 [%collapsible]

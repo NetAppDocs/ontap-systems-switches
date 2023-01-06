@@ -11,10 +11,10 @@ summary: 'Cumulus Linux (CL) OS can be installed either when the switch is runni
 [.lead]
 Follow this procedure to install Cumulus Linux (CL) OS when the switch is running in ONIE mode.  
 
-NOTE: Cumulus Linux (CL) OS can be installed either when the switch is running Cumulus Linux or ONIE (see link:install-cumulus-mode-sn2100-cluster.html[Install in Cumulus mode]).
+NOTE: Cumulus Linux (CL) OS can be installed either when the switch is running ONIE or Cumulus Linux (see link:install-cumulus-mode-sn2100-cluster.html[Install in Cumulus mode]).
 
 .About this task
-You can install the Cumulus Linux using Open Network Install Environment (ONIE) that allows for automatic discovery of a network installer image. This facilitates the system model of securing switches with an operating system choice, such as Cumulus Linux. The easiest way to install Cumulus Linux with ONIE is with local HTTP discovery.
+You can install Cumulus Linux using Open Network Install Environment (ONIE) that allows for automatic discovery of a network installer image. This facilitates the system model of securing switches with an operating system choice, such as Cumulus Linux. The easiest way to install Cumulus Linux with ONIE is with local HTTP discovery.
 
 NOTE: If your host is IPv6-enabled, make sure it is running a web server. If your host is IPv4-enabled, make sure it is running DHCP in addition to a web server.
 
@@ -23,9 +23,11 @@ This procedure demonstrates how to upgrade Cumulus Linux after the admin has boo
 //NOTE: Example command output uses switch management IP address 10.233.204.71, netmask 255.255.254.0 and default gateway 10.233.204.1.
 
 .Steps
-. Download the Cumulus Linux installation file to the root directory of the web server. Rename this file `onie-installer`.
+. Download the Cumulus Linux installation file to the root directory of the web server. Rename this file to: `onie-installer`.
 . Connect your host to the management Ethernet port of the switch using an Ethernet cable.
-. Power on the switch. The switch downloads the ONIE image installer and boots. After the installation completes, the Cumulus Linux login prompt appears in the terminal window.
+. Power on the switch. 
++
+The switch downloads the ONIE image installer and boots. After the installation completes, the Cumulus Linux login prompt appears in the terminal window.
 +
 NOTE: Each time Cumulus Linux is installed, the entire file system structure is erased and rebuilt.
 
@@ -35,8 +37,8 @@ NOTE: Each time Cumulus Linux is installed, the entire file system structure is 
 ----
 cumulus@cumulus:mgmt:~$ *sudo reboot*
 ----
-. Press the *Esc* key at the GNU GRUB screen to interrupt the normal boot process, select *ONIE* and press *Enter*.
-. On the next screen displayed, select *ONIE: Install OS*.
+. Press the *Esc* key at the GNU GRUB screen to interrupt the normal boot process, select *ONIE*, and press *Enter*.
+. On the next screen, select *ONIE: Install OS*.
 . The ONIE installer discovery process runs searching for the automatic installation.  Press *Enter* to temporarily stop the process.
 . When the discovery process has stopped:
 +
@@ -86,6 +88,14 @@ ONIE:/ # *route add default gw 10.233.204.1*
 . Repeat step 9 to verify that the static information is correctly entered.
 . Install Cumulus Linux:
 +
+----
+# onie-nos-install http://<web-server>/<path>/cumulus-linux-4.4.2-mlx-amd64.bin
+----
++
+.Show example
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
 ONIE:/ # *route*
@@ -101,7 +111,9 @@ ONIE:/ # *route*
   ...
   ...
 ----
-. Once the installation has completed, log in to the switch:
+====
+
+. Once the installation has completed, log in to the switch.
 +
 .Show example
 [%collapsible]
@@ -136,4 +148,4 @@ DISTRIB_DESCRIPTION=*"Cumulus Linux 4.4.2”*
 ====
 
 .What's next?
-link:install-rcf-sn2100-cluster.html[Install RCF script].
+link:install-rcf-sn2100-cluster.html[Install the Reference Configuration File (RCF) script].

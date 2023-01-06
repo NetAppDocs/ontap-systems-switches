@@ -9,11 +9,13 @@ summary: 'You can migrate nondisruptively older Cisco cluster switches for an ON
 :imagesdir: ../media/
 
 [.lead]
-You can migrate nondisruptively Cisco cluster switches for an ONTAP cluster to NVIDIA SN2100 cluster switches. 
+You can migrate Cisco cluster switches for an ONTAP cluster to NVIDIA SN2100 cluster switches. This is a nondisruptive procedure.
 
 == Review requirements
 
-You must be aware of certain configuration information, port connections and cabling requirements when you are replacing some older Cisco cluster switches with NVIDIA SN2100 cluster switches.
+You must be aware of certain configuration information, port connections and cabling requirements when you are replacing some older Cisco cluster switches with NVIDIA SN2100 cluster switches. See link:configure-overview-sn2100-cluster.html[Overview of installation and configuration for NVIDIA SN2100 switches].
+
+.Supported switches
 
 The following Cisco cluster switches are supported:
 
@@ -23,26 +25,28 @@ The following Cisco cluster switches are supported:
 * Nexus 3232C
 * Nexus 3132Q-V
 
-.What you'll need
-You can migrate nondisruptively older Cisco cluster switches for an ONTAP cluster to NVIDIA SN2100 cluster switches.
+For details of supported ports and their configurations, see the https://hwu.netapp.com/[Hardware Universe^] .
 
-* The existing cluster must be properly set up and functioning.
-* All cluster ports must be in the up state to ensure nondisruptive operations.
-* The NVIDIA SN2100 cluster switches must be configured and operating under the proper version of Cumulus Linux installed with the reference configuration file (RCF) applied.
-* The existing cluster network configuration must have the following:
+.What you'll need
+Ensure that:
+
+* The existing cluster is properly set up and functioning.
+* All cluster ports are in the *up* state to ensure nondisruptive operations.
+* The NVIDIA SN2100 cluster switches are configured and operating under the proper version of Cumulus Linux installed with the reference configuration file (RCF) applied.
+* The existing cluster network configuration have the following:
 ** A redundant and fully functional NetApp cluster using both older Cisco switches.
 ** Management connectivity and console access to both the older Cisco switches and the new switches.
 ** All cluster LIFs in the up state with the cluster LIfs are on their home ports.
 ** ISL ports enabled and cabled between the older Cisco switches and between the new switches.
-* See the https://hwu.netapp.com/[Hardware Universe^] for full details of supported ports and their configurations.
-* You have configured some of the ports on NVIDIA SN2100 switches to run at 40 GbE or 100 GbE.
+* Some of the ports are configured on NVIDIA SN2100 switches to run at 40 GbE or 100 GbE.
 * You have planned, migrated, and documented 40 GbE and 100 GbE connectivity from nodes to NVIDIA SN2100 cluster switches.
-+
-NOTE: In this procedure, Cisco Nexus 3232C cluster switches are used for example commands and outputs.
 
 == Migrate the switches
 
-.About this task
+.About the examples
+
+In this procedure, Cisco Nexus 3232C cluster switches are used for example commands and outputs.
+
 The examples in this procedure use the following switch and node nomenclature:
 
 * The existing Cisco Nexus 3232C cluster switches are _c1_ and _c2_.
@@ -87,7 +91,7 @@ Warning: Disabling the auto-revert feature of the cluster logical interface may 
 
 === Step 2: Configure ports and cabling
 
-. Determine the administrative or operational status for each cluster interface:
+. Determine the administrative or operational status for each cluster interface.
 +
 Each port should display up for `Link` and healthy for `Health Status`.
 +
@@ -124,7 +128,7 @@ e3b       Cluster    Cluster          up   9000  auto/100000  healthy  false
 +
 `network interface show -vserver Cluster`
 +
-Each LIF should display up/up for `Status Admin/Oper` and true for `Is Home`.
+Each LIF should display `up/up` for `Status Admin/Oper` and true for `Is Home`.
 +
 .Show example
 [%collapsible]
@@ -358,7 +362,7 @@ Enter configuration commands, one per line. End with CNTL/Z.
 +
 `network port show -ipspace Cluster`
 +
-Each port should display up for `Link` and healthy for `Health Status`.
+Each port should display `up` for `Link` and healthy for `Health Status`.
 +
 .Show example
 [%collapsible]
@@ -471,6 +475,8 @@ swp16      100G   BondMember  sw1                 swp16
 ----
 ====
 
+=== Step 3: Complete the procedure
+
 . Enable auto-revert on the cluster LIFs: 
 +
 `cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert true`
@@ -497,13 +503,12 @@ Cluster
 ----
 ====
 
-=== Step 3: Complete the procedure
 
 . Enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the two commands: 
 +
 `system switch ethernet log setup-password` and `system switch ethernet log enable-collection`
 +
-Enter: `system switch ethernet log setup-password`
+.. Enter: `system switch ethernet log setup-password`
 +
 .Show example
 [%collapsible]
@@ -537,7 +542,7 @@ Enter the password again: <enter switch password>
 ----
 ====
 +
-Followed by: `system switch ethernet log enable-collection`
+.. Followed by: `system switch ethernet log enable-collection`
 +
 .Show example
 [%collapsible]
@@ -584,6 +589,6 @@ Index  Switch                       Log Timestamp        Status
 +
 `set -privilege admin`
 
-. If you suppressed automatic case creation, reenable it by invoking an AutoSupport message: 
+. If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message: 
 +
 `system node autosupport invoke -node * -type all -message MAINT=END`

@@ -4,7 +4,7 @@ sidebar: sidebar
 keywords: install rcf script, python script, sn2100 SN2100 switches, cumulus
 summary: 'Ensure that the following are available on the switch before installing the RCF script'
 ---
-= Install the RCF script
+= Install the Reference Configuration File (RCF) script
 :icons: font
 :imagesdir: ../media/
 
@@ -23,9 +23,11 @@ There are two RCF scripts available for Clustering and Storage applications. The
 * Clustering:  *MSN2100-RCF-v1.8-Cluster*
 * Storage: *MSN2100-RCF-v1.8-Storage*
 
-NOTE: The following example procedure shows how to download and apply the RCF script for Cluster switches.
+.About the examples
 
-NOTE: Example command output uses switch management IP address 10.233.204.71, netmask 255.255.254.0 and default gateway 10.233.204.1.
+The following example procedure shows how to download and apply the RCF script for Cluster switches.
+
+Example command output uses switch management IP address 10.233.204.71, netmask 255.255.254.0 and default gateway 10.233.204.1.
 
 .Steps
 . Display the available interfaces on the SN2100 switch:
@@ -62,8 +64,11 @@ ADMDN  swp16  N/A  9216   NotConfigured
 ----
 ====
 
-. Copy the RCF python script to the switch:
+. Copy the RCF python script to the switch.
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:~$ *pwd*
@@ -72,8 +77,13 @@ cumulus@cumulus:mgmt: */tmp$ scp _<user>@<host:/<path>_/MSN2100-RCF-v1.8-Cluster
 ssologin@10.233.204.71's password:
 MSN2100-RCF-v1.8-Cluster                 100% 8607   111.2KB/s         00:00
 ----
-. Apply the RCF python script *MSN2100-RCF-v1.8-Cluster*:
+====
+
+. Apply the RCF python script *MSN2100-RCF-v1.8-Cluster*.
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:/tmp$ *sudo python3 MSN2100-RCF-v1.8-Cluster*
@@ -93,8 +103,9 @@ Step 11: Modifying RoCE Config
 Step 12: Configure SNMP
 Step 13: Reboot the switch
 ----
+====
 +
-The RCF script completes the steps listed above.
+The RCF script completes the steps listed in the example above.
 +
 NOTE: For any RCF python script issues that cannot be corrected, contact https://mysupport.netapp.com/[NetApp Support^] for assistance.
 

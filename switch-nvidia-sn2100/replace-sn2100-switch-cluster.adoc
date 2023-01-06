@@ -9,29 +9,36 @@ summary: Replacing a defective NVIDIA SN2100 switch in a cluster network is a no
 :imagesdir: ../media/
 
 [.lead]
-Replacing a defective NVIDIA SN2100 switch in a cluster network is a nondisruptive procedure (NDU).
+Follow this procedure to replace a defective NVIDIA SN2100 switch in a cluster network. This is a nondisruptive procedure (NDU).
 
-.What you'll need
-The following conditions must exist before performing the switch replacement in the current environment and on the replacement switch.
+== Review requirements
 
-* Existing cluster and network infrastructure:
- ** The existing cluster must be verified as completely functional, with at least one fully connected cluster switch.
- ** All cluster ports must be up.
- ** All cluster logical interfaces (LIFs) must be up and on their home ports.
- ** The ONTAP `cluster ping-cluster -node node1` command must indicate that basic connectivity and larger than PMTU communication are successful on all paths.
-* NVIDIA SN2100 replacement switch:
- ** Management network connectivity on the replacement switch must be functional.
- ** Console access to the replacement switch must be in place.
- ** The node connections are ports swp1 through swp14.
- ** All Inter-Switch Link (ISL) ports must be disabled on ports swp15 and swp16.
- ** The desired reference configuration file (RCF) and Cumulus operating system image switch must be loaded onto the switch.
- ** Initial customization of the switch must be complete, as detailed in:
-+
-//xref:replace-configure-new-switch.adoc[Configuring a new Cisco Nexus 9336C-FX2 switch]
-+
-Any previous site customizations, such as STP, SNMP, and SSH, should be copied to the new switch.
+.Existing cluster and network infrastructure
 
-You must execute the command for migrating a cluster LIF from the node where the cluster LIF is hosted.
+Ensure that:
+
+* The existing cluster are verified as completely functional, with at least one fully connected cluster switch.
+* All cluster ports are up.
+* All cluster logical interfaces (LIFs) are up and on their home ports.
+* The ONTAP `cluster ping-cluster -node node1` command indicates that basic connectivity and larger than PMTU communication are successful on all paths.
+
+.NVIDIA SN2100 replacement switch
+
+Ensure that:
+
+* Management network connectivity on the replacement switch are functional.
+* Console access to the replacement switch are in place.
+* The node connections are ports swp1 through swp14.
+* All Inter-Switch Link (ISL) ports are disabled on ports swp15 and swp16.
+* The desired reference configuration file (RCF) and Cumulus operating system image switch are loaded onto the switch.
+* Initial customization of the switch is complete.
+
+Also make sure that any previous site customizations, such as STP, SNMP, and SSH, are copied to the new switch.
+
+NOTE: You must execute the command for migrating a cluster LIF from the node where the cluster LIF is hosted.
+
+
+== Replace the switch
 
 .About the examples
 The examples in this procedure use the following switch and node nomenclature:
@@ -43,11 +50,12 @@ The examples in this procedure use the following switch and node nomenclature:
 * The cluster LIF names are _node1_clus1_ and _node1_clus2_ for node1, and _node2_clus1_ and _node2_clus2_ for node2.
 * The prompt for changes to all cluster nodes is `cluster1::*>`
 * Breakout ports take the format: swp[port]s[breakout port 0-3]. For example, four breakout ports on swp1 are _swp1s0_, _swp1s1_, _swp1s2_, and _swp1s3_.
-+
+
+
 .About the cluster network topology
 
-The following procedure is based on the following cluster network topology:
-+
+This procedure is based on the following cluster network topology:
+
 .Show example topology
 [%collapsible]
 ====
@@ -119,7 +127,7 @@ swp16      100G   BondMember  sw1                swp16
 ----
 ====
 
-.Steps
+=== Step 1: Prepare for replacement
 
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: 
 +
@@ -135,14 +143,16 @@ The advanced prompt (*>) appears.
 
 . Install the appropriate RCF and image on the switch, nsw2, and make any necessary site preparations.
 +
-If necessary, verify, download, and install the appropriate versions of the RCF and Cumulus software for the new switch. If you have verified that the new switch is correctly set up and does not need updates to the RCF and Cumulus software, continue to step 3. See link:install_setup_sn2100_switches_overview.html[Setup and configure the NVIDIA SN2100 switches] for further details.
+If necessary, verify, download, and install the appropriate versions of the RCF and Cumulus software for the new switch.  
 +
  .. You can download the applicable Cumulus software for your cluster switches from the _NVIDIA Support_ site. Follow the steps on the Download page to download the Cumulus Linux for the version of ONTAP software you are installing.
  .. The appropriate RCF is available from the link:https://mysupport.netapp.com/site/products/all/details/nvidia-cluster-storage-switch/downloads-tab[_NVIDIA Cluster and Storage Switches_^] page. Follow the steps on the Download page to download the correct RCF for the version of ONTAP software you are installing.
-+
+
+=== Step 1: Configure ports and cabling
+
 . On the new switch nsw2, log in as admin and shut down all of the ports that will be connected to the node cluster interfaces (ports swp1 to swp14).
 +
-If the switch that you are replacing is not functional and is powered down, go to Step 4. The LIFs on the cluster nodes should have already failed over to the other cluster port for each node.
+The LIFs on the cluster nodes should have already failed over to the other cluster port for each node.
 +
 .Show example
 [%collapsible]
@@ -159,13 +169,20 @@ cumulus@nsw2:~$ *net commit*
 +
 `network interface modify -vserver Cluster -lif * -auto-revert false`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert false*
 
 Warning: Disabling the auto-revert feature of the cluster logical interface may effect the availability of your cluster network. Are you sure you want to continue? {y|n}: *y*
 ----
-//. Verify that all cluster LIFs have auto-revert enabled: `net interface show -vserver Cluster -fields auto-revert`
+====
+
+. Verify that all cluster LIFs have auto-revert enabled: 
++
+`net interface show -vserver Cluster -fields auto-revert`
 
 . Shut down the ISL ports swp15 and swp16 on the SN2100 switch sw1.
 +
@@ -195,7 +212,6 @@ cumulus@sw1:~$ *net del interface swp15-16 link down*
 cumulus@sw1:~$ *net pending*
 cumulus@sw1:~$ *net commit*
 ----
-
 
 The following example shows that the ISL ports are up on switch sw1:
 
@@ -234,7 +250,7 @@ UP     swp16        100G  9216   BondMember  sw1 (swp16)    Master: cluster_isl(
 [%collapsible]
 ====
 The output should be similar to the following:
-+
+
 [subs=+quotes]
 ----
 cluster1::*> *network port show -ipspace Cluster*
@@ -332,8 +348,10 @@ swp16      100G   BondMember  sw1                swp16
 ----
 ====
 
-. Enable auto-revert on the cluster LIFs: `cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert true`
-
+. Enable auto-revert on the cluster LIFs: 
++
+`cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert true`
++
 . On switch nsw2, bring up the ports connected to the network ports of the nodes.
 +
 .Show example
@@ -395,7 +413,9 @@ e3b       Cluster      Cluster          up    9000  auto/10000  healthy  false
 ----
 ====
 
-. Verify that the cluster network is healthy:
+=== Step 3: Complete the procedure
+
+. Verify that the cluster network is healthy.
 +
 .Show example
 [%collapsible]
@@ -417,7 +437,7 @@ swp16      100G   BondMember  nsw2            swp16
 +
 `system switch ethernet log setup-password` and `system switch ethernet log enable-collection`
 +
-Enter: `system switch ethernet log setup-password`
+.. Enter: `system switch ethernet log setup-password`
 +
 .Show example
 [%collapsible]
@@ -451,7 +471,7 @@ Enter the password again: <enter switch password>
 ----
 ====
 +
-Followed by: `system switch ethernet log enable-collection`
+.. Followed by: `system switch ethernet log enable-collection`
 +
 .Show example
 [%collapsible]
