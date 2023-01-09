@@ -9,47 +9,38 @@ summary: "The Cisco NX-OS software and reference configuration files (RCFs) can 
 :imagesdir: ../media/
 
 [.lead]
-Learn how to upgrade the Cisco NX-OS software and reference configuration files (RCF) on Cisco Nexus 3232C switches.
+Follow these steps to upgrade the Cisco NX-OS software and reference configuration files (RCF) on Cisco Nexus 3232C switches.
 
-.Switch and node nomenclature
+== Review requirements
+
+.What you'll need
+
+Ensure that the following conditions exist before you upgrade the NX-OS software and RCFs on the storage switch:
+
+* The switch is fully functioning (there should be no errors in the logs or similar issues).
+* You have checked or set your desired boot variables in the RCF to reflect the desired boot images if you are installing only NX-OS and keeping your current RCF version.
++
+If you need to change the boot variables to reflect the current boot images, you must do so before reapplying the RCF so that the correct version is instantiated on future reboots.
+
+* You have referred to the appropriate software and upgrade guides available on the http://www.cisco.com/en/US/products/ps9670/prod_installation_guides_list.html[Cisco Nexus 3000 Series Switches^] page for complete documentation on the Cisco storage upgrade and downgrade procedures.
+
+* The number of 10 GbE and 40/100 GbE ports are defined in the reference configuration files (RCFs) available on the https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco® Ethernet Switches^] page.
+
+== Replace the switch
+
+.About the examples
 The examples in this procedure use the following switch and node nomenclature:
 
 * The names of the two storage switches are S1 and S2.
 * The nodes are node1 and node2.
 
-NOTE: The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
-
-.Before you begin
-
-The following conditions must exist before you upgrade the NX-OS software and RCFs on the storage switch:
-
-* The switch must be fully functioning (there should be no errors in the logs or similar issues).
-* You must have checked or set your desired boot variables in the RCF to reflect the desired boot images if you are installing only NX-OS and keeping your current RCF version.
-+
-If you need to change the boot variables to reflect the current boot images, you must do so before reapplying the RCF so that the correct version is instantiated on future reboots.
-
-* You must have referred to the appropriate software and upgrade guides available on the http://www.cisco.com/en/US/products/ps9670/prod_installation_guides_list.html[Cisco Nexus 3000 Series Switches^] page for complete documentation on the Cisco storage upgrade and downgrade procedures.
-
-* The number of 10 GbE and 40/100 GbE ports are defined in the reference configuration files (RCFs) available on the https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco® Ethernet Switches^] page.
-
-.About this task
-
 The examples in this procedure use two nodes; node1 with two storage ports and node2 with two storage ports. See the link:https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe^] to verify the correct storage ports on your platforms.
 
-NOTE: The command outputs might vary depending on different releases of ONTAP.
+NOTE: The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Series Switches commands; ONTAP commands are used unless otherwise indicated. The command outputs might vary depending on different releases of ONTAP.
 
-*Procedure summary:*
+=== Step 1: Check the health status of switches and ports 
 
-* **I. Check the health status of switches and ports (<<step1_upgrade_3232c, Steps 1>>- <<step4_upgrade_3232c, 4>>)**
-* **II. Copy the RCF to Cisco switch S2 (<<step5_upgrade_3232c, Steps 5>> - <<step8_upgrade_3232c, 8>>)**
-* **III. Download the NX-OS image to Cisco switch S2 and reboot  (<<step9_upgrade_3232c, Steps 9>> - <<step12_upgrade_3232c, 12>>)**
-* **IV. Recheck the health status of switches and ports (<<step13_upgrade_3232c, Steps 13>> - <<step15_upgrade_3232c, 15>>)**
-* **V. Repeat <<step1_upgrade_3232c, Steps 1>>- <<step17_upgrade_3232c, 17>> for Cisco switch S1.**
-
-
-.Steps
-
-. [[step1_upgrade_3232c]]If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
+. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
 `system node autosupport invoke -node * -type all - message MAINT=xh`
 +
 _x_ is the duration of the maintenance window in hours.
@@ -57,8 +48,12 @@ _x_ is the duration of the maintenance window in hours.
 NOTE: The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
 
 . Check that the storage switches are available:
++
 `system switch ethernet show`
 +
+.Show example
+[%collapsible]
+====
 ----
 storage::*> system switch ethernet show
 Switch                      Type               Address          Model
@@ -84,10 +79,15 @@ S2
 2 entries were displayed.
 storage::*>
 ----
+====
 
 . Verify that the node ports are healthy and operational:
++
 `storage port show -port-type ENET`
 +
+.Show example
+[%collapsible]
+====
 ----
 storage::*> storage port show -port-type ENET
                                       Speed                       VLAN
@@ -104,21 +104,32 @@ node2
                    e7a  ENET  storage      0 enabled  offline       30
                    e7b  ENET  storage    100 enabled  online        30
 ----
+====
 
-. [[step4_upgrade_3232c]]Check that there are no storage switch or cabling issues with the cluster:
+. Check that there are no storage switch or cabling issues with the cluster:
++
 `system health alert show -instance`
 +
+.Show example
+[%collapsible]
+====
 ----
 storage::*> system health alert show -instance
 There are no entries matching your query.
 ----
+====
 
-. [[step5_upgrade_3232c]]Copy the RCF on switch S2 to the switch bootflash using one of the following transfer protocols: FTP, HTTP, TFTP, SFTP, or SCP.
+=== Step 2: Copy the RCF to Cisco switch S2 
+
+. Copy the RCF on switch S2 to the switch bootflash using one of the following transfer protocols: FTP, HTTP, TFTP, SFTP, or SCP.
 +
 For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-command-reference-list.html[Cisco Nexus 3000 Series NX-OS Command References^].
 +
+.Show example
+[%collapsible]
+====
 The following example shows HTTP being used to copy an RCF to the bootflash on switch S2:
-+
+
 ----
 S2# copy http://172.16.10.1//cfg/Nexus_3232C_RCF_v1.6-Storage.txt bootflash: vrf management
 % Total    % Received % Xferd  Average  Speed   Time    Time     Time                          Current
@@ -128,17 +139,24 @@ Copy complete, now saving to disk (please wait)...
 Copy complete.
 S2#
 ----
+====
 
 . Apply the RCF previously downloaded to the bootflash:
++
 `copy bootflash:`
 +
+.Show example
+[%collapsible]
+====
 The following example shows the RCF file `Nexus_3232C_RCF_v1.6-Storage.txt` being installed on switch S2:
-+
+
 ----
 S2# copy Nexus_3232C_RCF_v1.6-Storage.txt running-config echo-commands
 ----
+====
 
 . Verify that the RCF file is the correct newer version:
++
 `show running-config`
 +
 When you check the output to verify you have the correct RCF, make sure that the following information is correct:
@@ -146,6 +164,7 @@ When you check the output to verify you have the correct RCF, make sure that the
  * The RCF banner
  * The node and port settings
  * Customizations
++
 The output varies according to your site configuration. Check the port settings and refer to the release notes for any changes specific to the RCF that you have installed.
 +
 [NOTE]
@@ -153,6 +172,9 @@ The output varies according to your site configuration. Check the port settings 
 In the banner output from the `show banner motd` command, you must read and follow the instructions in the *IMPORTANT NOTES* section to ensure the proper configuration and operation of the switch.
 ====
 +
+.Show example
+[%collapsible]
+====
 ----
 S2# show banner motd
 
@@ -189,24 +211,35 @@ S2# show banner motd
 ******************************************************************************
 S2#
 ----
+====
++
 NOTE: When applying the RCF for the first time, the *ERROR: Failed to write VSH commands* message is expected and can be ignored.
-
-. [[step8_upgrade_3232c]] After you verify that the software versions and switch settings are correct, copy the `running-config` file to the `startup-config` file on switch S2.
++
+. After you verify that the software versions and switch settings are correct, copy the `running-config` file to the `startup-config` file on switch S2.
 +
 For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-command-reference-list.html[Cisco Nexus 3000 Series NX-OS Command References^].
 +
+.Show example
+[%collapsible]
+====
 The following example shows the `running-config` file successfully copied to the `startup-config` file:
-+
+
 ----
 S2# copy running-config startup-config
 [########################################] 100% Copy complete.
 ----
+====
 
-. [[step9_upgrade_3232c]]Download the NX-OS image to switch S2.
+=== Step 3: Download the NX-OS image to Cisco switch S2 and reboot 
+
+. Download the NX-OS image to switch S2.
 . Install the system image so that the new version will be loaded the next time switch S2 is rebooted.
 +
 The switch will be reboot in 10 seconds with the new image as shown in the following output:
 +
+.Show example
+[%collapsible]
+====
 ----
 S2# install all nxos bootflash:nxos.9.3.4.bin
 Installer will perform compatibility check first. Please wait.
@@ -268,22 +301,31 @@ Warning: please do not remove or power off the module at this time.
 Finishing the upgrade, switch will reboot in 10 seconds.
 S2#
 ----
+====
 
 . Save the configuration.
 +
 For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-command-reference-list.html[Cisco Nexus 3000 Series NX-OS Command References^].
 +
-You are prompted to reboot the system as shown in the following example:
+You are prompted to reboot the system.
 +
+.Show example
+[%collapsible]
+====
+
 ----
 S2# copy running-config startup-config
 [########################################] 100% Copy complete.
 S2# reload
 This command will reboot the system. (y/n)?  [n] y
 ----
+====
 
-. [[step12_upgrade_3232c]]Confirm that the new NX-OS version number is on the switch:
+. Confirm that the new NX-OS version number is on the switch:
 +
+.Show example
+[%collapsible]
+====
 ----
 S2# show version
 Cisco Nexus Operating System (NX-OS) Software
@@ -335,10 +377,17 @@ Active Package(s):
 
 S2#
 ----
+====
 
-. [[step13_upgrade_3232c]]Recheck that the storage switches are available after the reboot:
+=== Step 4:  Recheck the health status of switches and ports
+
+. Recheck that the storage switches are available after the reboot:
++
 `system switch ethernet show`
 +
+.Show example
+[%collapsible]
+====
 ----
 storage::*> system switch ethernet show
 Switch                      Type               Address          Model
@@ -364,10 +413,15 @@ S2
 2 entries were displayed.
 storage::*>
 ----
+====
 
 . Verify that the switch ports are healthy and operational after the reboot:
++
 `storage port show -port-type ENET`
 +
+.Show example
+[%collapsible]
+====
 ----
 storage::*> storage port show -port-type ENET
                                       Speed                       VLAN
@@ -384,17 +438,25 @@ node2
                    e7a  ENET  storage      0 enabled  offline       30
                    e7b  ENET  storage    100 enabled  online        30
 ----
+====
 
-. [[step15_upgrade_3232c]]Recheck that there are no storage switch or cabling issues with the cluster:
+. Recheck that there are no storage switch or cabling issues with the cluster:
++
 `system health alert show -instance`
 +
+.Show example
+[%collapsible]
+====
 ----
 storage::*> system health alert show -instance
 There are no entries matching your query.
 ----
+====
 
 . Repeat the procedure to upgrade the NX-OS software and RCF on switch S1.
-. [[step17_upgrade_3232c]]If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
+
+. If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
++
 `system node autosupport invoke -node * -type all -message MAINT=END`
 
 // QA clean-up, 2022-03-04
