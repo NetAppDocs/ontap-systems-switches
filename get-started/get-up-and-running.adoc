@@ -15,9 +15,12 @@ Deploying the switch involves the following workflow:
 
 /image here/
 
-== Step 1: Install controller hardware
-To install your AFF/FAS controllers, access the install and setup instructions for your AFF/FAS platform model:
+== Step 1: Rack the controllers and switches
 
+* Install your AFF/FAS controllers.
++
+Access the install and setup instructions for your AFF/FAS platform model:
++
 [%rotate, grid="none", frame="none", cols="9,9,9",]
 |===
 a|
@@ -47,7 +50,7 @@ a|
 
 * https://docs.netapp.com/us-en/ontap-systems/a800/install-setup.html[A800]
 
-* https://docs.netapp.com/us-en/ontap-systems/a900/install-setup.html[A900]
+* https://docs.netapp.com/us-en/ontap-systems/a900/install_detailed_guide.html[A900]
 
 ====
 
@@ -79,59 +82,33 @@ a|
 a|
 |===
 
-== Step 2: Set up cabinet
-If you are setting up a new cabinet for the storage system, you need to move the cabinet to its permanent location, install the hardware, and connect it to a power source. To set up the cabinet, access the following instructions:
 
-https://docs.netapp.com/us-en/ontap-systems/platform-supplemental/42u-1280mm-install.html[Cabinet setup]
+* Install the switch hardware
++
+Access the following instructions for your switch model:
 
-== Step 3: Install and configure switch hardware
-To install the switch hardware, you connect the management network, data network, and management ports on the controllers to switches. Access the following instructions for your switch model:
-[%rotate, grid="none", frame="none", cols="9,9,9",]
-|===
-a|
-.BES-53248 switches
+* link:../switch-bes-53248/install-hardware-bes53248.html[Install BES-53248 switch]
 
-[%collapsible]
+* link:../switch-cisco-9336c-fx2/setup-switch-9336c-cluster.html[Install  Cisco Nexus 9336C-FX2 switch]
+* link:../switch-nvidia-sn2100/install-hardware-sn2100-cluster.html[Install NVIDIA SN2100 switch]
 
-====
-
-* link:../switch-bes-53248/install-hardware-bes53248.html[Install switch]
-* link:../switch-bes-53248/configure-install-initial.html[Configure switch]
-
-====
-
-a|
-.Cisco Nexus 9336C-FX2
-
-[%collapsible]
-
-====
-
-* link:../switch-cisco-9336c-fx2/setup-switch-9336c-cluster.html[Install and configure switch]
-====
-
-a|
-.NVIDIA SN2100
-
-[%collapsible]
-
-====
-
-* link:../switch-nvidia-sn2100/install-hardware-sn2100-cluster.html[Install switch]
-
-====
-|===
-
-
-== Step 4: Connect cables
+== Step 2: Cable the switches to the controllers
 The AFF/FAS install and setup instructions include instructions for cabling the controller ports to the switch. However, if you need lists of supported cables and transceivers, and detailed information about the host ports for your switch, access the following instructions for your switch model:
 
-* link:../switch-bes-53248/configure-reqs-bes53248.html#configuration-requirements[BES-53248 switches]
-* link:../switch-cisco-9336c-fx2/setup-switch-9336c-cluster.html[Cisco Nexus 9336C-FX2]
-* link:../switch-nvidia-sn2100/cabling-considerations-sn2100-cluster.html[NVIDIA SN2100]
+* link:../switch-bes-53248/configure-reqs-bes53248.html#configuration-requirements[Cable BES-53248 switch]
+* link:../switch-cisco-9336c-fx2/setup-switch-9336c-cluster.html[Cable Cisco Nexus 9336C-FX2 switch]
+* link:../switch-nvidia-sn2100/cabling-considerations-sn2100-cluster.html[Cable NVIDIA SN2100 switch]
 
-== Step 5: Complete system setup
-After you have cabled the controller ports to the switch, access the install and setup instructions for your AFF/FAS platform model to complete your system setup.
+== Step 3: Configure switch
+Perform an initial setup of your switches.
+
+* link:../switch-bes-53248/configure-install-initial.html[Configure BES-53248 switch]
+* link:../switch-cisco-9336c-fx2/setup-switch-9336c-cluster.html[Configure Cisco Nexus 9336C-FX2]
+* link:../switch-nvidia-sn2100/needlink[Configure NVIDIA SN2100]
+
+
+== Step 4: Complete system setup
+After you have cabled the controller ports to the switches, access the install and setup instructions for your AFF/FAS platform model to complete your system setup.
 
 
 
@@ -196,12 +173,12 @@ a|
 a|
 |===
 
-== Step 6: Configure software on switch
-To install and configure the software on the switch, access the software install instructions for your switch model.
+== Step 5: Install and configure software on switch
+To install and configure the software on your switch, access the software install instructions for your switch model.
 
 * link:../switch-bes-53248/[Link to bes-53248 Software Install Process Overview]
 * link:../switch-cisco-9336c-fx2/[Link to cisco-9336c-fx2 Software Install Process Overview]
 * link:../switch-nvidia-sn2100/[Link to nvidia-sn2100 Software Install Process Overview]
 
-== Step 7: Complete ONTAP configuration
+== Step 6: Complete ONTAP configuration
 After you have completed the initial configuration, go to the https://docs.netapp.com/us-en/ontap-family/index.html[ONTAP product documentation] page for information about configuring additional features in ONTAP.
