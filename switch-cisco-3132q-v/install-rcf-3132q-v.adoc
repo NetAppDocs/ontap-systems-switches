@@ -20,15 +20,12 @@ Follow this procedure to install the RCF after setting up the Nexus 3132Q-V swit
 * The current Reference Configuration File (RCF).
 * A boot configuration in the RCF that reflects the desired boot images, required if you are installing only NX-OS and keeping your current RCF version. If you need to change the boot configuration to reflect the current boot images, you must do so before reapplying the RCF so that the correct version is instantiated on future reboots.
 * A console connection to the switch, required when installing the RCF.
-
-.Suggested documentation
-
 * link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet switch^]. Consult the switch compatibility table for the supported ONTAP and RCF versions. Note that there can be command dependencies between the command syntax in the RCF and that found in versions of NX-OS.
 * https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-installation-guides-list.html[Cisco Nexus 3000 Series Switches^]. Consult the appropriate software and upgrade guides available on the Cisco web site for complete documentation on the Cisco switch upgrade and downgrade procedures.
 
 == Install the file
 
-.Switch and node nomenclature
+.About the examples
 
 The examples in this procedure use the following switch and node nomenclature:
 
@@ -369,24 +366,36 @@ The output varies according to your site configuration. Check the port settings 
 +
 For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-installation-guides-list.html[Cisco Nexus 3000 Series NX-OS Command Reference] guides.
 +
+.Show example 
+[%collapsible]
+====
 ----
 cs2# copy running-config startup-config [########################################] 100% Copy complete
 ----
+====
 
 . Reboot switch cs2. You can ignore the "cluster ports down" events reported on the nodes while the switch reboots.
 +
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cs2# *reload*
 This command will reboot the system. (y/n)?  [n] *y*
 ----
+====
 
 . Apply the same RCF and save the running configuration for a second time.
 +
+.Show example 
+[%collapsible]
+====
 ----
 cs2# copy Nexus_3132QV_RCF_v1.6-Cluster-HA-Breakout.txt running-config echo-commands
 cs2# copy running-config startup-config [########################################] 100% Copy complete
 ----
+====
 
 . Verify the health of cluster ports on the cluster.
 
@@ -397,7 +406,6 @@ cs2# copy running-config startup-config [#######################################
 .Show example
 [%collapsible]
 ====
-
 [subs=+quotes]
 ----
 cluster1::*> *network port show -ipspace Cluster*
@@ -496,7 +504,6 @@ You might observe the following output on the cs1 switch console depending on th
 2020 Nov 17 16:07:23 cs1 %$ VDC-1 %$ %STP-2-BLOCK_PVID_PEER: Blocking port-channel1 on VLAN0001. Inconsistent peer vlan.
 2020 Nov 17 16:07:23 cs1 %$ VDC-1 %$ %STP-2-BLOCK_PVID_LOCAL: Blocking port-channel1 on VLAN0092. Inconsistent local vlan.
 ```
-
 ====
 +
 . On cluster switch cs1, shut down the ports connected to the cluster ports of the nodes.
@@ -504,7 +511,6 @@ You might observe the following output on the cs1 switch console depending on th
 .Show example
 [%collapsible]
 ====
-
 [subs=+quotes]
 ----
 cs1(config)# *interface eth1/1/1-2,eth1/7-8*
@@ -519,7 +525,6 @@ cs1(config-if-range)# *shutdown*
 .Show example 
 [%collapsible]
 ====
-
 [subs=+quotes]
 ----
 cluster1::*> *network interface show -vserver Cluster*
@@ -566,17 +571,25 @@ cluster1::*>
 
 . Enable auto-revert on the cluster LIFs.
 +
+.Show example 
+[%collapsible]
+====
 ----
 cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert True
 ----
+====
 
 . Reboot switch cs1. You do this to trigger the cluster LIFs to revert to their home ports. You can ignore the "cluster ports down" events reported on the nodes while the switch reboots.
 +
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cs1# *reload*
 This command will reboot the system. (y/n)?  [n] *y*
 ----
+====
 
 . Verify that the switch ports connected to the cluster ports are up.
 +
@@ -585,7 +598,6 @@ This command will reboot the system. (y/n)?  [n] *y*
 .Show example 
 [%collapsible]
 ====
-
 [subs=+quotes]
 ----
 cs1# *show interface brief | grep up*
@@ -635,7 +647,6 @@ cs1#
 .Show example 
 [%collapsible]
 ====
-
 [subs=+quotes]
 ----
 cluster1::*> *network interface show -vserver Cluster*
