@@ -3,14 +3,13 @@ permalink: switch-cisco-9336c-fx2/setup-switch-9336c-cluster.html
 sidebar: sidebar
 keywords: require, configuration, information, documentation, cluster, management, network, switches, set up the switches - cisco nexus 9336c-fx2
 summary: Follow this procedure to set up and configure the Cisco Nexus 9336C-FX2 switch.
-.
 ---
-= Install and configure the 9336C-FX2 cluster switch
+= Configure the 9336C-FX2 cluster switch
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-Follow this procedure to set up and configure the Cisco Nexus 9336C-FX2 switch.
+Follow this procedure to configure the Cisco Nexus 9336C-FX2 switch.
 
 .What you'll need
 * Access to an HTTP, FTP, or TFTP server at the installation site to download the applicable NX-OS and Reference Configuration File (RCF) releases.
@@ -21,23 +20,6 @@ Follow this procedure to set up and configure the Cisco Nexus 9336C-FX2 switch.
 
 
 .Steps
-. Rack the cluster network and management network switches and controllers.
-+
-[options="header" cols="1,2"]
-|===
-| If you are installing the...| Then...
-a|
-Cisco Nexus 9336C-FX2 in a NetApp system cabinet
-a|
-See the _Installing a Cisco Nexus 9336C-FX2 cluster switch and pass-through panel in a NetApp cabinet_ guide for instructions to install the switch in a NetApp cabinet.
-a|
-Equipment in a Telco rack
-a|
-See the procedures provided in the switch hardware installation guides and the NetApp installation and setup instructions.
-|===
-
-. Cable the cluster network and management network switches to the controllers using the completed cabling worksheets.
-. Power on the cluster network and management network switches and controllers.
 . Perform an initial configuration of the cluster network switches.
 +
 Provide applicable responses to the following initial setup questions when you first boot the switch. Your site's security policy defines the responses and services to enable.
