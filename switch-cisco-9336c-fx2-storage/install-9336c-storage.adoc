@@ -1,0 +1,44 @@
+---
+permalink: switch-cisco-9336c-fx2-storage/install-9336c-storage.html
+sidebar: sidebar
+keywords: require, configuration, information, documentation, cluster, management, network, switches, set up the switches - cisco nexus 9336c-fx2
+summary: If you do not already have the required configuration information and documentation, you need to gather that information before setting up your cluster and management network switches.
+---
+= Install the 9336C-FX2 storage switch
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+Follow this procedure to install the Cisco Nexus 9336C-FX2 storage switch.
+
+.What you'll need
+* Access to an HTTP, FTP or TFTP server at the installation site to download the applicable NX-OS and reference configuration file (RCF) releases.
+* Applicable licenses, network and configuration information, and cables.
+* Completed link:setup-worksheet-9336c-storage.html[cabling worksheets].
+* Applicable NetApp cluster network and management network RCFs downloaded from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com^]. All Cisco cluster network and management network switches arrive with the standard Cisco factory-default configuration. These switches also have the current version of the NX-OS software but do not have the RCFs loaded.
+* Required cluster network and management network switch documentation. See link:required-documentation-9336c-storage.html[Required documentation] for more information.
+* Required controller documentation and ONTAP documentation. See https://netapp.com/us/documenation/index.aspx[NetApp documentation^].
+
+
+.Steps
+. Rack the cluster network and management network switches and controllers.
++
+[options="header" cols="1,2"]
+|===
+| If you are installing your...| Then...
+a|
+Cisco Nexus 9336C-FX2 in a NetApp system cabinet
+a|
+See link:install-switch-and-passthrough-panel-9336c-storage.html[Install switch in NetApp cabinet] for instructions to install the switch in a NetApp cabinet.
+a|
+Equipment in a Telco rack
+a|
+See the procedures provided in the switch hardware installation guides and the NetApp installation and setup instructions.
+|===
+
+. Cable the cluster network and management network switches to the controllers using the completed cabling worksheets.
+. Power on the cluster network and management network switches and controllers.
+
+.What's next?
+
+Go to link:setup-switch-9336c-storage.html[Configure Cisco Nexus 9336C-FX2 storage switch].
