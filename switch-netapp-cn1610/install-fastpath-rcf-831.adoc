@@ -26,20 +26,39 @@ There can be command dependencies between command syntax in the RCF and FASTPATH
 
 The examples in this procedure use the following switch and node nomenclature:
 
+* 
+
+.About the examples
+The examples in this procedure use the following switch and node nomenclature:
+
 * The two NetApp switch names are cs1 and cs2.
-* The cluster logical interface (LIF) names are node1_clus1 and node1_clus2 for node1, and node2_clus1 and node2_clus2 for node2.
+* The cluster logical interface (LIF) names are node1_clus1 and node1_clus2 for node1, and node2_clus1 and node2_clus2 for node2. (You can have up to 24 nodes in a cluster.)
 * The storage virtual machine (SVM) name is Cluster.
 * The `cluster1::*>` prompt indicates the name of the cluster.
 * The cluster ports on each node are named e0a and e0b.
 +
 
-The https://hwu.netapp.com/[Hardware Universe^] contains the actual cluster ports supported on your platform.
+https://hwu.netapp.com/[Hardware Universe^] has more information about the actual cluster ports that are supported on your platform.
 
-* The Inter-Switch Links (ISLs) supported for the NetApp cluster switches are ports 0/13 through 0/16.
-* The node connections supported for the NetApp cluster switches are ports 0/1 through 0/12.
-* The example in this procedure begins the upgrade on the second switch, _cs2_.
-* The examples in this procedure use two nodes, but you can have up to 24 nodes in a cluster.
-* The examples and outputs might vary depending on different releases of FASTPATH, RCF, and ONTAP.
+* The supported Inter-Switch Links (ISLs) are ports 0/13 through 0/16.
+* The supported node connections are ports 0/1 through 0/12.
+
+.What you'll need
+* A current backup of the switch configuration.
+* A fully functioning cluster (no errors in the logs and no defective cluster network interface cards (NICs) or similar issues).
+* Fully functional port connections on the cluster switch.
+* All cluster ports set up.
+* All cluster logical interfaces (LIFs) set up (must not have been migrated).
+* A successful communication path: The ONTAP (privilege: advanced) `cluster ping-cluster -node node1` command must indicate that `larger than PMTU communication` is successful on all paths.
+
+.About this task
+The following procedure uses the clustered Data ONTAP 8.2 syntax. As a result, the cluster Vserver, LIF names, and CLI output are different than those in Data ONTAP 8.3.
+
+Make sure you consult the switch compatibility table on the http://mysupport.netapp.com/NOW/download/software/cm_switches_ntap/[NetApp CN1601 and CN1610 Switches^] page for the supported FASTPATH, RCF, and ONTAP versions.
++
+There can be command dependencies between command syntax in the RCF and FASTPATH versions.
+
+NOTE: In RCF version 1.2, support for Telnet has been explicitly disabled because of security concerns. To avoid connectivity issues while installing RCF 1.2, verify that Secure Shell (SSH) is enabled. The https://library.netapp.com/ecm/ecm_get_file/ECMP1117874[NetApp CN1610 Switch Administrator's Guide^] has more information about SSH.
 
 .Steps
 
