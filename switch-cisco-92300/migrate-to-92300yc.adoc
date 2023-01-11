@@ -14,7 +14,24 @@ You can migrate nondisruptively older Cisco cluster switches for an ONTAP cluste
 NOTE: After your migration completes, you might need to install the required configuration file to support the Cluster Switch Health Monitor (CSHM) for 92300YC cluster switches. See
 link:switch-cisco-92300/setup-install-cshm-file.html[Install the Cluster Switch Health Monitor (CSHM)].
 
-.Switch and node nomenclature
+== Review requirements
+
+Ensure that:
+
+* The existing cluster is properly set up and functioning.
+* Some of the ports are configured on Nexus 92300YC switches to run at 10 GbE or 40 GbE.
+* You have planned, migrated, and documented 10 GbE and 40 GbE connectivity from nodes to Nexus 92300YC cluster switches.
+* All cluster ports are in the up state to ensure nondisruptive operations.
+* The Nexus 92300YC cluster switches are configured and operating under the proper version of NX-OS installed and reference configuration file (RCF) applied.
+* The existing cluster network configuration have the following:
+ ** A redundant and fully functional NetApp cluster using both older Cisco switches.
+ ** Management connectivity and console access to both the older Cisco switches and the new switches.
+ ** All cluster LIFs in the up state with the cluster LIFs are on their home ports.
+ ** ISL ports enabled and cabled between the older Cisco switches and between the new switches.
+
+== Migrate the switch
+
+.About the examples
 The examples in this procedure use the following switch and node nomenclature:
 
 * The existing Cisco Nexus 5596UP cluster switches are c1 and c2.
@@ -42,21 +59,8 @@ The examples in this procedure use the following switch and node nomenclature:
 
 * The ONTAP and NX-OS versions supported in this procedure are on the https://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switches^] page.
 
+=== Step 1: Prepare for migration
 
-.Before you begin
-
-* The existing cluster must be properly set up and functioning.
-* You have configured some of the ports on Nexus 92300YC switches to run at 10 GbE or 40 GbE.
-* You have planned, migrated, and documented 10 GbE and 40 GbE connectivity from nodes to Nexus 92300YC cluster switches.
-* All cluster ports must be in the up state to ensure nondisruptive operations.
-* The Nexus 92300YC cluster switches must be configured and operating under the proper version of NX-OS installed and reference configuration file (RCF) applied.
-* The existing cluster network configuration must have the following:
- ** A redundant and fully functional NetApp cluster using both older Cisco switches.
- ** Management connectivity and console access to both the older Cisco switches and the new switches.
- ** All cluster LIFs in the up state with the cluster LIFs are on their home ports.
- ** ISL ports enabled and cabled between the older Cisco switches and between the new switches.
-
-.Steps
 . Change the privilege level to advanced, entering *y* when prompted to continue:
 +
 `set -privilege advanced`
@@ -71,18 +75,25 @@ where x is the duration of the maintenance window in hours.
 +
 NOTE: The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
 +
+.Show example
+[%collapsible]
+====
 The following command suppresses automatic case creation for two hours:
-+
 
 [subs=+quotes]
 ----
 cluster1::*> *system node autosupport invoke -node * -type all -message MAINT=2h*
 ----
+====
+
 
 . Verify that auto-revert is enabled on all cluster LIFs:
 +
 `network interface show -vserver Cluster -fields auto-revert`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network interface show -vserver Cluster -fields auto-revert*
@@ -98,6 +109,7 @@ Cluster
 
 4 entries were displayed.
 ----
+====
 
 . Determine the administrative or operational status for each cluster interface:
 +
@@ -107,6 +119,9 @@ Each port should display up for `Link` and healthy for `Health Status`.
 +
 `network port show -ipspace Cluster`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network port show -ipspace Cluster*
@@ -129,6 +144,7 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 
 4 entries were displayed.
 ----
+====
 
  .. Display information about the logical interfaces and their designated home nodes:
 +
@@ -136,6 +152,9 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 +
 Each LIF should display up/up for `Status Admin/Oper` and true for `Is Home`.
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network interface show -vserver Cluster*
@@ -151,11 +170,15 @@ Cluster
 
 4 entries were displayed.
 ----
+====
 
-. The cluster ports on each node are connected to existing cluster switches in the following way (from the nodes' perspective) using the command:
+. Ensure that the cluster ports on each node are connected to existing cluster switches in the following way (from the nodes' perspective) using the command:
 +
 `network device-discovery show -protocol cdp`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network device-discovery show -protocol cdp*
@@ -171,11 +194,15 @@ node1      /cdp
 
 4 entries were displayed.
 ----
+====
 
-. The cluster ports and switches are connected in the following way (from the switches' perspective) using the command:
+. Ensure that the cluster ports and switches are connected in the following way (from the switches' perspective) using the command:
 +
 `show cdp neighbors`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 c1# *show cdp neighbors*
@@ -235,11 +262,15 @@ c1(FOX2025GEEX)     Eth1/47        176    S I s     N5K-C5596UP        Eth1/47
 
 c1(FOX2025GEEX)     Eth1/48        176    S I s     N5K-C5596UP        Eth1/48
 ----
+====
 
 . Ensure that the cluster network has full connectivity using the command:
 +
 `cluster ping-cluster -node node-name`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *cluster ping-cluster -node node2*
@@ -267,11 +298,17 @@ RPC status:
 2 paths up, 0 paths down (tcp check)
 2 paths up, 0 paths down (udp check)
 ----
+====
+
+=== Step 2: Configure cables and ports
 
 . Configure a temporary ISL on cs1on ports e1/41-48, between c1 and cs1.
 +
+.Show example
+[%collapsible]
+====
 The following example shows how the new ISL is configured on c1 and cs1:
-+
+
 [subs=+quotes]
 ----
 cs1# *configure*
@@ -290,14 +327,18 @@ cs1(config-if)# *spanning-tree port type network*
 cs1(config-if)# *exit*
 cs1(config)# *exit*
 ----
+====
 
 . Remove ISL cables from ports e1/41-48 from c2 and connect the cables to ports e1/41-48 on cs1.
 . Verify that the ISL ports and port-channel are operational connecting c1 and cs1:
 +
 `show port-channel summary`
 +
+.Show example
+[%collapsible]
+====
 The following example shows the Cisco show port-channel summary command being used to verify the ISL ports are operational on c1 and cs1:
-+
+
 [subs=+quotes]
 ----
 c1# *show port-channel summary*
@@ -336,13 +377,19 @@ Group Port-       Type     Protocol  Member Ports
                                      Eth1/44(P)   Eth1/45(P)   Eth1/46(P)
                                      Eth1/47(P)   Eth1/48(P)
 ----
+====
 
 . For node1, disconnect the cable from e1/1 on c2, and then connect the cable to e1/1 on cs2, using appropriate cabling supported by Nexus 92300YC.
+
 . For node2, disconnect the cable from e1/2 on c2, and then connect the cable to e1/2 on cs2, using appropriate cabling supported by Nexus 92300YC.
+
 . The cluster ports on each node are now connected to cluster switches in the following way, from the nodes' perspective:
 +
 `network device-discovery show -protocol cdp`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network device-discovery show -protocol cdp*
@@ -359,13 +406,19 @@ node1      /cdp
 
 4 entries were displayed.
 ----
+====
 
 . For node1, disconnect the cable from e1/1 on c1, and then connect the cable to e1/1 on cs1, using appropriate cabling supported by Nexus 92300YC.
+
 . For node2, disconnect the cable from e1/2 on c1, and then connect the cable to e1/2 on cs1, using appropriate cabling supported by Nexus 92300YC.
+
 . The cluster ports on each node are now connected to cluster switches in the following way, from the nodes' perspective:
 +
 `network device-discovery show -protocol cdp`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network device-discovery show -protocol cdp*
@@ -380,9 +433,13 @@ node1      /cdp
             e0b    cs2                       0/1               N9K-C92300YC
 4 entries were displayed.
 ----
+====
 
 . Delete the temporary ISL between cs1 and c1.
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cs1(config)# *no interface port-channel 10*
@@ -396,6 +453,9 @@ cs1(config-if-range)# *spanning-tree bpduguard enable*
 cs1(config-if-range)# *exit*
 cs1(config)# *exit*
 ----
+====
+
+=== Step 3: Complete the migration
 
 . Verify the final configuration of the cluster:
 +
@@ -403,6 +463,9 @@ cs1(config)# *exit*
 +
 Each port should display up for `Link` and healthy for `Health Status`.
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network port show -ipspace Cluster*
@@ -486,11 +549,15 @@ cs1(FDO220329KU)
 
 Total entries displayed: 4
 ----
+====
 
 . Ensure that the cluster network has full connectivity:
 +
 `cluster ping-cluster -node node-name`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *set -priv advanced*
@@ -528,11 +595,15 @@ RPC status:
 cluster1::*> *set -privilege admin*
 cluster1::*>
 ----
+====
 
 . For ONTAP 9.4 and later, enable the cluster switch health monitor log collection feature for collecting switch-related log files, using the commands:
 +
 `system cluster-switch log setup-password` and `system cluster-switch log enable-collection`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *system cluster-switch log setup-password*
@@ -569,5 +640,6 @@ Enabling cluster switch log collection.
 
 cluster1::*>
 ----
+====
 +
 NOTE: If any of these commands return an error, contact NetApp support.
