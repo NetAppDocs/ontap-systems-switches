@@ -11,28 +11,31 @@ summary: 'Replacing a defective Nexus 92300YC switch in a cluster network is a n
 [.lead]
 Replacing a defective Nexus 92300YC switch in a cluster network is a nondisruptive procedure (NDU).
 
-.Before you begin
-The following conditions must exist before performing the switch replacement in the current environment and on the replacement switch.
+== Review requirements
 
-* Existing cluster and network infrastructure:
- ** The existing cluster must be verified as completely functional, with at least one fully connected cluster switch.
- ** All cluster ports must be up.
- ** All cluster logical interfaces (LIFs) must be up and on their home ports.
+.What you'll need
+Before performing the switch replacement, ensure that:
+
+* In the existing cluster and network infrastructure:
+ ** The existing cluster is verified as completely functional, with at least one fully connected cluster switch.
+ ** All cluster ports are up.
+ ** All cluster logical interfaces (LIFs) are up and on their home ports.
  ** The ONTAP cluster ping-cluster -node node1 command must indicate that basic connectivity and larger than PMTU communication are successful on all paths.
-* Nexus 92300YC replacement switch:
- ** Management network connectivity on the replacement switch must be functional.
- ** Console access to the replacement switch must be in place.
+* For the Nexus 92300YC replacement switch:
+ ** Management network connectivity on the replacement switch are functional.
+ ** Console access to the replacement switch are in place.
  ** The node connections are ports 1/1 through 1/64.
- ** All Inter-Switch Link (ISL) ports must be disabled on ports 1/65 and 1/66.
- ** The desired reference configuration file (RCF) and NX-OS operating system image switch must be loaded onto the switch.
- ** Initial customization of the switch must be complete, as detailed in:
+ ** All Inter-Switch Link (ISL) ports are disabled on ports 1/65 and 1/66.
+ ** The desired reference configuration file (RCF) and NX-OS operating system image switch are loaded onto the switch.
+ ** Initial customization of the switch are complete, as detailed in:
 +
 link:https://docs.netapp.com/us-en/ontap-systems-switches/switch-cisco-92300/configure-overview.html[Configuring a new Cisco Nexus 92300YC switch^]
 +
-Any previous site customizations, such as STP, SNMP, and SSH, should be copied to the new switch.
+Any previous site customizations, such as STP, SNMP, and SSH, are copied to the new switch.
 
-.About this task
-You must execute the command for migrating a cluster LIF from the node where the cluster LIF is hosted.
+== Replace the switch
+
+.About the examples
 
 The examples in this procedure use the following switch and node nomenclature:
 
@@ -43,8 +46,14 @@ The examples in this procedure use the following switch and node nomenclature:
 * The cluster LIF names are node1_clus1 and node1_clus2 for node1, and node2_clus1 and node2_clus2 for node2.
 * The prompt for changes to all cluster nodes is cluster1::*>
 
-NOTE: The following procedure is based on the following cluster network topology:
+.About this task
+You must execute the command for migrating a cluster LIF from the node where the cluster LIF is hosted.
 
+The following procedure is based on the following cluster network topology:
+
+.Show topology
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network port show -ipspace Cluster*
@@ -127,8 +136,10 @@ cs1(FDO220329KU)   Eth1/66        178    R S I s     N9K-C92300YC  Eth1/66
 
 Total entries displayed: 4
 ----
+====
 
-.Steps
+=== Step 1: Prepare for replacement
+
 . Install the appropriate RCF and image on the switch, newcs2, and make any necessary site preparations.
 +
 If necessary, verify, download, and install the appropriate versions of the RCF and NX-OS software for the new switch. If you have verified that the new switch is correctly set up and does not need updates to the RCF and NX-OS software, continue to step 2.
@@ -142,6 +153,9 @@ If necessary, verify, download, and install the appropriate versions of the RCF 
 +
 If the switch that you are replacing is not functional and is powered down, go to Step 4. The LIFs on the cluster nodes should have already failed over to the other cluster port for each node.
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 newcs2# *config*
@@ -149,11 +163,15 @@ Enter configuration commands, one per line. End with CNTL/Z.
 newcs2(config)# *interface e1/1-64*
 newcs2(config-if-range)# *shutdown*
 ----
+====
 
 . Verify that all cluster LIFs have auto-revert enabled:
 +
 `network interface show -vserver Cluster -fields auto-revert`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::> *network interface show -vserver Cluster -fields auto-revert*
@@ -168,11 +186,15 @@ Cluster      node2_clus2   true
 
 4 entries were displayed.
 ----
+====
 
 . Verify that all the cluster LIFs can communicate:
 +
 `cluster ping-cluster`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *cluster ping-cluster node1*
@@ -201,9 +223,15 @@ RPC status:
 2 paths up, 0 paths down (tcp check)
 2 paths up, 0 paths down (udp check)
 ----
+====
+
+=== Step 2: Configure cables and ports
 
 . Shut down the ISL ports 1/65 and 1/66 on the Nexus 92300YC switch cs1:
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cs1# *configure*
@@ -212,14 +240,18 @@ cs1(config)# *interface e1/65-66*
 cs1(config-if-range)# *shutdown*
 cs1(config-if-range)#
 ----
+====
 
 . Remove all of the cables from the Nexus 92300YC cs2 switch, and then connect them to the same ports on the Nexus 92300YC newcs2 switch.
 . Bring up the ISLs ports 1/65 and 1/66 between the cs1 and newcs2 switches, and then verify the port channel operation status.
 +
 Port-Channel should indicate Po1(SU) and Member Ports should indicate Eth1/65(P) and Eth1/66(P).
 +
+.Show example
+[%collapsible]
+====
 This example enables ISL ports 1/65 and 1/66 and displays the port channel summary on switch cs1:
-+
+
 [subs=+quotes]
 ----
 cs1# *configure*
@@ -244,13 +276,17 @@ Group Port-       Type     Protocol  Member Ports
 
 cs1(config-if-range)#
 ----
+====
 
 . Verify that port e0b is up on all nodes:
 +
 `network port show ipspace Cluster`
 +
+.Show example
+[%collapsible]
+====
 The output should be similar to the following:
-+
+
 [subs=+quotes]
 ----
 cluster1::*> *network port show -ipspace Cluster*
@@ -273,13 +309,17 @@ e0b       Cluster      Cluster          up   9000  auto/auto   -        false
 
 4 entries were displayed.
 ----
+====
 
 . On the same node you used in the previous step, revert the cluster LIF associated with the port in the previous step by using the network interface revert command.
 +
+.Show example
+[%collapsible]
+====
 In this example, LIF node1_clus2 on node1 is successfully reverted if the Home value is true and the port is e0b.
-+
+
 The following commands return LIF `node1_clus2` on `node1` to home port `e0a` and displays information about the LIFs on both nodes. Bringing up the first node is successful if the Is Home column is true for both cluster interfaces and they show the correct port assignments, in this example `e0a` and `e0b` on node1.
-+
+
 [subs=+quotes]
 ----
 cluster1::*> *network interface show -vserver Cluster*
@@ -295,13 +335,17 @@ Cluster
 
 4 entries were displayed.
 ----
+====
 
 . Display information about the nodes in a cluster:
 +
 `cluster show`
 +
+.Show example
+[%collapsible]
+====
 This example shows that the node health for node1 and node2 in this cluster is true:
-+
+
 [subs=+quotes]
 ----
 cluster1::*> *cluster show*
@@ -311,11 +355,15 @@ Node          Health  Eligibility
 node1         false   true
 node2         true    true
 ----
+====
 
 . Verify that all physical cluster ports are up:
 +
 `network port show ipspace Cluster`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network port show -ipspace Cluster*
@@ -338,11 +386,17 @@ e0b       Cluster      Cluster          up    9000  auto/10000  healthy  false
 
 4 entries were displayed.
 ----
+====
+
+=== Step 3: Complete the procedure
 
 . Verify that all the cluster LIFs can communicate:
 +
 `cluster ping-cluster`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *cluster ping-cluster -node node2*
@@ -370,11 +424,15 @@ RPC status:
 2 paths up, 0 paths down (tcp check)
 2 paths up, 0 paths down (udp check)
 ----
+====
 
 . Confirm the following cluster network configuration:
 +
 `network port show`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network port show -ipspace Cluster*
@@ -457,11 +515,15 @@ cs1(FDO220329KU)   Eth1/66        178    R S I s     N9K-C92300YC  Eth1/66
 
 Total entries displayed: 4
 ----
+====
 
 . For ONTAP 9.4 and later, enable the cluster switch health monitor log collection feature for collecting switch-related log files, using gthe commamds:
 +
 `system cluster-switch log setup-password` and `system cluster-switch log enable-collection`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *system cluster-switch log setup-password*
@@ -498,5 +560,6 @@ Enabling cluster switch log collection.
 
 cluster1::*>
 ----
+====
 +
 NOTE: If any of these commands return an error, contact NetApp support.

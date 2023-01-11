@@ -9,39 +9,40 @@ summary: 'If you have an existing two-node switchless cluster environment, you c
 :imagesdir: ../media/
 
 [.lead]
-If you have an existing two-node switchless cluster environment, you can migrate to a two-node switched cluster environment using Cisco Nexus 92300YC switches to enable you to scale beyond two nodes in the cluster.
+If you have an existing two-node _switchless_ cluster environment, you can migrate to a two-node _switched_ cluster environment using Cisco Nexus 92300YC switches to enable you to scale beyond two nodes in the cluster.
 
-The procedure you use depends on whether you have two dedicated cluster-network ports on each controller or a single cluster port on each controller. The process documented works for all nodes using optical or twinax ports but is not supported on this switch if nodes are using onboard 10Gb BASE-T RJ45 ports for the cluster-network ports.
+The procedure you use depends on whether you have two dedicated cluster-network ports on each controller or a single cluster port on each controller. The process documented works for all nodes using optical or twinax ports, but is not supported on this switch if nodes are using onboard 10Gb BASE-T RJ45 ports for the cluster-network ports.
 
 Most systems require two dedicated cluster-network ports on each controller.
 
 NOTE: After your migration completes, you might need to install the required configuration file to support the Cluster Switch Health Monitor (CSHM) for 92300YC cluster switches. See
 link:switch-cisco-92300/setup-install-cshm-file.html[Install the Cluster Switch Health Monitor (CSHM)].
 
+== Review requirements
 
-.Before you begin
-Two-node switchless configuration:
+.What you'll need
+For a two-node switchless configuration, ensure that:
 
-* The two-node switchless configuration must be properly set up and functioning.
-* The nodes must be running ONTAP 9.6 and later.
-* All cluster ports must be in the up state.
-* All cluster logical interfaces (LIFs) must be in the up state and on their home ports.
+* The two-node switchless configuration is properly set up and functioning.
+* The nodes are running ONTAP 9.6 and later.
+* All cluster ports are in the *up* state.
+* All cluster logical interfaces (LIFs) are in the *up* state and on their home ports.
 
-Cisco Nexus 92300YC switch configuration:
+For the Cisco Nexus 92300YC switch configuration:
 
-* Both switches must have management network connectivity.
-* There must be console access to the cluster switches.
-* Nexus 92300YC node-to-node switch and switch-to-switch connections must use twinax or fiber cables.
+* Both switches have management network connectivity.
+* There is console access to the cluster switches.
+* Nexus 92300YC node-to-node switch and switch-to-switch connections use twinax or fiber cables.
 +
 The https://hwu.netapp.com/SWITCH/INDEX[_Hardware Universe - Switches_^] contains more information about cabling.
 
-* Inter-Switch Link (ISL) cables must be connected to ports 1/65 and 1/66 on both 92300YC switches.
-* Initial customization of both the 92300YC switches must be completed. So that the:
+* Inter-Switch Link (ISL) cables are connected to ports 1/65 and 1/66 on both 92300YC switches.
+* Initial customization of both the 92300YC switches are completed. So that the:
  ** 92300YC switches are running the latest version of software
- ** Reference Configuration Files (RCFs) have been applied to the switches
-Any site customization, such as SMTP, SNMP, and SSH must be configured on the new switches.
+ ** Reference Configuration Files (RCFs) are applied to the switches
+Any site customization, such as SMTP, SNMP, and SSH is configured on the new switches.
 
-.About this task
+.About the examples
 The examples in this procedure use the following cluster switch and node nomenclature:
 
 * The names of the 92300YC switches are cs1 and cs2.
@@ -52,7 +53,10 @@ The examples in this procedure use the following cluster switch and node nomencl
 +
 The https://hwu.netapp.com[_Hardware Universe_^] contains the latest information about the actual cluster ports for your platforms.
 
-.Steps
+== Migrate the switch
+
+=== Step 1: Prepare for migration
+
 . Change the privilege level to advanced, entering `y` when prompted to continue:
 +
 `set -privilege advanced`
@@ -67,20 +71,28 @@ where x is the duration of the maintenance window in hours.
 +
 NOTE: The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
 +
+.Show example
+[%collapsible]
+====
 The following command suppresses automatic case creation for two hours:
-+
 
 [subs=+quotes]
 ----
 cluster1::*> *system node autosupport invoke -node * -type all -message MAINT=2h*
 ----
+====
+
+=== Step 2: Configure ports
 
 . Disable all node-facing ports (not ISL ports) on both the new cluster switches cs1 and cs2.
 +
 You must not disable the ISL ports.
 +
+.Show example
+[%collapsible]
+====
 The following example shows that node-facing ports 1 through 64 are disabled on switch cs1:
-+
+
 [subs=+quotes]
 ----
 cs1# *config*
@@ -88,13 +100,17 @@ Enter configuration commands, one per line. End with CNTL/Z.
 cs1(config)# *interface e/1-64*
 cs1(config-if-range)# *shutdown*
 ----
+====
 
 . Verify that the ISL and the physical ports on the ISL between the two 92300YC switches cs1 and cs2 are up on ports 1/65 and 1/66:
 +
 `show port-channel summary`
 +
+.Show example
+[%collapsible]
+====
 The following example shows that the ISL ports are up on switch cs1:
-+
+
 [subs=+quotes]
 ----
 cs1# *show port-channel summary*
@@ -134,6 +150,7 @@ Group Port-       Type     Protocol  Member Ports
 --------------------------------------------------------------------------------
 1     Po1(SU)     Eth      LACP      Eth1/65(P)   Eth1/66(P)
 ----
+====
 
 . Display the list of neighboring devices:
 +
@@ -141,8 +158,12 @@ Group Port-       Type     Protocol  Member Ports
 +
 This command provides information about the devices that are connected to the system.
 +
+.Show example
+[%collapsible]
+====
+
 The following example lists the neighboring devices on switch cs1:
-+
+
 [subs=+quotes]
 ----
 cs1# *show cdp neighbors*
@@ -158,6 +179,7 @@ cs2(FDO220329V5)    Eth1/66        175    R S I s   N9K-C92300YC  Eth1/66
 
 Total entries displayed: 2
 ----
+
 +
 The following example lists the neighboring devices on switch cs2:
 +
@@ -176,6 +198,7 @@ cs1(FDO220329KU)    Eth1/66        177    R S I s   N9K-C92300YC  Eth1/66
 
 Total entries displayed: 2
 ----
+====
 
 . Verify that all cluster ports are up:
 +
@@ -183,6 +206,9 @@ Total entries displayed: 2
 +
 Each port should display up for `Link` and healthy for `Health Status`.
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network port show -ipspace Cluster*
@@ -205,6 +231,7 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy
 
 4 entries were displayed.
 ----
+====
 
 . Verify that all cluster LIFs are up and operational:
 +
@@ -212,6 +239,9 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy
 +
 Each cluster LIF should display true for `Is Home` and have a `Status Admin/Oper` of up/up
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network interface show -vserver Cluster*
@@ -226,11 +256,15 @@ Cluster
             node2_clus2  up/up    169.254.19.183/16  node2         e0b     true
 4 entries were displayed.
 ----
+====
 
 . Verify that auto-revert is enabled on all cluster LIFs:
 +
 `network interface show -vserver Cluster -fields auto-revert`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network interface show -vserver Cluster -fields auto-revert*
@@ -246,16 +280,21 @@ Cluster
 
 4 entries were displayed.
 ----
+====
 
 . Disconnect the cable from cluster port e0a on node1, and then connect e0a to port 1 on cluster switch cs1, using the appropriate cabling supported by the 92300YC switches.
 +
 The https://hwu.netapp.com/SWITCH/INDEX[_Hardware Universe - Switches_^] contains more information about cabling.
 
 . Disconnect the cable from cluster port e0a on node2, and then connect e0a to port 2 on cluster switch cs1, using the appropriate cabling supported by the 92300YC switches.
+
 . Enable all node-facing ports on cluster switch cs1.
 +
+.Show example
+[%collapsible]
+====
 The following example shows that ports 1/1 through 1/64 are enabled on switch cs1:
-+
+
 [subs=+quotes]
 ----
 cs1# *config*
@@ -263,13 +302,17 @@ Enter configuration commands, one per line. End with CNTL/Z.
 cs1(config)# *interface e1/1-64*
 cs1(config-if-range)# *no shutdown*
 ----
+====
 
 . Verify that all cluster LIFs are up, operational, and display as true for `Is Home`:
 +
 `network interface show -vserver Cluster`
 +
+.Show example
+[%collapsible]
+====
 The following example shows that all of the LIFs are up on node1 and node2 and that `Is Home` results are true:
-+
+
 [subs=+quotes]
 ----
 cluster1::*> *network interface show -vserver Cluster*
@@ -285,13 +328,17 @@ Cluster
 
 4 entries were displayed.
 ----
+====
 
 . Display information about the status of the nodes in the cluster:
 +
 `cluster show`
 +
+.Show example
+[%collapsible]
+====
 The following example displays information about the health and eligibility of the nodes in the cluster:
-+
+
 [subs=+quotes]
 ----
 cluster1::*> *cluster show*
@@ -303,13 +350,17 @@ node2                true    true          false
 
 2 entries were displayed.
 ----
+====
 
 . Disconnect the cable from cluster port e0b on node1, and then connect e0b to port 1 on cluster switch cs2, using the appropriate cabling supported by the 92300YC switches.
 . Disconnect the cable from cluster port e0b on node2, and then connect e0b to port 2 on cluster switch cs2, using the appropriate cabling supported by the 92300YC switches.
 . Enable all node-facing ports on cluster switch cs2.
 +
+.Show example
+[%collapsible]
+====
 The following example shows that ports 1/1 through 1/64 are enabled on switch cs2:
-+
+
 [subs=+quotes]
 ----
 cs2# *config*
@@ -317,13 +368,17 @@ Enter configuration commands, one per line. End with CNTL/Z.
 cs2(config)# *interface e1/1-64*
 cs2(config-if-range)# *no shutdown*
 ----
+====
 
 . Verify that all cluster ports are up:
 +
 `network port show -ipspace Cluster`
 +
+.Show example
+[%collapsible]
+====
 The following example shows that all of the cluster ports are up on node1 and node2:
-+
+
 [subs=+quotes]
 ----
 cluster1::*> *network port show -ipspace Cluster*
@@ -346,6 +401,7 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 
 4 entries were displayed.
 ----
+====
 
 . Verify that all interfaces display true for `Is Home`:
 +
@@ -353,6 +409,9 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 +
 NOTE: This might take several minutes to complete.
 +
+.Show example
+[%collapsible]
+====
 The following example shows that all LIFs are up on node1 and node2 and that `Is Home` results are true:
 +
 [subs=+quotes]
@@ -371,13 +430,17 @@ Cluster
 
 4 entries were displayed.
 ----
+====
 
 . Verify that both nodes each have one connection to each switch:
 +
 `show cdp neighbors`
 +
+.Show example
+[%collapsible]
+====
 The following example shows the appropriate results for both switches:
-+
+
 [subs=+quotes]
 ----
 (cs1)# *show cdp neighbors*
@@ -413,11 +476,15 @@ cs1(FDO220329KU)
 
 Total entries displayed: 4
 ----
+====
 
 . Display information about the discovered network devices in your cluster:
 +
 `network device-discovery show -protocol cdp`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network device-discovery show -protocol cdp*
@@ -433,6 +500,7 @@ node1      /cdp
 
 4 entries were displayed.
 ----
+====
 
 . Verify that the settings are disabled:
 +
@@ -440,21 +508,27 @@ node1      /cdp
 +
 NOTE: It might take several minutes for the command to complete. Wait for the '3 minute lifetime to expire' announcement.
 +
+.Show example
+[%collapsible]
+====
 The false output in the following example shows that the configuration settings are disabled:
-+
 
 [subs=+quotes]
 ----
 cluster1::*> *network options switchless-cluster show*
 Enable Switchless Cluster: false
 ----
+====
 
 . Verify the status of the node members in the cluster:
 +
 `cluster show`
 +
+.Show example
+[%collapsible]
+====
 The following example shows information about the health and eligibility of the nodes in the cluster:
-+
+
 [subs=+quotes]
 ----
 cluster1::*> *cluster show*
@@ -464,11 +538,15 @@ Node                 Health  Eligibility   Epsilon
 node1                true    true          false
 node2                true    true          false
 ----
+====
 
 . Ensure that the cluster network has full connectivity:
 +
 `cluster ping-cluster -node node-name`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::> *cluster ping-cluster -node node2*
@@ -496,23 +574,34 @@ RPC status:
 2 paths up, 0 paths down (tcp check)
 2 paths up, 0 paths down (udp check)
 ----
+====
+
+=== Step 3: Complete the procedure
 
 . If you suppressed automatic case creation, reenable it by invoking an AutoSupport message:
 +
 `system node autosupport invoke -node * -type all -message MAINT=END`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *system node autosupport invoke -node * -type all -message MAINT=END*
 ----
+====
 
 . Change the privilege level back to admin:
 +
 `set -privilege admin`
++
 . For ONTAP 9.4 and later, enable the cluster switch health monitor log collection feature for collecting switch-related log files, using the commands:
 +
 `system cluster-switch log setup-password` and `system cluster-switch log enable-collection`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *system cluster-switch log setup-password*
@@ -549,5 +638,6 @@ Enabling cluster switch log collection.
 
 cluster1::*>
 ----
+====
 +
 NOTE: If any of these commands return an error, contact NetApp support.

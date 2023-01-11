@@ -11,10 +11,13 @@ summary: 'The Cisco NX-OS software and reference configuration files \(RCFs\) mu
 [.lead]
 Before you install the NX-OS software and the Reference Configuration File (RCF), follow this procedure.
 
+.What you'll need
+* A fully functioning cluster (no errors in the logs or similar issues).
+* Appropriate software and upgrade guides, which are available from https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html#InstallandUpgrade[Cisco Nexus 9000 Series Switches^].
+
 .About the examples
 The examples in this procedure use two nodes. These nodes use two 10GbE cluster interconnect ports `e0a` and `e0b`. See the https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe^] to verify the correct cluster ports on your platforms.
 
-.Switch and node nomenclature
 The examples in this procedure use the following switch and node nomenclature:
 
 * The names of the two Cisco switches are `cs1` and `cs2`.
@@ -22,9 +25,7 @@ The examples in this procedure use the following switch and node nomenclature:
 * The cluster LIF names are `node1_clus1` and `node1_clus2` for node1 and `node2_clus1` and `node2_clus2` for node2.
 * The `cluster1::*>` prompt indicates the name of the cluster.
 
-.What you'll need
-* A fully functioning cluster (no errors in the logs or similar issues).
-* Appropriate software and upgrade guides, which are available from https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html#InstallandUpgrade[Cisco Nexus 9000 Series Switches^].
+
 
 .About this task
 

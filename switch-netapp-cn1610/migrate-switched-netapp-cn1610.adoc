@@ -11,31 +11,41 @@ summary: "If you have an existing two-node switchless cluster environment, you c
 [.lead]
 If you have an existing two-node switchless cluster environment, you can migrate to a two-node switched cluster environment using CN1610 cluster network switches that enables you to scale beyond two nodes.
 
-.Before you begin
-Two-node switchless configuration:
+== Review requirements
 
-* The two-node switchless configuration must be properly set up and functioning.
-* The nodes must be running ONTAP 8.2 or later.
-* All cluster ports must be in the `up` state.
-* All cluster logical interfaces (LIFs) must be in the `up` state and on their home ports.
+.What you'll need
 
-CN1610 cluster switch configuration:
+For a two-node switchless configuration, ensure that:
 
-* The CN1610 cluster switch infrastructure must be and fully functional on both switches.
-* Both switches must have management network connectivity.
-* There must be console access to the cluster switches.
-* CN1610 node-to-node switch and switch-to-switch connections must use twinax or fiber cables.
+* The two-node switchless configuration is properly set up and functioning.
+* The nodes are running ONTAP 8.2 or later.
+* All cluster ports are in the `up` state.
+* All cluster logical interfaces (LIFs) are in the `up` state and on their home ports.
+
+For the CN1610 cluster switch configuration:
+
+* The CN1610 cluster switch infrastructure are fully functional on both switches.
+* Both switches have management network connectivity.
+* There is console access to the cluster switches.
+* CN1610 node-to-node switch and switch-to-switch connections use twinax or fiber cables.
 +
-
 The https://hwu.netapp.com/[Hardware Universe^] contains more information about cabling.
 
-
-* Inter-Switch Link (ISL) cables must be connected to ports 13 through 16 on both CN1610 switches.
-* Initial customization of both the CN1610 switches must be completed.
+* Inter-Switch Link (ISL) cables are connected to ports 13 through 16 on both CN1610 switches.
+* Initial customization of both the CN1610 switches are completed.
 +
 Any previous site customization, such as SMTP, SNMP, and SSH should be copied to the new switches.
 
-.About this task
+.Related information
+
+* http://hwu.netapp.com[Hardware Universe^]
+* http://support.netapp.com/NOW/download/software/cm_switches_ntap/[NetApp CN1601 and CN1610 description page^]
+* https://library.netapp.com/ecm/ecm_download_file/ECMP1118645[CN1601 and CN1610 Switch Setup and Configuration Guide^]
+* https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Software/ONTAP_OS/How_to_suppress_automatic_case_creation_during_scheduled_maintenance_windows[NetApp KB Article 1010449: How to suppress automatic case creation during scheduled maintenance windows^]
+
+== Migrate the switches
+
+.About the examples
 
 The examples in this procedure use the following cluster switch and node nomenclature:
 
@@ -45,35 +55,47 @@ The examples in this procedure use the following cluster switch and node nomencl
 * The `cluster::*>` prompt indicates the name of the cluster.
 * The cluster ports used in this procedure are e1a and e2a.
 +
-
 The https://hwu.netapp.com/[Hardware Universe^] contains the latest information about the actual cluster ports for your platforms.
 
+=== Step 1: Prepare for migration
 
-.Steps
-
-. Change the privilege level to advanced, entering `y` when prompted to continue: `set -privilege advanced`
+. Change the privilege level to advanced, entering `y` when prompted to continue: 
++
+`set -privilege advanced`
 +
 The advanced prompt (*>) appears.
 
-. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=xh`
+. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: 
++
+`system node autosupport invoke -node * -type all -message MAINT=xh`
 +
 _x_ is the duration of the maintenance window in hours.
 +
 NOTE: The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
++
 
-+
+.Show example
+[%collapsible]
+====
 The following command suppresses automatic case creation for two hours:
-+
+
 ----
 cluster::*> system node autosupport invoke -node * -type all -message MAINT=2h
 ----
+====
+
+=== Step 2: Configure ports
 
 . Disable all of the node-facing ports (not ISL ports) on both the new cluster switches cs1 and cs2.
 +
 You must not disable the ISL ports.
 +
+.Show example
+[%collapsible]
+====
+
 The following example shows that node-facing ports 1 through 12 are disabled on switch cs1:
-+
+
 ----
 
 (cs1)> enable
@@ -83,9 +105,9 @@ The following example shows that node-facing ports 1 through 12 are disabled on 
 (cs1)(Interface 0/1-0/12)# exit
 (cs1)(Config)# exit
 ----
-+
+
 The following example shows that node-facing ports 1 through 12 are disabled on switch cs2:
-+
+
 ----
 
 (c2)> enable
@@ -95,11 +117,18 @@ The following example shows that node-facing ports 1 through 12 are disabled on 
 (cs2)(Interface 0/1-0/12)# exit
 (cs2)(Config)# exit
 ----
+====
 
-. Verify that the ISL and the physical ports on the ISL between the two CN1610 cluster switches cs1 and cs2 are `up`: `show port-channel`
+. Verify that the ISL and the physical ports on the ISL between the two CN1610 cluster switches cs1 and cs2 are `up`: 
 +
+`show port-channel`
++
+.Show example
+[%collapsible]
+====
+
 The following example shows that the ISL ports are `up` on switch cs1:
-+
+
 ----
 
 (cs1)# show port-channel 3/1
@@ -123,9 +152,9 @@ Ports  Timeout       Speed     Active
 0/16   actor/long    10G Full  True
        partner/long
 ----
-+
+
 The following example shows that the ISL ports are `up` on switch cs2:
-+
+
 ----
 
 (cs2)# show port-channel 3/1
@@ -149,13 +178,19 @@ Ports  Timeout       Speed     Active
 0/16   actor/long    10G Full  True
        partner/long
 ----
+====
 
-. Display the list of neighboring devices: `show isdp neighbors`
+. Display the list of neighboring devices: 
++
+`show isdp neighbors`
 +
 This command provides information about the devices that are connected to the system.
 +
+.Show example
+[%collapsible]
+====
 The following example lists the neighboring devices on switch cs1:
-+
+
 ----
 
 (cs1)# show isdp neighbors
@@ -168,9 +203,9 @@ cs2                    0/14         11        S            CN1610    0/14
 cs2                    0/15         11        S            CN1610    0/15
 cs2                    0/16         11        S            CN1610    0/16
 ----
-+
+
 The following example lists the neighboring devices on switch cs2:
-+
+
 ----
 
 (cs2)# show isdp neighbors
@@ -183,11 +218,17 @@ cs1                    0/14         11        S            CN1610    0/14
 cs1                    0/15         11        S            CN1610    0/15
 cs1                    0/16         11        S            CN1610    0/16
 ----
+====
 
-. Display the list of cluster ports: `network port show`
+. Display the list of cluster ports: 
 +
+`network port show`
++
+.Show example
+[%collapsible]
+====
 The following example shows the available cluster ports:
-+
+
 ----
 
 cluster::*> network port show -ipspace Cluster
@@ -216,11 +257,17 @@ e4a       Cluster      Cluster          up   9000  auto/10000 healthy  false
 e4b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 12 entries were displayed.
 ----
+====
 
-. Verify that each cluster port is connected to the corresponding port on its partner cluster node: `run * cdpd show-neighbors`
+. Verify that each cluster port is connected to the corresponding port on its partner cluster node: 
 +
+`run * cdpd show-neighbors`
++
+.Show example
+[%collapsible]
+====
 The following example shows that cluster ports e1a and e2a are connected to the same port on their cluster partner node:
-+
+
 ----
 
 cluster::*> run * cdpd show-neighbors
@@ -242,11 +289,17 @@ Port   Device          Interface              Platform         Time  Capability
 e1a    node1           e1a                    FAS3270           161   H
 e2a    node1           e2a                    FAS3270           161   H
 ----
+====
 
-. Verify that all of the cluster LIFs are `up` and operational: `network interface show -vserver Cluster`
+. Verify that all of the cluster LIFs are `up` and operational: 
++ 
+`network interface show -vserver Cluster`
 +
 Each cluster LIF should display `true` in the "`Is Home`" column.
 +
+.Show example
+[%collapsible]
+====
 ----
 
 cluster::*> network interface show -vserver Cluster
@@ -262,13 +315,19 @@ node2
 
 4 entries were displayed.
 ----
+====
 +
 
 NOTE: The following modification and migration commands in steps 10 through 13 must be done from the local node.
 
 
-. Verify that all cluster ports are `up`: `network port show -ipspace Cluster`
+. Verify that all cluster ports are `up`: 
 +
+`network port show -ipspace Cluster`
++
+.Show example
+[%collapsible]
+====
 ----
 cluster::*> network port show -ipspace Cluster
 
@@ -284,9 +343,15 @@ node2
 
 4 entries were displayed.
 ----
+====
 
-. Set the `-auto-revert` parameter to `false` on cluster LIFs clus1 and clus2 on both nodes: `network interface modify`
+. Set the `-auto-revert` parameter to `false` on cluster LIFs clus1 and clus2 on both nodes: 
 +
+`network interface modify`
++
+.Show example
+[%collapsible]
+====
 ----
 
 cluster::*> network interface modify -vserver node1 -lif clus1 -auto-revert false
@@ -294,33 +359,47 @@ cluster::*> network interface modify -vserver node1 -lif clus2 -auto-revert fals
 cluster::*> network interface modify -vserver node2 -lif clus1 -auto-revert false
 cluster::*> network interface modify -vserver node2 -lif clus2 -auto-revert false
 ----
+====
 +
 
 NOTE: For release 8.3 and later, use the following command: `network interface modify -vserver Cluster -lif * -auto-revert false`
 
 
-. Ping the cluster ports to verify the cluster connectivity: `cluster ping-cluster local`
+. Ping the cluster ports to verify the cluster connectivity: 
++
+`cluster ping-cluster local`
 +
 The command output shows connectivity between all of the cluster ports.
 
-. Migrate clus1 to port e2a on the console of each node: `network interface migrate`
+. Migrate clus1 to port e2a on the console of each node: 
 +
+`network interface migrate`
++
+.Show example
+[%collapsible]
+====
 The following example shows the process for migrating clus1 to port e2a on node1 and node2:
-+
+
 ----
 
 cluster::*> network interface migrate -vserver node1 -lif clus1 -source-node node1 -dest-node node1 -dest-port e2a
 cluster::*> network interface migrate -vserver node2 -lif clus1 -source-node node2 -dest-node node2 -dest-port e2a
 ----
+====
 +
 
 NOTE: For release 8.3 and later, use the following command: `network interface migrate -vserver Cluster -lif clus1 -destination-node node1 -destination-port e2a`
 
 
-. Verify that the migration took place: `network interface show -vserver Cluster`
+. Verify that the migration took place: 
 +
+`network interface show -vserver Cluster`
++
+.Show example
+[%collapsible]
+====
 The following example verifies that clus1 is migrated to port e2a on node1 and node2:
-+
+
 ----
 
 cluster::*> network interface show -vserver Cluster
@@ -336,21 +415,33 @@ node2
 
 4 entries were displayed.
 ----
+====
 
-. Shut down cluster port e1a on both nodes: `network port modify`
+. Shut down cluster port e1a on both nodes: 
 +
+`network port modify`
++
+.Show example
+[%collapsible]
+====
 The following example shows how to shut down the port e1a on node1 and node2:
-+
+
 ----
 
 cluster::*> network port modify -node node1 -port e1a -up-admin false
 cluster::*> network port modify -node node2 -port e1a -up-admin false
 ----
+====
 
-. Verify the port status: `network port show`
+. Verify the port status: 
 +
+`network port show`
++
+.Show example
+[%collapsible]
+====
 The following example shows that port e1a is `down` on node1 and node2:
-+
+
 ----
 
 cluster::*> network port show -role cluster
@@ -366,16 +457,21 @@ node2
 
 4 entries were displayed.
 ----
+====
 
 . Disconnect the cable from cluster port e1a on node1, and then connect e1a to port 1 on cluster switch cs1, using the appropriate cabling supported by the CN1610 switches.
 +
 The link:https://hwu.netapp.com/Switch/Index[Hardware Universe^] contains more information about cabling.
 
 . Disconnect the cable from cluster port e1a on node2, and then connect e1a to port 2 on cluster switch cs1, using the appropriate cabling supported by the CN1610 switches.
+
 . Enable all of the node-facing ports on cluster switch cs1.
 +
+.Show example
+[%collapsible]
+====
 The following example shows that ports 1 through 12 are enabled on switch cs1:
-+
+
 ----
 
 (cs1)# configure
@@ -384,21 +480,33 @@ The following example shows that ports 1 through 12 are enabled on switch cs1:
 (cs1)(Interface 0/1-0/12)# exit
 (cs1)(Config)# exit
 ----
+====
 
-. Enable the first cluster port e1a on each node: `network port modify`
+. Enable the first cluster port e1a on each node: 
 +
+`network port modify`
++
+.Show example
+[%collapsible]
+====
 The following example shows how to enable the port e1a on node1 and node2:
-+
+
 ----
 
 cluster::*> network port modify -node node1 -port e1a -up-admin true
 cluster::*> network port modify -node node2 -port e1a -up-admin true
 ----
+====
 
-. Verify that all of the cluster ports are `up`: `network port show -ipspace Cluster`
+. Verify that all of the cluster ports are `up`: 
 +
+`network port show -ipspace Cluster`
++
+.Show example
+[%collapsible]
+====
 The following example shows that all of the cluster ports are `up` on node1 and node2:
-+
+
 ----
 
 cluster::*> network port show -ipspace Cluster
@@ -414,25 +522,37 @@ node2
 
 4 entries were displayed.
 ----
+====
 
-. Revert clus1 (which was previously migrated) to e1a on both nodes: `network interface revert`
+. Revert clus1 (which was previously migrated) to e1a on both nodes: 
 +
+`network interface revert`
++
+.Show example
+[%collapsible]
+====
 The following example shows how to revert clus1 to the port e1a on node1 and node2:
-+
+
 ----
 
 cluster::*> network interface revert -vserver node1 -lif clus1
 cluster::*> network interface revert -vserver node2 -lif clus1
 ----
+====
 +
 
 NOTE: For release 8.3 and later, use the following command: `network interface revert -vserver Cluster -lif <nodename_clus<N>>`
 
 
-. Verify that all of the cluster LIFs are `up`, operational, and display as `true` in the "Is Home" column: `network interface show -vserver Cluster`
+. Verify that all of the cluster LIFs are `up`, operational, and display as `true` in the "Is Home" column: 
 +
+`network interface show -vserver Cluster`
++
+.Show example
+[%collapsible]
+====
 The following example shows that all of the LIFs are `up` on node1 and node2 and that the "Is Home" column results are `true`:
-+
+
 ----
 
 cluster::*> network interface show -vserver Cluster
@@ -448,11 +568,17 @@ node2
 
 4 entries were displayed.
 ----
+====
 
-. Display information about the status of the nodes in the cluster: `cluster show`
+. Display information about the status of the nodes in the cluster: 
 +
+`cluster show`
++
+.Show example
+[%collapsible]
+====
 The following example displays information about the health and eligibility of the nodes in the cluster:
-+
+
 ----
 
 cluster::*> cluster show
@@ -461,25 +587,37 @@ Node                 Health  Eligibility   Epsilon
 node1                true    true          false
 node2                true    true          false
 ----
+====
 
-. Migrate clus2 to port e1a on the console of each node: `network interface migrate`
+. Migrate clus2 to port e1a on the console of each node:
 +
+`network interface migrate`
++
+.Show example
+[%collapsible]
+====
 The following example shows the process for migrating clus2 to port e1a on node1 and node2:
-+
+
 ----
 
 cluster::*> network interface migrate -vserver node1 -lif clus2 -source-node node1 -dest-node node1 -dest-port e1a
 cluster::*> network interface migrate -vserver node2 -lif clus2 -source-node node2 -dest-node node2 -dest-port e1a
 ----
+====
 +
 
 NOTE: For release 8.3 and later, use the following command: `network interface migrate -vserver Cluster -lif node1_clus2 -dest-node node1 -dest-port e1a`
 
 
-. Verify that the migration took place: `network interface show -vserver Cluster`
+. Verify that the migration took place: 
 +
+`network interface show -vserver Cluster`
++
+.Show example
+[%collapsible]
+====
 The following example verifies that clus2 is migrated to port e1a on node1 and node2:
-+
+
 ----
 
 cluster::*> network interface show -vserver Cluster
@@ -495,21 +633,33 @@ node2
 
 4 entries were displayed.
 ----
+====
 
-. Shut down cluster port e2a on both nodes: `network port modify`
+. Shut down cluster port e2a on both nodes: 
 +
+`network port modify`
++
+.Show example
+[%collapsible]
+====
 The following example shows how to shut down the port e2a on node1 and node2:
-+
+
 ----
 
 cluster::*> network port modify -node node1 -port e2a -up-admin false
 cluster::*> network port modify -node node2 -port e2a -up-admin false
 ----
+====
 
-. Verify the port status: `network port show`
+. Verify the port status: 
 +
+`network port show`
++
+.Show example
+[%collapsible]
+====
 The following example shows that port e2a is `down` on node1 and node2:
-+
+
 ----
 
 cluster::*> network port show -role cluster
@@ -525,13 +675,19 @@ node2
 
 4 entries were displayed.
 ----
+====
 
 . Disconnect the cable from cluster port e2a on node1, and then connect e2a to port 1 on cluster switch cs2, using the appropriate cabling supported by the CN1610 switches.
+
 . Disconnect the cable from cluster port e2a on node2, and then connect e2a to port 2 on cluster switch cs2, using the appropriate cabling supported by the CN1610 switches.
+
 . Enable all of the node-facing ports on cluster switch cs2.
 +
+.Show example
+[%collapsible]
+====
 The following example shows that ports 1 through 12 are enabled on switch cs2:
-+
+
 ----
 
 (cs2)# configure
@@ -540,21 +696,31 @@ The following example shows that ports 1 through 12 are enabled on switch cs2:
 (cs2)(Interface 0/1-0/12)# exit
 (cs2)(Config)# exit
 ----
+====
 
-. Enable the second cluster port e2a on each node:
+. Enable the second cluster port e2a on each node.
 +
+.Show example
+[%collapsible]
+====
 The following example shows how to enable the port e2a on node1 and node2:
-+
+
 ----
 
 cluster::*> network port modify -node node1 -port e2a -up-admin true
 cluster::*> network port modify -node node2 -port e2a -up-admin true
 ----
+====
 
-. Verify that all of the cluster ports are `up`: `network port show -ipspace Cluster`
+. Verify that all of the cluster ports are `up`: 
 +
+`network port show -ipspace Cluster`
++
+.Show example
+[%collapsible]
+====
 The following example shows that all of the cluster ports are `up` on node1 and node2:
-+
+
 ----
 
 cluster::*> network port show -ipspace Cluster
@@ -570,27 +736,40 @@ node2
 
 4 entries were displayed.
 ----
+====
 
-. Revert clus2 (which was previously migrated) to e2a on both nodes: `network interface revert`
+. Revert clus2 (which was previously migrated) to e2a on both nodes: 
 +
+`network interface revert`
++
+.Show example
+[%collapsible]
+====
 The following example shows how to revert clus2 to the port e2a on node1 and node2:
-+
+
 ----
 
 cluster::*> network interface revert -vserver node1 -lif clus2
 cluster::*> network interface revert -vserver node2 -lif clus2
 ----
+====
 +
 
 NOTE: For release 8.3 and later, the commands are:
 `cluster::*> network interface revert -vserver Cluster -lif node1_clus2` and
 `cluster::*> network interface revert -vserver Cluster -lif node2_clus2`
 
+=== Step 3: Complete the configuration
 
-. Verify that all of the interfaces display `true` in the "Is Home" column: `network interface show -vserver Cluster`
+. Verify that all of the interfaces display `true` in the "Is Home" column: 
 +
+`network interface show -vserver Cluster`
++
+.Show example
+[%collapsible]
+====
 The following example shows that all of the LIFs are `up` on node1 and node2 and that the "Is Home" column results are `true`:
-+
+
 ----
 
 cluster::*> network interface show -vserver Cluster
@@ -605,15 +784,23 @@ node2
              clus1      up/up      10.10.11.1/16      node2       e1a     true
              clus2      up/up      10.10.11.2/16      node2       e2a     true
 ----
+====
 
-. Ping the cluster ports to verify the cluster connectivity: `cluster ping-cluster local`
+. Ping the cluster ports to verify the cluster connectivity: 
++
+`cluster ping-cluster local`
 +
 The command output shows connectivity between all of the cluster ports.
 
-. Verify that both nodes have two connections to each switch: `show isdp neighbors`
+. Verify that both nodes have two connections to each switch: 
 +
+`show isdp neighbors`
++
+.Show example
+[%collapsible]
+====
 The following example shows the appropriate results for both switches:
-+
+
 ----
 
 (cs1)# show isdp neighbors
@@ -640,36 +827,55 @@ cs1                    0/14         11        S            CN1610    0/14
 cs1                    0/15         11        S            CN1610    0/15
 cs1                    0/16         11        S            CN1610    0/16
 ----
+====
 
-. Display information about the devices in your configuration: `network device discovery show`
-. Disable the two-node switchless configuration settings on both nodes using the advanced privilege command: `network options detect-switchless modify`
+. Display information about the devices in your configuration: 
 +
+`network device discovery show`
++
+. Disable the two-node switchless configuration settings on both nodes using the advanced privilege command: 
++
+`network options detect-switchless modify`
++
+.Show example
+[%collapsible]
+====
 The following example shows how to disable the switchless configuration settings:
-+
+
 ----
 
 cluster::*> network options detect-switchless modify -enabled false
 ----
+====
 +
 
 NOTE: For release 9.2 and later, skip this step since the configuration is automatically converted.
 
 
-. Verify that the settings are disabled: `network options detect-switchless-cluster show`
+. Verify that the settings are disabled: 
 +
+`network options detect-switchless-cluster show`
++
+.Show example
+[%collapsible]
+====
 The `false` output in the following example shows that the configuration settings are disabled:
-+
+
 ----
 
 cluster::*> network options detect-switchless-cluster show
 Enable Switchless Cluster Detection: false
 ----
+====
 +
 
 NOTE: For release 9.2 and later, wait until `Enable Switchless Cluster` is set to false. This can take up to three minutes.
 
-. Configure clusters clus1 and clus2 to auto revert on each node and confirm:
+. Configure clusters clus1 and clus2 to auto revert on each node and confirm.
 +
+.Show example
+[%collapsible]
+====
 ----
 
 cluster::*> network interface modify -vserver node1 -lif clus1 -auto-revert true
@@ -677,15 +883,21 @@ cluster::*> network interface modify -vserver node1 -lif clus2 -auto-revert true
 cluster::*> network interface modify -vserver node2 -lif clus1 -auto-revert true
 cluster::*> network interface modify -vserver node2 -lif clus2 -auto-revert true
 ----
+====
 +
 
 NOTE: For release 8.3 and later, use the following command: `network interface modify -vserver Cluster -lif * -auto-revert true` to enable auto-revert on all nodes in the cluster.
 
 
-. Verify the status of the node members in the cluster: `cluster show`
+. Verify the status of the node members in the cluster: 
 +
+`cluster show`
++
+.Show example
+[%collapsible]
+====
 The following example shows information about the health and eligibility of the nodes in the cluster:
-+
+
 ----
 
 cluster::*> cluster show
@@ -694,23 +906,22 @@ Node                 Health  Eligibility   Epsilon
 node1                true    true          false
 node2                true    true          false
 ----
+====
 
 . If you suppressed automatic case creation, reenable it by invoking an AutoSupport message:
 +
 `system node autosupport invoke -node * -type all -message MAINT=END`
 +
+.Show example
+[%collapsible]
+====
 ----
 cluster::*> system node autosupport invoke -node * -type all -message MAINT=END
 ----
+====
 
-. Change the privilege level back to admin: `set -privilege admin`
+. Change the privilege level back to admin: 
++
+`set -privilege admin`
 
-*Related information*
 
-http://hwu.netapp.com[Hardware Universe^]
-
-http://support.netapp.com/NOW/download/software/cm_switches_ntap/[NetApp CN1601 and CN1610 description page^]
-
-https://library.netapp.com/ecm/ecm_download_file/ECMP1118645[CN1601 and CN1610 Switch Setup and Configuration Guide^]
-
-https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Software/ONTAP_OS/How_to_suppress_automatic_case_creation_during_scheduled_maintenance_windows[NetApp KB Article 1010449: How to suppress automatic case creation during scheduled maintenance windows^]
