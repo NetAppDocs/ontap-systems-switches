@@ -64,9 +64,15 @@ where `h` is the duration of the maintenance window in hours. The message notifi
 +
 In the following example, the command suppresses automatic case creation for two hours:
 +
+.Show example
+[%collapsible]
+====
 ----
 cluster::*> system node autosupport invoke -node * -type all -message MAINT=2h
 ----
+====
+
+=== Step 2: Configure ports and cabling
 
 .	Organize the cluster ports on each switch into groups so that the cluster ports in group1 go to cluster switch1 and the cluster ports in group2 go to cluster switch2. These groups are required later in the procedure.
 .	Identify the cluster ports and verify link status and health:
@@ -82,7 +88,6 @@ Verify that the ports have a value of `up` for the “Link” column and a value
 .Show example
 [%collapsible]
 ====
-
 ----
 cluster::> network port show -ipspace Cluster
 Node: node1
@@ -160,6 +165,7 @@ node2/cdp
 ----
 ====
 
+
 .	Verify the cluster connectivity:
 +
 `cluster ping-cluster -node local`
@@ -198,7 +204,6 @@ Enable Switchless Cluster: true
 +
 `cluster ping-cluster -node local`
 
-=== Step 2: Configure ports
 
 .	Set up the switchless configuration for the ports in group 2.
 +
@@ -214,6 +219,9 @@ image::../media/tnsc_clusterswitch2_disconnected.PNG[ClusterSwitch2 disconnected
 In the following example, "e0a" on node1 is connected to "e0a" on node2 and "e0b" on node1 is connected to "e0b" on node2:
 +
 image::../media/tnsc_node1_and_node2_direct_connection.PNG[Direct connection between ports on node1 and node2]
+
+=== Step 3: Verify the configuration
+
 .	Verify that the ports on both nodes are correctly connected:
 +
 `network device-discovery show -port _cluster_port_`
@@ -245,11 +253,11 @@ node2/lldp
 ----
 ====
 
-.	Reenable auto-revert for the cluster LIFs:
+.	Re-enable auto-revert for the cluster LIFs:
 +
 `network interface modify -vserver Cluster -lif * -auto-revert true`
 
-.	Verify that all LIFs are home. This might take a few seconds:
+.	Verify that all LIFs are home. This might take a few seconds.
 +
 `network interface show -vserver Cluster -lif _lif_name_`
 +
@@ -274,7 +282,6 @@ If any cluster LIFS have not returned to their home ports, revert them manually:
 +
 `network interface revert -vserver Cluster -lif _lif_name_`
 
-=== Step 3: Verify the configuration
 
 .	Check the cluster status of the nodes from the system console of either node:
 +

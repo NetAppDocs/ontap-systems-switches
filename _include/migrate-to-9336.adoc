@@ -443,11 +443,15 @@ Verify that the moved cluster ports see the cs1-new switch as the neighbor.
 +
 . Confirm the switch port connections from switch cs1-new’s perspective:
 +
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cs1-new# *show interface brief*
 cs1-new# *show cdp neighbors*
 ----
+====
 
 . Verify that the ISL between cs1-new and cs2-new is still operational: 
 +
@@ -490,12 +494,18 @@ Group Port-       Type     Protocol  Member Ports
 ----
 ====
 
+=== Step 3: Verify the configuration
+
 . Enable auto-revert on the cluster LIFs.
 +
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert true*
 ----
+====
 
 . Verify that the cluster LIFs have reverted to their home ports (this might take a minute):
 +
@@ -504,8 +514,6 @@ cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert true
 If the cluster LIFs have not reverted to their home port, manually revert them: 
 +
 `network interface revert -vserver Cluster -lif *`
-
-=== Step 3: Verify the configuration
 
 . Verify that the cluster is healthy: 
 +

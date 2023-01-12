@@ -18,7 +18,7 @@ Review the following requirements for the cluster environment.
 
 * Be aware that most systems require two dedicated cluster-network ports on each controller.
 
-* Make sure that the BES-53248 cluster switch is set up as described in link:replace-requirements.html[Broadcom-supported BES-53248 switches setup and configuration^] before starting this migration process.
+* Make sure that the BES-53248 cluster switch is set up as described in link:replace-switch-reqs.html[Replace requirements] before starting this migration process.
 
 * For the two-node switchless configuration, ensure that:
 
@@ -44,6 +44,7 @@ The https://hwu.netapp.com/Home/Index[_NetApp Hardware Universe_^] contains info
  ** Reference Configuration Files (RCFs) are applied to the switches.
 
 * Any site customization (SMTP, SNMP, and SSH) are configured on the new switches.
+
 
 == Migrate to the cluster environment
 
@@ -563,17 +564,18 @@ RPC status:
 +
 `system node autosupport invoke -node * -type all -message MAINT=END`
 +
+.Show example
+[%collapsible]
+====
 ----
 cluster1::*> system node autosupport invoke -node \* -type all -message MAINT=END
 ----
+====
++
+For more information, see: https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Software/ONTAP_OS/How_to_suppress_automatic_case_creation_during_scheduled_maintenance_windows[NetApp KB Article: How to suppress automatic case creation during scheduled maintenance windows^]
 
 .What's next?
 
 After your migration completes, you might need to install the required configuration file to support the Cluster Switch Health Monitor (CSHM) for BES-53248 cluster switches. See link:configure-health-monitor.html[Install the Cluster Switch Health Monitor (CSHM) configuration file] and link:configure-log-collection.html[Enable the log collection feature].
 
 
-.For more information
-
-* https://hwu.netapp.com/Home/Index[NetApp Hardware Universe^]
-
-* https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Software/ONTAP_OS/How_to_suppress_automatic_case_creation_during_scheduled_maintenance_windows[NetApp KB Article: How to suppress automatic case creation during scheduled maintenance windows^]

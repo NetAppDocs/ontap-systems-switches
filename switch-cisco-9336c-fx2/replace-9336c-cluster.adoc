@@ -19,7 +19,7 @@ Before performing the switch replacement, make sure that:
  ** The existing cluster is verified as completely functional, with at least one fully connected cluster switch.
  ** All cluster ports are *up*.
  ** All cluster logical interfaces (LIFs) are *up* and on their home ports.
- ** The ONTAP `cluster ping-cluster -node node1`` command must indicate that basic connectivity and larger than PMTU communication are successful on all paths.
+ ** The ONTAP `cluster ping-cluster -node node1` command must indicate that basic connectivity and larger than PMTU communication are successful on all paths.
 * On the Nexus 9336C-FX2 replacement switch:
  ** Management network connectivity on the replacement switch is functional.
  ** Console access to the replacement switch is in place.
@@ -30,7 +30,7 @@ Before performing the switch replacement, make sure that:
 +
 Any previous site customizations, such as STP, SNMP, and SSH, are copied to the new switch.
 
-* You must execute the command for migrating a cluster LIF from the node where the cluster LIF is hosted.
+* You have executed the command for migrating a cluster LIF from the node where the cluster LIF is hosted.
 
 == Replace the switch
 
@@ -226,7 +226,7 @@ RPC status:
 ----
 ====
 
-=== Step 2: Configure ports
+=== Step 2: Configure cables and ports
 
 . Shut down the ISL ports 1/35 and 1/36 on the Nexus 9336C-FX2 switch cs1.
 +

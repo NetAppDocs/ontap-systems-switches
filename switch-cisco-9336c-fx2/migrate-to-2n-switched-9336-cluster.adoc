@@ -30,7 +30,7 @@ The migration process works for all nodes using optical or Twinax ports, but is 
 ** There is console access to the cluster switches.
 ** Nexus 9336C-FX2 node-to-node switch and switch-to-switch connections use Twinax or fiber cables.
 +
-See https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches^] for more information about cabling.
+See https://hwu.netapp.com[Hardware Universe^] for more information about cabling.
 
 * Inter-Switch Link (ISL) cables are connected to ports 1/35 and 1/36 on both 9336C-FX2 switches.
 * Initial customization of both the 9336C-FX2 switches are completed, so that:
@@ -113,7 +113,7 @@ Group Port-       Type     Protocol  Member Ports
 1     Po1(SU)     Eth      LACP      Eth1/35(P)   Eth1/36(P)
 ----
 
-The following example shows that the ISL ports are up on switch cs2 :
+The following example shows that the ISL ports are up on switch cs2:
 
 ----
 (cs2)# show port-channel summary
@@ -215,7 +215,7 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy
 +
 `network interface show -vserver Cluster`
 +
-Each cluster LIF should display `true` for `Is Home` and have a `Status Admin/Oper` of up/up
+Each cluster LIF should display `true` for `Is Home` and have a `Status Admin/Oper` of up/up.
 +
 .Show example 
 [%collapsible]

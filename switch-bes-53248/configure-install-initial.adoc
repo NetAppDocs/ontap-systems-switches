@@ -9,7 +9,7 @@ summary: 'You can use this procedure to perform the initial installation of the 
 :imagesdir: ../media/
 
 [.lead]
-Follow these steps to perform an initial set up of the BES-53248 cluster switch.
+Follow these steps to perform an initial setup of the BES-53248 cluster switch.
 
 .What you'll need
 
@@ -20,7 +20,7 @@ Follow these steps to perform an initial set up of the BES-53248 cluster switch.
 ** link:components-bes53248.html[Components and part numbers]
 ** link:required-documentation-53248.html[Documentation requirements]
 
-.Switch and node nomenclature
+.About the examples
 
 The examples in the configuration procedures use the following switch and node nomenclature:
 
@@ -47,6 +47,9 @@ The examples in the configuration procedures use the following switch and node n
 . Log in to the switch as `admin` and press *Enter* when prompted for a password.
 The default switch name is *routing*. At the prompt, enter `enable`. This gives you access to Privileged EXEC mode for switch configuration.
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 User: *admin*
@@ -55,25 +58,34 @@ Password:
 Password:
 (Routing)#
 ----
+====
 
-. Change the switch name to *cs2*:
+. Change the switch name to *cs2*.
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 (Routing)# *hostname cs2*
 (cs2)#
 ----
+====
 
 . To set a static IP address, use the `serviceport protocol`, `network protocol`, and `serviceport ip` commands as shown in the example.
 +
 The serviceport is set to use DHCP by default. The IP address, subnet mask, and default gateway address are assigned automatically.
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 (cs2)# *serviceport protocol none*
 (cs2)# *network protocol none*
 (cs2)# *serviceport ip ipaddr netmask gateway*
 ----
+====
 
 . Verify the results using the command:
 +

@@ -9,7 +9,7 @@ summary: Replacing a defective Broadcom-supported BES-53248 cluster switch in a 
 :imagesdir: ../media/
 
 [.lead]
-Replacing a defective Broadcom-supported BES-53248 cluster switch in a cluster network is a nondisruptive procedure (NDU).
+Follow these steps to replace a defective Broadcom-supported BES-53248 cluster switch in a cluster network. This is a nondisruptive procedure (NDU).
 
 .About the examples
 
@@ -164,12 +164,16 @@ Cluster   node2_clus2  true
 
 . Shut down the ISL ports 0/55 and 0/56 on the BES-53248 switch cs1:
 +
+.Show example topology
+[%collapsible]
+====
 [subs=+quotes]
 ----
 (cs1)# *config*
 (cs1)(config)# *interface 0/55-0/56*
 (cs1)(interface 0/55-0/56)# *shutdown*
 ----
+====
 
 . Remove all cables from the BES-53248 cs2 switch, and then connect them to the same ports on the BES-53248 newcs2 switch.
 . Bring up the ISLs ports 0/55 and 0/56 between the cs1 and newcs2 switches, and then verify the port channel operation status.
