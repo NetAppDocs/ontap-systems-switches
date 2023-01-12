@@ -35,6 +35,9 @@ Make sure you consult the switch compatibility table on the http://mysupport.net
 * All cluster ports set up.
 * All cluster logical interfaces (LIFs) set up.
 * A successful communication path: The ONTAP (privilege: advanced) `cluster ping-cluster -node node1` command must indicate that `larger than PMTU communication` is successful on all paths.
+* A supported version of RCF and ONTAP. 
++
+Make sure you consult the switch compatibility table on the http://mysupport.netapp.com/NOW/download/software/cm_switches_ntap/[NetApp CN1601 and CN1610 Switches^] page for the supported RCF and ONTAP versions.
 
 .About this task
 The following procedure uses the clustered Data ONTAP 8.2 syntax. As a result, the cluster Vserver, LIF names, and CLI output are different than those in Data ONTAP 8.3.
