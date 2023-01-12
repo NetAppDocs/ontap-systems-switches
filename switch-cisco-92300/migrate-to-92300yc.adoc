@@ -16,18 +16,15 @@ link:switch-cisco-92300/setup-install-cshm-file.html[Install the Cluster Switch 
 
 == Review requirements
 
-Ensure that:
-
-* The existing cluster is properly set up and functioning.
-* Some of the ports are configured on Nexus 92300YC switches to run at 10 GbE or 40 GbE.
-* You have planned, migrated, and documented 10 GbE and 40 GbE connectivity from nodes to Nexus 92300YC cluster switches.
+.What you'll need
+* A fully functional existing cluster.
+* 10 GbE and 40 GbE connectivity from nodes to Nexus 92300YC cluster switches.
 * All cluster ports are in the up state to ensure nondisruptive operations.
-* The Nexus 92300YC cluster switches are configured and operating under the proper version of NX-OS installed and reference configuration file (RCF) applied.
-* The existing cluster network configuration have the following:
- ** A redundant and fully functional NetApp cluster using both older Cisco switches.
- ** Management connectivity and console access to both the older Cisco switches and the new switches.
- ** All cluster LIFs in the up state with the cluster LIFs are on their home ports.
- ** ISL ports enabled and cabled between the older Cisco switches and between the new switches.
+* Proper version of NX-OS and reference configuration file (RCF) installed on the Nexus 92300YC cluster switches.
+ * A redundant and fully functional NetApp cluster using both older Cisco switches.
+ * Management connectivity and console access to both the older Cisco switches and the new switches.
+ * All cluster LIFs in the up state with the cluster LIFs are on their home ports.
+ * ISL ports enabled and cabled between the older Cisco switches and between the new switches.
 
 == Migrate the switch
 
@@ -45,6 +42,7 @@ The examples in this procedure use the following switch and node nomenclature:
  ** The temporary ISL between c1 and cs1 is then removed.
 
 .Ports used for connections
+* Some of the ports are configured on Nexus 92300YC switches to run at 10 GbE or 40 GbE.
 * The cluster switches use the following ports for connections to nodes:
  ** Ports e1/1-48 (10/25 GbE), e1/49-64 (40/100 GbE): Nexus 92300YC
  ** Ports e1/1-40 (10 GbE): Nexus 5596UP
@@ -55,7 +53,7 @@ The examples in this procedure use the following switch and node nomenclature:
  ** Ports e1/41-48 (10 GbE): Nexus 5596UP
  ** Ports e1/33-40 (10 GbE): Nexus 5020
  ** Ports e1/13-20 (10 GbE): Nexus 5010
-* The https://hwu.netapp.com/SWITCH/INDEX[_Hardware Universe - Switches_^] contains information about supported cabling for all cluster switches.
+* https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches^] contains information about supported cabling for all cluster switches.
 
 * The ONTAP and NX-OS versions supported in this procedure are on the https://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switches^] page.
 
