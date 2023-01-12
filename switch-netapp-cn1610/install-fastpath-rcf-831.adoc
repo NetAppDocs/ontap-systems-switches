@@ -11,6 +11,25 @@ summary: "The installation steps are the same for both NetApp CN1601 management 
 [.lead]
 The installation steps are the same for both NetApp CN1601 management switches and CN1610 cluster switches running ONTAP 8.3.1 or later. However, the two models require different software and RCFs.
 
+== Review requirements
+.What you'll need
+* A current backup of the switch configuration.
+* A fully functioning cluster (no errors in the logs and no defective cluster network interface cards (NICs) or similar issues).
+* Fully functional port connections on the cluster switch.
+* All cluster ports set up.
+* All cluster logical interfaces (LIFs) set up (must not have been migrated).
+* A successful communication path: The ONTAP (privilege: advanced) `cluster ping-cluster -node node1` command must indicate that `larger than PMTU communication` is successful on all paths.
+* A supported version of FASTPATH, RCF, and ONTAP. 
++
+Make sure you consult the switch compatibility table on the http://mysupport.netapp.com/NOW/download/software/cm_switches_ntap/[NetApp CN1601 and CN1610 Switches^] page for the supported FASTPATH, RCF, and ONTAP versions.
+
+== Install software
+The following procedure uses the clustered Data ONTAP 8.2 syntax. As a result, the cluster Vserver, LIF names, and CLI output are different than those in Data ONTAP 8.3.
+
+There can be command dependencies between command syntax in the RCF and FASTPATH versions.
+
+NOTE: In RCF version 1.2, support for Telnet has been explicitly disabled because of security concerns. To avoid connectivity issues while installing RCF 1.2, verify that Secure Shell (SSH) is enabled. The https://library.netapp.com/ecm/ecm_get_file/ECMP1117874[NetApp CN1610 Switch Administrator's Guide^] has more information about SSH.
+
 .About the examples
 The examples in this procedure use the following switch and node nomenclature:
 
@@ -26,25 +45,8 @@ https://hwu.netapp.com/[Hardware Universe^] has more information about the actua
 * The supported Inter-Switch Links (ISLs) are ports 0/13 through 0/16.
 * The supported node connections are ports 0/1 through 0/12.
 
-.What you'll need
-* A current backup of the switch configuration.
-* A fully functioning cluster (no errors in the logs and no defective cluster network interface cards (NICs) or similar issues).
-* Fully functional port connections on the cluster switch.
-* All cluster ports set up.
-* All cluster logical interfaces (LIFs) set up (must not have been migrated).
-* A successful communication path: The ONTAP (privilege: advanced) `cluster ping-cluster -node node1` command must indicate that `larger than PMTU communication` is successful on all paths.
-* A supported version of FASTPATH, RCF, and ONTAP. 
-+
-Make sure you consult the switch compatibility table on the http://mysupport.netapp.com/NOW/download/software/cm_switches_ntap/[NetApp CN1601 and CN1610 Switches^] page for the supported FASTPATH, RCF, and ONTAP versions.
 
-.About this task
-The following procedure uses the clustered Data ONTAP 8.2 syntax. As a result, the cluster Vserver, LIF names, and CLI output are different than those in Data ONTAP 8.3.
-
-There can be command dependencies between command syntax in the RCF and FASTPATH versions.
-
-NOTE: In RCF version 1.2, support for Telnet has been explicitly disabled because of security concerns. To avoid connectivity issues while installing RCF 1.2, verify that Secure Shell (SSH) is enabled. The https://library.netapp.com/ecm/ecm_get_file/ECMP1117874[NetApp CN1610 Switch Administrator's Guide^] has more information about SSH.
-
-== Step 1: Migrate cluster
+=== Step 1: Migrate cluster
 
 . Display information about the network ports on the cluster:
 +
@@ -191,7 +193,7 @@ Copying active to backup
 Copy operation successful
 ----
 
-== Step 2: Install the FASTPATH software and RCF
+=== Step 2: Install the FASTPATH software and RCF
 . Verify the running version of the FASTPATH software.
 +
 ----
@@ -356,7 +358,7 @@ Configuration Saved!
 System will now restart!
 ----
 
-== Step 3: Validate installation
+=== Step 3: Validate installation
 . Log in again, and then verify that the switch is running the new version of the FASTPATH software.
 +
 ----
