@@ -9,32 +9,39 @@ summary: 'You can migrate nondisruptively older Cisco switches for an ONTAP clus
 :imagesdir: ../media/
 
 [.lead]
-You must be aware of certain configuration information, port connections and cabling requirements when you are replacing some older Cisco switches with NVIDIA SN2100 storage switches.
+You can migrate older Cisco switches for an ONTAP cluster to NVIDIA SN2100 storage switches. This is a non-disruptive procedure.
 
-* The following storage switches are supported:
-** Cisco Nexus 9336C-FX2
-** Cisco Nexus 3232C
+== Review requirements
+
+The following storage switches are supported:
+
+* Cisco Nexus 9336C-FX2
+* Cisco Nexus 3232C
 
 * See the https://hwu.netapp.com/[Hardware Universe^] for full details of supported ports and their configurations.
 
-.Before you begin
-You can migrate nondisruptively older Cisco storage switches for an ONTAP cluster to NVIDIA SN2100 storage switches.
+.What you'll need
 
-* The existing cluster must be properly set up and functioning.
-* All storage ports must be in the up state to ensure nondisruptive operations.
-* The NVIDIA SN2100  storage switches must be configured and operating under the proper version of Cumulus Linux installed with the reference configuration file (RCF) applied.
-* The existing storage network configuration must have the following:
+Ensure that:
+
+* The existing cluster is properly set up and functioning.
+* All storage ports are in the up state to ensure nondisruptive operations.
+* The NVIDIA SN2100 storage switches are configured and operating under the proper version of Cumulus Linux installed with the reference configuration file (RCF) applied.
+* The existing storage network configuration has the following:
 ** A redundant and fully functional NetApp cluster using both older Cisco switches.
 ** Management connectivity and console access to both the older Cisco switches and the new switches.
 ** All cluster LIFs in the up state with the cluster LIfs are on their home ports.
 ** ISL ports enabled and cabled between the older Cisco switches and between the new switches.
 * See the https://hwu.netapp.com/[Hardware Universe^] for full details of supported ports and their configurations.
-* You have configured some of the ports on NVIDIA SN2100 switches to run at 100 GbE.
+* Some of the ports are configured on NVIDIA SN2100 switches to run at 100 GbE.
 * You have planned, migrated, and documented 100 GbE connectivity from nodes to NVIDIA SN2100 storage switches.
-+
-NOTE: In this procedure, Cisco Nexus 9336C-FX2 storage switches are used for example commands and outputs.
 
-.About this task
+== Migrate the switches
+
+.About the examples
+
+In this procedure, Cisco Nexus 9336C-FX2 storage switches are used for example commands and outputs.
+
 The examples in this procedure use the following switch and node nomenclature:
 
 * The existing Cisco Nexus 9336C-FX2 storage switches are _S1_ and _S2_.
@@ -48,12 +55,17 @@ The examples in this procedure use the following switch and node nomenclature:
 ** Cabling between the nodes and S2 are then disconnected from S2 and reconnected to sw2.
 ** Cabling between the nodes and S1 are then disconnected from S1 and reconnected to sw1.
 
-.Steps
-. If AutoSupport is enabled, suppress automatic case creation by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=xh`
+=== Step 1: Prepare for migration
+
+. If AutoSupport is enabled, suppress automatic case creation by invoking an AutoSupport message: 
++
+`system node autosupport invoke -node * -type all -message MAINT=xh`
 +
 where _x_ is the duration of the maintenance window in hours.
 
-. Change the privilege level to advanced, entering *y* when prompted to continue: `set -privilege advanced`
+. Change the privilege level to advanced, entering *y* when prompted to continue: 
++
+`set -privilege advanced`
 +
 The advanced prompt (*>) appears.
 +
@@ -62,9 +74,16 @@ The advanced prompt (*>) appears.
 . Determine the administrative or operational status for each storage interface:
 +
 Each port should display enabled for  `Status`.
+
+=== Step 2: Configure cables and ports
+
+. Display the network port attributes: 
 +
-Display the network port attributes: `storage port show`
+`storage port show`
 +
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *storage port show*
@@ -83,9 +102,15 @@ node2
                e5b  ENET  storage  100   enabled  online      30
 cluster1::*>
 ----
+====
 
-. The storage ports on each node are connected to existing storage switches in the following way (from the nodes' perspective) using the command: `network device-discovery show -protocol lldp`
+. Ensure that the storage ports on each node are connected to existing storage switches in the following way (from the nodes' perspective) using the command: 
 +
+`network device-discovery show -protocol lldp`
++
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network device-discovery show -protocol lldp*
@@ -99,9 +124,15 @@ node2      /lldp
             e0c    S1 (7c:ad:4f:98:6d:f0)    Eth1/2           -
             e5b    S2 (7c:ad:4f:98:8e:3c)    Eth1/2           -
 ----
+====
 
-. On switch S1 and S2, the storage ports and switches are connected in the following way (from the switches' perspective) using the command: `show lldp neighbors`
+. On switch S1 and S2, ensure that the storage ports and switches are connected in the following way (from the switches' perspective) using the command: 
 +
+`show lldp neighbors`
++
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 S1# *show lldp neighbors*
@@ -130,29 +161,43 @@ SHFGD1947000186       Eth1/11        120         S               
 SHFGB2017000269       Eth1/12        120         S                   e0b         
 SHFGB2017000269       Eth1/13        120         S                   e0b
 ----
+====
 
 . On switch sw2, shut down the ports connected to the storage ports and nodes of the disk shelves.
 +
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cumulus@sw2:~$ *net add interface swp1-16 link down*
 cumulus@sw2:~$ *net pending*
 cumulus@sw2:~$ *net commit*
 ----
+====
 
 . Move the node storage ports of the controller and disk shelves from the old switch S2 to the new switch sw2, using appropriate cabling supported by NVIDIA SN2100.
 
 . On switch sw2, bring up the ports connected to the storage ports of the nodes and the disk shelves.
 +
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cumulus@sw2:~$ *net del interface swp1-16 link down*
 cumulus@sw2:~$ *net pending*
 cumulus@sw2:~$ *net commit*
 ----
+====
 
-. The storage ports on each node are now connected to the switches in the following way, from  the nodes' perspective:
+. Ensure that the storage ports on each node are now connected to the switches in the following way, from  the nodes' perspective:
 +
+`network device-discovery show -protocol lldp`
++
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network device-discovery show -protocol lldp*
@@ -168,9 +213,15 @@ node2      /lldp
             e0c    S1 (7c:ad:4f:98:6d:f0)    Eth1/2         -
             e5b    sw2 (b8:ce:f6:19:1a:7e)   swp2           -
 ----
+====
 
-. Verify the network port attributes: `storage port show`
+. Verify the network port attributes: 
 +
+`storage port show`
++
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *storage port show*
@@ -189,8 +240,15 @@ node2
                e5b  ENET  storage  100   enabled  online      30
 cluster1::*>
 ----
+====
+
 . On switch sw2, verify that all node storage ports are up:
 +
+`net show interface`
++
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cumulus@sw2:~$ *net show interface*
@@ -208,29 +266,43 @@ UP     swp6    100G  9216   Trunk/L2   SHFFG1826000102 (e0b)   Master: bridge(UP
 ...
 ...
 ----
+====
 
 . On switch sw1, shut down the ports connected to the storage ports of the nodes and the disk shelves.
 +
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cumulus@sw1:~$ *net add interface swp1-16 link down*
 cumulus@sw1:~$ *net pending*
 cumulus@sw1:~$ *net commit*
 ----
+====
 
 . Move the node storage ports of the controller and the disk shelves from the old switch S1 to the new switch sw1, using appropriate cabling supported by NVIDIA SN2100.
 
 . On switch sw1, bring up the ports connected to the storage ports of the nodes and the disk shelves.
 +
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cumulus@sw1:~$ *net del interface swp1-16 link down*
 cumulus@sw1:~$ *net pending*
 cumulus@sw1:~$ *net commit*
 ----
+====
 
-. The storage ports on each node are now connected to the switches in the following way, from the nodes' perspective:
+. Ensure that the storage ports on each node are now connected to the switches in the following way, from the nodes' perspective:
 +
+`network device-discovery show -protocol lldp`
++
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network device-discovery show -protocol lldp*
@@ -246,11 +318,17 @@ node2      /lldp
             e0c    sw1  (b8:ce:f6:19:1b:96)  swp2            -
             e5b    sw2  (b8:ce:f6:19:1a:7e)  swp2            -
 ----
+====
 
-. Verify the final configuration: `storage port show`
+. Verify the final configuration: 
++
+`storage port show`
 +
 Each port should display enabled for `State` and enabled for `Status`.
 +
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *storage port show*
@@ -269,8 +347,14 @@ node2
                e5b  ENET  storage  100   enabled  online      30
 cluster1::*>
 ----
+====
 . On switch sw2, verify that all node storage ports are up:
 +
+`net show interface`
++
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cumulus@sw2:~$ *net show interface*
@@ -288,11 +372,17 @@ UP     swp6    100G  9216   Trunk/L2   SHFFG1826000102 (e0b)   Master: bridge(UP
 ...
 ...
 ----
+====
 
-. Verify that both nodes each have one connection to each switch: `net show lldp`
+. Verify that both nodes each have one connection to each switch: 
 +
+`net show lldp`
++
+.Show example 
+[%collapsible]
+====
 The following example shows the appropriate results for both switches:
-+
+
 [subs=+quotes]
 ----
 cumulus@sw1:~$ *net show lldp*
@@ -317,13 +407,21 @@ swp4       100G   Trunk/L2  SHFFG1826000112        e0b
 swp5       100G   Trunk/L2  SHFFG1826000102        e0b
 swp6       100G   Trunk/L2  SHFFG1826000102        e0b
 ----
+====
+
 //. Enable auto-revert on the cluster LIFs: `cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert True`
 
+=== Step 3: Complete the procedure
+
+. Enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the two commands: 
 +
-. Enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the two commands: `system switch ethernet log setup-password` and `system switch ethernet log enable-collection`
+`system switch ethernet log setup-password` and `system switch ethernet log enable-collection`
 +
 Enter: `system switch ethernet log setup-password`
 +
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *system switch ethernet log setup-password*
@@ -351,9 +449,15 @@ Do you want to continue? {y|n}:: [n] *y*
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 ----
+====
 +
-Followed by: `system switch ethernet log enable-collection`
+Followed by: 
 +
+`system switch ethernet log enable-collection`
++
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *system  switch ethernet log enable-collection*
@@ -365,13 +469,21 @@ Enabling cluster switch log collection.
 
 cluster1::*>
 ----
+====
 +
 NOTE: If any of these commands return an error, contact NetApp support.
 
-. Initiate the switch log collection feature: `system switch ethernet log collect -device *`
+. Initiate the switch log collection feature: 
 +
-Wait for 10 minutes and then check that the log collection was successful using the command: `system switch ethernet log show`
+`system switch ethernet log collect -device *`
 +
+Wait for 10 minutes and then check that the log collection was successful using the command: 
++
+`system switch ethernet log show`
++
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *system switch ethernet log show*
@@ -382,7 +494,12 @@ Index  Switch                       Log Timestamp        Status
 1      sw1 (b8:ce:f6:19:1b:42)      4/29/2022 03:05:25   complete   
 2      sw2 (b8:ce:f6:19:1b:96)      4/29/2022 03:07:42   complete
 ----
+====
 
-. Change the privilege level back to admin: `set -privilege admin`
+. Change the privilege level back to admin: 
++
+`set -privilege admin`
 
-. If you suppressed automatic case creation, reenable it by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=END`
+. If you suppressed automatic case creation, reenable it by invoking an AutoSupport message: 
++
+`system node autosupport invoke -node * -type all -message MAINT=END`

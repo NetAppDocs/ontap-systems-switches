@@ -12,9 +12,7 @@ summary:
 :imagesdir: ./media/
 
 [.lead]
-Learn how to migrate from a switched configuration with direct-attached storage by adding two new shared switches.
-
-You must be aware of certain configuration information, port connections,  and cabling requirements when you are replacing some older Cisco Nexus cluster switches with Cisco Nexus 9336C-FX2 shared switches.
+You can migrate from a switched configuration with direct-attached storage by adding two new shared switches.
 
 .Supported switches
 The following switches are supported:
@@ -39,21 +37,22 @@ The switches use the following ports to connect to nodes:
 
 The https://hwu.netapp.com[Hardware Universe] contains information about supported cabling for all cluster switches.
 
-.Before you begin
+.What you'll need
+
 * Make sure you completed the following tasks:
 ** Configured some of the ports on Nexus 9336C-FX2 switches to run at 100 GbE.
 ** Planned, migrated, and documented 100 GbE connectivity from nodes to Nexus 9336C-FX2 switches.
 ** Migrated nondisruptively other Cisco cluster switches from an ONTAP cluster to Cisco Nexus 9336C-FX2 network switches.
-* The existing switch network must be properly set up and functioning.
-* All ports must be in the *up* state to ensure nondisruptive operations.
-* The Nexus 9336C-FX2 switches must be configured and operating under the proper version of NX-OS installed and reference configuration file (RCF) applied.
-* The existing network configuration must have the following:
+* The existing switch network is properly set up and functioning.
+* All ports are in the *up* state to ensure nondisruptive operations.
+* The Nexus 9336C-FX2 switches are configured and operating under the proper version of NX-OS installed and reference configuration file (RCF) applied.
+* The existing network configuration has the following:
 ** A redundant and fully functional NetApp cluster using both older Cisco switches.
 ** Management connectivity and console access to both the older Cisco switches and the new switches.
 ** All cluster LIFs in the *up* state with the cluster LIFs are on their home ports.
 ** ISL ports enabled and cabled between the other Cisco switches and between the new switches.
 
-.About this task
+.About the examples
 
 The examples in this procedure use the following switch and node nomenclature:
 
@@ -66,14 +65,19 @@ The examples in this procedure use the following switch and node nomenclature:
 .Steps
 
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
++
 `system node autosupport invoke -node * -type all -message MAINT=x h`
 +
 Where x is the duration of the maintenance window in hours.
 
 . Check the administrative and operational status of each cluster port.
 . Verify that all the cluster ports are up with a healthy status:
++
 `network port show –role cluster`
 +
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network port show -role cluster*
@@ -95,10 +99,16 @@ e3b     Cluster   Cluster          up   9000  auto/100000 healthy  false
 4 entries were displayed.
 cluster1::*>
 ----
+====
+
 [start=4]
 . [[step4]]Verify that all the cluster interfaces (LIFs) are on the home port:
++
 `network interface show -role cluster`
 +
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network interface show -role cluster*
@@ -113,10 +123,16 @@ Cluster
 4 entries were displayed.
 cluster1::*>
 ----
+====
+
 [start=5]
 . [[step5]]Verify that the cluster displays information for both cluster switches:
++
 `system cluster-switch show -is-monitoring-enabled-operational true`
 +
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true*
@@ -138,16 +154,26 @@ sh2                       cluster-network    10.233.205.91    N9K-C9336C
     Version Source: CDP
 cluster1::*>
 ----
+====
+
 [start=6]
 . [[step6]]Disable auto-revert on the cluster LIFs.
 +
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert false*
 ----
+====
+
 [start=7]
-. [[step7]]Shutdown the c2 switch:
+. [[step7]]Shut down the c2 switch.
 +
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 c2# *configure terminal*
@@ -155,11 +181,18 @@ Enter configuration commands, one per line. End with CNTL/Z.
 c2(config)# *interface ethernet <int range>*
 c2(config)# *shutdown*
 ----
+====
+
 [start=8]
 . [[step8]]Verify that the cluster LIFs have migrated to the ports hosted on cluster switch sh1:
++
 `network interface show -role cluster`
++
 This might take a few seconds.
 +
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network interface show -role cluster*
@@ -174,11 +207,16 @@ Cluster
 4 entries were displayed.
 cluster1::*>
 ----
+====
+
 [start=9]
 . [[step9]]Replace switch c2 with the new switch sh2 and re-cable the new switch.
 . Verify that the ports are back up on sh2. *Note* that the LIFs are still on switch c1.
-. Shutdown the c1 switch:
+. Shut down the c1 switch.
 +
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 c1# *configure terminal*
@@ -186,9 +224,14 @@ Enter configuration commands, one per line. End with CNTL/Z.
 c1(config)# *interface ethernet <int range>*
 c1(config)# *shutdown*
 ----
+====
+
 [start=12]
 . [[step12]]Verify that the cluster LIFs have migrated to the ports hosted on cluster switch sh2. This might take a few seconds.
 +
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network interface show -role cluster*
@@ -203,19 +246,30 @@ Cluster
 4 entries were displayed.
 cluster1::*>
 ----
+====
+
 [start=13]
 . [[step13]]Replace switch c1 with the new switch sh1 and re-cable the new switch.
 . Verify that the ports are back up on sh1. *Note* that the LIFs are still on switch c2.
 . Enable auto-revert on the cluster LIFs:
 +
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert True*
 ----
+====
+
 [start=16]
 . [[step16]]Verify that the cluster is healthy:
++
 `cluster show`
 +
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *cluster show*
@@ -226,3 +280,4 @@ node2                true    true          false
 2 entries were displayed.
 cluster1::*>
 ----
+====
