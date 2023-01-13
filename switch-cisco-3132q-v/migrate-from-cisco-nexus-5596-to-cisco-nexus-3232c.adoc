@@ -15,6 +15,12 @@ Follow this procedure to replace an existing Nexus 5596 cluster switch with a Ne
 
 Review the Cisco Nexus 5596 requirements in link:switch-requirements.html[Requirements for replacing Cisco Nexus 3132Q-V cluster switches].
 
+For more information, see:
+
+* http://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switch description page^]
+
+* http://hwu.netapp.com[Hardware Universe^]
+
 == Replace the switch
 
 .About the examples
@@ -745,6 +751,8 @@ Copy Complete.
 ----
 ====
 
+=== Step 3: Verify the configuration
+
 . Verify that the ISL connections are `up` on the 3132Q-V switch C2: 
 +
 `show port-channel summary`
@@ -923,12 +931,12 @@ RPC status:
 
 . Expand the cluster by adding nodes to the Nexus 3132Q-V cluster switches.
 
-
 . Display the information about the devices in your configuration:
- ** `network device-discovery show`
- ** `network port show -role cluster`
- ** `network interface show -role cluster`
- ** `system cluster-switch show`
+
+* `network device-discovery show`
+* `network port show -role cluster`
+* `network interface show -role cluster`
+* `system cluster-switch show`
 +
 .Show example
 [%collapsible]
@@ -1066,29 +1074,34 @@ CL2                           cluster-network    10.10.1.102     NX5596
 ----
 ====
 
-. Remove the replaced Nexus 5596 if they are not automatically removed: `system cluster-switch delete`
+. Remove the replaced Nexus 5596 if they are not automatically removed: 
++
+`system cluster-switch delete`
 +
 .Show example
 [%collapsible]
 ====
 The following example shows how to remove the Nexus 5596:
-+
+
 ----
 cluster::> system cluster-switch delete –device CL1
 cluster::> system cluster-switch delete –device CL2
 ----
 ====
 
-. Configure clusters clus1 and clus2 to auto revert on each node and confirm:
+. Configure clusters clus1 and clus2 to auto revert on each node and confirm.
 +
+.Show example
+[%collapsible]
+====
 ----
 cluster::*> network interface modify -vserver node1 -lif clus1 -auto-revert true
 cluster::*> network interface modify -vserver node1 -lif clus2 -auto-revert true
 cluster::*> network interface modify -vserver node2 -lif clus1 -auto-revert true
 cluster::*> network interface modify -vserver node2 -lif clus2 -auto-revert true
 ----
+====
 
-=== Step 3: Verify the configuration
 
 . Verify that the proper cluster switches are monitored: 
 +
@@ -1174,10 +1187,6 @@ NOTE: If any of these commands return an error, contact NetApp support.
 +
 `system node autosupport invoke -node * -type all -message MAINT=END`
 
-.For more information
 
-* http://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switch description page^]
-
-* http://hwu.netapp.com[Hardware Universe^]
 
 // QA clean-up, 2022-03-03

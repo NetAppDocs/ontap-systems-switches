@@ -9,9 +9,12 @@ summary: "The installation steps are the same for both NetApp CN1601 management 
 :imagesdir: ../media/
 
 [.lead]
+Follow this procedure to install FASTPATH software and RCFs for ONTAP 8.3.1 and later.
+
 The installation steps are the same for both NetApp CN1601 management switches and CN1610 cluster switches running ONTAP 8.3.1 or later. However, the two models require different software and RCFs.
 
 == Review requirements
+
 .What you'll need
 * A current backup of the switch configuration.
 * A fully functioning cluster (no errors in the logs and no defective cluster network interface cards (NICs) or similar issues).
@@ -23,7 +26,8 @@ The installation steps are the same for both NetApp CN1601 management switches a
 +
 Make sure you consult the switch compatibility table on the http://mysupport.netapp.com/NOW/download/software/cm_switches_ntap/[NetApp CN1601 and CN1610 Switches^] page for the supported FASTPATH, RCF, and ONTAP versions.
 
-== Install software
+== Install the FASTPATH software
+
 The following procedure uses the clustered Data ONTAP 8.2 syntax. As a result, the cluster Vserver, LIF names, and CLI output are different than those in Data ONTAP 8.3.
 
 There can be command dependencies between command syntax in the RCF and FASTPATH versions.
@@ -52,8 +56,11 @@ https://hwu.netapp.com/[Hardware Universe^] has more information about the actua
 +
 `network port show -_ipspace cluster_`
 +
+.Show example 
+[%collapsible]
+====
 The following example shows the type of output from the command:
-+
+
 ----
 cluster1::> network port show -ipspace cluster
                                                              Speed (Mbps)
@@ -67,13 +74,17 @@ node2
        e0b       Cluster      Cluster          up       9000  auto/10000
 4 entries were displayed.
 ----
+====
 
 . Display information about the LIFs on the cluster:
 +
 `network interface show -_role cluster_`
 +
+.Show example 
+[%collapsible]
+====
 The following example shows the logical interfaces on the cluster. In this example the `-role` parameter displays information about the LIFs that are associated with cluster ports:
-+
+
 ----
 cluster1::> network interface show -role cluster
   (network interface show)
@@ -87,6 +98,7 @@ Cluster
             node2_clus2  up/up    10.254.42.74/16    node2         e0b     true
 4 entries were displayed.
 ----
+====
 
 . On each respective node, using a node management LIF, migrate node1_clus2 to e0a on node1 and node2_clus2 to e0a on node2:
 +
@@ -94,19 +106,25 @@ Cluster
 +
 You must enter the commands on the controller consoles that own the respective cluster LIFs.
 +
+.Show example 
+[%collapsible]
+====
 ----
-
 cluster1::> network interface migrate -vserver Cluster -lif node1_clus2 -destination-node node1 -destination-port e0a
 cluster1::> network interface migrate -vserver Cluster -lif node2_clus2 -destination-node node2 -destination-port e0a
 ----
+====
 +
 
 NOTE: For this command, the name of the cluster is case-sensitive and the command should be run on each node. It is not possible to run this command in the general cluster LIF.
 
 . Verify that the migration took place by using the `network interface show` command on a node.
 +
+.Show example 
+[%collapsible]
+====
 The following example shows that clus2 has migrated to port e0a on nodes node1 and node2:
-+
+
 ----
 cluster1::> **network interface show -role cluster**
             Logical    Status     Network            Current       Current Is
@@ -119,6 +137,7 @@ Cluster
             node2_clus2  up/up    10.254.42.74/16   node2          e0a     false
 4 entries were displayed.
 ----
+====
 
 . Change the privilege level to advanced, entering y when prompted to continue:
 +
@@ -132,17 +151,24 @@ The advanced prompt (*>) appears.
 +
 You must enter the commands on the controller consoles that own the respective cluster LIFs.
 +
+.Show example 
+[%collapsible]
+====
+
 The following example shows the commands to shut down port e0b on all nodes:
-+
 ----
 cluster1::*> network port modify -node node1 -port e0b -up-admin false
 cluster1::*> network port modify -node node2 -port e0b -up-admin false
 ----
+====
 
 . Verify that port e0b is shut down on both nodes:
 +
 `network port show`
 +
+.Show example 
+[%collapsible]
+====
 ----
 cluster1::*> network port show -role cluster
 
@@ -157,20 +183,27 @@ node2
        e0b       Cluster      Cluster          down     9000  auto/10000
 4 entries were displayed.
 ----
+====
 
 . Shut down the Inter-Switch Link (ISL) ports on cs1.
 +
+.Show example 
+[%collapsible]
+====
 ----
-
 (cs1) #configure
 (cs1) (Config)#interface 0/13-0/16
 (cs1) (Interface 0/13-0/16)#shutdown
 (cs1) (Interface 0/13-0/16)#exit
 (cs1) (Config)#exit
 ----
+====
 
 . Back up the current active image on cs2.
 +
+.Show example 
+[%collapsible]
+====
 ----
 (cs2) # show bootvar
 
@@ -192,10 +225,15 @@ node2
 Copying active to backup
 Copy operation successful
 ----
+====
 
 === Step 2: Install the FASTPATH software and RCF
+
 . Verify the running version of the FASTPATH software.
 +
+.Show example 
+[%collapsible]
+====
 ----
 (cs2) # show version
 
@@ -218,11 +256,15 @@ Part Number.................................... 111-00893
 Additional Packages............................ FASTPATH QOS
                                                 FASTPATH IPv6 Management
 ----
+====
 
 . Download the image file to the switch.
 +
 Copying the image file to the active image means that when you reboot, that image establishes the running FASTPATH version. The previous image remains available as a backup.
 +
+.Show example 
+[%collapsible]
+====
 ----
 (cs2) #copy sftp://root@10.22.201.50//tftpboot/NetApp_CN1610_1.2.0.7.stk active
 Remote Password:********
@@ -241,11 +283,15 @@ SFTP Code transfer starting...
 
 File transfer operation completed successfully.
 ----
+====
 
 . Confirm the current and next-active boot image versions:
 +
 `show bootvar`
 +
+.Show example 
+[%collapsible]
+====
 ----
 (cs2) #show bootvar
 
@@ -263,11 +309,15 @@ Image Descriptions
 
     1     1.1.0.8     1.1.0.8            1.1.0.8            1.2.0.7
 ----
+====
 
 . Install the compatible RCF for the new image version to the switch.
 +
-If the RCF version is already correct, skip to step 9 to bring up the ISL ports.
+If the RCF version is already correct, bring up the ISL ports.
 +
+.Show example 
+[%collapsible]
+====
 ----
 (cs2) #copy tftp://10.22.201.50//CN1610_CS_RCF_v1.2.txt nvram:script CN1610_CS_RCF_v1.2.scr
 
@@ -292,6 +342,7 @@ Validating configuration script...
 Configuration script validated.
 File transfer operation completed successfully.
 ----
+====
 +
 
 NOTE: The `.scr` extension must be set as part of the file name before invoking the script. This extension is for the FASTPATH operating system.
@@ -301,6 +352,9 @@ The switch validates the script automatically as it is downloaded to the switch.
 
 . Verify that the script was downloaded and saved to the file name you gave it.
 +
+.Show example 
+[%collapsible]
+====
 ----
 (cs2) #script list
 
@@ -311,9 +365,13 @@ CN1610_CS_RCF_v1.2.scr                  2191
 1 configuration script(s) found.
 2541 Kbytes free.
 ----
+====
 
 . Apply the script to the switch.
 +
+.Show example 
+[%collapsible]
+====
 ----
 (cs2) #script apply CN1610_CS_RCF_v1.2.scr
 
@@ -322,17 +380,25 @@ Are you sure you want to apply the configuration script? (y/n) y
 
 Configuration script 'CN1610_CS_RCF_v1.2.scr' applied.
 ----
+====
 
 . Verify that the changes have been applied to the switch, and then save them:
 +
 `show running-config`
 +
+.Show example 
+[%collapsible]
+====
 ----
 (cs2) #show running-config
 ----
+====
 
 . Save the running configuration so it becomes the startup configuration when you reboot the switch.
 +
+.Show example 
+[%collapsible]
+====
 ----
 (cs2) #write memory
 This operation may take a few minutes.
@@ -344,9 +410,13 @@ Config file 'startup-config' created successfully.
 
 Configuration Saved!
 ----
+====
 
 . Reboot the switch.
 +
+.Show example 
+[%collapsible]
+====
 ----
 (cs2) #reload
 
@@ -357,10 +427,15 @@ Config file 'startup-config' created successfully.
 Configuration Saved!
 System will now restart!
 ----
+====
 
 === Step 3: Validate installation
+
 . Log in again, and then verify that the switch is running the new version of the FASTPATH software.
 +
+.Show example 
+[%collapsible]
+====
 ----
 (cs2) #show version
 
@@ -382,11 +457,15 @@ CPLD version................................... 0x5
 Additional Packages............................ FASTPATH QOS
                                                 FASTPATH IPv6 Management
 ----
+====
 +
 After the reboot completes, you must log in to verify the image version, view the running configuration, and look for the description on interface 3/64, which is the version label for the RCF.
 
 . Bring up the ISL ports on cs1, the active switch.
 +
+.Show example 
+[%collapsible]
+====
 ----
 (cs1) #configure
 (cs1) (Config) #interface 0/13-0/16
@@ -394,6 +473,7 @@ After the reboot completes, you must log in to verify the image version, view th
 (cs1) (Interface 0/13-0/16) #exit
 (cs1) (Config) #exit
 ----
+====
 
 . Verify that the ISLs are operational:
 +
@@ -401,6 +481,9 @@ After the reboot completes, you must log in to verify the image version, view th
 +
 The Link State field should indicate `Up`.
 +
+.Show example 
+[%collapsible]
+====
 ----
 (cs1) #show port-channel 3/1
 
@@ -424,6 +507,7 @@ Ports  Timeout       Speed     Active
 0/16   actor/long    10G Full  True
        partner/long
 ----
+====
 
 . Bring up cluster port e0b on all nodes:
 +
@@ -431,17 +515,24 @@ Ports  Timeout       Speed     Active
 +
 You must enter the commands on the controller consoles that own the respective cluster LIFs.
 +
+.Show example 
+[%collapsible]
+====
 The following example shows port e0b being brought up on node1 and node2:
-+
+
 ----
 cluster1::*> network port modify -node node1 -port e0b -up-admin true
 cluster1::*> network port modify -node node2 -port e0b -up-admin true
 ----
+====
 
 . Verify that the port e0b is up on all nodes:
 +
 `network port show -ipspace cluster`
 +
+.Show example 
+[%collapsible]
+====
 ----
 cluster1::*> network port show -ipspace cluster
 
@@ -456,11 +547,15 @@ node2
        e0b       Cluster      Cluster          up       9000  auto/10000
 4 entries were displayed.
 ----
+====
 
 . Verify that the LIF is now home (`true`) on both nodes:
 +
 `network interface show -_role cluster_`
 +
+.Show example 
+[%collapsible]
+====
 ----
 cluster1::*> network interface show -role cluster
 
@@ -474,11 +569,15 @@ Cluster
             node2_clus2  up/up    169.254.42.74/16   node2         e0b     true
 4 entries were displayed.
 ----
+====
 
 . Show the status of the node members:
 +
 `cluster show`
 +
+.Show example 
+[%collapsible]
+====
 ----
 cluster1::*> cluster show
 
@@ -488,8 +587,10 @@ node1                true    true          false
 node2                true    true          false
 2 entries were displayed.
 ----
+====
 
 . Return to the admin privilege level:
 +
 `set -privilege admin`
-. Repeat link:install-fastpath-rcf-831.html[Step 1: Migrate cluster] and link:install-fastpath-rcf-831.html[Step 2: Install the FASTPATH software and RCF] to install the FASTPATH software and RCF on the other switch, cs1.
++
+. Repeat the previous steps to install the FASTPATH software and RCF on the other switch, cs1.

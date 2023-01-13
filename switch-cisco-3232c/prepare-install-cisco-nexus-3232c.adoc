@@ -53,6 +53,7 @@ The AutoSupport message notifies technical support of this maintenance task so t
 The advanced prompt (`*>`) appears.
 
 . Display how many cluster interconnect interfaces are configured in each node for each cluster interconnect switch:
++
 `network device-discovery show -protocol cdp`
 +
 .Show example
@@ -76,7 +77,9 @@ cluster1-01/cdp
 ====
 
 . Check the administrative or operational status of each cluster interface.
+
  .. Display the network port attributes:
++
 `network port show –ipspace Cluster`
 +
 .Show example

@@ -234,7 +234,7 @@ To find the correct version, see the _ONTAP 8.x or later Cluster Network Switch 
 [%collapsible]
 ====
 The following example shows the LIFs being migrated for nodes n1 and n2; LIF migration must be done on all of the nodes:
-+
+
 ----
 cluster::*> network interface migrate -vserver Cluster -lif n1_clus2 -source-node n1 –
 destination-node n1 -destination-port e0a
@@ -251,7 +251,6 @@ destination-node n2 -destination-port e0d
 +
 `network interface show -role cluster`
 +
-
 .Show example
 [%collapsible]
 ====
@@ -930,18 +929,19 @@ RPC status:
 
 . Expand the cluster by adding nodes to the Nexus 3232C cluster switches.
 +
+The following examples show nodes n3 and n4 have 40 GbE cluster ports connected to ports e1/7 and e1/8 respectively on both the Nexus 3232C cluster switches, and both nodes have joined the cluster. The 40 GbE cluster interconnect ports used are e4a and e4e.
++
+Display the information about the devices in your configuration:
+
+* `network device-discovery show`
+* `network port show -role cluster`
+* `network interface show -role cluster`
+* `system cluster-switch show`
+
++
 .Show example
 [%collapsible]
 ====
-The following examples show nodes n3 and n4 have 40 GbE cluster ports connected to ports e1/7 and e1/8 respectively on both the Nexus 3232C cluster switches, and both nodes have joined the cluster. The 40 GbE cluster interconnect ports used are e4a and e4e.
-
-. Display the information about the devices in your configuration:
- ** `network device-discovery show`
- ** `network port show -role cluster`
- ** `network interface show -role cluster`
- ** `system cluster-switch show`
-
-+
 ----
 cluster::> network device-discovery show
             Local  Discovered
@@ -965,7 +965,6 @@ n4         /cdp
             e4e    C2                 Ethernet1/8      N3K-C3232C
 12 entries were displayed.
 ----
-
 
 +
 

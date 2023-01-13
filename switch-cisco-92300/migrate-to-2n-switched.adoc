@@ -16,7 +16,7 @@ The procedure you use depends on whether you have two dedicated cluster-network 
 Most systems require two dedicated cluster-network ports on each controller.
 
 NOTE: After your migration completes, you might need to install the required configuration file to support the Cluster Switch Health Monitor (CSHM) for 92300YC cluster switches. See
-link:switch-cisco-92300/setup-install-cshm-file.html[Install the Cluster Switch Health Monitor (CSHM)].
+link:setup-install-cshm-file.html[Install the Cluster Switch Health Monitor (CSHM)].
 
 == Review requirements
 
@@ -82,7 +82,7 @@ cluster1::*> *system node autosupport invoke -node * -type all -message MAINT=2h
 ----
 ====
 
-=== Step 2: Configure ports
+=== Step 2: Configure cables and ports
 
 . Disable all node-facing ports (not ISL ports) on both the new cluster switches cs1 and cs2.
 +
@@ -370,6 +370,8 @@ cs2(config-if-range)# *no shutdown*
 ----
 ====
 
+=== Step 3: Verify the configuration
+
 . Verify that all cluster ports are up:
 +
 `network port show -ipspace Cluster`
@@ -413,7 +415,7 @@ NOTE: This might take several minutes to complete.
 [%collapsible]
 ====
 The following example shows that all LIFs are up on node1 and node2 and that `Is Home` results are true:
-+
+
 [subs=+quotes]
 
 ----
@@ -576,7 +578,6 @@ RPC status:
 ----
 ====
 
-=== Step 3: Complete the procedure
 
 . If you suppressed automatic case creation, reenable it by invoking an AutoSupport message:
 +

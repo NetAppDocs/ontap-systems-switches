@@ -9,7 +9,9 @@ summary: "When you are installing a reference configuration file (RCF), you must
 :imagesdir: ../media/
 
 [.lead]
-When you are installing a reference configuration file (RCF), you must first migrate the cluster LIFs away from switch cs2. After the RCF is installed and validated, the LIFs can be migrated back.
+Follow this procedure to install a Reference Configuration File (RCF). 
+
+Before installing an RCF, you must first migrate the cluster LIFs away from switch cs2. After the RCF is installed and validated, the LIFs can be migrated back.
 
 == Review requirements
 
@@ -24,7 +26,8 @@ When you are installing a reference configuration file (RCF), you must first mig
 +
 Make sure you consult the switch compatibility table on the http://mysupport.netapp.com/NOW/download/software/cm_switches_ntap/[NetApp CN1601 and CN1610 Switches^] page for the supported RCF and ONTAP versions.
 
-== Install RCF
+== Install the RCF
+
 The following procedure uses the clustered Data ONTAP 8.2 syntax. As a result, the cluster Vserver, LIF names, and CLI output are different than those in Data ONTAP 8.3.
 
 There can be command dependencies between command syntax in the RCF and FASTPATH versions.
@@ -51,10 +54,15 @@ Make sure you consult the switch compatibility table on the http://mysupport.net
 
 === Step 1: Migrate cluster
 
-. Save your current switch configuration information: `write memory`
+. Save your current switch configuration information: 
 +
+`write memory`
++
+.Show example 
+[%collapsible]
+====
 The following example shows the current switch configuration being saved to the startup configuration (`startup-config`) file on switch cs2:
-+
+
 ----
 (cs2) # write memory
 This operation may take a few minutes.
@@ -66,36 +74,60 @@ Config file 'startup-config' created successfully.
 
 Configuration Saved!
 ----
+====
 
-. On the console of each node, migrate clus2 to port e1a: `network interface migrate`
+. On the console of each node, migrate clus2 to port e1a: 
 +
+`network interface migrate`
++
+.Show example 
+[%collapsible]
+====
 ----
 cluster::*> network interface migrate -vserver vs1 -lif clus2 -source-node node1 -destnode node1 -dest-port e1a
 
 cluster::*> network interface migrate -vserver vs2 -lif clus2 -source-node node2 -destnode node2 -dest-port e1a
 ----
+====
 
-. On the console of each node, verify that the migration occurred: `network interface show -role cluster`
+. On the console of each node, verify that the migration occurred: 
 +
+`network interface show -role cluster`
++
+.Show example 
+[%collapsible]
+====
 The following example shows that clus2 has migrated to port e1a on both nodes:
-+
+
 ----
 cluster::*> network port show -role cluster
          clus1      up/up      10.10.10.1/16   node2    e1a     true
          clus2      up/up      10.10.10.2/16   node2    e1a     false
 ----
+====
 
-. Shut down port e2a on both nodes: `network port modify`
+. Shut down port e2a on both nodes: 
 +
+`network port modify`
++
+.Show example 
+[%collapsible]
+====
 The following example shows port e2a being shut down on both nodes:
-+
+
 ----
 cluster::*> network port modify -node node1 -port e2a -up-admin false
 cluster::*> network port modify -node node2 -port e2a -up-admin false
 ----
+====
 
-. Verify that port e2a is shut down on both nodes: `network port show`
+. Verify that port e2a is shut down on both nodes: 
 +
+`network port show`
++
+.Show example 
+[%collapsible]
+====
 ----
 cluster::*> network port show -role cluster
 
@@ -109,9 +141,13 @@ node2
        e1a    cluster  up   9000  true/true   full/full   auto/10000
        e2a    cluster  down 9000  true/true   full/full   auto/10000
 ----
+====
 
 . Shut down the ISL ports on cs1, the active NetApp switch.
 +
+.Show example 
+[%collapsible]
+====
 ----
 (cs1) # configure
 (cs1) (config) # interface 0/13-0/16
@@ -119,8 +155,10 @@ node2
 (cs1) (interface 0/13-0/16) # exit
 (cs1) (config) # exit
 ----
+====
 
 === Step 2: Install RCF
+
 . Copy the RCF to the switch.
 +
 NOTE: You must set the `.scr` extension as part of the file name before invoking the script. This extension is the extension for the FASTPATH operating system.
@@ -128,6 +166,9 @@ NOTE: You must set the `.scr` extension as part of the file name before invoking
 +
 The switch will validate the script automatically as it is downloaded to the switch, and the output will go to the console.
 +
+.Show example 
+[%collapsible]
+====
 ----
 (cs2) # copy tftp://10.10.0.1/CN1610_CS_RCF_v1.1.txt nvram:script CN1610_CS_RCF_v1.1.scr
 
@@ -135,9 +176,13 @@ The switch will validate the script automatically as it is downloaded to the swi
 Configuration script validated.
 File transfer operation completed successfully.
 ----
+====
 
 . Verify that the script was downloaded and saved with the file name that you gave it.
 +
+.Show example 
+[%collapsible]
+====
 ----
 (cs2) # script list
 Configuration Script Name        Size(Bytes)
@@ -148,6 +193,7 @@ CN1610_CS_RCF_v1.1.scr           2199
 2 configuration script(s) found.
 6038 Kbytes free.
 ----
+====
 
 . Validate the script.
 +
@@ -155,14 +201,21 @@ CN1610_CS_RCF_v1.1.scr           2199
 NOTE: The script is validated during the download to verify that each line is a valid switch command line.
 
 +
+.Show example 
+[%collapsible]
+====
 ----
 (cs2) # script validate CN1610_CS_RCF_v1.1.scr
 [the script is now displayed line by line]
 Configuration script 'CN1610_CS_RCF_v1.1.scr' validated.
 ----
+====
 
 . Apply the script to the switch.
 +
+.Show example 
+[%collapsible]
+====
 ----
 (cs2) #script apply CN1610_CS_RCF_v1.1.scr
 
@@ -171,6 +224,7 @@ Are you sure you want to apply the configuration script? (y/n) y
 
 Configuration script 'CN1610_CS_RCF_v1.1.scr' applied.
 ----
+====
 
 . Verify that your changes have been implemented on the switch.
 +
@@ -183,6 +237,9 @@ The example displays the `running-config` file on the switch. You must compare t
 . Save the changes.
 . Set the `running-config` file to be the standard one.
 +
+.Show example 
+[%collapsible]
+====
 ----
 (cs2) # write memory
 This operation may take a few minutes.
@@ -192,11 +249,15 @@ Are you sure you want to save? (y/n) y
 
 Config file 'startup-config' created successfully.
 ----
+====
 
 . Reboot the switch and verify that the `running-config` file is correct.
 +
 After the reboot completes, you must log in, view the `running-config` file, and then look for the description on interface 3/64, which is the version label for the RCF.
 +
+.Show example 
+[%collapsible]
+====
 ----
 (cs2) # reload
 
@@ -208,9 +269,13 @@ Config file 'startup-config' created successfully.
 Configuration Saved!
 System will now restart!
 ----
+====
 
 . Bring up the ISL ports on cs1, the active switch.
 +
+.Show example 
+[%collapsible]
+====
 ----
 (cs1) # configure
 (cs1) (config)# interface 0/13-0/16
@@ -218,11 +283,17 @@ System will now restart!
 (cs1) (Interface 0/13-0/16)# exit
 (cs1) (config)# exit
 ----
+====
 
-. Verify that the ISLs are operational: `show port-channel 3/1`
+. Verify that the ISLs are operational: 
++
+`show port-channel 3/1`
 +
 The Link State field should indicate `Up`.
 +
+.Show example 
+[%collapsible]
+====
 ----
 
 (cs2) # show port-channel 3/1
@@ -247,20 +318,32 @@ Ports  Timeout       Speed     Active
 0/16   actor/long    10G Full  True
        partner/long
 ----
+====
 
-. Bring up cluster port e2a on both nodes: `network port modify`
+. Bring up cluster port e2a on both nodes: 
 +
+`network port modify`
++
+.Show example 
+[%collapsible]
+====
 The following example shows port e2a being brought up on node1 and node2:
-+
+
 ----
 cluster::*> network port modify -node node1 -port e2a -up-admin true
 cluster::*> network port modify -node node2 -port e2a -up-admin true
 ----
+====
 
 === Step 3: Validate installation
 
-. Verify that port e2a is up on both nodes: `network port show -_role cluster_`
+. Verify that port e2a is up on both nodes: 
 +
+`network port show -_role cluster_`
++
+.Show example 
+[%collapsible]
+====
 ----
 cluster::*> network port show -role cluster
 
@@ -274,18 +357,30 @@ node2
        e1a  cluster  up   9000  true/true   full/full   auto/10000
        e2a  cluster  up   9000  true/true   full/full   auto/10000
 ----
+====
 
-. On both nodes, revert clus2 that is associated with port e2a: `network interface revert`
+. On both nodes, revert clus2 that is associated with port e2a: 
++
+`network interface revert`
 +
 The LIF might revert automatically, depending on your version of ONTAP.
 +
+.Show example 
+[%collapsible]
+====
 ----
 cluster::*> network interface revert -vserver node1 -lif clus2
 cluster::*> network interface revert -vserver node2 -lif clus2
 ----
+====
 
-. Verify that the LIF is now home (`true`) on both nodes: `network interface show -_role cluster_`
+. Verify that the LIF is now home (`true`) on both nodes: 
 +
+`network interface show -_role cluster_`
++
+.Show example 
+[%collapsible]
+====
 ----
 cluster::*> network interface show -role cluster
 
@@ -299,9 +394,15 @@ vs2
         clus1      up/up      10.10.10.1/24  node2    e1a     true
         clus2      up/up      10.10.10.2/24  node2    e2a     true
 ----
+====
 
-. View the status of the node members: `cluster show`
+. View the status of the node members: 
 +
+`cluster show`
++
+.Show example 
+[%collapsible]
+====
 ----
 cluster::> cluster show
 
@@ -312,9 +413,13 @@ node1
 node2
                true    true
 ----
+====
 
 . Copy the `running-config` file to the `startup-config` file when you are satisfied with the software versions and switch settings.
 +
+.Show example 
+[%collapsible]
+====
 ----
 (cs2) # write memory
 This operation may take a few minutes.
@@ -326,5 +431,6 @@ Config file 'startup-config' created successfully.
 
 Configuration Saved!
 ----
+====
 
-. Repeat link:install-rcf-file.html[Step 1: Migrate cluster], link:install-rcf-file.html[Step 2: Install RCF] and link:install-rcf-file.html[Step 3: Validate installation] to install the RCF on the other switch, cs1.
+. Repeat the previous steps to install the RCF on the other switch, cs1.

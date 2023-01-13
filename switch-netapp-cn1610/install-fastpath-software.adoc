@@ -56,23 +56,38 @@ NOTE: The AutoSupport message notifies technical support of this maintenance tas
 
 . Log into the switch as admin. There is no password by default. At the `(cs2) #` prompt, enter the `enable` command. Again, there is no password by default. This gives you access to Privileged EXEC mode, which allows you to configure the network interface.
 +
+.Show example 
+[%collapsible]
+====
 ----
 (cs2) # enable
 Password (Enter)
 (cs2) #
 ----
+====
 
-. On the console of each node, migrate clus2 to port e1a: `network interface migrate`
+. On the console of each node, migrate clus2 to port e1a: 
 +
+`network interface migrate`
++
+.Show example 
+[%collapsible]
+====
 ----
 cluster::*> network interface migrate -vserver vs1 -lif clus2 -destnode node1 -dest-port e1a
 cluster::*> network interface migrate -vserver vs2 -lif clus2 -destnode node2 -dest-port e1a
 ----
+====
 
-. On the console of each node, verify that the migration took place: `network interface show`
+. On the console of each node, verify that the migration took place: 
++
+`network interface show`
 +
 The following example shows that clus2 has migrated to port e1a on both nodes:
 +
+.Show example 
+[%collapsible]
+====
 ----
 cluster::*> network interface show -role cluster
 
@@ -86,20 +101,32 @@ vs2
          clus1      up/up      10.10.10.1/16  node2    e1a      true
          clus2      up/up      10.10.10.2/16  node2    e1a      false
 ----
+====
 
 === Step 2: Install FASTPATH software
 
-. Shut down cluster port e2a on both nodes: `network port modify`
+. Shut down cluster port e2a on both nodes: 
 +
+`network port modify`
++
+.Show example 
+[%collapsible]
+====
 The following example shows port e2a being shut down on both nodes:
-+
+
 ----
 cluster::*> network port modify -node node1 -port e2a -up-admin false
 cluster::*> network port modify -node node2 -port e2a -up-admin false
 ----
+====
 
-. Verify that port e2a is shut down on both nodes: `network port show`
+. Verify that port e2a is shut down on both nodes: 
 +
+`network port show`
++
+.Show example 
+[%collapsible]
+====
 ----
 cluster::*> network port show -role cluster
 
@@ -113,9 +140,13 @@ node2
        e1a  cluster  up   9000   true/true   full/full   auto/10000
        e2a  cluster  down 9000   true/true   full/full   auto/10000
 ----
+====
 
 . Shut down the Inter-Switch Link (ISL) ports on cs1, the active NetApp switch:
 +
+.Show example 
+[%collapsible]
+====
 ----
 (cs1) # configure
 (cs1)(config) # interface 0/13-0/16
@@ -123,9 +154,13 @@ node2
 (cs1)(Interface 0/13-0/16) # exit
 (cs1)(config) # exit
 ----
+====
 
 . Back up the current active image on cs2.
 +
+.Show example 
+[%collapsible]
+====
 ----
 (cs2) # show bootvar
 
@@ -148,11 +183,15 @@ Copy operation successful
 
 (cs2) #
 ----
+====
 
 . Download the image file to the switch.
 +
 Copying the image file to the active image means that when you reboot, that image establishes the running FASTPATH version. The previous image remains available as a backup.
 +
+.Show example 
+[%collapsible]
+====
 ----
 (cs2) # copy tftp://10.0.0.1/NetApp_CN1610_1.1.0.5.stk active
 
@@ -171,9 +210,15 @@ TFTP Code transfer starting...
 
 File transfer operation completed successfully.
 ----
+====
 
 . Verify the running version of the FASTPATH software.
 +
+`show version`
++
+.Show example 
+[%collapsible]
+====
 ----
 (cs2) # show version
 
@@ -197,9 +242,15 @@ Network Processing Device........... BCM56820_B0
 Additional Packages................. FASTPATH QOS
                                      FASTPATH IPv6 Management
 ----
+====
 
 . View the boot images for the active and backup configuration.
 +
+`show bootvar`
++
+.Show example 
+[%collapsible]
+====
 ----
 (cs2) # show bootvar
 
@@ -216,9 +267,15 @@ Image Descriptions
 
     1        1.1.0.3      1.1.0.3          1.1.0.3           1.1.0.5
 ----
+====
 
 . Reboot the switch.
 +
+`reload`
++
+.Show example 
+[%collapsible]
+====
 ----
 (cs2) # reload
 
@@ -226,11 +283,17 @@ Are you sure you would like to reset the system? (y/n)  y
 
 System will now restart!
 ----
+====
 
 === Step 3: Validate installation
 
 . Log in again, and verify the new version of the FASTPATH software.
 +
+`show version`
++
+.Show example 
+[%collapsible]
+====
 ----
 (cs2) # show version
 
@@ -254,9 +317,15 @@ Network Processing Device............ BCM56820_B0
 Additional Packages.................. FASTPATH QOS
                                       FASTPATH IPv6 Management
 ----
+====
 
 . Bring up the ISL ports on cs1, the active switch.
 +
+`configure`
++
+.Show example 
+[%collapsible]
+====
 ----
 (cs1) # configure
 (cs1) (config) # interface 0/13-0/16
@@ -264,11 +333,17 @@ Additional Packages.................. FASTPATH QOS
 (cs1) (Interface 0/13-0/16) # exit
 (cs1) (config) # exit
 ----
+====
 
-. Verify that the ISLs are operational: `show port-channel 3/1`
+. Verify that the ISLs are operational: 
++
+`show port-channel 3/1`
 +
 The Link State field should indicate `Up`.
 +
+.Show example 
+[%collapsible]
+====
 ----
 (cs2) # show port-channel 3/1
 
@@ -292,9 +367,13 @@ Ports  Timeout       Speed     Active
 0/16   actor/long    10G Full  True
        partner/long
 ----
+====
 
 . Copy the `running-config` file to the `startup-config` file when you are satisfied with the software versions and switch settings.
 +
+.Show example 
+[%collapsible]
+====
 ----
 (cs2) # write memory
 
@@ -307,25 +386,43 @@ Config file 'startup-config' created successfully .
 
 Configuration Saved!
 ----
+====
 
-. Enable the second cluster port, e2a, on each node: `network port modify`
+. Enable the second cluster port, e2a, on each node: 
 +
+`network port modify`
++
+.Show example 
+[%collapsible]
+====
 ----
 cluster::*> network port modify -node node1 -port e2a -up-admin true
 cluster::*> **network port modify -node node2 -port e2a -up-admin true**
 ----
+====
 
-. Revert clus2 that is associated with port e2a: `network interface revert`
+. Revert clus2 that is associated with port e2a: 
++
+`network interface revert`
 +
 The LIF might revert automatically, depending on your version of ONTAP software.
 +
+.Show example 
+[%collapsible]
+====
 ----
 cluster::*> network interface revert -vserver Cluster -lif n1_clus2
 cluster::*> network interface revert -vserver Cluster -lif n2_clus2
 ----
+====
 
-. Verify that the LIF is now home (`true`) on both nodes: `network interface show -_role cluster_`
+. Verify that the LIF is now home (`true`) on both nodes: 
 +
+`network interface show -_role cluster_`
++
+.Show example 
+[%collapsible]
+====
 ----
 cluster::*> network interface show -role cluster
 
@@ -339,9 +436,15 @@ vs2
           clus1      up/up      10.10.10.1/24  node2    e1a     true
           clus2      up/up      10.10.10.2/24  node2    e2a     true
 ----
+====
 
-. View the status of the nodes: `cluster show`
+. View the status of the nodes: 
 +
+`cluster show`
++
+.Show example 
+[%collapsible]
+====
 ----
 cluster::> cluster show
 
@@ -350,8 +453,10 @@ Node                 Health  Eligibility
 node1                true    true
 node2                true    true
 ----
+====
 
-. Repeat link:install-fastpath-software.html[Step 1: Migrate cluster], link:install-fastpath-software.html[Step 2: Install FASTPATCH software] and link:install-fastpath-software.html[Step 3: Validate installation] to install the FASTPATH software on the other switch, cs1.
+. Repeat the previous steps to install the FASTPATH software on the other switch, cs1.
+
 . If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
 +
 `system node autosupport invoke -node * -type all -message MAINT=END`
