@@ -28,27 +28,19 @@ a|
 
 ====
 
-* https://docs.netapp.com/us-en/ontap-systems/c190/install-setup.html[C190]
+* https://docs.netapp.com/us-en/ontap-systems/c190/install-setup.html[AFF C190]
 
-* https://docs.netapp.com/us-en/ontap-systems/a200/install-setup.html[A200]
+* https://docs.netapp.com/us-en/ontap-systems/a220/install-setup.html[AFF A220]
 
-* https://docs.netapp.com/us-en/ontap-systems/a220/install-setup.html[A220]
+* https://docs.netapp.com/us-en/ontap-systems/a250/install-setup.html[AFF A250]
 
-* https://docs.netapp.com/us-en/ontap-systems/a250/install-setup.html[A250]
+* https://docs.netapp.com/us-en/ontap-systems/a400/install-setup.html[AFF A400]
 
-* https://docs.netapp.com/us-en/ontap-systems/a300/install-setup.html[A300]
+* https://docs.netapp.com/us-en/ontap-systems/a700/install-setup.html[AFF A700]
 
-* https://docs.netapp.com/us-en/ontap-systems/a320/install-setup.html[A320]
+* https://docs.netapp.com/us-en/ontap-systems/a800/install-setup.html[AFF A800]
 
-* https://docs.netapp.com/us-en/ontap-systems/a400/install-setup.html[A400]
-
-* https://docs.netapp.com/us-en/ontap-systems/a700/install-setup.html[A700]
-
-* https://docs.netapp.com/us-en/ontap-systems/a700s/install-setup.html[A700s]
-
-* https://docs.netapp.com/us-en/ontap-systems/a800/install-setup.html[A800]
-
-* https://docs.netapp.com/us-en/ontap-systems/a900/install_detailed_guide.html[A900]
+* https://docs.netapp.com/us-en/ontap-systems/a900/install_detailed_guide.html[AFF A900]
 
 ====
 
@@ -60,12 +52,6 @@ a|
 ====
 
 * https://docs.netapp.com/us-en/ontap-systems/fas500f/install-setup.html[FAS500f]
-
-* https://docs.netapp.com/us-en/ontap-systems/fas2600/install-setup.html[FAS2600]
-
-* https://docs.netapp.com/us-en/ontap-systems/fas2700/install-setup.html[FAS2700]
-
-* https://docs.netapp.com/us-en/ontap-systems/fas8200/install-setup.html[FAS8200]
 
 * https://docs.netapp.com/us-en/ontap-systems/fas8300/install-setup.html[FAS8300]
 
@@ -84,10 +70,37 @@ a|
 == Step 2: Install the switch hardware
 Install your switches in the rack or cabinet. Access the following instructions for your switch model:
 
+[%rotate, grid="none", frame="none", cols="9,9,9",]
+|===
+a|
+.Cluster switches
+
+[%collapsible]
+
+====
+
 * link:../switch-bes-53248/install-hardware-bes53248.html[Install BES-53248 switch]
 
 * link:../switch-cisco-9336c-fx2/install-switch-9336c-cluster.html[Install Cisco Nexus 9336C-FX2 switch]
 * link:../switch-nvidia-sn2100/install-hardware-sn2100-cluster.html[Install NVIDIA SN2100 switch]
+
+====
+
+a|
+.Storage switches
+
+[%collapsible]
+
+====
+
+* link:../switch-cisco-9336c-fx2/install-switch-9336c-cluster.html[Install Cisco Nexus 9336C-FX2 switch]
+* link:../switch-nvidia-sn2100/install-hardware-sn2100-cluster.html[Install NVIDIA SN2100 switch]
+
+
+====
+
+a|
+|===
 
 == Step 3: Cable the switches to the controllers
 The AFF/FAS install and setup instructions include instructions for cabling the controller ports to the switch. However, if you need lists of supported cables and transceivers, and detailed information about the host ports for your switch, access the following instructions for your switch model:
@@ -103,9 +116,15 @@ Perform an initial setup of your switches.
 * link:../switch-cisco-9336c-fx2/setup-switch-9336c-cluster.html[Configure Cisco Nexus 9336C-FX2 switch]
 * link:../switch-nvidia-sn2100/configure-sn2100-cluster.html[Configure NVIDIA SN2100 switch]
 
+== Step 5: Install switch software
+To install and configure the software on your switch, access the software install instructions for your switch model.
 
-== Step 5: Complete system setup
-After you have cabled the controller ports to the switches, access the install and setup instructions for your AFF/FAS platform model to complete your system setup.
+* link:../switch-bes-53248/configure-software-overview-bes53248.html[Install software for BES-53248 switches]
+* link:../switch-cisco-9336c-fx2/configure-software-overview-9336c-cluster.html[Install software for Cisco Nexus 9336C-FX2 switch]
+* link:../switch-nvidia-sn2100/configure-software-overview-sn2100-cluster.html[Install software for NVIDIA SN2100 switch]
+
+== Step 6: Complete system setup
+After you have configured your switches and installed the required software, access the install and setup instructions for your AFF/FAS platform model to complete your system setup.
 
 [%rotate, grid="none", frame="none", cols="9,9,9",]
 |===
@@ -167,13 +186,6 @@ a|
 
 a|
 |===
-
-== Step 5: Install and configure the switch software
-To install and configure the software on your switch, access the software install instructions for your switch model.
-
-* link:../switch-bes-53248/configure-software-overview-bes53248.html[Software install for BES-53248 switches]
-* link:../switch-cisco-9336c-fx2/configure-software-overview-9336c-cluster.html[Software install for Cisco Nexus 9336C-FX2 switch]
-* link:../switch-nvidia-sn2100/configure-software-overview-sn2100-cluster.html[Software install for NVIDIA SN2100 switch]
 
 == Step 6: Complete ONTAP configuration
 After you have completed the initial configuration, go to the https://docs.netapp.com/us-en/ontap-family/index.html[ONTAP product documentation] page for information about configuring additional features in ONTAP.
