@@ -11,6 +11,19 @@ summary: 'Before configuring your NVIDIA SN2100 switch, review the following inf
 [.lead]
 Before configuring your NVIDIA SN2100 switch, review the following considerations. 
 
+== NVIDIA port details
+|===
+
+h| *Switch ports* h| *Ports usage* 
+a| swp1s0-3
+a| 10/40 cluster port nodes 
+a| swp2s0-3	
+a| 25/100 cluster port nodes
+a| swp3-14	40/100 cluster port nodes
+a| swp15-16	40/100 Inter-Switch Link (ISL) ports 
+	
+|===
+	
 == Optical connections
 Only optical connections are supported on SN2100 switches with X1151A NIC, X1146A NIC, or onboard 100GbE ports. 
 For example:
