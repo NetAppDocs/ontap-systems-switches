@@ -22,6 +22,8 @@ Before you install the EFOS software, licenses, and the RCF file on an existing 
 * All connected ports on both cluster switches are functional.
 * All cluster ports are up.
 * All cluster LIFs are administratively and operationally up and on their home ports.
+* The first two cluster LIFs on each node are configured on separate NICs and connected to separate cluster switch ports.
+// Added cluster LIF info here as per GH issue #63 in the switches repo
 * The ONTAP `cluster ping-cluster -node node1` advanced privilege command indicates that `larger than PMTU communication` is successful on all paths.
 
 NOTE: There might be command dependencies between command syntax in the RCF and EFOS versions.
