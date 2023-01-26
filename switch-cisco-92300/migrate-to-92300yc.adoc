@@ -170,7 +170,7 @@ Cluster
 ----
 ====
 
-. Ensure that the cluster ports on each node are connected to existing cluster switches in the following way (from the nodes' perspective) using the command:
+. Verify that the cluster ports on each node are connected to existing cluster switches in the following way (from the nodes' perspective) using the command:
 +
 `network device-discovery show -protocol cdp`
 +
@@ -194,7 +194,7 @@ node1      /cdp
 ----
 ====
 
-. Ensure that the cluster ports and switches are connected in the following way (from the switches' perspective) using the command:
+. Verify that the cluster ports and switches are connected in the following way (from the switches' perspective) using the command:
 +
 `show cdp neighbors`
 +
@@ -262,7 +262,7 @@ c1(FOX2025GEEX)     Eth1/48        176    S I s     N5K-C5596UP        Eth1/48
 ----
 ====
 
-. Ensure that the cluster network has full connectivity using the command:
+. Verify that the cluster network has full connectivity using the command:
 +
 `cluster ping-cluster -node node-name`
 +
@@ -549,7 +549,7 @@ Total entries displayed: 4
 ----
 ====
 
-. Ensure that the cluster network has full connectivity:
+. Verify that the cluster network has full connectivity:
 +
 `cluster ping-cluster -node node-name`
 +

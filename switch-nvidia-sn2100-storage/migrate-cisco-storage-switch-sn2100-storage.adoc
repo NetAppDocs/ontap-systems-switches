@@ -104,7 +104,7 @@ cluster1::*>
 ----
 ====
 
-. Ensure that the storage ports on each node are connected to existing storage switches in the following way (from the nodes' perspective) using the command: 
+. Verify that the storage ports on each node are connected to existing storage switches in the following way (from the nodes' perspective) using the command: 
 +
 `network device-discovery show -protocol lldp`
 +
@@ -126,7 +126,7 @@ node2      /lldp
 ----
 ====
 
-. On switch S1 and S2, ensure that the storage ports and switches are connected in the following way (from the switches' perspective) using the command: 
+. On switch S1 and S2, make sure that the storage ports and switches are connected in the following way (from the switches' perspective) using the command: 
 +
 `show lldp neighbors`
 +
@@ -191,7 +191,7 @@ cumulus@sw2:~$ *net commit*
 ----
 ====
 
-. Ensure that the storage ports on each node are now connected to the switches in the following way, from  the nodes' perspective:
+. Verify that the storage ports on each node are now connected to the switches in the following way, from  the nodes' perspective:
 +
 `network device-discovery show -protocol lldp`
 +
@@ -296,7 +296,7 @@ cumulus@sw1:~$ *net commit*
 ----
 ====
 
-. Ensure that the storage ports on each node are now connected to the switches in the following way, from the nodes' perspective:
+. Verify that the storage ports on each node are now connected to the switches in the following way, from the nodes' perspective:
 +
 `network device-discovery show -protocol lldp`
 +

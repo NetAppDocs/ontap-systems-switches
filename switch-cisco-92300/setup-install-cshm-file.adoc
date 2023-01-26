@@ -15,7 +15,7 @@ In ONTAP releases 9.5P7 and earlier and 9.6P2 and earlier, you must download the
 
 .What you'll need
 
-Before you set up the switch health monitor for 92300YC cluster switches, you must ensure that the ONTAP cluster is up and running.
+Before you set up the switch health monitor for 92300YC cluster switches, make sure that the ONTAP cluster is up and running.
 
 NOTE: You should also enable SSH to use all features available in CSHM.
 
@@ -49,7 +49,7 @@ cluster1::> system cluster-switch configure-health-monitor -node * -package-url 
 ----
 
 . Verify that the command output contains the text string "downloaded package processed successfully". If an error occurs, contact NetApp support.
-. Run the command system cluster-switch show on the ONTAP system and ensure that the cluster switches are discovered with the monitored field set to "True".
+. Run the command system cluster-switch show on the ONTAP system and make sure that the cluster switches are discovered with the monitored field set to "True".
 +
 ----
 cluster1::> system cluster-switch show
