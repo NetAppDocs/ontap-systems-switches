@@ -1,0 +1,230 @@
+---
+sidebar: sidebar
+permalink: switch-cisco-9336c-fx2-shared/migrate-from-switched-cluster-sat-storage.html
+keywords:
+summary:
+---
+= Migrate from a switched cluster with switch-attached storage
+:hardbreaks:
+:nofooter:
+:icons: font
+:linkattrs:
+:imagesdir: ./media/
+
+[.lead]
+You can migrate from a switched cluster with switch-attached storage by reusing the storage switches.
+
+By reusing the storage switches the storage switches of HA pair 1 become the shared switches as shown in the following figure.
+
+image:9336c_image1.jpg[Switch-attached]
+
+.Steps
+
+. Verify that the storage configuration of HA pair 1 (and HA pair 2) is correct and error free:
++
+`system switch ethernet show`
++
+.Show example 
+[%collapsible]
+====
+[subs=+quotes]
+----
+storage::*> *system switch ethernet show*
+Switch                    Type               Address          Model
+------------------------- ------------------ ---------------- ----------
+sh1
+                          storage-network    172.17.227.5     C9336C
+
+     Serial Number: FOC221206C2
+      Is Monitored: true
+            Reason: None
+  Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
+                    9.3(5)
+       Version Source: CDP
+sh2
+                          storage-network    172.17.227.6     C9336C
+     Serial Number: FOC220443LZ
+      Is Monitored: true
+            Reason: None
+  Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
+                    9.3(5)
+    Version Source: CDP
+2 entries were displayed.
+storage::*>
+----
+====
+
+[start=2]
+. [[step2]]Move the HA pair 1, NSM224 path A cables from storage switch A to the NSM224 storage ports for HA pair 1, path A on storage switch A.
+. Move the cable from HA pair 1, node A, path A to the NSM224 storage port for HA pair 1, node A on storage switch A.
+. Move the cable from HA pair 1, node B, path A to the NSM224 storage port for HA pair 1, node B on storage switch A.
+. Verify the storage attached to HA pair 1, storage switch A is healthy:
++
+`storage port show -port-type ENET`
++
+.Show example 
+[%collapsible]
+====
+[subs=+quotes]
+----
+storage::*> *storage port show -port-type ENET*
+                                   Speed                             VLAN
+Node    Port    Type    Mode       (Gb/s)       State     Status       ID
+------- ------- ------- ---------- ------------ --------- --------- -----
+node1
+        e0c     ENET    storage            100  enabled   online       30
+        e0d     ENET    storage            100  enabled   online       30
+        e5a     ENET    storage            100  enabled   online       30
+        e5b     ENET    storage            100  enabled   online       30
+
+node2
+        e0c     ENET    storage            100  enabled   online       30
+        e0d     ENET    storage            100  enabled   online       30
+        e5a     ENET    storage            100  enabled   online       30
+        e5b     ENET    storage            100  enabled   online       30
+----
+====
+
+[start=6]
+. [[step6]]Replace the storage RCF on shared switch A with the shared RCF file. See link:9336c_install_nx-os_software_and_reference_configuration_files_rcfs.html#install-the-rcf-on-a-cisco-nexus-9336c-fx2-shared-switch[Install the RCF on a Cisco Nexus 9336C-FX2 shared switch] for further details.
+. Verify the storage attached to HA pair 1, storage switch A is healthy:
++
+`system health alert show -instance`
++
+.Show example 
+[%collapsible]
+====
+[subs=+quotes]
+----
+storage::*> *system health alert show -instance*
+There are no entries matching your query.
+----
+====
+
+[start=8]
+. [[step8]]Move the HA pair 1, NSM224 path B cables from storage switch B to the shared NS224 storage ports for HA pair 1, path B to storage switch B.
+. Move the cable from HA pair 1, node A, path B to the shared storage port for HA pair 1, node A, path B on storage switch B.
+. Move the cable from HA pair 1, node B, path B to the shared storage port for HA pair 1, node B, path B on storage switch B.
+. Verify the storage attached to HA pair 1, storage switch B is healthy:
++
+`system health alert show -instance`
++
+.Show example 
+[%collapsible]
+====
+[subs=+quotes]
+----
+storage::*> *system health alert show -instance*
+There are no entries matching your query.
+----
+====
+
+[start=12]
+. [[step12]]Replace the storage RCF file on shared switch B with the shared RCF file. See link:9336c_install_nx-os_software_and_reference_configuration_files_rcfs.html#install-the-rcf-on-a-cisco-nexus-9336c-fx2-shared-switch[Install the RCF on a Cisco Nexus 9336C-FX2 shared switch] for further details.
+
+. Verify the storage attached to HA pair 1, storage switch B is healthy:
++
+`system health alert show -instance`
++
+.Show example 
+[%collapsible]
+====
+[subs=+quotes]
+----
+storage::*> *system health alert show -instance*
+There are no entries matching your query.
+----
+====
+
+
+[start=14]
+. [[step14]]Verify the storage configuration of HA pair 1 is correct and error free:
++
+`system switch ethernet show`
++
+.Show example 
+[%collapsible]
+====
+[subs=+quotes]
+----
+storage::*> *system switch ethernet show*
+Switch                    Type                 Address          Model
+------------------------- -------------------- ---------------- ----------
+sh1
+                          storage-network      172.17.227.5     C9336C
+
+    Serial Number: FOC221206C2
+     Is Monitored: true
+           Reason: None
+ Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
+                   9.3(5)
+   Version Source: CDP
+sh2
+                          storage-network      172.17.227.6     C9336C
+    Serial Number: FOC220443LZ
+     Is Monitored: true
+           Reason: None
+ Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
+                   9.3(5)
+   Version Source: CDP
+2 entries were displayed.
+storage::*>
+----
+====
+
+// [start=15]
+// . [[step15]]Skip to step 50 if this is a 2N config, else continue to next step.
+// . Verify that the storage configuration of HA pair 2 is correct and error free:
+//
+// ----
+// system switch ethernet show, storage port show -port-type ENET
+// ----
+// [start=17]
+// . [[step17]]Move the HA pair 2, NSM224 path A cables from storage switch A to the shared NS224 storage ports for HA pair 2, path A on shared switch A.
+// . Move the cable from HA pair 2, node A, path A to the shared storage port for HA pair 2, node A on shared switch A.
+// . Move the cable from HA pair 2, node B, path A to the shared storage port for HA pair 2, node B on shared switch A.
+// . Verify the storage attached to HA pair 2, shared switch A is healthy:
+//
+// ----
+// system health alert show -instance
+// ----
+// [start=21]
+// . [[step21]]Move the HA pair 2, NSM224 path B cables from storage switch B to the shared NS224 storage ports for HA pair 2, path B to shared switch B.
+// . Move the cable from HA pair 2, node A, path B to the Greeley storage port for HA pair 2, node A, path B on shared switch B.
+// . Move the cable from HA pair 2, node B, path B to the Greeley storage port for HA pair 2, node B, path B on shared switch B.
+// . Verify the storage attached to HA pair 2, shared switch B is healthy: `system health alert show -instance`
+//
+// . Verify the storage configuration of HA pair 2 is correct and error free: `system switch ethernet show`, `storage port show -port-type ENET`
+[start=15]
+. [[step15]]Install the ISLs between shared switch A and shared switch B:
++
+.Show example 
+[%collapsible]
+====
+[subs=+quotes]
+----
+sh1# *configure*
+Enter configuration commands, one per line. End with CNTL/Z.
+sh1 (config)# interface e1/35-36*
+sh1 (config-if-range)# *no lldp transmit*
+sh1 (config-if-range)# *no lldp receive*
+sh1 (config-if-range)# *switchport mode trunk*
+sh1 (config-if-range)# *no spanning-tree bpduguard enable*
+sh1 (config-if-range)# *channel-group 101 mode active*
+sh1 (config-if-range)# *exit*
+sh1 (config)# *interface port-channel 101*
+sh1 (config-if)# *switchport mode trunk*
+sh1 (config-if)# *spanning-tree port type network*
+sh1 (config-if)# *exit*
+sh1 (config)# *exit*
+----
+====
+
+[start=16]
+. [[step16]]Migrate the cluster networking from the existing cluster switches to the shared switches using the switch replacement procedure and the shared RCF. The new shared switch A is "cs1". The new shared switch B is "cs2". See link:9336c_replace_a_cisco_nexus_9336c-fx2_shared_switch.html[Replace a Cisco Nexus 9336C-FX2 shared switch] and link:9336c_install_nx-os_software_and_reference_configuration_files_rcfs.html#install-the-rcf-on-a-cisco-nexus-9336c-fx2-shared-switch[Install the RCF on a Cisco Nexus 9336C-FX2 shared switch] for further details.
+. Verify that the switched networking config is valid:
++
+`network port show`
++
+. Remove the unused cluster switches.
+. Remove the unused storage switches.

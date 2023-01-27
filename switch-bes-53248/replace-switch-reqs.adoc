@@ -1,0 +1,40 @@
+---
+permalink: switch-bes-53248/replace-switch-reqs.html
+sidebar: sidebar
+keywords: replace, replacing, defective, broadcom-supported, bes, cluster, switch, network, nondisruptive, procedure, ndu, replace a broadcom-supported bes-53428 cluster switch - bes-53428 switches
+summary: Replacing a defective Broadcom-supported BES-53248 cluster switch in a cluster network is a nondisruptive procedure \(NDU\).
+---
+= Replacement requirements
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+Before replacing the switch, make sure the following conditions are met in the current environment and on the replacement switch.
+
+== Existing cluster and network infrastructure
+
+Make sure that:
+
+ * The existing cluster is verified as completely functional, with at least one fully connected cluster switch.
+ * All cluster ports are *up*.
+ * All cluster logical interfaces (LIFs) are administratively and operationally *up* and on their home ports.
+ * The ONTAP `cluster ping-cluster -node node1` command must indicate that the settings, `basic connectivity` and `larger than PMTU communication`, are successful on all paths.
+
+== BES-53248 replacement cluster switch
+
+Make sure that:
+
+ * Management network connectivity on the replacement switch is functional.
+ * Console access to the replacement switch is in place.
+ * The node connections are ports 0/1 through 0/16 with default licensing.
+ * All Inter-Switch Link (ISL) ports are disabled on ports 0/55 and 0/56.
+ * The desired reference configuration file (RCF) and EFOS operating system switch image are  loaded onto the switch.
+ * Initial customization of the switch is complete, as detailed in link:configure-install-initial.html[Configure the BES-53248 cluster switch].
+
+Any previous site customizations, such as STP, SNMP, and SSH, are copied to the new switch.
+
+== For more information
+
+* https://mysupport.netapp.com/[NetApp Support Site^]
+
+* https://hwu.netapp.com/Home/Index[NetApp Hardware Universe^]

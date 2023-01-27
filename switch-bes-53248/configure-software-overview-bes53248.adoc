@@ -1,0 +1,22 @@
+---
+permalink: switch-bes-53248/configure-software-overview-bes53248.html
+sidebar: sidebar
+keywords: BES-53248 switches, initial installation, configure new bes-53248 switch
+summary: 'Review the software overview.'
+---
+= Software install workflow for BES-53248 switches
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+To initially install and configure the software for a BES-53248 cluster switch, follow these steps:
+
+. link:configure-efos-software.html[Install the EFOS software]. Download and install the Ethernet Fabric OS (EFOS) software on the BES-53248 cluster switch.
+. link:configure-licenses.html[Install licenses for BES-53248 cluster switches]. Optionally, add new ports by purchasing and installing more licenses. The switch base model is licensed for 16 10GbE or 25GbE ports and two 100GbE ports.
+. link:configure-install-rcf.html[Install the Reference Configuration File (RCF)]. Install or upgrade the RCF on the BES-53248 cluster switch, and then verify the ports for an additional license after the RCF is applied.
+. link:configure-health-monitor.html[Install the Cluster Switch Health Monitor (CSHM) configuration file]. Install the applicable configuration file for cluster switch health monitoring.
+. link:configure-ssh.html[Enable SSH on BES-53248 cluster switches]. If you use the Cluster Switch Health Monitor (CSHM) and log collection features, enable SSH on the switches.
+. link:configure-log-collection.html[Enable the log collection feature]. Use this feature to collect switch-related log files in ONTAP.
+
+
+ 
