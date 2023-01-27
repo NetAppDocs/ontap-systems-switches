@@ -40,7 +40,7 @@ The advanced prompt (`*>`) appears.
 
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
 +
-`system node autosupport invoke -node * -type all -message MAINT=x h`
+`system node autosupport invoke -node * -type all -message MAINT=xh`
 +
 where _x_ is the duration of the maintenance window in hours.
 +
@@ -50,7 +50,7 @@ The following command suppresses automatic case creation for two hours:
 +
 
 ----
-cluster1:> system node autosupport invoke -node * -type all -message MAINT=2h
+cluster1:> **system node autosupport invoke -node * -type all -message MAINT=2h**
 ----
 
 . Display how many cluster interconnect interfaces are configured in each node for each cluster interconnect switch: `network device-discovery show -protocol cdp`
@@ -77,7 +77,7 @@ node1      /cdp
 ====
 
 . Check the administrative or operational status of each cluster interface.
- .. Display the network port attributes:``network port show –ipspace Cluster``
+ .. Display the network port attributes:  `network port show –ipspace Cluster`
 +
 .Show example 
 [%collapsible]
