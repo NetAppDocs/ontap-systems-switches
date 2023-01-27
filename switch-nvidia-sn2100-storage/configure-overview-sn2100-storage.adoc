@@ -1,0 +1,35 @@
+---
+permalink: switch-nvidia-sn2100/configure-overview-sn2100-storage.html
+sidebar: sidebar
+keywords: sn2100 SN2100 switches setup, sn2100 SN2100 switches install, cumulus linux
+summary: 'Before configuring NVIDIA SN2100 switches, review the procedure overview.'
+---
+= Overview of configuration process for NVIDIA SN2100 storage switches
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+The NVIDIA SN2100 is a storage switch that allows you to route data between servers and storage arrays in a Storage Area Network (SAN).
+
+== Initial configuration overview
+
+To configure a NVIDIA SN2100 switch on systems running ONTAP, follow these steps:
+
+. link:install-hardware-sn2100-storage.html[Install the hardware for the NVIDIA SN2100 switch]. Instructions are available in the _NVIDIA Switch Installation Guide_.
+. link:configure-sn2100-storage.html[Configure the switch]. Instructions are available in the NVIDIA documentation.
+. link:cabling-considerations-sn2100-storage.html[Review cabling and configuration considerations]. Review requirements for optical connections, the QSA adapter, and the switchport speed.
+. link:install-cable-shelves-sn2100-storage.html[Cable NS224 shelves as switch-attached storage]. Follow these procedures if you have a system in which the NS224 drive shelves need to be cabled as switch-attached storage (not direct-attached storage).
+. link:install-cumulus-mode-sn2100-storage.html[Install Cumulus Linux in Cumulus mode] or link:install-onie-mode-sn2100-storage.html[install Cumulus Linux in ONIE mode]. Cumulus Linux (CL) OS can be installed either when the switch is running Cumulus Linux or ONIE.
+. link:install-rcf-sn2100-storage.html[Install the Reference Configuration File script]. There are two RCF scripts available for Clustering and Storage applications. 
+. link:install-snmpv3-sn2100-storage.html[Configure SNMPv3 for switch log collection]. This release includes support for SNMPv3 for switch log collection and for Switch Health Monitoring (SHM).
+
+NOTE: The procedures use Network Command Line Utility (NCLU), which is a command line interface that ensures Cumulus Linux is fully accessible to all. The net command is the wrapper utility you use to execute actions from a terminal.
+
+== Additional information
+
+Before you begin installation or maintenance, be sure to review the following:
+
+* link:configure-reqs-sn2100-storage.html[Configuration requirements]
+* link:components-sn2100-storage.html[Components and part numbers]
+* link:required-documentation-sn2100-storage.html[Required documentation]
+

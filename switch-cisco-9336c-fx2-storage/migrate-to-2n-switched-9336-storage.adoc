@@ -1,0 +1,16 @@
+---
+permalink: switch-cisco-9336c-fx2-storage/migrate-to-2n-switched-9336-storage.html
+sidebar: sidebar
+keywords: two-node switchless cluster environments,migrating to a two-node switched 9336C-FX2 cluster environment,switchless cluster environments,9336C-FX2 switches
+summary: 'If you have an existing two-node switchless cluster environment, you can migrate to a two-node switched cluster environment using Cisco Nexus 9336C-FX2 switches to enable you to scale beyond two nodes in the cluster.'
+---
+= Migrate to two-node switched cluster
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+If you have an existing two-node _switchless_ cluster environment, you can migrate to a two-node _switched_ cluster environment using Cisco Nexus 9336C-FX2 switches to enable you to scale beyond two nodes in the cluster.
+
+The migration process works for all nodes using optical or Twinax ports, but is not supported on this switch if nodes are using onboard 10Gb BASE-T RJ45 ports for the cluster-network ports.
+
+include::../_include/migrate-to-2n-9336.adoc[]

@@ -1,0 +1,256 @@
+---
+permalink: switch-nvidia-sn2100/replace-sn2100-switch-storage.html
+sidebar: sidebar
+keywords: replacing, replace, defective, nvidia, switch, cluster, network, nondisruptive, procedure, ndu, replace a nvidia sn2100 cluster switch - nvidia SN2100
+summary: Replacing a defective NVIDIA SN2100 storage switch in  a nondisruptive procedure \(NDU\).
+---
+= Replace a NVIDIA SN2100 storage switch
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+You must be aware of certain configuration information, port connections and cabling requirements when you replace NVIDIA SN2100 storage switches.
+
+.Before you begin
+You must verify that the following conditions exist before installing the Cumulus software and RCFs on a NVIDIA SN2100 storage switch:
+
+* Your system can support NVIDIA SN2100 storage switches.
+* You must have downloaded the applicable RCFs.
+* The http://hwu.netapp.com[Hardware Universe^] provides full details of supported ports and their configurations.
+
+.About this task
+The existing network configuration must have the following characteristics:
+
+* Make sure that all troubleshooting steps have been completed to confirm that your switch needs replacing.
+* Management connectivity must exist on both switches.
++
+NOTE: Make sure that all troubleshooting steps have been completed to confirm that your switch needs replacing.
+
+The replacement NVIDIA SN2100 switch must have the following characteristics:
+
+* Management network connectivity must be functional.
+* Console access to the replacement switch must be in place.
+* The appropriate RCF and Cumulus operating system image must be loaded onto the switch.
+* Initial customization of the switch must be complete.
+
+.Procedure summary
+This procedure replaces the second NVIDIA SN2100 storage switch sw2 with the new NVIDIA SN2100 switch nsw2. The two nodes are node1 and node2.
+
+Steps to complete:
+
+* Confirm the switch to be replaced is sw2.
+* Disconnect the cables from switch sw2.
+* Reconnect the cables to switch nsw2.
+* Verify all device configurations on switch nsw2.
+
+.Steps
+. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
+`system node autosupport invoke -node * -type all - message MAINT=xh`
++
+_x_ is the duration of the maintenance window in hours.
+
+. Change the privilege level to advanced, entering *y* when prompted to continue: `set -privilege advanced`
+
+. Check on the health status of the storage node ports to make sure that there is connection to storage switch S1:
++
+`storage port show -port-type ENET`
++
+[subs=+quotes]
+----
+cluster1::*> *storage port show -port-type ENET*
+                                  Speed                     VLAN
+Node           Port Type  Mode    (Gb/s) State    Status      ID
+-------------- ---- ----- ------- ------ -------- --------- ----
+node1
+               e3a  ENET  storage 100    enabled  online      30
+               e3b  ENET  storage   0    enabled  offline     30
+               e7a  ENET  storage   0    enabled  offline     30
+               e7b  ENET  storage 100    enabled  online      30
+node2
+               e3a  ENET  storage 100    enabled  online      30
+               e3b  ENET  storage   0    enabled  offline     30
+               e7a  ENET  storage   0    enabled  offline     30
+               e7b  ENET  storage 100    enabled  online      30
+cluster1::*>
+----
+. Verify that storage switch sw1 is available:
+`network device-discovery show`
++
+[subs=+quotes]
+----
+cluster1::*> *network device-discovery show protocol lldp*
+Node/      Local Discovered
+Protocol   Port	 Device (LLDP: ChassisID)  Interface   Platform
+--------   ----  -----------------------   ---------   ---------
+node1/lldp
+           e3a   sw1 (b8:ce:f6:19:1b:42)   swp3        -
+node2/lldp
+           e3a   sw1 (b8:ce:f6:19:1b:42)   swp4        -
+cluster1::*>
+----
+. Run the `net show interface` command on the working switch to confirm that you can see both nodes and all shelves:
+`net show interface`
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *net show interface*
+
+State  Name    Spd   MTU    Mode        LLDP                  Summary
+-----  ------  ----  -----  ----------  --------------------  --------------------
+...
+...
+UP     swp1    100G  9216   Trunk/L2   node1 (e3a)             Master: bridge(UP)
+UP     swp2    100G  9216   Trunk/L2   node2 (e3a)             Master: bridge(UP)
+UP     swp3    100G  9216   Trunk/L2   SHFFG1826000112 (e0b)   Master: bridge(UP)
+UP     swp4    100G  9216   Trunk/L2   SHFFG1826000112 (e0b)   Master: bridge(UP)
+UP     swp5    100G  9216   Trunk/L2   SHFFG1826000102 (e0b)   Master: bridge(UP)
+UP     swp6    100G  9216   Trunk/L2   SHFFG1826000102 (e0b)   Master: bridge(UP))
+...
+...
+----
+
+. Verify the shelf ports in the storage system:
+`storage shelf port show -fields remote-device, remote-port`
++
+[subs=+quotes]
+----
+cluster1::*> *storage shelf port show -fields remote-device, remote-port*
+shelf   id  remote-port   remote-device
+-----   --  -----------   -------------
+3.20    0   swp3          sw1
+3.20    1   -             -
+3.20    2   swp4          sw1
+3.20    3   -             -
+3.30    0   swp5          sw1
+3.20    1   -             -
+3.30    2   swp6          sw1
+3.20    3   -             -
+cluster1::*>
+----
+. Remove all cables attached to storage switch sw2.
+. Reconnect all cables to the replacement switch nsw2.
+. Recheck the health status of the storage node ports:
+`storage port show -port-type ENET`
++
+[subs=+quotes]
+----
+cluster1::*> *storage port show -port-type ENET*
+                                    Speed                     VLAN
+Node             Port Type  Mode    (Gb/s) State    Status      ID
+---------------- ---- ----- ------- ------ -------- --------- ----
+node1
+                 e3a  ENET  storage 100    enabled  online      30
+                 e3b  ENET  storage   0    enabled  offline     30
+                 e7a  ENET  storage   0    enabled  offline     30
+                 e7b  ENET  storage 100    enabled  online      30
+node2
+                 e3a  ENET  storage 100    enabled  online      30
+                 e3b  ENET  storage   0    enabled  offline     30
+                 e7a  ENET  storage   0    enabled  offline     30
+                 e7b  ENET  storage 100    enabled  online      30
+cluster1::*>
+----
++
+. Verify that both switches are available:
+`net device-discovery show`
++
+[subs=+quotes]
+----
+cluster1::*> *network device-discovery show protocol lldp*
+Node/     Local Discovered
+Protocol  Port  Device (LLDP: ChassisID)  Interface	  Platform
+--------  ----  -----------------------   ---------   ---------
+node1/lldp
+          e3a  sw1 (b8:ce:f6:19:1b:96)    swp1        -
+          e7b  nsw2 (b8:ce:f6:19:1a:7e)   swp1        -
+node2/lldp
+          e3a  sw1 (b8:ce:f6:19:1b:96)    swp2        -
+          e7b  nsw2 (b8:ce:f6:19:1a:7e)   swp2        -
+cluster1::*>
+----
+. Verify the shelf ports in the storage system:
+`storage shelf port show -fields remote-device, remote-port`
++
+[subs=+quotes]
+----
+cluster1::*> *storage shelf port show -fields remote-device, remote-port*
+shelf   id    remote-port     remote-device
+-----   --    -----------     -------------
+3.20    0     swp3            sw1
+3.20    1     swp3            nsw2
+3.20    2     swp4            sw1
+3.20    3     swp4            nsw2
+3.30    0     swp5            sw1
+3.20    1     swp5            nsw2
+3.30    2     swp6            sw1
+3.20    3     swp6            nsw2
+cluster1::*>
+----
+
+. Enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the two commands: `system switch ethernet log setup-password` and `system switch ethernet log enable-collection`
++
+Enter: `system switch ethernet log setup-password`
++
+[subs=+quotes]
+----
+cluster1::*> *system switch ethernet log setup-password*
+Enter the switch name: <return>
+The switch name entered is not recognized.
+Choose from the following list:
+*sw1*
+*nsw2*
+
+cluster1::*> *system switch ethernet log setup-password*
+
+Enter the switch name: *sw1*
+RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
+Do you want to continue? {y|n}::[n] *y*
+
+Enter the password: <enter switch password>
+Enter the password again: <enter switch password>
+
+cluster1::*> *system switch ethernet log setup-password*
+
+Enter the switch name: *nsw2*
+RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
+Do you want to continue? {y|n}:: [n] *y*
+
+Enter the password: <enter switch password>
+Enter the password again: <enter switch password>
+----
++
+Followed by: `system switch ethernet log enable-collection`
++
+[subs=+quotes]
+----
+cluster1::*> *system  switch ethernet log enable-collection*
+
+Do you want to enable cluster log collection for all nodes in the cluster?
+{y|n}: [n] *y*
+
+Enabling cluster switch log collection.
+
+cluster1::*>
+----
++
+NOTE: If any of these commands return an error, contact NetApp support.
+
+. Initiate the switch log collection feature: `system switch ethernet log collect -device *`
++
+Wait for 10 minutes and then check that the log collection was successful using the command: `system switch ethernet log show`
++
+[subs=+quotes]
+----
+cluster1::*> *system switch ethernet log show*
+Log Collection Enabled: true
+
+Index  Switch                       Log Timestamp        Status
+------ ---------------------------- -------------------  ---------    
+1      sw1 (b8:ce:f6:19:1b:42)      4/29/2022 03:05:25   complete   
+2      nsw2 (b8:ce:f6:19:1b:96)     4/29/2022 03:07:42   complete
+----
+
+. Change the privilege level back to admin: `set -privilege admin`
+
+. If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
+`system node autosupport invoke -node * -type all -message MAINT=END`

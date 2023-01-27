@@ -1,0 +1,27 @@
+---
+permalink: switch-cisco-3132q-v/configure-reqs-3132q.html
+sidebar: sidebar
+keywords: Cisco, 3132Q-V
+summary: "For Cisco Nexus 3132Q-V switch installation and maintenance, be sure to review network and configuration requirements"
+---
+= Configuration requirements for Cisco Nexus 3132Q-V switches
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+For Cisco Nexus 3132Q-V switch installation and maintenance, be sure to review network and configuration requirements.
+
+== Configuration requirements
+
+To configure your cluster, you need the appropriate number and type of cables and cable connectors for your switches. Depending on the type of switch you are initially configuring, you need to connect to the switch console port with the included console cable; you also need to provide specific network information.
+
+== Network requirements
+
+You need the following network information for all switch configurations:
+
+* IP subnet for management network traffic.
+* Host names and IP addresses for each of the storage system controllers and all applicable switches.
+* Most storage system controllers are managed through the e0M interface by connecting to the Ethernet service port (wrench icon). On AFF A800 and AFF A700 systems, the e0M interface uses a dedicated Ethernet port.
+
+Refer to the https://hwu.netapp.com[Hardware Universe^] for latest information.
+
