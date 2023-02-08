@@ -1,0 +1,194 @@
+---
+permalink: switch-nvidia-sn2100/install-snmpv3-sn2100-storage.html
+sidebar: sidebar
+keywords: sn2100 SN2100 cabling setup, sn2100 switches configuration, cumulus linux os
+summary: 'This release includes support for SNMPv3 for log monitoring.'
+---
+= Configure SNMPv3 for switch log collection
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+Follow this procedure to configure SNMPv3, which supports switch log collection and Switch Health Monitoring (SHM).
+
+.About this task
+The following commands configure an SNMPv3 username on NVIDIA SN2100 switches:
+
+* For *no authentication*:
+`net add snmp-server username _SNMPv3_USER_ auth-none`
+* For *MD5/SHA authentication*:
+`net add snmp-server username _SNMPv3_USER_ [auth-md5|auth-sha] _AUTH-PASSWORD_`
+* For *MD5/SHA authentication with AES/DES encryption*:
+`net add snmp-server username _SNMPv3_USER_ [auth-md5|auth-sha] _AUTH-PASSWORD_ [encrypt-aes|encrypt-des] _PRIV-PASSWORD_`
+
+The following command configures an SNMPv3 username on the ONTAP side:
+`cluster1::*> security login create -user-or-group-name _SNMPv3_USER_ -application snmp -authentication-method usm -remote-switch-ipaddress _ADDRESS_`
+
+The following command establishes the SNMPv3 username with SHM:
+`cluster1::*> system switch ethernet modify -device _DEVICE_ -snmp-version SNMPv3 -community-or-username _SNMPv3_USER_`
+
+.Steps
+. Set up the SNMPv3 user on the switch to use authentication and encryption:
++
+`net show snmp status`
++
+.Show example
+[%collapsible]
+====
+[subs=+quotes]
+----
+cumulus@sw1:~$ *net show snmp status*
+Simple Network Management Protocol (SNMP) Daemon.
+---------------------------------  ----------------
+Current Status                     active (running)
+Reload Status                      enabled
+Listening IP Addresses             all vrf mgmt
+Main snmpd PID                     4318
+Version 1 and 2c Community String  Configured
+Version 3 Usernames                Not Configured
+---------------------------------  ----------------
+cumulus@sw1:~$
+cumulus@sw1:~$ *net add snmp-server username SNMPv3User auth-md5 netapp1! encrypt-aes netapp1!*
+cumulus@sw1:~$ *net commit*
+--- /etc/snmp/snmpd.conf        2020-08-02 21:09:34.686949282 +0000
++++ /run/nclu/snmp/snmpd.conf   2020-08-11 00:13:51.826126655 +0000
+@@ -1,26 +1,28 @@
+ #### Auto-generated config file: do not edit. ####
+ agentaddress udp:@mgmt:161
+ agentxperms 777 777 snmp snmp
+ agentxsocket /var/agentx/master
+ createuser _snmptrapusernameX
++createuser SNMPv3User MD5 netapp1! AES netapp1!
+ ifmib_max_num_ifaces 500
+ iquerysecname _snmptrapusernameX
+ master agentx
+ monitor -r 60 -o laNames -o laErrMessage "laTable" laErrorFlag != 0
+ pass -p 10 1.3.6.1.2.1.1.1 /usr/share/snmp/sysDescr_pass.py
+ pass_persist 1.2.840.10006.300.43 /usr/share/snmp/ieee8023_lag_pp.py
+ pass_persist 1.3.6.1.2.1.17 /usr/share/snmp/bridge_pp.py
+ pass_persist 1.3.6.1.2.1.31.1.1.1.18 /usr/share/snmp/snmpifAlias_pp.py
+ pass_persist 1.3.6.1.2.1.47 /usr/share/snmp/entity_pp.py
+ pass_persist 1.3.6.1.2.1.99 /usr/share/snmp/entity_sensor_pp.py
+ pass_persist 1.3.6.1.4.1.40310.1 /usr/share/snmp/resq_pp.py
+ pass_persist 1.3.6.1.4.1.40310.2 /usr/share/snmp/cl_drop_cntrs_pp.py
+ pass_persist 1.3.6.1.4.1.40310.3 /usr/share/snmp/cl_poe_pp.py
+ pass_persist 1.3.6.1.4.1.40310.4 /usr/share/snmp/bgpun_pp.py
+ pass_persist 1.3.6.1.4.1.40310.5 /usr/share/snmp/cumulus-status.py
+ pass_persist 1.3.6.1.4.1.40310.6 /usr/share/snmp/cumulus-sensor.py
+ pass_persist 1.3.6.1.4.1.40310.7 /usr/share/snmp/vrf_bgpun_pp.py
++rocommunity cshm1! default
+ rouser _snmptrapusernameX
++rouser SNMPv3User priv
+ sysobjectid 1.3.6.1.4.1.40310
+ sysservices 72
+-rocommunity cshm1! default
+
+
+net add/del commands since the last "net commit"
+================================================
+
+User        Timestamp                   Command
+----------  --------------------------  -----------------------------------------------------------------------------
+SNMPv3User  2020-08-11 00:13:51.826987  net add snmp-server username SNMPv3User auth-md5 netapp1! encrypt-aes netapp1!
+
+cumulus@sw1:~$
+cumulus@sw1:~$ *net show snmp status*
+Simple Network Management Protocol (SNMP) Daemon.
+---------------------------------  ----------------
+Current Status                     active (running)
+Reload Status                      enabled
+Listening IP Addresses             all vrf mgmt
+Main snmpd PID                     24253
+Version 1 and 2c Community String  Configured
+Version 3 Usernames                Configured     *<---- Configured here*
+---------------------------------  ----------------
+cumulus@sw1:~$
+----
+====
+
+. Set up the SNMPv3 user on the ONTAP side:
++
+`security login create -user-or-group-name SNMPv3User -application snmp -authentication-method usm -remote-switch-ipaddress 10.231.80.212`
++
+.Show example
+[%collapsible]
+====
+[subs=+quotes]
+----
+cluster1::*> *security login create -user-or-group-name SNMPv3User -application snmp -authentication-method usm -remote-switch-ipaddress 10.231.80.212*
+
+Enter the authoritative entity's EngineID [remote EngineID]:
+
+Which authentication protocol do you want to choose (none, md5, sha, sha2-256)
+[none]: *md5*
+
+Enter the authentication protocol password (minimum 8 characters long):
+
+Enter the authentication protocol password again:
+
+Which privacy protocol do you want to choose (none, des, aes128) [none]: *aes128*
+
+Enter privacy protocol password (minimum 8 characters long):
+Enter privacy protocol password again:
+----
+====
+
+. Configure SHM to monitor with the new SNMPv3 user:
++
+`system switch ethernet show-all -device "sw1 (b8:59:9f:09:7c:22)" -instance`
++
+.Show example
+[%collapsible]
+====
+[subs=+quotes]
+----
+cluster1::*> *system switch ethernet show-all -device "sw1 (b8:59:9f:09:7c:22)" -instance*
+                                   Device Name: sw1 (b8:59:9f:09:7c:22)
+                                    IP Address: 10.231.80.212
+                                  SNMP Version: SNMPv2c
+                                 Is Discovered: true
+DEPRECATED-Community String or SNMPv3 Username: -
+           Community String or SNMPv3 Username: cshm1!
+                                  Model Number: MSN2100-CB2FC
+                                Switch Network: cluster-network
+                              Software Version: Cumulus Linux version 4.4.2 running on Mellanox Technologies Ltd. MSN2100
+                     Reason For Not Monitoring: None
+                      Source Of Switch Version: LLDP
+                                Is Monitored ?: true
+                   Serial Number of the Device: MT2110X06399  *<---- serial number to check*
+                                   RCF Version: MSN2100-RCF-v1.9X6-Cluster-LLDP Aug-18-2022
+
+cluster1::*>
+cluster1::*> *system switch ethernet modify -device "sw1 (b8:59:9f:09:7c:22)" -snmp-version SNMPv3 -community-or-username SNMPv3User*
+----
+====
+
+. Verify that the serial number to be queried with the newly created SNMPv3 user is the same as detailed in the previous step once the SHM polling period has completed.
++
+`system switch ethernet polling-interval show`
++
+.Show example
+[%collapsible]
+====
+[subs=+quotes]
+----
+cluster1::*> *system switch ethernet polling-interval show*
+         Polling Interval (in minutes): 5
+
+cluster1::*> *system switch ethernet show-all -device "sw1 (b8:59:9f:09:7c:22)" -instance*
+                                   Device Name: sw1 (b8:59:9f:09:7c:22)
+                                    IP Address: 10.231.80.212
+                                  SNMP Version: SNMPv3
+                                 Is Discovered: true
+DEPRECATED-Community String or SNMPv3 Username: -
+           Community String or SNMPv3 Username: SNMPv3User
+                                  Model Number: MSN2100-CB2FC
+                                Switch Network: cluster-network
+                              Software Version: Cumulus Linux version 4.4.2 running on Mellanox Technologies Ltd. MSN2100
+                     Reason For Not Monitoring: None
+                      Source Of Switch Version: LLDP
+                                Is Monitored ?: true
+                   Serial Number of the Device: MT2110X06399  *<---- serial number to check*
+                                   RCF Version: MSN2100-RCF-v1.9X6-Cluster-LLDP Aug-18-2022
+----
+====

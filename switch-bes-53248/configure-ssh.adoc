@@ -1,0 +1,99 @@
+---
+permalink: switch-bes-53248/configure-ssh.html
+sidebar: sidebar
+keywords: ssh, requirement, cluster, switch, health, monitor, chsm, log, collection, feature, bes, enable ssh on bes-53248 cluster switches - bes-53248 switches
+summary: SSH is a requirement when using the Cluster Switch Health Monitor \(CSHM\) and log collection features. To enable SSH on BES-53248 cluster switches, you generate the SSH keys first and then enable SSH.
+---
+= Enable SSH on BES-53248 cluster switches
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+If you are using the Cluster Switch Health Monitor (CSHM) and log collection features, you must generate the SSH keys and then enable SSH on the cluster switches.
+
+.Steps
+
+. Generate the SSH keys:
++
+`crypto key generate`
++
+.Show example
+[%collapsible]
+====
+[subs=+quotes]
+----
+(switch)# *show ip ssh*
+
+SSH Configuration
+
+Administrative Mode: .......................... Disabled
+SSH Port: ..................................... 22
+Protocol Level: ............................... Version 2
+SSH Sessions Currently Active: ................ 0
+Max SSH Sessions Allowed: ..................... 5
+SSH Timeout (mins): ........................... 5
+Keys Present: ................................. DSA(1024) RSA(1024) ECDSA(521)
+Key Generation In Progress: ................... None
+SCP server Administrative Mode: ............... Disabled
+
+(switch)# *config*
+
+(switch) (Config)# *crypto key generate rsa*
+
+Do you want to overwrite the existing RSA keys? (y/n): *y*
+
+
+(switch) (Config)# *crypto key generate dsa*
+
+Do you want to overwrite the existing DSA keys? (y/n): *y*
+
+
+(switch) (Config)# *crypto key generate ecdsa 521*
+
+Do you want to overwrite the existing ECDSA keys? (y/n): *y*
+
+(switch) (Config)# *aaa authorization commands "noCmdAuthList" none*
+(switch) (Config)# *exit*
+(switch)# *ip ssh server enable*
+(switch)# *ip ssh pubkey-auth*
+(switch)# *ip scp server enable*
+(switch)# *write mem*
+This operation may take a few minutes.
+Management interfaces will not be available during this time.
+Are you sure you want to save? (y/n) *y*
+
+Config file 'startup-config' created successfully.
+
+Configuration Saved!
+----
+====
+
+. Verify that SSH is enabled:
++
+`show ip ssh`
++
+.Show example
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+(switch)# *show ip ssh*
+
+SSH Configuration
+
+Administrative Mode: .......................... Enabled
+SSH Port: ..................................... 22
+Protocol Level: ............................... Version 2
+SSH Sessions Currently Active: ................ 0
+Max SSH Sessions Allowed: ..................... 5
+SSH Timeout (mins): ........................... 5
+Keys Present: ................................. DSA(1024) RSA(1024) ECDSA(521)
+Key Generation In Progress: ................... None
+SCP server Administrative Mode: ............... Disabled
+----
+====
+
+.What's next?
+
+link:configure-log-collection.html[Enable the log collection feature].
