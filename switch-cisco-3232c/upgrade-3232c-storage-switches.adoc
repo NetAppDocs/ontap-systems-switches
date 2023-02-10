@@ -230,9 +230,48 @@ S2# copy running-config startup-config
 ----
 ====
 
-=== Step 3: Download the NX-OS image to Cisco switch S2 and reboot 
+=== Step 3: Copy the NX-OS image to Cisco switch S2 and reboot 
 
-. Download the NX-OS image to switch S2.
+. Copy the NX-OS image to switch S2.
++
+.Show example
+[%collapsible]
+====
+----
+S2# copy sftp: bootflash: vrf management
+Enter source filename: /code/nxos.9.3.4.bin
+Enter hostname for the sftp server: 172.19.2.1
+Enter username: user1
+
+Outbound-ReKey for 172.19.2.1:22
+Inbound-ReKey for 172.19.2.1:22
+user1@172.19.2.1's password:
+sftp> progress
+Progress meter enabled
+sftp> get   /code/nxos.9.3.4.bin  /bootflash/nxos.9.3.4.bin
+/code/nxos.9.3.4.bin  100% 1261MB   9.3MB/s   02:15
+sftp> exit
+Copy complete, now saving to disk (please wait)...
+Copy complete.
+
+cs2# copy sftp: bootflash: vrf management
+Enter source filename: /code/n9000-epld.9.3.4.img
+Enter hostname for the sftp server: 172.19.2.1
+Enter username: user1
+
+Outbound-ReKey for 172.19.2.1:22
+Inbound-ReKey for 172.19.2.1:22
+user1@172.19.2.1's password:
+sftp> progress
+Progress meter enabled
+sftp> get   /code/n9000-epld.9.3.4.img  /bootflash/n9000-epld.9.3.4.img
+/code/n9000-epld.9.3.4.img  100%  161MB   9.5MB/s   00:16
+sftp> exit
+Copy complete, now saving to disk (please wait)...
+Copy complete.
+----
+====
+
 . Install the system image so that the new version will be loaded the next time switch S2 is rebooted.
 +
 The switch will be reboot in 10 seconds with the new image as shown in the following output:
@@ -460,3 +499,5 @@ There are no entries matching your query.
 `system node autosupport invoke -node * -type all -message MAINT=END`
 
 // QA clean-up, 2022-03-04
+
+// 2023 FEB 09, GH issue #67
