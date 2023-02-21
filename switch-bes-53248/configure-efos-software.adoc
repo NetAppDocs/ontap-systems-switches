@@ -61,8 +61,6 @@ a|FIPS compliant
 a|Non-FIPS compliant
 |===
 
-IMPORTANT: Note that after upgrading BES-53248 cluster switches from EFOS 3.3.x.x or 3.4.x.x to EFOS 3.7.0.4 or 3.8.0.2, Inter-Switch Links (ISLs) and port channel are marked in the *Down* state. See this KB article: https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Systems/Fabric%2C_Interconnect_and_Management_Switches/BES-53248_Cluster_Switch_NDU_failed_upgrade_to_EFOS_3.7.0.4_and_later[BES-53248 Cluster Switch NDU failed upgrade to EFOS 3.7.0.4 and later^] for further details.
-
 == Install the software
 Use one of the following methods:
 
@@ -71,6 +69,8 @@ Use one of the following methods:
 
 === Method 1: Install EFOS
 Perform the following steps to install or upgrade the EFOS software.
+
+IMPORTANT: Note that after upgrading BES-53248 cluster switches from EFOS 3.3.x.x or 3.4.x.x to EFOS 3.7.0.4 or 3.8.0.2, Inter-Switch Links (ISLs) and port channel are marked in the *Down* state. See this KB article: https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Systems/Fabric%2C_Interconnect_and_Management_Switches/BES-53248_Cluster_Switch_NDU_failed_upgrade_to_EFOS_3.7.0.4_and_later[BES-53248 Cluster Switch NDU failed upgrade to EFOS 3.7.0.4 and later^] for further details.
 
 .Steps
 
@@ -439,3 +439,5 @@ The switch will reboot with no configuration applied and reset to factory defaul
 .What's next?
 
 link:configure-licenses.html[Install licenses for BES-53248 cluster switches]. 
+
+// 2023 FEB 16, ontap-systems-switches-issues-76
