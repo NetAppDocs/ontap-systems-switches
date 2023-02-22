@@ -173,7 +173,7 @@ cluster1::*>
 [%collapsible]
 ====
 ----
-cluster1::*> network interface modify -vserver Cluster -lif \* -auto-revert false
+cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert false
 ----
 ====
 
@@ -546,7 +546,7 @@ cluster1::*>
 [%collapsible]
 ====
 ----
-cluster1::*> network interface modify -vserver Cluster -lif \* -auto-revert True
+cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert True
 ----
 ====
 
@@ -569,7 +569,7 @@ This command will reboot the system. (y/n)?  [n] y
 [%collapsible]
 ====
 ----
-cs1# show interface brief \| grep up
+cs1# show interface brief | grep up
 .
 .
 Eth1/1/1      1       eth  access up      none                    10G(D) --
