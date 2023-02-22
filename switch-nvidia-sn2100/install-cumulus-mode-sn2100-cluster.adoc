@@ -68,7 +68,7 @@ Retype new password: *netapp1!*
 ----
 cumulus@cumulus:mgmt:~$ *net show system*
 Hostname......... cumulus
-Build............ *Cumulus Linux 4.4.2*
+Build............ *Cumulus Linux 4.4.3*
 Uptime........... 0:08:20.860000
 Model............ Mlnx X86
 CPU.............. x86_64 Intel Atom C2558 2.40GHz
@@ -148,11 +148,11 @@ cumulus@sw1:~$ *sudo dpkg-reconfigure tzdata*
 .. To set the time zone for all services and daemons, reboot the switch.
 .. Verify that the date and time on the switch are correct and update if necessary.
 
-. Install Cumulus Linux 4.4.2:
+. Install Cumulus Linux 4.4.3:
 +
 [subs=+quotes]
 ----
-cumulus@sw1:mgmt:~$ *sudo onie-install -a -i http://_<web-server>/<path>_/cumulus-linux-4.4.2-mlx-amd64.bin*
+cumulus@sw1:mgmt:~$ *sudo onie-install -a -i http://_<web-server>/<path>_/cumulus-linux-4.4.3-mlx-amd64.bin*
 ----
 The installer starts the download.  Type *y* when prompted.
 . Reboot the NVIDIA SN2100 switch:
