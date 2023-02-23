@@ -38,6 +38,8 @@ The examples in this procedure use the following switch and node nomenclature:
 
 The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 
+While this procedure is being followed, an operational inter-switch link (ISL) between the switches is not required. This is important because changes between RCF versions can temporarily affect ISL connectivity. To ensure nondisruptive cluster operations, cluster LIFs are all migrated to the operational partner switch while performing the steps on the target switch.
+
 Be sure to complete the procedure in link:prepare-install-cisco-nexus-3232c.html[Prepare to install NX-OS and RCF], and then follow the steps below.
 
 .Steps
@@ -707,3 +709,4 @@ RPC status:
 ====
 
 // BURT 1453255, 2022-06-10
+// Added in paragraph under About this task, as per GH #81, 2023-FEB-23
