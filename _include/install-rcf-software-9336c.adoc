@@ -30,7 +30,7 @@ NOTE: The command outputs might vary depending on different releases of ONTAP.
 .About this task
 The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 
-While this procedure is being followed, an operational inter-switch link (ISL) between the switches is not required. This is important because changes between RCF versions can temporarily affect ISL connectivity. To ensure nondisruptive cluster operations, cluster LIFs are all migrated to the operational partner switch while performing the steps on the target switch.
+No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To ensure non-disruptive cluster operations, the following procedure migrates all of the cluster LIFs to the operational partner switch while performing the steps on the target switch.
 
 CAUTION: Before installing a new switch software version and RCFs, you must erase the switch settings and perform basic configuration. You must be connected to the switch using the serial console. This task resets the configuration of the management network.
 
