@@ -89,7 +89,7 @@ ONIE:/ # *route add default gw 10.233.204.1*
 . Install Cumulus Linux:
 +
 ----
-# onie-nos-install http://<web-server>/<path>/cumulus-linux-4.4.2-mlx-amd64.bin
+# onie-nos-install http://<web-server>/<path>/cumulus-linux-4.4.3-mlx-amd64.bin
 ----
 +
 .Show example
@@ -102,10 +102,10 @@ ONIE:/ # *route*
 
   Kernel IP routing table
 
-  ONIE:/ # *onie-nos-install http://_<web-server>/<path>_/cumulus-linux-4.4.2-mlx-amd64.bin*
+  ONIE:/ # *onie-nos-install http://_<web-server>/<path>_/cumulus-linux-4.4.3-mlx-amd64.bin*
 
   Stopping: discover... done.
-  Info: Attempting http://10.60.132.97/x/eng/testbedN,svl/nic/files/cumulus-linux-4.4.2-mlx-amd64.bin ...
+  Info: Attempting http://10.60.132.97/x/eng/testbedN,svl/nic/files/cumulus-linux-4.4.3-mlx-amd64.bin ...
   Connecting to 10.60.132.97 (10.60.132.97:80)
   installer            100% |*******************************|   552M  0:00:00 ETA
   ...
@@ -140,12 +140,14 @@ Retype new password: *netapp1!*
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:~$ *net show version*
-NCLU_VERSION=1.0-cl4.4.2u4
+NCLU_VERSION=1.0-cl4.4.3u4
 DISTRIB_ID="Cumulus Linux"
-DISTRIB_RELEASE=*4.4.2*
-DISTRIB_DESCRIPTION=*"Cumulus Linux 4.4.2”*
+DISTRIB_RELEASE=*4.4.3*
+DISTRIB_DESCRIPTION=*"Cumulus Linux 4.4.3”*
 ----
 ====
 
 .What's next?
 link:install-rcf-sn2100-cluster.html[Install the Reference Configuration File (RCF) script].
+
+// GH issue #77 replacing 4.4.2with 4.4.3, 2023-FEB-22
