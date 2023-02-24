@@ -13,6 +13,7 @@ Follow this procedure to configure the Cisco Nexus 9336C-FX2 switch.
 
 .What you'll need
 * Access to an HTTP, FTP or TFTP server at the installation site to download the applicable NX-OS and reference configuration file (RCF) releases.
+* Applicable NX-OS version, downloaded from the https://software.cisco.com/download/home[Cisco software download^] page. 
 * Applicable licenses, network and configuration information, and cables.
 * Completed link:setup-worksheet-9336c-storage.html[cabling worksheets].
 * Applicable NetApp cluster network and management network RCFs downloaded from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com^]. All Cisco cluster network and management network switches arrive with the standard Cisco factory-default configuration. These switches also have the current version of the NX-OS software but do not have the RCFs loaded.
@@ -118,14 +119,11 @@ NOTE: If you do not save the configuration at this stage, none of the changes wi
 |===
 
 . Verify the configuration choices you made in the display that appears at the end of the setup, and make sure that you save the configuration.
-. Check the version on the cluster network switches, and if necessary, download the NetApp-supported version of the software to the switches.
-+
-If you download the NetApp-supported version of the software, then you must also download the _NetApp Cluster Network Switch Reference Configuration File_ and merge it with the configuration you saved in Step 5. You can download the file and the instructions from the https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches^] page.
-
-. Check the software version on the network switches and, if necessary, download the NetApp-supported version of the software to the switches. If you have your own switches, refer to the https://cisco.com[Cisco site^].
-+
-If you download the NetApp-supported version of the software, then you must also download the _NetApp Management Network Switch Reference Configuration File_ and merge it with the configuration you saved in Step 5. You can download the file and instructions from the https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches^] page.
+. Check the version on the cluster network switches, and if necessary, download the 
+NetApp-supported version of the software to the switches from the https://software.cisco.com/download/home[Cisco software download^] page.
 
 .What's next?
 
-Optionally, you can link:install-switch-and-passthrough-panel-9336c-storage.html[install switch in NetApp cabinet]. Otherwise, go to link:install-nxos-overview-9336c-storage.html[Prepare to install NX-OS and RCF].
+Optionally, you can link:install-switch-and-passthrough-panel-9336c-storage.html[install a Cisco Nexus 9336C-FX2 switch in a NetApp cabinet]. Otherwise, go to link:install-nxos-overview-9336c-storage.html[Prepare to install NX-OS and RCF].
+
+// Added link to Cisco Software Download page, as per GH issue #64, 2023-FEB-23
