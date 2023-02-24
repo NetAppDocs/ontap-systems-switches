@@ -55,6 +55,9 @@ _x_ is the duration of the maintenance window in hours.
 +
 `storage port show -port-type ENET`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *storage port show -port-type ENET*
@@ -73,9 +76,14 @@ node2
                e7b  ENET  storage 100    enabled  online      30
 cluster1::*>
 ----
+====
+
 . Verify that storage switch sw1 is available:
 `network device-discovery show`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network device-discovery show protocol lldp*
@@ -88,9 +96,14 @@ node2/lldp
            e3a   sw1 (b8:ce:f6:19:1b:42)   swp4        -
 cluster1::*>
 ----
+====
+
 . Run the `net show interface` command on the working switch to confirm that you can see both nodes and all shelves:
 `net show interface`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cumulus@sw1:~$ *net show interface*
@@ -108,10 +121,14 @@ UP     swp6    100G  9216   Trunk/L2   SHFFG1826000102 (e0b)   Master: bridge(UP
 ...
 ...
 ----
+====
 
 . Verify the shelf ports in the storage system:
 `storage shelf port show -fields remote-device, remote-port`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *storage shelf port show -fields remote-device, remote-port*
@@ -127,11 +144,16 @@ shelf   id  remote-port   remote-device
 3.20    3   -             -
 cluster1::*>
 ----
+====
+
 . Remove all cables attached to storage switch sw2.
 . Reconnect all cables to the replacement switch nsw2.
 . Recheck the health status of the storage node ports:
 `storage port show -port-type ENET`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *storage port show -port-type ENET*
@@ -150,10 +172,14 @@ node2
                  e7b  ENET  storage 100    enabled  online      30
 cluster1::*>
 ----
+====
 +
 . Verify that both switches are available:
 `net device-discovery show`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *network device-discovery show protocol lldp*
@@ -168,9 +194,14 @@ node2/lldp
           e7b  nsw2 (b8:ce:f6:19:1a:7e)   swp2        -
 cluster1::*>
 ----
+====
+
 . Verify the shelf ports in the storage system:
 `storage shelf port show -fields remote-device, remote-port`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *storage shelf port show -fields remote-device, remote-port*
@@ -186,11 +217,15 @@ shelf   id    remote-port     remote-device
 3.20    3     swp6            nsw2
 cluster1::*>
 ----
+====
 
 . Enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the two commands: `system switch ethernet log setup-password` and `system switch ethernet log enable-collection`
 +
 Enter: `system switch ethernet log setup-password`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *system switch ethernet log setup-password*
@@ -218,9 +253,13 @@ Do you want to continue? {y|n}:: [n] *y*
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 ----
+====
 +
 Followed by: `system switch ethernet log enable-collection`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *system  switch ethernet log enable-collection*
@@ -232,6 +271,7 @@ Enabling cluster switch log collection.
 
 cluster1::*>
 ----
+====
 +
 NOTE: If any of these commands return an error, contact NetApp support.
 
@@ -239,6 +279,9 @@ NOTE: If any of these commands return an error, contact NetApp support.
 +
 Wait for 10 minutes and then check that the log collection was successful using the command: `system switch ethernet log show`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *system switch ethernet log show*
@@ -249,8 +292,11 @@ Index  Switch                       Log Timestamp        Status
 1      sw1 (b8:ce:f6:19:1b:42)      4/29/2022 03:05:25   complete   
 2      nsw2 (b8:ce:f6:19:1b:96)     4/29/2022 03:07:42   complete
 ----
+====
 
 . Change the privilege level back to admin: `set -privilege admin`
 
 . If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
 `system node autosupport invoke -node * -type all -message MAINT=END`
+
+// Updated the example output, made it collapsible, 2023-FEB-22

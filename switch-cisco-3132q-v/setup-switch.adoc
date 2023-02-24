@@ -14,6 +14,7 @@ Follow this procedure to configure the Cisco Nexus 3132Q-V switch.
 .What you'll need
 
 * Access to an HTTP, FTP or TFTP server at the installation site to download the applicable NX-OS and reference configuration file (RCF) releases.
+* Applicable NX-OS version, downloaded from the https://software.cisco.com/download/home[Cisco software download^] page. 
 * Required network switch documentation, controller documentation, and ONTAP documentation. For more information, see link:required-documentation-3132q.html[Required documentation].
 
 * Applicable licenses, network and configuration information, and cables.
@@ -137,15 +138,11 @@ NOTE: If you do not save the configuration at this stage, none of the changes wi
 |===
 +
 . Verify the configuration choices you made in the display that appears at the end of the setup, and make sure that you save the configuration.
-. Check the version on the cluster network switches, and if necessary, download the NetApp-supported version of the software to the switches.
-+
-If you download the NetApp-supported version of the software, then you must also download the _NetApp Cluster Network Switch Reference Configuration File_ and merge it with the configuration you saved in Step 5. You can download the file and the instructions from the https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches^] page.
-
-. Check the software version on the network switches and, if necessary, download the NetApp-supported version of the software to the switches. If you have your own switches, refer to the https://cisco.com[Cisco site^].
-+
-If you download the NetApp-supported version of the software, then you must also download the _NetApp Management Network Switch Reference Configuration File_ and merge it with the configuration you saved in Step 5. You can download the file and instructions from the https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches^] page.
-
+. Check the version on the cluster network switches, and if necessary, download the 
+NetApp-supported version of the software to the switches from the https://software.cisco.com/download/home[Cisco software download^] page.
 
 .What's next?
 
 link:prepare-install-cisco-nexus-3132q.html[Prepare to install NX-OS and RCF].
+
+// Added link to Cisco Software Download page, as per GH issue #64, 2023-FEB-23
