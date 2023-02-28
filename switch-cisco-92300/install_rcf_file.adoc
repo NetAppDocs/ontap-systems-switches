@@ -25,6 +25,7 @@ The examples in this procedure use the following switch and node nomenclature:
 ====
 * The procedure requires the use of both ONTAP commands and https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html#InstallandUpgrade[Cisco Nexus 9000 Series Switches^]; ONTAP commands are used unless otherwise indicated.
 * Before you perform this procedure, make sure that you have a current backup of the switch configuration.
+* No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To ensure non-disruptive cluster operations, the following procedure migrates all of the cluster LIFs to the operational partner switch while performing the steps on the target switch.
 ====
 
 .Steps
@@ -32,7 +33,9 @@ The examples in this procedure use the following switch and node nomenclature:
 . Display the cluster ports on each node that are connected to the cluster switches:
 `network device-discovery show`
 +
-[subs=+quotes]
+.Show example 
+[%collapsible]
+====
 ----
 cluster1::*> *network device-discovery show*
 Node/       Local  Discovered
@@ -46,12 +49,15 @@ node2/cdp
             e0b    cs2                       Ethernet1/1/2     N9K-C92300YC
 cluster1::*>
 ----
+====
 
 . Check the administrative and operational status of each cluster port.
  .. Verify that all the cluster ports are up with a healthy status:
 `network port show -ipspace Cluster`
 +
-[subs=+quotes]
+.Show example 
+[%collapsible]
+====
 ----
 cluster1::*> *network port show -ipspace Cluster*
 
@@ -72,11 +78,14 @@ e0c       Cluster      Cluster          up   9000  auto/100000 healthy false
 e0d       Cluster      Cluster          up   9000  auto/100000 healthy false
 cluster1::*>
 ----
+====
 
  .. Verify that all the cluster interfaces (LIFs) are on the home port:
 `network interface show -vserver Cluster`
 +
-[subs=+quotes]
+.Show example 
+[%collapsible]
+====
 ----
 cluster1::*> *network interface show -vserver Cluster*
             Logical            Status     Network           Current      Current Is
@@ -89,11 +98,14 @@ Cluster
             node2_clus2        up/up      169.254.3.9/23    node2        e0d     true
 cluster1::*>
 ----
+====
 
  .. Verify that the cluster displays information for both cluster switches:
 `system cluster-switch show -is-monitoring-enabled-operational true`
 +
-[subs=+quotes]
+.Show example 
+[%collapsible]
+====
 ----
 cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true*
 Switch                      Type               Address          Model
@@ -116,6 +128,7 @@ cs2                         cluster-network    10.233.205.93    N9K-C92300YC
 
 2 entries were displayed.
 ----
+====
 
 . Disable auto-revert on the cluster LIFs.
 +
@@ -135,7 +148,9 @@ cs2(config-if-range)# *shutdown*
 . Verify that the cluster ports have migrated to the ports hosted on cluster switch cs1. This might take a few seconds.
 `network interface show -vserver Cluster`
 +
-[subs=+quotes]
+.Show example 
+[%collapsible]
+====
 ----
 cluster1::*> *network interface show -vserver Cluster*
             Logical           Status     Network            Current       Current Is
@@ -148,11 +163,14 @@ Cluster
             node2_clus2       up/up      169.254.3.9/23     node2         e0c     false
 cluster1::*>
 ----
+====
 
 . Verify that the cluster is healthy:
 `cluster show`
 +
-[subs=+quotes]
+.Show example 
+[%collapsible]
+====
 ----
 cluster1::*> *cluster show*
 Node           Health  Eligibility   Epsilon
@@ -161,6 +179,7 @@ node1          true    true          false
 node2          true    true          false
 cluster1::*>
 ----
+====
 
 . If you do not already have a current backup of the switch, you can save the current switch configuration by copying the output of the following command to a log file:
 +
@@ -312,7 +331,9 @@ This command will reboot the system. (y/n)?  [n] *y*
  .. Verify that e0d ports are up and healthy across all nodes in the cluster:
 `network port show -ipspace Cluster`
 +
-[subs=+quotes]
+.Show example 
+[%collapsible]
+====
 ----
 cluster1::*> *network port show -ipspace Cluster*
 
@@ -332,10 +353,13 @@ Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
 e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 ----
+====
 
  .. Verify the switch health from the cluster (this might not show switch cs2, since LIFs are not homed on e0d).
 +
-[subs=+quotes]
+.Show example 
+[%collapsible]
+====
 ----
 cluster1::*> *network device-discovery show -protocol cdp*
 Node/       Local  Discovered
@@ -369,6 +393,7 @@ cs2                         cluster-network    10.233.205.91    N9K-C92300YC
 
 2 entries were displayed.
 ----
+====
 
 +
 [NOTE]
@@ -392,7 +417,9 @@ cs1(config-if-range)# *shutdown*
 
 . Verify that the cluster LIFs have migrated to the ports hosted on switch cs2. This might take a few seconds. `network interface show -vserver Cluster`
 +
-[subs=+quotes]
+.Show example 
+[%collapsible]
+====
 ----
 cluster1::*> *network interface show -vserver Cluster*
             Logical          Status     Network            Current           Current Is
@@ -405,11 +432,14 @@ Cluster
             node2_clus2      up/up      169.254.3.9/23     node2             e0d     true
 cluster1::*>
 ----
+====
 
 . Verify that the cluster is healthy:
 `cluster show`
 +
-[subs=+quotes]
+.Show example 
+[%collapsible]
+====
 ----
 cluster1::*> *cluster show*
 Node           Health   Eligibility   Epsilon
@@ -418,6 +448,7 @@ node1          true     true          false
 node2          true     true          false
 cluster1::*>
 ----
+====
 
 . Repeat Steps 7 to 14 on switch cs1.
 . Enable auto-revert on the cluster LIFs.
@@ -453,7 +484,9 @@ Ethernet1/4      1       eth  trunk  up      none                   100G(D) --
 . Verify that the ISL between cs1 and cs2 is functional:
 `show port-channel summary`
 +
-[subs=+quotes]
+.Show example 
+[%collapsible]
+====
 ----
 cs1# *show port-channel summary*
 Flags:  D - Down        P - Up in port-channel (members)
@@ -471,11 +504,14 @@ Group Port-       Type     Protocol  Member Ports
 1     Po1(SU)     Eth      LACP      Eth1/65(P)   Eth1/66(P)
 cs1#
 ----
+====
 
 . Verify that the cluster LIFs have reverted to their home port:
 `network interface show -vserver Cluster`
 +
-[subs=+quotes]
+.Show example 
+[%collapsible]
+====
 ----
 cluster1::*> *network interface show -vserver Cluster*
             Logical       Status     Network            Current       Current Is
@@ -488,11 +524,14 @@ Cluster
             node2_clus2   up/up      169.254.3.9/23     node2         e0d     true
 cluster1::*>
 ----
+====
 
 . Verify that the cluster is healthy:
 `cluster show`
 +
-[subs=+quotes]
+.Show example 
+[%collapsible]
+====
 ----
 cluster1::*> *cluster show*
 Node           Health  Eligibility   Epsilon
@@ -500,11 +539,14 @@ Node           Health  Eligibility   Epsilon
 node1          true    true          false
 node2          true    true          false
 ----
+====
 
 . Ping the remote cluster interfaces to verify connectivity:
 `cluster ping-cluster -node local`
 +
-[subs=+quotes]
+.Show example 
+[%collapsible]
+====
 ----
 cluster1::*> *cluster ping-cluster -node local*
 Host is node1
@@ -539,6 +581,7 @@ RPC status:
 6 paths up, 0 paths down (tcp check)
 6 paths up, 0 paths down (udp check)
 ----
+====
 
 // start of tabbed content 
 
@@ -554,7 +597,9 @@ For ONTAP 9.8 and later, enable the cluster switch health monitor log collection
 
 Enter: ``system switch ethernet log setup-password``
 
-[subs=+quotes]
+.Show example 
+[%collapsible]
+====
 ----
 cluster1::*> *system switch ethernet log setup-password*
 Enter the switch name: <return>
@@ -580,10 +625,13 @@ Do you want to continue? {y|n}:: [n] *y*
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 ----
+====
 
 Followed by: ``system switch ethernet log enable-collection``
 
-[subs=+quotes]
+.Show example 
+[%collapsible]
+====
 ----
 cluster1::*> *system switch ethernet log enable-collection*
 
@@ -594,6 +642,7 @@ Enabling cluster switch log collection.
 
 cluster1::*>
 ----
+====
 --
 
 .For ONTAP 9.4 and later
@@ -604,7 +653,9 @@ For ONTAP 9.4 and later, enable the cluster switch health monitor log collection
 `system cluster-switch log setup-password` and `system cluster-switch log enable-collection`
 
 Enter: `system cluster-switch log setup-password`
-[subs=+quotes]
+.Show example 
+[%collapsible]
+====
 ----
 cluster1::*> *system cluster-switch log setup-password*
 Enter the switch name: <return>
@@ -631,10 +682,13 @@ Do you want to continue? {y|n}:: [n] *y*
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 ----
+====
 
 Followed by: ``system cluster-switch log enable-collection``
 
-[subs=+quotes]
+.Show example 
+[%collapsible]
+====
 ----
 cluster1::*> *system cluster-switch log enable-collection*
 
@@ -645,6 +699,7 @@ Enabling cluster switch log collection.
 
 cluster1::*>
 ----
+====
 --
 ==== 
 
