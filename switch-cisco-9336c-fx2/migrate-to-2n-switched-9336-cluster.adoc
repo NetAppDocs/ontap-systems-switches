@@ -82,7 +82,7 @@ The following example shows that node-facing ports 1 through 34 are disabled on 
 ----
 cs1# config
 Enter configuration commands, one per line. End with CNTL/Z.
-cs1(config)# interface e/1-34
+cs1(config)# interface e1/1/1-4, e1/2/1-4, e1/3/1-4, e1/4/1-4, e1/5/1-4, e1/6/1-4, e1/7-34
 cs1(config-if-range)# shutdown
 ----
 ====
@@ -174,7 +174,7 @@ Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
 
 Device-ID          Local Intrfce  Hldtme Capability  Platform      Port ID
 cs1                Eth1/35        177    R S I s     N9K-C9336C    Eth1/35
-cs1           )    Eth1/36        177    R S I s     N9K-C9336C    Eth1/36
+cs1                Eth1/36        177    R S I s     N9K-C9336C    Eth1/36
 
 Total entries displayed: 2
 ----
@@ -277,7 +277,7 @@ The following example shows that ports 1/1 through 1/34 are enabled on switch cs
 ----
 cs1# config
 Enter configuration commands, one per line. End with CNTL/Z.
-cs1(config)# interface e1/1-34
+cs1(config)# interface e1/1/1-4, e1/2/1-4, e1/3/1-4, e1/4/1-4, e1/5/1-4, e1/6/1-4, e1/7-34
 cs1(config-if-range)# no shutdown
 ----
 ====
@@ -340,7 +340,7 @@ The following example shows that ports 1/1 through 1/34 are enabled on switch cs
 ----
 cs2# config
 Enter configuration commands, one per line. End with CNTL/Z.
-cs2(config)# interface e1/1-34
+cs2(config)# interface e1/1/1-4, e1/2/1-4, e1/3/1-4, e1/4/1-4, e1/5/1-4, e1/6/1-4, e1/7-34
 cs2(config-if-range)# no shutdown
 ----
 ====
@@ -477,6 +477,7 @@ node1      /cdp
 +
 NOTE: It might take several minutes for the command to complete. Wait for the '3 minute lifetime to expire' announcement.
 +
+
 .Show example 
 [%collapsible]
 ====
@@ -641,3 +642,5 @@ NOTE: If any of these commands return an error, contact NetApp support.
 . If you suppressed automatic case creation, reenable it by invoking an AutoSupport message: 
 +
 `system node autosupport invoke -node * -type all -message MAINT=END`
+
+// GH issue #83 updated interface command - MARCH-01-2023
