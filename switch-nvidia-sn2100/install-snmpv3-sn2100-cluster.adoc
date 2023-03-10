@@ -48,7 +48,7 @@ Version 1 and 2c Community String  Configured
 Version 3 Usernames                Not Configured
 ---------------------------------  ----------------
 cumulus@sw1:~$
-cumulus@sw1:~$ *net add snmp-server username SNMPv3User auth-md5 netapp1! encrypt-aes netapp1!*
+cumulus@sw1:~$ *net add snmp-server username SNMPv3User auth-md5 <password> encrypt-aes <password>*
 cumulus@sw1:~$ *net commit*
 --- /etc/snmp/snmpd.conf        2020-08-02 21:09:34.686949282 +0000
 +++ /run/nclu/snmp/snmpd.conf   2020-08-11 00:13:51.826126655 +0000
@@ -58,7 +58,7 @@ cumulus@sw1:~$ *net commit*
  agentxperms 777 777 snmp snmp
  agentxsocket /var/agentx/master
  createuser _snmptrapusernameX
-+createuser SNMPv3User MD5 netapp1! AES netapp1!
++createuser SNMPv3User MD5 <password> AES <password>
  ifmib_max_num_ifaces 500
  iquerysecname _snmptrapusernameX
  master agentx
@@ -89,7 +89,7 @@ net add/del commands since the last "net commit"
 
 User        Timestamp                   Command
 ----------  --------------------------  -----------------------------------------------------------------------------
-SNMPv3User  2020-08-11 00:13:51.826987  net add snmp-server username SNMPv3User auth-md5 netapp1! encrypt-aes netapp1!
+SNMPv3User  2020-08-11 00:13:51.826987  net add snmp-server username SNMPv3User auth-md5 <password> encrypt-aes <password>
 
 cumulus@sw1:~$
 cumulus@sw1:~$ *net show snmp status*
@@ -192,3 +192,5 @@ DEPRECATED-Community String or SNMPv3 Username: -
                                    RCF Version: MSN2100-RCF-v1.9X6-Cluster-LLDP Aug-18-2022
 ----
 ====
+
+// Updated password examples, 2023-MAR-07
