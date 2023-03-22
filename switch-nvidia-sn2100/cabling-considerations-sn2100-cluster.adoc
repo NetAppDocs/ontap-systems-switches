@@ -34,7 +34,9 @@ For example:
 * AFF A320 on ports e0g and e0h
 
 For Cumulus Linux 4.4.3 and later, the following configuration changes are required to fix this issue.
-. Add the following two lines to the `/etc/cumulus/switchd.conf` file for every port (_swp_) that is using 40/100GbE copper cables:
+
+. Add the following two lines to the `/etc/cumulus/switchd.conf` file for every port (swp) that is using 40/100GbE copper cables:
+
 * `interface.swp.enable_media_depended_linkup_flow=TRUE`
 * `interface.swp.enable_short_tuning=TRUE`
 
