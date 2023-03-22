@@ -27,11 +27,33 @@ a| swp15-16	40/100 Inter-Switch Link (ISL) ports
 See the https://hwu.netapp.com/Switch/Index[Hardware Universe] for more information on switch ports.
 	
 == Optical connections
-Only optical connections are supported on SN2100 switches with X1151A NIC, X1146A NIC, or onboard 100GbE ports. 
+For Cumulus Linux 4.4.2 and earlier, only optical connections are supported on SN2100 switches with X1151A NIC, X1146A NIC, or onboard 100GbE ports. 
 For example:
 
 * AFF A800 on ports e0a and e0b
 * AFF A320 on ports e0g and e0h
+
+For Cumulus Linux 4.4.3 and later, the following configuration changes are required to fix this issue.
+. Add the following two lines to the `/etc/cumulus/switchd.conf` file for every port (_swp_) that is using 40/100GbE copper cables:
+* `interface.swp.enable_media_depended_linkup_flow=TRUE`
+* `interface.swp.enable_short_tuning=TRUE`
+
+. Restart the switchd daemon: `systemctl restart switchd`
+
+.Show example
+[%collapsible]
+====
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ *cat /etc/cumulus/switchd.conf | grep swp3*
+interface.swp3.enable_media_depended_linkup_flow=TRUE
+interface.swp3.enable_short_tuning=TRUE
+cumulus@cumulus:mgmt:~$ *cat /etc/cumulus/switchd.conf | grep swp6*
+interface.swp6.enable_media_depended_linkup_flow=TRUE
+interface.swp6.enable_short_tuning=TRUE
+cumulus@cumulus:mgmt:~$
+----
+====
 
 == QSA adapter
 
@@ -39,8 +61,8 @@ When a QSA adapter is used to connect to the onboard Intel cluster ports on a pl
 
 To resolve this issue, do the following:
 
-. For Intel 10G, manually set the swp1s0-3 link speed to 10000 and set auto-negotiation to off.
-. For Chelsio 25G, manually set the swp2s0-3 link speed to 25000 and set auto-negotiation to off.
+* For Intel 10G, manually set the swp1s0-3 link speed to 10000 and set auto-negotiation to off.
+* For Chelsio 25G, manually set the swp2s0-3 link speed to 25000 and set auto-negotiation to off.
 
 NOTE: Using 10G/25G QSA, use the non-breakout 40/100G ports. Do not insert the QSA adapter on ports that are configured for breakout.
 
@@ -79,10 +101,7 @@ iface swp2s0
      link-speed 25000 *<---- port speed set*
 ----
 
-.What's next?
-link:install-cable-shelves-sn2100-cluster.html[Cable NS224 shelves as switch-attached storage].
-
-// The below feature will be included in the next Integrity release, so hiding this for now
+//The below feature will be included in the next Integrity release, so hiding this for now
 //== Support for DAC cables
 //Cumulus Linux version 4.4.3 supports DAC cabling. You enable the reduce link up time algorithm on a per port basis for this feature.
 
@@ -90,7 +109,7 @@ link:install-cable-shelves-sn2100-cluster.html[Cable NS224 shelves as switch-att
 //. Add the following lines to the `/etc/cumulus/switchd.conf` file.
 //.. `interface.swp1.enable_media_depended_linkup_flow=TRUE`
 //.. `interface.swp1.enable_short_tuning=TRUE`
-//. Run the following command:
+//. Run the following commands:
 //.. `systemctl reload switchd`
 //.. `systemctl restart switchd`
 
@@ -100,8 +119,15 @@ link:install-cable-shelves-sn2100-cluster.html[Cable NS224 shelves as switch-att
 //The port format is swp[_n_], where _n_ is the applicable port number. The following example shows output for port 1.
 //+
 //[subs=+quotes]
-
+//+
+//----
 //cumulus@cumulus:mgmt:~$ *cat /etc/cumulus/switchd.conf | grep swp3*
 //interface.swp3.enable_media_depended_linkup_flow=TRUE
 //interface.swp3.enable_short_tuning=TRUE
 //cumulus@cumulus:mgmt:~$
+//----
+
+.What's next?
+link:install-cable-shelves-sn2100-cluster.html[Cable NS224 shelves as switch-attached storage].
+
+// Added details for Optical connections as per GH #88 - MAR-22-2023
