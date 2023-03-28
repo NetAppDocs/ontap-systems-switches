@@ -16,11 +16,13 @@ Before configuring your NVIDIA SN2100 switch, review the following consideration
 
 h| *Switch ports* h| *Ports usage* 
 a| swp1s0-3
-a| 10/40 cluster port nodes 
+a| 4x10GbE breakout cluster port nodes
 a| swp2s0-3	
-a| 25/100 cluster port nodes
-a| swp3-14	40/100 cluster port nodes
-a| swp15-16	40/100 Inter-Switch Link (ISL) ports 
+a| 4x25GbE breakout cluster port nodes
+a| swp3-14	
+a| 40/100 cluster port nodes
+a| swp15-16	
+a| 40/100 Inter-Switch Link (ISL) ports 
 	
 |===
 
@@ -41,6 +43,8 @@ For Cumulus Linux 4.4.3 and later, the following configuration changes are requi
 * `interface.swp.enable_short_tuning=TRUE`
 
 . Restart the switchd daemon: `systemctl restart switchd`
+
+See the following https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Systems/Fabric_Interconnect_and_Management_Switches/NVIDIA_SN2100_switch_fails_to_connect_using_40_100GbE_copper_cable[KB^] for further details.
 
 .Show example
 [%collapsible]
