@@ -36,6 +36,8 @@ NOTE: Each time Cumulus Linux is installed, the entire file system structure is 
 
 CAUTION: The default password for the cumulus user account is *cumulus*. The first time you log into Cumulus Linux, you must change this default password. Be sure to update any automation scripts before installing a new image. Cumulus Linux provides command line options to change the default password automatically during the installation process.
 
+.Steps
+
 // start of tabbed content 
 
 [role="tabbed-block"] 
@@ -43,10 +45,7 @@ CAUTION: The default password for the cumulus user account is *cumulus*. The fir
 ==== 
 
 .For Cumulus Linux version 4.4.3
-
 --
-
-.Steps
 . Log in to the switch. 
 +
 First time log in to the switch requires username/password of *cumulus*/*cumulus* with `sudo` privileges.
@@ -65,7 +64,6 @@ New password: *<new_password>*
 Retype new password: *<new_password>*
 ----
 ====
-
 
 . Check the Cumulus Linux version:
 +
@@ -144,7 +142,6 @@ unreachable default metric 4278198272
 127.0.0.0/8 dev mgmt proto kernel scope link src 127.0.0.1
 ----
 ====
-
 
 . Configure the time zone using NTP interactive mode.
 
@@ -245,12 +242,9 @@ admin@sw1:mgmt:~$
 ====
 
 --
-
 .For Cumulus Linux 5.x and later
 
 --
-
-.Steps
 . Log in to the switch. 
 +
 First time log in to the switch requires username/password of *cumulus*/*cumulus* with `sudo` privileges.
@@ -269,7 +263,6 @@ New password: *<new_password>*
 Retype new password: *<new_password>*
 ----
 ====
-
 
 . Check the Cumulus Linux version:
 +
@@ -347,8 +340,7 @@ unreachable default metric 4278198272
 10.233.204.0/23 dev eth0 proto kernel scope link src 10.233.204.71
 127.0.0.0/8 dev mgmt proto kernel scope link src 127.0.0.1
 ----
-====
-
+===
 
 . Configure the time zone using NTP interactive mode.
 
