@@ -45,7 +45,9 @@ CAUTION: The default password for the cumulus user account is *cumulus*. The fir
 ==== 
 
 .For Cumulus Linux version 4.4.3
+
 --
+
 . Log in to the switch. 
 +
 First time log in to the switch requires username/password of *cumulus*/*cumulus* with `sudo` privileges.
@@ -113,7 +115,6 @@ cumulus@cumulus:mgmt:~$ *net pending*
 cumulus@cumulus:mgmt:~$ *net commit*
 ----
 ====
-
 +
 This command modifies both the `/etc/hostname` and `/etc/hosts` files.
 +
@@ -190,7 +191,6 @@ DISTRIB_RELEASE=*4.4.3*
 DISTRIB_DESCRIPTION=*"Cumulus Linux 4.4.3"*
 ----
 ====
-+
 
 . Create a new user and add this user to the `sudo` group.  This user only becomes effective after the console/SSH session is restarted.
 +
@@ -245,6 +245,7 @@ admin@sw1:mgmt:~$
 .For Cumulus Linux 5.x and later
 
 --
+
 . Log in to the switch. 
 +
 First time log in to the switch requires username/password of *cumulus*/*cumulus* with `sudo` privileges.
@@ -298,7 +299,7 @@ Manufacturer..... Mellanox
 NOTE: A Cumulus Linux switch provides at least one dedicated Ethernet management port called `eth0`. This interface is specifically for out-of-band management use. By default, the management interface uses DHCPv4 for addressing.
 +
 CAUTION: Do not use an underscore (_), apostrophe ('), or non-ASCII characters in the hostname.
-+
+
 
 .Show example
 [%collapsible]
@@ -313,7 +314,6 @@ cumulus@cumulus:mgmt:~$ *net commit*
 ----
 ====
 
-+
 This command modifies both the `/etc/hostname` and `/etc/hosts` files.
 +
 . Confirm that the hostname, IP address, subnet mask, and default gateway have been updated.
@@ -389,7 +389,6 @@ DISTRIB_RELEASE=*4.4.3*
 DISTRIB_DESCRIPTION=*"Cumulus Linux 4.4.3"*
 ----
 ====
-+
 
 . Create a new user and add this user to the `sudo` group.  This user only becomes effective after the console/SSH session is restarted.
 +
@@ -441,6 +440,7 @@ admin@sw1:mgmt:~$
 ====
 
 --
+
 ==== 
 
 // end of tabbed content
