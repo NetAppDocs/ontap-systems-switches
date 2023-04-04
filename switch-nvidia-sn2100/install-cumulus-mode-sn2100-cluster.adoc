@@ -50,9 +50,8 @@ CAUTION: The default password for the cumulus user account is *cumulus*. The fir
 +
 First time log in to the switch requires username/password of *cumulus*/*cumulus* with `sudo` privileges.
 +
-.Show example
-[%collapsible]
-
+//.Show example
+//[%collapsible]
 [subs=+quotes]
 ----
 cumulus login: *cumulus*
@@ -64,14 +63,13 @@ New password: *<new_password>*
 Retype new password: *<new_password>*
 ----
 
-
 . Check the Cumulus Linux version:
 +
 `net show system`
 +
-.Show example
-[%collapsible]
-====
+//.Show example
+//[%collapsible]
+//====
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:~$ *net show system*
@@ -92,7 +90,7 @@ ONIE Version..... 2019.11-5.2.0020-115200
 Base MAC Address. 04:3F:72:43:92:80
 Manufacturer..... Mellanox
 ----
-====
+//====
 
 . Configure the hostname, IP address, subnet mask, and default gateway. The new hostname only becomes effective after restarting the console/SSH session.
 +
@@ -101,9 +99,9 @@ NOTE: A Cumulus Linux switch provides at least one dedicated Ethernet management
 CAUTION: Do not use an underscore (_), apostrophe ('), or non-ASCII characters in the hostname.
 +
 
-.Show example
-[%collapsible]
-====
+//.Show example
+//[%collapsible]
+//====
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:~$ *net add hostname sw1*
@@ -112,15 +110,15 @@ cumulus@cumulus:mgmt:~$ *net add interface eth0 ip gateway 10.233.204.1*
 cumulus@cumulus:mgmt:~$ *net pending*
 cumulus@cumulus:mgmt:~$ *net commit*
 ----
-====
+//====
 +
 This command modifies both the `/etc/hostname` and `/etc/hosts` files.
 +
 . Confirm that the hostname, IP address, subnet mask, and default gateway have been updated.
 +
-.Show example
-[%collapsible]
-====
+//.Show example
+//[%collapsible]
+//====
 [subs=+quotes]
 ----
 cumulus@sw1:mgmt:~$ *hostname sw1*
@@ -140,7 +138,7 @@ unreachable default metric 4278198272
 10.233.204.0/23 dev eth0 proto kernel scope link src 10.233.204.71
 127.0.0.0/8 dev mgmt proto kernel scope link src 127.0.0.1
 ----
-====
+//====
 
 . Configure the time zone using NTP interactive mode.
 
@@ -177,9 +175,9 @@ cumulus@sw1:mgmt:~$ *sudo reboot*
 +
 `net show version`
 +
-.Show example
-[%collapsible]
-====
+//.Show example
+//[%collapsible]
+//====
 [subs=+quotes]
 ----
 cumulus@sw1:mgmt:~$ *net show version*
@@ -188,15 +186,15 @@ DISTRIB_ID="Cumulus Linux"
 DISTRIB_RELEASE=*4.4.3*
 DISTRIB_DESCRIPTION=*"Cumulus Linux 4.4.3"*
 ----
-====
+//====
 
 . Create a new user and add this user to the `sudo` group.  This user only becomes effective after the console/SSH session is restarted.
 +
 `sudo adduser --ingroup netedit admin`
 +
-.Show example
-[%collapsible]
-====
+//.Show example
+//[%collapsible]
+//====
 [subs=+quotes]
 ----
 cumulus@sw1:mgmt:~$ *sudo adduser --ingroup netedit admin*
@@ -237,7 +235,7 @@ http://www.cumulusnetworks.com/support
 The registered trademark Linux (R) is used pursuant to a sublicense from LMI, the exclusive licensee of Linus Torvalds, owner of the mark on a world-wide basis.
 admin@sw1:mgmt:~$
 ----
-====
+//====
 
 --
 .For Cumulus Linux 5.x and later
@@ -248,9 +246,9 @@ admin@sw1:mgmt:~$
 +
 First time log in to the switch requires username/password of *cumulus*/*cumulus* with `sudo` privileges.
 +
-.Show example
-[%collapsible]
-====
+//.Show example
+//[%collapsible]
+//====
 [subs=+quotes]
 ----
 cumulus login: *cumulus*
@@ -261,15 +259,15 @@ Current password: *cumulus*
 New password: *<new_password>*
 Retype new password: *<new_password>*
 ----
-====
+//====
 
 . Check the Cumulus Linux version:
 +
 `net show system`
 +
-.Show example
-[%collapsible]
-====
+//.Show example
+//[%collapsible]
+//====
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:~$ *net show system*
@@ -290,7 +288,7 @@ ONIE Version..... 2019.11-5.2.0020-115200
 Base MAC Address. 04:3F:72:43:92:80
 Manufacturer..... Mellanox
 ----
-====
+//====
 
 . Configure the hostname, IP address, subnet mask, and default gateway. The new hostname only becomes effective after restarting the console/SSH session.
 +
@@ -299,9 +297,9 @@ NOTE: A Cumulus Linux switch provides at least one dedicated Ethernet management
 CAUTION: Do not use an underscore (_), apostrophe ('), or non-ASCII characters in the hostname.
 
 
-.Show example
-[%collapsible]
-====
+//.Show example
+//[%collapsible]
+//====
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:~$ *net add hostname sw1*
@@ -310,15 +308,15 @@ cumulus@cumulus:mgmt:~$ *net add interface eth0 ip gateway 10.233.204.1*
 cumulus@cumulus:mgmt:~$ *net pending*
 cumulus@cumulus:mgmt:~$ *net commit*
 ----
-====
+//====
 
 This command modifies both the `/etc/hostname` and `/etc/hosts` files.
 +
 . Confirm that the hostname, IP address, subnet mask, and default gateway have been updated.
 +
-.Show example
-[%collapsible]
-====
+//.Show example
+//[%collapsible]
+//====
 [subs=+quotes]
 ----
 cumulus@sw1:mgmt:~$ *hostname sw1*
@@ -338,7 +336,7 @@ unreachable default metric 4278198272
 10.233.204.0/23 dev eth0 proto kernel scope link src 10.233.204.71
 127.0.0.0/8 dev mgmt proto kernel scope link src 127.0.0.1
 ----
-===
+//====
 
 . Configure the time zone using NTP interactive mode.
 
@@ -375,9 +373,9 @@ cumulus@sw1:mgmt:~$ *sudo reboot*
 +
 `net show version`
 +
-.Show example
-[%collapsible]
-====
+//.Show example
+//[%collapsible]
+//====
 [subs=+quotes]
 ----
 cumulus@sw1:mgmt:~$ *net show version*
@@ -386,15 +384,15 @@ DISTRIB_ID="Cumulus Linux"
 DISTRIB_RELEASE=*4.4.3*
 DISTRIB_DESCRIPTION=*"Cumulus Linux 4.4.3"*
 ----
-====
+//====
 
 . Create a new user and add this user to the `sudo` group.  This user only becomes effective after the console/SSH session is restarted.
 +
 `sudo adduser --ingroup netedit admin`
 +
-.Show example
-[%collapsible]
-====
+//.Show example
+//[%collapsible]
+//====
 [subs=+quotes]
 ----
 cumulus@sw1:mgmt:~$ *sudo adduser --ingroup netedit admin*
@@ -435,7 +433,7 @@ http://www.cumulusnetworks.com/support
 The registered trademark Linux (R) is used pursuant to a sublicense from LMI, the exclusive licensee of Linus Torvalds, owner of the mark on a world-wide basis.
 admin@sw1:mgmt:~$
 ----
-====
+//====
 
 --
 
