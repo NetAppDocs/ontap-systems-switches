@@ -23,6 +23,16 @@ This procedure demonstrates how to upgrade Cumulus Linux after the admin has boo
 //NOTE: Example command output uses switch management IP address 10.233.204.71, netmask 255.255.254.0 and default gateway 10.233.204.1.
 
 .Steps
+
+// start of tabbed content 
+
+[role="tabbed-block"] 
+
+==== 
+
+.For Cumulus Linux version 4.4.3
+
+--
 . Download the Cumulus Linux installation file to the root directory of the web server. Rename this file to: `onie-installer`.
 . Connect your host to the management Ethernet port of the switch using an Ethernet cable.
 . Power on the switch. 
@@ -53,9 +63,6 @@ No such process done.
 +
 `ifconfig eth0`
 +
-.Show example
-[%collapsible]
-====
 [subs=+quotes]
 ----
 ONIE:/ # *ifconfig eth0*
@@ -76,7 +83,6 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 default         10.233.204.1    0.0.0.0         UG    0      0      0   eth0
 10.233.204.0    *               255.255.254.0   U     0      0      0   eth0
 ----
-====
 
 . If the IP addressing scheme is manually defined, do the following:
 +
@@ -92,10 +98,6 @@ ONIE:/ # *route add default gw 10.233.204.1*
 # onie-nos-install http://<web-server>/<path>/cumulus-linux-4.4.3-mlx-amd64.bin
 ----
 +
-.Show example
-[%collapsible]
-====
-
 [subs=+quotes]
 ----
 ONIE:/ # *route*
@@ -111,13 +113,9 @@ ONIE:/ # *route*
   ...
   ...
 ----
-====
 
 . Once the installation has completed, log in to the switch.
 +
-.Show example
-[%collapsible]
-====
 [subs=+quotes]
 ----
 cumulus login: *cumulus*
@@ -128,15 +126,9 @@ Current password: *cumulus*
 New password: *<new_password>*
 Retype new password: *<new_password>*
 ----
-====
 
-. Verify the Cumulus Linux version:
+. Verify the Cumulus Linux version: `net show version`
 +
-`net show version`
-+
-.Show example
-[%collapsible]
-====
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:~$ *net show version*
@@ -145,7 +137,120 @@ DISTRIB_ID="Cumulus Linux"
 DISTRIB_RELEASE=*4.4.3*
 DISTRIB_DESCRIPTION=*"Cumulus Linux 4.4.3”*
 ----
-====
+--
+
+.For Cumulus Linux 5.x and later
+
+--
+. Download the Cumulus Linux installation file to the root directory of the web server. Rename this file to: `onie-installer`.
+. Connect your host to the management Ethernet port of the switch using an Ethernet cable.
+. Power on the switch. 
++
+The switch downloads the ONIE image installer and boots. After the installation completes, the Cumulus Linux login prompt appears in the terminal window.
++
+NOTE: Each time Cumulus Linux is installed, the entire file system structure is erased and rebuilt.
+
+. Reboot the SN2100 switch:
++
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ *sudo reboot*
+----
+. Press the *Esc* key at the GNU GRUB screen to interrupt the normal boot process, select *ONIE*, and press *Enter*.
+. On the next screen, select *ONIE: Install OS*.
+. The ONIE installer discovery process runs searching for the automatic installation.  Press *Enter* to temporarily stop the process.
+. When the discovery process has stopped:
++
+[subs=+quotes]
+----
+ONIE:/ # *onie-stop*
+discover: installer mode detected.
+Stopping: discover...start-stop-daemon: warning: killing process 427:
+No such process done.
+----
+. If the DHCP service is running on your network, verify that the IP address, subnet mask, and the default gateway are correctly assigned:
++
+`ifconfig eth0`
++
+[subs=+quotes]
+----
+ONIE:/ # *ifconfig eth0*
+eth0   Link encap:Ethernet  HWaddr B8:CE:F6:19:1D:F6
+       inet addr:10.233.204.71  Bcast:10.233.205.255  Mask:255.255.254.0
+       inet6 addr: fe80::bace:f6ff:fe19:1df6/64 Scope:Link
+       UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+       RX packets:21344 errors:0 dropped:2135 overruns:0 frame:0
+       TX packets:3500 errors:0 dropped:0 overruns:0 carrier:0
+       collisions:0 txqueuelen:1000
+       RX bytes:6119398 (5.8 MiB)  TX bytes:472975 (461.8 KiB)
+       Memory:dfc00000-dfc1ffff
+
+ONIE:/ # *route*
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+
+default         10.233.204.1    0.0.0.0         UG    0      0      0   eth0
+10.233.204.0    *               255.255.254.0   U     0      0      0   eth0
+----
+
+. If the IP addressing scheme is manually defined, do the following:
++
+[subs=+quotes]
+----
+ONIE:/ # *ifconfig eth0 10.233.204.71 netmask 255.255.254.0*
+ONIE:/ # *route add default gw 10.233.204.1*
+----
+. Repeat step 9 to verify that the static information is correctly entered.
+. Install Cumulus Linux:
++
+----
+# onie-nos-install http://<web-server>/<path>/cumulus-linux-4.4.3-mlx-amd64.bin
+----
++
+[subs=+quotes]
+----
+ONIE:/ # *route*
+
+  Kernel IP routing table
+
+  ONIE:/ # *onie-nos-install http://_<web-server>/<path>_/cumulus-linux-4.4.3-mlx-amd64.bin*
+
+  Stopping: discover... done.
+  Info: Attempting http://10.60.132.97/x/eng/testbedN,svl/nic/files/cumulus-linux-4.4.3-mlx-amd64.bin ...
+  Connecting to 10.60.132.97 (10.60.132.97:80)
+  installer            100% |*******************************|   552M  0:00:00 ETA
+  ...
+  ...
+----
+
+. Once the installation has completed, log in to the switch.
++
+[subs=+quotes]
+----
+cumulus login: *cumulus*
+Password: *cumulus*
+You are required to change your password immediately (administrator enforced)
+Changing password for cumulus.
+Current password: *cumulus*
+New password: *<new_password>*
+Retype new password: *<new_password>*
+----
+
+. Verify the Cumulus Linux version: `net show version`
++
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ *net show version*
+NCLU_VERSION=1.0-cl4.4.3u4
+DISTRIB_ID="Cumulus Linux"
+DISTRIB_RELEASE=*4.4.3*
+DISTRIB_DESCRIPTION=*"Cumulus Linux 4.4.3”*
+----
+
+--
+==== 
+
+// end of tabbed content 
 
 .What's next?
 link:install-rcf-sn2100-cluster.html[Install the Reference Configuration File (RCF) script].
