@@ -50,8 +50,8 @@ CAUTION: The default password for the cumulus user account is *cumulus*. The fir
 +
 First time log in to the switch requires username/password of *cumulus*/*cumulus* with `sudo` privileges.
 +
-//.Show example
-//[%collapsible]
+.Show example
+[%collapsible]
 [subs=+quotes]
 ----
 cumulus login: *cumulus*
@@ -67,8 +67,8 @@ Retype new password: *<new_password>*
 +
 `net show system`
 +
-//.Show example
-//[%collapsible]
+.Show example
+[%collapsible]
 //====
 [subs=+quotes]
 ----
@@ -95,12 +95,11 @@ Manufacturer..... Mellanox
 . Configure the hostname, IP address, subnet mask, and default gateway. The new hostname only becomes effective after restarting the console/SSH session.
 +
 NOTE: A Cumulus Linux switch provides at least one dedicated Ethernet management port called `eth0`. This interface is specifically for out-of-band management use. By default, the management interface uses DHCPv4 for addressing.
-+
-CAUTION: Do not use an underscore (_), apostrophe ('), or non-ASCII characters in the hostname.
-+
 
-//.Show example
-//[%collapsible]
+CAUTION: Do not use an underscore (_), apostrophe ('), or non-ASCII characters in the hostname.
+
+.Show example
+[%collapsible]
 //====
 [subs=+quotes]
 ----
@@ -113,11 +112,11 @@ cumulus@cumulus:mgmt:~$ *net commit*
 //====
 +
 This command modifies both the `/etc/hostname` and `/etc/hosts` files.
-+
+
 . Confirm that the hostname, IP address, subnet mask, and default gateway have been updated.
 +
-//.Show example
-//[%collapsible]
+.Show example
+[%collapsible]
 //====
 [subs=+quotes]
 ----
@@ -175,8 +174,8 @@ cumulus@sw1:mgmt:~$ *sudo reboot*
 +
 `net show version`
 +
-//.Show example
-//[%collapsible]
+.Show example
+[%collapsible]
 //====
 [subs=+quotes]
 ----
@@ -192,8 +191,8 @@ DISTRIB_DESCRIPTION=*"Cumulus Linux 4.4.3"*
 +
 `sudo adduser --ingroup netedit admin`
 +
-//.Show example
-//[%collapsible]
+.Show example
+[%collapsible]
 //====
 [subs=+quotes]
 ----
