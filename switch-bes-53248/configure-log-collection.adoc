@@ -13,20 +13,21 @@ You can enable the log collection feature, which is used to collect switch-relat
 
 Make sure that you have set up your environment using the BES-53248 cluster switch CLI.
 
-== For ONTAP 9.8 and later
+// start of tabbed content 
 
+[role="tabbed-block"] 
+
+==== 
+
+.For ONTAP 9.8 and later
+
+--
 Enable the log collection feature using the commands:
 
 `system switch ethernet log setup-password` and `system switch ethernet log enable-collection`
 
-.Steps
-
-. Enter: `system switch ethernet log setup-password`
+Enter: `system switch ethernet log setup-password`
 +
-.Show example
-[%collapsible]
-====
-
 [subs=+quotes]
 ----
 cluster1::*> *system switch ethernet log setup-password*
@@ -53,14 +54,9 @@ Do you want to continue? {y|n}:: [n] *y*
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 ----
-====
 
-. Enter: `system switch ethernet log enable-collection`
+Enter: `system switch ethernet log enable-collection`
 +
-.Show example
-[%collapsible]
-====
-
 [subs=+quotes]
 ----
 cluster1::*> *system switch ethernet log enable-collection*
@@ -72,22 +68,19 @@ Enabling cluster switch log collection.
 
 cluster1::*>
 ----
-==== 
+
+--
 
 
-== For ONTAP 9.5P15, 9.6P11, 9.7P8 and later patch releases
+.For ONTAP 9.5P15, 9.6P11, 9.7P8 and later patch releases
+--
 
 Enable the log collection feature using the commands:
 
 `system cluster-switch log setup-password` and `system cluster-switch log enable-collection`
 
-.Steps
-
-. Enter: `system cluster-switch log setup-password`
+Enter: `system cluster-switch log setup-password`
 +
-.Show example
-[%collapsible]
-====
 [subs=+quotes]
 ----
 cluster1::*> *system cluster-switch log setup-password*
@@ -115,13 +108,9 @@ Do you want to continue? {y|n}:: [n] *y*
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 ----
-====
 
-. Enter: `system cluster-switch log enable-collection`
+Enter: `system cluster-switch log enable-collection`
 +
-.Show example
-[%collapsible]
-====
 [subs=+quotes]
 ----
 cluster1::*> *system cluster-switch log enable-collection*
@@ -131,7 +120,10 @@ Do you want to enable cluster log collection for all nodes in the cluster?
 
 Enabling cluster switch log collection.
 ----
-====
+--
+==== 
+
+// end of tabbed content 
 
 NOTE: The log collect command is not available at this time. See link:https://mysupport.netapp.com/site/bugs-online/product/ONTAP/BURT/1225042[Bug 1225042^] for further details.
 
@@ -140,10 +132,8 @@ CAUTION: If any of these commands return an error, contact NetApp support.
 .What's next?
 If you are upgrading the switch, go to link:replace-verify.html[Verify upgrade configuration].
 
-
-
-
 //. Begin an initial data collection from each switch:
 
 //* `cluster1::*> system cluster-switch log collect -device <cs1>`
 //* `cluster1::*> system cluster-switch log collect -device <cs2>`
+// tabbing the content, 2023-APR-04
