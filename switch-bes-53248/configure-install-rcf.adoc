@@ -148,7 +148,7 @@ Cluster
 ====
 
 . Verify that the cluster displays information for both cluster switches.
-
++
 // start of tabbed content 
 [role="tabbed-block"] 
 
@@ -157,7 +157,7 @@ Cluster
 .For ONTAP 9.8 and later
 --
 Use the command: `system switch ethernet show -is-monitoring-enabled-operational true`
-
++
 [subs=+quotes]
 ----
 cluster1::*> *system switch ethernet show -is-monitoring-enabled-operational true*
@@ -197,7 +197,7 @@ cluster1::*>
 .For ONTAP 9.7 and earlier
 --
 Use the command: `system cluster-switch show -is-monitoring-enabled-operational true`
-
++
 [subs=+quotes]
 ----
 cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true*
@@ -304,6 +304,7 @@ CAUTION: When updating or applying a new RCF, you must erase the switch settings
 .. Clean the configuration and reboot the switch.
 +
 CAUTION: This step requires a console connection to the switch.
++
 
 .Show example
 [%collapsible]
@@ -626,7 +627,7 @@ cluster1-04/cdp
             e0b    cs2                       0/2               BES-53248
 ----
 ====
-
++
 // start of tabbed content 
 [role="tabbed-block"] 
 
