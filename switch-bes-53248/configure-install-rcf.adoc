@@ -151,6 +151,7 @@ Cluster
 +
 
 // start of tabbed content 
+
 [role="tabbed-block"] 
 
 ==== 
@@ -158,7 +159,7 @@ Cluster
 .For ONTAP 9.8 and later
 --
 Use the command: `system switch ethernet show -is-monitoring-enabled-operational true`
-
++
 [subs=+quotes]
 ----
 cluster1::*> *system switch ethernet show -is-monitoring-enabled-operational true*
@@ -198,7 +199,7 @@ cluster1::*>
 .For ONTAP 9.7 and earlier
 --
 Use the command: `system cluster-switch show -is-monitoring-enabled-operational true`
-
++
 [subs=+quotes]
 ----
 cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true*
@@ -235,9 +236,11 @@ cluster1::*>
 ----
 --
 ==== 
-// end of tabbed content
 
-. Disable auto-revert on the cluster LIFs.
+// end of tabbed content
+[start-4]
+
+. [[step4]]Disable auto-revert on the cluster LIFs.
 ----
 cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert false
 ----
@@ -716,7 +719,8 @@ cluster1::*>
 ==== 
 // end of tabbed content
 
-. On cluster switch cs1, shut down the ports connected to the cluster ports of the nodes.
+[start=16]
+. [[step16]]On cluster switch cs1, shut down the ports connected to the cluster ports of the nodes.
 +
 The following example uses the interface example output:
 +
