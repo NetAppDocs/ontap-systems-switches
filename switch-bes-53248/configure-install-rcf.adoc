@@ -150,7 +150,6 @@ Cluster
 . Verify that the cluster displays information for both cluster switches.
 
 // start of tabbed content 
-
 [role="tabbed-block"] 
 
 ==== 
@@ -235,9 +234,8 @@ cluster1::*>
 ----
 --
 ==== 
-
 // end of tabbed content
-+
+
 . Disable auto-revert on the cluster LIFs.
 ----
 cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert false
@@ -307,7 +305,6 @@ CAUTION: When updating or applying a new RCF, you must erase the switch settings
 +
 CAUTION: This step requires a console connection to the switch.
 
-+
 .Show example
 [%collapsible]
 ====
@@ -322,7 +319,7 @@ This command will reboot the system. (y/n)?  [n] *y*
 (cs2)#
 ----
 ====
-+
+
 .. Perform a basic setup of the switch.
 
 . Copy the RCF to the bootflash of switch cs2 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP.
@@ -631,7 +628,6 @@ cluster1-04/cdp
 ====
 
 // start of tabbed content 
-
 [role="tabbed-block"] 
 
 ==== 
@@ -716,10 +712,8 @@ cluster1::*>
 ----
 --
 ==== 
-
 // end of tabbed content
 
-+
 . On cluster switch cs1, shut down the ports connected to the cluster ports of the nodes.
 +
 The following example uses the interface example output:
@@ -777,9 +771,7 @@ cluster1-04          true     true          false
 
 . Repeat steps 4-13 on switch cs1. 
 . Enable auto-revert on the cluster LIFs:
-----
-cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert True
-----
+`cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert True`
 
 . Reboot switch cs1. You do this to trigger the cluster LIFs to revert to their home ports. You can ignore the “cluster ports down” events reported on the nodes while the switch reboots.
 +
