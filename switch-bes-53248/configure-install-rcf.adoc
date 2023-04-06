@@ -148,7 +148,6 @@ Cluster
 ====
 
 . Verify that the cluster displays information for both cluster switches.
-+
 
 // start of tabbed content 
 
@@ -159,7 +158,7 @@ Cluster
 .For ONTAP 9.8 and later
 --
 Use the command: `system switch ethernet show -is-monitoring-enabled-operational true`
-+
+
 [subs=+quotes]
 ----
 cluster1::*> *system switch ethernet show -is-monitoring-enabled-operational true*
@@ -199,7 +198,7 @@ cluster1::*>
 .For ONTAP 9.7 and earlier
 --
 Use the command: `system cluster-switch show -is-monitoring-enabled-operational true`
-+
+
 [subs=+quotes]
 ----
 cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true*
@@ -238,7 +237,7 @@ cluster1::*>
 ==== 
 
 // end of tabbed content
-[start-4]
+[start=4]
 
 . [[step4]]Disable auto-revert on the cluster LIFs.
 ----
