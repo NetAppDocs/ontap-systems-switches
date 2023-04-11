@@ -53,12 +53,8 @@ cluster1::> *set -privilege advanced*
 
 `system switch ethernet configure-health-monitor -node * -package-url \http://server/file-location`
 
-.Show example
-[%collapsible]
-
-[subs=+quotes]
 ----
-cluster1::> *switch ethernet configure-health-monitor -node  * -package-url
+cluster1::> switch ethernet configure-health-monitor -node  * -package-url
 http://192.168.2.20/usr/download/Broadcom_BES-53248.zip*
 ----
 --
@@ -68,10 +64,6 @@ http://192.168.2.20/usr/download/Broadcom_BES-53248.zip*
 
 `system cluster-switch configure-health-monitor -node * -package-url \http://server/file-location`
 
-.Show example
-[%collapsible]
-====
-[subs=+quotes]
 ----
 cluster1::> *system cluster-switch configure-health-monitor -node * -package-url
 http://192.168.2.20/usr/download/Broadcom_BES-53248.zip*
