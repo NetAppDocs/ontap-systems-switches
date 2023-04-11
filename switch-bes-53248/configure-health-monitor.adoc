@@ -42,9 +42,32 @@ cluster1::> *set -privilege advanced*
 ----
 
 . Run the switch health monitor configure command:
-+
+
+// start of tabbed content 
+
+[role="tabbed-block"] 
+
+==== 
+.For ONTAP 9.8 and later
+-- 
+
+`system switch ethernet configure-health-monitor -node * -package-url \http://server/file-location`
+
+.Show example
+[%collapsible]
+
+[subs=+quotes]
+----
+cluster1::> *switch ethernet configure-health-monitor -node  * -package-url
+http://192.168.2.20/usr/download/Broadcom_BES-53248.zip*
+----
+--
+
+.For ONTAP 9.4 and later
+--
+
 `system cluster-switch configure-health-monitor -node * -package-url \http://server/file-location`
-+
+
 .Show example
 [%collapsible]
 ====
@@ -53,7 +76,10 @@ cluster1::> *set -privilege advanced*
 cluster1::> *system cluster-switch configure-health-monitor -node * -package-url
 http://192.168.2.20/usr/download/Broadcom_BES-53248.zip*
 ----
-====
+--
+==== 
+
+// end of tabbed content 
 
 . Verify that the command output contains the text string: `downloaded package processed successfully`. If an error occurs, contact NetApp support.
 . Run the command `system cluster-switch show` on the ONTAP system and ensure that the cluster switches are discovered with the monitored field set to "True".
