@@ -51,6 +51,7 @@ N/A
 |===
 
 IMPORTANT: Note the following information with regards to machine types:
++
 
 [options="header" cols="1,2"]
 |===
@@ -62,45 +63,38 @@ a| A3 | 3.10.0.3
 
 You can determine your specific machine type using the command: `show version`
 +
-For example:
+
+.Show example
+[%collapsible]
+====
+[subs=+quotes]
 ----
-(cs2)# show version
-Switch: cs1
+(cs2)# *show version*
+
+Switch: 1
+
 System Description............................. EFOS, 3.10.0.3, Linux 5.4.2-b4581018, 2016.05.00.07
 Machine Type................................... BES-53248A3
 Machine Model.................................. BES-53248
 Serial Number.................................. QTWCU22500003
-Part Number.................................... 1IX8B7Z0002
+Part Number.................................... QTWCU22500003
 Maintenance Level.............................. a3a
 Manufacturer................................... QTMC
 Burned In MAC Address.......................... C0:18:50:F4:3E:04
 Software Version............................... 3.10.0.3
 Operating System............................... Linux 5.4.2-b4581018
 Network Processing Device...................... BCM56873_A0
-CPLD version................................... 0xff0413f4
+CPLD Version................................... 0xff040c03
 Additional Packages............................ BGP-4
-                                                QOS
-                                                Multicast
-                                                IPv6
-                                                Routing
-                                                Data Center
-                                                OpEN API
-                                                Prototype Open API
+...............................................	QOS
+...............................................	Multicast
+............................................... IPv6
+............................................... Routing
+............................................... Data Center
+............................................... OpEN API
+............................................... Prototype Open API
 ----
-
-//The following table lists the part number and description for existing BES-53248 cluster switch components, including rack-mount rail kit details.
-
-//[options="header" cols="1,2"]
-//X-FAN-190005-R
-//Fan, port side intake X190005
-//X-FAN-190005-F
-//Fan, port side exhaust X190005
-//X-PSU-190005-R
-//Power supply, port side intake X190005
-//Port-side intake airflow (reverse air): Cool air enters the chassis through the port end in the cold aisle and exhausts through the fan and power supply modules in the hot aisle.
-//X-PSU-190005-F
-//Power supply, port side exhaust X190005
-//Port-side exhaust airflow (standard air): Cool air enters the chassis through the fan and power supply modules in the cold aisle and exhausts through the port end of the chassis in the hot aisle. Blue coloring indicates port-side exhaust airflow. This is the most common option.
+====
 
 // Updates for the new PSU for Jute, 2023-APR
 
