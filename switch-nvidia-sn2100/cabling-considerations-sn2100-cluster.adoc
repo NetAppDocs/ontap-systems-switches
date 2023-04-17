@@ -28,13 +28,32 @@ a| 40/100 Inter-Switch Link (ISL) ports
 
 See the https://hwu.netapp.com/Switch/Index[Hardware Universe^] for more information on switch ports.
 	
-== Optical connections
-For Cumulus Linux 4.4.2, only optical connections are supported on SN2100 switches with X1151A NIC, X1146A NIC, or onboard 100GbE ports. 
+== 100GbE Optical connections
+Cumulus Linux 5.4 and later includes support for fast link-up with Pensando cards and support for copper cables. You can install the new version and configure the links using the `nv set` command as follows:
++
+[subs=+quotes]
+----
+*nv set interface <interface-id> link fast-linkup on*
+*nv config apply*
+*reload the switchd*
+----
++
 For example:
++
+----
+cumulus@cumulus-cs13:mgmt:~$ *nv set interface swp5 link fast-linkup on*
+cumulus@cumulus-cs13:mgmt:~$ *nv config apply*
+*switchd need to reload on this config change*
 
-* AFF A800 on ports e0a and e0b
-* AFF A320 on ports e0g and e0h
+Are you sure? [y/N] *y*
+applied [rev_id: 22]
 
+Only switchd reload required
+----
+
+Note: If link issues are still occurring, collect the cl-support and update burt # 1506124 accordingly.
+
+== Optical connections
 For Cumulus Linux 4.4.3 and later, the following configuration changes are required to fix this issue.
 
 . Add the following two lines to the `/etc/cumulus/switchd.conf` file for every port (swp<n>) that is using 40/100GbE copper cables:
@@ -60,6 +79,12 @@ interface.swp6.enable_short_tuning=TRUE
 cumulus@cumulus:mgmt:~$
 ----
 ====
+
+For Cumulus Linux 4.4.2, only optical connections are supported on SN2100 switches with X1151A NIC, X1146A NIC, or onboard 100GbE ports. 
+For example:
+
+* AFF A800 on ports e0a and e0b
+* AFF A320 on ports e0g and e0h
 
 == QSA adapter
 
