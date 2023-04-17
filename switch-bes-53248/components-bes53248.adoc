@@ -11,11 +11,11 @@ summary: 'For BES-53248 switch installation and maintenance, be sure to review t
 [.lead]
 For BES-53248 switch installation and maintenance, be sure to review the list of components and part numbers.
 
-The following table lists the part number and description for the BES-53248 cluster switch components, including rack-mount rail kit details.
+The following table lists the part number, description, and minimum EFOS and ONTAP versions for the BES-53248 cluster switch components, including rack-mount rail kit details.
 
 NOTE: A minimum EFOS version of *3.10.0.3* is required for part numbers *X190005-B* and *X190005R-B*. 
 
-[options="header" cols="1,2,3"]
+[options="header" cols="1,2,3,4"]
 |===
 | Part number| Description | Minimum EFOS version | Minimum ONTAP version
 a|
@@ -60,12 +60,10 @@ a|
 N/A
 |===
 
-IMPORTANT: Note the following information with regards to machine types:
-
 You can determine your specific machine type using the command: `show version`
-+
-For example:
-+
+
+.Show example
+[%collapsible]
 ====
 [subs=+quotes]
 ----
@@ -96,18 +94,20 @@ Additional Packages............................ BGP-4
 ----
 ====
 
+IMPORTANT: Note the following information with regards to machine types:
+
 [options="header" cols="1,2"]
 |===
 | Machine type | EFOS version
 a| BES-53248A1 | 3.4.4.6
 a| BES-53248A2 | 3.10.0.3
 a| BES-53248A3 | 3.10.0.3
-|==
+|===
 
 You can determine your specific machine type using the command: `show version`
-+
-For example:
-+
+
+.Show example
+[%collapsible]
 ====
 [subs=+quotes]
 ----
