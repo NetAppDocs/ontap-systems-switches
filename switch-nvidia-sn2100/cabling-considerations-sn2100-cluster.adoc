@@ -29,7 +29,7 @@ a| 40/100 Inter-Switch Link (ISL) ports
 See the https://hwu.netapp.com/Switch/Index[Hardware Universe^] for more information on switch ports.
 	
 == 100GbE Optical connections
-Cumulus Linux 5.4 and later includes support for fast link-up with Pensando cards and support for copper cables. You can install the new version and configure the links using the `nv set` command as follows:
+If you are experiencing link-up delays of more than 5 seconds, Cumulus Linux 5.4 and later includes support for fast link-up. You can configure the links using the `nv set` command as follows:
 +
 [subs=+quotes]
 ----
@@ -37,9 +37,11 @@ Cumulus Linux 5.4 and later includes support for fast link-up with Pensando card
 *nv config apply*
 *reload the switchd*
 ----
-+
-For example:
-+
+
+.Show example
+[%collapsible]
+====
+[subs=+quotes]
 ----
 cumulus@cumulus-cs13:mgmt:~$ *nv set interface swp5 link fast-linkup on*
 cumulus@cumulus-cs13:mgmt:~$ *nv config apply*
@@ -50,8 +52,9 @@ applied [rev_id: 22]
 
 Only switchd reload required
 ----
+====
 
-Note: If link issues are still occurring, collect the cl-support and update burt # 1506124 accordingly.
+//NOTE: If link issues are still occurring, collect the cl-support and update burt # 1506124 accordingly.
 
 == Optical connections
 For Cumulus Linux 4.4.3 and later, the following configuration changes are required to fix this issue.
