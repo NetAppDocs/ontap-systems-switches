@@ -201,7 +201,7 @@ ONIE:/ # *ifconfig eth0 10.233.204.71 netmask 255.255.254.0*
 ONIE:/ # *route add default gw 10.233.204.1*
 ----
 . Repeat step 9 to verify that the static information is correctly entered.
-. Install Cumulus Linux 5.4, for example:
+. Install Cumulus Linux 5.4:
 +
 ----
 # onie-nos-install http://<web-server>/<path>/cumulus-linux-5.4-mlx-amd64.bin
@@ -236,11 +236,11 @@ New password: *<new_password>*
 Retype new password: *<new_password>*
 ----
 
-. Verify the Cumulus Linux version: `net show version`
+. Verify the Cumulus Linux version: `nv show version`
 +
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:~$ *net show version*
+cumulus@cumulus:mgmt:~$ *nv show version*
 NCLU_VERSION=1.0-cl5.4u4
 DISTRIB_ID="Cumulus Linux"
 DISTRIB_RELEASE=*5.4*
@@ -251,6 +251,8 @@ DISTRIB_DESCRIPTION=*"Cumulus Linux 5.4”*
 ==== 
 
 // end of tabbed content 
+
+NOTE: to upgrade from Cumulus Linux 5.3.0 to 5.4.0, see link:upgrade-cl-version.html[Upgrade from Cumulus Linux 5.3.0 to 5.4.0]. 
 
 .What's next?
 link:install-rcf-sn2100-cluster.html[Install the Reference Configuration File (RCF) script].
