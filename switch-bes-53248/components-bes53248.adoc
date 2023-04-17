@@ -17,7 +17,7 @@ NOTE: A minimum EFOS version of *3.10.0.3* is required for part numbers *X190005
 
 [options="header" cols="1,2,3"]
 |===
-| Part number| Description | Minimum EFOS version 
+| Part number| Description | Minimum EFOS version | Minimum ONTAP version
 a|
 X190005-B
 a|
@@ -25,11 +25,15 @@ BES-53248-B/IX8, CLSW, 16PT10/25GB, PTSX (PTSX = Port Side Exhaust)
 a|
 3.10.0.3
 a|
+9.8
+a|
 X190005R-B
 a|
 BES-53248-B/IX8, CLSW, 16PT10/25GB, PSIN (PSIN = Port Side Intake)
 a|
 3.10.0.3
+a|
+9.8
 a|
 X190005
 a|
@@ -37,35 +41,74 @@ BES-53248, CLSW, 16Pt10/25GB, PTSX, BRDCM SUPP
 a|
 3.4.4.6
 a|
+9.5P8
+a|
 X190005R
 a|
 BES-53248, CLSW, 16Pt10/25GB, PSIN, BRDCM SUPP 
 a|
 3.4.4.6
 a|
+9.5P8
+a|
 X-RAIL-4POST-190005
 a|
 Rack mount rail kit Ozeki 4 post 19"
+a|
+N/A
 a|
 N/A
 |===
 
 IMPORTANT: Note the following information with regards to machine types:
 
-[options="header" cols="1,2"]
-|===
-| Machine type | EFOS version
-a| A1 | 3.4.4.6
-a| A2 | 3.10.0.3
-a| A3 | 3.10.0.3
-|==
-+
 You can determine your specific machine type using the command: `show version`
 +
 For example:
 +
 ====
+[subs=+quotes]
+----
+(cs1)# *show version*
 
+Switch: cs1
+
+System Description............................. EFOS, 3.10.0.3, Linux 5.4.2-b4581018, 2016.05.00.07
+Machine Type................................... BES-53248A3
+Machine Model.................................. BES-53248
+Serial Number.................................. QTWCU22500003
+Part Number.................................... QTWCU22500003
+Maintenance Level.............................. a3a
+Manufacturer................................... QTMC
+Burned In MAC Address.......................... C0:18:50:F4:3E:04
+Software Version............................... 3.10.0.3
+Operating System............................... Linux 5.4.2-b4581018
+Network Processing Device...................... BCM56873_A0
+CPLD Version................................... 0xff040c03
+Additional Packages............................ BGP-4
+...............................................	QOS
+...............................................	Multicast
+............................................... IPv6
+............................................... Routing
+............................................... Data Center
+............................................... OpEN API
+............................................... Prototype Open API
+----
+====
+
+[options="header" cols="1,2"]
+|===
+| Machine type | EFOS version
+a| BES-53248A1 | 3.4.4.6
+a| BES-53248A2 | 3.10.0.3
+a| BES-53248A3 | 3.10.0.3
+|==
+
+You can determine your specific machine type using the command: `show version`
++
+For example:
++
+====
 [subs=+quotes]
 ----
 (cs1)# *show version*
