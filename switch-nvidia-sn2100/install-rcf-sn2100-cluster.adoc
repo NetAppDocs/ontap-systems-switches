@@ -31,8 +31,6 @@ Example command output uses switch management IP address 10.233.204.71, netmask 
 
 .Steps
 
-.Display the available interfaces on the SN2100 switch:
-
 // start of tabbed content 
 
 [role="tabbed-block"] 
@@ -41,6 +39,8 @@ Example command output uses switch management IP address 10.233.204.71, netmask 
 
 .On Cumulus Linux 4.4.3
 --
+
+.Display the available interfaces on the SN2100 switch:
 
 [subs=+quotes]
 ----
@@ -67,39 +67,9 @@ ADMDN  swp14  N/A  9216   NotConfigured
 ADMDN  swp15  N/A  9216   NotConfigured
 ADMDN  swp16  N/A  9216   NotConfigured
 ----
---
 
-.On Cumulus Linux 5.x
---
+.Copy the RCF python script to the switch.
 
-[subs=+quotes]
-----
-cumulus@cumulus:mgmt:~$ *nv show interface*
-Interface   MTU   Speed State Remote Host Remote Port Type Summary
------------ ----- ----- ----- ----------- ----------- ---- -------------
-+ cluster_isl 9216 200G up bond
-+ eth0 1500 100M up RTP-LF01-410G38.rtp.eng.netapp.com Eth105/1/14 eth IP Address: 10.231.80.206/22
-eth0 IP Address: fd20:8b1e:b255:85a0:bace:f6ff:fe31:4a0e/64
-+ lo 65536 up loopback IP Address: 127.0.0.1/8
-lo IP Address: ::1/128
-+ swp1s0 9216 10G up cumulus1 e0b swp
-.
-.
-.
-+ swp15 9216 100G up cumulus swp15 swp
-+ swp16 9216 100G up cumulus swp16 swp
-----
---
-==== 
-
-// end of tabbed content
-
-
-2. Copy the RCF python script to the switch.
-
-.Show example
-[%collapsible]
-====
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:~$ *pwd*
@@ -108,14 +78,9 @@ cumulus@cumulus:mgmt: */tmp$ scp _<user>@<host:/<path>_/MSN2100-RCF-v1.x-Cluster
 ssologin@10.233.204.71's password:
 MSN2100-RCF-v1.x-Cluster                 100% 8607   111.2KB/s         00:00
 ----
-====
 
-3. Apply the RCF python script *MSN2100-RCF-v1.x-Cluster*.
+.Apply the RCF python script *MSN2100-RCF-v1.x-Cluster*.
 
-
-.Show example
-[%collapsible]
-====
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:/tmp$ *sudo python3 MSN2100-RCF-v1.x-Cluster*
@@ -135,22 +100,12 @@ Step 11: Modifying RoCE Config
 Step 12: Configure SNMP
 Step 13: Reboot the switch
 ----
-====
 +
 The RCF script completes the steps listed in the example above.
 +
 NOTE: For any RCF python script issues that cannot be corrected, contact https://mysupport.netapp.com/[NetApp Support^] for assistance.
 
-4. Verify the configuration after the reboot:
-
-// start of tabbed content 
-
-[role="tabbed-block"] 
-
-==== 
-
-.On Cumulus Linux 4.4.3
--- 
+.Verify the configuration after the reboot:
 
 [subs=+quotes]
 ----
@@ -214,10 +169,162 @@ switch-priority  TC  ETS
 2                 2  DWRR 28%
 5                 5  DWRR 43%
 ----
+
+.Verify information for the transceiver in the interface:
+
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ *net show interface pluggables*
+Interface  Identifier     Vendor Name  Vendor PN        Vendor SN       Vendor Rev
+---------  -------------  -----------  ---------------  --------------  ----------
+swp3       0x11 (QSFP28)  Amphenol     112-00574        APF20379253516  B0
+swp4       0x11 (QSFP28)  AVAGO        332-00440        AF1815GU05Z     A0
+swp15      0x11 (QSFP28)  Amphenol     112-00573        APF21109348001  B0
+swp16      0x11 (QSFP28)  Amphenol     112-00573        APF21109347895  B0
+----
+
+.Verify that the nodes each have a connection to each switch:
+
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ *net show lldp*
+
+LocalPort  Speed  Mode        RemoteHost              RemotePort
+---------  -----  ----------  ----------------------  -----------
+swp3       100G   Trunk/L2    sw1                     e3a
+swp4       100G   Trunk/L2    sw2                     e3b
+swp15      100G   BondMember  sw13                    swp15
+swp16      100G   BondMember  sw14                    swp16
+----
+
+.Verify the health of cluster ports on the cluster.
+
+.. Verify that e0d ports are up and healthy across all nodes in the cluster: 
++
+`network port show -role cluster`
+
+[subs=+quotes]
+----
+cluster1::*> *network port show -role cluster*
+
+Node: node1
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+
+Node: node2
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+----
+====
++
+.. Verify the switch health from the cluster (this might not show switch sw2, since LIFs are not homed on e0d).
+
+[subs=+quotes]
+----
+cluster1::*> *network device-discovery show -protocol lldp*
+Node/       Local  Discovered
+Protocol    Port   Device (LLDP: ChassisID)  Interface Platform
+----------- ------ ------------------------- --------- ----------
+node1/lldp
+            e3a    sw1 (b8:ce:f6:19:1a:7e)   swp3      -
+            e3b    sw2 (b8:ce:f6:19:1b:96)   swp3      -
+
+node2/lldp
+            e3a    sw1 (b8:ce:f6:19:1a:7e)   swp4      -
+            e3b    sw2 (b8:ce:f6:19:1b:96)   swp4      -
+
+
+cluster1::*> *system switch ethernet show -is-monitoring-enabled-operational true*
+Switch                      Type               Address          Model
+--------------------------- ------------------ ---------------- -----
+sw1                         cluster-network    10.233.205.90    MSN2100-CB2RC
+     Serial Number: MNXXXXXXGD
+      Is Monitored: true
+            Reason: None
+  Software Version: Cumulus Linux version 4.4.3 running on Mellanox
+                    Technologies Ltd. MSN2100
+    Version Source: LLDP
+
+sw2                         cluster-network    10.233.205.91    MSN2100-CB2RC
+     Serial Number: MNCXXXXXXGS
+      Is Monitored: true
+            Reason: None
+  Software Version: Cumulus Linux version 4.4.3 running on Mellanox
+                    Technologies Ltd. MSN2100
+    Version Source: LLDP
+----
 --
 
 .On Cumulus Linux 5.x
 --
+
+.Display the available interfaces on the SN2100 switch:
+
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ *nv show interface*
+Interface   MTU   Speed State Remote Host Remote Port Type Summary
+----------- ----- ----- ----- ----------- ----------- ---- -------------
++ cluster_isl 9216 200G up bond
++ eth0 1500 100M up RTP-LF01-410G38.rtp.eng.netapp.com Eth105/1/14 eth IP Address: 10.231.80.206/22
+eth0 IP Address: fd20:8b1e:b255:85a0:bace:f6ff:fe31:4a0e/64
++ lo 65536 up loopback IP Address: 127.0.0.1/8
+lo IP Address: ::1/128
++ swp1s0 9216 10G up cumulus1 e0b swp
+.
+.
+.
++ swp15 9216 100G up cumulus swp15 swp
++ swp16 9216 100G up cumulus swp16 swp
+----
+
+.Copy the RCF python script to the switch.
+
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ *pwd*
+/home/cumulus
+cumulus@cumulus:mgmt: */tmp$ scp _<user>@<host:/<path>_/MSN2100-RCF-v1.x-Cluster*
+ssologin@10.233.204.71's password:
+MSN2100-RCF-v1.x-Cluster                 100% 8607   111.2KB/s         00:00
+----
+====
+
+.Apply the RCF python script *MSN2100-RCF-v1.x-Cluster*.
+
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:/tmp$ *sudo python3 MSN2100-RCF-v1.x-Cluster*
+[sudo] password for cumulus:
+...
+Step 1: Creating the banner file
+Step 2: Registering banner message
+Step 3: Updating the MOTD file
+Step 4: Ensuring passwordless use of cl-support command by admin
+Step 5: Disabling apt-get
+Step 6: Creating the interfaces
+Step 7: Adding the interface config
+Step 8: Disabling cdp
+Step 9: Adding the lldp config
+Step 10: Adding the RoCE base config
+Step 11: Modifying RoCE Config
+Step 12: Configure SNMP
+Step 13: Reboot the switch
+----
++
+The RCF script completes the steps listed in the example above.
++
+NOTE: For any RCF python script issues that cannot be corrected, contact https://mysupport.netapp.com/[NetApp Support^] for assistance.
+
+.Verify the configuration after the reboot:
 
 [subs=+quotes]
 ----
@@ -292,38 +399,8 @@ RoCE pool config
     2   lossy-default-egress   Dynamic  50%   -                  0
     3   roce-reserved-egress   Dynamic  inf   -                  2,5
 ----
---
-==== 
 
-// end of tabbed content 
-
-5. Verify information for the transceiver in the interface:
-
-
-// start of tabbed content 
-
-[role="tabbed-block"] 
-
-==== 
-
-.On Cumulus Linux 4.4.3
-
---
-
-[subs=+quotes]
-----
-cumulus@cumulus:mgmt:~$ *net show interface pluggables*
-Interface  Identifier     Vendor Name  Vendor PN        Vendor SN       Vendor Rev
----------  -------------  -----------  ---------------  --------------  ----------
-swp3       0x11 (QSFP28)  Amphenol     112-00574        APF20379253516  B0
-swp4       0x11 (QSFP28)  AVAGO        332-00440        AF1815GU05Z     A0
-swp15      0x11 (QSFP28)  Amphenol     112-00573        APF21109348001  B0
-swp16      0x11 (QSFP28)  Amphenol     112-00573        APF21109347895  B0
-----
---
-
-.On Cumulus Linux 5.x
---
+.Verify information for the transceiver in the interface:
 
 [subs=+quotes]
 ----
@@ -348,40 +425,10 @@ swp6       0x00 None
 swp15      0x11 (QSFP28)  Amphenol     112-00595        APF20279210117  B0
 swp16      0x11 (QSFP28)  Amphenol     112-00595        APF20279210166  B0
 ----
---
-==== 
 
-// end of tabbed content 
-
-
-6. Verify that the nodes each have a connection to each switch:
-
-
-// start of tabbed content 
-
-[role="tabbed-block"] 
-
-==== 
-
-.On Cumulus Linux 4.4.3
---
+.Verify that the nodes each have a connection to each switch:
 
 [subs=+quotes]
-----
-cumulus@cumulus:mgmt:~$ *net show lldp*
-
-LocalPort  Speed  Mode        RemoteHost              RemotePort
----------  -----  ----------  ----------------------  -----------
-swp3       100G   Trunk/L2    sw1                     e3a
-swp4       100G   Trunk/L2    sw2                     e3b
-swp15      100G   BondMember  sw13                    swp15
-swp16      100G   BondMember  sw14                    swp16
-----
---
-
-.On Cumulus Linux 5.x
---
-
 ----
 cumulus@cumulus:mgmt:~$ *nv show lldp*
 
@@ -392,21 +439,13 @@ swp2s1     25G    Trunk/L2    rtpnpi-2820-8b             
 swp15      100G   BondMember  ossg-prod-rcf                       swp15
 swp16      100G   BondMember  ossg-prod-rcf                       swp16
 ----
---
-==== 
 
-// end of tabbed content 
-
-
-7. Verify the health of cluster ports on the cluster.
+.Verify the health of cluster ports on the cluster.
 
 .. Verify that e0d ports are up and healthy across all nodes in the cluster: 
 +
 `network port show -role cluster`
-+
-.Show example
-[%collapsible]
-====
+
 [subs=+quotes]
 ----
 cluster1::*> *network port show -role cluster*
@@ -430,10 +469,7 @@ e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 ====
 +
 .. Verify the switch health from the cluster (this might not show switch sw2, since LIFs are not homed on e0d).
-+
-.Show example
-[%collapsible]
-====
+
 [subs=+quotes]
 ----
 cluster1::*> *network device-discovery show -protocol lldp*
@@ -468,7 +504,10 @@ sw2                         cluster-network    10.233.205.91    MSN2100-CB2RC
                     Technologies Ltd. MSN2100
     Version Source: LLDP
 ----
-====
+--
+==== 
+
+// end of tabbed content 
 
 .What's next?
 link:install-snmpv3-sn2100-cluster.html[Configure switch log collection].
