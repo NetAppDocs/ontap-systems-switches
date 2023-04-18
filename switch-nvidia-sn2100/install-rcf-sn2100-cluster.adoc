@@ -38,6 +38,7 @@ Example command output uses switch management IP address 10.233.204.71, netmask 
 ==== 
 
 .On Cumulus Linux 4.4.3
+
 --
 
 .Display the available interfaces on the SN2100 switch:
@@ -100,9 +101,9 @@ Step 11: Modifying RoCE Config
 Step 12: Configure SNMP
 Step 13: Reboot the switch
 ----
-+
+
 The RCF script completes the steps listed in the example above.
-+
+
 NOTE: For any RCF python script issues that cannot be corrected, contact https://mysupport.netapp.com/[NetApp Support^] for assistance.
 
 .Verify the configuration after the reboot:
@@ -200,8 +201,6 @@ swp16      100G   BondMember  sw14                    swp16
 .Verify the health of cluster ports on the cluster.
 
 .. Verify that e0d ports are up and healthy across all nodes in the cluster: 
-+
-`network port show -role cluster`
 
 [subs=+quotes]
 ----
@@ -224,7 +223,7 @@ e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
 e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 ----
 ====
-+
+
 .. Verify the switch health from the cluster (this might not show switch sw2, since LIFs are not homed on e0d).
 
 [subs=+quotes]
@@ -264,6 +263,7 @@ sw2                         cluster-network    10.233.205.91    MSN2100-CB2RC
 --
 
 .On Cumulus Linux 5.x
+
 --
 
 .Display the available interfaces on the SN2100 switch:
@@ -319,9 +319,9 @@ Step 11: Modifying RoCE Config
 Step 12: Configure SNMP
 Step 13: Reboot the switch
 ----
-+
+
 The RCF script completes the steps listed in the example above.
-+
+
 NOTE: For any RCF python script issues that cannot be corrected, contact https://mysupport.netapp.com/[NetApp Support^] for assistance.
 
 .Verify the configuration after the reboot:
@@ -443,8 +443,6 @@ swp16      100G   BondMember  ossg-prod-rcf                 
 .Verify the health of cluster ports on the cluster.
 
 .. Verify that e0d ports are up and healthy across all nodes in the cluster: 
-+
-`network port show -role cluster`
 
 [subs=+quotes]
 ----
@@ -467,7 +465,7 @@ e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
 e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 ----
 ====
-+
+
 .. Verify the switch health from the cluster (this might not show switch sw2, since LIFs are not homed on e0d).
 
 [subs=+quotes]
