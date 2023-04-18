@@ -38,11 +38,10 @@ Example command output uses switch management IP address 10.233.204.71, netmask 
 ==== 
 
 .On Cumulus Linux 4.4.3
-
 --
 
 .Display the available interfaces on the SN2100 switch:
-
++
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:~$ *net show interface all*
@@ -70,7 +69,7 @@ ADMDN  swp16  N/A  9216   NotConfigured
 ----
 
 .Copy the RCF python script to the switch.
-
++
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:~$ *pwd*
@@ -81,7 +80,7 @@ MSN2100-RCF-v1.x-Cluster                 100% 8607   111.2KB/s         00:00
 ----
 
 .Apply the RCF python script *MSN2100-RCF-v1.x-Cluster*.
-
++
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:/tmp$ *sudo python3 MSN2100-RCF-v1.x-Cluster*
@@ -101,13 +100,13 @@ Step 11: Modifying RoCE Config
 Step 12: Configure SNMP
 Step 13: Reboot the switch
 ----
-
++
 The RCF script completes the steps listed in the example above.
-
++
 NOTE: For any RCF python script issues that cannot be corrected, contact https://mysupport.netapp.com/[NetApp Support^] for assistance.
 
 .Verify the configuration after the reboot:
-
++
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:~$ *net show interface all*
@@ -172,7 +171,7 @@ switch-priority  TC  ETS
 ----
 
 .Verify information for the transceiver in the interface:
-
++
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:~$ *net show interface pluggables*
@@ -185,7 +184,7 @@ swp16      0x11 (QSFP28)  Amphenol     112-00573        APF21109347895
 ----
 
 .Verify that the nodes each have a connection to each switch:
-
++
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:~$ *net show lldp*
@@ -201,7 +200,7 @@ swp16      100G   BondMember  sw14                    swp16
 .Verify the health of cluster ports on the cluster.
 
 .. Verify that e0d ports are up and healthy across all nodes in the cluster: 
-
++
 [subs=+quotes]
 ----
 cluster1::*> *network port show -role cluster*
@@ -222,10 +221,9 @@ Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
 e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 ----
-====
 
 .. Verify the switch health from the cluster (this might not show switch sw2, since LIFs are not homed on e0d).
-
++
 [subs=+quotes]
 ----
 cluster1::*> *network device-discovery show -protocol lldp*
@@ -265,9 +263,8 @@ sw2                         cluster-network    10.233.205.91    MSN2100-CB2RC
 .On Cumulus Linux 5.x
 
 --
-
 .Display the available interfaces on the SN2100 switch:
-
++
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:~$ *nv show interface*
@@ -287,7 +284,7 @@ lo IP Address: ::1/128
 ----
 
 .Copy the RCF python script to the switch.
-
++
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:~$ *pwd*
@@ -296,10 +293,9 @@ cumulus@cumulus:mgmt: */tmp$ scp _<user>@<host:/<path>_/MSN2100-RCF-v1.x-Cluster
 ssologin@10.233.204.71's password:
 MSN2100-RCF-v1.x-Cluster                 100% 8607   111.2KB/s         00:00
 ----
-====
 
 .Apply the RCF python script *MSN2100-RCF-v1.x-Cluster*.
-
++
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:/tmp$ *sudo python3 MSN2100-RCF-v1.x-Cluster*
@@ -319,13 +315,13 @@ Step 11: Modifying RoCE Config
 Step 12: Configure SNMP
 Step 13: Reboot the switch
 ----
-
++
 The RCF script completes the steps listed in the example above.
-
++
 NOTE: For any RCF python script issues that cannot be corrected, contact https://mysupport.netapp.com/[NetApp Support^] for assistance.
 
 .Verify the configuration after the reboot:
-
++
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:~$ *nv show interface*
@@ -401,7 +397,7 @@ RoCE pool config
 ----
 
 .Verify information for the transceiver in the interface:
-
++
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:~$ *nv show interface pluggables*
@@ -443,7 +439,7 @@ swp16      100G   BondMember  ossg-prod-rcf                 
 .Verify the health of cluster ports on the cluster.
 
 .. Verify that e0d ports are up and healthy across all nodes in the cluster: 
-
++
 [subs=+quotes]
 ----
 cluster1::*> *network port show -role cluster*
@@ -464,10 +460,9 @@ Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
 e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 ----
-====
 
 .. Verify the switch health from the cluster (this might not show switch sw2, since LIFs are not homed on e0d).
-
++
 [subs=+quotes]
 ----
 cluster1::*> *network device-discovery show -protocol lldp*
