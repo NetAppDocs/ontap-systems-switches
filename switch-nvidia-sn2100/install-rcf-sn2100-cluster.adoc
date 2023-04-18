@@ -40,7 +40,7 @@ Example command output uses switch management IP address 10.233.204.71, netmask 
 .On Cumulus Linux 4.4.3
 --
 
-.Display the available interfaces on the SN2100 switch:
+. Display the available interfaces on the SN2100 switch:
 +
 [subs=+quotes]
 ----
@@ -68,7 +68,7 @@ ADMDN  swp15  N/A  9216   NotConfigured
 ADMDN  swp16  N/A  9216   NotConfigured
 ----
 
-.Copy the RCF python script to the switch.
+. Copy the RCF python script to the switch.
 +
 [subs=+quotes]
 ----
@@ -79,7 +79,7 @@ ssologin@10.233.204.71's password:
 MSN2100-RCF-v1.x-Cluster                 100% 8607   111.2KB/s         00:00
 ----
 
-.Apply the RCF python script *MSN2100-RCF-v1.x-Cluster*.
+. Apply the RCF python script *MSN2100-RCF-v1.x-Cluster*.
 +
 [subs=+quotes]
 ----
@@ -105,7 +105,7 @@ The RCF script completes the steps listed in the example above.
 +
 NOTE: For any RCF python script issues that cannot be corrected, contact https://mysupport.netapp.com/[NetApp Support^] for assistance.
 
-.Verify the configuration after the reboot:
+. Verify the configuration after the reboot:
 +
 [subs=+quotes]
 ----
@@ -170,7 +170,7 @@ switch-priority  TC  ETS
 5                 5  DWRR 43%
 ----
 
-.Verify information for the transceiver in the interface:
+. Verify information for the transceiver in the interface:
 +
 [subs=+quotes]
 ----
@@ -183,7 +183,7 @@ swp15      0x11 (QSFP28)  Amphenol     112-00573        APF21109348001
 swp16      0x11 (QSFP28)  Amphenol     112-00573        APF21109347895  B0
 ----
 
-.Verify that the nodes each have a connection to each switch:
+. Verify that the nodes each have a connection to each switch:
 +
 [subs=+quotes]
 ----
@@ -197,7 +197,7 @@ swp15      100G   BondMember  sw13                    swp15
 swp16      100G   BondMember  sw14                    swp16
 ----
 
-.Verify the health of cluster ports on the cluster.
+. Verify the health of cluster ports on the cluster.
 
 .. Verify that e0d ports are up and healthy across all nodes in the cluster: 
 +
@@ -263,7 +263,7 @@ sw2                         cluster-network    10.233.205.91    MSN2100-CB2RC
 .On Cumulus Linux 5.x
 
 --
-.Display the available interfaces on the SN2100 switch:
+. Display the available interfaces on the SN2100 switch:
 +
 [subs=+quotes]
 ----
@@ -283,7 +283,7 @@ lo IP Address: ::1/128
 + swp16 9216 100G up cumulus swp16 swp
 ----
 
-.Copy the RCF python script to the switch.
+. Copy the RCF python script to the switch.
 +
 [subs=+quotes]
 ----
@@ -294,7 +294,7 @@ ssologin@10.233.204.71's password:
 MSN2100-RCF-v1.x-Cluster                 100% 8607   111.2KB/s         00:00
 ----
 
-.Apply the RCF python script *MSN2100-RCF-v1.x-Cluster*.
+. Apply the RCF python script *MSN2100-RCF-v1.x-Cluster*.
 +
 [subs=+quotes]
 ----
@@ -320,7 +320,7 @@ The RCF script completes the steps listed in the example above.
 +
 NOTE: For any RCF python script issues that cannot be corrected, contact https://mysupport.netapp.com/[NetApp Support^] for assistance.
 
-.Verify the configuration after the reboot:
+. Verify the configuration after the reboot:
 +
 [subs=+quotes]
 ----
@@ -396,7 +396,7 @@ RoCE pool config
     3   roce-reserved-egress   Dynamic  inf   -                  2,5
 ----
 
-.Verify information for the transceiver in the interface:
+. Verify information for the transceiver in the interface:
 +
 [subs=+quotes]
 ----
@@ -422,7 +422,7 @@ swp15      0x11 (QSFP28)  Amphenol     112-00595        APF2027
 swp16      0x11 (QSFP28)  Amphenol     112-00595        APF20279210166  B0
 ----
 
-.Verify that the nodes each have a connection to each switch:
+. Verify that the nodes each have a connection to each switch:
 
 [subs=+quotes]
 ----
@@ -436,7 +436,7 @@ swp15      100G   BondMember  ossg-prod-rcf                 
 swp16      100G   BondMember  ossg-prod-rcf                       swp16
 ----
 
-.Verify the health of cluster ports on the cluster.
+. Verify the health of cluster ports on the cluster.
 
 .. Verify that e0d ports are up and healthy across all nodes in the cluster: 
 +
