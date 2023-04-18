@@ -4,27 +4,165 @@ sidebar: sidebar
 keywords: nvidia SN2100 switches
 summary: Complete the following steps to upgrade your Cumulus Linux version.
 ---
-= Upgrade from Cumulus Linux 5.3.0 to 5.4.0
+= Upgrade Cumulus Linux versions
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-In the case where your purchased NVIDIA SN2100 switch has Cumulus Linux 5.3.0 installed, complete the following steps to upgrade to the NetApp-supported 5.4.0 version. 
+Complete the following steps to upgrade your Cumulus Linux version as necessary. 
 
 .Steps
+
+// start of tabbed content 
+
+[role="tabbed-block"] 
+
+==== 
+
+.From Cumulus Linux 4.4.x to Cumulus Linux 5.x
+-- 
+. Check the current Cumulus Linux version and connected ports:
++
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ *net show system*
+Hostname......... cumulus
+Build............ *Cumulus Linux 4.4.3*
+Uptime........... 0:08:20.860000
+Model............ Mlnx X86
+CPU.............. x86_64 Intel Atom C2558 2.40GHz
+Memory........... 8GB
+Disk............. 14.7GB
+ASIC............. Mellanox Spectrum MT52132
+Ports............ 16 x 100G-QSFP28
+Part Number...... MSN2100-CB2FC
+Serial Number.... MT2105T05177
+Platform Name.... x86_64-mlnx_x86-r0
+Product Name..... MSN2100
+ONIE Version..... 2019.11-5.2.0020-115200
+Base MAC Address. 04:3F:72:43:92:80
+Manufacturer..... Mellanox
+
+cumulus@cumulus:~$ *net show interface*
+
+State  Name    Spd   MTU    Mode        LLDP                    Summary
+-----  ------  ----  -----  ----------  ----------------------  --------------------
+.
+.
+UP     swp1    100G  9216   Trunk/L2    node1 (e5b)             Master: bridge(UP)
+UP     swp2    100G  9216   Trunk/L2    node2 (e5b)             Master: bridge(UP)
+UP     swp3    100G  9216   Trunk/L2    SHFFG1826000112 (e0b)   Master: bridge(UP)
+UP     swp4    100G  9216   Trunk/L2    SHFFG1826000112 (e0b)   Master: bridge(UP)
+UP     swp5    100G  9216   Trunk/L2    SHFFG1826000102 (e0b)   Master: bridge(UP)
+UP     swp6    100G  9216   Trunk/L2    SHFFG1826000102 (e0b)   Master: bridge(UP))
+.
+.
+----
+
+. Download the Cumulux Linux 5.4.0 image:
++
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ *sudo onie-install -a -i http://10.60.132.97/x/eng/testbedN,svl/nic/files/NVIDIA/cumulus-linux-5.4.0-mlx-amd64.bin/*
+[sudo] password for cumulus:
+Fetching installer: http://10.60.132.97/x/eng/testbedN,svl/nic/files/NVIDIA/cumulus-linux-5.4.0-mlx-amd64.bin
+Downloading URL: http://10.60.132.97/x/eng/testbedN,svl/nic/files/NVIDIA/cumulus-linux-5.4.0-mlx-amd64.bin
+######################################################################### 100.0%
+Success: HTTP download complete.
+EFI variables are not supported on this system
+Warning: SecureBoot is not available.
+Image is signed.
+.
+.
+.
+Staging installer image...done.
+WARNING:
+WARNING: Activating staged installer requested.
+WARNING: This action will wipe out all system data.
+WARNING: Make sure to back up your data.
+WARNING:
+Are you sure (y/N)? *y*
+Activating staged installer...done.
+Reboot required to take effect.
+----
+
+. Reboot the switch: 
++
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ *sudo reboot*
+----
+
+. Change the password:
++
+[subs=+quotes]
+----
+cumulus login: *cumulus*
+Password:
+You are required to change your password immediately (administrator enforced)
+Changing password for cumulus.
+Current password:
+New password:
+Retype new password:
+Linux cumulus 5.10.0-cl-1-amd64 #1 SMP Debian 5.10.162-1+cl5.4.0u1 (2023-01-20) x86_64
+
+Welcome to NVIDIA Cumulus (R) Linux (R)
+
+ZTP in progress. To disable, do 'ztp -d'
+
+cumulus@cumulus:mgmt:~$ *nv show system*
+           operational    applied         
+---------- -------------- ----------
+hostname   cumulus        cumulus
+build      Cumulus Linux 5.4.0
+uptime     14:07:08
+timezone   Etc/UTC
+----
+
+. Change the hostname: 
++
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ *nv set system hostname cumulus_cs1*
+cumulus@cumulus:mgmt:~$ *nv config apply*
+Warning: The following files have been changed since the last save, and they WILL be overwritten.
+- /etc/nsswitch.conf
+- /etc/synced/synced.conf
+.
+.
+----
+
+. Set the IP address:
++
+[subs=+quotes]
+----
+cumulus@cumulus_cs1:mgmt:~$ *nv set interface eth0 ip address 10.231.80.20*
+cumulus@cumulus_cs1:mgmt:~$ *nv set interface eth0 ip gateway 10.231.80.1*
+cumulus@cumulus_cs1:mgmt:~$ *nv config apply*
+applied [rev_id: 2]
+cumulus@cumulus_cs1:mgmt:~$ *ip route show vrf mgmt*
+default via 10.231.80.1 dev eth0 proto kernel
+unreachable default metric 4278198272
+10.231.80.0/22 dev eth0 proto kernel scope link src 10.231.80.206
+127.0.0.0/8 dev mgmt proto kernel scope link src 127.0.0.1
+----
+--
+
+.From Cumulus Linux 5.x to Cumulus Linux 5.x
+
+--
 
 . Check the current Cumulus Linux version and connected ports:
 +
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:~$ *nv show system*
-operational         applied              description
-------------------- -------------------- ---------------------
+                    operational          applied             
+------------------- -------------------- -----------------
 hostname            cumulus              cumulus
-Static hostname for the switch
-build               Cumulus Linux 5.3.0  system build version
-uptime              6 days, 8:37:36      system uptime
-timezone            Etc/UTC              system time zone
+build               Cumulus Linux 5.3.0  
+uptime              6 days, 8:37:36      
+timezone            Etc/UTC              
 
 cumulus@cumulus:mgmt:~$ *nv show interface*
 Interface   MTU   Speed State Remote Host Remote Port Type Summary
@@ -129,21 +267,10 @@ unreachable default metric 4278198272
 10.231.80.0/22 dev eth0 proto kernel scope link src 10.231.80.206
 127.0.0.0/8 dev mgmt proto kernel scope link src 127.0.0.1
 ----
+--
+==== 
 
-. Copy the RCF and apply it:
-+
-[subs=+quotes]
-----
-cumulus@cumulus_cs1:mgmt:~$ cd /tmp
-svl/nic/files/NVIDIA/MSN2100-RCF-v1.10X2-Cluster-HA-Breakout-LLDP .eng/testbedN,
-The authenticity of host '10.60.132.97 (10.60.132.97)' can't be established.
-RSA key fingerprint is SHA256:sIkFJ+59uJ+Hk5tLlBBtTRnyMsEnYDK9S5zW1VcsWDc.
-Are you sure you want to continue connecting (yes/no)? *yes*
-Warning: Permanently added '10.60.132.97' (RSA) to the list of known hosts.
-user1@10.60.132.97's password:
-MSN2100-RCF-v1.10X2-Cluster-HA-Breakout-LLDP 100% 19KB 102.3KB/s 00:00
-cumulus@cumulus_cs1:mgmt:/tmp$ sudo python3 MSN2100-RCF-v1.10X2-Cluster-HA-Breakout-LLDP
-----
+// end of tabbed content
 
 .What's next?
 link:install-rcf-sn2100-cluster.html[Install the Reference Configuration File (RCF) script].

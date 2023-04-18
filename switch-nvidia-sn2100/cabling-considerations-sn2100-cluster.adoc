@@ -28,7 +28,7 @@ a| 40/100 Inter-Switch Link (ISL) ports
 
 See the https://hwu.netapp.com/Switch/Index[Hardware Universe^] for more information on switch ports.
 	
-== 100GbE Optical connections
+== Link-up delays with optical connections
 If you are experiencing link-up delays of more than 5 seconds, Cumulus Linux 5.4 and later includes support for fast link-up. You can configure the links using the `nv set` command as follows:
 
 [subs=+quotes]
@@ -56,8 +56,8 @@ Only switchd reload required
 
 //NOTE: If link issues are still occurring, collect the cl-support and update burt # 1506124 accordingly.
 
-== Optical connections
-For Cumulus Linux 4.4.3 and later, the following configuration changes are required to fix this issue.
+== Support for copper connections
+For Cumulus Linux version 4.4.3 and later, the following configuration changes are required to fix this issue.
 
 . Add the following two lines to the `/etc/cumulus/switchd.conf` file for every port (swp<n>) that is using 40/100GbE copper cables:
 
@@ -71,6 +71,7 @@ See the following https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_
 .Show example
 [%collapsible]
 ====
+
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:~$ *cat /etc/cumulus/switchd.conf | grep swp3*
@@ -83,7 +84,7 @@ cumulus@cumulus:mgmt:~$
 ----
 ====
 
-For Cumulus Linux 4.4.2, only optical connections are supported on SN2100 switches with X1151A NIC, X1146A NIC, or onboard 100GbE ports. 
+For Cumulus Linux 4.4.2, only copper connections are supported on SN2100 switches with X1151A NIC, X1146A NIC, or onboard 100GbE ports. 
 For example:
 
 * AFF A800 on ports e0a and e0b
