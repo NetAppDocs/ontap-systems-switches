@@ -32,7 +32,7 @@ Example command output uses switch management IP address 10.233.204.71, netmask 
 .Steps
 
 [start=1]
-.[[step1]]Display the available interfaces on the SN2100 switch:
+.[[step1]] Display the available interfaces on the SN2100 switch:
 
 // start of tabbed content 
 
@@ -96,7 +96,7 @@ lo IP Address: ::1/128
 // end of tabbed content
 
 [start=2]
-.[[step2]]Copy the RCF python script to the switch.
+.[[step2]] Copy the RCF python script to the switch.
 
 .Show example
 [%collapsible]
@@ -112,7 +112,7 @@ MSN2100-RCF-v1.x-Cluster                 100% 8607   111.2KB/s         00:00
 ====
 
 [start=3]
-.[[step3]]Apply the RCF python script *MSN2100-RCF-v1.x-Cluster*.
+.[[step3]] Apply the RCF python script *MSN2100-RCF-v1.x-Cluster*.
 
 
 .Show example
@@ -144,7 +144,7 @@ The RCF script completes the steps listed in the example above.
 NOTE: For any RCF python script issues that cannot be corrected, contact https://mysupport.netapp.com/[NetApp Support^] for assistance.
 
 [start=4]
-.[[step4]]Verify the configuration after the reboot:
+.[[step4]] Verify the configuration after the reboot:
 
 // start of tabbed content 
 
@@ -301,7 +301,7 @@ RoCE pool config
 // end of tabbed content 
 
 [start=5]
-.[[step5]]Verify information for the transceiver in the interface:
+.[[step5]] Verify information for the transceiver in the interface:
 
 
 // start of tabbed content 
@@ -359,7 +359,7 @@ swp16      0x11 (QSFP28)  Amphenol     112-00595        APF2027
 
 
 [start=6]
-.[[step6]]Verify that the nodes each have a connection to each switch:
+.[[step6]] Verify that the nodes each have a connection to each switch:
 
 
 // start of tabbed content 
@@ -404,7 +404,7 @@ swp16      100G   BondMember  ossg-prod-rcf                 
 
 
 [start=7]
-.[[step7]]Verify the health of cluster ports on the cluster.
+.[[step7]] Verify the health of cluster ports on the cluster.
 
 .. Verify that e0d ports are up and healthy across all nodes in the cluster: 
 +
