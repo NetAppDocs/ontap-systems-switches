@@ -96,7 +96,8 @@ lo IP Address: ::1/128
 
 [start=2]
 .[[step2]]Copy the RCF python script to the switch.
-+
+
+
 .Show example
 [%collapsible]
 ====
@@ -299,6 +300,7 @@ RoCE pool config
 [start=5]
 .[[step5]]Verify information for the transceiver in the interface:
 
+
 // start of tabbed content 
 
 [role="tabbed-block"] 
@@ -352,8 +354,10 @@ swp16      0x11 (QSFP28)  Amphenol     112-00595        APF2027
 
 // end of tabbed content 
 
+
 [start=6]
 .[[step6]]Verify that the nodes each have a connection to each switch:
+
 
 // start of tabbed content 
 
@@ -394,6 +398,7 @@ swp16      100G   BondMember  ossg-prod-rcf                 
 ==== 
 
 // end of tabbed content 
+
 
 [start=7]
 .[[step7]]Verify the health of cluster ports on the cluster.
@@ -472,3 +477,4 @@ sw2                         cluster-network    10.233.205.91    MSN2100-CB2RC
 link:install-snmpv3-sn2100-cluster.html[Configure switch log collection].
 
 // GH issue #77 replacing 4.4.2with 4.4.3, 2023-FEB-22
+// Updates for the LH 5.4 integrity release, 2023-APR-18
