@@ -14,14 +14,14 @@ Follow this procedure to install the RCF script.
 .What you'll need
 Before installing the RCF script, make sure that the following are available on the switch:
 
-* Cumulus Linux 4.4.3 is installed.
+* Cumulus Linux is installed. See the https://hwu.netapp.com/Switch/Index[Hardware Universe] for supported versions.
 * IP address, subnet mask, and default gateway defined via DHCP or manually configured.
 
 .Current RCF script versions
 There are two RCF scripts available for Clustering and Storage applications. The procedure for each is the same.
 
-* Clustering:  *MSN2100-RCF-v1.8-Cluster*
-* Storage: *MSN2100-RCF-v1.8-Storage*
+* Clustering:  *MSN2100-RCF-v1._x_-Cluster*
+* Storage: *MSN2100-RCF-v1._x_-Storage*
 
 .About the examples
 
@@ -30,13 +30,18 @@ The following example procedure shows how to download and apply the RCF script f
 Example command output uses switch management IP address 10.233.204.71, netmask 255.255.254.0 and default gateway 10.233.204.1.
 
 .Steps
+
 . Display the available interfaces on the SN2100 switch:
-+
-`net show interface all`
-+
-.Show example
-[%collapsible]
-====
+
+// start of tabbed content 
+
+[role="tabbed-block"] 
+
+==== 
+
+.On Cumulus Linux 4.4.3
+--
+
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:~$ *net show interface all*
@@ -62,7 +67,32 @@ ADMDN  swp14  N/A  9216   NotConfigured
 ADMDN  swp15  N/A  9216   NotConfigured
 ADMDN  swp16  N/A  9216   NotConfigured
 ----
-====
+--
+
+.On Cumulus Linux 5.x
+--
+
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ *nv show interface*
+Interface   MTU   Speed State Remote Host Remote Port Type Summary
+----------- ----- ----- ----- ----------- ----------- ---- -------------
++ cluster_isl 9216 200G up bond
++ eth0 1500 100M up RTP-LF01-410G38.rtp.eng.netapp.com Eth105/1/14 eth IP Address: 10.231.80.206/22
+eth0 IP Address: fd20:8b1e:b255:85a0:bace:f6ff:fe31:4a0e/64
++ lo 65536 up loopback IP Address: 127.0.0.1/8
+lo IP Address: ::1/128
++ swp1s0 9216 10G up cumulus1 e0b swp
+.
+.
+.
++ swp15 9216 100G up cumulus swp15 swp
++ swp16 9216 100G up cumulus swp16 swp
+----
+--
+==== 
+
+// end of tabbed content
 
 . Copy the RCF python script to the switch.
 +
@@ -73,20 +103,20 @@ ADMDN  swp16  N/A  9216   NotConfigured
 ----
 cumulus@cumulus:mgmt:~$ *pwd*
 /home/cumulus
-cumulus@cumulus:mgmt: */tmp$ scp _<user>@<host:/<path>_/MSN2100-RCF-v1.8-Cluster*
+cumulus@cumulus:mgmt: */tmp$ scp _<user>@<host:/<path>_/MSN2100-RCF-v1.x-Cluster*
 ssologin@10.233.204.71's password:
-MSN2100-RCF-v1.8-Cluster                 100% 8607   111.2KB/s         00:00
+MSN2100-RCF-v1.x-Cluster                 100% 8607   111.2KB/s         00:00
 ----
 ====
 
-. Apply the RCF python script *MSN2100-RCF-v1.8-Cluster*.
+. Apply the RCF python script *MSN2100-RCF-v1.x-Cluster*.
 +
 .Show example
 [%collapsible]
 ====
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:/tmp$ *sudo python3 MSN2100-RCF-v1.8-Cluster*
+cumulus@cumulus:mgmt:/tmp$ *sudo python3 MSN2100-RCF-v1.x-Cluster*
 [sudo] password for cumulus:
 ...
 Step 1: Creating the banner file
@@ -110,12 +140,16 @@ The RCF script completes the steps listed in the example above.
 NOTE: For any RCF python script issues that cannot be corrected, contact https://mysupport.netapp.com/[NetApp Support^] for assistance.
 
 . Verify the configuration after the reboot:
-+
-`net show interface all`
-+
-.Show example
-[%collapsible]
-====
+
+// start of tabbed content 
+
+[role="tabbed-block"] 
+
+==== 
+
+.On Cumulus Linux 4.4.3
+-- 
+
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:~$ *net show interface all*
@@ -178,15 +212,100 @@ switch-priority  TC  ETS
 2                 2  DWRR 28%
 5                 5  DWRR 43%
 ----
-====
+--
+
+.On Cumulus Linux 5.x
+--
+
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ *nv show interface*
+Interface   MTU   Speed State Remote Host Remote Port Type Summary
+----------- ----- ----- ----- ----------- ----------- ---- -------------
++ cluster_isl 9216 200G up bond
++ eth0 1500 100M up RTP-LF01-410G38.rtp.eng.netapp.com Eth105/1/14 eth IP Address: 10.231.80.206/22
+eth0 IP Address: fd20:8b1e:b255:85a0:bace:f6ff:fe31:4a0e/64
++ lo 65536 up loopback IP Address: 127.0.0.1/8
+lo IP Address: ::1/128
++ swp1s0 9216 10G up cumulus1 e0b swp
+.
+.
+.
++ swp15 9216 100G up cumulus swp15 swp
++ swp16 9216 100G up cumulus swp16 swp
+
+cumulus@cumulus:mgmt:~$ *nv show qos roce*
+                    operational  applied   description
+------------------  -----------  --------  ---------------------------------------------------------------------
+enable                           on        Turn the feature 'on' or 'off'.  This feature is disabled by default.
+mode                lossless     lossless  Roce Mode
+congestion-control
+  congestion-mode   ECN,RED                Congestion config mode
+  enabled-tc        0,2,5                  Congestion config enabled Traffic Class
+  max-threshold     200000 B               Congestion config max-threshold
+  min-threshold     40000 B                Congestion config min-threshold
+lldp-app-tlv
+  priority          3                      switch-priority of roce
+  protocol-id       4791                   L4 port number
+  selector          UDP                    L4 protocol
+pfc
+  pfc-priority      2, 5                   switch-prio on which PFC is enabled
+  rx-enabled        enabled                PFC Rx Enabled status
+  tx-enabled        enabled                PFC Tx Enabled status
+trust
+  trust-mode        pcp,dscp               Trust Setting on the port for packet classification
+
+RoCE PCP/DSCP->SP mapping configurations
+===========================================
+        pcp  dscp                     switch-prio
+    --  ---  -----------------------  -----------
+    0   0    0,1,2,3,4,5,6,7          0
+    1   1    8,9,10,11,12,13,14,15    1
+    2   2    16,17,18,19,20,21,22,23  2
+    3   3    24,25,26,27,28,29,30,31  3
+    4   4    32,33,34,35,36,37,38,39  4
+    5   5    40,41,42,43,44,45,46,47  5
+    6   6    48,49,50,51,52,53,54,55  6
+    7   7    56,57,58,59,60,61,62,63  7
+
+RoCE SP->TC mapping and ETS configurations
+=============================================
+        switch-prio  traffic-class  scheduler-weight
+    --  -----------  -------------  ----------------
+    0   0            0              DWRR-28%
+    1   1            0              DWRR-28%
+    2   2            2              DWRR-28%
+    3   3            0              DWRR-28%
+    4   4            0              DWRR-28%
+    5   5            5              DWRR-43%
+    6   6            0              DWRR-28%
+    7   7            0              DWRR-28%
+
+RoCE pool config
+===================
+        name                   mode     size  switch-priorities  traffic-class
+    --  ---------------------  -------  ----  -----------------  -------------
+    0   lossy-default-ingress  Dynamic  50%   0,1,3,4,6,7        -
+    1   roce-reserved-ingress  Dynamic  50%   2,5                -
+    2   lossy-default-egress   Dynamic  50%   -                  0
+    3   roce-reserved-egress   Dynamic  inf   -                  2,5
+----
+--
+==== 
+
+// end of tabbed content 
 
 . Verify information for the transceiver in the interface:
-+
-`net show interface pluggables`
-+
-.Show example
-[%collapsible]
-====
+
+// start of tabbed content 
+
+[role="tabbed-block"] 
+
+==== 
+
+.On Cumulus Linux 4.4.3
+--
+
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:~$ *net show interface pluggables*
@@ -197,15 +316,49 @@ swp4       0x11 (QSFP28)  AVAGO        332-00440        AF1815GU05Z 
 swp15      0x11 (QSFP28)  Amphenol     112-00573        APF21109348001  B0
 swp16      0x11 (QSFP28)  Amphenol     112-00573        APF21109347895  B0
 ----
-====
+
+.On Cumulus Linux 5.x
+--
+
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ *nv show interface pluggables*
+Interface  Identifier     Vendor Name  Vendor PN        Vendor SN       Vendor Rev
+---------  -------------  -----------  ---------------  --------------  ----------
+swp1s0     0x00 None
+swp1s1     0x00 None
+swp1s2     0x00 None
+swp1s3     0x00 None
+swp2s0     0x11 (QSFP28)  CISCO-LEONI  L45593-D278-D20  LCC2321GTTJ     00
+swp2s1     0x11 (QSFP28)  CISCO-LEONI  L45593-D278-D20  LCC2321GTTJ     00
+swp2s2     0x11 (QSFP28)  CISCO-LEONI  L45593-D278-D20  LCC2321GTTJ     00
+swp2s3     0x11 (QSFP28)  CISCO-LEONI  L45593-D278-D20  LCC2321GTTJ     00
+swp3       0x00 None
+swp4       0x00 None
+swp5       0x00 None
+swp6       0x00 None
+.
+.
+.
+swp15      0x11 (QSFP28)  Amphenol     112-00595        APF20279210117  B0
+swp16      0x11 (QSFP28)  Amphenol     112-00595        APF20279210166  B0
+----
+--
+==== 
+
+// end of tabbed content 
 
 . Verify that the nodes each have a connection to each switch:
-+
-`net show lldp`
-+
-.Show example
-[%collapsible]
-====
+
+// start of tabbed content 
+
+[role="tabbed-block"] 
+
+==== 
+
+.On Cumulus Linux 4.4.3
+--
+
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:~$ *net show lldp*
@@ -217,7 +370,23 @@ swp4       100G   Trunk/L2    sw2                     e3b
 swp15      100G   BondMember  sw13                    swp15
 swp16      100G   BondMember  sw14                    swp16
 ----
-====
+
+.On Cumulus Linux 5.x
+--
+----
+cumulus@cumulus:mgmt:~$ *nv show lldp*
+
+LocalPort  Speed  Mode        RemoteHost                          RemotePort
+---------  -----  ----------  ----------------------------------  -----------
+eth0       100M   Mgmt        RTP-LF01-41MM08.com                 Eth110/1/29
+swp2s1     25G    Trunk/L2    rtpnpi-2820-8b                      e0a
+swp15      100G   BondMember  ossg-prod-rcf                       swp15
+swp16      100G   BondMember  ossg-prod-rcf                       swp16
+----
+--
+==== 
+
+// end of tabbed content 
 
 . Verify the health of cluster ports on the cluster.
 
