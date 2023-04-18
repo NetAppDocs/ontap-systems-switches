@@ -18,7 +18,7 @@ Before installing the RCF script, make sure that the following are available on 
 * IP address, subnet mask, and default gateway defined via DHCP or manually configured.
 
 .Current RCF script versions
-There are two RCF scripts available for Clustering and Storage applications. The procedure for each is the same.
+There are two RCF scripts available for Clustering and Storage applications. Download RCFs from https://mysupport.netapp.com/site/info/nvidia-cluster-switch[here]. The procedure for each is the same.
 
 * Clustering:  *MSN2100-RCF-v1._x_-Cluster*
 * Storage: *MSN2100-RCF-v1._x_-Storage*
@@ -94,7 +94,8 @@ lo IP Address: ::1/128
 
 // end of tabbed content
 
-. Copy the RCF python script to the switch.
+[start=2]
+.[[step2]]Copy the RCF python script to the switch.
 +
 .Show example
 [%collapsible]
@@ -235,10 +236,10 @@ lo IP Address: ::1/128
 + swp16 9216 100G up cumulus swp16 swp
 
 cumulus@cumulus:mgmt:~$ *nv show qos roce*
-                    operational  applied   description
-------------------  -----------  --------  ---------------------------------------------------------------------
-enable                           on        Turn the feature 'on' or 'off'.  This feature is disabled by default.
-mode                lossless     lossless  Roce Mode
+                   operational  applied   description
+-----------------  -----------  --------- ----------------------------------------
+enable             on                     Turn feature 'on' or 'off'. This feature is disabled by default.
+mode               lossless     lossless  Roce Mode
 congestion-control
   congestion-mode   ECN,RED                Congestion config mode
   enabled-tc        0,2,5                  Congestion config enabled Traffic Class
@@ -295,7 +296,8 @@ RoCE pool config
 
 // end of tabbed content 
 
-. Verify information for the transceiver in the interface:
+[start=5]
+.[[step5]]Verify information for the transceiver in the interface:
 
 // start of tabbed content 
 
@@ -304,6 +306,7 @@ RoCE pool config
 ==== 
 
 .On Cumulus Linux 4.4.3
+
 --
 
 [subs=+quotes]
@@ -316,6 +319,7 @@ swp4       0x11 (QSFP28)  AVAGO        332-00440        AF1815GU05Z 
 swp15      0x11 (QSFP28)  Amphenol     112-00573        APF21109348001  B0
 swp16      0x11 (QSFP28)  Amphenol     112-00573        APF21109347895  B0
 ----
+--
 
 .On Cumulus Linux 5.x
 --
@@ -348,7 +352,8 @@ swp16      0x11 (QSFP28)  Amphenol     112-00595        APF2027
 
 // end of tabbed content 
 
-. Verify that the nodes each have a connection to each switch:
+[start=6]
+.[[step6]]Verify that the nodes each have a connection to each switch:
 
 // start of tabbed content 
 
@@ -370,9 +375,11 @@ swp4       100G   Trunk/L2    sw2                     e3b
 swp15      100G   BondMember  sw13                    swp15
 swp16      100G   BondMember  sw14                    swp16
 ----
+--
 
 .On Cumulus Linux 5.x
 --
+
 ----
 cumulus@cumulus:mgmt:~$ *nv show lldp*
 
@@ -388,7 +395,8 @@ swp16      100G   BondMember  ossg-prod-rcf                 
 
 // end of tabbed content 
 
-. Verify the health of cluster ports on the cluster.
+[start=7]
+.[[step7]]Verify the health of cluster ports on the cluster.
 
 .. Verify that e0d ports are up and healthy across all nodes in the cluster: 
 +
