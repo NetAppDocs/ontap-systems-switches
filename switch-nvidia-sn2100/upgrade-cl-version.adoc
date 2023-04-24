@@ -131,12 +131,34 @@ Warning: The following files have been changed since the last save, and they WIL
 .
 .
 ----
++
+Logout and log in to the switch again to see the updated switch name at the prompt:
++
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ exit
+logout
+
+Debian GNU/Linux 10 cumulus ttyS0
+
+cumulus login: cumulus
+Password:
+Last login: Tue Dec 15 21:43:13 UTC 2020 on ttyS0
+Linux cumulus 5.10.0-cl-1-amd64 #1 SMP Debian 5.10.162-1+cl5.4.0u1 (2023-01-20) x86_64
+
+Welcome to NVIDIA Cumulus (R) Linux (R)
+
+
+ZTP in progress. To disable, do 'ztp -d'
+
+cumulus@cumulus_cs1:mgmt:~$
+----
 
 . Set the IP address:
 +
 [subs=+quotes]
 ----
-cumulus@cumulus_cs1:mgmt:~$ *nv set interface eth0 ip address 10.231.80.20*
+cumulus@cumulus_cs1:mgmt:~$ *nv set interface eth0 ip address 10.231.80.206*
 cumulus@cumulus_cs1:mgmt:~$ *nv set interface eth0 ip gateway 10.231.80.1*
 cumulus@cumulus_cs1:mgmt:~$ *nv config apply*
 applied [rev_id: 2]
@@ -252,12 +274,34 @@ Warning: The following files have been changed since the last save, and they WIL
 .
 .
 ----
++
+Logout and log in again to  the switch to see the updated switch name at the prompt:
++
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ exit
+logout
+
+Debian GNU/Linux 10 cumulus ttyS0
+
+cumulus login: cumulus
+Password:
+Last login: Tue Dec 15 21:43:13 UTC 2020 on ttyS0
+Linux cumulus 5.10.0-cl-1-amd64 #1 SMP Debian 5.10.162-1+cl5.4.0u1 (2023-01-20) x86_64
+
+Welcome to NVIDIA Cumulus (R) Linux (R)
+
+
+ZTP in progress. To disable, do 'ztp -d'
+
+cumulus@cumulus_cs1:mgmt:~$
+----
 
 . Set the IP address:
 +
 [subs=+quotes]
 ----
-cumulus@cumulus_cs1:mgmt:~$ *nv set interface eth0 ip address 10.231.80.20*
+cumulus@cumulus_cs1:mgmt:~$ *nv set interface eth0 ip address 10.231.80.206*
 cumulus@cumulus_cs1:mgmt:~$ *nv set interface eth0 ip gateway 10.231.80.1*
 cumulus@cumulus_cs1:mgmt:~$ *nv config apply*
 applied [rev_id: 2]

@@ -20,7 +20,7 @@ Before installing the RCF script, make sure that the following are available on 
 .Current RCF script versions
 There are two RCF scripts available for Clustering and Storage applications. Download RCFs from https://mysupport.netapp.com/site/info/nvidia-cluster-switch[here]. The procedure for each is the same.
 
-* Clustering:  *MSN2100-RCF-v1._x_-Cluster*
+* Clustering:  *MSN2100-RCF-v1._x_-Cluster-HA-Breakout-LLDP*
 * Storage: *MSN2100-RCF-v1._x_-Storage*
 
 .About the examples
@@ -74,7 +74,7 @@ ADMDN  swp16  N/A  9216   NotConfigured
 ----
 cumulus@cumulus:mgmt:~$ *pwd*
 /home/cumulus
-cumulus@cumulus:mgmt: */tmp$ scp _<user>@<host:/<path>_/MSN2100-RCF-v1.x-Cluster*
+cumulus@cumulus:mgmt: */tmp$ scp _<user>@<host:/<path>_/MSN2100-RCF-v1.x-Cluster ./*
 ssologin@10.233.204.71's password:
 MSN2100-RCF-v1.x-Cluster                 100% 8607   111.2KB/s         00:00
 ----
@@ -102,6 +102,8 @@ Step 13: Reboot the switch
 ----
 +
 The RCF script completes the steps listed in the example above.
++
+NOTE: In step 3 Updating the MOTD file above, the command `cat /etc/motd` is run. This allows you to verify the RCF filename, RCF versions, ports to use and other important information in the RCF banner.
 +
 NOTE: For any RCF python script issues that cannot be corrected, contact https://mysupport.netapp.com/[NetApp Support^] for assistance.
 
@@ -290,16 +292,16 @@ lo IP Address: ::1/128
 ----
 cumulus@cumulus:mgmt:~$ *pwd*
 /home/cumulus
-cumulus@cumulus:mgmt: */tmp$ scp _<user>@<host:/<path>_/MSN2100-RCF-v1.x-Cluster*
+cumulus@cumulus:mgmt: */tmp$ scp _<user>@<host:/<path>_/MSN2100-RCF-v1.x-Cluster-HA-Breakout-LLDP ./*
 ssologin@10.233.204.71's password:
 MSN2100-RCF-v1.x-Cluster                 100% 8607   111.2KB/s         00:00
 ----
 
-. Apply the RCF python script *MSN2100-RCF-v1.x-Cluster*.
+. Apply the RCF python script *MSN2100-RCF-v1.x-Cluster-HA-Breakout-LLDP*.
 +
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:/tmp$ *sudo python3 MSN2100-RCF-v1.x-Cluster*
+cumulus@cumulus:mgmt:/tmp$ *sudo python3 MSN2100-RCF-v1.x-Cluster-HA-Breakout-LLDP*
 [sudo] password for cumulus:
 ...
 Step 1: Creating the banner file
@@ -318,6 +320,41 @@ Step 13: Reboot the switch
 ----
 +
 The RCF script completes the steps listed in the example above.
++
+NOTE: In step 3 Updating the MOTD file above, the command `cat /etc/issue` is run. This allows you to verify the RCF filename, RCF versions, ports to use and other important information in the RCF banner. For example:
++
+
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ *cat /etc/issue*
+******************************************************************************
+*
+* NetApp Reference Configuration File (RCF)
+* Switch       : Mellanox MSN2100
+* Filename     : MSN2100-RCF-1.x-Cluster-HA-Breakout-LLDP
+* Release Date : 13-02-2023
+* Version      : 1.xLLDP
+*
+* Port Usage:
+* Port 1      : 4x10G Breakout mode for Cluster+HA Ports, swp1s0-3
+* Port 2      : 4x25G Breakout mode for Cluster+HA Ports, swp2s0-3
+* Ports 3-14  : 40/100G for Cluster+HA Ports, swp3-14
+* Ports 15-16 : 100G Cluster ISL Ports, swp15-16
+*
+* NOTE:
+*   RCF manually sets swp1s0-3 link speed to 10000 and
+*   auto-negotiation to off for Intel 10G
+*   RCF manually sets swp2s0-3 link speed to 25000 and
+*   auto-negotiation to off for Chelsio 25G
+*
+*
+* IMPORTANT: Perform the following steps to ensure proper RCF installation:
+* - Copy the RCF file to /tmp
+* - Ensure the file has execute permission
+* - From /tmp run the file as sudo python3 <filename>
+*
+******************************************************************************
+----
 +
 NOTE: For any RCF python script issues that cannot be corrected, contact https://mysupport.netapp.com/[NetApp Support^] for assistance.
 
@@ -486,7 +523,7 @@ sw1                         cluster-network    10.233.205.90    MSN2100-CB2RC
      Serial Number: MNXXXXXXGD
       Is Monitored: true
             Reason: None
-  Software Version: Cumulus Linux version 4.4.3 running on Mellanox
+  Software Version: Cumulus Linux version 5.4.0 running on Mellanox
                     Technologies Ltd. MSN2100
     Version Source: LLDP
 
@@ -494,7 +531,7 @@ sw2                         cluster-network    10.233.205.91    MSN2100-CB2RC
      Serial Number: MNCXXXXXXGS
       Is Monitored: true
             Reason: None
-  Software Version: Cumulus Linux version 4.4.3 running on Mellanox
+  Software Version: Cumulus Linux version 5.4.0 running on Mellanox
                     Technologies Ltd. MSN2100
     Version Source: LLDP
 ----

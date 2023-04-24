@@ -368,12 +368,24 @@ http://www.cumulusnetworks.com/support
 The registered trademark Linux (R) is used pursuant to a sublicense from LMI, the exclusive licensee of Linus Torvalds, owner of the mark on a world-wide basis.
 admin@sw1:mgmt:~$
 ----
+
+. Create additional user groups for the cumulus user:
++
+[subs=+quotes]
+----
+cumulus@sw1:mgmt:~$ *sudo adduser admin nvshow*
+     [sudo] password for cumulus:
+     Adding user `admin' to group `nvshow' ...
+     Adding user admin to group nvshow
+     Done.
+----
++
+See https://docs.nvidia.com/networking-ethernet-software/cumulus-linux-54/System-Configuration/Authentication-Authorization-and-Accounting/User-Accounts/[NVIDIA User Accounts] for more information.
 --
 ==== 
-
 // end of tabbed content
 
-NOTE: To upgrade from Cumulus Linux 5.3.0 to 5.4.0, see link:upgrade-cl-version.html[Upgrade from Cumulus Linux 5.3.0 to 5.4.0]. 
+//NOTE: To upgrade from Cumulus Linux 5.3.0 to 5.4.0, see link:upgrade-cl-version.html[Upgrade from Cumulus Linux 5.3.0 to 5.4.0]. 
 
 .What's next?
 link:install-rcf-sn2100-cluster.html[Install the Reference Configuration File (RCF) script].
