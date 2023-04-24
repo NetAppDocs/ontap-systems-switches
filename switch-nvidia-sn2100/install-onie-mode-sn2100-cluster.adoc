@@ -151,18 +151,16 @@ The switch downloads the ONIE image installer and boots. After the installation 
 NOTE: Each time Cumulus Linux is installed, the entire file system structure is erased and rebuilt.
 
 . Reboot the SN2100 switch:
-+
-[subs=+quotes]
+
 ----
-cumulus@cumulus:mgmt:~$ *sudo reboot*
-.
+cumulus@cumulus:mgmt:~$ sudo reboot
 .
 .
 GNU GRUB version 2.06-3
 +-------------------------------------------------------------------------+
 | Cumulus-Linux GNU/Linux                                                 |
 | Advanced options for Cumulus-Linux GNU/Linux                            |
-|**ONIE                                                                    |
+|*ONIE                                                                     |
 |                                                                         |
 |                                                                         |
 |                                                                         |
@@ -181,7 +179,7 @@ Loading ONIE ...
 GNU GRUB version 2.02
 
 +-------------------------------------------------------------------------+
-|**ONIE: Install OS                                                         |
+|*ONIE: Install OS                                                         |
 | ONIE: Rescue                                                            |
 | ONIE: Uninstall OS                                                      |
 | ONIE: Update ONIE                                                       |
@@ -194,7 +192,7 @@ GNU GRUB version 2.02
 |                                                                         |
 |                                                                         |
 +-------------------------------------------------------------------------+
-Select *ONIE: Install OS*.
+Select ONIE: Install OS.
 ----
 
 . The ONIE installer discovery process runs searching for the automatic installation.  Press *Enter* to temporarily stop the process.
@@ -253,6 +251,7 @@ default         10.228.136.1    0.0.0.0         UG    0      0      0   eth0
 //ONIE:/ # *route add default gw 10.233.204.1*
 //----
 //. Repeat step 9 to verify that the static information is correctly entered.
+
 . Install Cumulus Linux 5.4:
 +
 ----

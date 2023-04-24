@@ -57,32 +57,142 @@ Only switchd reload required
 //NOTE: If link issues are still occurring, collect the cl-support and update burt # 1506124 accordingly.
 
 == Support for copper connections
-On Cumulus Linux version 4.4.3 and later, the following configuration changes are required to fix this issue.
+The following configuration changes are required to fix this issue.
 
-. Add the following two lines to the `/etc/cumulus/switchd.conf` file for every port (swp<n>) that is using 40/100GbE copper cables:
+// start of tabbed content 
 
-* `interface.swp<n>.enable_media_depended_linkup_flow=TRUE`
-* `interface.swp<n>.enable_short_tuning=TRUE`
+[role="tabbed-block"] 
 
-. Restart the switchd daemon: `systemctl restart switchd`
+==== 
 
-See the following https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Systems/Fabric_Interconnect_and_Management_Switches/NVIDIA_SN2100_switch_fails_to_connect_using_40_100GbE_copper_cable[KB^] for further details.
+.On Cumulus Linux version 4.4.3
+--
 
-.Show example
-[%collapsible]
-====
+. Identify the name for each interface using 40/100GbE copper cables:
 
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:~$ *cat /etc/cumulus/switchd.conf | grep swp3*
+cumulus@cumulus:mgmt:~$ *net show interface pluggables*
+ 
+Interface  Identifier     Vendor Name     Vendor PN    Vendor SN      Vendor Rev
+---------  -------------  --------------  -----------  -------------  ----------
+swp3       0x11 (QSFP28)  Molex           112-00576    93A2229911111  B0
+swp4       0x11 (QSFP28)  Molex           112-00576    93A2229922222  B0        
+----
+
+. Add the following two lines to the `/etc/cumulus/switchd.conf` file for every port (swp<n>) that is using 40/100GbE copper cables:
+* `interface.swp<n>.enable_media_depended_linkup_flow=TRUE`
+* `interface.swp<n>.enable_short_tuning=TRUE`
+
+For example:
+
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ *sudo nano /etc/cumulus/switchd.conf*
+.
+.
 interface.swp3.enable_media_depended_linkup_flow=TRUE
 interface.swp3.enable_short_tuning=TRUE
-cumulus@cumulus:mgmt:~$ *cat /etc/cumulus/switchd.conf | grep swp6*
-interface.swp6.enable_media_depended_linkup_flow=TRUE
-interface.swp6.enable_short_tuning=TRUE
-cumulus@cumulus:mgmt:~$
+interface.swp4.enable_media_depended_linkup_flow=TRUE
+interface.swp4.enable_short_tuning=TRUE
 ----
-====
+
+. Restart the switchd service:
+
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ *sudo systemctl restart switchd.service*
+----
+
+. Confirm that the ports are up:
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ *net show interface all*
+
+State  Name      Spd   MTU    Mode       LLDP              Summary
+-----  --------- ----  -----  ---------- ----------------- --------
+UP     swp3      100G  9216   Trunk/L2                     Master: bridge(UP)
+UP     swp4      100G  9216   Trunk/L2                     Master: bridge(UP)
+----
+--
+
+.On Cumulus Linux version 5.x
+
+--
+. Identify the name for each interface using 40/100GbE copper cables:
+
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ *nv show interface pluggables*
+ 
+Interface  Identifier     Vendor Name     Vendor PN    Vendor SN      Vendor Rev
+---------  -------------  --------------  -----------  -------------  ----------
+swp3       0x11 (QSFP28)  Molex           112-00576    93A2229911111  B0
+swp4       0x11 (QSFP28)  Molex           112-00576    93A2229922222  B0        
+----
+
+. Add the following two lines to the `/etc/cumulus/switchd.conf` file for every port (swp<n>) that is using 40/100GbE copper cables:
+* `interface.swp<n>.enable_media_depended_linkup_flow=TRUE`
+* `interface.swp<n>.enable_short_tuning=TRUE`
+
+For example:
+
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ *sudo nano /etc/cumulus/switchd.conf*
+.
+.
+interface.swp3.enable_media_depended_linkup_flow=TRUE
+interface.swp3.enable_short_tuning=TRUE
+interface.swp4.enable_media_depended_linkup_flow=TRUE
+interface.swp4.enable_short_tuning=TRUE
+----
+
+. Restart the `switchd` service:
+
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ *sudo systemctl restart switchd.service*
+----
+
+. Confirm that the ports are up:
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ *net show interface all*
+
+State  Name      Spd   MTU    Mode       LLDP              Summary
+-----  --------- ----  -----  ---------- ----------------- --------
+UP     swp3      100G  9216   Trunk/L2                     Master: bridge(UP)
+UP     swp4      100G  9216   Trunk/L2                     Master: bridge(UP)
+----
+--
+==== 
+
+// end of tabbed content 
+
+//. Add the following two lines to the `/etc/cumulus/switchd.conf` file for every port (swp<n>) that is using 40/100GbE copper cables:
+
+//* `interface.swp<n>.enable_media_depended_linkup_flow=TRUE`
+//* `interface.swp<n>.enable_short_tuning=TRUE`
+
+//. Restart the switchd daemon: `systemctl restart switchd`
+
+See the following https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Systems/Fabric_Interconnect_and_Management_Switches/NVIDIA_SN2100_switch_fails_to_connect_using_40_100GbE_copper_cable[KB^] for further details.
+
+//.Show example
+//[%collapsible]
+//====
+
+//[subs=+quotes]
+//----
+//cumulus@cumulus:mgmt:~$ *cat /etc/cumulus/switchd.conf | grep swp3*
+//interface.swp3.enable_media_depended_linkup_flow=TRUE
+//interface.swp3.enable_short_tuning=TRUE
+//cumulus@cumulus:mgmt:~$ *cat /etc/cumulus/switchd.conf | grep swp6*
+//interface.swp6.enable_media_depended_linkup_flow=TRUE
+//interface.swp6.enable_short_tuning=TRUE
+//cumulus@cumulus:mgmt:~$
+
 
 On Cumulus Linux 4.4.2, only copper connections are supported on SN2100 switches with X1151A NIC, X1146A NIC, or onboard 100GbE ports. 
 For example:

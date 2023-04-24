@@ -321,7 +321,9 @@ Step 13: Reboot the switch
 +
 The RCF script completes the steps listed in the example above.
 +
-NOTE: In step 3 *Updating the MOTD file* above, the command `cat /etc/issue` is run. This allows you to verify the RCF filename, RCF version, ports to use and other important information in the RCF banner. For example:
+NOTE: In step 3 *Updating the MOTD file* above, the command `cat /etc/issue` is run. This allows you to verify the RCF filename, RCF version, ports to use and other important information in the RCF banner. 
++
+For example:
 ----
 cumulus@cumulus:mgmt:~$ cat /etc/issue
 ******************************************************************************
@@ -352,7 +354,7 @@ cumulus@cumulus:mgmt:~$ cat /etc/issue
 *
 ******************************************************************************
 ----
-+
+
 NOTE: For any RCF python script issues that cannot be corrected, contact https://mysupport.netapp.com/[NetApp Support^] for assistance.
 
 . Verify the configuration after the reboot:
