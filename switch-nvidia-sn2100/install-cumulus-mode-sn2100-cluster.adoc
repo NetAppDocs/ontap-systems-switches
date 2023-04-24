@@ -195,7 +195,7 @@ cumulus@sw1:mgmt:~$ *sudo adduser admin sudo*
 Adding user `admin' to group `sudo' ...
 Adding user admin to group sudo
 Done.
-cumulus@sw1:mgmt:~$ exit
+cumulus@sw1:mgmt:~$ *exit*
 logout
 Connection to 10.233.204.71 closed.
 
@@ -237,7 +237,6 @@ cumulus@cumulus:mgmt:~$ *nv show system*
 operational         applied              description
 ------------------- -------------------- ---------------------
 hostname            cumulus              cumulus
-Static hostname for the switch
 build               Cumulus Linux 5.3.0  system build version
 uptime              6 days, 8:37:36      system uptime
 timezone            Etc/UTC              system time zone
@@ -249,6 +248,7 @@ NOTE: A Cumulus Linux switch provides at least one dedicated Ethernet management
 +
 CAUTION: Do not use an underscore (_), apostrophe ('), or non-ASCII characters in the hostname.
 +
+
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:~$ *nv add hostname sw1*
@@ -353,7 +353,7 @@ cumulus@sw1:mgmt:~$ *sudo adduser admin sudo*
 Adding user `admin' to group `sudo' ...
 Adding user admin to group sudo
 Done.
-cumulus@sw1:mgmt:~$ exit
+cumulus@sw1:mgmt:~$ *exit*
 logout
 Connection to 10.233.204.71 closed.
 

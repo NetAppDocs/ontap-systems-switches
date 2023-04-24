@@ -162,7 +162,7 @@ GNU GRUB version 2.06-3
 +-------------------------------------------------------------------------+
 | Cumulus-Linux GNU/Linux                                                 |
 | Advanced options for Cumulus-Linux GNU/Linux                            |
-|*ONIE                                                                    |
+|**ONIE                                                                    |
 |                                                                         |
 |                                                                         |
 |                                                                         |
@@ -181,7 +181,7 @@ Loading ONIE ...
 GNU GRUB version 2.02
 
 +-------------------------------------------------------------------------+
-|*ONIE: Install OS                                                        |
+|**ONIE: Install OS                                                         |
 | ONIE: Rescue                                                            |
 | ONIE: Uninstall OS                                                      |
 | ONIE: Update ONIE                                                       |
@@ -194,8 +194,7 @@ GNU GRUB version 2.02
 |                                                                         |
 |                                                                         |
 +-------------------------------------------------------------------------+
-
-On the next screen, select *ONIE: Install OS*.
+Select *ONIE: Install OS*.
 ----
 
 . The ONIE installer discovery process runs searching for the automatic installation.  Press *Enter* to temporarily stop the process.
@@ -246,14 +245,14 @@ default         10.228.136.1    0.0.0.0         UG    0      0      0   eth0
 10.228.136.1    *               255.255.248.0   U     0      0      0   eth0
 ----
 
-. If the IP addressing scheme is manually defined, do the following:
-+
-[subs=+quotes]
-----
-ONIE:/ # *ifconfig eth0 10.233.204.71 netmask 255.255.254.0*
-ONIE:/ # *route add default gw 10.233.204.1*
-----
-. Repeat step 9 to verify that the static information is correctly entered.
+//. If the IP addressing scheme is manually defined, do the following:
+//+
+//[subs=+quotes]
+//----
+//ONIE:/ # *ifconfig eth0 10.233.204.71 netmask 255.255.254.0*
+//ONIE:/ # *route add default gw 10.233.204.1*
+//----
+//. Repeat step 9 to verify that the static information is correctly entered.
 . Install Cumulus Linux 5.4:
 +
 ----

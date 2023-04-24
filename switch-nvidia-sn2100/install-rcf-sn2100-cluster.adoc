@@ -74,16 +74,16 @@ ADMDN  swp16  N/A  9216   NotConfigured
 ----
 cumulus@cumulus:mgmt:~$ *pwd*
 /home/cumulus
-cumulus@cumulus:mgmt: */tmp$ scp _<user>@<host:/<path>_/MSN2100-RCF-v1.x-Cluster ./*
+cumulus@cumulus:mgmt: */tmp$ scp _<user>@<host:/<path>_/MSN2100-RCF-v1.x-Cluster-HA-Breakout-LLDP ./*
 ssologin@10.233.204.71's password:
-MSN2100-RCF-v1.x-Cluster                 100% 8607   111.2KB/s         00:00
+MSN2100-RCF-v1.x-Cluster-HA-Breakout-LLDP         100% 8607   111.2KB/s         00:00
 ----
 
-. Apply the RCF python script *MSN2100-RCF-v1.x-Cluster*.
+. Apply the RCF python script *MSN2100-RCF-v1.x-Cluster-HA-Breakout-LLDP*.
 +
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:/tmp$ *sudo python3 MSN2100-RCF-v1.x-Cluster*
+cumulus@cumulus:mgmt:/tmp$ *sudo python3 MSN2100-RCF-v1.x-Cluster-HA-Breakout-LLDP*
 [sudo] password for cumulus:
 ...
 Step 1: Creating the banner file
@@ -103,7 +103,7 @@ Step 13: Reboot the switch
 +
 The RCF script completes the steps listed in the example above.
 +
-NOTE: In step 3 Updating the MOTD file above, the command `cat /etc/motd` is run. This allows you to verify the RCF filename, RCF versions, ports to use and other important information in the RCF banner.
+NOTE: In step 3 *Updating the MOTD file* above, the command `cat /etc/motd` is run. This allows you to verify the RCF filename, RCF version, ports to use and other important information in the RCF banner.
 +
 NOTE: For any RCF python script issues that cannot be corrected, contact https://mysupport.netapp.com/[NetApp Support^] for assistance.
 
@@ -321,19 +321,16 @@ Step 13: Reboot the switch
 +
 The RCF script completes the steps listed in the example above.
 +
-NOTE: In step 3 Updating the MOTD file above, the command `cat /etc/issue` is run. This allows you to verify the RCF filename, RCF versions, ports to use and other important information in the RCF banner. For example:
-+
-
-[subs=+quotes]
+NOTE: In step 3 *Updating the MOTD file* above, the command `cat /etc/issue` is run. This allows you to verify the RCF filename, RCF version, ports to use and other important information in the RCF banner. For example:
 ----
-cumulus@cumulus:mgmt:~$ *cat /etc/issue*
+cumulus@cumulus:mgmt:~$ cat /etc/issue
 ******************************************************************************
 *
 * NetApp Reference Configuration File (RCF)
 * Switch       : Mellanox MSN2100
 * Filename     : MSN2100-RCF-1.x-Cluster-HA-Breakout-LLDP
 * Release Date : 13-02-2023
-* Version      : 1.xLLDP
+* Version      : 1.x-Cluster-HA-Breakout-LLDP
 *
 * Port Usage:
 * Port 1      : 4x10G Breakout mode for Cluster+HA Ports, swp1s0-3
