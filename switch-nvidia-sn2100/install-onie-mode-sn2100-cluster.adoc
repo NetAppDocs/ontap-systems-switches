@@ -242,20 +242,9 @@ default         10.228.136.1    0.0.0.0         UG    0      0      0   eth0
 10.228.136.1    *               255.255.248.0   U     0      0      0   eth0
 ----
 
-//. If the IP addressing scheme is manually defined, do the following:
-//+
-//[subs=+quotes]
-//----
-//ONIE:/ # *ifconfig eth0 10.233.204.71 netmask 255.255.254.0*
-//ONIE:/ # *route add default gw 10.233.204.1*
-//----
-//. Repeat step 9 to verify that the static information is correctly entered.
-
 . Install Cumulus Linux 5.4:
 +
-----
-# onie-nos-install http://<web-server>/<path>/cumulus-linux-5.4-mlx-amd64.bin
-----
+`# onie-nos-install http://<web-server>/<path>/cumulus-linux-5.4-mlx-amd64.bin`
 +
 [subs=+quotes]
 ----

@@ -301,6 +301,7 @@ cumulus@sw1:~$ *sudo dpkg-reconfigure tzdata*
 cumulus@sw1:mgmt:~$ *sudo onie-install -a -i http://_<web-server>/<path>_/cumulus-linux-5.4-mlx-amd64.bin*
 ----
 The installer starts the download.  Type *y* when prompted.
+
 . Reboot the NVIDIA SN2100 switch:
 +
 [subs=+quotes]
@@ -322,6 +323,20 @@ NCLU_VERSION=1.0-cl5.4u0
 DISTRIB_ID="Cumulus Linux"
 DISTRIB_RELEASE=*5.4*
 DISTRIB_DESCRIPTION=*"Cumulus Linux 5.4"*
+----
+
+. Verify that the nodes each have a connection to each switch:
++
+[subs=+quotes]
+----
+cumulus@sw1:mgmt:~$ *nv show lldp*
+
+LocalPort  Speed  Mode        RemoteHost                          RemotePort
+---------  -----  ----------  ----------------------------------  -----------
+eth0       100M   Mgmt        RTP-LF01-41MM08.com                 Eth110/1/29
+swp2s1     25G    Trunk/L2    rtpnpi-2820-8b                      e0a
+swp15      100G   BondMember  ossg-prod-rcf                       swp15
+swp16      100G   BondMember  ossg-prod-rcf                       swp16
 ----
 
 . Create a new user and add this user to the `sudo` group.  This user only becomes effective after the console/SSH session is restarted.
