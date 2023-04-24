@@ -303,7 +303,8 @@ MSN2100-RCF-v1.x-Cluster                 100% 8607   111.2KB/s         00:00
 ----
 cumulus@cumulus:mgmt:/tmp$ *sudo python3 MSN2100-RCF-v1.x-Cluster-HA-Breakout-LLDP*
 [sudo] password for cumulus:
-...
+.
+.
 Step 1: Creating the banner file
 Step 2: Registering banner message
 Step 3: Updating the MOTD file
@@ -324,6 +325,7 @@ The RCF script completes the steps listed in the example above.
 NOTE: In step 3 *Updating the MOTD file* above, the command `cat /etc/issue` is run. This allows you to verify the RCF filename, RCF version, ports to use and other important information in the RCF banner. 
 +
 For example:
++
 ----
 cumulus@cumulus:mgmt:~$ cat /etc/issue
 ******************************************************************************
@@ -354,7 +356,7 @@ cumulus@cumulus:mgmt:~$ cat /etc/issue
 *
 ******************************************************************************
 ----
-
++
 NOTE: For any RCF python script issues that cannot be corrected, contact https://mysupport.netapp.com/[NetApp Support^] for assistance.
 
 . Verify the configuration after the reboot:
@@ -460,7 +462,7 @@ swp16      0x11 (QSFP28)  Amphenol     112-00595        APF2027
 ----
 
 . Verify that the nodes each have a connection to each switch:
-
++
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:~$ *nv show lldp*

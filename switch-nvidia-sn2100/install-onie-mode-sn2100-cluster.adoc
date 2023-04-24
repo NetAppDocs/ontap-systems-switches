@@ -151,7 +151,7 @@ The switch downloads the ONIE image installer and boots. After the installation 
 NOTE: Each time Cumulus Linux is installed, the entire file system structure is erased and rebuilt.
 
 . Reboot the SN2100 switch:
-
++
 ----
 cumulus@cumulus:mgmt:~$ sudo reboot
 .
@@ -160,7 +160,7 @@ GNU GRUB version 2.06-3
 +-------------------------------------------------------------------------+
 | Cumulus-Linux GNU/Linux                                                 |
 | Advanced options for Cumulus-Linux GNU/Linux                            |
-|*ONIE                                                                     |
+| ONIE                                                                    |
 |                                                                         |
 |                                                                         |
 |                                                                         |
@@ -171,7 +171,7 @@ GNU GRUB version 2.06-3
 |                                                                         |
 +-------------------------------------------------------------------------+
 +
-Press the *Esc* key at the GNU GRUB screen to interrupt the normal boot process, select *ONIE*, and press *Enter*
+Press the Esc key at the GNU GRUB screen to interrupt the normal boot process, select ONIE, and press Enter
 .
 .
 Loading ONIE ...
@@ -179,13 +179,11 @@ Loading ONIE ...
 GNU GRUB version 2.02
 
 +-------------------------------------------------------------------------+
-|*ONIE: Install OS                                                         |
+| ONIE: Install OS                                                        |
 | ONIE: Rescue                                                            |
 | ONIE: Uninstall OS                                                      |
 | ONIE: Update ONIE                                                       |
 | ONIE: Embed ONIE                                                        |
-|                                                                         |
-|                                                                         |
 |                                                                         |
 |                                                                         |
 |                                                                         |
@@ -205,6 +203,7 @@ discover: installer mode detected.
 Stopping: discover...start-stop-daemon: warning: killing process 427:
 No such process done.
 ----
+
 . Configure the IP address, subnet mask, and the default gateway:
 +
 `ifconfig eth0`
@@ -308,13 +307,12 @@ cumulus@sw1:mgmt:~$ *sudo adduser admin nvshow*
      Adding user admin to group nvshow
      Done.
 ----
-+
-See https://docs.nvidia.com/networking-ethernet-software/cumulus-linux-54/System-Configuration/Authentication-Authorization-and-Accounting/User-Accounts/[NVIDIA User Accounts] for more information.
-
 --
 ==== 
 
 // end of tabbed content 
+
+NOTE: See https://docs.nvidia.com/networking-ethernet-software/cumulus-linux-54/System-Configuration/Authentication-Authorization-and-Accounting/User-Accounts/[NVIDIA User Accounts] for more information.
 
 //NOTE: To upgrade from Cumulus Linux 5.3.0 to 5.4.0, see link:upgrade-cl-version.html[Upgrade from Cumulus Linux 5.3.0 to 5.4.0]. 
 
