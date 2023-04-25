@@ -41,7 +41,7 @@ a|
 a|
 49-54
 a|
-100GbE cluster port nodes, with licenses, added right to left
+40/100GbE cluster port nodes, with licenses, added right to left
 a|
 55-56
 a|
@@ -51,6 +51,10 @@ a|
 See the https://hwu.netapp.com/Switch/Index[Hardware Universe] for more information on switch ports.
 
 === Port group speed constraint
-On BES-53248 cluster switches, the 48 10/25GbE (SFP28/SFP+) ports are combined into 12 x 4-port groups as follows: Ports 1-4, 5-8, 9-12, 13-16, 17-20, 21-24, 25-28, 29-32, 33-36, 37-40, 41-44, and 45-48.
+* On BES-53248 cluster switches, the 48 10/25GbE (SFP28/SFP+) ports are combined into 12 x 4-port groups as follows: Ports 1-4, 5-8, 9-12, 13-16, 17-20, 21-24, 25-28, 29-32, 33-36, 37-40, 41-44, and 45-48.
 
-The SFP28/SFP+ port speed must be the same (10GbE or 25GbE) across all ports in the 4-port group.
+* The SFP28/SFP+ port speed must be the same (10GbE or 25GbE) across all ports in the 4-port group.
+
+* If additional licenses are purchased, see link:configure-licenses.html[Activate newly licenses ports] for details.
+
+* If SSH is active, you must re-enable it manually after the command `erase startup-config` has been executed and the switch rebooted.
