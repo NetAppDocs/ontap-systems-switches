@@ -97,7 +97,7 @@ interface.swp4.enable_media_depended_linkup_flow=TRUE
 interface.swp4.enable_short_tuning=TRUE
 ----
 
-. Restart the switchd service:
+. Restart the `switchd` service:
 +
 [subs=+quotes]
 ----
@@ -136,7 +136,7 @@ swp4       0x11 (QSFP28)  Molex           112-00576    93A2229922222  B0
 +
 * `nv set interface <interface-id> link fast-linkup on`
 * `nv config apply`
-* `reload the switchd`
+* Reload the `switchd` service
 +
 For example:
 +
