@@ -286,22 +286,67 @@ DISTRIB_RELEASE=*5.4*
 DISTRIB_DESCRIPTION=*"Cumulus Linux 5.4”*
 ----
 
-. Create additional user groups for the cumulus user:
+. Create a new user and add this user to the `sudo` group.  This user only becomes effective after the console/SSH session is restarted.
++
+`sudo adduser --ingroup netedit admin`
 +
 [subs=+quotes]
 ----
-cumulus@sw1:mgmt:~$ *sudo adduser admin nvshow*
+cumulus@cumulus:mgmt:~$ *sudo adduser --ingroup netedit admin*
+[sudo] password for cumulus:
+Adding user `admin’ ...
+Adding new user `admin’ (1001) with group `netedit' ...
+Creating home directory `/home/admin’ ...
+Copying files from `/etc/skel' ...
+New password:
+Retype new password:
+passwd: password updated successfully
+Changing the user information for admin
+Enter the new value, or press ENTER for the default
+Full Name []:
+Room Number []:
+Work Phone []:
+Home Phone []:
+Other []:
+Is the information correct? [Y/n] *y*
+
+cumulus@cumulus:mgmt:~$ *sudo adduser admin sudo*
+[sudo] password for cumulus:
+Adding user `admin' to group `sudo' ...
+Adding user admin to group sudo
+Done.
+cumulus@cumulus:mgmt:~$ *exit*
+logout
+Connection to 10.233.204.71 closed.
+
+[admin@cycrh6svl01 ~]$ ssh admin@10.233.204.71
+admin@10.233.204.71's password:
+Linux sw1 4.19.0-cl-1-amd64 #1 SMP Cumulus 4.19.206-1+cl4.4.1u1 (2021-09-09) x86_64
+Welcome to NVIDIA Cumulus (R) Linux (R)
+
+For support and online technical documentation, visit
+http://www.cumulusnetworks.com/support
+
+The registered trademark Linux (R) is used pursuant to a sublicense from LMI, the exclusive licensee of Linus Torvalds, owner of the mark on a world-wide basis.
+admin@sw1:mgmt:~$
+----
+
+. Add additional user groups for the admin user to access `nv` commands:
++
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ *sudo adduser admin nvshow*
      [sudo] password for cumulus:
      Adding user `admin' to group `nvshow' ...
      Adding user admin to group nvshow
      Done.
 ----
++
+See https://docs.nvidia.com/networking-ethernet-software/cumulus-linux-54/System-Configuration/Authentication-Authorization-and-Accounting/User-Accounts/[NVIDIA User Accounts] for more information.
 --
 ==== 
 
 // end of tabbed content 
-
-NOTE: See https://docs.nvidia.com/networking-ethernet-software/cumulus-linux-54/System-Configuration/Authentication-Authorization-and-Accounting/User-Accounts/[NVIDIA User Accounts] for more information.
 
 //NOTE: To upgrade from Cumulus Linux 5.3.0 to 5.4.0, see link:upgrade-cl-version.html[Upgrade from Cumulus Linux 5.3.0 to 5.4.0]. 
 

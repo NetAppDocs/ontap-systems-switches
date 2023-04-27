@@ -131,8 +131,8 @@ Warning: The following files have been changed since the last save, and they WIL
 .
 .
 ----
-+
-Logout and log in to the switch again to see the updated switch name at the prompt:
+
+. Logout and log in to the switch again to see the updated switch name at the prompt:
 +
 [subs=+quotes]
 ----
@@ -168,6 +168,64 @@ unreachable default metric 4278198272
 10.231.80.0/22 dev eth0 proto kernel scope link src 10.231.80.206
 127.0.0.0/8 dev mgmt proto kernel scope link src 127.0.0.1
 ----
+
+. Create a new user and add this user to the `sudo` group.  This user only becomes effective after the console/SSH session is restarted.
++
+`sudo adduser --ingroup netedit admin`
++
+[subs=+quotes]
+----
+cumulus@cumulus_cs1:mgmt:~$ *sudo adduser --ingroup netedit admin*
+[sudo] password for cumulus:
+Adding user `admin’ ...
+Adding new user `admin’ (1001) with group `netedit' ...
+Creating home directory `/home/admin’ ...
+Copying files from `/etc/skel' ...
+New password:
+Retype new password:
+passwd: password updated successfully
+Changing the user information for admin
+Enter the new value, or press ENTER for the default
+Full Name []:
+Room Number []:
+Work Phone []:
+Home Phone []:
+Other []:
+Is the information correct? [Y/n] *y*
+
+cumulus@cumulus_cs1:mgmt:~$ *sudo adduser admin sudo*
+[sudo] password for cumulus:
+Adding user `admin' to group `sudo' ...
+Adding user admin to group sudo
+Done.
+cumulus@cumulus_cs1:mgmt:~$ *exit*
+logout
+Connection to 10.233.204.71 closed.
+
+[admin@cycrh6svl01 ~]$ ssh admin@10.233.204.71
+admin@10.233.204.71's password:
+Linux sw1 4.19.0-cl-1-amd64 #1 SMP Cumulus 4.19.206-1+cl4.4.1u1 (2021-09-09) x86_64
+Welcome to NVIDIA Cumulus (R) Linux (R)
+
+For support and online technical documentation, visit
+http://www.cumulusnetworks.com/support
+
+The registered trademark Linux (R) is used pursuant to a sublicense from LMI, the exclusive licensee of Linus Torvalds, owner of the mark on a world-wide basis.
+admin@sw1:mgmt:~$
+----
+
+. Add additional user groups for the admin user to access `nv` commands:
++
+[subs=+quotes]
+----
+cumulus@cumulus_cs1:mgmt:~$ *sudo adduser admin nvshow*
+     [sudo] password for cumulus:
+     Adding user `admin' to group `nvshow' ...
+     Adding user admin to group nvshow
+     Done.
+----
++
+See https://docs.nvidia.com/networking-ethernet-software/cumulus-linux-54/System-Configuration/Authentication-Authorization-and-Accounting/User-Accounts/[NVIDIA User Accounts] for more information.
 --
 
 .From Cumulus Linux 5.x to Cumulus Linux 5.x
@@ -274,8 +332,8 @@ Warning: The following files have been changed since the last save, and they WIL
 .
 .
 ----
-+
-Logout and log in again to  the switch to see the updated switch name at the prompt:
+
+. Logout and log in again to the switch to see the updated switch name at the prompt:
 +
 [subs=+quotes]
 ----
@@ -311,6 +369,64 @@ unreachable default metric 4278198272
 10.231.80.0/22 dev eth0 proto kernel scope link src 10.231.80.206
 127.0.0.0/8 dev mgmt proto kernel scope link src 127.0.0.1
 ----
+
+. Create a new user and add this user to the `sudo` group.  This user only becomes effective after the console/SSH session is restarted.
++
+`sudo adduser --ingroup netedit admin`
++
+[subs=+quotes]
+----
+cumulus@cumulus_cs1:mgmt:~$ *sudo adduser --ingroup netedit admin*
+[sudo] password for cumulus:
+Adding user `admin’ ...
+Adding new user `admin’ (1001) with group `netedit' ...
+Creating home directory `/home/admin’ ...
+Copying files from `/etc/skel' ...
+New password:
+Retype new password:
+passwd: password updated successfully
+Changing the user information for admin
+Enter the new value, or press ENTER for the default
+Full Name []:
+Room Number []:
+Work Phone []:
+Home Phone []:
+Other []:
+Is the information correct? [Y/n] *y*
+
+cumulus@cumulus_cs1:mgmt:~$ *sudo adduser admin sudo*
+[sudo] password for cumulus:
+Adding user `admin' to group `sudo' ...
+Adding user admin to group sudo
+Done.
+cumulus@cumulus_cs1:mgmt:~$ *exit*
+logout
+Connection to 10.233.204.71 closed.
+
+[admin@cycrh6svl01 ~]$ ssh admin@10.233.204.71
+admin@10.233.204.71's password:
+Linux sw1 4.19.0-cl-1-amd64 #1 SMP Cumulus 4.19.206-1+cl4.4.1u1 (2021-09-09) x86_64
+Welcome to NVIDIA Cumulus (R) Linux (R)
+
+For support and online technical documentation, visit
+http://www.cumulusnetworks.com/support
+
+The registered trademark Linux (R) is used pursuant to a sublicense from LMI, the exclusive licensee of Linus Torvalds, owner of the mark on a world-wide basis.
+admin@sw1:mgmt:~$
+----
+
+. Add additional user groups for the admin user to access `nv` commands:
++
+[subs=+quotes]
+----
+cumulus@cumulus_cs1:mgmt:~$ *sudo adduser admin nvshow*
+     [sudo] password for cumulus:
+     Adding user `admin' to group `nvshow' ...
+     Adding user admin to group nvshow
+     Done.
+----
++
+See https://docs.nvidia.com/networking-ethernet-software/cumulus-linux-54/System-Configuration/Authentication-Authorization-and-Accounting/User-Accounts/[NVIDIA User Accounts] for more information.
 --
 ==== 
 

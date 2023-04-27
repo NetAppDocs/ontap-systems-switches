@@ -132,29 +132,32 @@ swp3       0x11 (QSFP28)  Molex           112-00576    93A2229911111  B0
 swp4       0x11 (QSFP28)  Molex           112-00576    93A2229922222  B0        
 ----
 
-. Add the following two lines to the `/etc/cumulus/switchd.conf` file for every port (swp<n>) that is using 40/100GbE copper cables:
-* `interface.swp<n>.enable_media_depended_linkup_flow=TRUE`
-* `interface.swp<n>.enable_short_tuning=TRUE`
+. Configure the links using the `nv set` command as follows:
+
+* `nv set interface <interface-id> link fast-linkup on`
+* `nv config apply`
+* `reload the switchd`
 +
 For example:
 +
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:~$ *sudo nano /etc/cumulus/switchd.conf*
-.
-.
-interface.swp3.enable_media_depended_linkup_flow=TRUE
-interface.swp3.enable_short_tuning=TRUE
-interface.swp4.enable_media_depended_linkup_flow=TRUE
-interface.swp4.enable_short_tuning=TRUE
+cumulus@cumulus:mgmt:~$ *nv set interface swp5 link fast-linkup on*
+cumulus@cumulus:mgmt:~$ *nv config apply*
+switchd need to reload on this config change
+
+Are you sure? [y/N] *y*
+applied [rev_id: 22]
+
+Only switchd reload required
 ----
 
-. Restart the `switchd` service:
-+
-[subs=+quotes]
-----
-cumulus@cumulus:mgmt:~$ *sudo systemctl restart switchd.service*
-----
+//. Restart the `switchd` service:
+
+//[subs=+quotes]
+//----
+//cumulus@cumulus:mgmt:~$ *sudo systemctl restart switchd.service*
+//----
 
 . Confirm that the ports are up:
 +
