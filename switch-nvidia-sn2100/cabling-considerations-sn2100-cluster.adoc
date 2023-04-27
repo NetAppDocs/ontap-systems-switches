@@ -133,7 +133,7 @@ swp4       0x11 (QSFP28)  Molex           112-00576    93A2229922222  B0
 ----
 
 . Configure the links using the `nv set` command as follows:
-
++
 * `nv set interface <interface-id> link fast-linkup on`
 * `nv config apply`
 * `reload the switchd`
@@ -151,13 +151,6 @@ applied [rev_id: 22]
 
 Only switchd reload required
 ----
-
-//. Restart the `switchd` service:
-
-//[subs=+quotes]
-//----
-//cumulus@cumulus:mgmt:~$ *sudo systemctl restart switchd.service*
-//----
 
 . Confirm that the ports are up:
 +
