@@ -178,18 +178,18 @@ Welcome to NVIDIA Cumulus (R) Linux (R)
 
 ZTP in progress. To disable, do 'ztp -d'
 
-cumulus@cumulus_sw1:mgmt:~$
+cumulus@sw1:mgmt:~$
 ----
 
 . Set the IP address:
 +
 [subs=+quotes]
 ----
-cumulus@cumulus_sw1:mgmt:~$ *nv set interface eth0 ip address 10.231.80.206*
-cumulus@cumulus_sw1:mgmt:~$ *nv set interface eth0 ip gateway 10.231.80.1*
-cumulus@cumulus_sw1:mgmt:~$ *nv config apply*
+cumulus@sw1:mgmt:~$ *nv set interface eth0 ip address 10.231.80.206*
+cumulus@sw1:mgmt:~$ *nv set interface eth0 ip gateway 10.231.80.1*
+cumulus@sw1:mgmt:~$ *nv config apply*
 applied [rev_id: 2]
-cumulus@cumulus_sw1:mgmt:~$ *ip route show vrf mgmt*
+cumulus@sw1:mgmt:~$ *ip route show vrf mgmt*
 default via 10.231.80.1 dev eth0 proto kernel
 unreachable default metric 4278198272
 10.231.80.0/22 dev eth0 proto kernel scope link src 10.231.80.206
@@ -245,7 +245,7 @@ admin@sw1:mgmt:~$
 +
 [subs=+quotes]
 ----
-cumulus@cumulus_sw1:mgmt:~$ *sudo adduser admin nvshow*
+cumulus@sw1:mgmt:~$ *sudo adduser admin nvshow*
      [sudo] password for cumulus:
      Adding user `admin' to group `nvshow' ...
      Adding user admin to group nvshow
@@ -343,7 +343,7 @@ ZTP in progress. To disable, do 'ztp -d'
 +
 [subs=+quotes]
 ----
-admin@sw1:mgmt:~$ *nv show system*
+cumulus@cumulus:mgmt:~$ *nv show system*
 operational    applied         
 -------------- ----------------
 hostname       cumulus cumulus
@@ -356,8 +356,8 @@ timezone       Etc/UTC
 +
 [subs=+quotes]
 ----
-admin@sw1:mgmt:~$ *nv set system hostname cumulus_cs1*
-admin@sw1:mgmt:~$ *nv config apply*
+cumulus@cumulus:mgmt:~$ *nv set system hostname sw1*
+cumulus@cumulus:mgmt:~$ *nv config apply*
 Warning: The following files have been changed since the last save, and they WILL be overwritten.
 - /etc/nsswitch.conf
 - /etc/synced/synced.conf
@@ -369,7 +369,7 @@ Warning: The following files have been changed since the last save, and they WIL
 +
 [subs=+quotes]
 ----
-admin@sw1:mgmt:~$ *exit*
+cumulus@cumulus:mgmt:~$ *exit*
 logout
 
 Debian GNU/Linux 10 cumulus ttyS0
@@ -384,18 +384,18 @@ Welcome to NVIDIA Cumulus (R) Linux (R)
 
 ZTP in progress. To disable, do 'ztp -d'
 
-admin@sw1:mgmt:~$
+cumulus@sw1:mgmt:~$
 ----
 
 . Set the IP address:
 +
 [subs=+quotes]
 ----
-admin@sw1:mgmt:~$ *nv set interface eth0 ip address 10.231.80.206*
-admin@sw1:mgmt:~$ *nv set interface eth0 ip gateway 10.231.80.1*
-admin@sw1:mgmt:~$ *nv config apply*
+cumulus@sw1:mgmt:~$ *nv set interface eth0 ip address 10.231.80.206*
+cumulus@sw1:mgmt:~$ *nv set interface eth0 ip gateway 10.231.80.1*
+cumulus@sw1:mgmt:~$ *nv config apply*
 applied [rev_id: 2]
-admin@sw1:mgmt:~$ *ip route show vrf mgmt*
+cumulus@sw1:mgmt:~$ *ip route show vrf mgmt*
 default via 10.231.80.1 dev eth0 proto kernel
 unreachable default metric 4278198272
 10.231.80.0/22 dev eth0 proto kernel scope link src 10.231.80.206
@@ -451,7 +451,7 @@ admin@sw1:mgmt:~$
 +
 [subs=+quotes]
 ----
-admin@sw1:mgmt:~$ *sudo adduser admin nvshow*
+cumulus@sw1:mgmt:~$ *sudo adduser admin nvshow*
      [sudo] password for cumulus:
      Adding user `admin' to group `nvshow' ...
      Adding user admin to group nvshow
