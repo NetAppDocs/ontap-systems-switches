@@ -202,12 +202,12 @@ unreachable default metric 4278198272
 +
 [subs=+quotes]
 ----
-cumulus@cumulus_sw1:mgmt:~$ *sudo adduser --ingroup netedit admin*
+cumulus@sw1:mgmt:~$ *sudo adduser --ingroup netedit admin*
 [sudo] password for cumulus:
-Adding user `admin' ...
-Adding new user `admin' (1001) with group `netedit' ...
-Creating home directory `/home/admin' ...
-Copying files from `/etc/skel' ...
+Adding user 'admin' ...
+Adding new user 'admin' (1001) with group `netedit' ...
+Creating home directory '/home/admin' ...
+Copying files from '/etc/skel' ...
 New password:
 Retype new password:
 passwd: password updated successfully
@@ -220,12 +220,12 @@ Home Phone []:
 Other []:
 Is the information correct? [Y/n] *y*
 
-cumulus@cumulus_cs1:mgmt:~$ *sudo adduser admin sudo*
+cumulus@sw1:mgmt:~$ *sudo adduser admin sudo*
 [sudo] password for cumulus:
 Adding user `admin' to group `sudo' ...
 Adding user admin to group sudo
 Done.
-cumulus@cumulus_sw1:mgmt:~$ *exit*
+cumulus@sw1:mgmt:~$ *exit*
 logout
 Connection to 10.233.204.71 closed.
 
@@ -408,12 +408,12 @@ unreachable default metric 4278198272
 +
 [subs=+quotes]
 ----
-admin@sw1:mgmt:~$ *sudo adduser --ingroup netedit admin*
+cumulus@sw1:mgmt:~$ *sudo adduser --ingroup netedit admin*
 [sudo] password for cumulus:
-Adding user `admin' ...
-Adding new user `admin' (1001) with group `netedit' ...
-Creating home directory `/home/admin' ...
-Copying files from `/etc/skel' ...
+Adding user 'admin' ...
+Adding new user 'admin' (1001) with group `netedit' ...
+Creating home directory '/home/admin' ...
+Copying files from '/etc/skel' ...
 New password:
 Retype new password:
 passwd: password updated successfully
@@ -426,12 +426,12 @@ Home Phone []:
 Other []:
 Is the information correct? [Y/n] *y*
 
-admin@sw1:mgmt:~$ *sudo adduser admin sudo*
+cumulus@sw1:mgmt:~$ *sudo adduser admin sudo*
 [sudo] password for cumulus:
 Adding user `admin' to group `sudo' ...
 Adding user admin to group sudo
 Done.
-admin@sw1:mgmt:~$ *exit*
+cumulus@sw1:mgmt:~$ *exit*
 logout
 Connection to 10.233.204.71 closed.
 
