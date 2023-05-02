@@ -11,6 +11,27 @@ summary: Complete the following steps to upgrade your Cumulus Linux version.
 [.lead]
 Complete the following procedure to upgrade your Cumulus Linux version as required. 
 
+.What you'll need
+
+* Intermediate-level Linux knowledge.
+* Familiarity with basic text editing, UNIX file permissions, and process monitoring. A variety of text editors are pre-installed, including `vi` and `nano`.
+* Access to a Linux or UNIX shell. If you are running Windows, use a Linux environment as your command line tool for interacting with Cumulus Linux.
+* The baud rate requirement is set to 115200 on the serial console switch for NVIDIA SN2100 switch console access, as follows:
+
+** 115200 baud
+** 8 data bits
+** 1 stop bit
+** parity: none
+** flow control: none
+
+.About this task
+
+Be aware of the following:
+
+NOTE: Each time Cumulus Linux is upgraded, the entire file system structure is erased and rebuilt. Your existing configuration will be erased. Make sure to save and record your switch configuration before updating Cumulus Linux.
+
+CAUTION: The default password for the cumulus user account is *cumulus*. The first time you log into Cumulus Linux, you must change this default password. Make sure to update any automation scripts before installing a new image. Cumulus Linux provides command line options to change the default password automatically during the installation process. 
+
 .Steps
 
 // start of tabbed content 
@@ -25,7 +46,7 @@ Complete the following procedure to upgrade your Cumulus Linux version as requir
 +
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:~$ *net show system*
+admin@sw1:mgmt:~$ *net show system*
 Hostname......... cumulus
 Build............ *Cumulus Linux 4.4.3*
 Uptime........... 0:08:20.860000
@@ -43,7 +64,7 @@ ONIE Version..... 2019.11-5.2.0020-115200
 Base MAC Address. 04:3F:72:43:92:80
 Manufacturer..... Mellanox
 
-cumulus@cumulus:~$ *net show interface*
+admin@sw1:mgmt:~$ *net show interface*
 
 State  Name    Spd   MTU    Mode        LLDP                    Summary
 -----  ------  ----  -----  ----------  ----------------------  --------------------
@@ -59,11 +80,11 @@ UP     swp6    100G  9216   Trunk/L2    SHFFG1826000102 (e0b)   Master: bridge(U
 .
 ----
 
-. Download the Cumulux Linux 5.4.0 image:
+. Download the Cumulux Linux 5.x image:
 +
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:~$ *sudo onie-install -a -i http://10.60.132.97/x/eng/testbedN,svl/nic/files/NVIDIA/cumulus-linux-5.4.0-mlx-amd64.bin/*
+admin@sw1:mgmt:~$ *sudo onie-install -a -i http://10.60.132.97/x/eng/testbedN,svl/nic/files/NVIDIA/cumulus-linux-5.4.0-mlx-amd64.bin/*
 [sudo] password for cumulus:
 Fetching installer: http://10.60.132.97/x/eng/testbedN,svl/nic/files/NVIDIA/cumulus-linux-5.4.0-mlx-amd64.bin
 Downloading URL: http://10.60.132.97/x/eng/testbedN,svl/nic/files/NVIDIA/cumulus-linux-5.4.0-mlx-amd64.bin
@@ -90,7 +111,8 @@ Reboot required to take effect.
 +
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:~$ *sudo reboot*
+admin@sw1:mgmt:~$ *sudo onie-install -a -i http://10.60.132.97/x/eng/testbedN,svl/nic/files/NVIDIA/cumulus-linux-5.4.0-mlx-amd64.bin/*
+ *sudo reboot*
 ----
 
 . Change the password:
@@ -101,15 +123,20 @@ cumulus login: *cumulus*
 Password:
 You are required to change your password immediately (administrator enforced)
 Changing password for cumulus.
-Current password:
-New password:
-Retype new password:
+Current password: *cumulus*
+New password: *<new_password>*
+Retype new password: *<new_password>*
 Linux cumulus 5.10.0-cl-1-amd64 #1 SMP Debian 5.10.162-1+cl5.4.0u1 (2023-01-20) x86_64
 
 Welcome to NVIDIA Cumulus (R) Linux (R)
 
 ZTP in progress. To disable, do 'ztp -d'
+----
 
+. Check the Cumulus Linux version: `nv show system`
++
+[subs=+quotes]
+----
 cumulus@cumulus:mgmt:~$ *nv show system*
            operational    applied         
 ---------- -------------- ----------
@@ -123,7 +150,7 @@ timezone   Etc/UTC
 +
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:~$ *nv set system hostname cumulus_cs1*
+cumulus@cumulus:mgmt:~$ *nv set system hostname sw1*
 cumulus@cumulus:mgmt:~$ *nv config apply*
 Warning: The following files have been changed since the last save, and they WILL be overwritten.
 - /etc/nsswitch.conf
@@ -136,12 +163,12 @@ Warning: The following files have been changed since the last save, and they WIL
 +
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:~$ exit
+cumulus@cumulus:mgmt:~$ *exit*
 logout
 
 Debian GNU/Linux 10 cumulus ttyS0
 
-cumulus login: cumulus
+cumulus login: *cumulus*
 Password:
 Last login: Tue Dec 15 21:43:13 UTC 2020 on ttyS0
 Linux cumulus 5.10.0-cl-1-amd64 #1 SMP Debian 5.10.162-1+cl5.4.0u1 (2023-01-20) x86_64
@@ -151,18 +178,18 @@ Welcome to NVIDIA Cumulus (R) Linux (R)
 
 ZTP in progress. To disable, do 'ztp -d'
 
-cumulus@cumulus_cs1:mgmt:~$
+cumulus@cumulus_sw1:mgmt:~$
 ----
 
 . Set the IP address:
 +
 [subs=+quotes]
 ----
-cumulus@cumulus_cs1:mgmt:~$ *nv set interface eth0 ip address 10.231.80.206*
-cumulus@cumulus_cs1:mgmt:~$ *nv set interface eth0 ip gateway 10.231.80.1*
-cumulus@cumulus_cs1:mgmt:~$ *nv config apply*
+cumulus@cumulus_sw1:mgmt:~$ *nv set interface eth0 ip address 10.231.80.206*
+cumulus@cumulus_sw1:mgmt:~$ *nv set interface eth0 ip gateway 10.231.80.1*
+cumulus@cumulus_sw1:mgmt:~$ *nv config apply*
 applied [rev_id: 2]
-cumulus@cumulus_cs1:mgmt:~$ *ip route show vrf mgmt*
+cumulus@cumulus_sw1:mgmt:~$ *ip route show vrf mgmt*
 default via 10.231.80.1 dev eth0 proto kernel
 unreachable default metric 4278198272
 10.231.80.0/22 dev eth0 proto kernel scope link src 10.231.80.206
@@ -175,12 +202,12 @@ unreachable default metric 4278198272
 +
 [subs=+quotes]
 ----
-cumulus@cumulus_cs1:mgmt:~$ *sudo adduser --ingroup netedit admin*
+cumulus@cumulus_sw1:mgmt:~$ *sudo adduser --ingroup netedit admin*
 [sudo] password for cumulus:
-Adding user `admin’ ...
-Adding new user `admin’ (1001) with group `netedit' ...
-Creating home directory `/home/admin’ ...
-Copying files from `/etc/skel' ...
+Adding user `admin` ...
+Adding new user `admin` (1001) with group `netedit' ...
+Creating home directory `/home/admin` ...
+Copying files from `/etc/skel` ...
 New password:
 Retype new password:
 passwd: password updated successfully
@@ -198,7 +225,7 @@ cumulus@cumulus_cs1:mgmt:~$ *sudo adduser admin sudo*
 Adding user `admin' to group `sudo' ...
 Adding user admin to group sudo
 Done.
-cumulus@cumulus_cs1:mgmt:~$ *exit*
+cumulus@cumulus_sw1:mgmt:~$ *exit*
 logout
 Connection to 10.233.204.71 closed.
 
@@ -218,7 +245,7 @@ admin@sw1:mgmt:~$
 +
 [subs=+quotes]
 ----
-cumulus@cumulus_cs1:mgmt:~$ *sudo adduser admin nvshow*
+cumulus@cumulus_sw1:mgmt:~$ *sudo adduser admin nvshow*
      [sudo] password for cumulus:
      Adding user `admin' to group `nvshow' ...
      Adding user admin to group nvshow
@@ -236,7 +263,7 @@ See https://docs.nvidia.com/networking-ethernet-software/cumulus-linux-54/System
 +
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:~$ *nv show system*
+admin@sw1:mgmt:~$ *nv show system*
                     operational          applied             
 ------------------- -------------------- -----------------
 hostname            cumulus              cumulus
@@ -244,27 +271,27 @@ build               Cumulus Linux 5.3.0
 uptime              6 days, 8:37:36      
 timezone            Etc/UTC              
 
-cumulus@cumulus:mgmt:~$ *nv show interface*
-Interface   MTU   Speed State Remote Host Remote Port Type Summary
------------ ----- ----- ----- ----------- ----------- ---- -------------
-+ cluster_isl 9216 200G up bond
-+ eth0 1500 100M up RTP-LF01-410G38.rtp.eng.netapp.com Eth105/1/14 eth IP Address: 10.231.80.206/22
-eth0 IP Address: fd20:8b1e:b255:85a0:bace:f6ff:fe31:4a0e/64
-+ lo 65536 up loopback IP Address: 127.0.0.1/8
-lo IP Address: ::1/128
-+ swp1s0 9216 10G up cumulus1 e0b swp
+admin@sw1:mgmt:~$ *nv show interface*
+Interface     MTU   Speed State Remote Host         Remote Port- Type      Summary
+------------- ----- ----- ----- ------------------- ------------ --------- -------------
++ cluster_isl 9216  200G  up                                      bond
++ eth0        1500  100M  up    mgmt-sw1            Eth105/1/14   eth       IP Address: 10.231.80 206/22
+  eth0                                                                      IP Address: fd20:8b1e:f6ff:fe31:4a0e/64
++ lo          65536       up                                      loopback  IP Address: 127.0.0.1/8
+  lo                                                                        IP Address: ::1/128
++ swp1s0      9216 10G    up cluster01                e0b         swp
 .
 .
 .
-+ swp15 9216 100G up cumulus swp15 swp
-+ swp16 9216 100G up cumuluc swp16 swp
++ swp15      9216 100G    up sw2                      swp15       swp
++ swp16      9216 100G    up sw2                      swp16       swp
 ----
 
 . Download the Cumulux Linux 5.4.0 image:
 +
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:~$ *sudo onie-install -a -i http://10.60.132.97/x/eng/testbedN,svl/nic/files/NVIDIA/cumulus-linux-5.4.0-mlx-amd64.bin/*
+admin@sw1:mgmt:~$ *sudo onie-install -a -i http://10.60.132.97/x/eng/testbedN,svl/nic/files/NVIDIA/cumulus-linux-5.4.0-mlx-amd64.bin/*
 [sudo] password for cumulus:
 Fetching installer: http://10.60.132.97/x/eng/testbedN,svl/nic/files/NVIDIA/cumulus-linux-5.4.0-mlx-amd64.bin
 Downloading URL: http://10.60.132.97/x/eng/testbedN,svl/nic/files/NVIDIA/cumulus-linux-5.4.0-mlx-amd64.bin
@@ -291,7 +318,7 @@ Reboot required to take effect.
 +
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:~$ *sudo reboot*
+admin@sw1:mgmt:~$ *sudo reboot*
 ----
 
 . Change the password:
@@ -302,16 +329,21 @@ cumulus login: *cumulus*
 Password:
 You are required to change your password immediately (administrator enforced)
 Changing password for cumulus.
-Current password:
-New password:
-Retype new password:
+Current password: *cumulus*
+New password: *<new_password>*
+Retype new password: *<new_password>*
 Linux cumulus 5.10.0-cl-1-amd64 #1 SMP Debian 5.10.162-1+cl5.4.0u1 (2023-01-20) x86_64
 
 Welcome to NVIDIA Cumulus (R) Linux (R)
 
 ZTP in progress. To disable, do 'ztp -d'
+----
 
-cumulus@cumulus:mgmt:~$ *nv show system*
+. Check the Cumulus Linux version: `nv show system` 
++
+[subs=+quotes]
+----
+admin@sw1:mgmt:~$ *nv show system*
 operational    applied         
 -------------- ----------------
 hostname       cumulus cumulus
@@ -324,8 +356,8 @@ timezone       Etc/UTC
 +
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:~$ *nv set system hostname cumulus_cs1*
-cumulus@cumulus:mgmt:~$ *nv config apply*
+admin@sw1:mgmt:~$ *nv set system hostname cumulus_cs1*
+admin@sw1:mgmt:~$ *nv config apply*
 Warning: The following files have been changed since the last save, and they WILL be overwritten.
 - /etc/nsswitch.conf
 - /etc/synced/synced.conf
@@ -337,12 +369,12 @@ Warning: The following files have been changed since the last save, and they WIL
 +
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:~$ exit
+admin@sw1:mgmt:~$ *exit*
 logout
 
 Debian GNU/Linux 10 cumulus ttyS0
 
-cumulus login: cumulus
+cumulus login: *cumulus*
 Password:
 Last login: Tue Dec 15 21:43:13 UTC 2020 on ttyS0
 Linux cumulus 5.10.0-cl-1-amd64 #1 SMP Debian 5.10.162-1+cl5.4.0u1 (2023-01-20) x86_64
@@ -352,18 +384,18 @@ Welcome to NVIDIA Cumulus (R) Linux (R)
 
 ZTP in progress. To disable, do 'ztp -d'
 
-cumulus@cumulus_cs1:mgmt:~$
+admin@sw1:mgmt:~$
 ----
 
 . Set the IP address:
 +
 [subs=+quotes]
 ----
-cumulus@cumulus_cs1:mgmt:~$ *nv set interface eth0 ip address 10.231.80.206*
-cumulus@cumulus_cs1:mgmt:~$ *nv set interface eth0 ip gateway 10.231.80.1*
-cumulus@cumulus_cs1:mgmt:~$ *nv config apply*
+admin@sw1:mgmt:~$ *nv set interface eth0 ip address 10.231.80.206*
+admin@sw1:mgmt:~$ *nv set interface eth0 ip gateway 10.231.80.1*
+admin@sw1:mgmt:~$ *nv config apply*
 applied [rev_id: 2]
-cumulus@cumulus_cs1:mgmt:~$ *ip route show vrf mgmt*
+admin@sw1:mgmt:~$ *ip route show vrf mgmt*
 default via 10.231.80.1 dev eth0 proto kernel
 unreachable default metric 4278198272
 10.231.80.0/22 dev eth0 proto kernel scope link src 10.231.80.206
@@ -376,12 +408,12 @@ unreachable default metric 4278198272
 +
 [subs=+quotes]
 ----
-cumulus@cumulus_cs1:mgmt:~$ *sudo adduser --ingroup netedit admin*
+admin@sw1:mgmt:~$ *sudo adduser --ingroup netedit admin*
 [sudo] password for cumulus:
-Adding user `admin’ ...
-Adding new user `admin’ (1001) with group `netedit' ...
-Creating home directory `/home/admin’ ...
-Copying files from `/etc/skel' ...
+Adding user `admin` ...
+Adding new user `admin` (1001) with group `netedit' ...
+Creating home directory `/home/admin` ...
+Copying files from `/etc/skel` ...
 New password:
 Retype new password:
 passwd: password updated successfully
@@ -394,12 +426,12 @@ Home Phone []:
 Other []:
 Is the information correct? [Y/n] *y*
 
-cumulus@cumulus_cs1:mgmt:~$ *sudo adduser admin sudo*
+admin@sw1:mgmt:~$ *sudo adduser admin sudo*
 [sudo] password for cumulus:
 Adding user `admin' to group `sudo' ...
 Adding user admin to group sudo
 Done.
-cumulus@cumulus_cs1:mgmt:~$ *exit*
+admin@sw1:mgmt:~$ *exit*
 logout
 Connection to 10.233.204.71 closed.
 
@@ -419,7 +451,7 @@ admin@sw1:mgmt:~$
 +
 [subs=+quotes]
 ----
-cumulus@cumulus_cs1:mgmt:~$ *sudo adduser admin nvshow*
+admin@sw1:mgmt:~$ *sudo adduser admin nvshow*
      [sudo] password for cumulus:
      Adding user `admin' to group `nvshow' ...
      Adding user admin to group nvshow

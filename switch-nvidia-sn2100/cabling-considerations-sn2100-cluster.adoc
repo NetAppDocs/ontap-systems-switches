@@ -20,9 +20,9 @@ a| 4x10GbE breakout cluster port nodes
 a| swp2s0-3	
 a| 4x25GbE breakout cluster port nodes
 a| swp3-14	
-a| 40/100 cluster port nodes
+a| 40/100GbE cluster port nodes
 a| swp15-16	
-a| 40/100 Inter-Switch Link (ISL) ports 
+a| 40/100GbE Inter-Switch Link (ISL) ports 
 	
 |===
 
@@ -65,10 +65,10 @@ The following configuration changes are required to fix this issue.
 
 ==== 
 
-.On Cumulus Linux version 4.4.3
+.Cumulus Linux 4.4.3
 --
 
-. Identify the name for each interface using 40/100GbE copper cables:
+. Identify the name for each interface using 40GbE/100GbE copper cables:
 +
 [subs=+quotes]
 ----
@@ -80,7 +80,7 @@ swp3       0x11 (QSFP28)  Molex           112-00576    93A2229911111  B0
 swp4       0x11 (QSFP28)  Molex           112-00576    93A2229922222  B0        
 ----
 
-. Add the following two lines to the `/etc/cumulus/switchd.conf` file for every port (swp<n>) that is using 40/100GbE copper cables:
+. Add the following two lines to the `/etc/cumulus/switchd.conf` file for every port (swp<n>) that is using 40GbE/100GbE copper cables:
 * `interface.swp<n>.enable_media_depended_linkup_flow=TRUE`
 * `interface.swp<n>.enable_short_tuning=TRUE`
 +
@@ -117,10 +117,10 @@ UP     swp4      100G  9216   Trunk/L2                     Master: bridge(UP)
 ----
 --
 
-.On Cumulus Linux version 5.x
+.Cumulus Linux 5.x
 
 --
-. Identify the name for each interface using 40/100GbE copper cables:
+. Identify the name for each interface using 40GbE/100GbE copper cables:
 +
 [subs=+quotes]
 ----
@@ -192,7 +192,7 @@ See the following https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_
 //cumulus@cumulus:mgmt:~$
 
 
-On Cumulus Linux 4.4.2, only copper connections are supported on SN2100 switches with X1151A NIC, X1146A NIC, or onboard 100GbE ports. 
+On Cumulus Linux 4.4.2, copper connections are not supported on SN2100 switches with X1151A NIC, X1146A NIC, or onboard 100GbE ports. 
 For example:
 
 * AFF A800 on ports e0a and e0b
@@ -200,18 +200,18 @@ For example:
 
 == QSA adapter
 
-When a QSA adapter is used to connect to the onboard cluster ports on a platform, the link might not come up.
+When a QSA adapter is used to connect to the 10GbE/25GbE cluster ports on a platform, the link might not come up.
 
 To resolve this issue, do the following:
 
-* For 10G, manually set the swp1s0-3 link speed to 10000 and set auto-negotiation to off.
-* For 25G, manually set the swp2s0-3 link speed to 25000 and set auto-negotiation to off.
+* For 10GbE, manually set the swp1s0-3 link speed to 10000 and set auto-negotiation to off.
+* For 25GbE, manually set the swp2s0-3 link speed to 25000 and set auto-negotiation to off.
 
-NOTE: When using 10G/25G QSA, insert them in non-breakout 40/100G ports. Do not insert the QSA adapter on ports that are configured for breakout.
+NOTE: When using 10GbE/25GbE QSA adapters, insert them in non-breakout 40GbE/100GbE ports (swp3-swp14). Do not insert the QSA adapter in ports that are configured for breakout.
 
 == Setting interface speed on breakout ports
 
-Depending on the transceiver in the switch port, you might need to set the speed on the switch interface to fixed speed. If using 10G and 25G breakout ports, make sure that auto-negotiation is off and hard set the interface speed on the switch. 
+Depending on the transceiver in the switch port, you might need to set the speed on the switch interface to a fixed speed. If using 10GbE and 25GbE breakout ports, make sure that auto-negotiation is off and set the interface speed on the switch. 
 
 // start of tabbed content 
 
@@ -219,7 +219,7 @@ Depending on the transceiver in the switch port, you might need to set the speed
 
 ==== 
 
-.On Cumulus Linux version 4.4.3
+.Cumulus Linux 4.4.3
 --
 For example:
 
@@ -283,7 +283,7 @@ UP     swp16      100G  9216   BondMember  cs01 (swp16)     Master: cl
 ----
 --
 
-.On Cumulus Linux version 5.x
+.Cumulus Linux 5.x
 --
 For example:
 
@@ -367,3 +367,4 @@ UP     swp16      100G  9216   BondMember  cs01 (swp16)     Master: cl
 link:install-cable-shelves-sn2100-cluster.html[Cable NS224 shelves as switch-attached storage].
 
 // Added details for Optical connections as per GH #88 - MAR-22-2023
+// Updated content as part of the LH release of CL 5.4, 2023-APR-17

@@ -44,7 +44,7 @@ CAUTION: The default password for the cumulus user account is *cumulus*. The fir
 
 ==== 
 
-.On Cumulus Linux version 4.4.3
+.Cumulus Linux 4.4.3
 --
 . Log in to the switch. 
 +
@@ -174,10 +174,10 @@ DISTRIB_DESCRIPTION=*"Cumulus Linux 4.4.3"*
 ----
 cumulus@sw1:mgmt:~$ *sudo adduser --ingroup netedit admin*
 [sudo] password for cumulus:
-Adding user `admin’ ...
-Adding new user `admin’ (1001) with group `netedit' ...
-Creating home directory `/home/admin’ ...
-Copying files from `/etc/skel' ...
+Adding user `admin` ...
+Adding new user `admin` (1001) with group `netedit' ...
+Creating home directory `/home/admin` ...
+Copying files from `/etc/skel` ...
 New password:
 Retype new password:
 passwd: password updated successfully
@@ -212,7 +212,7 @@ admin@sw1:mgmt:~$
 ----
 
 --
-.On Cumulus Linux 5.x and later
+.Cumulus Linux 5.x
 --
 . Log in to the switch. 
 +
@@ -314,15 +314,17 @@ cumulus@sw1:mgmt:~$ *sudo reboot*
 * CUMULUS-INSTALL
 * Cumulus-Linux GNU/Linux
 . Repeat steps 1 to 4 to log in.
-. Verify that the Cumulus Linux version is 5.4: `nv show version`
+. Verify that the Cumulus Linux version is 5.4: `nv show system`
 +
 [subs=+quotes]
 ----
-cumulus@sw1:mgmt:~$ *nv show version*
-NCLU_VERSION=1.0-cl5.4u0
-DISTRIB_ID="Cumulus Linux"
-DISTRIB_RELEASE=*5.4*
-DISTRIB_DESCRIPTION=*"Cumulus Linux 5.4"*
+cumulus@cumulus:mgmt:~$ *nv show system*
+operational         applied              description
+------------------- -------------------- ---------------------
+hostname            cumulus              cumulus
+build               Cumulus Linux 5.4.0  system build version
+uptime              6 days, 13:37:36     system uptime
+timezone            Etc/UTC              system time zone
 ----
 
 . Verify that the nodes each have a connection to each switch:
@@ -333,10 +335,10 @@ cumulus@sw1:mgmt:~$ *nv show lldp*
 
 LocalPort  Speed  Mode        RemoteHost                          RemotePort
 ---------  -----  ----------  ----------------------------------  -----------
-eth0       100M   Mgmt        RTP-LF01-41MM08.com                 Eth110/1/29
-swp2s1     25G    Trunk/L2    rtpnpi-2820-8b                      e0a
-swp15      100G   BondMember  ossg-prod-rcf                       swp15
-swp16      100G   BondMember  ossg-prod-rcf                       swp16
+eth0       100M   Mgmt        mgmt-sw1                            Eth110/1/29
+swp2s1     25G    Trunk/L2    node1                               e0a
+swp15      100G   BondMember  sw2                                 swp15
+swp16      100G   BondMember  sw2                                 swp16
 ----
 
 . Create a new user and add this user to the `sudo` group.  This user only becomes effective after the console/SSH session is restarted.
@@ -347,10 +349,10 @@ swp16      100G   BondMember  ossg-prod-rcf                       swp16
 ----
 cumulus@sw1:mgmt:~$ *sudo adduser --ingroup netedit admin*
 [sudo] password for cumulus:
-Adding user `admin’ ...
-Adding new user `admin’ (1001) with group `netedit' ...
-Creating home directory `/home/admin’ ...
-Copying files from `/etc/skel' ...
+Adding user `admin` ...
+Adding new user `admin` (1001) with group `netedit' ...
+Creating home directory `/home/admim` ...
+Copying files from `/etc/skel` ...
 New password:
 Retype new password:
 passwd: password updated successfully

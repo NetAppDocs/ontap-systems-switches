@@ -30,7 +30,7 @@ This procedure demonstrates how to upgrade Cumulus Linux after the admin has boo
 
 ==== 
 
-.On Cumulus Linux version 4.4.3
+.Cumulus Linux 4.4.3
 
 --
 . Download the Cumulus Linux installation file to the root directory of the web server. Rename this file to: `onie-installer`.
@@ -139,7 +139,7 @@ DISTRIB_DESCRIPTION=*"Cumulus Linux 4.4.3”*
 ----
 --
 
-.On Cumulus Linux 5.x and later
+.Cumulus Linux 5.x
 
 --
 . Download the Cumulus Linux installation file to the root directory of the web server. Rename this file to: `onie-installer`.
@@ -170,8 +170,11 @@ GNU GRUB version 2.06-3
 |                                                                         |
 |                                                                         |
 +-------------------------------------------------------------------------+
+----
+
 +
-Press the Esc key at the GNU GRUB screen to interrupt the normal boot process, select ONIE, and press Enter
+. Press the Esc key at the GNU GRUB screen to interrupt the normal boot process, select ONIE, and press Enter.
+----
 .
 .
 Loading ONIE ...
@@ -275,15 +278,17 @@ New password: *<new_password>*
 Retype new password: *<new_password>*
 ----
 
-. Verify the Cumulus Linux version: `nv show version`
+. Verify the Cumulus Linux version: `nv show system`
 +
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:~$ *nv show version*
-NCLU_VERSION=1.0-cl5.4u4
-DISTRIB_ID="Cumulus Linux"
-DISTRIB_RELEASE=*5.4*
-DISTRIB_DESCRIPTION=*"Cumulus Linux 5.4”*
+cumulus@cumulus:mgmt:~$ *nv show system*
+operational         applied              description
+------------------- -------------------- ---------------------
+hostname            cumulus              cumulus
+build               Cumulus Linux 5.4.0  system build version
+uptime              6 days, 13:37:36     system uptime
+timezone            Etc/UTC              system time zone
 ----
 
 . Create a new user and add this user to the `sudo` group.  This user only becomes effective after the console/SSH session is restarted.

@@ -18,9 +18,9 @@ Before installing the RCF script, make sure that the following are available on 
 * IP address, subnet mask, and default gateway defined via DHCP or manually configured.
 
 .Current RCF script versions
-There are two RCF scripts available for Clustering and Storage applications. Download RCFs from https://mysupport.netapp.com/site/info/nvidia-cluster-switch[here]. The procedure for each is the same.
+There are two RCF scripts available for Cluster and Storage applications. Download RCFs from https://mysupport.netapp.com/site/info/nvidia-cluster-switch[here]. The procedure for each is the same.
 
-* Clustering:  *MSN2100-RCF-v1._x_-Cluster-HA-Breakout-LLDP*
+* Cluster:  *MSN2100-RCF-v1._x_-Cluster-HA-Breakout-LLDP*
 * Storage: *MSN2100-RCF-v1._x_-Storage*
 
 .About the examples
@@ -37,14 +37,14 @@ Example command output uses switch management IP address 10.233.204.71, netmask 
 
 ==== 
 
-.On Cumulus Linux 4.4.3
+.Cumulus Linux 4.4.3
 --
 
 . Display the available interfaces on the SN2100 switch:
 +
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:~$ *net show interface all*
+admin@sw1:mgmt:~$ *net show interface all*
 
 State  Name   Spd  MTU    Mode         LLDP                Summary
 -----  -----  ---  -----  -----------  ------------------  --------------
@@ -72,7 +72,7 @@ ADMDN  swp16  N/A  9216   NotConfigured
 +
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:~$ *pwd*
+admin@sw1:mgmt:~$ *pwd*
 /home/cumulus
 cumulus@cumulus:mgmt: */tmp$ scp _<user>@<host:/<path>_/MSN2100-RCF-v1.x-Cluster-HA-Breakout-LLDP ./*
 ssologin@10.233.204.71's password:
@@ -111,7 +111,7 @@ NOTE: For any RCF python script issues that cannot be corrected, contact https:/
 +
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:~$ *net show interface all*
+admin@sw1:mgmt:~$ *net show interface all*
 
 State  Name      Spd   MTU    Mode       LLDP              Summary
 -----  --------- ----  -----  ---------- ----------------- --------
@@ -142,7 +142,7 @@ UP     swp16     N/A   9216   BondMember                   Master: bond_15_16(UP
 ...
 ...
 
-cumulus@cumulus:mgmt:~$ *net show roce config*
+admin@sw1:mgmt:~$ *net show roce config*
 RoCE mode.......... lossless
 Congestion Control:
   Enabled SPs.... 0 2 5
@@ -176,7 +176,7 @@ switch-priority  TC  ETS
 +
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:~$ *net show interface pluggables*
+admin@sw1:mgmt:~$ *net show interface pluggables*
 Interface  Identifier     Vendor Name  Vendor PN        Vendor SN       Vendor Rev
 ---------  -------------  -----------  ---------------  --------------  ----------
 swp3       0x11 (QSFP28)  Amphenol     112-00574        APF20379253516  B0
@@ -189,7 +189,7 @@ swp16      0x11 (QSFP28)  Amphenol     112-00573        APF21109347895
 +
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:~$ *net show lldp*
+admin@sw1:mgmt:~$ *net show lldp*
 
 LocalPort  Speed  Mode        RemoteHost              RemotePort
 ---------  -----  ----------  ----------------------  -----------
@@ -263,38 +263,38 @@ sw2                         cluster-network    10.233.205.91    MSN2100-CB2RC
 ----
 --
 
-.On Cumulus Linux 5.x
+.Cumulus Linux 5.x
 
 --
 . Display the available interfaces on the SN2100 switch:
 +
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:~$ *nv show interface*
-Interface   MTU   Speed State Remote Host Remote Port Type Summary
------------ ----- ----- ----- ----------- ----------- ---- -------------
-+ cluster_isl 9216 200G up bond
-+ eth0 1500 100M up RTP-LF01-410G38.rtp.eng.netapp.com Eth105/1/14 eth IP Address: 10.231.80.206/22
-eth0 IP Address: fd20:8b1e:b255:85a0:bace:f6ff:fe31:4a0e/64
-+ lo 65536 up loopback IP Address: 127.0.0.1/8
-lo IP Address: ::1/128
-+ swp1s0 9216 10G up cumulus1 e0b swp
+admin@sw1:mgmt:~$ *nv show interface*
+Interface     MTU   Speed State Remote Host         Remote Port- Type      Summary
+------------- ----- ----- ----- ------------------- ------------ --------- -------------
++ cluster_isl 9216  200G  up                                      bond
++ eth0        1500  100M  up    mgmt-sw1            Eth105/1/14   eth       IP Address: 10.231.80 206/22
+  eth0                                                                      IP Address: fd20:8b1e:f6ff:fe31:4a0e/64
++ lo          65536       up                                      loopback  IP Address: 127.0.0.1/8
+  lo                                                                        IP Address: ::1/128
++ swp1s0      9216 10G    up cluster01                e0b         swp
 .
 .
 .
-+ swp15 9216 100G up cumulus swp15 swp
-+ swp16 9216 100G up cumulus swp16 swp
++ swp15      9216 100G    up sw2                      swp15       swp
++ swp16      9216 100G    up sw2                      swp16       swp
 ----
 
 . Copy the RCF python script to the switch.
 +
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:~$ *pwd*
+admin@sw1:mgmt:~$ *pwd*
 /home/cumulus
 cumulus@cumulus:mgmt: */tmp$ scp _<user>@<host:/<path>_/MSN2100-RCF-v1.x-Cluster-HA-Breakout-LLDP ./*
 ssologin@10.233.204.71's password:
-MSN2100-RCF-v1.x-Cluster                 100% 8607   111.2KB/s         00:00
+MSN2100-RCF-v1.x-Cluster-HA-Breakout-LLDP          100% 8607   111.2KB/s         00:00
 ----
 
 . Apply the RCF python script *MSN2100-RCF-v1.x-Cluster-HA-Breakout-LLDP*.
@@ -327,7 +327,7 @@ NOTE: In step 3 *Updating the MOTD file* above, the command `cat /etc/issue` is 
 For example:
 +
 ----
-cumulus@cumulus:mgmt:~$ cat /etc/issue
+admin@sw1:mgmt:~$ cat /etc/issue
 ******************************************************************************
 *
 * NetApp Reference Configuration File (RCF)
@@ -363,7 +363,7 @@ NOTE: For any RCF python script issues that cannot be corrected, contact https:/
 +
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:~$ *nv show interface*
+admin@sw1:mgmt:~$ *nv show interface*
 Interface   MTU   Speed State Remote Host Remote Port Type Summary
 ----------- ----- ----- ----- ----------- ----------- ---- -------------
 + cluster_isl 9216 200G up bond
@@ -375,10 +375,23 @@ lo IP Address: ::1/128
 .
 .
 .
-+ swp15 9216 100G up cumulus swp15 swp
-+ swp16 9216 100G up cumulus swp16 swp
++ swp15 9216 100G up cumulus swp15 swp----
+admin@sw1:mgmt:~$ *nv show interface*
+Interface     MTU   Speed State Remote Host         Remote Port- Type      Summary
+------------- ----- ----- ----- ------------------- ------------ --------- -------------
++ cluster_isl 9216  200G  up                                      bond
++ eth0        1500  100M  up    mgmt-sw1            Eth105/1/14   eth       IP Address: 10.231.80 206/22
+  eth0                                                                      IP Address: fd20:8b1e:f6ff:fe31:4a0e/64
++ lo          65536       up                                      loopback  IP Address: 127.0.0.1/8
+  lo                                                                        IP Address: ::1/128
++ swp1s0      9216 10G    up cluster01                e0b         swp
+.
+.
+.
++ swp15      9216 100G    up sw2                      swp15       swp
++ swp16      9216 100G    up sw2                      swp16       swp
 
-cumulus@cumulus:mgmt:~$ *nv show qos roce*
+admin@sw1:mgmt:~$ *nv show qos roce*
                    operational  applied   description
 -----------------  -----------  --------- ----------------------------------------
 enable             on                     Turn feature 'on' or 'off'. This feature is disabled by default.
@@ -439,7 +452,7 @@ RoCE pool config
 +
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:~$ *nv show interface pluggables*
+admin@sw1:mgmt:~$ *nv show interface pluggables*
 Interface  Identifier     Vendor Name  Vendor PN        Vendor SN       Vendor Rev
 ---------  -------------  -----------  ---------------  --------------  ----------
 swp1s0     0x00 None
@@ -465,14 +478,14 @@ swp16      0x11 (QSFP28)  Amphenol     112-00595        APF2027
 +
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:~$ *nv show lldp*
+admin@sw1:mgmt:~$ *nv show lldp*
 
-LocalPort  Speed  Mode        RemoteHost                          RemotePort
----------  -----  ----------  ----------------------------------  -----------
-eth0       100M   Mgmt        RTP-LF01-41MM08.com                 Eth110/1/29
-swp2s1     25G    Trunk/L2    rtpnpi-2820-8b                      e0a
-swp15      100G   BondMember  ossg-prod-rcf                       swp15
-swp16      100G   BondMember  ossg-prod-rcf                       swp16
+LocalPort  Speed  Mode        RemoteHost               RemotePort
+---------  -----  ----------  -----------------------  -----------
+eth0       100M   Mgmt        mgmt-sw1                 Eth110/1/29
+swp2s1     25G    Trunk/L2    node1                    e0a
+swp15      100G   BondMember  sw2                      swp15
+swp16      100G   BondMember  sw2                      swp16
 ----
 
 . Verify the health of cluster ports on the cluster.
