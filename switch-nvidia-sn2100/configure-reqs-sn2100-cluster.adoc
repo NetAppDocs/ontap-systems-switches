@@ -15,16 +15,19 @@ For NVIDIA SN2100 switch installation and maintenance, be sure to review all con
 
 If you want to build ONTAP clusters with more than two nodes, you need two supported cluster network switches. You can use additional management switches, which are optional.
 
-You install the NVIDIA SN2100 switch (X190006/X190106) in the NVIDIA dual/single switch cabinet with the standard brackets that are included with the switch. 
+You install the NVIDIA SN2100 switch (X190006) in the NVIDIA dual/single switch cabinet with the standard brackets that are included with the switch. 
 
 For cabling guidelines, see link:cabling-considerations-sn2100-cluster.html[Review cabling and configuration considerations].
 
 == ONTAP and Linux support
 
-The NVIDIA SN2100 switch is a 10/25/40/100 Gb Ethernet switch running Cumulus Linux. The switch supports the following:
+The NVIDIA SN2100 switch is a 10/25/40/100GbE switch running Cumulus Linux. The switch supports the following:
 
-* ONTAP 9.10.1P3. The SN2100 switch serves Cluster and Storage applications in ONTAP 9.10.1P3 over different switch-pairs. From ONTAP 9.10.1P3, you can use NVIDIA SN2100 switches to combine storage and cluster functionality into a shared switch configuration.
+* ONTAP 9.10.1P3. The SN2100 switch serves Cluster and Storage applications in ONTAP 9.10.1P3 over different switch-pairs. 
+//From ONTAP 9.10.1P3, you can use NVIDIA SN2100 switches to combine storage and cluster functionality into a shared switch configuration.
 
-* Cumulus Linux (CL) OS version 4.4.3. For current compatibility information, see the https://mysupport.netapp.com/site/info/nvidia-cluster-switch[NVIDIA Ethernet Switches^] information page.
+* Cumulus Linux (CL) OS version. To download the SN2100 Cumulus software, log into the https://enterprise-support.nvidia.com/s/[NVIDIA Enterprise Support Portal^]. Note that you must have log in credentials to access the Cumulus software. For current compatibility information, see the https://mysupport.netapp.com/site/info/nvidia-cluster-switch[NVIDIA Ethernet Switches^] information page.
 
 * You can install Cumulus Linux when the switch is running Cumulus Linux or ONIE.
+
+// Updated content as part of the LH release of CL 5.4, 2023-APR-17

@@ -11,44 +11,93 @@ summary: 'For BES-53248 switch installation and maintenance, be sure to review t
 [.lead]
 For BES-53248 switch installation and maintenance, be sure to review the list of components and part numbers.
 
-The following table lists the part number and description for the BES-53248 cluster switch components, including the rack-mount rail kit, fans, and power supplies.
+The following table lists the part number, description, and minimum EFOS and ONTAP versions for the BES-53248 cluster switch components, including rack-mount rail kit details.
 
-[options="header" cols="1,2"]
+NOTE: A minimum EFOS version of *3.10.0.3* is required for part numbers *X190005-B* and *X190005R-B*. 
+
+[cols=4*,options="header",cols="20,40,20,20"]
 |===
-| Part number| Description
+| Part number | Description | Minimum EFOS version | Minimum ONTAP version
+a|
+X190005-B
+a|
+BES-53248-B/IX8, CLSW, 16PT10/25GB, PTSX (PTSX = Port Side Exhaust)
+a|
+3.10.0.3
+a|
+9.8
+a|
+X190005R-B
+a|
+BES-53248-B/IX8, CLSW, 16PT10/25GB, PSIN (PSIN = Port Side Intake)
+a|
+3.10.0.3
+a|
+9.8
 a|
 X190005
 a|
-BES-53248, CLSW, 16Pt10/25GB, PTSX, BRDCM SUPP (PTSX = Port Side Exhaust)
+BES-53248, CLSW, 16Pt10/25GB, PTSX, BRDCM SUPP 
+a|
+3.4.4.6
+a|
+9.5P8
 a|
 X190005R
 a|
-BES-53248, CLSW, 16Pt10/25GB, PSIN, BRDCM SUPP (PSIN = Port Side Intake)
+BES-53248, CLSW, 16Pt10/25GB, PSIN, BRDCM SUPP 
+a|
+3.4.4.6
+a|
+9.5P8
 a|
 X-RAIL-4POST-190005
 a|
 Rack mount rail kit Ozeki 4 post 19"
 a|
-X-FAN-190005-R
+N/A
 a|
-Fan, port side intake X190005
-a|
-X-FAN-190005-F
-a|
-Fan, port side exhaust X190005
-a|
-X-PSU-190005-R
-a|
-Power supply, port side intake X190005
-
-Port-side intake airflow (reverse air): Cool air enters the chassis through the port end in the cold aisle and exhausts through the fan and power supply modules in the hot aisle.
-a|
-X-PSU-190005-F
-a|
-Power supply, port side exhaust X190005
-
-Port-side exhaust airflow (standard air): Cool air enters the chassis through the fan and power supply modules in the cold aisle and exhausts through the port end of the chassis in the hot aisle. Blue coloring indicates port-side exhaust airflow. This is the most common option.
+N/A
 |===
 
+IMPORTANT: Note the following information with regards to machine types:
+
+[cols=2*,options="header",cols="50,50"]
+|===
+| Machine type | EFOS version
+a| BES-53248A1 | 3.4.4.6
+a| BES-53248A2 | 3.10.0.3
+a| BES-53248A3 | 3.10.0.3
+|===
+
+You can determine your specific machine type by using the command: `show version`
+
+.Show example
+[%collapsible]
+====
+[subs=+quotes]
+----
+(cs1)# *show version*
+
+Switch: cs1
+
+System Description............................. EFOS, 3.10.0.3, Linux 5.4.2-b4581018, 2016.05.00.07
+Machine Type................................... *_BES-53248A3_*
+Machine Model.................................. BES-53248
+Serial Number.................................. QTWCU225xxxxx
+Part Number.................................... 1IX8BZxxxxx
+Maintenance Level.............................. a3a
+Manufacturer................................... QTMC
+Burned In MAC Address.......................... C0:18:50:F4:3x:xx
+Software Version............................... 3.10.0.3
+Operating System............................... Linux 5.4.2-b4581018
+Network Processing Device...................... BCM56873_A0
+.
+.
+.
+----
+====
+
+// Updates for the new PSU for Jute, 2023-APR-18
 
 
