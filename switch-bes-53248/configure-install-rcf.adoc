@@ -17,13 +17,13 @@ If you are upgrading an RCF from an older version, you must reset the Broadcom s
 .What you'll need
 * A current backup of the switch configuration.
 * A fully functioning cluster (no errors in the logs or similar issues).
-* The current RCF file, available from the https://mysupport.netapp.com/site/products/all/details/broadcom-cluster-switches/downloads-tab[Broadcom Cluster Switches] page.
+* The current RCF file, available from the https://mysupport.netapp.com/site/products/all/details/broadcom-cluster-switches/downloads-tab[Broadcom Cluster Switches^] page.
 * A boot configuration in the RCF that reflects the desired boot images, required if you are installing only EFOS and keeping your current RCF version. If you need to change the boot configuration to reflect the current boot images, you must do so before reapplying the RCF so that the correct version is instantiated on future reboots.
 * A console connection to the switch, required when installing the RCF.
 
 .Suggested documentation
-* Consult the switch compatibility table for the supported ONTAP and RCF versions. See the https://mysupport.netapp.com/site/info/broadcom-cluster-switch[EFOS Software download] page. Note that there can be command dependencies between the command syntax in the RCF and that found in versions of EFOS.
-* Refer to the appropriate software and upgrade guides available on the https://www.broadcom.com/support/bes-switch[Broadcom] site for complete documentation on the BES-53248 switch upgrade and downgrade procedures.
+* Consult the switch compatibility table for the supported ONTAP and RCF versions. See the https://mysupport.netapp.com/site/info/broadcom-cluster-switch[EFOS Software download^] page. Note that there can be command dependencies between the command syntax in the RCF and that found in versions of EFOS.
+* Refer to the appropriate software and upgrade guides available on the https://www.broadcom.com/support/bes-switch[Broadcom^] site for complete documentation on the BES-53248 switch upgrade and downgrade procedures.
 
 == Install the configuration file
 .About the examples
@@ -34,7 +34,7 @@ The examples in this procedure use the following switch and node nomenclature:
 * The node names are cluster1-01, cluster1-02, cluster1-03, and cluster1-04.
 * The cluster LIF names are cluster1-01_clus1, cluster1-01_clus2, cluster1-02_clus1, cluster1-02_clus2, cluster1-03_clus1, cluster1-03_clus2, cluster1-04_clus1, and cluster1-04_clus2.
 * The `cluster1::*>` prompt indicates the name of the cluster.
-* The examples in this procedure use two nodes. These nodes use two 10GbE cluster interconnect ports `e0a` and `e0b`. See the https://hwu.netapp.com/Home/Index[Hardware Universe] to verify the correct cluster ports on your platforms.
+* The examples in this procedure use two nodes. These nodes use two 10GbE cluster interconnect ports `e0a` and `e0b`. See the https://hwu.netapp.com/Home/Index[Hardware Universe^] to verify the correct cluster ports on your platforms.
 
 NOTE: The command outputs might vary depending on different releases of ONTAP.
 
