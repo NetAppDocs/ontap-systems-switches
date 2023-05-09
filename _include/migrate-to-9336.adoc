@@ -259,11 +259,11 @@ node2      true    true          false
 ----
 ====
 
-. Move all cluster node connections from the old cs2 switch to the new cs2-new switch.
+. Move all cluster node connection cables from the old cs2 switch to the new cs2-new switch.
 +
-*Cluster node connections moved to the cs2-new switch*
+*Cluster node connection cables moved to the cs2-new switch*
 +
-image::../media/new_switch_cs1.png[Cluster node connections moved to the cs2-new switch]
+image::../media/new_switch_cs1.png[Cluster node connection cables moved to the cs2-new switch]
 
 . Confirm the health of the network connections moved to cs2-new: 
 +
@@ -379,11 +379,11 @@ node2      true    true          false
 ----
 ====
 
-. Move the connections from cs1 to the new cs1-new switch.
+. Move the cluster node connection cables from cs1 to the new cs1-new switch.
 +
-*Cluster node connections moved to the cs1-new switch*
+*Cluster node connection cables moved to the cs1-new switch*
 +
-image::../media/new_switch_cs2.png[Cluster node connections moved to the cs1-new switch]
+image::../media/new_switch_cs2.png[Cluster node connection cables moved to the cs1-new switch]
 
 . Confirm the health of the network connections moved to cs1-new: 
 +
@@ -672,4 +672,6 @@ cluster1::*>
 --
 ====
 
-If you suppressed automatic case creation, reenable it by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=END`
+. If you suppressed automatic case creation, reenable it by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=END`
+
+// Updates for AFFFASDOC-45, 2023-MAY-09
