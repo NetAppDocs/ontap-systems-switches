@@ -63,24 +63,36 @@ a|Non-FIPS compliant
 
 IMPORTANT: To check if your version of EFOS is FIPS compliant or non-FIPS compliant, use the `show fips status` command.  In the following examples, *IP_switch_a1* is using FIPS compliant EFOS and *IP_switch_a2* is using non-FIPS compliant EFOS.
 +
-*Example 1*
-+
+
+.Show example
+[%collapsible]
+====
+[subs=+quotes]
 ----
-IP_switch_a1 # show fips status
+*Example 1*
+
+IP_switch_a1 # *show fips status*
 
 System running in FIPS mode
 
 IP_switch_a1 #
 ----
-*Example 2*
-+
+====
+
+.Show example
+[%collapsible]
+====
+[subs=+quotes]
 ----
+*Example 2*
+
 IP_switch_a2 #show fips status
                      ^
 % Invalid input detected at `^` marker.
 
 IP_switch_a2 #
 ----
+====
 
 == Install the software
 Use one of the following methods:
