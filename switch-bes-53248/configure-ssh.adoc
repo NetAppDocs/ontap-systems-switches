@@ -70,7 +70,7 @@ Do you want to overwrite the existing ECDSA keys? (y/n): *y*
 (switch)# *ip scp server enable*
 (switch)# *ip ssh pubkey-auth*
 (switch)# *write mem*
-(switch)# *reload*
+
 This operation may take a few minutes.
 Management interfaces will not be available during this time.
 Are you sure you want to save? (y/n) *y*
@@ -80,6 +80,10 @@ Config file 'startup-config' created successfully.
 Configuration Saved!
 ----
 ====
+
+. Reboot the switch:
++
+`reload`
 
 . Verify that SSH is enabled:
 +
