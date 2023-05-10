@@ -176,9 +176,9 @@ Cluster
 
 ==== 
 
-.For ONTAP 9.8 and later
+.ONTAP 9.8 and later
 --
-Use the command: `system switch ethernet show -is-monitoring-enabled-operational true`
+On ONTAP 9.8 and later, use the command: `system switch ethernet show -is-monitoring-enabled-operational true`
 
 [subs=+quotes]
 ----
@@ -202,9 +202,9 @@ cluster1::*>
 ----
 --
 
-.For ONTAP 9.7 and earlier
+.ONTAP 9.7 and earlier
 --
-Use the command: `system cluster-switch show -is-monitoring-enabled-operational true`
+On ONTAP 9.7 and earlier, use the command: `system cluster-switch show -is-monitoring-enabled-operational true`
 
 [subs=+quotes]
 ----
@@ -230,9 +230,9 @@ cluster1::*>
 ==== 
 
 // end of tabbed content
-[start=4]
+[start=6]
 
-. [[step4]]Disable auto-revert on the cluster LIFs.
+. [[step6]]Disable auto-revert on the cluster LIFs.
 +
 ----
 cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert false
@@ -303,6 +303,7 @@ CAUTION: When updating or applying a new RCF, you must erase the switch settings
 Only proceed when all the cluster LIFs have been removed from ports on the switch and the switch is prepared to have the configuration cleared.
 
 .. Enter privilege mode:
++
 ----
 (cs2)> enable
 
@@ -397,6 +398,7 @@ Are you sure you would like to reset the system? (y/n) *y*
 ====
 
 .. Log in to the switch again using SSH to complete the RCF installation.
+
 
 . If additional port licenses have been installed on the switch, you must modify the RCF to configure the additional licensed ports. See link:configure-licenses.html#activate-newly-licensed-ports[Activate newly licensed ports^] for details. 
 
@@ -710,9 +712,9 @@ cluster1-04/cdp
 
 ==== 
 
-.For ONTAP 9.8 and later
+.ONTAP 9.8 and later
 --
-Use the command: `system switch ethernet show -is-monitoring-enabled-operational true`
+On ONTAP 9.8 and later, use the command: `system switch ethernet show -is-monitoring-enabled-operational true`
 
 [subs=+quotes]
 ----
@@ -736,9 +738,9 @@ cluster1::*>
 ----
 --
 
-.For ONTAP 9.7 and earlier
+.ONTAP 9.7 and earlier
 --
-Use the command: `system cluster-switch show -is-monitoring-enabled-operational true`
+On ONTAP 9.7 and earlier, use the command: `system cluster-switch show -is-monitoring-enabled-operational true`
 
 [subs=+quotes]
 ----
