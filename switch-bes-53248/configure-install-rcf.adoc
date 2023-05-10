@@ -20,7 +20,7 @@ If you are upgrading an RCF from an older version, you must reset the Broadcom s
 * A fully functioning cluster (no errors in the logs or similar issues).
 * The current RCF file, available from the https://mysupport.netapp.com/site/products/all/details/broadcom-cluster-switches/downloads-tab[Broadcom Cluster Switches^] page.
 * A boot configuration in the RCF that reflects the desired boot images, required if you are installing only EFOS and keeping your current RCF version. If you need to change the boot configuration to reflect the current boot images, you must do so before reapplying the RCF so that the correct version is instantiated on future reboots.
-* A console connection to the switch, required when installing the RCF from a factory-default state. This requirement is optional if you used the https://kb.netapp.com/onprem/Switches/Broadcom/How_to_clear_configuration_on_a_Broadcom_interconnect_switch_while_retaining_remote_connectivity[KB:How to clear configuration on a Broadcom interconnect switch while retaining remote connectivity^] to clear the configuration, beforehand.
+* A console connection to the switch, required when installing the RCF from a factory-default state. This requirement is optional if you have used the https://kb.netapp.com/onprem/Switches/Broadcom/How_to_clear_configuration_on_a_Broadcom_interconnect_switch_while_retaining_remote_connectivity[KB:How to clear configuration on a Broadcom interconnect switch while retaining remote connectivity^] to clear the configuration, beforehand.
 
 .Suggested documentation
 * Consult the switch compatibility table for the supported ONTAP and RCF versions. See the https://mysupport.netapp.com/site/info/broadcom-cluster-switch[EFOS Software download^] page. Note that there can be command dependencies between the command syntax in the RCF and that found in versions of EFOS.
@@ -766,8 +766,8 @@ cluster1::*>
 ==== 
 // end of tabbed content
 
-[start=16]
-. [[step16]]On cluster switch cs1, shut down the ports connected to the cluster ports of the nodes.
+[start=17]
+. [[step17]]On cluster switch cs1, shut down the ports connected to the cluster ports of the nodes.
 +
 The following example uses the interface example output:
 +
@@ -991,6 +991,15 @@ RPC status:
 6 paths up, 0 paths down (udp check)
 ----
 ====
+
+. Change the privilege level back to admin: 
++
+`set -privilege admin`
+
+. If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
++
+`system node autosupport invoke -node * -type all -message MAINT=END`
+
 
 .What's next?
 link:configure-health-monitor.html[Install the CSHM configuration file].
