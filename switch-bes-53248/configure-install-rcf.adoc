@@ -11,7 +11,7 @@ summary: 'You can install the Reference Configuration File (RCF) after configuri
 [.lead]
 You can install the Reference Configuration File (RCF) after configuring the BES-53248 cluster switch and after applying the new licenses.
 
-If you are upgrading an RCF from an older version, you must reset the Broadcom switch settings and perform basic configuration to re-apply the RCF. You must perform this operation every time you want to upgrade or change an RCF. See the https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Systems/Fabric%2C_Interconnect_and_Management_Switches/Error!_in_configuration_script_file_at_line_number_XX_when_applying_a_new_RCF[KB article^] for details.
+If you are upgrading an RCF from an older version, you must reset the Broadcom switch settings and perform basic configuration to re-apply the RCF. You must perform this operation every time you want to upgrade or change an RCF. See the https://kb.netapp.com/onprem/Switches/Broadcom/How_to_clear_configuration_on_a_Broadcom_interconnect_switch_while_retaining_remote_connectivity[KB article^] for details.
 
 == Review requirements
 .What you'll need
@@ -19,7 +19,7 @@ If you are upgrading an RCF from an older version, you must reset the Broadcom s
 * A fully functioning cluster (no errors in the logs or similar issues).
 * The current RCF file, available from the https://mysupport.netapp.com/site/products/all/details/broadcom-cluster-switches/downloads-tab[Broadcom Cluster Switches^] page.
 * A boot configuration in the RCF that reflects the desired boot images, required if you are installing only EFOS and keeping your current RCF version. If you need to change the boot configuration to reflect the current boot images, you must do so before reapplying the RCF so that the correct version is instantiated on future reboots.
-* A console connection to the switch, required when installing the RCF.
+* A console connection to the switch, required when installing the RCF from a factory-default state. This requirement is optional if you used the https://kb.netapp.com/onprem/Switches/Broadcom/How_to_clear_configuration_on_a_Broadcom_interconnect_switch_while_retaining_remote_connectivity[KB:How to clear configuration on a Broadcom interconnect switch while retaining remote connectivity^] to clear the configuration, beforehand.
 
 .Suggested documentation
 * Consult the switch compatibility table for the supported ONTAP and RCF versions. See the https://mysupport.netapp.com/site/info/broadcom-cluster-switch[EFOS Software download^] page. Note that there can be command dependencies between the command syntax in the RCF and that found in versions of EFOS.
@@ -34,7 +34,7 @@ The examples in this procedure use the following switch and node nomenclature:
 * The node names are cluster1-01, cluster1-02, cluster1-03, and cluster1-04.
 * The cluster LIF names are cluster1-01_clus1, cluster1-01_clus2, cluster1-02_clus1, cluster1-02_clus2, cluster1-03_clus1, cluster1-03_clus2, cluster1-04_clus1, and cluster1-04_clus2.
 * The `cluster1::*>` prompt indicates the name of the cluster.
-* The examples in this procedure use two nodes. These nodes use two 10GbE cluster interconnect ports `e0a` and `e0b`. See the https://hwu.netapp.com/Home/Index[Hardware Universe^] to verify the correct cluster ports on your platforms.
+* The examples in this procedure use four nodes. These nodes use two 10GbE cluster interconnect ports `e0a` and `e0b`. See the https://hwu.netapp.com/Home/Index[Hardware Universe^] to verify the correct cluster ports on your platforms.
 
 NOTE: The command outputs might vary depending on different releases of ONTAP.
 
@@ -43,9 +43,29 @@ The procedure requires the use of both ONTAP commands and Broadcom switch comman
 
 No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To ensure non-disruptive cluster operations, the following procedure migrates all the cluster LIFs to the operational partner switch while performing the steps on the target switch.
 
-CAUTION: Before installing a new switch software version and RCFs, you must erase the switch settings and perform basic configuration. You must be connected to the switch using the serial console. This task resets the configuration of the management network.
+CAUTION: Before installing a new switch software version and RCFs, use the https://kb.netapp.com/onprem/Switches/Broadcom/How_to_clear_configuration_on_a_Broadcom_interconnect_switch_while_retaining_remote_connectivity[KB: How to clear configuration on a Broadcom interconnect switch while retaining remote connectivity^]. If you must erase the switch settings completely, then you will need to perform the basic configuration again. You must be connected to the switch using the serial console, since a complete configuration erasure resets the configuration of the management network.
 
 == Step 1: Prepare for the installation
+
+. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
++
+`system node autosupport invoke -node * -type all -message MAINT=xh`
++
+where _x_ is the duration of the maintenance window in hours.
++
+NOTE: The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
++
+The following command suppresses automatic case creation for two hours:
++
+----
+cluster1::*> system node autosupport invoke -node \* -type all -message MAINT=2h
+----
+
+. Change the privilege level to advanced, entering *y* when prompted to continue:
++
+`set -privilege advanced`
++
+The advanced prompt (*>) appears.
 
 . Display the cluster ports on each node that are connected to the cluster switches: `network device-discovery show`
 +
@@ -61,10 +81,10 @@ Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  --------
 cluster1-01/cdp
             e0a    cs1                       0/2               BES-53248
-            e0d    cs2                       0/2               BES-53248
+            e0b    cs2                       0/2               BES-53248
 cluster1-02/cdp
             e0a    cs1                       0/1               BES-53248
-            e0d    cs2                       0/1               BES-53248
+            e0b    cs2                       0/1               BES-53248
 cluster1-03/cdp
             e0a    cs1                       0/4               BES-53248
             e0b    cs2                       0/4               BES-53248
@@ -92,7 +112,7 @@ Node: cluster1-01
 Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ---- ----------- -------- ------
 e0a       Cluster      Cluster          up   9000  auto/100000 healthy false
-e0d       Cluster      Cluster          up   9000  auto/100000 healthy false
+e0b       Cluster      Cluster          up   9000  auto/100000 healthy false
 
 Node: cluster1-02
                                                                        Ignore
@@ -100,7 +120,7 @@ Node: cluster1-02
 Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ---- ----------- -------- ------
 e0a       Cluster      Cluster          up   9000  auto/100000 healthy false
-e0d       Cluster      Cluster          up   9000  auto/100000 healthy false
+e0b       Cluster      Cluster          up   9000  auto/100000 healthy false
 8 entries were displayed.
 
 Node: cluster1-03
@@ -137,9 +157,9 @@ Vserver     Interface          Admin/Oper Address/Mask      Node         Port   
 ----------- ------------------ ---------- ----------------- ------------ ------- ----
 Cluster
             cluster1-01_clus1  up/up     169.254.3.4/23     cluster1-01  e0a     true
-            cluster1-01_clus2  up/up     169.254.3.5/23     cluster1-01  e0d     true
+            cluster1-01_clus2  up/up     169.254.3.5/23     cluster1-01  e0b     true
             cluster1-02_clus1  up/up     169.254.3.8/23     cluster1-02  e0a     true
-            cluster1-02_clus2  up/up     169.254.3.9/23     cluster1-02  e0d     true
+            cluster1-02_clus2  up/up     169.254.3.9/23     cluster1-02  e0b     true
             cluster1-03_clus1  up/up     169.254.1.3/23     cluster1-03  e0a     true
             cluster1-03_clus2  up/up     169.254.1.1/23     cluster1-03  e0b     true
             cluster1-04_clus1  up/up     169.254.1.6/23     cluster1-04  e0a     true
@@ -164,28 +184,14 @@ Use the command: `system switch ethernet show -is-monitoring-enabled-operational
 cluster1::*> *system switch ethernet show -is-monitoring-enabled-operational true*
 Switch                      Type               Address          Model
 --------------------------- ------------------ ---------------- ---------------
-Cluster-01                  cluster-network    10.228.143.200   BES-53248
+cs1                         cluster-network    10.228.143.200   BES-53248
            Serial Number: QTWCU22510008
             Is Monitored: true
                   Reason: None
         Software Version: 3.10.0.3
           Version Source: CDP/ISDP
 
-Cluster-02                  cluster-network    10.228.143.202   BES-53248
-           Serial Number: QTWCU22510009
-            Is Monitored: true
-                  Reason: None
-        Software Version: 3.10.0.3
-          Version Source: CDP/ISDP
-
-Cluster-03                  cluster-network    10.228.143.200   BES-53248
-           Serial Number: QTWCU22510008
-            Is Monitored: true
-                  Reason: None
-        Software Version: 3.10.0.3
-          Version Source: CDP/ISDP
-
-Cluster-04                  cluster-network    10.228.143.202   BES-53248
+cs2                         cluster-network    10.228.143.202   BES-53248
            Serial Number: QTWCU22510009
             Is Monitored: true
                   Reason: None
@@ -204,28 +210,14 @@ Use the command: `system cluster-switch show -is-monitoring-enabled-operational 
 cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true*
 Switch                      Type               Address          Model
 --------------------------- ------------------ ---------------- ---------------
-Cluster-01                  cluster-network    10.228.143.200   BES-53248
+cs1                         cluster-network    10.228.143.200   BES-53248
            Serial Number: QTWCU22510008
             Is Monitored: true
                   Reason: None
         Software Version: 3.10.0.3
           Version Source: CDP/ISDP
 
-Cluster-02                  cluster-network    10.228.143.202   BES-53248
-           Serial Number: QTWCU22510009
-            Is Monitored: true
-                  Reason: None
-        Software Version: 3.10.0.3
-          Version Source: CDP/ISDP
-
-Cluster-03                  cluster-network    10.228.143.200   BES-53248
-           Serial Number: QTWCU22510008
-            Is Monitored: true
-                  Reason: None
-        Software Version: 3.10.0.3
-          Version Source: CDP/ISDP
-
-Cluster-04                  cluster-network    10.228.143.202   BES-53248
+cs2                         cluster-network    10.228.143.202   BES-53248
            Serial Number: QTWCU22510009
             Is Monitored: true
                   Reason: None
@@ -251,7 +243,7 @@ cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert false
 [subs=+quotes]
 ----
 (cs2)(Config)# *interface 0/1-0/16*
-(cs2)(Interface o/1-0/16)# *shutdown*
+(cs2)(Interface 0/1-0/16)# *shutdown*
 ----
 
 . Verify that the cluster LIFs have migrated to the ports hosted on cluster switch cs1. This might take a few seconds.
@@ -305,9 +297,18 @@ cluster1-04          true    true          false
 +
 CAUTION: When updating or applying a new RCF, you must erase the switch settings and perform basic configuration. You must be connected to the switch using the serial console to erase switch settings.
 +
-.. Clean the configuration and reboot the switch.
+.. SSH into the switch.
 +
-CAUTION: This step requires a console connection to the switch.
+Only proceed after all the cluster LIFs have been removed from ports on the switch and the switch is prepared to have the configuration cleared.
+
+.. Enter privilege mode.
+----
+(cs2)> enable
+
+(cs2)#
+----
+
+.. Copy and paste the following commands to remove the previous RCF configuration (depending on which previous RCF version used, some commands might generate an error if a particular setting is not present):
 +
 
 .Show example
@@ -316,16 +317,86 @@ CAUTION: This step requires a console connection to the switch.
 
 [subs=+quotes]
 ----
-(cs2)# *write erase*
-Warning: This command will erase the startup-configuration.
-Do you wish to proceed anyway? (y/n)  [n] *y*
-(cs2)# *reload*
-This command will reboot the system. (y/n)?  [n] *y*
-(cs2)#
+clear config interface 0/1-0/56
+y
+clear config interface lag 1
+y
+configure
+deleteport 1/1 all
+no policy-map CLUSTER
+no policy-map WRED_25G
+no policy-map WRED_100G
+no class-map CLUSTER
+no class-map HA
+no class-map RDMA
+no classofservice dot1p-mapping
+no random-detect queue-parms 0
+no random-detect queue-parms 1
+no random-detect queue-parms 2
+no random-detect queue-parms 3
+no random-detect queue-parms 4
+no random-detect queue-parms 5
+no random-detect queue-parms 6
+no random-detect queue-parms 7
+no cos-queue min-bandwidth
+no cos-queue random-detect 0
+no cos-queue random-detect 1
+no cos-queue random-detect 2
+no cos-queue random-detect 3
+no cos-queue random-detect 4
+no cos-queue random-detect 5
+no cos-queue random-detect 6
+no cos-queue random-detect 7
+exit
+vlan database
+no vlan 17
+no vlan 18
+exit
+----
+==== 
+
+.. Save the running configuration to the startup configuration:
++
+
+.Show example
+[%collapsible]
+====
+
+[subs=+quotes]
+
+----
+(cs2)# *write memory*
+
+This operation may take a few minutes.
+Management interfaces will not be available during this time.
+
+Are you sure you want to save? (y/n) *y*
+
+Config file 'startup-config' created successfully .
+
+
+Configuration Saved!
 ----
 ====
 
-.. Perform a basic setup of the switch.
+.. Perform a reboot of the switch.
++
+
+.Show example
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+(cs2)# *reload*
+
+Are you sure you would like to reset the system? (y/n) *y*
+
+----
+
+.. Log in to the switch again using SSH to complete the RCF installation.
+
+. If additional port licenses have been installed on the switch, you must modify the RCF to configure the additionally license ports. See link:configure-licenses.html#activate-newly-licensed-ports[Activate newly licensed ports^] for details. 
 
 . Copy the RCF to the bootflash of switch cs2 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP.
 +
@@ -434,7 +505,7 @@ command has been executed and the switch rebooted
 ----
 ====
 
-. On the switch, verify the ports for an additional license after the RCF is applied:
+. On the switch, verify the additionally licensed ports appear after the RCF is applied:
 +
 `show port all | exclude Detach`
 +
@@ -560,7 +631,7 @@ Port       Name                 State   Mode        Status      Type        Cont
 ====
 
 . Verify the health of cluster ports on the cluster.
-.. Verify that e0d ports are up and healthy across all nodes in the cluster: `network port show -role cluster`
+.. Verify that e0b ports are up and healthy across all nodes in the cluster: `network port show -role cluster`
 +
 .Show example
 [%collapsible]
@@ -593,7 +664,7 @@ Node: cluster1-03
 Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status  Status
 --------- ------------ ---------------- ---- ---- ----------- -------- -----
 e0a       Cluster      Cluster          up   9000  auto/100000 healthy false
-e0d       Cluster      Cluster          up   9000  auto/100000 healthy false
+e0b       Cluster      Cluster          up   9000  auto/100000 healthy false
 
 Node: cluster1-04
                                                                       Ignore
@@ -601,11 +672,11 @@ Node: cluster1-04
 Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status  Status
 --------- ------------ ---------------- ---- ---- ----------- -------- -----
 e0a       Cluster      Cluster          up   9000  auto/100000 healthy false
-e0d       Cluster      Cluster          up   9000  auto/100000 healthy false
+e0b       Cluster      Cluster          up   9000  auto/100000 healthy false
 ----
 ====
 
-.. Verify the switch health from the cluster (this might not show switch cs2, since LIFs are not homed on e0d). 
+.. Verify the switch health from the cluster. 
 +
 .Show example
 [%collapsible]
@@ -619,10 +690,10 @@ Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------- --------
 cluster1-01/cdp
             e0a    cs1                       0/2               BES-53248
-            e0d    cs2                       0/2               BES-53248
+            e0b    cs2                       0/2               BES-53248
 cluster01-2/cdp
             e0a    cs1                       0/1               BES-53248
-            e0d    cs2                       0/1               BES-53248
+            e0b    cs2                       0/1               BES-53248
 cluster01-3/cdp
             e0a    cs1                       0/4               BES-53248
             e0b    cs2                       0/4               BES-53248
@@ -646,28 +717,14 @@ Use the command: `system switch ethernet show -is-monitoring-enabled-operational
 cluster1::*> *system switch ethernet show -is-monitoring-enabled-operational true*
 Switch                      Type               Address          Model
 --------------------------- ------------------ ---------------- ---------------
-Cluster-01                  cluster-network    10.228.143.200   BES-53248
+cs1                         cluster-network    10.228.143.200   BES-53248
            Serial Number: QTWCU22510008
             Is Monitored: true
                   Reason: None
         Software Version: 3.10.0.3
           Version Source: CDP/ISDP
 
-Cluster-02                  cluster-network    10.228.143.202   BES-53248
-           Serial Number: QTWCU22510009
-            Is Monitored: true
-                  Reason: None
-        Software Version: 3.10.0.3
-          Version Source: CDP/ISDP
-
-Cluster-03                  cluster-network    10.228.143.200   BES-53248
-           Serial Number: QTWCU22510008
-            Is Monitored: true
-                  Reason: None
-        Software Version: 3.10.0.3
-          Version Source: CDP/ISDP
-
-Cluster-04                  cluster-network    10.228.143.202   BES-53248
+cs2                         cluster-network    10.228.143.202   BES-53248
            Serial Number: QTWCU22510009
             Is Monitored: true
                   Reason: None
@@ -686,28 +743,14 @@ Use the command: `system cluster-switch show -is-monitoring-enabled-operational 
 cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true*
 Switch                      Type               Address          Model
 --------------------------- ------------------ ---------------- ---------------
-Cluster-01                  cluster-network    10.228.143.200   BES-53248
+cs1                         cluster-network    10.228.143.200   BES-53248
            Serial Number: QTWCU22510008
             Is Monitored: true
                   Reason: None
         Software Version: 3.10.0.3
           Version Source: CDP/ISDP
 
-Cluster-02                  cluster-network    10.228.143.202   BES-53248
-           Serial Number: QTWCU22510009
-            Is Monitored: true
-                  Reason: None
-        Software Version: 3.10.0.3
-          Version Source: CDP/ISDP
-
-Cluster-03                  cluster-network    10.228.143.200   BES-53248
-           Serial Number: QTWCU22510008
-            Is Monitored: true
-                  Reason: None
-        Software Version: 3.10.0.3
-          Version Source: CDP/ISDP
-
-Cluster-04                  cluster-network    10.228.143.202   BES-53248
+cs2                         cluster-network    10.228.143.202   BES-53248
            Serial Number: QTWCU22510009
             Is Monitored: true
                   Reason: None
@@ -727,8 +770,8 @@ The following example uses the interface example output:
 [subs=+quotes]
 ----
 (cs1)# *configure*
-(cs1)(Config)# *interface 0/13-0/16*
-(cs1)(Interface 0/13-0/16)# *shutdown*
+(cs1)(Config)# *interface 0/1-0/16*
+(cs1)(Interface 0/1-0/16)# *shutdown*
 ----
 
 . Verify that the cluster LIFs have migrated to the ports hosted on switch cs2. This might take a few seconds.
@@ -745,13 +788,13 @@ cluster1::*> *network interface show -role cluster*
 Vserver     Interface          Admin/Oper Address/Mask       Node               Port     Home
 ----------- ------------------ ---------- ------------------ ------------------ -------- ----
 Cluster
-            cluster1-01_clus1  up/up      169.254.3.4/23     cluster1-01        e0d      false
-            cluster1-01_clus2  up/up      169.254.3.5/23     cluster1-01        e0d      true
-            cluster1-02_clus1  up/up      169.254.3.8/23     cluster1-02        e0d      false
-            cluster1-02_clus2  up/up      169.254.3.9/23     cluster1-02        e0d      true
-            cluster1-03_clus1  up/up      169.254.1.3/23     cluster1-03        e0b      false
+            cluster1-01_clus1  up/up      169.254.3.4/23     cluster1-01        e0a      false
+            cluster1-01_clus2  up/up      169.254.3.5/23     cluster1-01        e0b      true
+            cluster1-02_clus1  up/up      169.254.3.8/23     cluster1-02        e0a      false
+            cluster1-02_clus2  up/up      169.254.3.9/23     cluster1-02        e0b      true
+            cluster1-03_clus1  up/up      169.254.1.3/23     cluster1-03        e0a      false
             cluster1-03_clus2  up/up      169.254.1.1/23     cluster1-03        e0b      true
-            cluster1-04_clus1  up/up      169.254.1.6/23     cluster1-04        e0b      false
+            cluster1-04_clus1  up/up      169.254.1.6/23     cluster1-04        e0a      false
             cluster1-04_clus2  up/up      169.254.1.7/23     cluster1-04        e0b      true
 cluster1::*>
 ----
@@ -775,9 +818,9 @@ cluster1-04          true     true          false
 ----
 ====
 
-. Repeat steps 4-13 on switch cs1. 
+. Repeat steps 4-14 on switch cs1. 
 . Enable auto-revert on the cluster LIFs:
-`cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert True`
+`cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert true`
 
 . Reboot switch cs1. You do this to trigger the cluster LIFs to revert to their home ports. You can ignore the “cluster ports down” events reported on the nodes while the switch reboots.
 +
@@ -869,13 +912,13 @@ cluster1::*> network interface show -role cluster
 Vserver     Interface          Admin/Oper Address/Mask       Node                Port    Home
 ----------- ------------------ ---------- ------------------ ------------------- ------- ----
 Cluster
-            cluster1-01_clus1  up/up      169.254.3.4/23     cluster1-01         e0d     true
-            cluster1-01_clus2  up/up      169.254.3.5/23     cluster1-01         e0d     true
-            cluster1-02_clus1  up/up      169.254.3.8/23     cluster1-02         e0d     true
-            cluster1-02_clus2  up/up      169.254.3.9/23     cluster1-02         e0d     true
-            cluster1-03_clus1  up/up      169.254.1.3/23     cluster1-03         e0b     true
+            cluster1-01_clus1  up/up      169.254.3.4/23     cluster1-01         e0a     true
+            cluster1-01_clus2  up/up      169.254.3.5/23     cluster1-01         e0b     true
+            cluster1-02_clus1  up/up      169.254.3.8/23     cluster1-02         e0a     true
+            cluster1-02_clus2  up/up      169.254.3.9/23     cluster1-02         e0b     true
+            cluster1-03_clus1  up/up      169.254.1.3/23     cluster1-03         e0a     true
             cluster1-03_clus2  up/up      169.254.1.1/23     cluster1-03         e0b     true
-            cluster1-04_clus1  up/up      169.254.1.6/23     cluster1-04         e0b     true
+            cluster1-04_clus1  up/up      169.254.1.6/23     cluster1-04         e0a     true
             cluster1-04_clus2  up/up      169.254.1.7/23     cluster1-04         e0b     true
 ----
 ====
@@ -914,9 +957,9 @@ Cluster cluster1-03_clus2 169.254.1.1 cluster1-03 e0b
 Cluster cluster1-04_clus1 169.254.1.6 cluster1-04 e0a
 Cluster cluster1-04_clus2 169.254.1.7 cluster1-04 e0b
 Cluster cluster1-01_clus1 169.254.3.4 cluster1-01 e0a
-Cluster cluster1-01_clus2 169.254.3.5 cluster1-01 e0d
+Cluster cluster1-01_clus2 169.254.3.5 cluster1-01 e0b
 Cluster cluster1-02_clus1 169.254.3.8 cluster1-02 e0a
-Cluster cluster1-02_clus2 169.254.3.9 cluster1-02 e0d
+Cluster cluster1-02_clus2 169.254.3.9 cluster1-02 e0b
 Local = 169.254.1.3 169.254.1.1
 Remote = 169.254.1.6 169.254.1.7 169.254.3.4 169.254.3.5 169.254.3.8 169.254.3.9
 Cluster Vserver Id = 4294967293

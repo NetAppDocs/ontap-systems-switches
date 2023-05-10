@@ -85,6 +85,27 @@ cluster1::*>
 ----
 ====
 
+. Initiate the switch log collection feature:
+`system switch ethernet log collect -device *`
++
+Wait for 10 minutes and then check that the log collection was successful using the command:
+`system switch ethernet log show`
++
+.Show example 
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cluster1::*> system switch ethernet log show
+Log Collection Enabled: true
+
+Index  Switch                       Log Timestamp        Status
+------ ---------------------------- -------------------  ---------    
+1      cs1 (b8:ce:f6:19:1b:42)      4/29/2022 03:05:25   complete   
+2      cs2 (b8:ce:f6:19:1b:96)      4/29/2022 03:07:42   complete
+----
+
 //.For ONTAP 9.5P15, 9.6P11, 9.7P8 and later patch releases
 //--
 
@@ -149,4 +170,5 @@ If you are upgrading the switch, go to link:replace-verify.html[Verify upgrade c
 
 //* `cluster1::*> system cluster-switch log collect -device <cs1>`
 //* `cluster1::*> system cluster-switch log collect -device <cs2>`
-// further updates after review, 2023-MAY-09
+
+//Updates for GH issues #72 & 79, 2023-APR-04
