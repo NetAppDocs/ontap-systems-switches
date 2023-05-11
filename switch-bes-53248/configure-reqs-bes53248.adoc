@@ -9,14 +9,17 @@ summary: You can use the BES-53248 cluster switch port assignment table as a gui
 :imagesdir: ../media/
 
 [.lead]
-For BES-53248 switch installation and maintenance, be sure to review OS support and configuration requirements.
+For BES-53248 switch installation and maintenance, be sure to review EFOS and ONTAP support and configuration requirements.
 
-== Operating system (OS) support
-The BES-53248 switch supports the following:
+== EFOS and ONTAP support
 
-* *EFOS firmware 3.4.4.6 and later*. The BES-53248 switch runs on a Broadcom-embedded OS known as Ethernet Fabric OS (EFOS). Support for 40/100 GbE cluster ports starts with EFOS firmware version 3.4.4.6 and later.
+See the https://hwu.netapp.com/Switch/Index[NetApp Hardware Universe^] and https://mysupport.netapp.com/site/info/broadcom-cluster-switch[Broadcom switches compatibility matrix^] for EFOS and ONTAP compatibility information with BES-53248 switches. EFOS and ONTAP support can vary by the specific machine type of the BES-53248 switch. For details of all BES-52348 switch machine types, see link:components-bes53248.html[Components and part numbers for BES-53248 cluster switches]. 
 
-* *ONTAP 9.5P8 and later*. The Broadcom-supported  BES-53248 cluster switches are designed to work in clusters ranging in size from two to 24 nodes in ONTAP 9.5P8 and later.
+//The BES-53248 switch supports the following:
+
+//* *EFOS firmware 3.4.4.6 and later*. The BES-53248 switch runs on a Broadcom-embedded OS known as Ethernet Fabric OS (EFOS). Support for 40/100 GbE cluster ports starts with EFOS firmware version 3.4.4.6 and later.
+
+//* *ONTAP 9.5P8 and later*. The Broadcom-supported  BES-53248 cluster switches are designed to work in clusters ranging in size from two to 24 nodes in ONTAP 9.5P8 and later.
 
 == Configuration requirements
 To configure a cluster, you need the appropriate number and type of cables and cable connectors for the cluster switches. Depending on the type of cluster switch you are initially configuring, you need to connect to the switch console port with the included console cable.
@@ -38,7 +41,7 @@ a|
 a|
 49-54
 a|
-100GbE cluster port nodes, with licenses, added right to left
+40/100GbE cluster port nodes, with licenses, added right to left
 a|
 55-56
 a|
@@ -48,6 +51,13 @@ a|
 See the https://hwu.netapp.com/Switch/Index[Hardware Universe] for more information on switch ports.
 
 === Port group speed constraint
-On BES-53248 cluster switches, the 48 10/25GbE (SFP28/SFP+) ports are combined into 12 x 4-port groups as follows: Ports 1-4, 5-8, 9-12, 13-16, 17-20, 21-24, 25-28, 29-32, 33-36, 37-40, 41-44, and 45-48.
+* On BES-53248 cluster switches, the 48 10/25GbE (SFP28/SFP+) ports are combined into 12 x 4-port groups as follows: Ports 1-4, 5-8, 9-12, 13-16, 17-20, 21-24, 25-28, 29-32, 33-36, 37-40, 41-44, and 45-48.
 
-The SFP28/SFP+ port speed must be the same (10GbE or 25GbE) across all ports in the 4-port group.
+* The SFP28/SFP+ port speed must be the same (10GbE or 25GbE) across all ports in the 4-port group.
+
+=== Additional requirements
+* If you purchase additional licenses, see link:configure-licenses.html[Activate newly licenses ports] for details on how to activate them.
+
+* If SSH is active, you must re-enable it manually after running the command `erase startup-config` and rebooting the switch.
+
+// Updates for the new PSU for Jute, 2023-APR-18
