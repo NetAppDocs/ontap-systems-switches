@@ -36,6 +36,8 @@ image::../media/Initial_setup.png[Initial switch setup]
 
 The procedure requires the use of both ONTAP commands and https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html[Nexus 9000 Series Switches^] commands; ONTAP commands are used, unless otherwise indicated.
 
+No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To ensure non-disruptive cluster operations, the following procedure migrates all of the cluster LIFs to the operational partner switch while performing the steps on the target switch.
+
 === Step 1: Prepare for migration
 
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=xh`
