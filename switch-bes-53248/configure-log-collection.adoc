@@ -25,7 +25,7 @@ Make sure that you have set up your environment using the BES-53248 cluster swit
 
 .Steps
 
-. Enable the Ethernet switch health monitor log collection feature for collecting switch-related log files by using the commands:
+. Enable the Ethernet switch health monitor log collection feature for collecting switch-related log files by using the following commands:
 +
 `system switch ethernet log setup-password` and
 +
@@ -86,9 +86,11 @@ cluster1::*>
 ====
 
 . Initiate the switch log collection feature:
++
 `system switch ethernet log collect -device *`
 +
 Wait for 10 minutes and then check that the log collection was successful using the command:
++
 `system switch ethernet log show`
 +
 .Show example 
