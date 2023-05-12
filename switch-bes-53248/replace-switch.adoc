@@ -109,6 +109,14 @@ cs1                      0/56      179       R          BES-53248        0/56
 
 . Review the link:replace-switch-reqs.html[Replacement requirements].
 
+. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
++
+`system node autosupport invoke -node * -type all -message MAINT=xh`
++
+where _x_ is the duration of the maintenance window in hours.
++
+NOTE: The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window. 
+
 . Install the appropriate Reference Configuration File (RCF) and image on the switch, newcs2, and make any necessary site preparations.
 +
 If necessary, verify, download, and install the appropriate versions of the RCF and EFOS software for the new switch. If you have verified that the new switch is correctly set up and does not need updates to the RCF and EFOS software, continue to step 2.
@@ -409,5 +417,11 @@ cs1          0/56    179         R             BES-53248   0/56
 ----
 ====
 
+. If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
++
+`system node autosupport invoke -node * -type all -message MAINT=END`
+
 .What's next?
 See link:configure-log-collection.html[Enable the log collection feature] for the steps required to enable cluster health switch log collection used for collecting switch-related log files.
+
+// added details for maintenance ASUP, 2023-MAY-11

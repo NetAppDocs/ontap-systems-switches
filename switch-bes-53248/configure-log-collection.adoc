@@ -9,19 +9,29 @@ summary: 'The cluster switch health monitor log collection feature is used to co
 :imagesdir: ../media/
 
 [.lead]
-You can enable the log collection feature, which is used to collect switch-related log files in ONTAP. 
+You can use the log collection feature to collect switch-related log files in ONTAP. 
 
-Make sure that you have set up your environment using the BES-53248 cluster switch CLI.
+IMPORTANT: To enable the log collection feature, you must be running ONTAP version 9.12.1 and later and EFOS 3.8.0.2 and later.
 
-== For ONTAP 9.8 and later
+Make sure that you have set up your environment using the BES-53248 cluster switch *CLI*.
 
-Enable the log collection feature using the commands:
+// start of tabbed content 
 
-`system switch ethernet log setup-password` and `system switch ethernet log enable-collection`
+//[role="tabbed-block"] 
+
+//==== 
+
+//.For ONTAP 9.8 and later
 
 .Steps
 
-. Enter: `system switch ethernet log setup-password`
+. Enable the Ethernet switch health monitor log collection feature for collecting switch-related log files by using the following commands:
++
+`system switch ethernet log setup-password` and
++
+`system switch ethernet log enable-collection`
++
+.. Enter: `system switch ethernet log setup-password`
 +
 .Show example
 [%collapsible]
@@ -30,7 +40,7 @@ Enable the log collection feature using the commands:
 [subs=+quotes]
 ----
 cluster1::*> *system switch ethernet log setup-password*
-Enter the switch name: <return>
+Enter the switch name: *<return>*
 The switch name entered is not recognized.
 Choose from the following list:
 *cs1*
@@ -42,28 +52,29 @@ Enter the switch name: *cs1*
 RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
 Do you want to continue? {y|n}::[n] *y*
 
-Enter the password: <enter switch password>
-Enter the password again: <enter switch password>
+Enter the password: *<enter switch password>*
+Enter the password again: *<enter switch password>*
 
 cluster1::*> *system switch ethernet log setup-password*
+
 Enter the switch name: *cs2*
 RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
 Do you want to continue? {y|n}:: [n] *y*
 
-Enter the password: <enter switch password>
-Enter the password again: <enter switch password>
+Enter the password: *<enter switch password>*
+Enter the password again: *<enter switch password>*
 ----
 ====
 
-. Enter: `system switch ethernet log enable-collection`
+.. Enter: `system switch ethernet log enable-collection`
 +
-.Show example
+.Show example 
 [%collapsible]
 ====
 
 [subs=+quotes]
 ----
-cluster1::*> *system switch ethernet log enable-collection*
+cluster1::*> *system  switch ethernet log enable-collection*
 
 Do you want to enable cluster log collection for all nodes in the cluster?
 {y|n}: [n] *y*
@@ -72,78 +83,94 @@ Enabling cluster switch log collection.
 
 cluster1::*>
 ----
-==== 
+====
 
-
-== For ONTAP 9.5P15, 9.6P11, 9.7P8 and later patch releases
-
-Enable the log collection feature using the commands:
-
-`system cluster-switch log setup-password` and `system cluster-switch log enable-collection`
-
-.Steps
-
-. Enter: `system cluster-switch log setup-password`
+. Initiate the switch log collection feature:
 +
-.Show example
+`system switch ethernet log collect -device *`
++
+Wait for 10 minutes and then check that the log collection was successful using the command:
++
+`system switch ethernet log show`
++
+.Show example 
 [%collapsible]
 ====
+
 [subs=+quotes]
 ----
-cluster1::*> *system cluster-switch log setup-password*
-Enter the switch name: <return>
-The switch name entered is not recognized.
-Choose from the following list:
-*cs1*
-*cs2*
+cluster1::*> system switch ethernet log show
+Log Collection Enabled: true
 
-cluster1::*> *system cluster-switch log setup-password*
-
-Enter the switch name: *cs1*
-RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
-Do you want to continue? {y|n}::[n] *y*
-
-Enter the password: <enter switch password>
-Enter the password again: <enter switch password>
-
-cluster1::*> *system cluster-switch log setup-password*
-
-Enter the switch name: *cs2*
-RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
-Do you want to continue? {y|n}:: [n] *y*
-
-Enter the password: <enter switch password>
-Enter the password again: <enter switch password>
+Index  Switch                       Log Timestamp        Status
+------ ---------------------------- -------------------  ---------    
+1      cs1 (b8:ce:f6:19:1b:42)      4/29/2022 03:05:25   complete   
+2      cs2 (b8:ce:f6:19:1b:96)      4/29/2022 03:07:42   complete
 ----
-====
 
-. Enter: `system cluster-switch log enable-collection`
-+
-.Show example
-[%collapsible]
-====
-[subs=+quotes]
-----
-cluster1::*> *system cluster-switch log enable-collection*
+//.For ONTAP 9.5P15, 9.6P11, 9.7P8 and later patch releases
+//--
 
-Do you want to enable cluster log collection for all nodes in the cluster?
-{y|n}: [n] *y*
+//Enable the log collection feature using the commands:
 
-Enabling cluster switch log collection.
-----
-====
+//`system cluster-switch log setup-password` and `system cluster-switch log enable-collection`
 
-NOTE: The log collect command is not available at this time. See link:https://mysupport.netapp.com/site/bugs-online/product/ONTAP/BURT/1225042[Bug 1225042^] for further details.
+//Enter: `system cluster-switch log setup-password`
+
+//[subs=+quotes]
+//----
+//cluster1::*> *system cluster-switch log setup-password*
+//Enter the switch name: <return>
+//The switch name entered is not recognized.
+//Choose from the following list:
+//*cs1*
+//*cs2*
+
+//cluster1::*> *system cluster-switch log setup-password*
+
+//Enter the switch name: *cs1*
+//RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
+//Do you want to continue? {y|n}::[n] *y*
+
+//Enter the password: <enter switch password>
+//Enter the password again: <enter switch password>
+
+//cluster1::*> *system cluster-switch log setup-password*
+
+//Enter the switch name: *cs2*
+//RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
+//Do you want to continue? {y|n}:: [n] *y*
+
+//Enter the password: <enter switch password>
+//Enter the password again: <enter switch password>
+//----
+
+//Enter: `system cluster-switch log enable-collection`
+
+//[subs=+quotes]
+//----
+//cluster1::*> *system cluster-switch log enable-collection*
+
+//Do you want to enable cluster log collection for all nodes in the cluster?
+//{y|n}: [n] *y*
+
+//Enabling cluster switch log collection.
+//----
+//--
+//==== 
+
+// end of tabbed content 
+
+//NOTE: The log collect command is not available at this time. See link:https://mysupport.netapp.com/site/bugs-online/product/ONTAP/BURT/1225042[Bug 1225042^] for further details.
 
 CAUTION: If any of these commands return an error, contact NetApp support.
 
 .What's next?
 If you are upgrading the switch, go to link:replace-verify.html[Verify upgrade configuration].
 
-
-
-
 //. Begin an initial data collection from each switch:
 
 //* `cluster1::*> system cluster-switch log collect -device <cs1>`
 //* `cluster1::*> system cluster-switch log collect -device <cs2>`
+
+//Updates for GH issues #72 & 79, 2023-APR-04

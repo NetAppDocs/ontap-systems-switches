@@ -61,6 +61,25 @@ a|FIPS compliant
 a|Non-FIPS compliant
 |===
 
+[IMPORTANT]
+====
+To check if your version of EFOS is FIPS compliant or non-FIPS compliant, use the `show fips status` command. In the following examples, *IP_switch_a1* is using FIPS compliant EFOS and *IP_switch_a2* is using non-FIPS compliant EFOS. 
+
+* On switch IP_switch_a1:
+----
+IP_switch_a1 # *show fips status*
+
+System running in FIPS mode
+----
+
+* On switch IP_switch_a2:
+----
+IP_switch_a2 # *show fips status*
+                     ^
+% Invalid input detected at `^` marker.
+----
+====
+
 == Install the software
 Use one of the following methods:
 
@@ -146,9 +165,9 @@ Image Descriptions
 
 Switch: 1
 
-System Description............................. Quanta IX8-B 48x25GB SFP 8x100GB QSFP, 3.4.3.3, Linux 4.4.117-ceeeb99d, 2016.05.00.04
-Machine Type................................... Quanta IX8-B 48x25GB SFP 8x100GB QSFP
-Machine Model.................................. IX8-B
+System Description............................. BES-53248A1, 3.4.3.3, Linux 4.4.117-ceeeb99d, 2016.05.00.05
+Machine Type................................... BES-53248A1
+Machine Model.................................. BES-53248
 Serial Number.................................. QTFCU38260014
 Maintenance Level.............................. A
 Manufacturer................................... 0xbc00
@@ -217,9 +236,9 @@ Image Descriptions
 
  Images currently available on Flash
 --------------------------------------------------------------------
- unit      active      backup     current-active        next-active
+ unit     active      backup       current-active        next-active
 --------------------------------------------------------------------
-    1     3.4.3.3     3.4.3.3            3.4.3.3            3.4.4.6
+    1     3.4.3.3     3.4.3.3       3.4.3.3              3.4.4.6
 ----
 ====
 
@@ -258,8 +277,8 @@ System will now restart!
 
 Switch: 1
 
-System Description............................. x86_64-quanta_common_rglbmc-r0, 3.4.4.6, Linux 4.4.211-28a6fe76, 2016.05.00.04
-Machine Type................................... x86_64-quanta_common_rglbmc-r0
+System Description............................. BES-53248A1, 3.4.4.6, Linux 4.4.211-28a6fe76, 2016.05.00.04
+Machine Type................................... BES-53248A1,
 Machine Model.................................. BES-53248
 Serial Number.................................. QTFCU38260023
 Maintenance Level.............................. A
@@ -389,19 +408,19 @@ ONIE:/ #
 +
 . Install the new switch software:
 +
-`ONIE:/ # onie-nos-install http:// 50.50.50.50/Software/onie-installer-x86_64`
+`ONIE:/ # onie-nos-install http://50.50.50.50/Software/onie-installer-x86_64`
 +
 .Show example
 [%collapsible]
 ====
 ----
-ONIE:/ # onie-nos-install http:// 50.50.50.50/Software/onie-installer-x86_64
+ONIE:/ # onie-nos-install http://50.50.50.50/Software/onie-installer-x86_64
 discover: installer mode detected.
 Stopping: discover... done.
-Info: Fetching http:// 50.50.50.50/Software/onie-installer-3.7.0.4 ...
+Info: Fetching http://50.50.50.50/Software/onie-installer-3.7.0.4 ...
 Connecting to 50.50.50.50 (50.50.50.50:80)
 installer            100% |*******************************| 48841k  0:00:00 ETA
-ONIE: Executing installer: http:// 50.50.50.50/Software/onie-installer-3.7.0.4
+ONIE: Executing installer: http://50.50.50.50/Software/onie-installer-3.7.0.4
 Verifying image checksum ... OK.
 Preparing image archive ... OK.
 ----
@@ -427,7 +446,7 @@ Images currently available on Flash
 ---- 	----------- -------- --------------- ------------
 unit 	active 	    backup   current-active  next-active
 ---- 	----------- -------- --------------- ------------
-1 	  3.7.0.4     3.7.0.4  3.7.0.4         3.7.0.4
+1 	    3.7.0.4     3.7.0.4  3.7.0.4         3.7.0.4
 (cs2) #
 ----
 ====
@@ -441,3 +460,6 @@ The switch will reboot with no configuration applied and reset to factory defaul
 link:configure-licenses.html[Install licenses for BES-53248 cluster switches]. 
 
 // 2023 FEB 16, ontap-systems-switches-issues-76
+// added details for BES-53248A1 under show version commands, 2023-APR-05
+// Updates for AFFFASDOC-41, 2023-MAY-10
+
