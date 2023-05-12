@@ -13,13 +13,14 @@ If you are using the Cluster Switch Health Monitor (CSHM) and log collection fea
 
 .Steps
 
-. Generate the SSH keys:
+. Verify that SSH is disabled:
 +
-`crypto key generate`
+`show ip ssh`
 +
 .Show example
 [%collapsible]
 ====
+
 [subs=+quotes]
 ----
 (switch)# *show ip ssh*
@@ -34,8 +35,20 @@ Max SSH Sessions Allowed: ..................... 5
 SSH Timeout (mins): ........................... 5
 Keys Present: ................................. DSA(1024) RSA(1024) ECDSA(521)
 Key Generation In Progress: ................... None
+SSH Public Key Authentication Mode: ........... Disabled
 SCP server Administrative Mode: ............... Disabled
+----
+====
 
+. Generate the SSH keys:
++
+`crypto key generate`
++
+.Show example
+[%collapsible]
+====
+[subs=+quotes]
+----
 (switch)# *config*
 
 (switch) (Config)# *crypto key generate rsa*
@@ -55,9 +68,10 @@ Do you want to overwrite the existing ECDSA keys? (y/n): *y*
 (switch) (Config)# *aaa authorization commands "noCmdAuthList" none*
 (switch) (Config)# *exit*
 (switch)# *ip ssh server enable*
-(switch)# *ip ssh pubkey-auth*
 (switch)# *ip scp server enable*
+(switch)# *ip ssh pubkey-auth*
 (switch)# *write mem*
+
 This operation may take a few minutes.
 Management interfaces will not be available during this time.
 Are you sure you want to save? (y/n) *y*
@@ -67,6 +81,10 @@ Config file 'startup-config' created successfully.
 Configuration Saved!
 ----
 ====
+
+. Reboot the switch:
++
+`reload`
 
 . Verify that SSH is enabled:
 +
@@ -90,7 +108,8 @@ Max SSH Sessions Allowed: ..................... 5
 SSH Timeout (mins): ........................... 5
 Keys Present: ................................. DSA(1024) RSA(1024) ECDSA(521)
 Key Generation In Progress: ................... None
-SCP server Administrative Mode: ............... Disabled
+SSH Public Key Authentication Mode: ........... Enabled
+SCP server Administrative Mode: ............... Enabled
 ----
 ====
 
