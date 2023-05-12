@@ -15,6 +15,34 @@ The BES-53248 cluster switch base model is licensed for 16 10GbE or 25GbE ports 
 The following licenses are available for use on the BES-53248 cluster switch:
 
 [options="header" cols="1,2,3"]
+
+|===
+| License type| License details| Supported firmware version
+a|
+SW-BES-53248A2-8P-2P
+a|
+Broadcom 8PT-10G25G + 2PT-40G100G License Key, X190005/R
+a|
+EFOS 3.4.4.6 and later
+a|
+SW-BES-53248A2-8P-1025G
+a|
+Broadcom 8 Port 10G25G License Key, X190005/R
+a|
+EFOS 3.4.4.6 and later
+a|
+SW-BES53248A2-6P-40-100G
+a|
+Broadcom 6 Port 40G100G License Key, X190005/R
+a|
+EFOS 3.4.4.6 and later
+|===
+
+== Legacy licenses
+The following table lists the legacy licenses that were available for use on the BES-53248 cluster switch:
+
+[options="header" cols="1,2,3"]
+
 |===
 | License type| License details| Supported firmware version
 a|
@@ -170,7 +198,7 @@ The ports from the additional license files are not displayed until after the sw
 ====
 [subs=+quotes]
 ----
-(cs2)# *show port all \| exclude Detach*
+(cs2)# *show port all | exclude Detach*
 
                  Admin     Physical   Physical   Link   Link    LACP   Actor
 Intf      Type   Mode      Mode       Status     Status Trap    Mode   Timeout
@@ -249,7 +277,7 @@ License Index  License Type              Status
 
 [subs=+quotes]
 ----
-(cs2)# *show port all \| exclude Detach*
+(cs2)# *show port all | exclude Detach*
 
                  Admin     Physical   Physical   Link   Link    LACP   Actor
 Intf      Type   Mode      Mode       Status     Status Trap    Mode   Timeout
