@@ -255,11 +255,19 @@ Only proceed when all the cluster LIFs have been removed from the ports on the s
 
 .. Enter privilege mode:
 +
+
+.Show example
+[%collapsible]
+====
+
+[subs=+quotes]
+
 ----
 (cs2)> enable
 
 (cs2)#
 ----
+====
 
 .. Clean the configuration:
 +
@@ -296,7 +304,7 @@ Do you wish to proceed anyway? (y/n)  [n]  *y*
 See https://www.cisco.com/c/en/us/td/docs/dcn/nx-os/nexus9000/103x/configuration/fundamentals/cisco-nexus-9000-nx-os-fundamentals-configuration-guide-103x/m-using-poap.html?bookSearch=true#id_85315[Using PowerOn Auto Provisioning^] for further details. 
 
 
-​​​​​.. ​Confirm POAP is disabled on the next reload:
+.. Confirm POAP is disabled on the next reload:
 +
 
 .Show example
@@ -312,7 +320,7 @@ Current Boot Variables:
 NXOS variable = bootflash:/nxos.9.2.1.125.bin
 Boot POAP Disabled
  
-POAP permanently disabled using 'system no poap'*
+POAP permanently disabled using 'system no poap'
 ----
 ====
 
@@ -772,3 +780,4 @@ RPC status:
 
 // Removed rogue / as per GH issue #80, 2023-FEB-22
 // Added in paragraph under About this task, as per GH #81, 2023-FEB-23
+// Added details to disable POAP, as per GH #90, 2023-MAY-16
