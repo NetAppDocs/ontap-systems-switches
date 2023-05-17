@@ -246,7 +246,7 @@ show running-config
 
 . Clean the configuration on switch cs2 and perform a basic setup.
 +
-CAUTION: When updating or applying a new RCF, you must erase the switch settings and perform basic configuration. You must be connected to the switch using the serial console to erase switch settings.
+CAUTION: When updating or applying a new RCF, you must erase the switch settings and perform basic configuration. SSH switch access is preserved if you can disable PowerOn Auto Provisioning (POAP) (requires NX-OS 9.2P1 or later). As an extra precaution, connect to the switch using the serial console if SSH access is not possible after the switch reboot.
 
 +
 .. SSH into the switch.
@@ -264,8 +264,6 @@ Only proceed when all the cluster LIFs have been removed from the ports on the s
 
 ----
 (cs2)> *enable*
-
-(cs2)#
 ----
 ====
 
@@ -287,7 +285,7 @@ Do you wish to proceed anyway? (y/n)  [n]  *y*
 ----
 ====
 
-.. Disable PowerOn Auto Provisioning (POAP) (available in NX-OS 9.2P1 and later):
+.. Disable POAP:
 +
 
 .Show example
@@ -617,7 +615,7 @@ cluster1::*>
 ----
 ====
 
-. Repeat the previous steps on switch cs1.
+. Repeat steps 4 to 11 on switch cs1.
 
 . Enable auto-revert on the cluster LIFs.
 +
