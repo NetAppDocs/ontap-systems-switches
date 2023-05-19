@@ -186,19 +186,102 @@ cluster1::*>
 `show running-config`
 
 . Clean the configuration on switch cs2 and perform a basic setup.
- .. Clean the configuration. This step requires a console connection to the switch.
 +
+CAUTION: When updating or applying a new RCF, you must erase the switch settings and perform basic configuration. SSH switch access is preserved if you can disable PowerOn Auto Provisioning (POAP) (requires NX-OS 9.2P1 or later). As an extra precaution, connect to the switch using the serial console if SSH access is not possible after the switch reboot.
+
++
+.. SSH into the switch.
++
+Only proceed when all the cluster LIFs have been removed from the ports on the switch and the switch is prepared to have the configuration cleared.
+
+.. Enter privilege mode:
++
+
+.Show example
+[%collapsible]
+====
+
+[subs=+quotes]
+
+----
+(cs2)> *enable*
+----
+====
+
+.. Clean the configuration:
++
+
+.Show example
+[%collapsible]
+====
+
+[subs=+quotes]
+
+----
+(cs2)# *write erase*
+
+Warning: This command will erase the startup-configuration.
+
+Do you wish to proceed anyway? (y/n)  [n]  *y*
+----
+====
+
+.. Disable POAP:
++
+
+.Show example
+[%collapsible]
+====
+
+[subs=+quotes]
+
+----
+(cs2)# *system no poap*
+----
+====
++ 
+See https://www.cisco.com/c/en/us/td/docs/dcn/nx-os/nexus9000/103x/configuration/fundamentals/cisco-nexus-9000-nx-os-fundamentals-configuration-guide-103x/m-using-poap.html?bookSearch=true#id_85315[Using PowerOn Auto Provisioning^] for further details. 
+
+
+.. Confirm POAP is disabled on the next reload:
++
+
+.Show example
+[%collapsible]
+====
+
+[subs=+quotes]
+
+----
+(cs2)#  *show boot*
+Current Boot Variables:
+ sup-1
+NXOS variable = bootflash:/nxos.9.2.1.125.bin
+Boot POAP Disabled
+ 
+POAP permanently disabled using 'system no poap'
+----
+====
+
+.. Perform a reboot of the switch:
++
+
+.Show example
+[%collapsible]
+====
+
 [subs=+quotes]
 ----
-cs2# *write erase*
-Warning: This command will erase the startup-configuration.
-Do you wish to proceed anyway? (y/n)  [n] *y*
-cs2# *reload*
-This command will reboot the system. (y/n)?  [n] *y*
-cs2#
-----
+(cs2)# *reload*
 
- .. Perform a basic setup of the switch.
+Are you sure you would like to reset the system? (y/n) *y*
+
+----
+====
+
+.. Log in to the switch again using SSH to complete the RCF installation.
+
+
 . Copy the RCF to the bootflash of switch cs2 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html#InstallandUpgrade[Cisco Nexus 9000 Series Switches^] guides.
 +
 This example shows TFTP being used to copy an RCF to the bootflash on switch cs2:
@@ -307,6 +390,7 @@ When you check the output to verify you have the correct RCF, make sure that the
  ** The RCF banner
  ** The node and port settings
  ** Customizations
++
 The output varies according to your site configuration. Check the port settings and refer to the release notes for any changes specific to the RCF that you have installed.
 
 . After you verify the RCF versions and switch settings are correct, copy the running-config file to the startup-config file.
@@ -699,3 +783,5 @@ NOTE: If any of these commands return an error, contact NetApp support.
 // BURT 1453255, 2022-06-10
 // BURT 1509298, 2022-11-03 - adding new steps for Install RCF
 // GH #81 - added ISL note, MAR-01-2023
+// Corrected formatting, as per GH issue #101, 2023-MAY-16
+// Added details to disable POAP, as per GH #90, 2023-MAY-16
