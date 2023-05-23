@@ -13,7 +13,7 @@ Follow these steps to replace a defective NetApp CN1610 switch in a cluster netw
 
 .What you'll need
 
-The following conditions must exist before you perform the switch replacement in the current environment and on the replacement switch for existing cluster and network infrastructure:
+Before you perform the switch replacement, the following conditions must exist before you perform the switch replacement in the current environment and on the replacement switch for existing cluster and network infrastructure:
 
 * The existing cluster must be verified as completely functional, with at least one fully connected cluster switch.
 * All of the cluster ports must be *up*.
@@ -34,7 +34,7 @@ The examples in this procedure use the following cluster switch and node nomencl
 
 . Confirm that the startup configuration file matches the running configuration file. You must save these files locally for use during the replacement.
 +
-The configuration commands in the following example are for FASTPATH version 1.2.0.7:
+The configuration commands in the following example are for FASTPATH 1.2.0.7:
 +
 .Show example
 [%collapsible]
@@ -50,7 +50,7 @@ The configuration commands in the following example are for FASTPATH version 1.2
 
 . Create a copy of the running configuration file.
 +
-The command in the following example is for FASTPATH version 1.2.0.7:
+The command in the following example is for FASTPATH 1.2.0.7:
 +
 .Show example
 [%collapsible]
@@ -78,9 +78,9 @@ NOTE: You can use any file name except `CN1610_CS_RCF_v1.2.scr`. The file name m
 ----
 ====
 
-. Verify that the switch and ONTAP versions match in the compatibility matrix. Se the https://mysupport.netapp.com/site/info/netapp-cluster-switch[NetApp CN1601 and CN1610 Switches^] page for details. 
+. Verify that the switch and ONTAP versions match in the compatibility matrix. See the https://mysupport.netapp.com/site/info/netapp-cluster-switch[NetApp CN1601 and CN1610 Switches^] page for details. 
 
-. From the Software Download page on the NetApp Support Site, select NetApp Cluster Switches to download the appropriate RCF and FASTPATH versions. See the https://mysupport.netapp.com/site/products/all/details/netapp-cluster-switches/downloads-tab[NetApp Cluster Switches download^] page for details.
+. From the https://mysupport.netapp.com/site/products/all/details/netapp-cluster-switches/downloads-tab[Software Downloads page^] on the NetApp Support Site, select NetApp Cluster Switches to download the appropriate RCF and FASTPATH versions.
 
 . Set up a Trivial File Transfer Protocol (TFTP) server with the FASTPATH, RCF, and saved configuration `.scr` file for use with the new switch.
 
@@ -112,11 +112,11 @@ commands.
 ----
 ====
 
-. Optional: If the TFTP server is on a laptop, then connect the CN1610 switch to the laptop by using a standard Ethernet cable, and then configure its network port in the same network with an alternate IP address.
+. Optionally, if the TFTP server is on a laptop, then connect the CN1610 switch to the laptop by using a standard Ethernet cable, and then configure its network port in the same network with an alternate IP address.
 +
 You can use the `ping` command to verify the address. If you are unable to establish the connectivity, you should use a nonrouted network, and configure the service port using IP 192.168.x or 172.16.x. You can reconfigure the service port to the production management IP address at a later date.
 
-. Optional: Verify and install the appropriate versions of the RCF and FASTPATH software for the new switch. If you have verified that the new switch is correctly set up and does not require updates to the RCF and FASTPATH software, you should go to step 13.
+. Optionally, verify and install the appropriate versions of the RCF and FASTPATH software for the new switch. If you have verified that the new switch is correctly set up and does not require updates to the RCF and FASTPATH software, you should go to step 13.
 
 .. Verify the new switch settings.
 +
@@ -516,3 +516,5 @@ cluster::*> *cluster show*
 . If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
 +
 `system node autosupport invoke -node * -type all -message MAINT=END`
+
+// Converted this procedure to GitHub, as per GH issue #98, 2023-MAY-23
