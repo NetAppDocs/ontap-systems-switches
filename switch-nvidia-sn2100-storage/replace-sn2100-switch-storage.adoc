@@ -84,22 +84,32 @@ cluster1::*>
 
 . Verify that storage switch sw1 is available:
 +
-`network device-discovery show`
+`network device-discovery show -protocol lldp`
 +
 .Show example 
 [%collapsible]
 ====
 [subs=+quotes]
 ----
-cluster1::*> *network device-discovery show protocol lldp*
-Node/      Local Discovered
-Protocol   Port	 Device (LLDP: ChassisID)  Interface   Platform
---------   ----  -----------------------   ---------   ---------
+cluster1::*> *network device-discovery show -protocol lldp*
+Node/       Local  Discovered
+Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
+----------- ------ ------------------------- ----------------  ----------------
 node1/lldp
-           e3a   sw1 (b8:ce:f6:19:1b:42)   swp3        -
-node2/lldp
-           e3a   sw1 (b8:ce:f6:19:1b:42)   swp4        -
-cluster1::*>
+            e0M    sw1 (00:ea:bd:68:6a:e8)   Eth1/46           -
+            e0b    sw2 (6c:b2:ae:5f:a5:b2)   Ethernet1/16      -
+            e0c    SHFFG1827000286 (d0:39:ea:1c:16:92)
+                                             e0a               -
+            e0e    sw3 (6c:b2:ae:5f:a5:ba)   Ethernet1/18      -
+            e0f    SHFFG1827000286 (00:a0:98:fd:e4:a9)
+                                             e0b               -
+            e0g    sw4 (28:ac:9e:d5:4a:9c)   Ethernet1/11      -
+            e0h    sw5 (6c:b2:ae:5f:a5:ca)   Ethernet1/22      -
+            e1a    sw6 (00:f6:63:10:be:7c)   Ethernet1/33      -
+            e1b    sw7 (00:f6:63:10:be:7d)   Ethernet1/34      -
+            e2a    sw8 (b8:ce:f6:91:3d:88)   Ethernet1/35      -
+Press <space> to page down, <return> for next line, or 'q' to quit...
+10 entries were displayed.
 ----
 ====
 
@@ -186,24 +196,33 @@ cluster1::*>
 +
 . Verify that both switches are available:
 +
-`net device-discovery show`
+`net device-discovery show -protocol lldp`
 +
 .Show example 
 [%collapsible]
 ====
 [subs=+quotes]
 ----
-cluster1::*> *network device-discovery show protocol lldp*
-Node/     Local Discovered
-Protocol  Port  Device (LLDP: ChassisID)  Interface	  Platform
---------  ----  -----------------------   ---------   ---------
+
+cluster1::*> *network device-discovery show -protocol lldp*
+Node/       Local  Discovered
+Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
+----------- ------ ------------------------- ----------------  ----------------
 node1/lldp
-          e3a  sw1 (b8:ce:f6:19:1b:96)    swp1        -
-          e7b  nsw2 (b8:ce:f6:19:1a:7e)   swp1        -
-node2/lldp
-          e3a  sw1 (b8:ce:f6:19:1b:96)    swp2        -
-          e7b  nsw2 (b8:ce:f6:19:1a:7e)   swp2        -
-cluster1::*>
+            e0M    sw1 (00:ea:bd:68:6a:e8)   Eth1/46           -
+            e0b    sw2 (6c:b2:ae:5f:a5:b2)   Ethernet1/16      -
+            e0c    SHFFG1827000286 (d0:39:ea:1c:16:92)
+                                             e0a               -
+            e0e    sw3 (6c:b2:ae:5f:a5:ba)   Ethernet1/18      -
+            e0f    SHFFG1827000286 (00:a0:98:fd:e4:a9)
+                                             e0b               -
+            e0g    sw4 (28:ac:9e:d5:4a:9c)   Ethernet1/11      -
+            e0h    sw5 (6c:b2:ae:5f:a5:ca)   Ethernet1/22      -
+            e1a    sw6 (00:f6:63:10:be:7c)   Ethernet1/33      -
+            e1b    sw7 (00:f6:63:10:be:7d)   Ethernet1/34      -
+            e2a    sw8 (b8:ce:f6:91:3d:88)   Ethernet1/35      -
+Press <space> to page down, <return> for next line, or 'q' to quit...
+10 entries were displayed.
 ----
 ====
 
@@ -291,7 +310,7 @@ cluster1::*>
 +
 NOTE: If any of these commands return an error, contact NetApp support.
 
-. Initiate the switch log collection feature: 
+. Test the switch log collection feature: 
 +
 `system switch ethernet log collect -device *`
 +
@@ -319,3 +338,6 @@ Index  Switch                       Log Timestamp        Status
 . If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
 +
 `system node autosupport invoke -node * -type all -message MAINT=END`
+
+
+// Updates to command output in steps 4 & 10, as per Burt 1555247, 2023-MAY-23
