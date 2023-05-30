@@ -189,7 +189,39 @@ cluster1::*>
 +
 CAUTION: When updating or applying a new RCF, you must erase the switch settings and perform basic configuration. 
 
-. Perform a reboot of the switch:
+.. Clean the configuration:
++
+
+.Show example
+[%collapsible]
+====
+
+[subs=+quotes]
+
+----
+(cs2)# *write erase*
+
+Warning: This command will erase the startup-configuration.
+
+Do you wish to proceed anyway? (y/n)  [n]  *y*
+----
+====
+
+.. Perform a reboot of the switch:
++
+
+.Show example
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+(cs2)# *reload*
+
+Are you sure you would like to reset the system? (y/n) *y*
+
+----
+====
 
 . Copy the RCF to the bootflash of switch cs2 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html#InstallandUpgrade[Cisco Nexus 9000 Series Switches^] guides.
 +
