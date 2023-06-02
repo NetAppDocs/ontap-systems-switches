@@ -413,7 +413,7 @@ This example shows SFTP being used to copy an RCF to the bootflash on switch cs2
 [subs=+quotes]
 ----
 (cs2)# *copy sftp://172.19.2.1/tmp/BES-53248_RCF_v1.9-Cluster-HA.txt
-nvram:script BES-53248_RCF_v1.6-Cluster-HA.scr*
+nvram:script BES-53248_RCF_v1.9-Cluster-HA.scr*
 Remote Password:**
 Mode........................................... SFTP
 Set Server IP.................................. 172.19.2.1
@@ -1004,3 +1004,4 @@ RPC status:
 .What's next?
 link:configure-health-monitor.html[Install the CSHM configuration file].
 // Updates for GH issues #72 & 79, 2023-APR-04
+// Updated rcf.scr file version from 1.6 to 1.9 as per AFFFASDOC-66, 2023-MAY-31
