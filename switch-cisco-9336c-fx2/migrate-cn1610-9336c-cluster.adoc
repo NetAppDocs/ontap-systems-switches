@@ -150,7 +150,7 @@ Cluster
 
 . The cluster ports on each node are connected to existing cluster switches in the following way (from the nodes' perspective) using the command: 
 +
-`network device-discovery show -protocol lldp`
+`network device-discovery show -protocol`
 +
 .Show example
 [%collapsible]
@@ -257,13 +257,10 @@ RPC status:
 [subs=+quotes]
 ----
 (C2)# *configure*
-Enter configuration commands, one per line. End with CNTL/Z.
-
-(C2)(Config)# *interface*
-(C2)(config-if-range)# *shutdown _<interface_list>_*
-(C2)(config-if-range)# *exit*
+(C2)(Config)# *interface 0/1-0/12*
+(C2)(Interface 0/1-0/12)# *shutdown*
+(C2)(Interface 0/1-0/12)# *exit*
 (C2)(Config)# *exit*
-(C2)#
 ----
 ====
 
@@ -311,11 +308,11 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
 node1      /lldp
-            e3a    C1  (6a:ad:4f:98:3b:3f)   0/1               -
-            e3b    cs2 (b8:ce:f6:19:1a:7e)   Ethernet1/1/1     -
+            e3a    C1  (6a:ad:4f:98:3b:3f)   0/1               CN1610
+            e3b    cs2 (b8:ce:f6:19:1a:7e)   Ethernet1/1/1     N9K-C9336C-FX2
 node2      /lldp
-            e3a    C1  (6a:ad:4f:98:3b:3f)   0/2               -
-            e3b    cs2 (b8:ce:f6:19:1b:96)   Ethernet1/1/2     -
+            e3a    C1  (6a:ad:4f:98:3b:3f)   0/2               CN1610
+            e3b    cs2 (b8:ce:f6:19:1b:96)   Ethernet1/1/2     N9K-C9336C-FX2
 ----
 ====
 
@@ -348,13 +345,10 @@ Cluster
 [subs=+quotes]
 ----
 (C1)# *configure*
-Enter configuration commands, one per line. End with CNTL/Z.
-
-(C1)(Config)# *interface*
-(C1)(config-if-range)# *shutdown _<interface_list>_*
-(C1)(config-if-range)# *exit*
+(C1)(Config)# *interface 0/1-0/12*
+(C1)(Interface 0/1-0/12)# *shutdown*
+(C1)(Interface 0/1-0/12)# *exit*
 (C1)(Config)# *exit*
-(C1)#
 ----
 ====
 
