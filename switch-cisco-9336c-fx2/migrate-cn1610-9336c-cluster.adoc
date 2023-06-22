@@ -179,7 +179,7 @@ node2      /lldp
 ====
 [subs=+quotes]
 ----
-c1# *show cdp neighbors*
+C1# *show cdp neighbors*
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
@@ -194,7 +194,7 @@ C2                    0/14          175    S I s       CN1610           0/14
 .
 .
 
-c2# *show cdp neighbors*
+C2# *show cdp neighbors*
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
@@ -264,7 +264,7 @@ RPC status:
 ----
 ====
 
-. Move the node cluster ports from the old switch c2 to the new switch cs2, using appropriate cabling supported by Cisco 9336C-FX2.
+. Move the node cluster ports from the old switch C2 to the new switch cs2, using appropriate cabling supported by Cisco 9336C-FX2.
 
 . Display the network port attributes: 
 +
@@ -577,3 +577,5 @@ Index  Switch                       Log Timestamp        Status
 . If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message: 
 +
 `system node autosupport invoke -node * -type all -message MAINT=END`
+
+// New procedure for migrating from CN1610 to 93362-FX2 - GH issue #107, 2023-JUN-20
