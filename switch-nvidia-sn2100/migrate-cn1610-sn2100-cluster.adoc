@@ -2,7 +2,7 @@
 permalink: switch-nvidia-sn2100/migrate-cn1610-sn2100-cluster-switch.html
 sidebar: sidebar
 keywords: migrating to a cluster with NVIDIA SN2100 cluster switches, how to migrate
-summary: 'You can migrate nondisruptively older Cisco cluster switches for an ONTAP cluster to NVIDIA SN2100 cluster network switches.'
+summary: 'You can migrate nondisruptively NetApp CN1610 cluster switches for an ONTAP cluster to NVIDIA SN2100 cluster network switches.'
 ---
 = Migrate CN1610 cluster switches to NVIDIA SN2100 cluster switches
 //= Migrate from a Cisco cluster switch to a NVIDIA SN2100 cluster switch
@@ -14,7 +14,7 @@ You can migrate NetApp CN1610 cluster switches for an ONTAP cluster to NVIDIA SN
 
 == Review requirements
 
-You must be aware of certain configuration information, port connections and cabling requirements when you are replacing some older NetApp CN1610 cluster switches with NVIDIA SN2100 cluster switches. See link:configure-overview-sn2100-cluster.html[Overview of installation and configuration for NVIDIA SN2100 switches].
+You must be aware of certain configuration information, port connections and cabling requirements when you are replacing NetApp CN1610 cluster switches with NVIDIA SN2100 cluster switches. See link:configure-overview-sn2100-cluster.html[Overview of installation and configuration for NVIDIA SN2100 switches].
 
 .Supported switches
 
@@ -161,11 +161,11 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
 node1      /lldp
-            e3a    c1 (6a:ad:4f:98:3b:3f)    Eth1/1            -
-            e3b    c2 (6a:ad:4f:98:4c:a4)    Eth1/1            -
+            e3a    c1 (6a:ad:4f:98:3b:3f)    0/1               -
+            e3b    c2 (6a:ad:4f:98:4c:a4)    0/1               -
 node2      /lldp
-            e3a    c1 (6a:ad:4f:98:3b:3f)    Eth1/2            -
-            e3b    c2 (6a:ad:4f:98:4c:a4)    Eth1/2            -
+            e3a    c1 (6a:ad:4f:98:3b:3f)    0/2               -
+            e3b    c2 (6a:ad:4f:98:4c:a4)    0/2               -
 ----
 ====
 
@@ -186,10 +186,12 @@ Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   s - Supports-STP-Dispute
 
 Device-ID             Local Intrfce Hldtme Capability  Platform         Port ID
-node1                 Eth1/1         124   H           AFF-A400         e3a
-node2                 Eth1/2         124   H           AFF-A400         e3a
-c2                    Eth1/31        179   S I s       N3K-C3232C       Eth1/31
-c2                    Eth1/32        175   S I s       N3K-C3232C       Eth1/32
+node1                 0/1           124     H          AFF-A400         e3a
+node2                 0/2           124     H          AFF-A400         e3a
+c2                    0/13          179     S I s      CN1610           0/13
+c2                    0/14          175     S I s      CN1610           0/14
+.
+.
 
 c2# *show cdp neighbors*
 
@@ -200,10 +202,12 @@ Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
 
 
 Device-ID             Local Intrfce Hldtme Capability  Platform         Port ID
-node1                 Eth1/1        124    H           AFF-A400         e3b
-node2                 Eth1/2        124    H           AFF-A400         e3b
-c1                    Eth1/31       175    S I s       N3K-C3232C       Eth1/31
-c1                    Eth1/32       175    S I s       N3K-C3232C       Eth1/32
+node1                 0/1           124    H           AFF-A400         e3b
+node2                 0/2           124    H           AFF-A400         e3b
+c1                    0/13          175    S I s       CN1610           0/13
+c1                    0/14          175    S I s       CN1610           0/14
+.
+.
 ----
 ====
 
@@ -306,10 +310,10 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
 node1      /lldp
-            e3a    c1  (6a:ad:4f:98:3b:3f)   Eth1/1            -
+            e3a    c1  (6a:ad:4f:98:3b:3f)   0/1               -
             e3b    sw2 (b8:ce:f6:19:1a:7e)   swp3              -
 node2      /lldp
-            e3a    c1  (6a:ad:4f:98:3b:3f)   Eth1/2            -
+            e3a    c1  (6a:ad:4f:98:3b:3f)   0/2               -
             e3b    sw2 (b8:ce:f6:19:1b:96)   swp4              -
 ----
 ====
