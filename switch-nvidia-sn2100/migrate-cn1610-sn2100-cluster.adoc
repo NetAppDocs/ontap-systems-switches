@@ -256,11 +256,9 @@ RPC status:
 [subs=+quotes]
 ----
 (c2)# *configure*
-Enter configuration commands, one per line. End with CNTL/Z.
-
-(c2)(Config)# *interface*
-(c2)(config-if-range)# *shutdown _<interface_list>_*
-(c2)(config-if-range)# *exit*
+(c2)(Config)# *interface 0/1-0/12*
+(c2)(Interface 0/1-0/12)# *shutdown*
+(c2)(Interface 0/1-0/12)# *exit*
 (c2)(Config)# *exit*
 (c2)#
 ----
@@ -348,11 +346,9 @@ UP     swp16        100G  9216   BondMember  sw1 (swp16)       Master: cluster_i
 [subs=+quotes]
 ----
 (c1)# *configure*
-Enter configuration commands, one per line. End with CNTL/Z.
-
-(c1)(Config)# *interface*
-(c1)(config-if-range)# *shutdown _<interface_list>_*
-(c1)(config-if-range)# *exit*
+(c1)(Config)# *interface 0/1-0/12*
+(c1)(Interface 0/1-0/12)# *shutdown*
+(c1)(Interface 0/1-0/12)# *exit*
 (c1)(Config)# *exit*
 (c1)#
 ----
