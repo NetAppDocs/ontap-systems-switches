@@ -297,6 +297,8 @@ e3b       Cluster    Cluster          up   9000  auto/100000  healthy  false
 
 . The cluster ports on each node are now connected to cluster switches in the following way, from the nodes' perspective:
 +
+`network device-discovery show -protocol`
++
 .Show example
 [%collapsible]
 ====
@@ -387,6 +389,8 @@ e3b       Cluster    Cluster          up   9000  auto/100000  healthy  false
 
 . The cluster ports on each node are now connected to cluster switches in the following way, from the nodes' perspective:
 +
+`network device-discovery show -protocol`
++
 .Show example
 [%collapsible]
 ====
@@ -437,7 +441,7 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 
 . Verify that both nodes each have one connection to each switch: 
 +
-`network device-discovery show`
+`network device-discovery show -protocol`
 +
 .Show example
 [%collapsible]
