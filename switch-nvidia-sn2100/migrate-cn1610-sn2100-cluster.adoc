@@ -149,7 +149,7 @@ Cluster
 
 . The cluster ports on each node are connected to existing cluster switches in the following way (from the nodes' perspective) using the command: 
 +
-`network device-discovery show -protocol cdp`
+`network device-discovery show -protocol`
 +
 .Show example
 [%collapsible]
@@ -297,6 +297,8 @@ e3b       Cluster    Cluster          up   9000  auto/100000  healthy  false
 
 . The cluster ports on each node are now connected to cluster switches in the following way, from the nodes' perspective:
 +
+`network device-discovery show -protocol`
++
 .Show example
 [%collapsible]
 ====
@@ -388,6 +390,8 @@ e3b       Cluster    Cluster          up   9000  auto/100000  healthy  false
 ====
 
 . The cluster ports on each node are now connected to cluster switches in the following way, from the nodes' perspective:
++
+`network device-discovery show -protocol`
 +
 .Show example
 [%collapsible]
