@@ -24,7 +24,7 @@ The following cluster switches are supported:
 * NetApp CN1610
 * Cisco 9336C-FX2
 
-For details of supported ports and their configurations, see the https://hwu.netapp.com/[Hardware Universe^] .
+For details of supported ports and their configurations, see the https://hwu.netapp.com/[Hardware Universe^].
 
 .What you'll need
 Ensure that:
@@ -157,14 +157,14 @@ Cluster
 ====
 [subs=+quotes]
 ----
-cluster1::*> *network device-discovery show -protocol lldp*
+cluster1::*> *network device-discovery show -protocol cdp*
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
-node1      /lldp
+node1      /cdp
             e3a    C1 (6a:ad:4f:98:3b:3f)    0/1               -
             e3b    C2 (6a:ad:4f:98:4c:a4)    0/1               -
-node2      /lldp
+node2      /cdp
             e3a    C1 (6a:ad:4f:98:3b:3f)    0/2               -
             e3b    C2 (6a:ad:4f:98:4c:a4)    0/2               -
 ----
@@ -191,8 +191,8 @@ node1                 Eth1/1        124    H           AFF-A400         e3a
 node2                 Eth1/2        124    H           AFF-A400         e3a
 C2                    0/13          179    S I s       CN1610           0/13
 C2                    0/14          175    S I s       CN1610           0/14
-.
-.
+C2                    0/15          179    S I s       CN1610           0/15
+C2                    0/16          175    S I s       CN1610           0/16
 
 C2# *show cdp neighbors*
 
@@ -207,8 +207,8 @@ node1                 Eth1/1        124    H           AFF-A400         e3b
 node2                 Eth1/2        124    H           AFF-A400         e3b
 C1                    0/13          175    S I s       CN1610           0/13
 C1                    0/14          175    S I s       CN1610           0/14
-.
-.
+C1                    0/15          175    S I s       CN1610           0/15
+C1                    0/16          175    S I s       CN1610           0/16
 ----
 ====
 
@@ -302,15 +302,15 @@ e3b       Cluster    Cluster          up   9000  auto/100000  healthy  false
 ====
 [subs=+quotes]
 ----
-cluster1::*> *network device-discovery show -protocol lldp*
+cluster1::*> *network device-discovery show -protocol cdp*
 
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
-node1      /lldp
+node1      /cdp
             e3a    C1  (6a:ad:4f:98:3b:3f)   0/1               CN1610
             e3b    cs2 (b8:ce:f6:19:1a:7e)   Ethernet1/1/1     N9K-C9336C-FX2
-node2      /lldp
+node2      /cdp
             e3a    C1  (6a:ad:4f:98:3b:3f)   0/2               CN1610
             e3b    cs2 (b8:ce:f6:19:1b:96)   Ethernet1/1/2     N9K-C9336C-FX2
 ----
@@ -392,15 +392,15 @@ e3b       Cluster    Cluster          up   9000  auto/100000  healthy  false
 ====
 [subs=+quotes]
 ----
-cluster1::*> *network device-discovery show -protocol lldp*
+cluster1::*> *network device-discovery show -protocol cdp*
 
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface       Platform
 ----------- ------ ------------------------- --------------  ----------------
-node1      /lldp
+node1      /cdp
             e3a    cs1 (b8:ce:f6:19:1a:7e)   Ethernet1/1/1   N9K-C9336C-FX2
             e3b    cs2 (b8:ce:f6:19:1b:96)   Ethernet1/1/2   N9K-C9336C-FX2
-node2      /lldp
+node2      /cdp
             e3a    cs1 (b8:ce:f6:19:1a:7e)   Ethernet1/1/1   N9K-C9336C-FX2
             e3b    cs2 (b8:ce:f6:19:1b:96)   Ethernet1/1/2   N9K-C9336C-FX2
 ----
