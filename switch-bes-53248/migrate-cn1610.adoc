@@ -17,7 +17,14 @@ The following cluster switches are supported:
 * BES-53248
 
 == Review requirements
-Review the configuration information, port connections, and cabling requirements.
+Ensure that:
+* Some of the ports on BES-53248 switches are configured to run at 10 GbE or 40 GbE.
+* The 10 GbE and 40 GbE connectivity from nodes to BES-53248 cluster switches have been planned, migrated, and documented.
+* The cluster is fully functioning (there should be no errors in the logs or similar issues).
+* Initial customization of the BES-53248 switches is complete, so that:
+** BES-53248 switches are running the latest recommended version of EFOS software.
+** Reference Configuration Files (RCFs) have been applied to the switches.
+** Any site customization, such as DNS, NTP, SMTP, SNMP, and SSH, are configured on the new switches.
 
 === Node connections
 The cluster switches support the following node connections:
@@ -39,10 +46,7 @@ The https://hwu.netapp.com/Home/Index[_NetApp Hardware Universe_^] contains info
 The appropriate ISL cabling is as follows:
 
  * *Beginning:* For CN1610 to CN1610 (SFP+ to SFP+), four SFP+ optical fiber or copper direct-attach cables.
- * *Interim:* For CN1610 to BES-53248 (SFP+ to SFP28), four 10G SFP+ optical transceiver/fiber or copper direct-attach cables.
  * *Final:* For BES-53248 to BES-53248 (QSFP28 to QSFP28), two QSFP28 optical transceivers/fiber or copper direct-attach cables.
-
-
 
 == Migrate the switches
 
@@ -68,10 +72,11 @@ This procedure covers the following scenario:
 * The cluster starts with two nodes connected to two CN1610 cluster switches.
 * CN1610 switch CL2 is replaced by BES-53248 switch cs2:
  ** Disconnect the cables from all cluster ports on all nodes connected to CL2, and then use supported cables to reconnect the ports to the new cluster switch cs2.
- ** Disconnect the cables between ISL ports CL1 and CL2, and then use supported cables to reconnect the ports from CL1 to cs2.
+
 * CN1610 switch CL1 is replaced by BES-53248 switch cs1:
  ** Disconnect the cables from all cluster ports on all nodes connected to CL1, and then use supported cables to reconnect the ports to the new cluster switch cs1.
- ** Disconnect the cables between ISL ports CL1 and cs2, and then use supported cables to reconnect the ports from cs1 to cs2.
+
+NOTE: No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To ensure non-disruptive cluster operations, the following procedure migrates all of the cluster LIFs to the operational partner switch while performing the steps on the target switch.
 
 === Step 1: Prepare for migration
 
@@ -86,7 +91,7 @@ NOTE: The AutoSupport message notifies technical support of this maintenance tas
 The following command suppresses automatic case creation for two hours:
 +
 ----
-cluster1::*> system node autosupport invoke -node \* -type all -message MAINT=2h
+cluster1::*> system node autosupport invoke -node * -type all -message MAINT=2h
 ----
 
 . Change the privilege level to advanced, entering *y* when prompted to continue:
@@ -95,9 +100,12 @@ cluster1::*> system node autosupport invoke -node \* -type all -message MAINT=2h
 +
 The advanced prompt (*>) appears.
 
-. Verify that auto-revert is enabled on all cluster LIFs:
+
+=== Step 2: Configure ports and cabling
+
+. On the new switches, confirm that the ISL is cabled and healthy between the switches cs1 and cs2:
 +
-`network interface show -vserver Cluster -fields auto-revert`
+`show port-channel summary`
 +
 .Show example
 [%collapsible]
@@ -105,20 +113,39 @@ The advanced prompt (*>) appears.
 
 [subs=+quotes]
 ----
-cluster1::*> *network interface show -vserver Cluster -fields auto-revert*
+cs1# show port-channel summary
+Flags:  D - Down        P - Up in port-channel (members)
+        I - Individual  H - Hot-standby (LACP only)
+        s - Suspended   r - Module-removed
+        b - BFD Session Wait
+        S - Switched    R - Routed
+        U - Up (port-channel)
+        p - Up in delay-lacp mode (member)
+        M - Not in use. Min-links not met
+--------------------------------------------------------------------------------
+Group Port-       Type     Protocol  Member Ports
+      Channel
+--------------------------------------------------------------------------------
+1     Po1(SU)     Eth      LACP      Eth1/55(P)   Eth1/56(P)
 
-          Logical
-Vserver   Interface     Auto-revert
---------- ------------- ------------
-Cluster
-          node1_clus1   true
-          node1_clus2   true
-          node2_clus1   true
-          node2_clus2   true
+cs2# show port-channel summary
+Flags:  D - Down        P - Up in port-channel (members)
+        I - Individual  H - Hot-standby (LACP only)
+        s - Suspended   r - Module-removed
+        b - BFD Session Wait
+        S - Switched    R - Routed
+        U - Up (port-channel)
+        p - Up in delay-lacp mode (member)
+        M - Not in use. Min-links not met
+--------------------------------------------------------------------------------
+Group Port-       Type     Protocol  Member Ports
+      Channel
+--------------------------------------------------------------------------------
+1     Po1(SU)     Eth      LACP      Eth1/55(P)   Eth1/56(P)
 ----
 ====
 
-. Display information about the devices in your configuration:
+. Display the cluster ports on each node that are connected to the existing cluster switches:
 +
 `network device-discovery show -protocol cdp`
 +
@@ -144,7 +171,7 @@ node1      /cdp
 ====
 
 . Determine the administrative or operational status for each cluster interface.
- .. Display the cluster network port attributes:
+ .. Verify that all the cluster ports are `up` with a `healthy` status:
 +
 `network port show -ipspace Cluster`
 +
@@ -174,7 +201,7 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 ----
 ====
 
- .. Display information about the logical interfaces:
+ .. Verify that all the cluster interfaces (LIFs) are on their home ports:
 +
 `network interface show -vserver Cluster`
 +
@@ -197,60 +224,21 @@ Cluster
 ----
 ====
 
-. Verify that the appropriate port licenses, RCF, and EFOS image are installed on the new BES-53248 switches as necessary for your requirements, and make any essential site customizations, such as users and passwords, network addresses, and so on.
-. Ping the remote cluster interfaces:
+. Is this required for Jute: Verify that the cluster displays information for both cluster switches:
 +
-`cluster ping-cluster -node node-name`
+`system cluster-switch show -is-monitoring-enabled-operational true`
+
+//. Verify that the appropriate port licenses, RCF, and EFOS image are installed on the new BES-53248 switches as necessary for your requirements, and make any essential site customizations, such as users and passwords, network addresses, and so on.
+
+. Disable auto-revert on the cluster LIFs.
 +
-.Show example
-[%collapsible]
-====
+`cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert false`
 
-The following example shows how to ping the remote cluster interfaces:
-
-[subs=+quotes]
-----
-cluster1::*> *cluster ping-cluster -node node2*
-
-Host is node2
-Getting addresses from network interface table...
-Cluster node1_clus1 169.254.209.69  node1     e0a
-Cluster node1_clus2 169.254.49.125  node1     e0b
-Cluster node2_clus1 169.254.47.194  node2     e0a
-Cluster node2_clus2 169.254.19.183  node2     e0b
-
-Local = 169.254.47.194 169.254.19.183
-Remote = 169.254.209.69 169.254.49.125
-Cluster Vserver Id = 4294967293
-Ping status:
-
-Basic connectivity succeeds on 4 path(s)
-Basic connectivity fails on 0 path(s)
-
-Detected 9000 byte MTU on 4 path(s):
-    Local 169.254.47.194 to Remote 169.254.209.69
-    Local 169.254.47.194 to Remote 169.254.49.125
-    Local 169.254.19.183 to Remote 169.254.209.69
-    Local 169.254.19.183 to Remote 169.254.49.125
-Larger than PMTU communication succeeds on 4 path(s)
-
-RPC status:
-2 paths up, 0 paths down (tcp check)
-2 paths up, 0 paths down (udp check)
-----
-====
-
-=== Step 2: Configure ports and cabling
-
-. Shut down the ISL ports 13 through 16 on the active CN1610 switch CL1:
-+
-`shutdown`
+. On cluster switch CL1, shut down the ports connected to the cluster ports of the nodes:
 +
 .Show example
 [%collapsible]
 ====
-
-The following example shows how to shut down ISL ports 13 through 16 on the CN1610 switch CL1:
 
 [subs=+quotes]
 ----
@@ -263,151 +251,122 @@ The following example shows how to shut down ISL ports 13 through 16 on the CN16
 ----
 ====
 
-. Build a temporary ISL between CN1610 CL1 and new BES-53248 cs2. The ISL will only be defined on cs2 as the existing ISL on CL1 can be reused.
+. Verify that the cluster LIFs have migrated to the ports hosted on cluster switch CL1. This might take a few seconds.
++
+`network interface show -vserver Cluster`
 +
 .Show example
 [%collapsible]
 ====
-
-The following example builds a temporary ISL on cs2 (ports 13-16) to be connected to the existing ISL on CL1 (ports 13-16).
 
 [subs=+quotes]
 ----
-(cs2)# *configure*
-(cs2) (Config)# *port-channel name 1/2 temp-isl-cn1610*
-(cs2) (Config)# *interface 0/13-0/16*
-(cs2) (Interface 0/13-0/16)# *no spanning-tree edgeport*
-(cs2) (Interface 0/13-0/16)# *addport 1/2*
-(cs2) (Interface 0/13-0/16)# *exit*
-(cs2) (Config)# *interface lag 2*
-(cs2) (Interface lag 2)# *mtu 9216*
-(cs2) (Interface lag 2)# *port-channel load-balance 7*
-(cs2) (Config)# *exit*
-
-(cs2)# *show port-channel 1/2*
-Local Interface................................ 1/2
-Channel Name................................... temp-isl-cn1610
-Link State..................................... Down
-Admin Mode..................................... Enabled
-Type........................................... Static
-Port-channel Min-links......................... 1
-Load Balance Option............................ 7
-(Enhanced hashing mode)
-
-Mbr     Device/        Port      Port
-Ports   Timeout        Speed     Active
-------- -------------- --------- -------
-0/13    actor/long     10G Full  False
-        partner/long
-0/14    actor/long     10G Full  False
-        partner/long
-0/15    actor/long     10G Full  False
-        partner/long
-0/16    actor/long     10G Full  False
-        partner/long
+cluster1::*> *network interface show -vserver Cluster*
+            Logical      Status     Network            Current       Current Is
+Vserver     Interface    Admin/Oper Address/Mask       Node          Port    Home
+----------- ------------ ---------- ------------------ ------------- ------- ----
+Cluster
+            node1_clus1  up/up      169.254.209.69/16  node1         e0a     true
+            node1_clus2  up/up      169.254.49.125/16  node1         e0b     false
+            node2_clus1  up/up      169.254.47.194/16  node2         e0a     true
+            node2_clus2  up/up      169.254.19.183/16  node2         e0b     false
 ----
 ====
 
-. On all nodes, remove the cables that are attached to the CN1610 switch CL2.
+. Verify that the cluster is healthy:
 +
-You must then reconnect the disconnected ports on all nodes to the new BES-53248 switch cs2. Refer to the https://hwu.netapp.com/Home/Index[_NetApp Hardware Universe_^] for approved cabling options.
-
-. Remove four ISL cables from ports 13 to 16 on the CN1610 switch CL2.
-+
-You must attach appropriate approved cabling connecting port 0/13 to 0/16 on the new BES-53248 switch cs2, to ports 13 to 16 on the existing CN1610 switch CL1.
-
-. Bring up ISLs 13 through 16 on the active CN1610 switch CL1.
+`cluster show`
 +
 .Show example
 [%collapsible]
 ====
 
-The following example illustrates the process of bringing up ISL ports 13 through 16 on CL1:
+[subs=+quotes]
+----
+cluster1::*> *cluster show*
+Node       Health  Eligibility   Epsilon
+---------- ------- ------------- -------
+node1      true    true          false
+node2      true    true          false
+----
+====
 
+. Move all cluster node connection cables from the old CS2 switch to the new cs2 switch.
+
+. Confirm the health of the network connections moved to cs2:
++
+`network port show -ipspace Cluster`
++
+.Show example
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cluster1::*> *network port show -ipspace Cluster*
+
+Node: node1
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+
+Node: node2
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+----
+====
+All cluster ports that were moved should be `up`.
+
+. Check neighbor information on the cluster ports:
++
+`network device-discovery show -protocol cdp`
++
+.Show example
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cluster1::*> *network device-discovery show -protocol cdp*
+Node/       Local  Discovered
+Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
+----------- ------ ------------------------- ----------------  ----------------
+node2      /cdp
+            e0a    CL1                       0/2               CN1610
+            e0b    cs1                       0/2               BES-53248
+node1      /cdp
+            e0a    CL1                       0/1               CN1610
+            e0b    cs1                       0/1               BES-53248
+----
+====
+
+. Confirm the switch port connections from switch cs2's perspective using:
++
+[subs=+quotes]
+----
+cs2# *show interface brief*
+cs2# *show cdp neighbors*
+----
+
+. On cluster switch CL1, shut down the ports connected to the cluster ports of the nodes.
++
 [subs=+quotes]
 ----
 (CL1)# *configure*
-(CL1)(Config)# *interface 0/13-0/16*
-(CL1)(Interface 0/13-0/16,3/1)# *no shutdown*
-(CL1)(Interface 0/13-0/16,3/1)# *exit*
-(CL1)(Config)# *exit*
-(CL1)#
+(CL1)(Config)# *interface 0/1-0/16*
+(CL1)(Interface 0/1-0/16)# *shutdown*
 ----
-====
 
-. Verify that the ISLs are "up" on the CN1610 switch CL1:
-+
-`show port-channel`
-+
-The `Link State` should be "Up", `Type` should be "Static", and `Port Active` should be "True" for ports 0/13 to 0/16:
-+
-.Show example
-[%collapsible]
-====
+All cluster LIFs move to the cs2 switch.
 
-[subs=+quotes]
-----
-(CL2)# *show port-channel 3/1*
-Local Interface................................ 3/1
-Channel Name................................... ISL-LAG
-Link State..................................... Up
-Admin Mode..................................... Enabled
-Type........................................... Static
-Load Balance Option............................ 7
-
-
-(Enhanced hashing mode)
-Mbr      Device/        Port        Port
-Ports    Timeout        Speed       Active
--------- -------------- ----------- --------
-0/13     actor/long     10 Gb Full  True
-         partner/long
-0/14     actor/long     10 Gb Full  True
-         partner/long
-0/15     actor/long     10 Gb Full  True
-         partner/long
-0/16     actor/long     10 Gb Full  True
-         partner/long
-----
-====
-
-. Verify that the ISL ports are up on the BES-53248 switch:
-+
-`show port-channel`
-+
-.Show example
-[%collapsible]
-====
-
-[subs=+quotes]
-----
-(cs2)# *show port-channel 1/2*
-
-Local Interface................................ 1/2
-Channel Name................................... temp-isl-cn1610
-Link State..................................... Up
-Admin Mode..................................... Enabled
-Type........................................... Static
-Port-channel Min-links......................... 1
-Load Balance Option............................ 7
-
-(Src/Dest MAC, VLAN, EType, incoming port)
-
-Mbr     Device/       Port      Port
-Ports   Timeout       Speed     Active
-------- ------------- --------- -------
-0/13    actor/long    10G Full  True
-        partner/long
-0/14    actor/long    10G Full  True
-        partner/long
-0/15    actor/long    10G Full  True
-        partner/long
-0/16    actor/long    10G Full  True
-        partner/long
-----
-====
-
-. Verify that all of the cluster interconnect ports are reverted to their home ports:
+. Verify that the cluster LIFs have migrated to the ports hosted on switch cs2. This might take a few seconds:
 +
 `network interface show -vserver Cluster`
 +
@@ -429,113 +388,29 @@ Cluster
 ----
 ====
 
-. Verify that all of the cluster ports are connected:
+. Verify that the cluster is healthy:
++
+`cluster show`
++
+.Show example
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cluster1::*> *cluster show*
+Node       Health  Eligibility   Epsilon
+---------- ------- ------------- -------
+node1      true    true          false
+node2      true    true          false
+----
+====
+
+. Move the cluster node connection cables from CL1 to the new cs1 switch.
+
+. Confirm the health of the network connections moved to cs1:
 +
 `network port show -ipspace Cluster`
-+
-.Show example
-[%collapsible]
-====
-
-The following example shows the result of the previous command, verifying that all of the cluster interconnects are up:
-
-[subs=+quotes]
-----
-cluster1::*> *network port show -ipspace Cluster*
-
-Node: node1
-                                                                       Ignore
-                                                  Speed(Mbps) Health   Health
-Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
---------- ------------ ---------------- ---- ---- ----------- -------- ------
-e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
-
-Node: node2
-                                                                       Ignore
-                                                  Speed(Mbps) Health   Health
-Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
---------- ------------ ---------------- ---- ---- ----------- -------- ------
-e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
-----
-====
-
-. Ping the remote cluster interfaces:
-+
-`cluster ping-cluster -node _node-name_`
-+
-.Show example
-[%collapsible]
-====
-
-The following example shows how to ping the remote cluster interfaces:
-
-[subs=+quotes]
-----
-cluster1::*> *cluster ping-cluster -node node2*
-Host is node2
-Getting addresses from network interface table...
-Cluster node1_clus1 169.254.209.69  node1     e0a
-Cluster node1_clus2 169.254.49.125  node1     e0b
-Cluster node2_clus1 169.254.47.194  node2     e0a
-Cluster node2_clus2 169.254.19.183  node2     eob
-Local = 169.254.47.194 169.254.19.183
-Remote = 169.254.209.69 169.254.49.125
-Cluster Vserver Id = 4294967293
-Ping status:
-....
-Basic connectivity succeeds on 4 path(s)
-Basic connectivity fails on 0 path(s)
-................
-Detected 9000 byte MTU on 4 path(s):
-    Local 169.254.47.194 to Remote 169.254.209.69
-    Local 169.254.47.194 to Remote 169.254.49.125
-    Local 169.254.19.183 to Remote 169.254.209.69
-    Local 169.254.19.183 to Remote 169.254.49.125
-Larger than PMTU communication succeeds on 4 path(s)
-RPC status:
-2 paths up, 0 paths down (tcp check)
-2 paths up, 0 paths down (udp check)
-----
-====
-
-. On all nodes, remove the cables that are attached to the CN1610 switch CL1.
-+
-You must then reconnect the disconnected ports on all nodes to the new BES-53248 switch cs1. Refer to the https://hwu.netapp.com/Home/Index[_NetApp Hardware Universe_^] for approved cabling options.
-. Remove four ISL cables from ports 13 to 16 on BES-53248 switch cs2.
-. Remove the temporary port-channel 2 on cs2.
-+
-.Show example
-[%collapsible]
-====
-
-The following example removes port-channel 2 and copies the running-configuration file to the startup-configuration file:
-
-[subs=+quotes]
-----
-(cs2)# *configure*
-(cs2) (Config)# *deleteport 1/2 all*
-(cs2) (Config)# *interface 0/13-0/16*
-(cs2) (Interface 0/13-0/16)# *spanning-tree edgeport*
-​​​​​(cs2) (Interface 0/13-0/16)# *exit*
-(cs2) (Config)# *exit*
-(cs2)# *write memory*
-
-This operation may take a few minutes.
-Management interfaces will not be available during this time.
-
-Are you sure you want to save? (y/n) *y*
-
-Config file 'startup-config' created successfully .
-----
-====
-
-. Verify the status of the cluster node port:
-+
-`network port show -ipspace Cluster`
-+
-The following example verifies that all of the cluster interconnect ports on node1 and node2 are `up`:
 +
 .Show example
 [%collapsible]
@@ -563,41 +438,141 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 ----
 ====
 
-=== Step 3: Verify the configuration
+All cluster ports that were moved should be `up`.
 
-. Verify that the interface is now home:
+. Check neighbor information on the cluster ports:
++
+`network device-discovery show`
++
+.Show example
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cluster1::*> *network device-discovery show -protocol cdp*
+Node/       Local  Discovered
+Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
+----------- ------ ------------------------- ----------------  ----------------
+node1      /cdp
+            e0a    cs2                       0/1               BES-53248
+            e0b    cs1                       0/1               BES-53248
+node2      /cdp
+            e0a    cs2                       0/2               BES-53248
+            e0b    cs1                       0/2               BES-53248
+----
+====
+
+. Confirm the switch port connections from switch cs1's perspective:
++
+[subs=+quotes]
+----
+cs1# *show interface brief*
+cs1# *show cdp neighbors*
+----
+
+. Verify that the ISL between cs1 and cs2 is still operational:
++
+`show port-channel summary`
++
+.Show example
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cs1# *show port-channel summary*
+Flags:  D - Down        P - Up in port-channel (members)
+        I - Individual  H - Hot-standby (LACP only)
+        s - Suspended   r - Module-removed
+        b - BFD Session Wait
+        S - Switched    R - Routed
+        U - Up (port-channel)
+        p - Up in delay-lacp mode (member)
+        M - Not in use. Min-links not met
+--------------------------------------------------------------------------------
+Group Port-       Type     Protocol  Member Ports
+      Channel
+--------------------------------------------------------------------------------
+1     Po1(SU)     Eth      LACP      Eth1/55(P)   Eth1/56(P)
+
+cs2# *show port-channel summary*
+Flags:  D - Down        P - Up in port-channel (members)
+        I - Individual  H - Hot-standby (LACP only)
+        s - Suspended   r - Module-removed
+        b - BFD Session Wait
+        S - Switched    R - Routed
+        U - Up (port-channel)
+        p - Up in delay-lacp mode (member)
+        M - Not in use. Min-links not met
+--------------------------------------------------------------------------------
+Group Port-       Type     Protocol  Member Ports
+      Channel
+--------------------------------------------------------------------------------
+1     Po1(SU)     Eth      LACP      Eth1/55(P)   Eth1/56(P)
+----
+====
+
+//You must then reconnect the disconnected ports on all nodes to the new BES-53248 switch cs2. Refer to the https://hwu.netapp.com/Home/Index[_NetApp Hardware Universe_^] for approved cabling options.
+
+. Remove the replaced CN1610 switches if they are not automatically removed:
+
+// start of tabbed content 
+
+[role="tabbed-block"] 
+
+==== 
+.For ONTAP 9.8 and later
+-- 
+
+`system switch ethernet delete -device _device-name_`
+
+----
+cluster::*> system switch ethernet delete -device CL2
+cluster::*> system switch ethernet delete -device CL1
+----
+--
+
+.For ONTAP 9.4 and later
+--
+
+`system cluster-switch delete -device _device-name_`
+----
+cluster::*> system cluster-switch delete -device CL2
+cluster::*> system cluster-switch delete -device CL1
+----
+--
+==== 
+
+// end of tabbed content 
+
+=== Verify the configuration
+. Enable auto-revert on the cluster LIFs.
++
+[subs=+quotes]
+----
+cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert true*
+----
+
+. Verify that the cluster LIFs have reverted to their home ports (this might take a minute):
 +
 `network interface show -vserver Cluster`
 +
-.Show example
-[%collapsible]
-====
-
-The following example shows the status of cluster interconnect interfaces are `up` and `Is home` for node1 and node2:
-
-[subs=+quotes]
-----
-cluster1::*> *network interface show -vserver Cluster*
-            Logical      Status     Network            Current   Current Is
-Vserver     Interface    Admin/Oper Address/Mask       Node      Port    Home
------------ ------------ ---------- ------------------ --------- ------- ------
-Cluster
-            node1_clus1  up/up      169.254.209.69/16  node1     e0a     true
-            node1_clus2  up/up      169.254.49.125/16  node1     e0b     true
-            node2_clus1  up/up      169.254.47.194/16  node2     e0a     true
-            node2_clus2  up/up      169.254.19.183/16  node2     e0b     true
-----
-====
-
-. Ping the remote cluster interfaces and then perform a remote procedure call server check:
+If the cluster LIFs have not reverted to their home port, manually revert them:
 +
-`cluster ping-cluster -node _node-name_`
+`network interface revert -vserver Cluster -lif *`
+
+. Verify that the cluster is healthy:
++
+`cluster show`
+
+. Ping the remote cluster interfaces to verify connectivity:
++
+`cluster ping-cluster -node <name>`
 +
 .Show example
 [%collapsible]
 ====
-
-The following example shows how to ping the remote cluster interfaces:
 
 [subs=+quotes]
 ----
@@ -628,64 +603,7 @@ RPC status:
 ----
 ====
 
-. Display the information about the devices in your configuration:
-+
-`network device-discovery show -protocol cdp`
-+
-.Show example
-[%collapsible]
-====
-
-The following examples show node1 and node2 have been migrated from CN1610 CL2 and CL1 to BES-53248 cs2 and cs1:
-
-[subs=+quotes]
-----
-cluster1::*> *network device-discovery show -protocol cdp*
-Node/       Local  Discovered
-Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
------------ ------ ------------------------- ----------------  ----------------
-node1      /cdp
-            e0a    cs2                       0/1               BES-53248
-            e0b    cs1                       0/1               BES-53248
-node2      /cdp
-            e0a    cs2                       0/2               BES-53248
-            e0b    cs1                       0/2               BES-53248
-----
-====
-
-. Remove the replaced CN1610 switches if they are not automatically removed:
-
-// start of tabbed content 
-
-[role="tabbed-block"] 
-
-==== 
-.For ONTAP 9.8 and later
--- 
-
-`system switch ethernet delete -device _device-name_`
-
-----
-cluster::*> system switch ethernet delete –device CL2
-cluster::*> system switch ethernet delete –device CL1
-----
---
-
-.For ONTAP 9.4 and later
---
-
-`system cluster-switch delete -device _device-name_`
-----
-cluster::*> system cluster-switch delete –device CL2
-cluster::*> system cluster-switch delete –device CL1
-----
---
-==== 
-
-// end of tabbed content 
-
-[start=5]
-. [[step5]]If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
+. If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
 +
 `system node autosupport invoke -node * -type all -message MAINT=END`
 +
