@@ -1,8 +1,8 @@
 ---
 permalink: switch-cisco-9336c-fx2/migrate-cn1610-9336c-cluster.html
 sidebar: sidebar
-keywords: migrating to a cluster with Cisco Nexus 9336C-FX2 cluster switches, how to migrate
-summary: 'You can migrate nondisruptively older Cisco cluster switches for an ONTAP cluster to Cisco Nexus 9336C-FX2 cluster network switches.'
+keywords: migrate cluster Cisco Nexus 9336C-FX2 cluster switches cn1610
+summary: 'You can migrate nondisruptively NetApp CN1610 cluster switches for an ONTAP cluster to Cisco Nexus 9336C-FX2 cluster network switches.'
 ---
 = Migrate from a NetApp CN1610 cluster switch to a Cisco 9336C-FX2 cluster switch
 :icons: font
@@ -27,18 +27,18 @@ The following cluster switches are supported:
 For details of supported ports and their configurations, see the https://hwu.netapp.com/[Hardware Universe^].
 
 .What you'll need
-Ensure that:
+Verify that your configuration meets the following requirements:
 
-* The existing cluster is properly set up and functioning.
+* The existing cluster is correctly set up and functioning.
 * All cluster ports are in the *up* state to ensure nondisruptive operations.
-* The Cisco 9336C-FX2 cluster switches are configured and operating under the proper version of NX-OS installed with the reference configuration file (RCF) applied.
-* The existing cluster network configuration have the following:
+* The Cisco 9336C-FX2 cluster switches are configured and operating under the correct version of NX-OS installed with the reference configuration file (RCF) applied.
+* The existing cluster network configuration has the following:
 ** A redundant and fully functional NetApp cluster using NetApp CN1610 switches.
 ** Management connectivity and console access to both the NetApp CN1610 switches and the new switches.
-** All cluster LIFs in the up state with the cluster LIfs are on their home ports.
+** All cluster LIFs in the up state with the cluster LIFs are on their home ports.
 ** ISL ports enabled and cabled between the NetApp CN1610 switches and between the new switches.
-* Some of the ports are configured on Cisco 9336C-FX2 switches to run at 40 GbE or 100 GbE.
-* You have planned, migrated, and documented 40 GbE and 100 GbE connectivity from nodes to Cisco 9336C-FX2 cluster switches.
+* Some of the ports are configured on Cisco 9336C-FX2 switches to run at 40GbE or 100GbE.
+* You have planned, migrated, and documented 40GbE and 100GbE connectivity from nodes to Cisco 9336C-FX2 cluster switches.
 
 == Migrate the switches
 
@@ -56,8 +56,8 @@ The examples in this procedure use the following switch and node nomenclature:
 * The cluster ports used in this procedure are _e3a_ and _e3b_.
 //* Breakout ports take the format: swp[port]s[breakout port 0-3]. For example, four breakout ports on swp1 are _swp1s0_, _swp1s1_, _swp1s2_, and _swp1s3_.
 * Switch C2 is replaced by switch cs2 first and then switch C1 is replaced by switch cs1.
-** Cabling between the nodes and C2 are then disconnected from C2 and reconnected to cs2.
-** Cabling between the nodes and C1 are then disconnected from C1 and reconnected to cs1.
+** The cabling between the nodes and C2 is then disconnected from C2 and reconnected to cs2
+** The cabling between the nodes and C1 is then disconnected from C1 and reconnected to cs1.
 
 === Step 1: Prepare for migration
 
@@ -92,7 +92,7 @@ Warning: Disabling the auto-revert feature of the cluster logical interface may 
 
 . Determine the administrative or operational status for each cluster interface.
 +
-Each port should display up for `Link` and healthy for `Health Status`.
+Each port should display up for `Link` and `healthy` for `Health Status`.
 +
 .. Display the network port attributes: 
 +
@@ -123,11 +123,11 @@ e3b       Cluster    Cluster          up   9000  auto/100000  healthy  false
 ----
 ====
 
-.. Display information about the logical interfaces and their designated home nodes: 
+.. Display information about the LIFs and their designated home nodes: 
 +
 `network interface show -vserver Cluster`
 +
-Each LIF should display `up/up` for `Status Admin/Oper` and true for `Is Home`.
+Each LIF should display `up/up` for `Status Admin/Oper` and `true` for `Is Home`.
 +
 .Show example
 [%collapsible]
@@ -212,7 +212,7 @@ C1                    0/16          175    S I s       CN1610           0/16
 ----
 ====
 
-. Ensure that the cluster network has full connectivity using the command: 
+. Verify that the cluster network has full connectivity using the command: 
 +
 `cluster ping-cluster -node node-name`
 +
@@ -360,7 +360,7 @@ Cluster
 +
 `network port show -ipspace Cluster`
 +
-Each port should display `up` for `Link` and healthy for `Health Status`.
+Each port should display `up` for `Link` and `healthy` for `Health Status`.
 +
 .Show example
 [%collapsible]
