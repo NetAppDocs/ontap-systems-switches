@@ -19,8 +19,8 @@ The following cluster switches are supported:
 == Review requirements
 Ensure that:
 
-* Some of the ports on BES-53248 switches are configured to run at 10 GbE or 40 GbE.
-* The 10 GbE and 40 GbE connectivity from nodes to BES-53248 cluster switches have been planned, migrated, and documented.
+* Some of the ports on BES-53248 switches are configured to run at 10GbE or40 GbE.
+* The 10GbE and 40GbE connectivity from nodes to BES-53248 cluster switches have been planned, migrated, and documented.
 * The cluster is fully functioning (there should be no errors in the logs or similar issues).
 * Initial customization of the BES-53248 switches is complete, so that:
 ** BES-53248 switches are running the latest recommended version of EFOS software.
@@ -30,16 +30,16 @@ Ensure that:
 === Node connections
 The cluster switches support the following node connections:
 
-* NetApp CN1610: ports 0/1 through 0/12 (10 GbE)
-* BES-53248: ports 0/1-0/16 (10/25 GbE)
+* NetApp CN1610: ports 0/1 through 0/12 (10GbE)
+* BES-53248: ports 0/1-0/16 (10/25GbE)
 +
 NOTE: Additional ports can be activated by purchasing port licenses.
 
 === ISL ports
 The cluster switches use the following inter-switch link (ISL) ports:
 
-* NetApp CN1610: ports 0/13 through 0/16 (10 GbE)
-* BES-53248: ports 0/55-0/56 (100 GbE)
+* NetApp CN1610: ports 0/13 through 0/16 (10GbE)
+* BES-53248: ports 0/55-0/56 (100GbE)
 
 The https://hwu.netapp.com/Home/Index[_NetApp Hardware Universe_^] contains information about ONTAP compatibility, supported EFOS firmware, and cabling to BES-53248 cluster switches.
 
@@ -225,9 +225,68 @@ Cluster
 ----
 ====
 
-. Is this required for *Jute*: Verify that the cluster displays information for both cluster switches:
-+
-`system cluster-switch show -is-monitoring-enabled-operational true`
+. Verify that the cluster displays information for both cluster switches:
+
+// start of tabbed content 
+
+[role="tabbed-block"] 
+
+==== 
+
+.ONTAP 9.8 and later
+--
+Beginning with ONTAP 9.8, use the command: `system switch ethernet show -is-monitoring-enabled-operational true`
+
+[subs=+quotes]
+----
+cluster1::*> *system switch ethernet show -is-monitoring-enabled-operational true*
+Switch                      Type               Address          Model
+--------------------------- ------------------ ---------------- ---------------
+cs1                         cluster-network    10.228.143.200   BES-53248
+           Serial Number: QTWCU22510008
+            Is Monitored: true
+                  Reason: None
+        Software Version: 3.10.0.3
+          Version Source: CDP/ISDP
+
+cs2                         cluster-network    10.228.143.202   BES-53248
+           Serial Number: QTWCU22510009
+            Is Monitored: true
+                  Reason: None
+        Software Version: 3.10.0.3
+          Version Source: CDP/ISDP
+cluster1::*>
+----
+--
+
+.ONTAP 9.7 and earlier
+--
+For ONTAP 9.7 and earlier, use the command: `system cluster-switch show -is-monitoring-enabled-operational true`
+
+[subs=+quotes]
+----
+cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true*
+Switch                      Type               Address          Model
+--------------------------- ------------------ ---------------- ---------------
+cs1                         cluster-network    10.228.143.200   BES-53248
+           Serial Number: QTWCU22510008
+            Is Monitored: true
+                  Reason: None
+        Software Version: 3.10.0.3
+          Version Source: CDP/ISDP
+
+cs2                         cluster-network    10.228.143.202   BES-53248
+           Serial Number: QTWCU22510009
+            Is Monitored: true
+                  Reason: None
+        Software Version: 3.10.0.3
+          Version Source: CDP/ISDP
+cluster1::*>
+----
+--
+==== 
+
+// end of tabbed content
 
 . Disable auto-revert on the cluster LIFs.
 +
@@ -525,10 +584,9 @@ Group Port-       Type     Protocol  Member Ports
 [role="tabbed-block"] 
 
 ==== 
-.For ONTAP 9.8 and later
+.ONTAP 9.8 and later
 -- 
-
-`system switch ethernet delete -device _device-name_`
+Beginning with ONTAP 9.8, use the command: `system switch ethernet delete -device _device-name_`
 
 ----
 cluster::*> system switch ethernet delete -device CL2
@@ -536,10 +594,9 @@ cluster::*> system switch ethernet delete -device CL1
 ----
 --
 
-.For ONTAP 9.4 and later
+.ONTAP 9.4 and earlier
 --
-
-`system cluster-switch delete -device _device-name_`
+For ONTAP 9.4 and earlier, use the command: `system cluster-switch delete -device _device-name_`
 ----
 cluster::*> system cluster-switch delete -device CL2
 cluster::*> system cluster-switch delete -device CL1
@@ -606,6 +663,120 @@ RPC status:
 ----
 ====
 
+. Enable the Ethernet switch health monitor log collection feature for collecting switch-related log files.
++
+// start of tabbed content
+
+[role="tabbed-block"]
+
+====
+.ONTAP 9.8 and later
+--
+Beginning with ONTAP 9.8, enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the following two commands: `system switch ethernet log setup-password` and `system switch ethernet log enable-collection`
+
+*NOTE:* You will need the password for the *admin* user on the switches.
+
+Enter: `system switch ethernet log setup-password`
+
+[subs=+quotes]
+----
+cluster1::*> *system switch ethernet log setup-password*
+Enter the switch name: <return>
+The switch name entered is not recognized.
+Choose from the following list:
+cs1
+cs2
+
+cluster1::*> *system switch ethernet log setup-password*
+
+Enter the switch name: *cs1*
+RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
+Do you want to continue? {y|n}::[n] *y*
+
+Enter the password: <password of switch's admin user>
+Enter the password again: <password of switch's admin user>
+
+cluster1::*> *system switch ethernet log setup-password*
+
+Enter the switch name: *cs2*
+RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
+Do you want to continue? {y|n}:: [n] *y*
+
+Enter the password: <password of switch's admin user>
+Enter the password again: <password of switch's admin user>
+----
+Followed by: `system switch ethernet log enable-collection`
+
+[subs=+quotes]
+----
+cluster1::*> *system  switch ethernet log enable-collection*
+
+Do you want to enable cluster log collection for all nodes in the cluster?
+{y|n}: [n] *y*
+
+Enabling cluster switch log collection.
+
+cluster1::*>
+----
+
+*NOTE:* If any of these commands return an error, contact NetApp support.
+
+--
+
+.ONTAP releases 9.5P16, 9.6P12, and 9.7P10 and later patch releases
+--
+For ONTAP releases 9.5P16, 9.6P12, and 9.7P10 and later patch releases, enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the commands: `system cluster-switch log setup-password` and `system cluster-switch log enable-collection`
+
+*NOTE:* You will need the password for the *admin* user on the switches.
+
+Enter: `system cluster-switch log setup-password`
+
+[subs=+quotes]
+----
+cluster1::*> *system cluster-switch log setup-password*
+Enter the switch name: <return>
+The switch name entered is not recognized.
+Choose from the following list:
+cs1
+cs2
+
+cluster1::*> *system cluster-switch log setup-password*
+
+Enter the switch name: *cs1*
+RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
+Do you want to continue? {y|n}::[n] *y*
+
+Enter the password: <password of switch's admin user>
+Enter the password again: <password of switch's admin user>
+
+cluster1::*> *system cluster-switch log setup-password*
+
+Enter the switch name: *cs2*
+RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
+Do you want to continue? {y|n}:: [n] *y*
+
+Enter the password: <password of switch's admin user>
+Enter the password again: <password of switch's admin user>
+----
+
+Followed by: `system cluster-switch log enable-collection`
+
+[subs=+quotes]
+----
+cluster1::*> *system cluster-switch log enable-collection*
+
+Do you want to enable cluster log collection for all nodes in the cluster?
+{y|n}: [n] *y*
+
+Enabling cluster switch log collection.
+
+cluster1::*>
+----
+
+*NOTE:* If any of these commands return an error, contact NetApp support.
+--
+====
+
 . If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
 +
 `system node autosupport invoke -node * -type all -message MAINT=END`
@@ -619,3 +790,4 @@ cluster::*> *system node autosupport invoke -node \* -type all -message MAINT=EN
 
 After your migration completes, you might need to install the required configuration file to support the Cluster Switch Health Monitor (CSHM) for BES-53248 cluster switches. See link:configure-health-monitor.html[Install the Cluster Switch Health Monitor (CSHM) configuration file] and link:configure-log-collection.html[Enable the log collection feature].
 
+// Updates for AFFFASDOC-73, 2023-JUN-28
