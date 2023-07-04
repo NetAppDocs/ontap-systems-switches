@@ -288,7 +288,8 @@ cluster1::*>
 
 // end of tabbed content
 
-. Disable auto-revert on the cluster LIFs.
+[start=5]
+. [[step5]]Disable auto-revert on the cluster LIFs.
 +
 [subs=+quotes]
 ----
@@ -777,7 +778,10 @@ cluster1::*>
 --
 ====
 
-. If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
+// end of tabbed content
+
+[start=6]
+. [[step6]]If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
 +
 `system node autosupport invoke -node * -type all -message MAINT=END`
 +
@@ -790,4 +794,4 @@ cluster::*> *system node autosupport invoke -node \* -type all -message MAINT=EN
 
 After your migration completes, you might need to install the required configuration file to support the Cluster Switch Health Monitor (CSHM) for BES-53248 cluster switches. See link:configure-health-monitor.html[Install the Cluster Switch Health Monitor (CSHM) configuration file] and link:configure-log-collection.html[Enable the log collection feature].
 
-// Updates for AFFFASDOC-73, 2023-JUN-28
+// Updates for AFFFASDOC-72, 2023-JUN-28
