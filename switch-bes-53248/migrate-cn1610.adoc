@@ -729,8 +729,7 @@ cluster1::*>
 CAUTION: If any of these commands return an error, contact NetApp support.
 +
 
-[[start=6]]
-. [[step6]]Initiate the switch log collection feature:
+. Initiate the switch log collection feature:
 +
 `system switch ethernet log collect -device *`
 +
@@ -744,7 +743,7 @@ Wait for 10 minutes and then check that the log collection was successful using 
 +
 [subs=+quotes]
 ----
-cluster::*> *system node autosupport invoke -node \* -type all -message MAINT=END*
+cluster::*> system node autosupport invoke -node * -type all -message MAINT=END
 ----
 
 .What's next?
