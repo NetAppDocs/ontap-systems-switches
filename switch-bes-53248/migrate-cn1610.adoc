@@ -668,7 +668,7 @@ RPC status:
 +
 IMPORTANT: To enable the log collection feature, you must be running ONTAP version 9.12.1 and later and EFOS 3.8.0.2 and later.
 +
-`system switch ethernet log setup-password` and
+`system switch ethernet log setup-password` 
 +
 `system switch ethernet log modify -device _<switch-name>_ -log-request true`
 +
@@ -690,8 +690,7 @@ Choose from the following list:
 cluster1::*> *system switch ethernet log setup-password*
 
 Enter the switch name: *cs1*
-RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
-Do you want to continue? {y|n}::[n] *y*
+Would you like to specify a user other than admin for log collection? {y|n}: *n*
 
 Enter the password: *<enter switch password>*
 Enter the password again: *<enter switch password>*
@@ -699,8 +698,7 @@ Enter the password again: *<enter switch password>*
 cluster1::*> *system switch ethernet log setup-password*
 
 Enter the switch name: *cs2*
-RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
-Do you want to continue? {y|n}:: [n] *y*
+Would you like to specify a user other than admin for log collection? {y|n}: *n*
 
 Enter the password: *<enter switch password>*
 Enter the password again: *<enter switch password>*
@@ -717,14 +715,14 @@ Enter the password again: *<enter switch password>*
 ----
 cluster1::*> *system switch ethernet log modify -device cs1 -log-request true*
 
-Do you want to enable cluster log collection for all nodes in the cluster?
+Do you want to modify the cluster switch log collection configuration?
 {y|n}: [n] *y*
 
 Enabling cluster switch log collection.
 
 cluster1::*> *system switch ethernet log modify -device cs2 -log-request true*
 
-Do you want to enable cluster log collection for all nodes in the cluster?
+Do you want to modify the cluster switch log collection configuration?
 {y|n}: [n] *y*
 
 Enabling cluster switch log collection.
