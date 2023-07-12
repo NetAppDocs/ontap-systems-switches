@@ -17,9 +17,9 @@ The following cluster switches are supported:
 * BES-53248
 
 == Review requirements
-Ensure that:
+Verify that your configuration meets the following requirements:
 
-* Some of the ports on BES-53248 switches are configured to run at 10GbE or40 GbE.
+* Some of the ports on BES-53248 switches are configured to run at 10GbE or 40 GbE.
 * The 10GbE and 40GbE connectivity from nodes to BES-53248 cluster switches have been planned, migrated, and documented.
 * The cluster is fully functioning (there should be no errors in the logs or similar issues).
 * Initial customization of the BES-53248 switches is complete, so that:
@@ -31,7 +31,7 @@ Ensure that:
 The cluster switches support the following node connections:
 
 * NetApp CN1610: ports 0/1 through 0/12 (10GbE)
-* BES-53248: ports 0/1-0/16 (10/25GbE)
+* BES-53248: ports 0/1-0/16 (10GbE/25GbE)
 +
 NOTE: Additional ports can be activated by purchasing port licenses.
 
@@ -668,7 +668,9 @@ RPC status:
 +
 IMPORTANT: To enable the log collection feature, you must be running ONTAP version 9.12.1 and later and EFOS 3.8.0.2 and later.
 +
-`system switch ethernet log setup-password` 
+The commands to use are:
++
+`system switch ethernet log setup-password` and
 +
 `system switch ethernet log modify -device _<switch-name>_ -log-request true`
 +
