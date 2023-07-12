@@ -670,7 +670,7 @@ IMPORTANT: To enable the log collection feature, you must be running ONTAP versi
 +
 `system switch ethernet log setup-password` and
 +
-`system switch ethernet log enable-collection`
+`system switch ethernet log modify -device _<switch-name>_ -log-request true`
 +
 .. Enter: `system switch ethernet log setup-password`
 +
@@ -707,7 +707,7 @@ Enter the password again: *<enter switch password>*
 ----
 ====
 
-.. Enter: `system switch ethernet log enable-collection`
+.. Enter: `system switch ethernet log modify -device _<switch-name>_ -log-request true`
 +
 .Show example 
 [%collapsible]
@@ -715,27 +715,24 @@ Enter the password again: *<enter switch password>*
 
 [subs=+quotes]
 ----
-cluster1::*> *system  switch ethernet log enable-collection*
+cluster1::*> *system switch ethernet log modify -device cs1 -log-request true*
 
 Do you want to enable cluster log collection for all nodes in the cluster?
 {y|n}: [n] *y*
 
 Enabling cluster switch log collection.
 
-cluster1::*>
+cluster1::*> *system switch ethernet log modify -device cs2 -log-request true*
+
+Do you want to enable cluster log collection for all nodes in the cluster?
+{y|n}: [n] *y*
+
+Enabling cluster switch log collection.
 ----
 ====
 +
 CAUTION: If any of these commands return an error, contact NetApp support.
 +
-
-. Initiate the switch log collection feature:
-+
-`system switch ethernet log collect -device *`
-+
-Wait for 10 minutes and then check that the log collection was successful using the command:
-+
-`system switch ethernet log show`
 
 . If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
 +
