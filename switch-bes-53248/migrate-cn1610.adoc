@@ -104,7 +104,7 @@ The advanced prompt (*>) appears.
 
 === Step 2: Configure ports and cabling
 
-. On the new switches, confirm that the ISL is cabled and healthy between the switches cs1 and cs2:
+. On the new switches, confirm that the ISL is cabled and healthy between switches cs1 and cs2:
 +
 `show port-channel summary`
 +
@@ -146,7 +146,7 @@ Group Port-       Type     Protocol  Member Ports
 ----
 ====
 
-. Display the cluster ports on each node that are connected to the existing cluster switches:
+. Display the cluster ports on each node that is connected to the existing cluster switches:
 +
 `network device-discovery show -protocol cdp`
 +
@@ -666,7 +666,7 @@ RPC status:
 
 . Create a password for the Ethernet switch health monitor log collection feature.
 +
-IMPORTANT: To enable the log collection feature, you must be running ONTAP version 9.12.1 and later and EFOS 3.8.0.2 and later.
+IMPORTANT: To enable the log collection feature, you must be running ONTAP 9.12.1 and later and EFOS 3.8.0.2 and later.
 +
 `system switch ethernet log setup-password`
 
@@ -702,7 +702,7 @@ Enter the password again: *<enter switch password>*
 ----
 ====
 
-. Enable the Ethernet switch health monitor log collection feature.
+. Enable the Ethernet switch health monitor log collection feature:
 +
 `system switch ethernet log modify -device _<switch-name>_ -log-request true`
 
@@ -729,7 +729,7 @@ Enabling cluster switch log collection.
 ----
 ====
 +
-Wait for 10 minutes and then check that the log collection completes using the command:
+Wait for 10 minutes and then check that the log collection completes:
 +
 `system switch ethernet log show`
 +
