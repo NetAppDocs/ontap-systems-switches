@@ -534,14 +534,11 @@ If the cluster LIFs have not reverted to their home port, manually revert them:
 --
 You can use the `network interface check cluster-connectivity` command to start an accessibility check for cluster connectivity and then display the details: 
 
-`network interface check cluster-connectivity start` and
-
-`network interface check cluster-connectivity show`
-
+`network interface check cluster-connectivity start` and `network interface check cluster-connectivity show`
 
 [subs=+quotes]
 ----
-cluster1::*>*network interface check cluster-connectivity start*
+cluster1::*> *network interface check cluster-connectivity start*
 ----
 
 *NOTE:* Wait for a number of seconds before running the show command to display the details.
@@ -565,7 +562,7 @@ node2
 
 .All ONTAP releases
 --
-For all ONTAP releases, you can use the `cluster ping-cluster -node <name>` command:
+For all ONTAP releases, you can also use the `cluster ping-cluster -node <name>` command to check the connectivity:
 
 `cluster ping-cluster -node <name>`
 
