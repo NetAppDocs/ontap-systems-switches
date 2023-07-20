@@ -521,53 +521,55 @@ If the cluster LIFs have not reverted to their home port, manually revert them:
 +
 `cluster show`
 
-. Verify connectivity for the remote cluster interfaces: 
+. Verify the connectivity of the remote cluster interfaces: 
 +
 // start of tabbed content
 
 [role="tabbed-block"]
 
 ====
+
 .ONTAP 9.9.1 and later
+
 --
-Beginning with ONTAP 9.9.1 and later, use the `network interface check cluster-connectivity` command to start the check and display the details: 
+You can use the `network interface check cluster-connectivity` command to start an accessibility check for cluster connectivity and then display the details: 
 +
-`network interface check cluster-connectivity start -node *` and
+`network interface check cluster-connectivity start` and
 +
 `network interface check cluster-connectivity show`
 +
-.Show example 
-[%collapsible]
-====
+
 [subs=+quotes]
 ----
-cluster1::*>*network interface check cluster-connectivity start -node *
+cluster1::*>*network interface check cluster-connectivity start*
 ----
 
-*NOTE:* Wait for a number of seconds before running the show command to check the results.
+*NOTE:* Wait for a number of seconds before running the show command to display the details.
 
 +
 [subs=+quotes]
 ----
 cluster1::*> *network interface check cluster-connectivity show*
-                                  Source          Destination     Packet
-Node   Date                       LIF             LIF             Loss
------- -------------------------- --------------- --------------- -----------
-cluster1-01
-       3/5/2022 19:21:18 -06:00   cluster1-01_clus2 cluster1-02_clus1 none
-       3/5/2022 19:21:20 -06:00   cluster1-01_clus2 cluster1-02_clus2 none
+                                  Source          Destination       Packet
+Node   Date                       LIF             LIF               Loss
+------ -------------------------- --------------- ----------------- -----------
+node1
+       3/5/2022 19:21:18 -06:00   node1_clus2      node2_clus1      none
+       3/5/2022 19:21:20 -06:00   node1_clus2      node2_clus2      none
+
+node2
+       3/5/2022 19:21:18 -06:00   node2_clus2      node1_clus1      none
+       3/5/2022 19:21:20 -06:00   node2_clus2      node1_clus2      none
 ----
 --
 
-.ONTAP releases 9.5P16, 9.6P12, and 9.7P10 and later patch releases
+.All ONTAP releases
 --
-For earlier ONTAP releases, use the `cluster ping-cluster -node <name>` command:
+For all ONTAP releases, use the `cluster ping-cluster -node <name>` command:
 +
 `cluster ping-cluster -node <name>`
 +
-.Show example 
-[%collapsible]
-====
+
 [subs=+quotes]
 ----
 cluster1::*> *cluster ping-cluster -node node2*
@@ -595,7 +597,7 @@ RPC status:
 2 paths up, 0 paths down (tcp check)
 2 paths up, 0 paths down (udp check)
 ----
-====
+
 --
 ====
 
@@ -721,4 +723,4 @@ cluster1::*>
 
 // Updates for AFFFASDOC-45, 2023-MAY-09
 
-//Updates for GH #112, 2023-JUL-19
+// Updates for GH #112, 2023-JUL-19
