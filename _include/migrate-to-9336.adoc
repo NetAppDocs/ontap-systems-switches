@@ -3,8 +3,8 @@
 
 Ensure that:
 
-* Some of the ports on Nexus 9336C-FX2 switches are configured to run at 10 GbE or 40 GbE.
-* The 10 GbE and 40 GbE connectivity from nodes to Nexus 9336C-FX2 cluster switches have been planned, migrated, and documented.
+* Some of the ports on Nexus 9336C-FX2 switches are configured to run at 10GbE or 40GbE.
+* The 10GbE and 40GbE connectivity from nodes to Nexus 9336C-FX2 cluster switches have been planned, migrated, and documented.
 * The cluster is fully functioning (there should be no errors in the logs or similar issues).
 * Initial customization of the Cisco Nexus 9336C-FX2 switches is complete, so that:
 ** 9336C-FX2 switches are running the latest recommended version of software.
@@ -533,11 +533,11 @@ If the cluster LIFs have not reverted to their home port, manually revert them:
 
 --
 You can use the `network interface check cluster-connectivity` command to start an accessibility check for cluster connectivity and then display the details: 
-+
+
 `network interface check cluster-connectivity start` and
-+
+
 `network interface check cluster-connectivity show`
-+
+
 
 [subs=+quotes]
 ----
@@ -546,7 +546,7 @@ cluster1::*>*network interface check cluster-connectivity start*
 
 *NOTE:* Wait for a number of seconds before running the show command to display the details.
 
-+
+
 [subs=+quotes]
 ----
 cluster1::*> *network interface check cluster-connectivity show*
@@ -565,10 +565,10 @@ node2
 
 .All ONTAP releases
 --
-For all ONTAP releases, use the `cluster ping-cluster -node <name>` command:
-+
+For all ONTAP releases, you can use the `cluster ping-cluster -node <name>` command:
+
 `cluster ping-cluster -node <name>`
-+
+
 
 [subs=+quotes]
 ----
@@ -601,7 +601,8 @@ RPC status:
 --
 ====
 
-. Enable the Ethernet switch health monitor log collection feature for collecting switch-related log files.
+[start=5]
+. [[step5]]Enable the Ethernet switch health monitor log collection feature for collecting switch-related log files.
 +
 // start of tabbed content
 
