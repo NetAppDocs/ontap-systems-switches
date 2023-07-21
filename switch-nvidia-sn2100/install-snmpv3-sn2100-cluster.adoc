@@ -4,12 +4,12 @@ sidebar: sidebar
 keywords: sn2100 SN2100 cabling setup, sn2100 switches configuration, cumulus linux os
 summary: 'This release includes support for SNMPv3 for log monitoring.'
 ---
-= Configure SNMPv3 for switch log collection
+= Configure SNMPv3
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-Follow this procedure to configure SNMPv3, which supports switch log collection and Switch Health Monitoring (SHM).
+Follow this procedure to configure SNMPv3, which supports Switch Health Monitoring (CSHM).
 
 .About this task
 The following commands configure an SNMPv3 username on NVIDIA SN2100 switches:
@@ -24,7 +24,7 @@ The following commands configure an SNMPv3 username on NVIDIA SN2100 switches:
 The following command configures an SNMPv3 username on the ONTAP side:
 `cluster1::*> security login create -user-or-group-name _SNMPv3_USER_ -application snmp -authentication-method usm -remote-switch-ipaddress _ADDRESS_`
 
-The following command establishes the SNMPv3 username with SHM:
+The following command establishes the SNMPv3 username with CSHM:
 `cluster1::*> system switch ethernet modify -device _DEVICE_ -snmp-version SNMPv3 -community-or-username _SNMPv3_USER_`
 
 .Steps
@@ -194,3 +194,5 @@ DEPRECATED-Community String or SNMPv3 Username: -
 ====
 
 // Updated password examples, 2023-MAR-07
+
+// Updated SHM to CSHM as per feedback from Abraham Close, 2023-JUL-12
