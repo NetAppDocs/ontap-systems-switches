@@ -296,7 +296,7 @@ cluster1::*>
 cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert false*
 ----
 
-. On cluster switch CL1, shut down the ports connected to the cluster ports of the nodes:
+. On cluster switch CL2, shut down the ports connected to the cluster ports of the nodes:
 +
 .Show example
 [%collapsible]
@@ -304,16 +304,16 @@ cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert fals
 
 [subs=+quotes]
 ----
-(CL1)# *configure*
-(CL1)(Config)# *interface 0/13-0/16*
-(CL1)(Interface 0/13-0/16)# *shutdown*
-(CL1)(Interface 0/13-0/16)# *exit*
-(CL1)(Config)# *exit*
-(CL1)#
+(CL2)# *configure*
+(CL2)(Config)# *interface 0/1-0/16*
+(CL2)(Interface 0/1-0/16)# *shutdown*
+(CL2)(Interface 0/1-0/16)# *exit*
+(CL2)(Config)# *exit*
+(CL2)#
 ----
 ====
 
-. Verify that the cluster LIFs have migrated to the ports hosted on cluster switch CL1. This might take a few seconds.
+. Verify that the cluster LIFs have migrated to the ports hosted on cluster switch CL2. This might take a few seconds.
 +
 `network interface show -vserver Cluster`
 +
@@ -353,7 +353,7 @@ node2      true    true          false
 ----
 ====
 
-. Move all cluster node connection cables from the old CS2 switch to the new cs2 switch.
+. Move all cluster node connection cables from the old CL2 switch to the new cs2 switch.
 
 . Confirm the health of the network connections moved to cs2:
 +
@@ -417,16 +417,16 @@ cs2# *show interface brief*
 cs2# *show cdp neighbors*
 ----
 
-. On cluster switch CL2, shut down the ports connected to the cluster ports of the nodes.
+. On cluster switch CL1, shut down the ports connected to the cluster ports of the nodes.
 +
 [subs=+quotes]
 ----
-(CL2)# *configure*
-(CL2)(Config)# *interface 0/1-0/16*
-(CL2)(Interface 0/1-0/16)# *shutdown*
-(CL2)(Interface 0/13-0/16)# *exit*
-(CL2)(Config)# *exit*
-(CL2)#
+(CL1)# *configure*
+(CL1)(Config)# *interface 0/1-0/16*
+(CL1)(Interface 0/1-0/16)# *shutdown*
+(CL1)(Interface 0/13-0/16)# *exit*
+(CL1)(Config)# *exit*
+(CL1)#
 ----
 +
 All cluster LIFs move to the cs2 switch.
@@ -590,8 +590,8 @@ Group Port-       Type     Protocol  Member Ports
 Beginning with ONTAP 9.8, use the command: `system switch ethernet delete -device _device-name_`
 
 ----
-cluster::*> system switch ethernet delete -device CL2
 cluster::*> system switch ethernet delete -device CL1
+cluster::*> system switch ethernet delete -device CL2
 ----
 --
 
@@ -599,8 +599,8 @@ cluster::*> system switch ethernet delete -device CL1
 --
 For ONTAP 9.4 and earlier, use the command: `system cluster-switch delete -device _device-name_`
 ----
-cluster::*> system cluster-switch delete -device CL2
 cluster::*> system cluster-switch delete -device CL1
+cluster::*> system cluster-switch delete -device CL2
 ----
 --
 ==== 
@@ -750,3 +750,5 @@ cluster::*> system node autosupport invoke -node * -type all -message MAINT=END
 After your migration completes, you might need to install the required configuration file to support the Cluster Switch Health Monitor (CSHM) for BES-53248 cluster switches. See link:configure-health-monitor.html[Install the Cluster Switch Health Monitor (CSHM) configuration file] and link:configure-log-collection.html[Enable the log collection feature].
 
 // Updates for AFFFASDOC-72, 2023-JUN-28
+
+// Updates for GH issue #115, 2023-AUG-08
