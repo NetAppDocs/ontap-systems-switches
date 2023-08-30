@@ -601,6 +601,14 @@ System will now restart!
 ----
 ====
 
+. On cluster switch cs2, bring up the ports connected to the cluster ports of the nodes.
++
+[subs=+quotes]
+----
+(cs2)(Config)# *interface 0/1-0/16*
+(cs2)(Interface 0/1-0/16)# *no shutdown*
+----
+
 . Verify the ports on switch cs2: `show interfaces status all | exclude Detach`
 +
 .Show example
@@ -1005,3 +1013,4 @@ RPC status:
 link:configure-health-monitor.html[Install the CSHM configuration file].
 // Updates for GH issues #72 & 79, 2023-APR-04
 // Updated rcf.scr file version from 1.6 to 1.9 as per AFFFASDOC-66, 2023-MAY-31
+// Updated for GH issue #118, 2023-AUG-29
