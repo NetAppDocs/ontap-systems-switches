@@ -60,7 +60,6 @@ The examples in this procedure use the following cluster switch and node nomencl
 The https://hwu.netapp.com/Home/Index[_NetApp Hardware Universe_^] contains the latest information about the actual cluster ports for your platforms.
 
 === Step 1: Prepare for migration
-
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
 +
 `system node autosupport invoke -node * -type all -message MAINT=xh`
@@ -82,11 +81,11 @@ cluster1::*> system node autosupport invoke -node \* -type all -message MAINT=2h
 The advanced prompt (`*>`) appears.
 
 === Step 2: Configure ports and cabling
-
 . Disable all activated node-facing ports (not ISL ports) on both the new cluster switches cs1 *and* cs2.
 +
 NOTE: You must not disable the ISL ports.
 +
+
 .Show example 
 [%collapsible]
 ====
@@ -272,7 +271,7 @@ Cluster
 //----
 //====
 
-Disable auto-revert on the cluster LIFs.
+. Disable auto-revert on the cluster LIFs.
 +
 [subs=+quotes]
 ----
