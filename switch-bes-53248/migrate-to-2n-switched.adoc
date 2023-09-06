@@ -249,28 +249,6 @@ Cluster
             node2_clus2  up/up    169.254.19.183/16  node2         e0b     true
 ----
 ====
-+
-
-//. Verify that `auto-revert` is enabled on all cluster LIFs: `network interface show -vserver Cluster -fields auto-revert`
-//+
-//.Show example
-//[%collapsible]
-//====
-
-//[subs=+quotes]
-//----
-//cluster1::*> *network interface show -vserver Cluster -fields auto-revert*
-//
-//          Logical
-//Vserver   Interface     Auto-revert
-//--------- ------------- ------------
-//Cluster
-//          node1_clus1   true
-//          node1_clus2   true
-//          node2_clus1   true
-//          node2_clus2   true
-//----
-//====
 
 . Disable auto-revert on the cluster LIFs.
 +
