@@ -60,7 +60,6 @@ The examples in this procedure use the following cluster switch and node nomencl
 The https://hwu.netapp.com/Home/Index[_NetApp Hardware Universe_^] contains the latest information about the actual cluster ports for your platforms.
 
 === Step 1: Prepare for migration
-
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
 +
 `system node autosupport invoke -node * -type all -message MAINT=xh`
@@ -82,11 +81,11 @@ cluster1::*> system node autosupport invoke -node \* -type all -message MAINT=2h
 The advanced prompt (`*>`) appears.
 
 === Step 2: Configure ports and cabling
-
 . Disable all activated node-facing ports (not ISL ports) on both the new cluster switches cs1 *and* cs2.
 +
 NOTE: You must not disable the ISL ports.
 +
+
 .Show example 
 [%collapsible]
 ====
@@ -251,26 +250,12 @@ Cluster
 ----
 ====
 
-. Verify that `auto-revert` is enabled on all cluster LIFs: `network interface show -vserver Cluster -fields auto-revert`
+. Disable auto-revert on the cluster LIFs.
 +
-.Show example
-[%collapsible]
-====
-
 [subs=+quotes]
 ----
-cluster1::*> *network interface show -vserver Cluster -fields auto-revert*
-
-          Logical
-Vserver   Interface     Auto-revert
---------- ------------- ------------
-Cluster
-          node1_clus1   true
-          node1_clus2   true
-          node2_clus1   true
-          node2_clus2   true
+cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert false*
 ----
-====
 
 . Disconnect the cable from cluster port e0a on node1, and then connect e0a to port 1 on cluster switch cs1, using the appropriate cabling supported by the BES-53248 switches.
 +
@@ -394,6 +379,20 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 ====
 
 === Step 3: Verify the configuration
+. Enable auto-revert on the cluster LIFs.
++
+[subs=+quotes]
+----
+cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert true*
+----
+
+. Verify that the cluster LIFs have reverted to their home ports (this might take a minute):
++
+`network interface show -vserver Cluster`
++
+If the cluster LIFs have not reverted to their home port, manually revert them:
++
+`network interface revert -vserver Cluster -lif *`
 
 . Verify that all interfaces display `true` for `Is Home`:
 +
@@ -578,4 +577,5 @@ For more information, see: https://kb.netapp.com/Advice_and_Troubleshooting/Data
 
 After your migration completes, you might need to install the required configuration file to support the Cluster Switch Health Monitor (CSHM) for BES-53248 cluster switches. See link:configure-health-monitor.html[Install the Cluster Switch Health Monitor (CSHM) configuration file] and link:configure-log-collection.html[Enable the log collection feature].
 
+// Updates for AFFFASDOC-111, 2023-SEPT-06
 
