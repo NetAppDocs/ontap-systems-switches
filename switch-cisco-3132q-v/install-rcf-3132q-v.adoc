@@ -18,7 +18,7 @@ Follow this procedure to install the RCF after setting up the Nexus 3132Q-V swit
 * A current backup of the switch configuration.
 * A fully functioning cluster (no errors in the logs or similar issues).
 * The current Reference Configuration File (RCF).
-* A boot configuration in the RCF that reflects the desired boot images, required if you are installing only NX-OS and keeping your current RCF version. If you need to change the boot configuration to reflect the current boot images, you must do so before reapplying the RCF so that the correct version is instantiated on future reboots.
+//* A boot configuration in the RCF that reflects the desired boot images, required if you are installing only NX-OS and keeping your current RCF version. If you need to change the boot configuration to reflect the current boot images, you must do so before reapplying the RCF so that the correct version is instantiated on future reboots.
 * A console connection to the switch, required when installing the RCF.
 * link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet switch^]. Consult the switch compatibility table for the supported ONTAP and RCF versions. Note that there can be command dependencies between the command syntax in the RCF and that found in versions of NX-OS.
 * https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-installation-guides-list.html[Cisco Nexus 3000 Series Switches^]. Consult the appropriate software and upgrade guides available on the Cisco web site for complete documentation on the Cisco switch upgrade and downgrade procedures.
@@ -891,3 +891,4 @@ NOTE: If any of these commands return an error, contact NetApp support.
 // Added details to disable POAP, as per GH #90, 2023-MAY-16
 // Removed POAP info due to Cisco bug, as per AFFFASDOC-65, 2023-MAY-30
 // Updates for GH issue #122, 2023-SEPT-11
+// Updates for AFFFASDOC-118, 2023-SEPT-13
