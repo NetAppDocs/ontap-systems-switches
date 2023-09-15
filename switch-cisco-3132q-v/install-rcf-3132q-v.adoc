@@ -378,6 +378,8 @@ When you check the output to verify you have the correct RCF, make sure that the
  ** Customizations
 +
 The output varies according to your site configuration. Check the port settings and refer to the release notes for any changes specific to the RCF that you have installed.
++
+NOTE: For steps on how to bring your 10GbE ports online after an upgrade of the RCF, see the Knowledge Base article https://kb.netapp.com/onprem%2FSwitches%2FCisco%2F10GbE_ports_on_Cisco_3132Q_cluster_switch_do_not_come_online[10GbE ports on a Cisco 3132Q cluster switch do not come online^]. 
 
 . After you verify the RCF versions and switch settings are correct, copy the running-config file to the startup-config file.
 +
@@ -888,3 +890,4 @@ NOTE: If any of these commands return an error, contact NetApp support.
 // Corrected command and formatting, as per GH issue #101, 2023-MAY-16
 // Added details to disable POAP, as per GH #90, 2023-MAY-16
 // Removed POAP info due to Cisco bug, as per AFFFASDOC-65, 2023-MAY-30
+// Updates for GH issue #122, 2023-SEPT-11
