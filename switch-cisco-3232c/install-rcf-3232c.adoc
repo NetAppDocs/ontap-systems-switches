@@ -51,8 +51,10 @@ Be sure to complete the procedure in link:prepare-install-cisco-nexus-3232c.html
 .Show example 
 [%collapsible]
 ====
+
+[subs=+quotes]
 ----
-cluster1::*> network device-discovery show
+cluster1::*> *network device-discovery show*
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  --------
@@ -81,8 +83,10 @@ cluster1::*>
 .Show example 
 [%collapsible]
 ====
+
+[subs=+quotes]
 ----
-cluster1::*> network port show -role cluster
+cluster1::*> *network port show -role cluster*
 
 Node: cluster1-01
                                                                        Ignore
@@ -128,8 +132,10 @@ cluster1::*>
 .Show example 
 [%collapsible]
 ====
+
+[subs=+quotes]
 ----
-cluster1::*> network interface show -role cluster
+cluster1::*> *network interface show -role cluster*
             Logical            Status     Network           Current      Current Is
 Vserver     Interface          Admin/Oper Address/Mask      Node         Port    Home
 ----------- ------------------ ---------- ----------------- ------------ ------- ----
@@ -154,8 +160,10 @@ cluster1::*>
 .Show example 
 [%collapsible]
 ====
+
+[subs=+quotes]
 ----
-cluster1::*> system cluster-switch show -is-monitoring-enabled-operational true
+cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true*
 Switch                      Type               Address          Model
 --------------------------- ------------------ ---------------- ---------------
 cs1                         cluster-network    10.233.205.92    NX3232C
@@ -183,8 +191,10 @@ cs2                         cluster-network    10.233.205.93    NX3232C
 .Show example 
 [%collapsible]
 ====
+
+[subs=+quotes]
 ----
-cluster1::*> network interface modify -vserver Cluster -lif \* -auto-revert false
+cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert false*
 ----
 ====
 
@@ -193,9 +203,11 @@ cluster1::*> network interface modify -vserver Cluster -lif \* -auto-revert fals
 .Show example 
 [%collapsible]
 ====
+
+[subs=+quotes]
 ----
-cs2(config)# interface eth1/1/1-2,eth1/7-8
-cs2(config-if-range)# shutdown
+cs2(config)# *interface eth1/1/1-2,eth1/7-8*
+cs2(config-if-range)# *shutdown*
 ----
 ====
 
@@ -206,8 +218,10 @@ cs2(config-if-range)# shutdown
 .Show example 
 [%collapsible]
 ====
+
+[subs=+quotes]
 ----
-cluster1::*> network interface show -role cluster
+cluster1::*> *network interface show -role cluster*
             Logical           Status     Network            Current       Current Is
 Vserver     Interface         Admin/Oper Address/Mask       Node          Port    Home
 ----------- ----------------- ---------- ------------------ ------------- ------- ----
@@ -232,8 +246,10 @@ cluster1::*>
 .Show example 
 [%collapsible]
 ====
+
+[subs=+quotes]
 ----
-cluster1::*> cluster show
+cluster1::*> *cluster show*
 Node                 Health  Eligibility   Epsilon
 -------------------- ------- ------------  -------
 cluster1-01          true    true          false
@@ -261,7 +277,6 @@ CAUTION: When updating or applying a new RCF, you must erase the switch settings
 ====
 
 [subs=+quotes]
-
 ----
 (cs2)# *write erase*
 
@@ -294,10 +309,11 @@ Are you sure you would like to reset the system? (y/n) *y*
 ====
 This example shows TFTP being used to copy an RCF to the bootflash on switch cs2:
 
+[subs=+quotes]
 ----
-cs2# copy tftp: bootflash: vrf management
-Enter source filename: Nexus_3232C_RCF_v1.6-Cluster-HA-Breakout.txt
-Enter hostname for the tftp server: 172.22.201.50
+cs2# *copy tftp: bootflash: vrf management*
+Enter source filename: *Nexus_3232C_RCF_v1.6-Cluster-HA-Breakout.txt*
+Enter hostname for the tftp server: *172.22.201.50*
 Trying to connect to tftp server......Connection to Server Established.
 TFTP get operation was successful
 Copy complete, now saving to disk (please wait)...
@@ -313,8 +329,9 @@ For more information on Cisco commands, see the appropriate guide in the https:/
 ====
 This example shows the RCF file `Nexus_3232C_RCF_v1.6-Cluster-HA-Breakout.txt` being installed on switch cs2:
 
+[subs=+quotes]
 ----
-cs2# copy Nexus_3232C_RCF_v1.6-Cluster-HA-Breakout.txt running-config echo-commands
+cs2# *copy Nexus_3232C_RCF_v1.6-Cluster-HA-Breakout.txt running-config echo-commands*
 ----
 ====
 
@@ -323,8 +340,10 @@ cs2# copy Nexus_3232C_RCF_v1.6-Cluster-HA-Breakout.txt running-config echo-comma
 .Show example 
 [%collapsible]
 ====
+
+[subs=+quotes]
 ----
-cs2# show banner motd
+cs2# *show banner motd*
 
 ******************************************************************************
 * NetApp Reference Configuration File (RCF)
@@ -391,9 +410,10 @@ cs2# copy running-config startup-config [#######################################
 
 . Reboot switch cs2. You can ignore the "cluster ports down" events reported on the nodes while the switch reboots.
 +
+[subs=+quotes]
 ----
-cs2# reload
-This command will reboot the system. (y/n)?  [n] y
+cs2# *reload*
+This command will reboot the system. (y/n)?  [n] *y*
 ----
 
 . Apply the same RCF and save the running configuration for a second time.
@@ -415,8 +435,10 @@ cs2# copy running-config startup-config [#######################################
 .Show example 
 [%collapsible]
 ====
+
+[subs=+quotes]
 ----
-cluster1::*> network port show -role cluster
+cluster1::*> *network port show -role cluster*
 
 Node: cluster1-01
                                                                        Ignore
@@ -458,8 +480,10 @@ e0d       Cluster      Cluster          up   9000  auto/100000 healthy false
 .Show example 
 [%collapsible]
 ====
+
+[subs=+quotes]
 ----
-cluster1::*> network device-discovery show -protocol cdp
+cluster1::*> *network device-discovery show -protocol cdp*
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------- --------
@@ -520,9 +544,10 @@ NOTE: It can take up to 5 minutes for the cluster nodes to report as healthy.
 ====
 The following example uses the interface example output from step 1:
 
+[subs=+quotes]
 ----
-cs1(config)# interface eth1/1/1-2,eth1/7-8
-cs1(config-if-range)# shutdown
+cs1(config)# *interface eth1/1/1-2,eth1/7-8*
+cs1(config-if-range)# *shutdown*
 ----
 ====
 
@@ -533,8 +558,10 @@ cs1(config-if-range)# shutdown
 .Show example 
 [%collapsible]
 ====
+
+[subs=+quotes]
 ----
-cluster1::*> network interface show -role cluster
+cluster1::*> *network interface show -role cluster*
             Logical            Status     Network            Current             Current Is
 Vserver     Interface          Admin/Oper Address/Mask       Node                Port    Home
 ----------- ------------------ ---------- ------------------ ------------------- ------- ----
@@ -559,8 +586,10 @@ cluster1::*>
 .Show example 
 [%collapsible]
 ====
+
+[subs=+quotes]
 ----
-cluster1::*> cluster show
+cluster1::*> *cluster show*
 Node                 Health   Eligibility   Epsilon
 -------------------- -------- ------------- -------
 cluster1-01          true     true          false
@@ -575,8 +604,9 @@ cluster1::*>
 . Repeat Steps 7 to 14 on switch cs1.
 . Enable auto-revert on the cluster LIFs.
 +
+[subs=+quotes]
 ----
-cluster1::*> network interface modify -vserver Cluster -lif \* -auto-revert True
+cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert true*
 ----
 
 . Reboot switch cs1.You do this to trigger the cluster LIFs to revert to their home ports. You can ignore the "cluster ports down" events reported on the nodes while the switch reboots.
@@ -584,9 +614,11 @@ cluster1::*> network interface modify -vserver Cluster -lif \* -auto-revert True
 .Show example 
 [%collapsible]
 ====
+
+[subs=+quotes]
 ----
-cs1# reload
-This command will reboot the system. (y/n)?  [n] y
+cs1# *reload*
+This command will reboot the system. (y/n)?  [n] *y*
 ----
 ====
 
@@ -595,8 +627,10 @@ This command will reboot the system. (y/n)?  [n] y
 .Show example 
 [%collapsible]
 ====
+
+[subs=+quotes]
 ----
-cs1# show interface brief \| grep up
+cs1# *show interface brief | grep up*
 .
 .
 Eth1/1/1      1       eth  access up      none                    10G(D) --
@@ -615,8 +649,10 @@ Eth1/8        1       eth  trunk  up      none                   100G(D) --
 .Show example 
 [%collapsible]
 ====
+
+[subs=+quotes]
 ----
-cs1# show port-channel summary
+cs1# *show port-channel summary*
 Flags:  D - Down        P - Up in port-channel (members)
         I - Individual  H - Hot-standby (LACP only)
         s - Suspended   r - Module-removed
@@ -641,8 +677,10 @@ cs1#
 .Show example 
 [%collapsible]
 ====
+
+[subs=+quotes]
 ----
-cluster1::*> **network interface show -role cluster**
+cluster1::*> *network interface show -role cluster*
             Logical            Status     Network            Current             Current Is
 Vserver     Interface          Admin/Oper Address/Mask       Node                Port    Home
 ----------- ------------------ ---------- ------------------ ------------------- ------- ----
@@ -667,8 +705,10 @@ cluster1::*>
 .Show example 
 [%collapsible]
 ====
+
+[subs=+quotes]
 ----
-cluster1::*> cluster show
+cluster1::*> *cluster show*
 Node                 Health  Eligibility   Epsilon
 -------------------- ------- ------------- -------
 cluster1-01          true    true          false
@@ -687,8 +727,10 @@ cluster1::*>
 .Show example 
 [%collapsible]
 ====
+
+[subs=+quotes]
 ----
-cluster1::*> cluster ping-cluster -node local
+cluster1::*> *cluster ping-cluster -node local*
 Host is cluster1-03
 Getting addresses from network interface table...
 Cluster cluster1-03_clus1 169.254.1.3 cluster1-03 e0a
@@ -732,3 +774,4 @@ RPC status:
 // Added details to disable POAP, as per GH #90, 2023-MAY-16
 // Removed POAP info due to Cisco bug, as per AFFFASDOC-65, 2023-MAY-30
 // Updates for AFFFASDOC-118, 2023-SEPT-13
+// Updates for AFFFASDOC-98, 20203-SEPT-19
