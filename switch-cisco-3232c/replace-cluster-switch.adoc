@@ -246,7 +246,7 @@ http://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnm
 
 . Migrate the cluster LIFs to the physical node ports connected to the replacement switch C2:
 +
-`network interface migrate -vserver Cluster -lif _lif-name_ -source-node _node-name_ -destination-node _node-name_ -destination-port _port-name_`
+`network interface migrate -vserver _vserver-name_ -lif _lif-name_ -source-node _node-name_ -destination-node _node-name_ -destination-port _port-name_`
 +
 .Show example
 [%collapsible]
@@ -864,7 +864,7 @@ cluster::*> system cluster-switch log setup-password
 
 Enter the switch name: C2
 RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
-Do you want to continue? {y|n}:: [n] y
+Do you want to continue? {y|n}: [n] y
 
 Enter the password: <enter switch password>
 Enter the password again: <enter switch password>

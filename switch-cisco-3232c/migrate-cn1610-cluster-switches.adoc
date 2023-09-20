@@ -193,7 +193,8 @@ You should prepare both switches at this time. If you need to upgrade the RCF an
 .. Download the appropriate version of the image software at link:http://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.html[Cisco® Cluster and Management Network Switch Reference Configuration File Download^].
 
 . Migrate the LIFs associated with the second CN1610 switch that you plan to replace:
-`network interface migrate -verser cluster -lif _lif-name_ -source-node _source-node-name_ destination-node _destination-node-name_ -destination-port _destination-port-name_`
++
+`network interface migrate -vserver _vserver-name_ -lif _lif-name_ -source-node _source-node-name_ destination-node _destination-node-name_ -destination-port _destination-port-name_`
 +
 .Show example
 [%collapsible]

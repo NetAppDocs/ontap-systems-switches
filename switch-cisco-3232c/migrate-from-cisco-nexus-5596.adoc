@@ -232,7 +232,7 @@ To find the correct version, see the _ONTAP 8.x or later Cluster Network Switch 
 
 . Migrate the LIFs associated with the second Nexus 5596 switch to be replaced:
 +
-`network interface migrate -vserver Cluster -lif _lif-name_ -source-node _source-node-name_ – destination-node _node-name_ -destination-port _destination-port-name_`
+`network interface migrate -vserver _vserver-name_ -lif _lif-name_ -source-node _source-node-name_ - destination-node _node-name_ -destination-port _destination-port-name_`
 +
 .Show example
 [%collapsible]
@@ -617,7 +617,8 @@ RPC status:
 
 . On each node in the cluster, migrate the interfaces associated with the first Nexus 5596 switch, CL1, to be replaced:
 +
-`network interface migrate -vserver Cluster -lif _lif-name_ -source-node _source-node-name_ - destination-node _destination-node-name_ -destination-port _destination-port-name_`
+`network interface migrate -vserver _vserver-name_ -lif _lif-name_ -source-node _source-node-name_ 
+-destination-node _destination-node-name_ -destination-port _destination-port-name_`
 +
 .Show example
 [%collapsible]
