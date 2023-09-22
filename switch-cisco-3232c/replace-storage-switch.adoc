@@ -52,8 +52,10 @@ The AutoSupport message notifies technical support of this maintenance task so t
 .Show example
 [%collapsible]
 ====
+
+[subs=+quotes]
 ----
-storage::*> storage port show -port-type ENET
+storage::*> *storage port show -port-type ENET*
                                       Speed                     VLAN
 Node               Port Type  Mode    (Gb/s) State    Status      ID
 ------------------ ---- ----- ------- ------ -------- --------- ----
@@ -77,8 +79,10 @@ node2
 .Show example
 [%collapsible]
 ====
+
+[subs=+quotes]
 ----
-storage::*> network device-discovery show
+storage::*> *network device-discovery show*
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------- ----------------
@@ -108,8 +112,10 @@ node2/lldp
 .Show example
 [%collapsible]
 ====
+
+[subs=+quotes]
 ----
-S1# show lldp neighbors
+S1# *show lldp neighbors*
 Capability codes:
   (R) Router, (B) Bridge, (T) Telephone, (C) DOCSIS Cable Device
   (W) WLAN Access Point, (P) Repeater, (S) Station, (O) Other
@@ -132,8 +138,10 @@ SHFGD2008000022         Eth1/8          120        S           e0a
 .Show example
 [%collapsible]
 ====
+
+[subs=+quotes]
 ----
-storage::*> storage shelf port show -fields remote-device,remote-port
+storage::*> *storage shelf port show -fields remote-device,remote-port*
 
 shelf  id  remote-port  remote-device
 -----  --  -----------  -------------
@@ -153,15 +161,17 @@ shelf  id  remote-port  remote-device
 
 === Step 3: Verify all device configurations on switch NS2
 
-. Recheck the health status of the storage node ports:
+. Verify the health status of the storage node ports:
 +
 `storage port show -port-type ENET`
 +
 .Show example
 [%collapsible]
 ====
+
+[subs=+quotes]
 ----
-storage::*> storage port show -port-type ENET
+storage::*> *storage port show -port-type ENET*
                                       Speed                       VLAN
 Node               Port Type  Mode    (Gb/s) State    Status        ID
 ------------------ ---- ----- ------- ------ -------- ------------ ---
@@ -185,8 +195,10 @@ node2
 .Show example
 [%collapsible]
 ====
+
+[subs=+quotes]
 ----
-storage::*> network device-discovery show
+storage::*> *network device-discovery show*
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  --------
@@ -220,8 +232,10 @@ node2/lldp
 .Show example
 [%collapsible]
 ====
+
+[subs=+quotes]
 ----
-storage::*> storage shelf port show -fields remote-device,remote-port
+storage::*> *storage shelf port show -fields remote-device,remote-port*
 shelf id remote-port remote-device
 ----- -- ----------- -------------
 3.20  0  Ethernet1/5 S1
@@ -238,3 +252,5 @@ shelf id remote-port remote-device
 . If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
 +
 `system node autosupport invoke -node * -type all -message MAINT=END`
+
+// Format fixes as part of AFFFASDOC-98, 20203-SEPT-19
