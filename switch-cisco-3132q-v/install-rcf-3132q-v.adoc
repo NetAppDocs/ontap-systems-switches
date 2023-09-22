@@ -363,6 +363,26 @@ cs2# show banner motd
 *
 *   (2) Save running-configuration and reboot Cluster Switch
 *
+*   (3) After reboot, apply same RCF second time and expect following messages:
+*       - % Invalid command at '^' marker
+*
+*   (4) Save running-configuration again
+*
+* - If running NX-OS versions 9.3(5) 9.3(6), 9.3(7), or 9.3(8)
+*    - Downgrade the NX-OS firmware to version 9.3(5) or earlier if
+*      NX-OS using a version later than 9.3(5).
+*    - Do not upgrade NX-OS prior to applying v1.9 RCF file.
+*    - After the RCF is applied and switch rebooted, then proceed to upgrade
+*      NX-OS to version 9.3(5) or later.
+*
+* - If running 9.3(9) 10.2(2) or later the RCF can be applied to the switch
+*      after the upgrade.
+*
+* - Port 1 multiplexed H/W configuration options:           
+*     hardware profile front portmode qsfp      (40G H/W port 1/1 is active - default) 
+*     hardware profile front portmode sfp-plus  (10G H/W ports 1/1/1 - 1/1/4 are active) 
+*     hardware profile front portmode qsfp      (To reset to QSFP)
+*
 ******************************************************************************
 ----
 ====
