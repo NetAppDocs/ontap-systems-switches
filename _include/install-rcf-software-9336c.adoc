@@ -34,8 +34,6 @@ No operational inter-switch link (ISL) is needed during this procedure. This is 
 
 CAUTION: Before installing a new switch software version and RCFs, you must erase the switch settings and perform basic configuration. You must be connected to the switch using the serial console. This task resets the configuration of the management network.
 
-NOTE: See link:configure-software-overview-9336c-cluster.html[Software install workflow] for details of the available RCF configurations.
-
 === Step 1: Prepare for the installation
 
 . Display the cluster ports on each node that are connected to the cluster switches: 
@@ -637,11 +635,12 @@ Eth1/8        1       eth  trunk  up      none                   100G(D) --
 +
 When using the multi-cluster feature, to verify that your cluster nodes are in their correct cluster vlans, use the commands:
 +
-----
-show interface brief
-show vlan brief
-show cdp neighbors
-----
+`*show interface brief*`
++
+`show vlan brief`
++
+`show cdp neighbors`
+
 
 . Verify that the ISL between cs1 and cs2 is functional:
 +
