@@ -10,42 +10,6 @@ The examples in this procedure use the following switch and node nomenclature:
 .About this task
 The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 
-.Available RCF configurations
-The following table describes the RCFs available for different configurations. Choose the RCF applicable to your configuration.
-
-[options="header" cols="1,2"]
-|===
-| RCF name | Description
-a|
-NX9336C-2x8-MultiCluster-HA
-a|
-All ports are configured for 10/25/40/100GbE. Supports two HA interconnect networks, two clusters with eight nodes (2 x 8).
-a|
-NX9336C-4x4-MultiCluster-HA
-a|
-All ports are configured for 10/25/40/100GbE. Supports four HA interconnect networks. Four clusters with four nodes (4 x 4).
-a|
-Cluster-HA
-a|
-All ports are configured for 40/100GbE. Supports shared cluster/HA traffic on ports. Required for AFF A320, AFF A250, and FAS500f. Additionally, all ports can be used as dedicated cluster ports.
-a|
-Cluster-HA-Breakout
-a|
-Ports are configured for 4x10GbE breakout, 4x25GbE breakout (RCF 1.6+ on 100GbE switches), and 40/100GbE. Supports shared cluster/HA traffic on ports for nodes that use shared cluster/HA ports: AFF A320, AFF A250, and FAS500f. Additionally, all ports can be used as dedicated cluster ports.
-a|
-Cluster-HA-Storage
-a|
-Ports are configured for 40/100GbE for Cluster+HA, 4x10GbE Breakout for Cluster and 4x25GbE Breakout for Cluster+HA, and 100GbE for each Storage HA Pair.
-a|
-Cluster
-a|
-Two flavors of RCF with different allocations of 4x10GbE ports (breakout) and 40/100GbE ports. All FAS/AFF nodes are supported, except for AFF A320, AFF A250, and FAS500f.
-a|
-Storage
-a|
-All ports are configured for 100GbE NVMe storage connections.
-|===
-
 .Steps
 
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=x h`
@@ -288,6 +252,3 @@ cluster1::*>
 
 
 NOTE: If any of these commands return an error, contact NetApp support.
-
-
-// Updated for the Batik release, 2023-SEPT-25

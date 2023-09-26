@@ -21,17 +21,19 @@ Install the RCF after setting up the Nexus 9336C-FX2 switch for the first time. 
 +
 The following table describes the RCFs available for different configurations. Choose the RCF applicable to your configuration.
 +
+For specific port usage details, refer to the banner in your RCF.
++ 
 [options="header" cols="1,2"]
 |===
 | RCF name | Description
 a|
 NX9336C-2x8-MultiCluster-HA
 a|
-All ports are configured for 10/25/40/100GbE. Supports two HA interconnect networks, two clusters with eight nodes (2 x 8).
+All ports are configured for 10/25/40/100GbE. Supports two HA interconnect networks, two clusters with at least eight nodes (2 x 8).
 a|
 NX9336C-4x4-MultiCluster-HA
 a|
-All ports are configured for 10/25/40/100GbE. Supports four HA interconnect networks. Four clusters with four nodes (4 x 4).
+All ports are configured for 10/25/40/100GbE. Supports four HA interconnect networks. Four clusters with at least four nodes (4 x 4).
 a|
 Cluster-HA
 a|
@@ -53,3 +55,5 @@ Storage
 a|
 All ports are configured for 100GbE NVMe storage connections.
 |===
+
+// Updates for the Batik release ONTAPDOC-1340, 2023-SEPT-25
