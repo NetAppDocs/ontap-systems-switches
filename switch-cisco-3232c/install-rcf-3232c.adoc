@@ -265,7 +265,7 @@ cluster1::*>
 +
 `show running-config`
 +
-. Clean the configuration on switch cs2 and perform a basic setup.
+. Clean the configuration on switch cs2 and reboot the switch.
 +
 CAUTION: When updating or applying a new RCF, you must erase the switch settings and perform basic configuration. You must be connected to the switch serial console port to set up the switch again.
 
@@ -286,7 +286,7 @@ Do you wish to proceed anyway? (y/n)  [n]  *y*
 ----
 ====
 
-.. Perform a reboot of the switch:
+.. Reboot the switch:
 +
 
 .Show example
@@ -301,6 +301,8 @@ Are you sure you would like to reset the system? (y/n) *y*
 
 ----
 ====
+
+. Perform a basic setup of the switch. See link:setup-switch.html[Configure the 3232C cluster switch^] for details.
 
 . Copy the RCF to the bootflash of switch cs2 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-installation-guides-list.html[Cisco Nexus 3000 Series NX-OS Command Reference^] guides.
 +
