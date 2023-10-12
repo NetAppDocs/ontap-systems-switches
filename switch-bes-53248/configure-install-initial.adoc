@@ -150,7 +150,7 @@ Burned In MAC Address.......................... D8:C4:97:71:12:3C
 ----
 ====
 +
-NOTE: For EFOS version 3.10.0.3 and later, use the command `ntp`.
+For EFOS version 3.10.0.3 and later, use the command `ntp`. 
 +
 `ntp`
 +
@@ -160,10 +160,8 @@ NOTE: For EFOS version 3.10.0.3 and later, use the command `ntp`.
 
 [subs=+quotes]
 ----
->en
->configure 
->(Config)# *ntp*
->(Config)# *ntp ?*
+(cs2)configure 
+(cs2)(Config)# *ntp ?*
 
 authenticate             Enables NTP authentication.
 authentication-key       Configure NTP authentication key.
@@ -174,11 +172,11 @@ source-interface         Configure the NTP source-interface.
 trusted-key              Configure NTP authentication key number for trusted time source.
 vrf                      Configure the NTP VRF.
 
->(Config)# *ntp server ?*
+(cs2)(Config)# *ntp server ?*
 
-<ip-address|ipv6-address|hostname  Enter a valid IPv4/IPv6 address or hostname.
+ip-address|ipv6-address|hostname  Enter a valid IPv4/IPv6 address or hostname.
 
->(Config)# *ntp server*
+(cs2)(Config)# *ntp server*
 ----
 ====
 
