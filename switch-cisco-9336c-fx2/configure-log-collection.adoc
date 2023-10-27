@@ -26,6 +26,7 @@ Verify that you have set up your environment using the 9336C-FX2 cluster switch 
 .Steps
 
 . Create a password for the Ethernet switch health monitor log collection feature:
++
 `system switch ethernet log setup-password`
 
 +
@@ -60,7 +61,7 @@ Enter the password again: *<enter switch password>*
 ----
 ====
 
-. Enable the Ethernet switch health monitor log collection feature.
+. Enable the Ethernet switch health monitor log collection feature:
 +
 `system switch ethernet log modify -device _<switch-name>_ -log-request true`
 
@@ -85,7 +86,7 @@ Enabling cluster switch log collection.
 ----
 ====
 +
-Wait for 10 minutes and then check that the log collection completes using the command:
+Wait for 10 minutes and then check that the log collection completes:
 +
 `system switch ethernet log show`
 +
