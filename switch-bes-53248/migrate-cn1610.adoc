@@ -413,8 +413,8 @@ node1      /cdp
 +
 [subs=+quotes]
 ----
-cs2# *show interface brief*
-cs2# *show cdp neighbors*
+cs2# *show port all*
+cs2# *show isdp neighbors*
 ----
 
 . On cluster switch CL1, shut down the ports connected to the cluster ports of the nodes.
@@ -532,8 +532,8 @@ node2      /cdp
 +
 [subs=+quotes]
 ----
-cs1# *show interface brief*
-cs1# *show cdp neighbors*
+cs1# *show port all*
+cs1# *show isdp neighbors*
 ----
 
 . Verify that the ISL between cs1 and cs2 is still operational:
@@ -752,3 +752,4 @@ cluster::*> system node autosupport invoke -node * -type all -message MAINT=END
 // Updates for AFFFASDOC-72, 2023-JUN-28
 
 // Updates for GH issue #115, 2023-AUG-08
+// Updates for GH issue #135, 2023-OCT-23
