@@ -1,0 +1,117 @@
+---
+permalink: switch-nvidia-sn2100/monitor-log-collection.html
+sidebar: sidebar
+keywords: log collection feature,collect switch-related log files,SSh key,crypto key generation
+summary: 'The Ethernet switch health monitor (CSHM) log collection feature is used to collect logs from cluster or storage network switches in ONTAP.'
+---
+= Switch Health Log Collection Management
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+The Ethernet switch health monitor (CSHM) is responsible for ensuring the operational health of Cluster and Storage network switches and collecting switch logs for debugging purposes. This document will guide you through the process of setting up and starting the log collection feature.
+
+.Before you begin
+
+* The user for log collection must be specified when the Reference Configuration File (RCF) is applied. Change the username specified in the "# SHM User" section of the RCF.
+* The user must have access to the "nvshow" commands. This can be added by running `sudo adduser USER nvshow`, replacing USER with the user for log collection.
+* Switch health monitoring must be enabled for the switch. Verify this by ensuring the "Is Monitored:" field is set to "true" in the output of `system switch ethernet show`.
+
+.Steps
+
+.To set up log collection, run the following command. This command does not take any parameters. You will be prompted to enter the switch name and the username and password for log collection.
++
+`system switch ethernet log setup-password`
+
++
+.Show example
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cluster1::*> *system switch ethernet log setup-password*
+Enter the switch name: *<return>*
+The switch name entered is not recognized.
+Choose from the following list:
+*cs1*
+*cs2*
+
+cluster1::*> *system switch ethernet log setup-password*
+
+Enter the switch name: *cs1*
+Would you like to specify a user other than admin for log collection? {y|n}: *n*
+
+Enter the password: *<enter switch password>*
+Enter the password again: *<enter switch password>*
+
+cluster1::*> *system switch ethernet log setup-password*
+
+Enter the switch name: *cs2*
+Would you like to specify a user other than admin for log collection? {y|n}: *n*
+
+Enter the password: *<enter switch password>*
+Enter the password again: *<enter switch password>*
+----
+====
+
+.To start log collection, run the following command, replacing DEVICE with the switch used in the previous command. This will start the collection of detailed "Tech Support" logs from the switch and an hourly collection of "ASUP"/"metadata" logs.
++
+`system switch ethernet log modify -device _<switch-name>_ -log-request true`
+
++
+.Show example 
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cluster1::*> *system switch ethernet log modify -device cs1 -log-request true*
+
+Do you want to modify the cluster switch log collection configuration? {y|n}: [n] *y*
+
+Enabling cluster switch log collection.
+
+cluster1::*> *system switch ethernet log modify -device cs2 -log-request true*
+
+Do you want to modify the cluster switch log collection configuration? {y|n}: [n] *y*
+
+Enabling cluster switch log collection.
+----
+====
++
+Wait for 10 minutes and then check that the log collection completes using the command:
++
+`system switch ethernet log show`
++
+CAUTION: If any of these commands return an error or if the log collection does not complete, contact NetApp support.
+
+.Troubleshooting
+If you encounter any of the following error statuses reported by the log collection feature (visible in the output of "system switch ethernet log show"), try the corresponding debug steps:
+
+// start of tabbed content 
+
+[role="tabbed-block"] 
+
+==== 
+."RSA keys not present" - Regenerate ONTAP SSH keys using following command. 
+--
+`debug system regenerate-systemshell-key-pair`.
+--
+
+."switch password error" - Verify credentials, test SSH connectivity, Regenerate ONTAP SSH keys using "debug system regenerate-systemshell-key-pair".
+
+."ecdsa keys not present for FIPS" - If FIPS mode is enabled, ecdsa keys need to be generated on the switch before retrying.
+
+."pre-existing log found" - Remove the previous log collection files on the switch.
+
+."switch dump log error" - Ensure the user has log collection permissions. Refer to the prerequisites above.
+
+."switch log cleanup error" - Ensure the user has the permissions to delete the tech support log collection file.
+
+==== 
+
+// end of tabbed content
+
+// Updates for AFFFASDOC-142, 2023-OCT-18
+// Fix CSHM Documentation, 2023-NOV-12
