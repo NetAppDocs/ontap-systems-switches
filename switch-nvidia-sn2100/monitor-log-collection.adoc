@@ -13,13 +13,13 @@ The Ethernet switch health monitor (CSHM) is responsible for ensuring the operat
 
 .Before you begin
 
-* The user for log collection must be specified when the Reference Configuration File (RCF) is applied. Change the username specified in the "# SHM User" section of the RCF.
-* The user must have access to the "nvshow" commands. This can be added by running `sudo adduser USER nvshow`, replacing USER with the user for log collection.
-* Switch health monitoring must be enabled for the switch. Verify this by ensuring the "Is Monitored:" field is set to "true" in the output of `system switch ethernet show`.
+* The user for log collection must be specified when the Reference Configuration File (RCF) is applied. Change the username specified in the *# SHM User* section of the RCF.
+* The user must have access to the *nv show* commands. This can be added by running `sudo adduser USER nv show`, replacing USER with the user for log collection.
+* Switch health monitoring must be enabled for the switch. Verify this by ensuring the "Is Monitored:" field is set to *true"* in the output of `system switch ethernet show` command.
 
 .Steps
 
-.To set up log collection, run the following command. This command does not take any parameters. You will be prompted to enter the switch name and the username and password for log collection.
+. To set up log collection, run the following command. This command does not take any parameters. You will be prompted to enter the switch name and the username and password for log collection.
 +
 `system switch ethernet log setup-password`
 
@@ -55,7 +55,7 @@ Enter the password again: *<enter switch password>*
 ----
 ====
 
-.To start log collection, run the following command, replacing DEVICE with the switch used in the previous command. This will start the collection of detailed "Tech Support" logs from the switch and an hourly collection of "ASUP"/"metadata" logs.
+. To start log collection, run the following command, replacing DEVICE with the switch used in the previous command. This will start the collection of detailed "Tech Support" logs from the switch and an hourly collection of "ASUP"/"metadata" logs.
 +
 `system switch ethernet log modify -device _<switch-name>_ -log-request true`
 
@@ -87,29 +87,25 @@ Wait for 10 minutes and then check that the log collection completes using the c
 CAUTION: If any of these commands return an error or if the log collection does not complete, contact NetApp support.
 
 .Troubleshooting
-If you encounter any of the following error statuses reported by the log collection feature (visible in the output of "system switch ethernet log show"), try the corresponding debug steps:
+If you encounter any of the following error statuses reported by the log collection feature (visible in the output of `system switch ethernet log show`), try the corresponding debug steps:
 
-// start of tabbed content 
+|===
 
-[role="tabbed-block"] 
-
-==== 
-
-."RSA keys not present" - Regenerate ONTAP SSH keys using `debug system regenerate-systemshell-key-pair`.
-
-."switch password error" - Verify credentials, test SSH connectivity, Regenerate ONTAP SSH keys using "debug system regenerate-systemshell-key-pair".
-
-."ecdsa keys not present for FIPS" - If FIPS mode is enabled, ecdsa keys need to be generated on the switch before retrying.
-
-."pre-existing log found" - Remove the previous log collection files on the switch.
-
-."switch dump log error" - Ensure the user has log collection permissions. Refer to the prerequisites above.
-
-."switch log cleanup error" - Ensure the user has the permissions to delete the tech support log collection file.
-
-==== 
-
-// end of tabbed content
+h| *Error returned* h| *Resolution* 
+a| *RSA keys not present*
+a| Regenerate ONTAP SSH keys using `debug system regenerate-systemshell-key-pair`
+a| *switch password error*
+a| Verify credentials, test SSH connectivity, Regenerate ONTAP SSH keys using `debug system regenerate-systemshell-key-pair`
+a| *ecdsa keys not present for FIPS*
+a| If FIPS mode is enabled, ecdsa keys need to be generated on the switch before retrying
+a| *pre-existing log found*
+a| Remove the previous log collection files on the switch.
+a| *switch dump log error*
+a| Ensure the user has log collection permissions. Refer to the prerequisites above.
+a| *switch log cleanup error*
+a| Ensure the user has the permissions to delete the tech support log collection file.
+	
+|===
 
 // Updates for AFFFASDOC-142, 2023-OCT-18
 // Fix CSHM Documentation, 2023-NOV-12
