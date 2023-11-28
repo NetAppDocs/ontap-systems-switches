@@ -33,7 +33,8 @@ The examples in this procedure use the following switch and node nomenclature:
 * n1_clus1 is the first cluster logical interface (LIF) that is connected to cluster switch 1 (CL1 or C1) for node n1.
 * n1_clus2 is the first cluster LIF that is connected to cluster switch 2 (CL2 or C2) for node n1.
 * n1_clus3 is the second LIF that is connected to cluster switch 2 (CL2 or C2) for node n1.
-* n1_clus4 is the second LIF that is connected to cluster switch 1 (CL1 or C1) for node n1. The nodes are n1, n2, n3, and n4.
+* n1_clus4 is the second LIF that is connected to cluster switch 1 (CL1 or C1) for node n1. 
+* The nodes are n1, n2, n3, and n4.
 * The number of 10 GbE and 40/100 GbE ports are defined in the reference configuration files (RCFs) available on the https://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco® Cluster Network Switch Reference Configuration File Download^] page.
 
 .About the examples
@@ -113,7 +114,7 @@ n2     /cdp
 The following example displays the network port attributes on a system:
 
 ----
-cluster::*> network port show -role cluster
+cluster::*> network port show -role Cluster
        (network port show)
 
 Node: n1
@@ -148,7 +149,7 @@ e0d   cluster   cluster    up    9000  auto/10000     -        -
 The following example displays the general information about all of the LIFs on your system:
 
 ----
-cluster::*> network interface show -role cluster
+cluster::*> network interface show -role Cluster
        (network interface show)
 
          Logical    Status      Network        Current  Current  Is
@@ -261,7 +262,7 @@ cluster::*> network interface migrate -vserver Cluster -lif n2_clus3 -destinatio
 The following example shows the result of the previous `network interface migrate` command:
 
 ----
-cluster::*> network interface show -role cluster
+cluster::*> network interface show -role Cluster
        (network interface show)
 
          Logical    Status      Network         Current  Current  Is
@@ -533,10 +534,10 @@ cluster::*> network port modify -node n2 -port e0c -up-admin true
 [%collapsible]
 ====
 ----
-cluster::*> network interface revert -vserver cluster -lif n1_clus2
-cluster::*> network interface revert -vserver cluster -lif n1_clus3
-cluster::*> network interface revert -vserver cluster -lif n2_clus2
-cluster::*> network interface revert -vserver cluster -lif n2_clus3
+cluster::*> network interface revert -vserver Cluster -lif n1_clus2
+cluster::*> network interface revert -vserver Cluster -lif n1_clus3
+cluster::*> network interface revert -vserver Cluster -lif n2_clus2
+cluster::*> network interface revert -vserver Cluster -lif n2_clus3
 ----
 ====
 
@@ -580,7 +581,7 @@ Cluster
 The following example shows the result of the previous `network port modify` command, verifying that all of the cluster interconnects are `up`:
 
 ----
-cluster::*> network port show -role cluster
+cluster::*> network port show -role Cluster
        (network port show)
 
 Node: n1
@@ -670,14 +671,10 @@ RPC status:
 The following example shows the ports or LIFs being migrated on nodes n1 and n2:
 
 ----
-cluster::*> network interface migrate -vserver cluster -lif n1_clus1 -source-node n1
--destination-node n1 -destination-port e0b
-cluster::*> network interface migrate -vserver cluster -lif n1_clus4 -source-node n1
--destination-node n1 -destination-port e0c
-cluster::*> network interface migrate -vserver cluster -lif n2_clus1 -source-node n2
--destination-node n2 -destination-port e0b
-cluster::*> network interface migrate -vserver cluster -lif n2_clus4 -source-node n2
--destination-node n2 -destination-port e0c
+cluster::*> network interface migrate -vserver cluster -lif n1_clus1 -destination-node n1 -destination-port e0b
+cluster::*> network interface migrate -vserver cluster -lif n1_clus4 -destination-node n1 -destination-port e0c
+cluster::*> network interface migrate -vserver cluster -lif n2_clus1 -destination-node n2 -destination-port e0b
+cluster::*> network interface migrate -vserver cluster -lif n2_clus4 -destination-node n2 -destination-port e0c
 ----
 ====
 
@@ -691,7 +688,7 @@ cluster::*> network interface migrate -vserver cluster -lif n2_clus4 -source-nod
 The following example shows that the required cluster LIFs have been migrated to the appropriate cluster ports hosted on cluster switch C2:
 
 ----
-cluster::*> network interface show -role cluster
+cluster::*> network interface show -role Cluster
        (network interface show)
 
          Logical    Status      Network        Current  Current  Is
@@ -858,7 +855,7 @@ cluster::*> network port modify -node n2 -port e0d -up-admin true
 The following example verifies that all of the cluster interconnect ports on n1 and n2 on the new 3132Q-V switch C1 are `up`:
 
 ----
-cluster::*> network port show -role cluster
+cluster::*> network port show -role Cluster
        (network port show)
 
 Node: n1
@@ -893,10 +890,10 @@ e0d   cluster   cluster    up    9000  auto/10000     -        -
 The following example shows how to revert the migrated cluster LIFs to their home ports:
 
 ----
-cluster::*> network interface revert -vserver cluster -lif n1_clus1
-cluster::*> network interface revert -vserver cluster -lif n1_clus4
-cluster::*> network interface revert -vserver cluster -lif n2_clus1
-cluster::*> network interface revert -vserver cluster -lif n2_clus4
+cluster::*> network interface revert -vserver Cluster -lif n1_clus1
+cluster::*> network interface revert -vserver Cluster -lif n1_clus4
+cluster::*> network interface revert -vserver Cluster -lif n2_clus1
+cluster::*> network interface revert -vserver Cluster -lif n2_clus4
 ----
 ====
 
@@ -910,7 +907,7 @@ cluster::*> network interface revert -vserver cluster -lif n2_clus4
 The following example shows the status of cluster interconnect interfaces is `up` and `Is home` for n1 and n2:
 
 ----
-cluster::*> network interface show -role cluster
+cluster::*> network interface show -role Cluster
        (network interface show)
 
          Logical    Status      Network        Current  Current  Is
@@ -1066,7 +1063,7 @@ e4e   cluster   cluster    up    9000  auto/40000     -        -
 ----
 
 ----
-cluster::*> network interface show -role cluster
+cluster::*> network interface show -role Cluster
        (network interface show)
 
          Logical    Status      Network        Current  Current  Is
@@ -1139,8 +1136,8 @@ The following example shows how to remove the CN1610 switches:
 
 ----
 
-cluster::> system cluster-switch delete –device CL1
-cluster::> system cluster-switch delete –device CL2
+cluster::> system cluster-switch delete -device CL1
+cluster::> system cluster-switch delete -device CL2
 ----
 ====
 
@@ -1245,3 +1242,5 @@ NOTE: If any of these commands return an error, contact NetApp support.
 
 
 // QA clean-up, 2022-03-03
+
+// Updates for AFFFASDOC-102, 2023-NOV-28
