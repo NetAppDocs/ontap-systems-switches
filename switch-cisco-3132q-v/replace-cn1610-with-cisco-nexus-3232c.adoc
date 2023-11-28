@@ -671,10 +671,10 @@ RPC status:
 The following example shows the ports or LIFs being migrated on nodes n1 and n2:
 
 ----
-cluster::*> network interface migrate -vserver cluster -lif n1_clus1 -destination-node n1 -destination-port e0b
-cluster::*> network interface migrate -vserver cluster -lif n1_clus4 -destination-node n1 -destination-port e0c
-cluster::*> network interface migrate -vserver cluster -lif n2_clus1 -destination-node n2 -destination-port e0b
-cluster::*> network interface migrate -vserver cluster -lif n2_clus4 -destination-node n2 -destination-port e0c
+cluster::*> network interface migrate -vserver Cluster -lif n1_clus1 -destination-node n1 -destination-port e0b
+cluster::*> network interface migrate -vserver Cluster -lif n1_clus4 -destination-node n1 -destination-port e0c
+cluster::*> network interface migrate -vserver Cluster -lif n2_clus1 -destination-node n2 -destination-port e0b
+cluster::*> network interface migrate -vserver Cluster -lif n2_clus4 -destination-node n2 -destination-port e0c
 ----
 ====
 
