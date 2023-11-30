@@ -9,17 +9,17 @@ summary: 'The Ethernet switch health monitor (CSHM) log collection feature is us
 :imagesdir: ../media/
 
 [.lead]
-The Ethernet switch health monitor (CSHM) is responsible for ensuring the operational health of Cluster and Storage network switches and collecting switch logs for debugging purposes. This document will guide you through the process of setting up and starting the log collection feature.
+The Ethernet switch health monitor (CSHM) is responsible for ensuring the operational health of Cluster and Storage network switches and collecting switch logs for debugging purposes. The following steps will guide you through the process of setting up and starting the log collection feature.
 
 .Before you begin
 
-* The user for log collection must be specified when the Reference Configuration File (RCF) is applied. Change the username specified in the *# SHM User* section of the RCF.
-* The user must have access to the *nv show* commands. This can be added by running `sudo adduser USER nv show`, replacing USER with the user for log collection.
-* Switch health monitoring must be enabled for the switch. Verify this by ensuring the "Is Monitored:" field is set to *true"* in the output of `system switch ethernet show` command.
+* You must specify the user for log collection when the Reference Configuration File (RCF) is applied. Update  the username specified in the *# SHM User* section of the RCF.
+* The user must have access to the *nv show* commands. This can be added by running `sudo adduser USER nv show`, replacing USER with the user specified for log collection.
+* Switch health monitoring must be enabled for the switch. Verify this by ensuring the "Is Monitored:" field is set to *true"* in the output of the `system switch ethernet show` command.
 
 .Steps
 
-. To set up log collection, run the following command. This command does not take any parameters. You will be prompted to enter the switch name and the username and password for log collection.
+. To set up log collection, run the following command. This command does not take any parameters. You are prompted to enter the switch name and the username and password for log collection:
 +
 `system switch ethernet log setup-password`
 
@@ -55,7 +55,7 @@ Enter the password again: *<enter switch password>*
 ----
 ====
 
-. To start log collection, run the following command, replacing DEVICE with the switch used in the previous command. This will start the collection of detailed "Tech Support" logs from the switch and an hourly collection of "ASUP"/"metadata" logs.
+. To start log collection, run the following command, replacing DEVICE with the switch used in the previous command. This starts the collection of detailed "Tech Support" logs from the switch and an hourly collection of "ASUP"/"metadata" logs.
 +
 `system switch ethernet log modify -device _<switch-name>_ -log-request true`
 
@@ -108,4 +108,4 @@ a| Ensure the user has the permissions to delete the tech support log collection
 |===
 
 // Updates for AFFFASDOC-142, 2023-OCT-18
-// Fix CSHM Documentation, 2023-NOV-12
+// Fix CSHM documentation, 2023-NOV-12
