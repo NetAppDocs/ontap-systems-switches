@@ -106,43 +106,56 @@ The advanced prompt (*>) appears.
 
 . On the new switches, confirm that the ISL is cabled and healthy between switches cs1 and cs2:
 +
-`show port-channel summary`
+`show port-channel`
 +
 .Show example
 [%collapsible]
 ====
+The following example shows that the ISL ports are *up* on switch cs1:
 
 [subs=+quotes]
 ----
-cs1# *show port-channel summary*
-Flags:  D - Down        P - Up in port-channel (members)
-        I - Individual  H - Hot-standby (LACP only)
-        s - Suspended   r - Module-removed
-        b - BFD Session Wait
-        S - Switched    R - Routed
-        U - Up (port-channel)
-        p - Up in delay-lacp mode (member)
-        M - Not in use. Min-links not met
---------------------------------------------------------------------------------
-Group Port-       Type     Protocol  Member Ports
-      Channel
---------------------------------------------------------------------------------
-1     Po1(SU)     Eth      LACP      Eth1/55(P)   Eth1/56(P)
+(cs1)# *show port-channel 1/1*
+Local Interface................................ 1/1
+Channel Name................................... Cluster-ISL
+Link State..................................... Up
+Admin Mode..................................... Enabled
+Type........................................... Dynamic
+Port channel Min-links......................... 1
+Load Balance Option............................ 7
+(Enhanced hashing mode)
 
-cs2# *show port-channel summary*
-Flags:  D - Down        P - Up in port-channel (members)
-        I - Individual  H - Hot-standby (LACP only)
-        s - Suspended   r - Module-removed
-        b - BFD Session Wait
-        S - Switched    R - Routed
-        U - Up (port-channel)
-        p - Up in delay-lacp mode (member)
-        M - Not in use. Min-links not met
---------------------------------------------------------------------------------
-Group Port-       Type     Protocol  Member Ports
-      Channel
---------------------------------------------------------------------------------
-1     Po1(SU)     Eth      LACP      Eth1/55(P)   Eth1/56(P)
+Mbr    Device/       Port       Port
+Ports  Timeout       Speed      Active
+------ ------------- ---------  -------
+0/55   actor/long    100G Full  True
+       partner/long
+0/56   actor/long    100G Full  True
+       partner/long
+(cs1) #
+----
+
+The following example shows that the ISL ports are *up* on switch cs2:
+
+[subs=+quotes]
+----
+(cs2)# *show port-channel 1/1*
+Local Interface................................ 1/1
+Channel Name................................... Cluster-ISL
+Link State..................................... Up
+Admin Mode..................................... Enabled
+Type........................................... Dynamic
+Port channel Min-links......................... 1
+Load Balance Option............................ 7
+(Enhanced hashing mode)
+
+Mbr    Device/       Port       Port
+Ports  Timeout       Speed      Active
+------ ------------- ---------  -------
+0/55   actor/long    100G Full  True
+       partner/long
+0/56   actor/long    100G Full  True
+       partner/long
 ----
 ====
 
@@ -538,43 +551,56 @@ cs1# *show isdp neighbors*
 
 . Verify that the ISL between cs1 and cs2 is still operational:
 +
-`show port-channel summary`
+`show port-channel`
 +
 .Show example
 [%collapsible]
 ====
+The following example shows that the ISL ports are *up* on switch cs1:
 
 [subs=+quotes]
 ----
-cs1# *show port-channel summary*
-Flags:  D - Down        P - Up in port-channel (members)
-        I - Individual  H - Hot-standby (LACP only)
-        s - Suspended   r - Module-removed
-        b - BFD Session Wait
-        S - Switched    R - Routed
-        U - Up (port-channel)
-        p - Up in delay-lacp mode (member)
-        M - Not in use. Min-links not met
---------------------------------------------------------------------------------
-Group Port-       Type     Protocol  Member Ports
-      Channel
---------------------------------------------------------------------------------
-1     Po1(SU)     Eth      LACP      Eth1/55(P)   Eth1/56(P)
+(cs1)# *show port-channel 1/1*
+Local Interface................................ 1/1
+Channel Name................................... Cluster-ISL
+Link State..................................... Up
+Admin Mode..................................... Enabled
+Type........................................... Dynamic
+Port channel Min-links......................... 1
+Load Balance Option............................ 7
+(Enhanced hashing mode)
 
-cs2# *show port-channel summary*
-Flags:  D - Down        P - Up in port-channel (members)
-        I - Individual  H - Hot-standby (LACP only)
-        s - Suspended   r - Module-removed
-        b - BFD Session Wait
-        S - Switched    R - Routed
-        U - Up (port-channel)
-        p - Up in delay-lacp mode (member)
-        M - Not in use. Min-links not met
---------------------------------------------------------------------------------
-Group Port-       Type     Protocol  Member Ports
-      Channel
---------------------------------------------------------------------------------
-1     Po1(SU)     Eth      LACP      Eth1/55(P)   Eth1/56(P)
+Mbr    Device/       Port       Port
+Ports  Timeout       Speed      Active
+------ ------------- ---------  -------
+0/55   actor/long    100G Full  True
+       partner/long
+0/56   actor/long    100G Full  True
+       partner/long
+(cs1) #
+----
+
+The following example shows that the ISL ports are *up* on switch cs2:
+
+[subs=+quotes]
+----
+(cs2)# *show port-channel 1/1*
+Local Interface................................ 1/1
+Channel Name................................... Cluster-ISL
+Link State..................................... Up
+Admin Mode..................................... Enabled
+Type........................................... Dynamic
+Port channel Min-links......................... 1
+Load Balance Option............................ 7
+(Enhanced hashing mode)
+
+Mbr    Device/       Port       Port
+Ports  Timeout       Speed      Active
+------ ------------- ---------  -------
+0/55   actor/long    100G Full  True
+       partner/long
+0/56   actor/long    100G Full  True
+       partner/long
 ----
 ====
 
@@ -753,3 +779,4 @@ cluster::*> system node autosupport invoke -node * -type all -message MAINT=END
 
 // Updates for GH issue #115, 2023-AUG-08
 // Updates for GH issue #135, 2023-OCT-23
+// Updates for AFFFASDOC-186, 2024-JAN-10
