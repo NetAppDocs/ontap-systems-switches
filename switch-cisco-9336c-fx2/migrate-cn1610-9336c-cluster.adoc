@@ -15,8 +15,6 @@ You can migrate NetApp CN1610 cluster switches for an ONTAP cluster to Cisco 933
 
 You must be aware of certain configuration information, port connections and cabling requirements when you are replacing NetApp CN1610 cluster switches with Cisco 9336C-FX2 cluster switches.
 
-//See link:configure-overview-sn2100-cluster.html[Overview of installation and configuration for NVIDIA SN2100 switches].
-
 .Supported switches
 
 The following cluster switches are supported:
@@ -36,15 +34,13 @@ Verify that your configuration meets the following requirements:
 ** A redundant and fully functional NetApp cluster using NetApp CN1610 switches.
 ** Management connectivity and console access to both the NetApp CN1610 switches and the new switches.
 ** All cluster LIFs in the up state with the cluster LIFs are on their home ports.
-** ISL ports enabled and cabled between the NetApp CN1610 switches and between the new switches.
+//** ISL ports enabled and cabled between the NetApp CN1610 switches and between the new switches.
 * Some of the ports are configured on Cisco 9336C-FX2 switches to run at 40GbE or 100GbE.
 * You have planned, migrated, and documented 40GbE and 100GbE connectivity from nodes to Cisco 9336C-FX2 cluster switches.
 
 == Migrate the switches
 
 .About the examples
-
-//In this procedure, Cisco Nexus 3232C cluster switches are used for example commands and outputs.
 
 The examples in this procedure use the following switch and node nomenclature:
 
@@ -54,10 +50,11 @@ The examples in this procedure use the following switch and node nomenclature:
 * The cluster LIFs are _node1_clus1_ and _node1_clus2_ on node 1, and _node2_clus1_ and _node2_clus2_ on node 2 respectively.
 * The `cluster1::*>` prompt indicates the name of the cluster.
 * The cluster ports used in this procedure are _e3a_ and _e3b_.
-//* Breakout ports take the format: swp[port]s[breakout port 0-3]. For example, four breakout ports on swp1 are _swp1s0_, _swp1s1_, _swp1s2_, and _swp1s3_.
 * Switch C2 is replaced by switch cs2 first and then switch C1 is replaced by switch cs1.
 ** The cabling between the nodes and C2 is then disconnected from C2 and reconnected to cs2
 ** The cabling between the nodes and C1 is then disconnected from C1 and reconnected to cs1.
+
+NOTE: No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To ensure non-disruptive cluster operations, the following procedure migrates all of the cluster LIFs to the operational partner switch while performing the steps on the target switch.
 
 === Step 1: Prepare for migration
 
@@ -583,3 +580,4 @@ Index  Switch                       Log Timestamp        Status
 `system node autosupport invoke -node * -type all -message MAINT=END`
 
 // New procedure for migrating from CN1610 to 93362-FX2 - GH issue #107, 2023-JUN-20
+// Updates for AFFFASDOC-189, 2024-Jan-17
