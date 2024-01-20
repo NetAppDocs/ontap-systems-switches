@@ -403,8 +403,9 @@ mode               lossless     lossless  Roce Mode
 congestion-control
   congestion-mode   ECN,RED                Congestion config mode
   enabled-tc        0,2,5                  Congestion config enabled Traffic Class
-  max-threshold     200000 B               Congestion config max-threshold
-  min-threshold     40000 B                Congestion config min-threshold
+  max-threshold     195.31 KB               Congestion config max-threshold
+  min-threshold     39.06 KB                Congestion config min-threshold
+  probability       100                  
 lldp-app-tlv
   priority          3                      switch-priority of roce
   protocol-id       4791                   L4 port number
@@ -450,6 +451,44 @@ RoCE pool config
     1   roce-reserved-ingress  Dynamic  50%   2,5                -
     2   lossy-default-egress   Dynamic  50%   -                  0
     3   roce-reserved-egress   Dynamic  inf   -                  2,5
+
+
+Exception List
+=================
+        description                                                             
+    --  -----------------------------------------------------------------------…
+    1   RoCE PFC Priority Mismatch.Expected pfc-priority: 3.                    
+    2   Congestion Config TC Mismatch.Expected enabled-tc: 0,3.                 
+    3   Congestion Config mode Mismatch.Expected congestion-mode: ECN.          
+    4   Congestion Config min-threshold Mismatch.Expected min-threshold: 150000.
+    5   Congestion Config max-threshold Mismatch.Expected max-threshold:        
+        1500000.                                                                
+    6   Scheduler config mismatch for traffic-class mapped to switch-prio       
+        0.Expected scheduler-weight: DWRR-50%.                                  
+    7   Scheduler config mismatch for traffic-class mapped to switch-prio       
+        1.Expected scheduler-weight: DWRR-50%.                                  
+    8   Scheduler config mismatch for traffic-class mapped to switch-prio       
+        2.Expected scheduler-weight: DWRR-50%.                                  
+    9   Scheduler config mismatch for traffic-class mapped to switch-prio       
+        3.Expected scheduler-weight: DWRR-50%.                                  
+    10  Scheduler config mismatch for traffic-class mapped to switch-prio       
+        4.Expected scheduler-weight: DWRR-50%.                                  
+    11  Scheduler config mismatch for traffic-class mapped to switch-prio       
+        5.Expected scheduler-weight: DWRR-50%.                                  
+    12  Scheduler config mismatch for traffic-class mapped to switch-prio       
+        6.Expected scheduler-weight: strict-priority.                           
+    13  Scheduler config mismatch for traffic-class mapped to switch-prio       
+        7.Expected scheduler-weight: DWRR-50%.                                  
+    14  Invalid reserved config for ePort.TC[2].Expected 0 Got 1024             
+    15  Invalid reserved config for ePort.TC[5].Expected 0 Got 1024             
+    16  Invalid traffic-class mapping for switch-priority 2.Expected 0 Got 2    
+    17  Invalid traffic-class mapping for switch-priority 3.Expected 3 Got 0    
+    18  Invalid traffic-class mapping for switch-priority 5.Expected 0 Got 5    
+    19  Invalid traffic-class mapping for switch-priority 6.Expected 6 Got 0    
+    19  Invalid traffic-class mapping for switch-priority 6.Expected 6 Got 0   p
+Incomplete Command: set interface swp3-16 link fast-linkupp3-16 link fast-linkup 
+Incomplete Command: set interface swp3-16 link fast-linkupp3-16 link fast-linkup
+Incomplete Command: set interface swp3-16 link fast-linkupp3-16 link fast-linkup 
 ----
 
 . Verify information for the transceiver in the interface:
