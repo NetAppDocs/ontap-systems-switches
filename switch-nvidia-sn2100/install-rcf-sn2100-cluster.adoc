@@ -403,8 +403,9 @@ mode               lossless     lossless  Roce Mode
 congestion-control
   congestion-mode   ECN,RED                Congestion config mode
   enabled-tc        0,2,5                  Congestion config enabled Traffic Class
-  max-threshold     200000 B               Congestion config max-threshold
-  min-threshold     40000 B                Congestion config min-threshold
+  max-threshold     195.31 KB              Congestion config max-threshold
+  min-threshold     39.06 KB               Congestion config min-threshold
+  probability       100
 lldp-app-tlv
   priority          3                      switch-priority of roce
   protocol-id       4791                   L4 port number
@@ -565,3 +566,4 @@ link:install-snmpv3-sn2100-cluster.html[Configure switch log collection].
 // Updates for the LH 5.4 integrity release, 2023-APR-18
 // Updates for AFFFASDOC-130 expanding 'nv' command set, 2023-SEP-13
 // Updates for GH issues #136 & 137 (scp note and nv commit command), 2023-NOV-15
+// Updates for AFFFASDOC-192, 2024-JAN-25
