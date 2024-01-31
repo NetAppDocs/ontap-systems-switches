@@ -67,15 +67,20 @@ The advanced prompt (`*>`) appears.
 
 === Step 2: Configure ports and cabling
 
+// start of tabbed content 
+
+[role="tabbed-block"] 
+
+==== 
+
+.Cumulus Linux 4.4.x
+--
 . Disable all node-facing ports (not ISL ports) on both the new cluster switches sw1 and sw2.
 +
 You must not disable the ISL ports.
 +
-.Show example
-[%collapsible]
-====
-The following commands disable the node-facing ports  on switches sw1 and sw2:
-
+The following commands disable the node-facing ports on switches sw1 and sw2:
++
 [subs=+quotes]
 ----
 cumulus@sw1:~$ *net add interface swp1s0-3, swp2s0-3, swp3-14 link down*
@@ -86,9 +91,32 @@ cumulus@sw2:~$ *net add interface swp1s0-3, swp2s0-3, swp3-14 link down*
 cumulus@sw2:~$ *net pending*
 cumulus@sw2:~$ *net commit*
 ----
+
+--
+.Cumulus Linux 5.x
+--
+. Disable all node-facing ports (not ISL ports) on both the new cluster switches sw1 and sw2.
++
+You must not disable the ISL ports.
++
+The following commands disable the node-facing ports on switches sw1 and sw2:
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *net set interface swp1s0-3, swp2s0-3, swp3-14 link state down*
+cumulus@sw1:~$ *nv config apply*
+cumulus@sw1:~$ *nv save*
+
+cumulus@sw2:~$ *net set interface swp1s0-3, swp2s0-3, swp3-14 link state down*
+cumulus@sw2:~$ *nv config apply*
+cumulus@sw2:~$ *nv save*
+----
 ====
 
-. Verify that the ISL and the physical ports on the ISL between the two SN2100 switches sw1 and sw2 are up on ports swp15 and swp16: 
+// end of tabbed content 
+
+[start=2]
+. [[step2]]Verify that the ISL and the physical ports on the ISL between the two SN2100 switches sw1 and sw2 are up on ports swp15 and swp16: 
 +
 `net show interface`
 +
@@ -660,3 +688,6 @@ Index  Switch                       Log Timestamp        Status
 . If you suppressed automatic case creation, reenable it by invoking an AutoSupport message: 
 +
 `system node autosupport invoke -node * -type all -message MAINT=END`
+
+
+// Updates for AFFFASDOC-195, 2024-JAN-31
