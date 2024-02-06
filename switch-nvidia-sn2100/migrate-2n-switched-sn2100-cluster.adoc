@@ -92,7 +92,34 @@ cumulus@sw2:~$ *net pending*
 cumulus@sw2:~$ *net commit*
 ----
 
+. Verify that the ISL and the physical ports on the ISL between the two SN2100 switches sw1 and sw2 are up on ports swp15 and swp16: 
++
+`net show interface`
++
+The following commands show that the ISL ports are up on switches sw1 and sw2:
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *net show interface*
+
+State  Name       Spd   MTU    Mode        LLDP         Summary
+-----  ---------  ----  -----  ----------  -----------  -----------------------
+...
+...
+UP     swp15      100G  9216   BondMember  sw2 (swp15)  Master: cluster_isl(UP)
+UP     swp16      100G  9216   BondMember  sw2 (swp16)  Master: cluster_isl(UP)
+
+cumulus@sw2:~$ *net show interface*
+
+State  Name       Spd   MTU    Mode        LLDP         Summary
+-----  ---------  ----  -----  ----------  -----------  -----------------------
+...
+...
+UP     swp15      100G  9216   BondMember  sw1 (swp15)  Master: cluster_isl(UP)
+UP     swp16      100G  9216   BondMember  sw1 (swp16)  Master: cluster_isl(UP)
+----
 --
+
 .Cumulus Linux 5.x
 --
 . Disable all node-facing ports (not ISL ports) on both the new cluster switches sw1 and sw2.
@@ -111,20 +138,13 @@ cumulus@sw2:~$ *nv set interface swp1s0-3,swp2s0-3,swp3-14 link state down*
 cumulus@sw2:~$ *nv config apply*
 cumulus@sw2:~$ *nv save*
 ----
-====
 
-// end of tabbed content 
-
-[start=2]
-. [[step2]]Verify that the ISL and the physical ports on the ISL between the two SN2100 switches sw1 and sw2 are up on ports swp15 and swp16: 
+. Verify that the ISL and the physical ports on the ISL between the two SN2100 switches sw1 and sw2 are up on ports swp15 and swp16: 
 +
 `nv show interface`
 +
-.Show example
-[%collapsible]
-====
-The following example shows that the ISL ports are up on switch sw1:
-
+The following example shows that the ISL ports are up on switches sw1 and sw2:
++
 [subs=+quotes]
 ----
 cumulus@sw1:~$ *nv show interface*
@@ -135,13 +155,8 @@ State  Name       Spd   MTU    Mode        LLDP         Summary
 ...
 UP     swp15      100G  9216   BondMember  sw2 (swp15)  Master: cluster_isl(UP)
 UP     swp16      100G  9216   BondMember  sw2 (swp16)  Master: cluster_isl(UP)
-----
 
 
-The following example shows that the ISL ports are up on switch sw2:
-
-[subs=+quotes]
-----
 cumulus@sw2:~$ *nv show interface*
 
 State  Name       Spd   MTU    Mode        LLDP         Summary
@@ -153,7 +168,10 @@ UP     swp16      100G  9216   BondMember  sw1 (swp16)  Master: cluster_isl(UP)
 ----
 ====
 
-. Verify that all cluster ports are up: 
+// end of tabbed content 
+
+[start=3]
+. [[step3]] Verify that all cluster ports are up: 
 +
 `network port show`
 +
