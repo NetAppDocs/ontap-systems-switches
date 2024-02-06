@@ -268,7 +268,8 @@ The https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches^] contains 
 
 .Cumulus Linux 4.4.x
 --
-. On switch sw1, enable all node-facing ports.
+[start=8]
+. [[step8]] On switch sw1, enable all node-facing ports.
 +
 The following commands enable all node-facing ports on switch sw1.
 +
@@ -279,7 +280,8 @@ cumulus@sw1:~$ *net pending*
 cumulus@sw1:~$ *net commit*
 ----
 
-. On switch sw1, verify that all ports are up: 
+[start=9]
+. [[step]] On switch sw1, verify that all ports are up: 
 +
 `net show interface all`
 +
@@ -310,7 +312,8 @@ UP     swp16     100G  9216   BondMember  swp16          Master: cluster_isl(UP)
 
 .Cumulus Linux 5.x
 --
-. On switch sw1, enable all node-facing ports.
+[start=8]
+. [[step8]] On switch sw1, enable all node-facing ports.
 +
 The following commands enable all node-facing ports on switch sw1.
 +
@@ -321,7 +324,8 @@ cumulus@sw1:~$ *nv config apply*
 cumulus@sw1:~$ *nv config save*
 ----
 
-. On switch sw1, verify that all ports are up: 
+[start=9]
+. [[step9]] On switch sw1, verify that all ports are up: 
 +
 `nv show interface`
 +
