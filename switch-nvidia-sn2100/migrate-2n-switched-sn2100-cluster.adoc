@@ -260,28 +260,29 @@ The https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches^] contains 
 
 . Disconnect the cable from cluster port e3a on node2, and then connect e3a to port 4 on cluster switch sw1, using the appropriate cabling supported by the SN2100 switches.
 
+// start of tabbed content 
+
+[role="tabbed-block"] 
+
+==== 
+
+.Cumulus Linux 4.4.x
+--
 . On switch sw1, enable all node-facing ports.
 +
-.Show example
-[%collapsible]
-====
-The following command enables all node-facing ports on switch sw1:
-
+The following commands enable all node-facing ports on switch sw1.
++
 [subs=+quotes]
 ----
 cumulus@sw1:~$ *net del interface swp1s0-3, swp2s0-3, swp3-14 link down*
 cumulus@sw1:~$ *net pending*
 cumulus@sw1:~$ *net commit*
 ----
-====
 
 . On switch sw1, verify that all ports are up: 
 +
 `net show interface all`
 +
-.Show example
-[%collapsible]
-====
 [subs=+quotes]
 ----
 cumulus@sw1:~$ *net show interface all*
@@ -305,9 +306,55 @@ UP     swp15     100G  9216   BondMember  swp15          Master: cluster_isl(UP)
 UP     swp16     100G  9216   BondMember  swp16          Master: cluster_isl(UP)
 ...
 ----
+--
+
+.Cumulus Linux 5.x
+--
+. On switch sw1, enable all node-facing ports.
++
+The following commands enable all node-facing ports on switch sw1.
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *nv unset interface swp1s0-3,swp2s0-3,swp3-14 link state down*
+cumulus@sw1:~$ *nv config apply*
+cumulus@sw1:~$ *nv config save*
+----
+
+. On switch sw1, verify that all ports are up: 
++
+`nv show interface`
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *nv show interface*
+
+Interface    State  Speed  MTU    Type      Remote Host                 Remote Port  Summary
+-----------  -----  -----  -----  --------  --------------------------  -----------  ----------
+...
+...
+swp1s0       up     10G    9216   swp       odq-a300-1a                         e0a
+swp1s1       up     10G    9216   swp       odq-a300-1b                         e0a
+swp1s2       down   10G    9216   swp
+swp1s3       down   10G    9216   swp
+swp2s0       down   25G    9216   swp
+swp2s1       down   25G    9216   swp
+swp2s2       down   25G    9216   swp
+swp2s3       down   25G    9216   swp
+swp3         down          9216   swp
+swp4         down          9216   swp
+...
+...
+swp14        down          9216   swp
+swp15        up     100G   9216   swp       ossg-integrity-rcf10                swp15
+swp16        up     100G   9216   swp       ossg-integrity-rcf10                swp16
+----
 ====
 
-. Verify that all cluster ports are up: 
+// end of tabbed content 
+
+[start=10]
+. [[step10]] Verify that all cluster ports are up: 
 +
 `network port show -ipspace Cluster`
 +
