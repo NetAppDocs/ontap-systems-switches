@@ -103,11 +103,11 @@ The following commands disable the node-facing ports on switches sw1 and sw2:
 +
 [subs=+quotes]
 ----
-cumulus@sw1:~$ *net set interface swp1s0-3, swp2s0-3, swp3-14 link state down*
+cumulus@sw1:~$ *nv set interface swp1s0-3,swp2s0-3,swp3-14 link state down*
 cumulus@sw1:~$ *nv config apply*
 cumulus@sw1:~$ *nv save*
 
-cumulus@sw2:~$ *net set interface swp1s0-3, swp2s0-3, swp3-14 link state down*
+cumulus@sw2:~$ *nv set interface swp1s0-3,swp2s0-3,swp3-14 link state down*
 cumulus@sw2:~$ *nv config apply*
 cumulus@sw2:~$ *nv save*
 ----
@@ -118,7 +118,7 @@ cumulus@sw2:~$ *nv save*
 [start=2]
 . [[step2]]Verify that the ISL and the physical ports on the ISL between the two SN2100 switches sw1 and sw2 are up on ports swp15 and swp16: 
 +
-`net show interface`
+`nv show interface`
 +
 .Show example
 [%collapsible]
@@ -127,7 +127,7 @@ The following example shows that the ISL ports are up on switch sw1:
 
 [subs=+quotes]
 ----
-cumulus@sw1:~$ *net show interface*
+cumulus@sw1:~$ *nv show interface*
 
 State  Name       Spd   MTU    Mode        LLDP         Summary
 -----  ---------  ----  -----  ----------  -----------  -----------------------
@@ -137,12 +137,12 @@ UP     swp15      100G  9216   BondMember  sw2 (swp15)  Master: cluster_isl(UP)
 UP     swp16      100G  9216   BondMember  sw2 (swp16)  Master: cluster_isl(UP)
 ----
 
-+
+
 The following example shows that the ISL ports are up on switch sw2:
-+
+
 [subs=+quotes]
 ----
-cumulus@sw2:~$ *net show interface*
+cumulus@sw2:~$ *nv show interface*
 
 State  Name       Spd   MTU    Mode        LLDP         Summary
 -----  ---------  ----  -----  ----------  -----------  -----------------------
