@@ -350,8 +350,8 @@ swp4         down          9216   swp
 ...
 ...
 swp14        down          9216   swp
-swp15        up     100G   9216   swp       ossg-integrity-rcf10                swp15
-swp16        up     100G   9216   swp       ossg-integrity-rcf10                swp16
+swp15        up     100G   9216   swp       ossg-int-rcf10                    swp15
+swp16        up     100G   9216   swp       ossg-int-rcf10                    swp16
 ----
 ====
 
@@ -414,28 +414,30 @@ node2                true    true          false
 . Disconnect the cable from cluster port e3b on node1, and then connect e3b to port 3 on cluster switch sw2, using the appropriate cabling supported by the SN2100 switches.
 . Disconnect the cable from cluster port e3b on node2, and then connect e3b to port 4 on cluster switch sw2, using the appropriate cabling supported by the SN2100 switches.
 
-. On switch sw2, enable all node-facing ports.
-+
-.Show example
-[%collapsible]
-====
-The following commands enable the node-facing ports on switch sw2:
+// start of tabbed content 
 
+[role="tabbed-block"] 
+
+==== 
+
+.Cumulus Linux 4.4.x
+--
+[start=14]
+. [[step14]] On switch sw2, enable all node-facing ports.
++
+The following commands enable the node-facing ports on switch sw2:
++
 [subs=+quotes]
 ----
 cumulus@sw2:~$ *net del interface swp1s0-3, swp2s0-3, swp3-14 link down*
 cumulus@sw2:~$ *net pending*
 cumulus@sw2:~$ *net commit*
 ----
-====
-
-. On switch sw2, verify that all ports are up: 
+[start=15]
+. [[step15]] On switch sw2, verify that all ports are up: 
 +
 `net show interface all`
 +
-.Show example
-[%collapsible]
-====
 [subs=+quotes]
 ----
 cumulus@sw2:~$ *net show interface all*
@@ -459,15 +461,12 @@ UP     swp15     100G  9216   BondMember  swp15          Master: cluster_isl(UP)
 UP     swp16     100G  9216   BondMember  swp16          Master: cluster_isl(UP)
 ...
 ----
-====
 
-. On both switches sw1 and sw2, verify that both nodes each have one connection to each switch: 
+[start=16]
+. [[step16]] On both switches sw1 and sw2, verify that both nodes each have one connection to each switch: 
 +
 `net show lldp`
 +
-.Show example
-[%collapsible]
-====
 The following example shows the appropriate results for both switches sw1 and sw2:
 
 [subs=+quotes]
@@ -490,11 +489,112 @@ swp4       100G   Trunk/L2    node2              e3b
 swp15      100G   BondMember  sw1                swp15
 swp16      100G   BondMember  sw1                swp16
 ----
+--
+
+.Cumulus Linux 5.x
+--
+[start=14]
+. [[step14]] On switch sw2, enable all node-facing ports.
++
+The following commands enable the node-facing ports on switch sw2:
++
+[subs=+quotes]
+----
+cumulus@sw2:~$ *nv unset interface swp1s0-3,swp2s0-3,swp3-14 link state down*
+cumulus@sw2:~$ *nv config apply*
+cumulus@sw2:~$ *nv config save*
+----
+[start=15]
+. [[step15]] On switch sw2, verify that all ports are up: 
++
+`nv show interface`
++
+[subs=+quotes]
+----
+cumulus@sw2:~$ *nv show interface*
+
+Interface    State  Speed  MTU    Type      Remote Host                 Remote Port  Summary
+-----------  -----  -----  -----  --------  --------------------------  -----------  ----------
+...
+...
+swp1s0       up     10G    9216   swp       odq-a300-1a                         e0a
+swp1s1       up     10G    9216   swp       odq-a300-1b                         e0a
+swp1s2       down   10G    9216   swp
+swp1s3       down   10G    9216   swp
+swp2s0       down   25G    9216   swp
+swp2s1       down   25G    9216   swp
+swp2s2       down   25G    9216   swp
+swp2s3       down   25G    9216   swp
+swp3         down          9216   swp
+swp4         down          9216   swp
+...
+...
+swp14        down          9216   swp
+swp15        up     100G   9216   swp       ossg-int-rcf10                    swp15
+swp16        up     100G   9216   swp       ossg-int-rcf10                    swp16
+----
+
+[start=16]
+. [[step16]] On both switches sw1 and sw2, verify that both nodes each have one connection to each switch: 
++
+`nv show interface --view=lldp`
++
+The following examples show the appropriate results for both switches sw1 and sw2:
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *nv show interface --view=lldp*
+
+Interface    Speed  Type      Remote Host                         Remote Port
+-----------  -----  --------  ----------------------------------  -----------
+...
+...               
+swp1s0       10G    swp       odq-a300-1a                         e0a
+swp1s1       10G    swp       odq-a300-1b                         e0a
+swp1s2       10G    swp
+swp1s3       10G    swp
+swp2s0       25G    swp
+swp2s1       25G    swp
+swp2s2       25G    swp
+swp2s3       25G    swp
+swp3                swp
+swp4                swp
+...
+...
+swp14               swp
+swp15        100G   swp       ossg-int-rcf10                      swp15
+swp16        100G   swp       ossg-int-rcf10                      swp16
+
+cumulus@sw2:~$ *nv show interface --view=lldp*
+
+Interface    Speed  Type      Remote Host                         Remote Port
+-----------  -----  --------  ----------------------------------  -----------
+...
+...               
+swp1s0       10G    swp       odq-a300-1a                         e0a
+swp1s1       10G    swp       odq-a300-1b                         e0a
+swp1s2       10G    swp
+swp1s3       10G    swp
+swp2s0       25G    swp
+swp2s1       25G    swp
+swp2s2       25G    swp
+swp2s3       25G    swp
+swp3                swp
+swp4                swp
+...
+...
+swp14               swp
+swp15        100G   swp       ossg-int-rcf10                      swp15
+swp16        100G   swp       ossg-int-rcf10                      swp16
+----
 ====
 
-. Display information about the discovered network devices in your cluster: 
+// end of tabbed content 
+
+[start=17]
+. [[step17]] Display information about the discovered network devices in your cluster: 
 +
-`net device-discovery show -protocol lldp`
+`network device-discovery show -protocol lldp`
 +
 .Show example
 [%collapsible]
