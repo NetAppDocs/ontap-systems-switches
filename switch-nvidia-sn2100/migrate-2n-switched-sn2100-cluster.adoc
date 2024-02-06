@@ -143,28 +143,30 @@ cumulus@sw2:~$ *nv save*
 +
 `nv show interface`
 +
-The following example shows that the ISL ports are up on switches sw1 and sw2:
+The following examples show that the ISL ports are up on switches sw1 and sw2:
 +
 [subs=+quotes]
 ----
 cumulus@sw1:~$ *nv show interface*
 
-State  Name       Spd   MTU    Mode        LLDP         Summary
------  ---------  ----  -----  ----------  -----------  -----------------------
+Interface     MTU    Speed  State  Remote Host  Remote Port                          Type    Summary
+------------- ------ -----  ------ ------------ ------------------------------------ ------- -------
 ...
 ...
-UP     swp15      100G  9216   BondMember  sw2 (swp15)  Master: cluster_isl(UP)
-UP     swp16      100G  9216   BondMember  sw2 (swp16)  Master: cluster_isl(UP)
++ swp14       9216          down                                                     swp
++ swp15       9216   100G   up     ossg-rcf1    Intra-Cluster Switch ISL Port swp15  swp
++ swp16       9216   100G   up     ossg-rcf2    Intra-Cluster Switch ISL Port swp16  swp
 
 
 cumulus@sw2:~$ *nv show interface*
 
-State  Name       Spd   MTU    Mode        LLDP         Summary
------  ---------  ----  -----  ----------  -----------  -----------------------
+Interface     MTU    Speed  State  Remote Host  Remote Port                          Type    Summary
+------------- ------ -----  ------ ------------ ------------------------------------ ------- -------
 ...
 ...
-UP     swp15      100G  9216   BondMember  sw1 (swp15)  Master: cluster_isl(UP)
-UP     swp16      100G  9216   BondMember  sw1 (swp16)  Master: cluster_isl(UP)
++ swp14       9216          down                                                     swp
++ swp15       9216   100G   up     ossg-rcf1    Intra-Cluster Switch ISL Port swp15  swp
++ swp16       9216   100G   up     ossg-rcf2    Intra-Cluster Switch ISL Port swp16  swp
 ----
 ====
 
