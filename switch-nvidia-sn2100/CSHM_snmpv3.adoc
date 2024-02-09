@@ -1,15 +1,15 @@
 ---
-permalink: switch-nvidia-sn2100/install-snmpv3-sn2100-cluster.html
+permalink: switch-nvidia-sn2100/CSHM_snmpv3.html
 sidebar: sidebar
-keywords: sn2100 SN2100 cabling setup, sn2100 switches configuration, cumulus linux os
-summary: 'This release includes support for SNMPv3 for log monitoring.'
+keywords: SNMP,SNMPv3,SNMPv3 setup,SN2100 cabling setup,sn2100 switches configuration,cumulus linux os
+summary: 'SNMPv3 can be used with the Ethernet switch health monitor (CSHM).'
 ---
 = Configure SNMPv3
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-Follow this procedure to configure SNMPv3, which supports Switch Health Monitoring (SHM).
+Follow this procedure to configure SNMPv3, which supports Switch Health Monitoring (CSHM).
 
 .About this task
 The following commands configure an SNMPv3 username on NVIDIA SN2100 switches:
@@ -133,7 +133,7 @@ Enter privacy protocol password again:
 ----
 ====
 
-. Configure SHM to monitor with the new SNMPv3 user:
+. Configure CSHM to monitor with the new SNMPv3 user:
 +
 `system switch ethernet show-all -device "sw1 (b8:59:9f:09:7c:22)" -instance`
 +
@@ -163,7 +163,7 @@ cluster1::*> *system switch ethernet modify -device "sw1 (b8:59:9f:09:7c:22)" -s
 ----
 ====
 
-. Verify that the serial number to be queried with the newly created SNMPv3 user is the same as detailed in the previous step once the SHM polling period has completed.
+. Verify that the serial number to be queried with the newly created SNMPv3 user is the same as detailed in the previous step once the CSHM polling period has completed.
 +
 `system switch ethernet polling-interval show`
 +
@@ -194,5 +194,5 @@ DEPRECATED-Community String or SNMPv3 Username: -
 ====
 
 // Updated password examples, 2023-MAR-07
-
 // Updated SHM to CSHM as per feedback from Abraham Close, 2023-JUL-12
+// Fix CSHM log collection and SNMPv3 documentation, 2024-FEB-9

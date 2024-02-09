@@ -1,15 +1,15 @@
 ---
-permalink: switch-nvidia-sn2100/monitor-log-collection.html
+permalink: switch-nvidia-sn2100/CSHM_log_collection.html
 sidebar: sidebar
-keywords: log collection feature,collect switch-related log files,SSh key,crypto key generation
+keywords: log collection feature,collect switch-related log files,SSh key,crypto key generation,SN2100 setup,SN2100 switches configuration,cumulus linux os
 summary: 'The Ethernet switch health monitor (CSHM) log collection feature is used to collect logs from cluster or storage network switches in ONTAP.'
 ---
-= Switch Health Log Collection Management
+= Ethernet Switch Health Monitoring Log Collection
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-The Ethernet switch health monitor (CSHM) is responsible for ensuring the operational health of Cluster and Storage network switches and collecting switch logs for debugging purposes. This document will guide you through the process of setting up and starting the collection of detailed `Tech Support` logs from the switch and starts an hourly collection of `Periodic` data that is collected by AutoSupport.
+The Ethernet switch health monitor (CSHM) is responsible for ensuring the operational health of Cluster and Storage network switches and collecting switch logs for debugging purposes. This document will guide you through the process of setting up and starting the collection of detailed `Support` logs from the switch and starts an hourly collection of `Periodic` data that is collected by AutoSupport.
 
 .Before you begin
 
@@ -55,7 +55,7 @@ Enter the password again: *<enter switch password>*
 ----
 ====
 
-. To start log collection, run the following command, replacing DEVICE with the switch used in the previous command. This will start both types of log collection: the detailed `Tech Support` logs and an hourly collection of `Periodic` data.
+. To start log collection, run the following command, replacing DEVICE with the switch used in the previous command. This will start both types of log collection: the detailed `Support` logs and an hourly collection of `Periodic` data.
 +
 `system switch ethernet log modify -device _<switch-name>_ -log-request true`
 
@@ -107,4 +107,4 @@ a| Ensure the switch user has log collection permissions. Refer to the prerequis
 |===
 
 // Updates for AFFFASDOC-142, 2023-OCT-18
-// Fix CSHM Documentation, 2023-NOV-12
+// Fix CSHM log collection and SNMPv3 documentation, 2024-FEB-9
