@@ -9,7 +9,7 @@ summary: 'The Ethernet switch health monitor (CSHM) log collection feature is us
 :imagesdir: ../media/
 
 [.lead]
-The Ethernet switch health monitor (CSHM) is responsible for ensuring the operational health of Cluster and Storage network switches and collecting switch logs for debugging purposes. This document will guide you through the process of setting up and starting the collection of detailed `Support` logs from the switch and starts an hourly collection of `Periodic` data that is collected by AutoSupport.
+The Ethernet switch health monitor (CSHM) is responsible for ensuring the operational health of Cluster and Storage network switches and collecting switch logs for debugging purposes. This procedure guides you through the process of setting up and starting the collection of detailed `Support` logs from the switch and starts an hourly collection of `Periodic` data that is collected by AutoSupport.
 
 .Before you begin
 
@@ -18,7 +18,7 @@ The Ethernet switch health monitor (CSHM) is responsible for ensuring the operat
 
 .Steps
 
-. To set up log collection, run the following command for each switch. You will be prompted to enter the switch name and the username and password for log collection.
+. To set up log collection, run the following command for each switch. You are prompted to enter the switch name, username, and password for log collection.
 +
 `system switch ethernet log setup-password`
 
@@ -54,7 +54,7 @@ Enter the password again: *<enter switch password>*
 ----
 ====
 
-. To start log collection, run the following command, replacing DEVICE with the switch used in the previous command. This will start both types of log collection: the detailed `Support` logs and an hourly collection of `Periodic` data.
+. To start log collection, run the following command, replacing DEVICE with the switch used in the previous command. This starts both types of log collection: the detailed `Support` logs and an hourly collection of `Periodic` data.
 +
 `system switch ethernet log modify -device _<switch-name>_ -log-request true`
 

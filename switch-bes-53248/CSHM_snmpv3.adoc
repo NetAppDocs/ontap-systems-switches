@@ -35,11 +35,12 @@ The following command establishes the SNMPv3 username with CSHM:
 .Show example
 [%collapsible]
 ====
+
 [subs=+quotes]
 ----
-(sw1)(Config)#snmp-server user <username> network-admin auth-md5 <password> priv-aes128 <password>
+(sw1)(Config)# snmp-server user <username> network-admin auth-md5 <password> priv-aes128 <password>
 
-(paces-jute-cs11)(Config)#show snmp user snmp
+(paces-jute-cs11)(Config)# show snmp user snmp
 
      Name            Group Name      Auth Priv
                                      Meth Meth    Remote Engine ID
@@ -54,6 +55,7 @@ The following command establishes the SNMPv3 username with CSHM:
 .Show example
 [%collapsible]
 ====
+
 [subs=+quotes]
 ----
 cluster1::*> *security login create -user-or-group-name <username> -application snmp -authentication-method usm -remote-switch-ipaddress 10.231.80.212*
