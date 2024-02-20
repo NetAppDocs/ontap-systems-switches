@@ -4,16 +4,16 @@ sidebar: sidebar
 keywords: log collection feature,collect switch-related log files,SSh key,crypto key generation,SN2100 setup,SN2100 switches configuration,cumulus linux os
 summary: 'The Ethernet switch health monitor (CSHM) log collection feature is used to collect logs from cluster or storage network switches in ONTAP.'
 ---
-= Ethernet Switch Health Monitoring Log Collection
+= Ethernet Switch Health Monitoring log collection
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-The Ethernet switch health monitor (CSHM) is responsible for ensuring the operational health of Cluster and Storage network switches and collecting switch logs for debugging purposes. This procedure guides you through the process of setting up and starting the collection of detailed `Support` logs from the switch and starts an hourly collection of `Periodic` data that is collected by AutoSupport.
+The Ethernet switch health monitor (CSHM) is responsible for ensuring the operational health of Cluster and Storage network switches and collecting switch logs for debugging purposes. This procedure guides you through the process of setting up and starting the collection of detailed *Support* logs from the switch and starts an hourly collection of *Periodic* data that is collected by AutoSupport.
 
 .Before you begin
 
-* The user for log collection must be specified when the Reference Configuration File (RCF) is applied. By default, this user is set to 'admin'. If you wish to use a different user, you must specify this in the `# SHM User` section of the RCF.
+* The user for log collection must be specified when the Reference Configuration File (RCF) is applied. By default, this user is set to 'admin'. If you wish to use a different user, you must specify this in the *# SHM User*s section of the RCF.
 * The user must have access to the *nv show* commands. This can be added by running `sudo adduser USER nv show`, replacing USER with the user for log collection.
 * Switch health monitoring must be enabled for the switch. Verify this by ensuring the `Is Monitored:` field is set to *true* in the output of the `system switch ethernet show` command.
 
