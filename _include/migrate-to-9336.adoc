@@ -13,6 +13,8 @@ Ensure that:
 * You have access to the switch compatibility table on the https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches^] page for the supported ONTAP, NX-OS, and RCF versions.
 * You have reviewed the appropriate software and upgrade guides available on the Cisco web site for the Cisco switch upgrade and downgrade procedures at https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html[Cisco Nexus 9000 Series Switches Support^] page.
 
+NOTE: If you are changing the port speed of the e0a and e1a cluster ports on AFF A800 or AFF C800 systems, you might observe malformed packets being received after the speed conversion. See  https://mysupport.netapp.com/site/bugs-online/product/ONTAP/BURT/1570339[Bug 1570339^] and the Knowledge Base article https://kb.netapp.com/onprem/ontap/hardware/CRC_errors_on_T6_ports_after_converting_from_40GbE_to_100GbE[CRC errors on T6 ports after converting from 40GbE to 100GbE^] for guidance.
+
 == Migrate the switches
 
 .About the examples
@@ -720,5 +722,5 @@ cluster1::*>
 . [[step6]]If you suppressed automatic case creation, reenable it by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=END`
 
 // Updates for AFFFASDOC-45, 2023-MAY-09
-
 // Updates for GH #112, 2023-JUL-19
+// Updates for AFFFASDOC-145, 2023-OCT-26
