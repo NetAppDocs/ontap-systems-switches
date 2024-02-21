@@ -409,6 +409,7 @@ swp6       100G   Trunk/L2  SHFFG1826000102        e0b
 === Step 3: Complete the procedure
 
 . Create a password for the Ethernet switch health monitor log collection feature:
++
 `system switch ethernet log setup-password`
 +
 .Show example
@@ -442,7 +443,7 @@ Enter the password again: *<enter switch password>*
 ----
 ==== 
 
-. Enable the Ethernet switch health monitor log collection feature.
+. Enable the Ethernet switch health monitor log collection feature:
 +
 `system switch ethernet log modify -device _<switch-name>_ -log-request true`
 
@@ -467,7 +468,7 @@ Enabling cluster switch log collection.
 ----
 ====
 +
-Wait for 10 minutes and then check that the log collection completes using the command:
+Wait for 10 minutes and then check that the log collection completes:
 +
 `system switch ethernet log show`
 
