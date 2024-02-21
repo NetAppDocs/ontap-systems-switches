@@ -21,7 +21,6 @@ The Ethernet switch health monitor (CSHM) is responsible for ensuring the operat
 . To set up log collection, run the following command for each switch. You are prompted to enter the switch name, username, and password for log collection.
 +
 `system switch ethernet log setup-password`
-
 +
 .Show example
 [%collapsible]
@@ -55,9 +54,8 @@ Enter the password again: *<enter switch password>*
 ====
 
 . To start log collection, run the following command, replacing DEVICE with the switch used in the previous command. This starts both types of log collection: the detailed *Support* logs and an hourly collection of *Periodic* data.
-
++
 `system switch ethernet log modify -device _<switch-name>_ -log-request true`
-
 +
 .Show example 
 [%collapsible]
@@ -83,7 +81,6 @@ Wait for 10 minutes and then check that the log collection completes:
 +
 `system switch ethernet log show`
 +
-
 CAUTION: If any of these commands return an error or if the log collection does not complete, contact NetApp support.
 
 .Troubleshooting
