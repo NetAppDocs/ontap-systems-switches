@@ -770,11 +770,9 @@ RPC status:
 ----
 ====
 
-. Enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the commands: 
+. To set up log collection, run the following command for each switch. You are prompted to enter the switch name, username, and password for log collection. 
 +
-`system switch ethernet log setup-password` and `system switch ethernet log enable-collection`
-+
-.. Enter: `system switch ethernet log setup-password`
+`system switch ethernet log setup-password`
 +
 .Show example
 [%collapsible]
@@ -807,33 +805,32 @@ Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 ----
 ====
+
+. To start log collection, run the following command, replacing DEVICE with the switch used in the previous command. This starts both types of log collection: the detailed *Support* logs and an hourly collection of *Periodic* data.
 +
-.. Followed by: `system switch ethernet log enable-collection`
+`system switch ethernet log modify -device _<switch-name>_ -log-request true`
+
 +
 .Show example
 [%collapsible]
 ====
 [subs=+quotes]
 ----
-cluster1::*> *system switch ethernet log enable-collection*
+cluster1::*> *system switch ethernet log modify -device sw1 -log-request true*
 
-Do you want to enable cluster log collection for all nodes in the cluster?
-{y|n}: [n] *y*
+Do you want to modify the cluster switch log collection configuration? {y|n}: [n] *y*
 
 Enabling cluster switch log collection.
 
-cluster1::*>
+cluster1::*> *system switch ethernet log modify -device sw2 -log-request true*
+
+Do you want to modify the cluster switch log collection configuration? {y|n}: [n] *y*
+
+Enabling cluster switch log collection.
 ----
 ====
-
 +
-NOTE: If any of these commands return an error, contact NetApp support.
-
-. Initiate the switch log collection feature: 
-+
-`system switch ethernet log collect -device *`
-+
-Wait for 10 minutes and then check that the log collection was successful using the command: 
+Wait for 10 minutes and then check that the log collection completes:
 +
 `system switch ethernet log show`
 +
@@ -845,12 +842,14 @@ Wait for 10 minutes and then check that the log collection was successful using 
 cluster1::*> *system switch ethernet log show*
 Log Collection Enabled: true
 
-Index  Switch                       Log Timestamp        Status
------- ---------------------------- -------------------  ---------    
-1      sw1 (b8:ce:f6:19:1b:42)      4/29/2022 03:05:25   complete   
-2      sw2 (b8:ce:f6:19:1b:96)      4/29/2022 03:07:42   complete
+Index  Switch                       Log Timestamp        Status
+------ ---------------------------- -------------------- ---------
+1      sw1 (b8:ce:f6:19:1b:42)      4/29/2022 03:05:25   complete
+2      sw2 (b8:ce:f6:19:1b:96)      4/29/2022 03:07:42   complete
 ----
 ====
++
+CAUTION: If any of these commands return an error, contact NetApp support.
 
 . Change the privilege level back to admin: 
 +
