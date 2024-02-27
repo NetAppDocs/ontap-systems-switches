@@ -38,14 +38,29 @@ The following command establishes the SNMPv3 username with CSHM:
 
 [subs=+quotes]
 ----
-(sw1)(Config)# *snmp-server user <username> network-admin auth-md5 <password> priv-aes128 <password>*
+(sw1)(Config)# *sh running-config | in snmp*
+snmp-server user SNMPv3User network-operator auth md5 0x01e06e33eeba739f9439c4707f8be541 priv aes-128 0x01e06e33eeba739f9439c4707f8be541 localizedkey <---- Community configured here
 
-(cs1)(Config)# *show snmp user snmp*
+(sw1)(Config)# *show snmp user*
 
-     Name            Group Name      Auth Priv
-                                     Meth Meth    Remote Engine ID
------------------ ------------------ ---- ------ -------------------------
-<username>        network-admin      MD5  AES128 8000113d03d8c497710bee
+-----------------------------------------------------------------------------
+                              SNMP USERS
+-----------------------------------------------------------------------------
+
+User              Auth            Priv(enforce)   Groups          acl_filter
+----------------- --------------- --------------- --------------- -----------
+admin             md5             des(no)         network-admin
+SNMPv3User        md5             aes-128(no)     network-operator
+
+-----------------------------------------------------------------------------
+     NOTIFICATION TARGET USERS (configured  for sending V3 Inform)
+-----------------------------------------------------------------------------
+
+User              Auth               Priv
+----------------- ------------------ ------------
+
+(sw1)(Config)#
+snmp-server user SNMPv3User auth md5 netapp123! priv aes-128 netapp123!
 ----
 ====
 
@@ -60,6 +75,8 @@ The following command establishes the SNMPv3 username with CSHM:
 
 [subs=+quotes]
 ----
+cluster1::*> *system switch ethernet modify -device "sw1 (b8:59:9f:09:7c:22)" -is-monitoring-enabled-admin true*
+
 cluster1::*> *security login create -user-or-group-name <username> -application snmp -authentication-method usm -remote-switch-ipaddress 10.231.80.212*
 
 Enter the authoritative entity's EngineID [remote EngineID]:
@@ -87,18 +104,17 @@ Enter privacy protocol password again:
 ====
 [subs=+quotes]
 ----
-cluster1::*> *system switch ethernet show-all -device "sw1 (b8:59:9f:09:7c:22)" -instance*
+cluster1::*> *system switch ethernet show-all -device "sw1" -instance*
 
                                    Device Name: sw1
                                     IP Address: 10.228.136.24
                                   SNMP Version: SNMPv2c
                                  Is Discovered: true
-DEPRECATED-Community String or SNMPv3 Username: -
-           Community String or SNMPv3 Username: cshm1!
-                                  Model Number: 9336C-FX2
+   SNMPv2c Community String or SNMPv3 Username: cshm1!
+                                  Model Number: N9K-C9336C-FX2
                                 Switch Network: cluster-network
-                              Software Version: 3.9.0.2
-                     Reason For Not Monitoring: None  *<---- should display this if SNMP settings are valid*
+                              Software Version: Cisco Nexus Operating System (NX-OS) Software, Version 9.3(7)
+                     Reason For Not Monitoring: None  *<---- displays when SNMP settings are valid*
                       Source Of Switch Version: CDP/ISDP
                                 Is Monitored ?: true
                    Serial Number of the Device: QTFCU3826001C
@@ -106,6 +122,7 @@ DEPRECATED-Community String or SNMPv3 Username: -
 
 cluster1::*>
 cluster1::*> *system switch ethernet modify -device "sw1" -snmp-version SNMPv3 -community-or-username <username>*
+cluster1::*>
 ----
 ====
 
@@ -122,20 +139,22 @@ cluster1::*> *system switch ethernet polling-interval show*
          Polling Interval (in minutes): 5
 
 cluster1::*> *system switch ethernet show-all -device "sw1" -instance*
+
                                    Device Name: sw1
                                     IP Address: 10.228.136.24
                                   SNMP Version: SNMPv3
                                  Is Discovered: true
-DEPRECATED-Community String or SNMPv3 Username: -
-           Community String or SNMPv3 Username: <username>
-                                  Model Number: 9336C-FX2
+   SNMPv2c Community String or SNMPv3 Username: SNMPv3User
+                                  Model Number: N9K-C9336C-FX2
                                 Switch Network: cluster-network
-                              Software Version: 3.9.0.2
-                     Reason For Not Monitoring: None  *<---- should display this if SNMP settings are valid*
+                              Software Version: Cisco Nexus Operating System (NX-OS) Software, Version 9.3(7)
+                     Reason For Not Monitoring: None  *<---- displays when SNMP settings are valid*
                       Source Of Switch Version: CDP/ISDP
                                 Is Monitored ?: true
                    Serial Number of the Device: QTFCU3826001C
                                    RCF Version: v1.8X2 for Cluster/HA/RDMA
+
+cluster1::*>
 ----
 ====
 
