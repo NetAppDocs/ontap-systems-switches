@@ -15,7 +15,10 @@ Follow this procedure to install the RCF script.
 Before installing the RCF script, make sure that the following are available on the switch:
 
 * Cumulus Linux is installed. See the https://hwu.netapp.com/Switch/Index[Hardware Universe^] for supported versions.
+
 * IP address, subnet mask, and default gateway defined via DHCP or manually configured.
+
+NOTE: You must specify a user in the RCF (in addition to the admin user) to be used specifically for log collection. 
 
 .Current RCF script versions
 There are two RCF scripts available for Cluster and Storage applications. Download RCFs from https://mysupport.netapp.com/site/info/nvidia-cluster-switch[here^]. The procedure for each is the same.
@@ -485,11 +488,12 @@ Exception List
     17  Invalid traffic-class mapping for switch-priority 3.Expected 3 Got 0    
     18  Invalid traffic-class mapping for switch-priority 5.Expected 0 Got 5    
     19  Invalid traffic-class mapping for switch-priority 6.Expected 6 Got 0    
-    19  Invalid traffic-class mapping for switch-priority 6.Expected 6 Got 0   p
 Incomplete Command: set interface swp3-16 link fast-linkupp3-16 link fast-linkup 
 Incomplete Command: set interface swp3-16 link fast-linkupp3-16 link fast-linkup
-Incomplete Command: set interface swp3-16 link fast-linkupp3-16 link fast-linku
+Incomplete Command: set interface swp3-16 link fast-linkupp3-16 link fast-linkup
 ----
++
+NOTE: The exceptions listed do not affect performance and can be safely ignored. 
 
 . Verify information for the transceiver in the interface:
 +
