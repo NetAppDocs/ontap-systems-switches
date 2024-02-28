@@ -85,7 +85,9 @@ Use one of the following methods:
 
 * <<Method 1: Install EFOS>>. Use for most cases (see the table above).
 * <<Method 2: Upgrade EFOS using the ONIE OS installation>>. Use if one EFOS version is FIPS compliant and the other EFOS version is non-FIPS compliant.
-
+----
+NOTE: Install EFOS on one switch at a time. When EFOS installation is complete on `cs1`, start the same procedure separately on `cs2`.
+----
 === Method 1: Install EFOS
 Perform the following steps to install or upgrade the EFOS software.
 
@@ -110,6 +112,8 @@ Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 ----
 ====
 
+. Disable auto-revert on the cluster LIFs:
+`cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert false`
 . Back up the current active image on cs2:
 +
 `show bootvar`
@@ -242,6 +246,8 @@ Image Descriptions
 ----
 ====
 
+. Enable auto-revert on the cluster LIFs:
+`cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert true`
 . Reboot the switch:
 +
 `reload`
@@ -299,6 +305,10 @@ Additional Packages............................ BGP-4
 ............................................... Prototype Open API
 ----
 ====
+
+. Verify that the cluster LIFs have reverted to their home port:
+`network interface show -role cluster`
+ For details see link:ontap/networking/revert-a-lif-to-its-home-port.html[Revert a LIF to its home port:]
 
 .What's next?
 
@@ -406,6 +416,8 @@ ONIE:/ #
 ----
 ====
 +
+. Disable auto-revert on the cluster LIFs:
+`cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert false`
 . Install the new switch software:
 +
 `ONIE:/ # onie-nos-install http://50.50.50.50/Software/onie-installer-x86_64`
@@ -451,9 +463,14 @@ unit 	active 	    backup   current-active  next-active
 ----
 ====
 
+. Enable auto-revert on the cluster LIFs:
+`cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert true`
 . Complete the installation.
 +
 The switch will reboot with no configuration applied and reset to factory defaults.
+. Verify that the cluster LIFs have reverted to their home port:
+`network interface show -role cluster`
+ For details see link:ontap/networking/revert-a-lif-to-its-home-port.html[Revert a LIF to its home port:]
 
 .What's next?
 
@@ -462,4 +479,4 @@ link:configure-licenses.html[Install licenses for BES-53248 cluster switches].
 // 2023 FEB 16, ontap-systems-switches-issues-76
 // added details for BES-53248A1 under show version commands, 2023-APR-05
 // Updates for AFFFASDOC-41, 2023-MAY-10
-
+// 2024-03-01, GitHub issue 159
