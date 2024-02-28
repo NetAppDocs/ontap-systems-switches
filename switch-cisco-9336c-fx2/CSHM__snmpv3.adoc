@@ -15,11 +15,11 @@ Follow this procedure to configure SNMPv3, which supports Ethernet switch health
 The following commands configure an SNMPv3 username on Cisco 9336C-FX2 switches:
 
 * For *no authentication*:
-`net add snmp-server username _SNMPv3_USER_ auth-none`
+`snmp-server user _SNMPv3_USER_ NoAuth`
 * For *MD5/SHA authentication*:
-`net add snmp-server username _SNMPv3_USER_ [auth-md5|auth-sha] _AUTH-PASSWORD_`
+`snmp-server user _SNMPv3_USER_ auth [md5|sha] _AUTH-PASSWORD_`
 * For *MD5/SHA authentication with AES/DES encryption*:
-`net add snmp-server username _SNMPv3_USER_ [auth-md5|auth-sha] _AUTH-PASSWORD_ [encrypt-aes|encrypt-des] _PRIV-PASSWORD_`
+`snmp-server user _SNMPv3_USER_ AuthEncrypt  auth [md5|sha] _AUTH-PASSWORD_ priv aes-128 _PRIV-PASSWORD_`
 
 The following command configures an SNMPv3 username on the ONTAP side:
 `cluster1::*> security login create -user-or-group-name _SNMPv3_USER_ -application snmp -authentication-method usm -remote-switch-ipaddress _ADDRESS_`
@@ -30,7 +30,7 @@ The following command establishes the SNMPv3 username with CSHM:
 .Steps
 . Set up the SNMPv3 user on the switch to use authentication and encryption:
 +
-`net show snmp status`
+`show snmp user`
 +
 .Show example
 [%collapsible]
@@ -38,8 +38,7 @@ The following command establishes the SNMPv3 username with CSHM:
 
 [subs=+quotes]
 ----
-(sw1)(Config)# *sh running-config | in snmp*
-snmp-server user SNMPv3User network-operator auth md5 0x01e06e33eeba739f9439c4707f8be541 priv aes-128 0x01e06e33eeba739f9439c4707f8be541 localizedkey <---- Community configured here
+(sw1)(Config)# *snmp-server user SNMPv3User auth md5 <auth_password> priv aes-128 <priv_password>*
 
 (sw1)(Config)# *show snmp user*
 
@@ -60,7 +59,6 @@ User              Auth               Priv
 ----------------- ------------------ ------------
 
 (sw1)(Config)#
-snmp-server user SNMPv3User auth md5 netapp123! priv aes-128 netapp123!
 ----
 ====
 
