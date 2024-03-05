@@ -54,10 +54,13 @@ The examples in this procedure use the following switch and node nomenclature:
 * Breakout ports take the format: swp[port]s[breakout port 0-3]. For example, four breakout ports on swp1 are _swp1s0_, _swp1s1_, _swp1s2_, and _swp1s3_.
 
 .About this task
+
 This procedure covers the following scenario:
+
 * Switch c2 is replaced by switch sw2 first. 
 ** Shutdown the ports to the cluster nodes. All ports must be shutdown simultaneously to avoid cluster instability.
 ** The cabling between the nodes and c2 is then disconnected from c2 and reconnected to sw2.
+
 * Switch c1 is replaced by switch sw1.
 ** Shutdown the ports to the cluster nodes. All ports must be shutdown simultaneously to avoid cluster instability.
 ** The cabling between the nodes and c1 is then disconnected from c1 and reconnected to sw1.
@@ -81,17 +84,6 @@ The advanced prompt (*>) appears.
 . Disable auto-revert on the cluster LIFs: 
 +
 `network interface modify -vserver Cluster -lif * -auto-revert false`
-+
-.Show example
-[%collapsible]
-====
-[subs=+quotes]
-----
-cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert false*
-
-Warning: Disabling the auto-revert feature of the cluster logical interface may effect the availability of your cluster network. Are you sure you want to continue? {y|n}: *y*
-----
-====
 
 === Step 2: Configure ports and cabling
 
@@ -217,7 +209,7 @@ c1                    0/16          175    S I s       CN1610           0/16
 ----
 ====
 
-. Verify that the cluster network has full connectivity using the command: 
+. Verify that the cluster network has full connectivity: 
 +
 `cluster ping-cluster -node node-name`
 +
@@ -503,7 +495,7 @@ Cluster
 ----
 ====
 
-. Create a password for the Ethernet switch health monitor log collection feature:
+. To set up log collection, run the following command for each switch. You are prompted to enter the switch name, username, and password for log collection.
 +
 `system switch ethernet log setup-password`
 +
@@ -517,12 +509,12 @@ cluster1::*> *system switch ethernet log setup-password*
 Enter the switch name: *<return>*
 The switch name entered is not recognized.
 Choose from the following list:
-*cs1*
-*cs2*
+*sw1*
+*sw2*
 
 cluster1::*> *system switch ethernet log setup-password*
 
-Enter the switch name: *cs1*
+Enter the switch name: *sw1*
 Would you like to specify a user other than admin for log collection? {y|n}: *n*
 
 Enter the password: *<enter switch password>*
@@ -530,7 +522,7 @@ Enter the password again: *<enter switch password>*
 
 cluster1::*> *system switch ethernet log setup-password*
 
-Enter the switch name: *cs2*
+Enter the switch name: *sw2*
 Would you like to specify a user other than admin for log collection? {y|n}: *n*
 
 Enter the password: *<enter switch password>*
@@ -538,7 +530,7 @@ Enter the password again: *<enter switch password>*
 ----
 ==== 
 
-. Enable the Ethernet switch health monitor log collection feature.
+. To start log collection, run the following command, replacing DEVICE with the switch used in the previous command. This starts both types of log collection: the detailed *Support* logs and an hourly collection of *Periodic* data.
 +
 `system switch ethernet log modify -device _<switch-name>_ -log-request true`
 +
@@ -572,7 +564,7 @@ Wait for 10 minutes and then check that the log collection completes:
 ====
 [subs=+quotes]
 ----
-cluster1::*> system switch ethernet log show
+cluster1::*> *system switch ethernet log show*
 Log Collection Enabled: true
 
 Index  Switch                       Log Timestamp        Status
