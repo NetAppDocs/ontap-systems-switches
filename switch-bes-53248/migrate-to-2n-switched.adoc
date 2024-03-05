@@ -320,14 +320,11 @@ node2                true    true          false
 
 . Disconnect the cable from cluster port e0b on node1, and then connect e0b to port 1 on cluster switch cs2, using the appropriate cabling supported by the BES-53248 switches.
 . Disconnect the cable from cluster port e0b on node2, and then connect e0b to port 2 on cluster switch cs2, using the appropriate cabling supported by the BES-53248 switches.
+
 . Enable all node-facing ports on cluster switch cs2.
 +
-.Show example
-[%collapsible]
-====
-
 The following example shows that ports 1 through 16 are enabled on switch cs2:
-
++
 [subs=+quotes]
 ----
 (cs2)# *configure*
@@ -336,7 +333,6 @@ The following example shows that ports 1 through 16 are enabled on switch cs2:
 (cs2)(Interface 0/1-0/16)# *exit*
 (cs2)(Config)# *exit*
 ----
-====
 
 . Verify that all cluster ports are *up*:
 +

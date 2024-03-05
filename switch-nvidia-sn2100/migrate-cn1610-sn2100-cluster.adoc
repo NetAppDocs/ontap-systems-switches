@@ -43,8 +43,6 @@ Verify that you meet the following requirements for you configuration:
 
 .About the examples
 
-//In this procedure, Cisco Nexus 3232C cluster switches are used for example commands and outputs.
-
 The examples in this procedure use the following switch and node nomenclature:
 
 * The existing CN1610 cluster switches are _c1_ and _c2_.
@@ -54,9 +52,17 @@ The examples in this procedure use the following switch and node nomenclature:
 * The `cluster1::*>` prompt indicates the name of the cluster.
 * The cluster ports used in this procedure are _e3a_ and _e3b_.
 * Breakout ports take the format: swp[port]s[breakout port 0-3]. For example, four breakout ports on swp1 are _swp1s0_, _swp1s1_, _swp1s2_, and _swp1s3_.
-* Switch c2 is replaced by switch sw2 first and then switch c1 is replaced by switch sw1.
-** Cabling between the nodes and c2 are then disconnected from c2 and reconnected to sw2.
-** Cabling between the nodes and c1 are then disconnected from c1 and reconnected to sw1.
+
+.About this task
+This procedure covers the following scenario:
+* Switch c2 is replaced by switch sw2 first. 
+** Shutdown the ports to the cluster nodes. All ports must be shutdown simultaneously to avoid cluster instability.
+** The cabling between the nodes and c2 is then disconnected from c2 and reconnected to sw2.
+* Switch c1 is replaced by switch sw1.
+** Shutdown the ports to the cluster nodes. All ports must be shutdown simultaneously to avoid cluster instability.
+** The cabling between the nodes and c1 is then disconnected from c1 and reconnected to sw1.
+
+NOTE: No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To ensure non-disruptive cluster operations, the following procedure migrates all of the cluster LIFs to the operational partner switch while performing the steps on the target switch.
 
 === Step 1: Prepare for migration
 
@@ -250,9 +256,6 @@ RPC status:
 
 . On switch c2, shut down the ports connected to the cluster ports of the nodes.
 +
-.Show example
-[%collapsible]
-====
 [subs=+quotes]
 ----
 (c2)# *configure*
@@ -262,7 +265,6 @@ RPC status:
 (c2)(Config)# *exit*
 (c2)#
 ----
-====
 
 . Move the node cluster ports from the old switch c2 to the new switch sw2, using appropriate cabling supported by NVIDIA SN2100.
 
@@ -342,9 +344,6 @@ UP     swp16        100G  9216   BondMember  sw1 (swp16)       Master: cluster_i
 
 . On switch c1, shut down the ports connected to the cluster ports of the nodes.
 +
-.Show example
-[%collapsible]
-====
 [subs=+quotes]
 ----
 (c1)# *configure*
@@ -354,7 +353,6 @@ UP     swp16        100G  9216   BondMember  sw1 (swp16)       Master: cluster_i
 (c1)(Config)# *exit*
 (c1)#
 ----
-====
 
 . Move the node cluster ports from the old switch c1 to the new switch sw1, using appropriate cabling supported by NVIDIA SN2100.
 
@@ -596,3 +594,4 @@ CAUTION: If any of these commands return an error or if the log collection does 
 
 // New procedure as per GH issue #107, 2023-JUN-20S
 // Updated info for log collection as per AFFFASDOC-142, 2023-OCT-18
+// Updates for GH issue #156, 2024-MAR-05

@@ -58,9 +58,16 @@ The examples in this procedure use the following switch and node nomenclature:
 * The `cluster1::*>` prompt indicates the name of the cluster.
 * The cluster ports used in this procedure are _e3a_ and _e3b_.
 * Breakout ports take the format: swp[port]s[breakout port 0-3]. For example, four breakout ports on swp1 are _swp1s0_, _swp1s1_, _swp1s2_, and _swp1s3_.
-* Switch c2 is replaced by switch sw2 first and then switch c1 is replaced by switch sw1.
+
+.About this task
+This procedure covers the following scenario:
+* Switch c2 is replaced by switch sw2 first.
+** Shutdown the ports to the cluster nodes. All ports must be shutdown simultaneously to avoid cluster instability. 
 ** Cabling between the nodes and c2 are then disconnected from c2 and reconnected to sw2.
+* Switch c1 is replaced by switch sw1.
+** Shutdown the ports to the cluster nodes. All ports must be shutdown simultaneously to avoid cluster instability. 
 ** Cabling between the nodes and c1 are then disconnected from c1 and reconnected to sw1.
+and then 
 
 === Step 1: Prepare for migration
 
@@ -79,17 +86,6 @@ The advanced prompt (*>) appears.
 . Disable auto-revert on the cluster LIFs: 
 +
 `network interface modify -vserver Cluster -lif * -auto-revert false`
-+
-.Show example
-[%collapsible]
-====
-[subs=+quotes]
-----
-cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert false*
-
-Warning: Disabling the auto-revert feature of the cluster logical interface may effect the availability of your cluster network. Are you sure you want to continue? {y|n}: *y*
-----
-====
 
 === Step 2: Configure ports and cabling
 
@@ -211,7 +207,7 @@ c1                    Eth1/32       175    S I s       N3K-C3232C       Eth1/32
 ----
 ====
 
-. Ensure that the cluster network has full connectivity using the command: 
+. Ensure that the cluster network has full connectivity: 
 +
 `cluster ping-cluster -node node-name`
 +
@@ -250,9 +246,6 @@ RPC status:
 
 . On switch c2, shut down the ports connected to the cluster ports of the nodes.
 +
-.Show example
-[%collapsible]
-====
 [subs=+quotes]
 ----
 (c2)# *configure*
@@ -264,7 +257,6 @@ Enter configuration commands, one per line. End with CNTL/Z.
 (c2)(Config)# *exit*
 (c2)#
 ----
-====
 
 . Move the node cluster ports from the old switch c2 to the new switch sw2, using appropriate cabling supported by NVIDIA SN2100.
 
@@ -342,9 +334,6 @@ UP     swp16        100G  9216   BondMember  sw1 (swp16)       Master: cluster_i
 
 . On switch c1, shut down the ports connected to the cluster ports of the nodes.
 +
-.Show example
-[%collapsible]
-====
 [subs=+quotes]
 ----
 (c1)# *configure*
@@ -356,7 +345,6 @@ Enter configuration commands, one per line. End with CNTL/Z.
 (c1)(Config)# *exit*
 (c1)#
 ----
-====
 
 . Move the node cluster ports from the old switch c1 to the new switch sw1, using appropriate cabling supported by NVIDIA SN2100.
 
@@ -505,8 +493,8 @@ Cluster
 ----
 ====
 
-
-. Create a password for the Ethernet switch health monitor log collection feature:
+. To set up log collection, run the following command for each switch. You are prompted to enter the switch name, username, and password for log collection.
++
 `system switch ethernet log setup-password`
 +
 .Show example
@@ -519,12 +507,12 @@ cluster1::*> *system switch ethernet log setup-password*
 Enter the switch name: *<return>*
 The switch name entered is not recognized.
 Choose from the following list:
-*cs1*
-*cs2*
+*sw1*
+*sw2*
 
 cluster1::*> *system switch ethernet log setup-password*
 
-Enter the switch name: *cs1*
+Enter the switch name: *sw1*
 Would you like to specify a user other than admin for log collection? {y|n}: *n*
 
 Enter the password: *<enter switch password>*
@@ -532,7 +520,7 @@ Enter the password again: *<enter switch password>*
 
 cluster1::*> *system switch ethernet log setup-password*
 
-Enter the switch name: *cs2*
+Enter the switch name: *sw2*
 Would you like to specify a user other than admin for log collection? {y|n}: *n*
 
 Enter the password: *<enter switch password>*
@@ -540,10 +528,9 @@ Enter the password again: *<enter switch password>*
 ----
 ==== 
 
-. Enable the Ethernet switch health monitor log collection feature.
+. To start log collection, run the following command, replacing DEVICE with the switch used in the previous command. This starts both types of log collection: the detailed *Support* logs and an hourly collection of *Periodic* data.
 +
 `system switch ethernet log modify -device _<switch-name>_ -log-request true`
-
 +
 .Show example 
 [%collapsible]
@@ -551,13 +538,13 @@ Enter the password again: *<enter switch password>*
 
 [subs=+quotes]
 ----
-cluster1::*> *system switch ethernet log modify -device cs1 -log-request true*
+cluster1::*> *system switch ethernet log modify -device sw1 -log-request true*
 
 Do you want to modify the cluster switch log collection configuration? {y|n}: [n] *y*
 
 Enabling cluster switch log collection.
 
-cluster1::*> *system switch ethernet log modify -device cs2 -log-request true*
+cluster1::*> *system switch ethernet log modify -device sw2 -log-request true*
 
 Do you want to modify the cluster switch log collection configuration? {y|n}: [n] *y*
 
@@ -580,8 +567,8 @@ Log Collection Enabled: true
 
 Index  Switch                       Log Timestamp        Status
 ------ ---------------------------- -------------------  ---------    
-1      cs1 (b8:ce:f6:19:1b:42)      4/29/2022 03:05:25   complete   
-2      cs2 (b8:ce:f6:19:1b:96)      4/29/2022 03:07:42   complete
+1      sw1 (b8:ce:f6:19:1b:42)      4/29/2022 03:05:25   complete   
+2      sw2 (b8:ce:f6:19:1b:96)      4/29/2022 03:07:42   complete
 ----
 ====
 +
@@ -596,4 +583,5 @@ CAUTION: If any of these commands return an error or if the log collection does 
 `system node autosupport invoke -node * -type all -message MAINT=END`
 
 // Updated info for log collection as per AFFFASDOC-142, 2023-OCT-18
+// Updates for GH issue #156, 2024-MAR-05
 
