@@ -45,6 +45,9 @@ The https://hwu.netapp.com/Home/Index[_NetApp Hardware Universe_^] contains info
 
 * Any site customization (SMTP, SNMP, and SSH) are configured on the new switches.
 
+//NOTE: Port group speed constraints:
+//* The 48 10/25GbE (SFP28/SFP+) ports are combined into 12 x 4-port groups as follows: Ports 1-4, 5-8, 9-12, 13-16, 17-20, 21-24, 25-28, 29-32, 33-36, 37-40, 41-44, and 45-48.
+//* The SFP28/SFP+ port speed must be the same (10GbE or 25GbE) across all ports in the 4-port group.
 
 == Migrate to the cluster environment
 
@@ -85,13 +88,8 @@ The advanced prompt (`*>`) appears.
 +
 NOTE: You must not disable the ISL ports.
 +
-
-.Show example 
-[%collapsible]
-====
-
 The following example shows that node-facing ports 1 through 16 are disabled on switch cs1:
-
++
 [subs=+quotes]
 ----
 (cs1)# *configure*
@@ -100,7 +98,6 @@ The following example shows that node-facing ports 1 through 16 are disabled on 
 (cs1)(Interface 0/1-0/16)# *exit*
 (cs1)(Config)# *exit*
 ----
-====
 
 . Verify that the ISL and the physical ports on the ISL between the two BES-53248 switches cs1 and cs2 are *up*:
 +
@@ -264,12 +261,8 @@ The https://hwu.netapp.com/Home/Index[_NetApp Hardware Universe_^] contains more
 . Disconnect the cable from cluster port e0a on node2, and then connect e0a to port 2 on cluster switch cs1, using the appropriate cabling supported by the BES-53248 switches.
 . Enable all node-facing ports on cluster switch cs1.
 +
-.Show example
-[%collapsible]
-====
-
 The following example shows that ports 1 through 16 are enabled on switch cs1:
-
++
 [subs=+quotes]
 ----
 (cs1)# *configure*
@@ -278,7 +271,6 @@ The following example shows that ports 1 through 16 are enabled on switch cs1:
 (cs1)(Interface 0/1-0/16)# *exit*
 (cs1)(Config)# *exit*
 ----
-====
 
 . Verify that all cluster LIFs are up, operational, and display as `true` for `Is Home`:
 +
@@ -578,4 +570,5 @@ For more information, see: https://kb.netapp.com/Advice_and_Troubleshooting/Data
 After your migration completes, you might need to install the required configuration file to support the Cluster Switch Health Monitor (CSHM) for BES-53248 cluster switches. See link:configure-health-monitor.html[Install the Cluster Switch Health Monitor (CSHM) configuration file] and link:configure-log-collection.html[Enable the log collection feature].
 
 // Updates for AFFFASDOC-111, 2023-SEPT-06
+// Updates for GH issue #156, 2024-MAR-05
 
