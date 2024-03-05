@@ -60,10 +60,13 @@ The examples in this procedure use the following switch and node nomenclature:
 * Breakout ports take the format: swp[port]s[breakout port 0-3]. For example, four breakout ports on swp1 are _swp1s0_, _swp1s1_, _swp1s2_, and _swp1s3_.
 
 .About this task
+
 This procedure covers the following scenario:
+
 * Switch c2 is replaced by switch sw2 first.
 ** Shutdown the ports to the cluster nodes. All ports must be shutdown simultaneously to avoid cluster instability. 
 ** Cabling between the nodes and c2 are then disconnected from c2 and reconnected to sw2.
+
 * Switch c1 is replaced by switch sw1.
 ** Shutdown the ports to the cluster nodes. All ports must be shutdown simultaneously to avoid cluster instability. 
 ** Cabling between the nodes and c1 are then disconnected from c1 and reconnected to sw1.
@@ -147,7 +150,7 @@ Cluster
 ----
 ====
 
-. The cluster ports on each node are connected to existing cluster switches in the following way (from the nodes' perspective) using the command: 
+. The cluster ports on each node are connected to existing cluster switches in the following way (from the nodes' perspective): 
 +
 `network device-discovery show -protocol lldp`
 +
@@ -169,7 +172,7 @@ node2      /lldp
 ----
 ====
 
-. The cluster ports and switches are connected in the following way (from the switches' perspective) using the command: 
+. The cluster ports and switches are connected in the following way (from the switches' perspective): 
 +
 `show cdp neighbors`
 +
@@ -244,7 +247,7 @@ RPC status:
 ----
 ====
 
-. On switch c2, shut down the ports connected to the cluster ports of the nodes.
+. On switch c2, shut down the ports connected to the cluster ports of the nodes in order to fail over the cluster LIFs.
 +
 [subs=+quotes]
 ----
@@ -332,7 +335,7 @@ UP     swp16        100G  9216   BondMember  sw1 (swp16)       Master: cluster_i
 ----
 ====
 
-. On switch c1, shut down the ports connected to the cluster ports of the nodes.
+. On switch c1, shut down the ports connected to the cluster ports of the nodes in order to fail over the cluster LIFs.
 +
 [subs=+quotes]
 ----

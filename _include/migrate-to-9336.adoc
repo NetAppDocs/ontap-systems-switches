@@ -206,7 +206,7 @@ cs2                         cluster-network     10.233.205.93   N5K-C5596UP
 +
 `network interface modify -vserver Cluster -lif * -auto-revert false`
 
-. On cluster switch cs2, shut down the ports connected to the cluster ports of the nodes:
+. On cluster switch cs2, shut down the ports connected to the cluster ports of the nodes in order to fail over the cluster LIFs:
 +
 [subs=+quotes]
 ----
@@ -316,7 +316,7 @@ node2      /cdp
 +
 Verify that the moved cluster ports see the cs2-new switch as the neighbor.
 +
-. Confirm the switch port connections from switch cs2-new’s perspective:
+. Confirm the switch port connections from switch cs2-new's perspective:
 +
 [subs=+quotes]
 ----
@@ -324,7 +324,7 @@ cs2-new# *show interface brief*
 cs2-new# *show cdp neighbors*
 ----
 
-. On cluster switch cs1, shut down the ports connected to the cluster ports of the nodes. The following example uses the interface example output from step 7.
+. On cluster switch cs1, shut down the ports connected to the cluster ports of the nodes in order to fail over the cluster LIFs. The following example uses the interface example output from step 7.
 +
 [subs=+quotes]
 ----
