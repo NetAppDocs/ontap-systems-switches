@@ -15,11 +15,11 @@ Follow this procedure to configure SNMPv3, which supports Ethernet switch health
 The following commands configure an SNMPv3 username on Cisco 3132Q-V switches:
 
 * For *no authentication*:
-`net add snmp-server username _SNMPv3_USER_ auth-none`
+`snmp-server user _SNMPv3_USER_ NoAuth`
 * For *MD5/SHA authentication*:
-`net add snmp-server username _SNMPv3_USER_ [auth-md5|auth-sha] _AUTH-PASSWORD_`
+`snmp-server user _SNMPv3_USER_ auth [md5|sha] _AUTH-PASSWORD_`
 * For *MD5/SHA authentication with AES/DES encryption*:
-`net add snmp-server username _SNMPv3_USER_ [auth-md5|auth-sha] _AUTH-PASSWORD_ [encrypt-aes|encrypt-des] _PRIV-PASSWORD_`
+`snmp-server user _SNMPv3_USER_ AuthEncrypt  auth [md5|sha] _AUTH-PASSWORD_ priv aes-128 _PRIV-PASSWORD_`
 
 The following command configures an SNMPv3 username on the ONTAP side:
 `cluster1::*> security login create -user-or-group-name _SNMPv3_USER_ -application snmp -authentication-method usm -remote-switch-ipaddress _ADDRESS_`
@@ -30,7 +30,7 @@ The following command establishes the SNMPv3 username with CSHM:
 .Steps
 . Set up the SNMPv3 user on the switch to use authentication and encryption:
 +
-`net show snmp status`
+`show snmp user`
 +
 .Show example
 [%collapsible]
@@ -38,14 +38,27 @@ The following command establishes the SNMPv3 username with CSHM:
 
 [subs=+quotes]
 ----
-(sw1)(Config)# *snmp-server user <username> network-admin auth-md5 <password> priv-aes128 <password>*
+(sw1)(Config)# *snmp-server user SNMPv3User auth md5 <auth_password> priv aes-128 <priv_password>*
 
-(cs1)(Config)# *show snmp user snmp*
+(sw1)(Config)# *show snmp user*
 
-     Name            Group Name      Auth Priv
-                                     Meth Meth    Remote Engine ID
------------------ ------------------ ---- ------ -------------------------
-<username>        network-admin      MD5  AES128 8000113d03d8c497710bee
+-----------------------------------------------------------------------------
+                              SNMP USERS
+-----------------------------------------------------------------------------
+
+User              Auth            Priv(enforce)   Groups          acl_filter
+----------------- --------------- --------------- --------------- -----------
+admin             md5             des(no)         network-admin
+SNMPv3User        md5             aes-128(no)     network-operator
+
+-----------------------------------------------------------------------------
+     NOTIFICATION TARGET USERS (configured  for sending V3 Inform)
+-----------------------------------------------------------------------------
+
+User              Auth               Priv
+----------------- ------------------ ------------
+
+(sw1)(Config)#
 ----
 ====
 
@@ -60,6 +73,8 @@ The following command establishes the SNMPv3 username with CSHM:
 
 [subs=+quotes]
 ----
+cluster1::*> *system switch ethernet modify -device "sw1 (b8:59:9f:09:7c:22)" -is-monitoring-enabled-admin true*
+
 cluster1::*> *security login create -user-or-group-name <username> -application snmp -authentication-method usm -remote-switch-ipaddress 10.231.80.212*
 
 Enter the authoritative entity's EngineID [remote EngineID]:
@@ -87,18 +102,17 @@ Enter privacy protocol password again:
 ====
 [subs=+quotes]
 ----
-cluster1::*> *system switch ethernet show-all -device "sw1 (b8:59:9f:09:7c:22)" -instance*
+cluster1::*> *system switch ethernet show-all -device "sw1" -instance*
 
                                    Device Name: sw1
                                     IP Address: 10.228.136.24
                                   SNMP Version: SNMPv2c
                                  Is Discovered: true
-DEPRECATED-Community String or SNMPv3 Username: -
-           Community String or SNMPv3 Username: cshm1!
-                                  Model Number: 9336C-FX2
+   SNMPv2c Community String or SNMPv3 Username: cshm1!
+                                  Model Number: N3K-C3132Q-V
                                 Switch Network: cluster-network
-                              Software Version: 3.9.0.2
-                     Reason For Not Monitoring: None  *<---- should display this if SNMP settings are valid*
+                              Software Version: Cisco Nexus Operating System (NX-OS) Software, Version 9.3(7)
+                     Reason For Not Monitoring: None  *<---- displays when SNMP settings are valid*
                       Source Of Switch Version: CDP/ISDP
                                 Is Monitored ?: true
                    Serial Number of the Device: QTFCU3826001C
@@ -106,6 +120,7 @@ DEPRECATED-Community String or SNMPv3 Username: -
 
 cluster1::*>
 cluster1::*> *system switch ethernet modify -device "sw1" -snmp-version SNMPv3 -community-or-username <username>*
+cluster1::*>
 ----
 ====
 
@@ -122,20 +137,22 @@ cluster1::*> *system switch ethernet polling-interval show*
          Polling Interval (in minutes): 5
 
 cluster1::*> *system switch ethernet show-all -device "sw1" -instance*
+
                                    Device Name: sw1
                                     IP Address: 10.228.136.24
                                   SNMP Version: SNMPv3
                                  Is Discovered: true
-DEPRECATED-Community String or SNMPv3 Username: -
-           Community String or SNMPv3 Username: <username>
-                                  Model Number: 9336C-FX2
+   SNMPv2c Community String or SNMPv3 Username: SNMPv3User
+                                  Model Number: N3K-C3132Q-V
                                 Switch Network: cluster-network
-                              Software Version: 3.9.0.2
-                     Reason For Not Monitoring: None  *<---- should display this if SNMP settings are valid*
+                              Software Version: Cisco Nexus Operating System (NX-OS) Software, Version 9.3(7)
+                     Reason For Not Monitoring: None  *<---- displays when SNMP settings are valid*
                       Source Of Switch Version: CDP/ISDP
                                 Is Monitored ?: true
                    Serial Number of the Device: QTFCU3826001C
                                    RCF Version: v1.8X2 for Cluster/HA/RDMA
+
+cluster1::*>
 ----
 ====
 
