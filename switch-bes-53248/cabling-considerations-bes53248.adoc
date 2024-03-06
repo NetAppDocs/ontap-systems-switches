@@ -49,20 +49,20 @@ image::../media/FEC_fiber_table.jpg[25G ports with Fiber/Optical cables]
 
 === Bootarg implementation
 
-* Use the following command to set the 25G port FEC to either `auto` or `fc`, as required:
+Use the following command to set the 25G port FEC to either `auto` or `fc`, as required:
 +
 ----
 systemshell -node <node> -command sudo sysctl dev.ice.<X>.requested_fec=<auto/fc>
 ----
 
-** When set to `auto`:
-*** The `auto` setting propagates the setting to hardware immediately and no reboot is required.
-*** If `bootarg.cpk_fec_fc_eXx already exists`, it is deleted from the bootarg storage.
-*** After a reboot, the `auto` setting remains in place since `auto` is the default FEC setting.
+* When set to `auto`:
+** The `auto` setting propagates the setting to hardware immediately and no reboot is required.
+** If `bootarg.cpk_fec_fc_eXx already exists`, it is deleted from the bootarg storage.
+** After a reboot, the `auto` setting remains in place since `auto` is the default FEC setting.
 
-** When set to `fc`:
-*** The `FC-FEC` setting propagates the setting to the hardware immediately and no reboot is required.
-*** A new `bootarg.cpk_fec_fc_eXx` is created with the value set to "true".
-*** After a reboot, `FC-FEC` setting remains in place for the driver code to use.
+* When set to `fc`:
+** The `FC-FEC` setting propagates the setting to the hardware immediately and no reboot is required.
+** A new `bootarg.cpk_fec_fc_eXx` is created with the value set to "true".
+** After a reboot, `FC-FEC` setting remains in place for the driver code to use.
 
 // New content for AFFFASDOC-193, 2024-MAR-06
