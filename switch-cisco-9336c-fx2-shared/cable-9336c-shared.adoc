@@ -9,7 +9,7 @@ summary: Use the cabling images to complete the cabling between the controllers 
 :nofooter:
 :icons: font
 :linkattrs:
-:imagesdir: ./media/
+:imagesdir: ../media/
 
 [.lead]
 Use the following cabling images to complete the cabling between the controllers and the switches.
@@ -18,7 +18,7 @@ Use the following cabling images to complete the cabling between the controllers
 If you want to cable NS224 storage as switch-attached, follow the switch-attached diagram:
 // andris /ontap-systems-switches/pull/30
 
-image:9336c_image1.jpg[Switch-attached]
+image::../media/9336c_image1.jpg[Switch-attached]
 
 See the https://hwu.netapp.com/Switch/Index[Hardware Universe] for more information on switch ports.
 
@@ -26,7 +26,7 @@ See the https://hwu.netapp.com/Switch/Index[Hardware Universe] for more informat
 If you want to cable NS224 storage as direct-attached instead of using the shared switch storage ports, follow the direct-attached diagram:
 // andris /ontap-systems-switches/pull/30
 
-image:9336c_image2.jpg[Direct-attached]
+image::../media/9336c_image2.jpg[Direct-attached]
 
 See the https://hwu.netapp.com/Switch/Index[Hardware Universe] for more information on switch ports.
 
@@ -35,7 +35,8 @@ See the https://hwu.netapp.com/Switch/Index[Hardware Universe] for more informat
 If you want to document the supported platforms, you must complete the blank cabling worksheet by using completed sample cabling worksheet as a guide.
 
 The sample port definition on each pair of switches is as follows:
-image:cabling_worksheet.jpg[Cabling worksheet]
+
+image::../media/cabling_worksheet.jpg[Cabling worksheet]
 
 Where:
 
@@ -48,7 +49,7 @@ Where:
 
 You can use the blank cabling worksheet to document the platforms that are supported as nodes in a cluster. The Supported Cluster Connections table of the Hardware Universe defines the cluster ports used by the platform.
 
-image:blank_cabling_worksheet.jpg[Blank cabling worksheet]
+image::../media/blank_cabling_worksheet.jpg[Blank cabling worksheet]
 
 Where:
 
