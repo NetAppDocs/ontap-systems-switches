@@ -56,11 +56,11 @@ The examples in this procedure use the following switch and node nomenclature:
 This procedure covers the following scenario:
 
 * Switch C2 is replaced by switch cs2 first. 
-** Shutdown the ports to the cluster nodes. All ports must be shutdown simultaneously to avoid cluster instability.
+** Shut down the ports to the cluster nodes. All ports must be shut down simultaneously to avoid cluster instability.
 ** The cabling between the nodes and C2 is then disconnected from C2 and reconnected to cs2.
 
 * Switch C1 is replaced by switch cs1.
-** Shutdown the ports to the cluster nodes. All ports must be shutdown simultaneously to avoid cluster instability.
+** Shut down the ports to the cluster nodes. All ports must be shut down simultaneously to avoid cluster instability.
 ** The cabling between the nodes and C1 is then disconnected from C1 and reconnected to cs1.
 
 NOTE: No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To ensure non-disruptive cluster operations, the following procedure migrates all of the cluster LIFs to the operational partner switch while performing the steps on the target switch.
