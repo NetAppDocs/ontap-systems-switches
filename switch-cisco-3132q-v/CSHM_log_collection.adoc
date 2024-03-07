@@ -10,6 +10,7 @@ summary: 'The cluster switch health monitor log collection feature is used to co
 
 [.lead]
 You can use the log collection feature to collect switch-related log files in ONTAP. 
+
 The Ethernet switch health monitor (CSHM) is responsible for ensuring the operational health of Cluster and Storage network switches and collecting switch logs for debugging purposes. This procedure guides you through the process of setting up and starting the collection of detailed *Support* logs from the switch and starts an hourly collection of *Periodic* data that is collected by AutoSupport.
 
 //IMPORTANT: To enable the log collection feature, you must be running ONTAP version 9.12.1 and later and EFOS 3.8.0.2 and later.
@@ -85,7 +86,7 @@ Enabling cluster switch log collection.
 ----
 ====
 +
-Wait for 10 minutes and then check that the log collection completes:
+Wait for 10 minutes, and then check that the log collection completes:
 +
 `system switch ethernet log show`
 +
@@ -100,7 +101,7 @@ h| *Log collection error status* h| *Resolution*
 a| *RSA keys not present*
 a| Regenerate ONTAP SSH keys. Contact NetApp support.
 a| *switch password error*
-a| Verify credentials, test SSH connectivity, and regenerate ONTAP SSH keys. Review switch documentation or contact NetApp support for instructions.
+a| Verify credentials, test SSH connectivity, and regenerate ONTAP SSH keys. Review the switch documentation or contact NetApp support for instructions.
 a| *ECDSA keys not present for FIPS*
 a| If FIPS mode is enabled, ECDSA keys need to be generated on the switch before retrying.
 a| *pre-existing log found*
