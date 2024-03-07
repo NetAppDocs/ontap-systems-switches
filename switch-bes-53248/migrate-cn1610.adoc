@@ -72,11 +72,11 @@ This procedure covers the following scenario:
 
 * The cluster starts with two nodes connected to two CN1610 cluster switches.
 * CN1610 switch CL2 is replaced by BES-53248 switch cs2:
- ** Shutdown the ports to the cluster nodes. All ports must be shutdown simultaneously to avoid cluster instability. 
+ ** Shut down the ports to the cluster nodes. All ports must be shut down simultaneously to avoid cluster instability. 
  ** Disconnect the cables from all cluster ports on all nodes connected to CL2, and then use supported cables to reconnect the ports to the new cluster switch cs2.
 
 * CN1610 switch CL1 is replaced by BES-53248 switch cs1:
- ** Shutdown the ports to the cluster nodes. All ports must be shutdown simultaneously to avoid cluster instability. 
+ ** Shut down the ports to the cluster nodes. All ports must be shut down simultaneously to avoid cluster instability. 
  ** Disconnect the cables from all cluster ports on all nodes connected to CL1, and then use supported cables to reconnect the ports to the new cluster switch cs1.
 
 NOTE: No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To ensure non-disruptive cluster operations, the following procedure migrates all of the cluster LIFs to the operational partner switch while performing the steps on the target switch.
