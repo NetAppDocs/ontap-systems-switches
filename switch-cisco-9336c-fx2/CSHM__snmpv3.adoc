@@ -1,0 +1,159 @@
+---
+permalink: switch-cisco-9336c-fx2/CSHM_snmpv3.html
+sidebar: sidebar
+keywords: SNMP,SNMPv3,SNMPv3 setup,BES-53248 Broadcom setup,BES-3248 switches configuration,EFOS
+summary: 'SNMPv3 can be used with the Ethernet switch health monitor (CSHM).'
+---
+= Configure SNMPv3
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+Follow this procedure to configure SNMPv3, which supports Ethernet switch health monitoring (CSHM).
+
+.About this task
+The following commands configure an SNMPv3 username on Cisco 9336C-FX2 switches:
+
+* For *no authentication*:
+`snmp-server user _SNMPv3_USER_ NoAuth`
+* For *MD5/SHA authentication*:
+`snmp-server user _SNMPv3_USER_ auth [md5|sha] _AUTH-PASSWORD_`
+* For *MD5/SHA authentication with AES/DES encryption*:
+`snmp-server user _SNMPv3_USER_ AuthEncrypt  auth [md5|sha] _AUTH-PASSWORD_ priv aes-128 _PRIV-PASSWORD_`
+
+The following command configures an SNMPv3 username on the ONTAP side:
+`cluster1::*> security login create -user-or-group-name _SNMPv3_USER_ -application snmp -authentication-method usm -remote-switch-ipaddress _ADDRESS_`
+
+The following command establishes the SNMPv3 username with CSHM:
+`cluster1::*> system switch ethernet modify -device _DEVICE_ -snmp-version SNMPv3 -community-or-username _SNMPv3_USER_`
+
+.Steps
+. Set up the SNMPv3 user on the switch to use authentication and encryption:
++
+`show snmp user`
++
+.Show example
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+(sw1)(Config)# *snmp-server user SNMPv3User auth md5 <auth_password> priv aes-128 <priv_password>*
+
+(sw1)(Config)# *show snmp user*
+
+-----------------------------------------------------------------------------
+                              SNMP USERS
+-----------------------------------------------------------------------------
+
+User              Auth            Priv(enforce)   Groups          acl_filter
+----------------- --------------- --------------- --------------- -----------
+admin             md5             des(no)         network-admin
+SNMPv3User        md5             aes-128(no)     network-operator
+
+-----------------------------------------------------------------------------
+     NOTIFICATION TARGET USERS (configured  for sending V3 Inform)
+-----------------------------------------------------------------------------
+
+User              Auth               Priv
+----------------- ------------------ ------------
+
+(sw1)(Config)#
+----
+====
+
+. Set up the SNMPv3 user on the ONTAP side:
++
+`security login create -user-or-group-name <username> -application snmp -authentication-method usm -remote-switch-ipaddress 10.231.80.212`
+
++
+.Show example
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cluster1::*> *system switch ethernet modify -device "sw1 (b8:59:9f:09:7c:22)" -is-monitoring-enabled-admin true*
+
+cluster1::*> *security login create -user-or-group-name <username> -application snmp -authentication-method usm -remote-switch-ipaddress 10.231.80.212*
+
+Enter the authoritative entity's EngineID [remote EngineID]:
+
+Which authentication protocol do you want to choose (none, md5, sha, sha2-256)
+[none]: *md5*
+
+Enter the authentication protocol password (minimum 8 characters long):
+
+Enter the authentication protocol password again:
+
+Which privacy protocol do you want to choose (none, des, aes128) [none]: *aes128*
+
+Enter privacy protocol password (minimum 8 characters long):
+Enter privacy protocol password again:
+----
+====
+
+. Configure CSHM to monitor with the new SNMPv3 user:
++
+`system switch ethernet show-all -device "sw1" -instance`
++
+.Show example
+[%collapsible]
+====
+[subs=+quotes]
+----
+cluster1::*> *system switch ethernet show-all -device "sw1" -instance*
+
+                                   Device Name: sw1
+                                    IP Address: 10.231.80.212
+                                  SNMP Version: SNMPv2c
+                                 Is Discovered: true
+   SNMPv2c Community String or SNMPv3 Username: cshm1!
+                                  Model Number: N9K-C9336C-FX2
+                                Switch Network: cluster-network
+                              Software Version: Cisco Nexus Operating System (NX-OS) Software, Version 9.3(7)
+                     Reason For Not Monitoring: None  *<---- displays when SNMP settings are valid*
+                      Source Of Switch Version: CDP/ISDP
+                                Is Monitored ?: true
+                   Serial Number of the Device: QTFCU3826001C
+                                   RCF Version: v1.8X2 for Cluster/HA/RDMA
+
+cluster1::*>
+cluster1::*> *system switch ethernet modify -device "sw1" -snmp-version SNMPv3 -community-or-username <username>*
+cluster1::*>
+----
+====
+
+. Verify that the serial number to be queried with the newly created SNMPv3 user is the same as detailed in the previous step after the CSHM polling period has completed.
++
+`system switch ethernet polling-interval show`
++
+.Show example
+[%collapsible]
+====
+[subs=+quotes]
+----
+cluster1::*> *system switch ethernet polling-interval show*
+         Polling Interval (in minutes): 5
+
+cluster1::*> *system switch ethernet show-all -device "sw1" -instance*
+
+                                   Device Name: sw1
+                                    IP Address: 10.231.80.212
+                                  SNMP Version: SNMPv3
+                                 Is Discovered: true
+   SNMPv2c Community String or SNMPv3 Username: SNMPv3User
+                                  Model Number: N9K-C9336C-FX2
+                                Switch Network: cluster-network
+                              Software Version: Cisco Nexus Operating System (NX-OS) Software, Version 9.3(7)
+                     Reason For Not Monitoring: None  *<---- displays when SNMP settings are valid*
+                      Source Of Switch Version: CDP/ISDP
+                                Is Monitored ?: true
+                   Serial Number of the Device: QTFCU3826001C
+                                   RCF Version: v1.8X2 for Cluster/HA/RDMA
+
+cluster1::*>
+----
+====
+
+// New content for SNMPv3, AFFFASDOC-201, 2024-FEB-21

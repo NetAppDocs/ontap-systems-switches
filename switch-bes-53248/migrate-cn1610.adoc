@@ -72,9 +72,11 @@ This procedure covers the following scenario:
 
 * The cluster starts with two nodes connected to two CN1610 cluster switches.
 * CN1610 switch CL2 is replaced by BES-53248 switch cs2:
+ ** Shut down the ports to the cluster nodes. All ports must be shut down simultaneously to avoid cluster instability. 
  ** Disconnect the cables from all cluster ports on all nodes connected to CL2, and then use supported cables to reconnect the ports to the new cluster switch cs2.
 
 * CN1610 switch CL1 is replaced by BES-53248 switch cs1:
+ ** Shut down the ports to the cluster nodes. All ports must be shut down simultaneously to avoid cluster instability. 
  ** Disconnect the cables from all cluster ports on all nodes connected to CL1, and then use supported cables to reconnect the ports to the new cluster switch cs1.
 
 NOTE: No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To ensure non-disruptive cluster operations, the following procedure migrates all of the cluster LIFs to the operational partner switch while performing the steps on the target switch.
@@ -309,12 +311,8 @@ cluster1::*>
 cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert false*
 ----
 
-. On cluster switch CL2, shut down the ports connected to the cluster ports of the nodes:
+. On cluster switch CL2, shut down the ports connected to the cluster ports of the nodes in order to fail over the cluster LIFs:
 +
-.Show example
-[%collapsible]
-====
-
 [subs=+quotes]
 ----
 (CL2)# *configure*
@@ -324,9 +322,8 @@ cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert fals
 (CL2)(Config)# *exit*
 (CL2)#
 ----
-====
 
-. Verify that the cluster LIFs have migrated to the ports hosted on cluster switch CL1. This might take a few seconds.
+. Verify that the cluster LIFs have failed over to the ports hosted on cluster switch CL1. This might take a few seconds.
 +
 `network interface show -vserver Cluster`
 +
@@ -422,7 +419,7 @@ node1      /cdp
 ----
 ====
 
-. Confirm the switch port connections are healthy from switch cs2's perspective using the commands:
+. Confirm the switch port connections are healthy from switch cs2's perspective:
 +
 [subs=+quotes]
 ----
@@ -430,7 +427,7 @@ cs2# *show port all*
 cs2# *show isdp neighbors*
 ----
 
-. On cluster switch CL1, shut down the ports connected to the cluster ports of the nodes.
+. On cluster switch CL1, shut down the ports connected to the cluster ports of the nodes in order to fail over the cluster LIFs:
 +
 [subs=+quotes]
 ----
@@ -442,9 +439,9 @@ cs2# *show isdp neighbors*
 (CL1)#
 ----
 +
-All cluster LIFs move to the cs2 switch.
+All cluster LIFs failover to the cs2 switch.
 
-. Verify that the cluster LIFs have migrated to the ports hosted on switch cs2. This might take a few seconds:
+. Verify that the cluster LIFs have failed over to the ports hosted on switch cs2. This might take a few seconds:
 +
 `network interface show -vserver Cluster`
 +
@@ -541,7 +538,7 @@ node2      /cdp
 ----
 ====
 
-. Confirm the switch port connections are healthy from switch cs1's perspective using the commands:
+. Confirm the switch port connections are healthy from switch cs1's perspective:
 +
 [subs=+quotes]
 ----
@@ -690,9 +687,7 @@ RPC status:
 ----
 ====
 
-. Create a password for the Ethernet switch health monitor log collection feature.
-+
-IMPORTANT: To enable the log collection feature, you must be running ONTAP 9.10.1P15, 9.11.1P12, or 9.12.1 and later and EFOS 3.8.0.2 and later.
+. To set up log collection, run the following command for each switch. You are prompted to enter the switch name, username, and password for log collection.
 +
 `system switch ethernet log setup-password`
 
@@ -728,7 +723,7 @@ Enter the password again: *<enter switch password>*
 ----
 ====
 
-. Enable the Ethernet switch health monitor log collection feature:
+. To start log collection, run the following command, replacing DEVICE with the switch used in the previous command. This starts both types of log collection: the detailed *Support* logs and an hourly collection of *Periodic* data.
 +
 `system switch ethernet log modify -device _<switch-name>_ -log-request true`
 
@@ -780,3 +775,4 @@ cluster::*> system node autosupport invoke -node * -type all -message MAINT=END
 // Updates for GH issue #115, 2023-AUG-08
 // Updates for GH issue #135, 2023-OCT-23
 // Updates for AFFFASDOC-186, 2024-JAN-10
+// Updates for GH issue #156, 2024-MAR-05

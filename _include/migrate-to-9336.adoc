@@ -38,7 +38,17 @@ image::../media/Initial_setup.png[Initial switch setup]
 
 The procedure requires the use of both ONTAP commands and https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html[Nexus 9000 Series Switches^] commands; ONTAP commands are used, unless otherwise indicated.
 
-No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To ensure non-disruptive cluster operations, the following procedure migrates all of the cluster LIFs to the operational partner switch while performing the steps on the target switch.
+This procedure covers the following scenario:
+
+* Switch cs2 is replaced by switch cs2-new first.
+** Shut down the ports to the cluster nodes. All ports must be shut down simultaneously to avoid cluster instability. 
+** Cabling between the nodes and cs2 are then disconnected from cs2 and reconnected to cs2-new.
+
+* Switch cs1 is replaced by switch cs1-new.
+** Shut down the ports to the cluster nodes. All ports must be shut down simultaneously to avoid cluster instability. 
+** Cabling between the nodes and cs1 are then disconnected from cs1 and reconnected to cs1-new.
+
+NOTE: No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To ensure non-disruptive cluster operations, the following procedure migrates all of the cluster LIFs to the operational partner switch while performing the steps on the target switch.
 
 === Step 1: Prepare for migration
 
@@ -204,28 +214,17 @@ cs2                         cluster-network     10.233.205.93   N5K-C5596UP
 
 . Disable auto-revert on the cluster LIFs.
 +
-.Show example 
-[%collapsible]
-====
-[subs=+quotes]
-----
-cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert false*
-----
-====
+`network interface modify -vserver Cluster -lif * -auto-revert false`
 
-. On cluster switch cs2, shut down the ports connected to the cluster ports of the nodes:
+. On cluster switch cs2, shut down the ports connected to the cluster ports of the nodes in order to fail over the cluster LIFs:
 +
-.Show example 
-[%collapsible]
-====
 [subs=+quotes]
 ----
 cs2(config)# *interface eth1/1-1/2*
 cs2(config-if-range)# *shutdown*
 ----
-====
 
-. Verify that the cluster LIFs have migrated to the ports hosted on cluster switch cs1. This might take a few seconds.
+. Verify that the cluster LIFs have failed over to the ports hosted on cluster switch cs1. This might take a few seconds.
 +
 `network interface show -vserver Cluster`
 +
@@ -327,7 +326,7 @@ node2      /cdp
 +
 Verify that the moved cluster ports see the cs2-new switch as the neighbor.
 +
-. Confirm the switch port connections from switch cs2-new’s perspective:
+. Confirm the switch port connections from switch cs2-new's perspective:
 +
 [subs=+quotes]
 ----
@@ -335,7 +334,7 @@ cs2-new# *show interface brief*
 cs2-new# *show cdp neighbors*
 ----
 
-. On cluster switch cs1, shut down the ports connected to the cluster ports of the nodes. The following example uses the interface example output from step 7.
+. On cluster switch cs1, shut down the ports connected to the cluster ports of the nodes in order to fail over the cluster LIFs. The following example uses the interface example output from step 7.
 +
 [subs=+quotes]
 ----
@@ -344,8 +343,7 @@ cs1(config-if-range)# *shutdown*
 ----
 All cluster LIFs will move to the cs2-new switch.
 
-. Verify that the cluster LIFs have migrated to the ports hosted on switch cs2-new. This might take a
-few seconds: 
+. Verify that the cluster LIFs have failed over to the ports hosted on switch cs2-new. This might take a few seconds: 
 +
 `network interface show -vserver Cluster`
 +
@@ -445,17 +443,13 @@ node2      /cdp
 +
 Verify that the moved cluster ports see the cs1-new switch as the neighbor.
 +
-. Confirm the switch port connections from switch cs1-new’s perspective:
+. Confirm the switch port connections from switch cs1-new's perspective:
 +
-.Show example 
-[%collapsible]
-====
 [subs=+quotes]
 ----
 cs1-new# *show interface brief*
 cs1-new# *show cdp neighbors*
 ----
-====
 
 . Verify that the ISL between cs1-new and cs2-new is still operational: 
 +
@@ -502,14 +496,7 @@ Group Port-       Type     Protocol  Member Ports
 
 . Enable auto-revert on the cluster LIFs.
 +
-.Show example 
-[%collapsible]
-====
-[subs=+quotes]
-----
-cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert true*
-----
-====
+`network interface modify -vserver Cluster -lif * -auto-revert true`
 
 . Verify that the cluster LIFs have reverted to their home ports (this might take a minute):
 +
@@ -724,3 +711,4 @@ cluster1::*>
 // Updates for AFFFASDOC-45, 2023-MAY-09
 // Updates for GH #112, 2023-JUL-19
 // Updates for AFFFASDOC-145, 2023-OCT-26
+// Updates for GH issue #156, 2024-MAR-05
