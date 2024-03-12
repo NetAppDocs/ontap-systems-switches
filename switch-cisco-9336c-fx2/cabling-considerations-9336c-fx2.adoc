@@ -1,8 +1,8 @@
 ---
 permalink: switch-cisco-9336c-fx2/cabling-considerations-9336c-fx2.html
 sidebar: sidebar
-keywords: BES-53248 cabling setup, BES-53248 switches configuration, efos
-summary: 'Before configuring your Broadcom BES-53248 switch, review the following information.'
+keywords: 9336c-fx2 cabling setup, 9336c-fx2 switches configuration, nx-os
+summary: 'Before configuring your Cisco 9336C-FX2 switch, review the following information.'
 ---
 = Review cabling and configuration considerations
 :icons: font
@@ -12,6 +12,7 @@ summary: 'Before configuring your Broadcom BES-53248 switch, review the followin
 Before configuring your Cisco 9336C-FX2 switch, review the following considerations. 
 
 == Network requirements
+* For cluster/storage/data switches using Nvidia's ConnectX-6 and ConnectX-7 cards for adapter port connectivity, it is necessary to hardcode the switch port speed to 40G or 100G. 
 * On AFF A800 and AFF A700s systems, the e0M interface uses a dedicated Ethernet port.
 * See the https://hwu.netapp.com/Switch/Index[Hardware Universe^] for more information on switch ports.
 
