@@ -9,7 +9,7 @@ summary: 'Follow these steps to install the Ethernet Fabric OS (EFOS) software o
 :imagesdir: ../media/
 
 [.lead]
-Follow these steps to install the Ethernet Fabric OS (EFOS) software on the BES-53248 cluster switch.
+Follow these steps to install or upgrade the Ethernet Fabric OS (EFOS) software on the BES-53248 cluster switch.
 
 EFOS software includes a set of advanced networking features and protocols for developing Ethernet and IP infrastructure systems. This software architecture is suitable for any network organizational device using applications that require thorough packet inspection or separation. 
 
@@ -67,26 +67,26 @@ To check if your version of EFOS is FIPS compliant or non-FIPS compliant, use th
 
 * On switch IP_switch_a1:
 ----
-IP_switch_a1 # *show fips status*
+IP_switch_a1 # show fips status
 
 System running in FIPS mode
 ----
 
 * On switch IP_switch_a2:
 ----
-IP_switch_a2 # *show fips status*
+IP_switch_a2 # show fips status
                      ^
 % Invalid input detected at `^` marker.
 ----
 ====
 
 == Install the software
-Use one of the following methods:
+Use one of the following methods to install or upgrade the EFOS software :
 
 * <<Method 1: Install EFOS>>. Use for most cases (see the table above).
 * <<Method 2: Upgrade EFOS using the ONIE OS installation>>. Use if one EFOS version is FIPS compliant and the other EFOS version is non-FIPS compliant.
 
-IMPORTANT: Install EFOS on one switch at a time. When EFOS installation is complete on `cs1`, start the same procedure separately on `cs2`.
+IMPORTANT: Install or upgrade EFOS on one switch at a time to ensure continued cluster network operation.
 
 === Method 1: Install EFOS
 Perform the following steps to install or upgrade the EFOS software.
@@ -113,6 +113,7 @@ Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 ====
 
 . Disable auto-revert on the cluster LIFs:
++
 `cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert false`
 . Back up the current active image on cs2:
 +
@@ -246,8 +247,6 @@ Image Descriptions
 ----
 ====
 
-. Enable auto-revert on the cluster LIFs:
-`cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert true`
 . Reboot the switch:
 +
 `reload`
@@ -306,7 +305,12 @@ Additional Packages............................ BGP-4
 ----
 ====
 
+. Repeat link:<<steps 4 through to 9 on the partner switch.
+. Enable auto-revert on the cluster LIFs:
++
+`cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert true`
 . Verify that the cluster LIFs have reverted to their home port:
++
 `network interface show -role cluster`
 
 For details see link:ontap/networking/revert-a-lif-to-its-home-port.html[Revert a LIF to its home port]
@@ -321,6 +325,9 @@ You can perform the following steps if one EFOS version is FIPS compliant and th
 NOTE: This functionality is only available for EFOS 3.7.x.x or later non-FIPS compliant.
 
 .Steps
+. Disable auto-revert on the cluster LIFs:
++
+`cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert false`. 
 . Boot the switch into ONIE installation mode.
 +
 During boot, select ONIE when you see the prompt.
@@ -417,8 +424,6 @@ ONIE:/ #
 ----
 ====
 +
-. Disable auto-revert on the cluster LIFs:
-`cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert false`
 . Install the new switch software:
 +
 `ONIE:/ # onie-nos-install http://50.50.50.50/Software/onie-installer-x86_64`
@@ -441,7 +446,7 @@ Preparing image archive ... OK.
 +
 The software installs and then reboots the switch. Let the switch reboot normally into the new EFOS version.
 +
-. Verify that the new switch software is installed: 
+. Login and verify that the new switch software is installed: 
 +
 `show bootvar`
 +
@@ -464,12 +469,15 @@ unit 	active 	    backup   current-active  next-active
 ----
 ====
 
+. Repeat steps 2 through to 7 on the partner switch.
 . Enable auto-revert on the cluster LIFs:
++
 `cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert true`
 . Complete the installation.
 +
 The switch will reboot with no configuration applied and reset to factory defaults.
 . Verify that the cluster LIFs have reverted to their home port:
++
 `network interface show -role cluster`
 
 For details see link:ontap/networking/revert-a-lif-to-its-home-port.html[Revert a LIF to its home port]
