@@ -45,7 +45,7 @@ The https://hwu.netapp.com/Home/Index[_NetApp Hardware Universe_^] contains info
 
 * Any site customization (SMTP, SNMP, and SSH) are configured on the new switches.
 
-.Port group speed constraints:
+.Port group speed constraints
 * The 48 10/25GbE (SFP28/SFP+) ports are combined into 12 x 4-port groups as follows: Ports 1-4, 5-8, 9-12, 13-16, 17-20, 21-24, 25-28, 29-32, 33-36, 37-40, 41-44, and 45-48.
 * The SFP28/SFP+ port speed must be the same (10GbE or 25GbE) across all ports in the 4-port group.
 * If speeds in a 4-port group are different, the switch ports will not operate correctly.
@@ -100,14 +100,14 @@ The following example shows that node-facing ports 1 through 16 are disabled on 
 (cs1)(Config)# *exit*
 ----
 
-. Verify that the ISL and the physical ports on the ISL between the two BES-53248 switches cs1 and cs2 are *up*:
+. Verify that the ISL and the physical ports on the ISL between the two BES-53248 switches cs1 and cs2 are up:
 +
 `show port-channel`
 +
 .Show example
 [%collapsible]
 ====
-The following example shows that the ISL ports are *up* on switch cs1:
+The following example shows that the ISL ports are up on switch cs1:
 
 [subs=+quotes]
 ----
@@ -131,7 +131,7 @@ Ports  Timeout       Speed      Active
 (cs1) #
 ----
 
-The following example shows that the ISL ports are *up* on switch cs2:
+The following example shows that the ISL ports are up on switch cs2:
 
 [subs=+quotes]
 ----
@@ -193,11 +193,9 @@ cs2            0/56     176       R            BES-53248   0/56
 ----
 ====
 
-. Verify that all cluster ports are "up":
+. Verify that all cluster ports are up:
 +
 `network port show -ipspace Cluster`
-+
-Each port should display "up" for `Link` and "healthy" for `Health Status`.
 +
 .Show example
 [%collapsible]
@@ -281,8 +279,6 @@ The following example shows that ports 1 through 16 are enabled on switch cs1:
 [%collapsible]
 ====
 
-The following example shows that all of the LIFs are up on node1 and node2 and that `Is Home` results are `true`:
-
 [subs=+quotes]
 ----
 cluster1::*> *network interface show -vserver Cluster*
@@ -335,15 +331,13 @@ The following example shows that ports 1 through 16 are enabled on switch cs2:
 (cs2)(Config)# *exit*
 ----
 
-. Verify that all cluster ports are *up*:
+. Verify that all cluster ports are up:
 +
 `network port show -ipspace Cluster`
 +
 .Show example
 [%collapsible]
 ====
-
-The following example shows that all of the cluster ports are *up* on node1 and node2:
 
 [subs=+quotes]
 ----
@@ -392,8 +386,6 @@ NOTE: This might take several minutes to complete.
 .Show example
 [%collapsible]
 ====
-
-The following example shows that all LIFs are up on node1 and node2 and that `Is Home` results are `true`:
 
 [subs=+quotes]
 ----
