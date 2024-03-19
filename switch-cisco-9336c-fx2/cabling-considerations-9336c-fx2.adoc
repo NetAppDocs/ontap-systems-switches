@@ -12,7 +12,21 @@ summary: 'Before configuring your Cisco 9336C-FX2 switch, review the following i
 Before configuring your Cisco 9336C-FX2 switch, review the following considerations. 
 
 == Network requirements
-* For cluster/storage/data switches using Nvidia's ConnectX-6 (CX6) and ConnectX-7 (CX7) cards for adapter port connectivity, it is necessary to hardcode the switch port speed to 40G or 100G. 
+* For cluster/storage/data switches using Nvidia's ConnectX-6 (CX6) and ConnectX-7 (CX7) cards for adapter port connectivity, it is necessary to hardcode the switch port speed to 40G or 100G.
+** For 100G, use:
+----
+interface Ethernet1/19
+  speed 100000
+  no negotiate auto
+copy running-config startup-config
+----
+** For 40G, use:
+----
+interface Ethernet1/19
+  speed 40000
+  no negotiate auto
+copy running-config startup-config
+----
 * On AFF A800 and AFF A700s systems, the e0M interface uses a dedicated Ethernet port.
 * See the https://hwu.netapp.com/Switch/Index[Hardware Universe^] for more information on switch ports.
 
@@ -40,6 +54,12 @@ Before configuring your Cisco 9336C-FX2 switch, review the following considerati
 * For 25G ports with copper cables, see the following table for details.
 +
 If the Controller side is `auto`, the switch side is set to FEC 25G.
+
+|===
+|FAS2820 FEC |Switch FEC
+.2+|Write
+|Read
+|===
 
 image::../media/FEC_copper_table.jpg[25G ports with copper cables]
 
