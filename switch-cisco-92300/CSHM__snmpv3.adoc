@@ -1,7 +1,7 @@
 ---
-permalink: switch-cisco-3132q-v/CSHM_snmpv3.html
+permalink: switch-cisco-92300/CSHM_snmpv3.html
 sidebar: sidebar
-keywords: SNMP,SNMPv3,SNMPv3 setup,Cisco setup,3132q-v switches configuration,NX-OS
+keywords: SNMP,SNMPv3,SNMPv3 setup,Cisco setup,Cisco switches configuration,NX-OS
 summary: 'SNMPv3 can be used with the Ethernet switch health monitor (CSHM).'
 ---
 = Configure SNMPv3
@@ -12,7 +12,7 @@ summary: 'SNMPv3 can be used with the Ethernet switch health monitor (CSHM).'
 Follow this procedure to configure SNMPv3, which supports Ethernet switch health monitoring (CSHM).
 
 .About this task
-The following commands configure an SNMPv3 username on Cisco 3132Q-V switches:
+The following commands configure an SNMPv3 username on Cisco 92300YC switches:
 
 * For *no authentication*:
 `snmp-server user _SNMPv3_USER_ NoAuth`
@@ -109,7 +109,7 @@ cluster1::*> *system switch ethernet show-all -device "sw1" -instance*
                                   SNMP Version: SNMPv2c
                                  Is Discovered: true
    SNMPv2c Community String or SNMPv3 Username: cshm1!
-                                  Model Number: N3K-C3132Q-V
+                                  Model Number: N9K-C92300YC
                                 Switch Network: cluster-network
                               Software Version: Cisco Nexus Operating System (NX-OS) Software, Version 9.3(7)
                      Reason For Not Monitoring: None  *<---- displays when SNMP settings are valid*
@@ -143,7 +143,7 @@ cluster1::*> *system switch ethernet show-all -device "sw1" -instance*
                                   SNMP Version: SNMPv3
                                  Is Discovered: true
    SNMPv2c Community String or SNMPv3 Username: SNMPv3User
-                                  Model Number: N3K-C3132Q-V
+                                  Model Number: N9K-C92300YC
                                 Switch Network: cluster-network
                               Software Version: Cisco Nexus Operating System (NX-OS) Software, Version 9.3(7)
                      Reason For Not Monitoring: None  *<---- displays when SNMP settings are valid*
@@ -156,5 +156,4 @@ cluster1::*>
 ----
 ====
 
-// New content for SNMPv3, AFFFASDOC-201, 2024-FEB-21
-// Updates for GH issue #166, 2024-MAR-19
+// New content for SNMPv3, GH #166, 2024-MAR-19
