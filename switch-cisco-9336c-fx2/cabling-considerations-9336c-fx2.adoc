@@ -12,15 +12,17 @@ summary: 'Before configuring your Cisco 9336C-FX2 switch, review the following i
 Before configuring your Cisco 9336C-FX2 switch, review the following considerations. 
 
 == Network requirements
-* For cluster/storage/data switches using Nvidia's ConnectX-6 (CX6) and ConnectX-7 (CX7) cards for adapter port connectivity, it is necessary to hardcode the switch port speed to 40G or 100G.
-** For 100G, use:
+* For cluster/storage/data switches using Nvidia's ConnectX-6 (CX6) and ConnectX-7 (CX7) cards for adapter port connectivity, it is necessary to hardcode the switch port speed to 40GbE or 100GbE.
+** For 100GbE, use:
++
 ----
 interface Ethernet1/19
   speed 100000
   no negotiate auto
 copy running-config startup-config
 ----
-** For 40G, use:
+** For 40GbE, use:
++
 ----
 interface Ethernet1/19
   speed 40000
@@ -30,46 +32,669 @@ copy running-config startup-config
 * On AFF A800 and AFF A700s systems, the e0M interface uses a dedicated Ethernet port.
 * See the https://hwu.netapp.com/Switch/Index[Hardware Universe^] for more information on switch ports.
 
-//== Port assignments
-//You can use the Cisco 9336C-FX2 cluster switch port assignments table as a guide to configuring 
-//your cluster.
-
-//|===
-
-//h| *Switch ports* h| *Ports usage* 
-//a| 0-16
-//a| 10/25GbE cluster port nodes, base configuration
-//a| 17-48
-//a| 10/25GbE cluster port nodes, with licenses
-//a| 49-54	
-//a| 40/100GbE cluster port nodes, with licenses, added right to left
-//a| 55-56
-//a| 100GbE cluster Inter-Switch Link (ISL) ports, base configuration 
-	
-//|===
-
-
 == FEC requirements
 
-* For 25G ports with copper cables, see the following table for details.
+* For 25GbE ports with copper cables, see the following table for details.
 +
-If the Controller side is `auto`, the switch side is set to FEC 25G.
+If the Controller side is `auto`, the switch side is set to FEC 25GbE.
 
 |===
-|FAS2820 FEC |Switch FEC
-.2+|Write
-|Read
+
+3+^h| FAS2820 FEC 4+h| Switch FEC 
+.2+h| Write 2+h| Read 
+.2+h| Write 2+h| Read
+.2+h| Link status h| requested_fec h| negoiated_fec
+h| applied h| operational 
+a|
+auto
+a|
+RS-FEC
+a|
+FC-FEC/BASE-R
+a|
+auto
+a|
+auto
+a|
+auto
+a|
+*UP*
+a|
+auto
+a|
+RS-FEC
+a|
+FC-FEC/BASE-R
+a|
+off
+a|
+off
+a|
+off
+a|
+*UP*
+a|
+auto
+a|
+RS-FEC
+a|
+FC-FEC/BASE-R
+a|
+fc-fec
+a|
+fc-fec
+a|
+fc-fec
+a|
+*UP*
+a|
+auto
+a|
+RS-FEC
+a|
+FC-FEC/BASE-R
+a|
+rs-con16
+a|
+rs-cons16
+a|
+rs-cons16
+a|
+*UP*
+a|
+auto
+a|
+RS-FEC
+a|
+FC-FEC/BASE-R
+a|
+rs-ieee
+a|
+rs-ieee
+a|
+rs-iee
+a|
+*UP*
+a|
+auto
+a|
+RS-FEC
+a|
+FC-FEC/BASE-R
+a|
+rs-fec
+a|
+rs-fec
+a|
+rs-fec
+a|
+down
+a|
+rs
+a|
+RS-FEC
+a|
+none
+a|
+auto
+a|
+auto
+a| 
+auto
+a| 
+down
+a|
+rs
+a|
+RS-FEC
+a|
+none
+a|
+off
+a|
+off
+a| 
+off
+a| 
+down
+a|
+rs
+a|
+RS-FEC
+a|
+none
+a|
+fc-fec
+a|
+fc-fec
+a| 
+fc-fec
+a| 
+down
+a|
+rs
+a|
+RS-FEC
+a|
+none
+a|
+rs-cons16
+a|
+rs-cons16
+a| 
+rs-cons16
+a| 
+down
+a|
+rs
+a|
+RS-FEC
+a|
+none
+a|
+rs-fec
+a|
+rs-fec
+a| 
+rs-fec
+a| 
+down
+a|
+rs
+a|
+RS-FEC
+a|
+none
+a|
+rs-ieee
+a|
+rs-ieee
+a| 
+rs-ieee
+a| 
+down
 |===
 
-image::../media/FEC_copper_table.jpg[25G ports with copper cables]
 
-* For 25G ports with Fiber/Optical cables, see the following table for details:
+//image::../media/FEC_copper_table.jpg[25G ports with copper cables]
 
-image::../media/FEC_fiber_table.jpg[25G ports with Fiber/Optical cables]
+* For 25GbE ports with Fiber/Optical cables, see the following table for details:
+
+|===
+
+3+^h| FAS2820 FEC 4+h| Switch FEC 
+.2+h| Write 2+h| Read 
+.2+h| Write 2+h| Read
+.2+h| Link status h| requested_fec h| negoiated_fec
+h| applied h| operational 
+| FFC-FEC/BASE-R 
+| FC-FEC/BASE-R
+| none
+| auto
+a|
+auto
+a|
+auto
+a|
+*UP*
+a|
+FC-FEC/BASE-R
+a|
+FC-FEC/BASE-R
+a|
+none
+a|
+off
+a|
+off
+a|
+off
+|
+down
+a|
+FC-FEC/BASE-R
+a|
+FC-FEC/BASE-R
+a|
+none
+a|
+fc-fec
+a|
+fc-fec
+a|
+fc-fec
+a|
+*UP*
+a|
+FC-FEC/BASE-R
+a|
+FC-FEC/BASE-R
+a|
+none
+a|
+rs-cons16
+a|
+rs-cons16
+a|
+rs-cons16
+a|
+down
+a|
+FC-FEC/BASE-R
+a|
+FC-FEC/BASE-R
+a|
+none
+a|
+rs-fec
+a|
+rs-fec
+a|
+rs-fec
+a|
+down
+a|
+FC-FEC/BASE-R
+a|
+FC-FEC/BASE-R
+a|
+none
+a|
+rs-ieee
+a|
+rs-ieee
+a|
+rs-ieee
+a|
+down
+a|
+auto
+a|
+RS-FEC
+a|
+RS-FEC
+a|
+rs-cons16
+a|
+rs-cons16
+a|
+rs-cons16
+a|
+*UP*
+a|
+auto
+a|
+RS-FEC
+a|
+RS-FEC
+a|
+auto
+a|
+auto
+a|
+auto
+a|
+down
+a|
+auto
+a|
+RS-FEC
+a|
+RS-FEC
+a|
+off
+a|
+off
+a|
+off
+a|
+down
+a|
+auto
+a|
+RS-FEC
+a|
+RS-FEC
+a|
+fc-fec
+a|
+fc-fec
+a|
+fc-fec
+a|
+down
+a|
+auto
+a|
+RS-FEC
+a|
+RS-FEC
+a|
+rs-ieee
+a|
+rs-ieee
+a|
+rs-iee
+a|
+*UP*
+a|
+auto
+a|
+RS-FEC
+a|
+RS-FEC
+a|
+rs-fec
+a|
+rs-fec
+a|
+rs-fec
+a|
+down
+a|
+none
+a|
+none
+a|
+none
+a|
+rs-fec
+a|
+rs-fec
+a|
+rs-fec
+a|
+down
+a|
+none
+a|
+none
+a|
+none
+a|
+auto
+a|
+auto
+a| 
+auto
+a| 
+down
+a|
+none
+a|
+none
+a|
+none
+a|
+off
+a|
+off
+a| 
+off
+a| 
+*UP*
+a|
+none
+a|
+none
+a|
+none
+a|
+fc-fec
+a|
+fc-fec
+a| 
+fc-fec
+a| 
+down
+a|
+none
+a|
+none
+a|
+none
+a|
+rs-cons16
+a|
+rs-cons16
+a| 
+rs-cons16
+a| 
+down
+a|
+none
+a|
+none
+a|
+none
+a|
+rs-ieee
+a|
+rs-ieee
+a| 
+rs-ieee
+a| 
+down
+a|
+fc
+a|
+FC-FEC/BASE-R
+a|
+none
+a|
+auto
+a|
+auto
+a| 
+auto
+a| 
+*UP*
+a|
+fc
+a|
+FC-FEC/BASE-R
+a|
+none
+a|
+off
+a|
+off
+a| 
+off
+a| 
+down
+a|
+fc
+a|
+FC-FEC/BASE-R
+a|
+none
+a|
+fc-fec
+a|
+fc-fec
+a| 
+fc-fec
+a| 
+*UP*
+a|
+fc
+a|
+FC-FEC/BASE-R
+a|
+none
+a|
+rs-cons16
+a|
+rs-cons16
+a| 
+rs-cons16
+a| 
+down
+a|
+fc
+a|
+FC-FEC/BASE-R
+a|
+none
+a|
+rs-fec
+a|
+rs-fec
+a| 
+rs-fec
+a| 
+down
+a|
+fc
+a|
+FC-FEC/BASE-R
+a|
+none
+a|
+rs-ieee
+a|
+rs-ieee
+a| 
+rs-ieee
+a| 
+down
+a|
+rs
+a|
+RS-FEC
+a|
+none
+a|
+auto
+a|
+auto
+a| 
+auto
+a| 
+down
+a|
+rs
+a|
+RS-FEC
+a|
+none
+a|
+fc-fec
+a|
+rc-fec
+a| 
+rc-fec
+a| 
+down
+a|
+rs
+a|
+RS-FEC
+a|
+none
+a|
+off
+a|
+off
+a| 
+off
+a| 
+down
+a|
+rs
+a|
+RS-FEC
+a|
+RS-FEC
+a|
+rs-cons16
+a|
+rs-cons16
+a| 
+rs-cons16
+a| 
+*UP*
+a|
+rs
+a|
+RS-FEC
+a|
+RS-FEC
+a|
+rs-fec
+a|
+rs-fec
+a| 
+rs-fec
+a| 
+down
+a|
+rs
+a|
+RS-FEC
+a|
+RS-FEC
+a|
+rs-ieee
+a|
+rs-ieee
+a| 
+rs-ieee
+a| 
+*UP*
+|===
+
+//image::../media/FEC_fiber_table.jpg[25G ports with Fiber/Optical cables]
+
+* For CX7 25GbE Eth1/10/1, 2m Copper, see the following table for details:
+
+|===
+
+4+^h| CX7 25GbE - Eth1/10/1 - 2m Copper
+h| Switch side port h| FEC h| Link status h| Comments
+
+.8+a|
+Eth 1/10/1
+a|
+auto
+a|
+*UP*
+a|
+
+a|
+fc-dec
+a|
+*UP*
+a|
+
+a|
+off
+a|
+*UP*
+a|
+
+a|
+rs-cons16
+a|
+*UP*
+a|
+
+a|
+rs-fec
+a|
+*UP*
+a|
+
+a|
+rs-ieee
+a|
+*UP*
+|===
 
 === Bootarg implementation
 
-Use the following command to set the 25G port FEC to either `auto` or `fc`, as required:
+Use the following command to set the 25GbE port FEC to either `auto` or `fc`, as required:
 ----
 systemshell -node <node> -command sudo sysctl dev.ice.<X>.requested_fec=<auto/fc>
 ----
