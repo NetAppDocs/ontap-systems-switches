@@ -1,32 +1,24 @@
 ---
-permalink: switch-cisco-3132q-v/CSHM_log_collection.html
+permalink: switch-cisco-92300/CSHM_log_collection.html
 sidebar: sidebar
-keywords: log collection feature,collect switch-related log files,SSh key,crypto key generation
-summary: 'The cluster switch health monitor log collection feature is used to collect switch-related log files in ONTAP. You must make sure that you have set up your environment using the 92300YC cluster switch CLI as detailed here.'
+keywords: log collection feature,collect switch-related log files,SSh key,crypto key generation,92300YC Cisco setup,92300YC switches configuration,NX-OS
+summary: 'The Ethernet switch health monitor (CSHM) log collection feature is used to collect logs from cluster or storage network switches in ONTAP.'
 ---
 = Ethernet Switch Health Monitoring log collection
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-You can use the log collection feature to collect switch-related log files in ONTAP. 
-
 The Ethernet switch health monitor (CSHM) is responsible for ensuring the operational health of Cluster and Storage network switches and collecting switch logs for debugging purposes. This procedure guides you through the process of setting up and starting the collection of detailed *Support* logs from the switch and starts an hourly collection of *Periodic* data that is collected by AutoSupport.
 
-//IMPORTANT: To enable the log collection feature, you must be running ONTAP version 9.12.1 and later and EFOS 3.8.0.2 and later.
+//.Before you begin
 
-//Verify that you have set up your environment using the 9336C-FX2 cluster switch *CLI*.
-
-// start of tabbed content 
-
-.Before you begin
-
-* Verify that you have set up your environment using the Cisco 3132Q-V cluster switch *CLI*.
-* Switch health monitoring must be enabled for the switch. Verify this by ensuring the `Is Monitored:` field is set to *true* in the output of the `system switch ethernet show` command.
+//* To enable the log collection feature, you must be running ONTAP version 9.12.1 or later and EFOS 3.8.0.2 or later.
+//* Switch health monitoring must be enabled for the switch. Verify this by ensuring the `Is Monitored:` field is set to *true* in the output of the `system switch ethernet show` command.
 
 .Steps
 
-. Create a password for the Ethernet switch health monitor log collection feature:
+. To set up log collection, run the following command for each switch. You are prompted to enter the switch name, username, and password for log collection.
 +
 `system switch ethernet log setup-password`
 +
@@ -64,7 +56,6 @@ Enter the password again: *<enter switch password>*
 . To start log collection, run the following command, replacing DEVICE with the switch used in the previous command. This starts both types of log collection: the detailed *Support* logs and an hourly collection of *Periodic* data.
 +
 `system switch ethernet log modify -device _<switch-name>_ -log-request true`
-
 +
 .Show example 
 [%collapsible]
@@ -86,13 +77,13 @@ Enabling cluster switch log collection.
 ----
 ====
 +
-Wait for 10 minutes, and then check that the log collection completes:
+Wait for 10 minutes and then check that the log collection completes:
 +
 `system switch ethernet log show`
 +
 CAUTION: If any of these commands return an error or if the log collection does not complete, contact NetApp support.
 
-.Troubleshooting
+.Troubleshoot
 If you encounter any of the following error statuses reported by the log collection feature (visible in the output of `system switch ethernet log show`), try the corresponding debug steps:
 
 |===
@@ -101,7 +92,7 @@ h| *Log collection error status* h| *Resolution*
 a| *RSA keys not present*
 a| Regenerate ONTAP SSH keys. Contact NetApp support.
 a| *switch password error*
-a| Verify credentials, test SSH connectivity, and regenerate ONTAP SSH keys. Review the switch documentation or contact NetApp support for instructions.
+a| Verify credentials, test SSH connectivity, and regenerate ONTAP SSH keys. Review switch documentation or contact NetApp support for instructions.
 a| *ECDSA keys not present for FIPS*
 a| If FIPS mode is enabled, ECDSA keys need to be generated on the switch before retrying.
 a| *pre-existing log found*
@@ -111,4 +102,7 @@ a| Ensure the switch user has log collection permissions. Refer to the prerequis
 
 |===
 
-// New content for the CSHM log collection feature, 2024-FEB-21
+//Updates for GH issues #72 & 79, 2023-APR-04
+// Updates made for AFFFASDOC-72 apply here too, 2023-JUL-12
+// Fix CSHM log collection and SNMPv3 documentation, 2024-FEB-9
+//Updates for GH issue #166, 2024-MAR-19
