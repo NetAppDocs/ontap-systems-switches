@@ -15,11 +15,11 @@ Follow this procedure to configure SNMPv3, which supports Ethernet switch health
 The following commands configure an SNMPv3 username on Broadcom BES-53248 switches:
 
 * For *no authentication*:
-`net add snmp-server username _SNMPv3_USER_ auth-none`
+`snmp-server user SNMPv3UserNoAuth NETWORK-OPERATOR noauth`
 * For *MD5/SHA authentication*:
-`net add snmp-server username _SNMPv3_USER_ [auth-md5|auth-sha] _AUTH-PASSWORD_`
+`snmp-server user SNMPv3UserAuth NETWORK-OPERATOR [auth-md5|auth-sha]`
 * For *MD5/SHA authentication with AES/DES encryption*:
-`net add snmp-server username _SNMPv3_USER_ [auth-md5|auth-sha] _AUTH-PASSWORD_ [encrypt-aes|encrypt-des] _PRIV-PASSWORD_`
+`snmp-server user SNMPv3UserAuthEncrypt NETWORK-OPERATOR [auth-md5|auth-sha] [priv-aes128|priv-des]`
 
 The following command configures an SNMPv3 username on the ONTAP side:
 `cluster1::*> security login create -user-or-group-name _SNMPv3_USER_ -application snmp -authentication-method usm -remote-switch-ipaddress _ADDRESS_`
@@ -30,7 +30,7 @@ The following command establishes the SNMPv3 username with CSHM:
 .Steps
 . Set up the SNMPv3 user on the switch to use authentication and encryption:
 +
-`net show snmp status`
+`show snmp status`
 +
 .Show example
 [%collapsible]
