@@ -11,8 +11,9 @@ summary: 'Before configuring your Cisco 9336C-FX2 switch, review the following i
 [.lead]
 Before configuring your Cisco 9336C-FX2 switch, review the following considerations. 
 
-== Network requirements
-* For cluster/storage/data switches using Nvidia's ConnectX-6 (CX6) and ConnectX-7 (CX7) cards for adapter port connectivity, it is necessary to hardcode the switch port speed to 40GbE or 100GbE.
+== Support for NVIDIA CX6, CX6-DX, and CX7 Ethernet ports
+* If connecting a switch port to an ONTAP controller using NVIDIA ConnectX-6 (CX6), ConnectX-6 Dx (CX6-DX) or ConnectX-7 (CX7) NIC ports, you must hard-code the switch port speed.
+
 ** For 100GbE, use:
 +
 ----
@@ -29,683 +30,137 @@ interface Ethernet1/19
   no negotiate auto
 copy running-config startup-config
 ----
-* On AFF A800 and AFF A700s systems, the e0M interface uses a dedicated Ethernet port.
+//* On AFF A800 and AFF A700s systems, the e0M interface uses a dedicated Ethernet port.
 * See the https://hwu.netapp.com/Switch/Index[Hardware Universe^] for more information on switch ports.
 
-== FEC requirements
+== 25GbE FEC requirements
 
-* For 25GbE ports with copper cables, see the following table for details.
-+
-If the Controller side is `auto`, the switch side is set to FEC 25GbE.
+=== FAS2820 e0a/e0b ports
+* FAS2820 e0a and e0b ports might require FEC configuration changes to link up with 9336C-FX2 switch ports.
+** Change the controller port from `auto` to `fc` and the port comes up. 
+** Set the switch port to `auto` and the port comes up.
 
-|===
+* When set to *`auto`*:
+** The `auto` setting propagates the setting to hardware immediately and no reboot is required.
+//** If `bootarg.cpk_fec_fc_eXx already exists`, it is deleted from the bootarg storage.
+** After a reboot, the `auto` setting remains in place since `auto` is the default FEC setting.
 
-3+^h| FAS2820 FEC 4+h| Switch FEC 
-.2+h| Write 2+h| Read 
-.2+h| Write 2+h| Read
-.2+h| Link status h| requested_fec h| negoiated_fec
-h| applied h| operational 
-a|
-auto
-a|
-RS-FEC
-a|
-FC-FEC/BASE-R
-a|
-auto
-a|
-auto
-a|
-auto
-a|
-*UP*
-a|
-auto
-a|
-RS-FEC
-a|
-FC-FEC/BASE-R
-a|
-off
-a|
-off
-a|
-off
-a|
-*UP*
-a|
-auto
-a|
-RS-FEC
-a|
-FC-FEC/BASE-R
-a|
-fc-fec
-a|
-fc-fec
-a|
-fc-fec
-a|
-*UP*
-a|
-auto
-a|
-RS-FEC
-a|
-FC-FEC/BASE-R
-a|
-rs-con16
-a|
-rs-cons16
-a|
-rs-cons16
-a|
-*UP*
-a|
-auto
-a|
-RS-FEC
-a|
-FC-FEC/BASE-R
-a|
-rs-ieee
-a|
-rs-ieee
-a|
-rs-iee
-a|
-*UP*
-a|
-auto
-a|
-RS-FEC
-a|
-FC-FEC/BASE-R
-a|
-rs-fec
-a|
-rs-fec
-a|
-rs-fec
-a|
-down
-a|
-rs
-a|
-RS-FEC
-a|
-none
-a|
-auto
-a|
-auto
-a| 
-auto
-a| 
-down
-a|
-rs
-a|
-RS-FEC
-a|
-none
-a|
-off
-a|
-off
-a| 
-off
-a| 
-down
-a|
-rs
-a|
-RS-FEC
-a|
-none
-a|
-fc-fec
-a|
-fc-fec
-a| 
-fc-fec
-a| 
-down
-a|
-rs
-a|
-RS-FEC
-a|
-none
-a|
-rs-cons16
-a|
-rs-cons16
-a| 
-rs-cons16
-a| 
-down
-a|
-rs
-a|
-RS-FEC
-a|
-none
-a|
-rs-fec
-a|
-rs-fec
-a| 
-rs-fec
-a| 
-down
-a|
-rs
-a|
-RS-FEC
-a|
-none
-a|
-rs-ieee
-a|
-rs-ieee
-a| 
-rs-ieee
-a| 
-down
-|===
+* An optical connection should autonegotiate successfully.
+
+* A copper connection requires setting FireCode (FC) on the FAS2820 port.
+* When set to *`fc`*:
+** The `FC-FEC` setting propagates the setting to the hardware immediately and no reboot is required.
+//** A new `bootarg.cpk_fec_fc_eXx` is created with the value set to "true".
+** After a reboot, `FC-FEC` setting remains in place for the driver code to use.
+
+
+//* For 25GbE ports with copper cables, see the following table for details.
+//+ 
+//If the Controller side is `auto`, the switch side is set to FEC 25GbE.
+
+//|===
+
+//3+^h| FAS2820 FEC 4+h| Switch FEC 
+//.2+h| Write 2+h| Read 
+//.2+h| Write 2+h| Read
+//.2+h| Link status h| requested_fec h| negoiated_fec
+//h| applied h| operational 
+//a| auto
+//a| RS-FEC
+//a| FC-FEC/BASE-R
+//a| auto
+//a| auto
+//a| auto
+//a| *UP*
+//a| auto
+//a| RS-FEC
+//a| FC-FEC/BASE-R
+//a| off
+//a| off
+//a| off
+//a| *UP*
+//a| auto
+//a| RS-FEC
+//a| FC-FEC/BASE-R
+//a| fc-fec
+//a| fc-fec
+//a| fc-fec
+//a| *UP*
+//a|auto
+//a| RS-FEC
+//a| FC-FEC/BASE-R
+//a| rs-con16
+//a| rs-cons16
+//a| rs-cons16
+//a| *UP*
+//a| auto
+//a| RS-FEC
+//a| FC-FEC/BASE-R
+//a| rs-ieee
+//a| rs-ieee
+//a| rs-iee
+//a| *UP*
+//a| auto
+//a| RS-FEC
+//a| FC-FEC/BASE-R
+//a| rs-fec
+//a| rs-fec
+//a| rs-fec
+//a| down
+//a| rs
+//a| RS-FEC
+//a| none
+//a| auto
+//a| auto
+//a| auto
+//a| down
+//a| rs
+//a| RS-FEC
+//a| none
+//a| off
+//a| off
+//a| off
+//a| down
+//a| rs
+//a| RS-FEC
+//a| none
+//a| fc-fec
+//a| fc-fec
+//a| fc-fec
+//a| down
+//a| rs
+//a| RS-FEC
+//a| none
+//a| rs-cons16
+//a| rs-cons16
+//a| rs-cons16
+//a| down
+//a| rs
+//a| RS-FEC
+//a| none
+//a| rs-fec
+//a| rs-fec
+//a| rs-fec
+//a| down
+//a| rs
+//a| RS-FEC
+//a| none
+//a| rs-ieee
+//a| rs-ieee
+//a| rs-ieee
+//a| down
+//|===
 
 
 //image::../media/FEC_copper_table.jpg[25G ports with copper cables]
 
-* For 25GbE ports with Fiber/Optical cables, see the following table for details:
+* For CX7 25GbE **---Do I need to mention this specifically??**
 
-|===
+//=== Bootarg implementation
 
-3+^h| FAS2820 FEC 4+h| Switch FEC 
-.2+h| Write 2+h| Read 
-.2+h| Write 2+h| Read
-.2+h| Link status h| requested_fec h| negoiated_fec
-h| applied h| operational 
-| FFC-FEC/BASE-R 
-| FC-FEC/BASE-R
-| none
-| auto
-a|
-auto
-a|
-auto
-a|
-*UP*
-a|
-FC-FEC/BASE-R
-a|
-FC-FEC/BASE-R
-a|
-none
-a|
-off
-a|
-off
-a|
-off
-|
-down
-a|
-FC-FEC/BASE-R
-a|
-FC-FEC/BASE-R
-a|
-none
-a|
-fc-fec
-a|
-fc-fec
-a|
-fc-fec
-a|
-*UP*
-a|
-FC-FEC/BASE-R
-a|
-FC-FEC/BASE-R
-a|
-none
-a|
-rs-cons16
-a|
-rs-cons16
-a|
-rs-cons16
-a|
-down
-a|
-FC-FEC/BASE-R
-a|
-FC-FEC/BASE-R
-a|
-none
-a|
-rs-fec
-a|
-rs-fec
-a|
-rs-fec
-a|
-down
-a|
-FC-FEC/BASE-R
-a|
-FC-FEC/BASE-R
-a|
-none
-a|
-rs-ieee
-a|
-rs-ieee
-a|
-rs-ieee
-a|
-down
-a|
-auto
-a|
-RS-FEC
-a|
-RS-FEC
-a|
-rs-cons16
-a|
-rs-cons16
-a|
-rs-cons16
-a|
-*UP*
-a|
-auto
-a|
-RS-FEC
-a|
-RS-FEC
-a|
-auto
-a|
-auto
-a|
-auto
-a|
-down
-a|
-auto
-a|
-RS-FEC
-a|
-RS-FEC
-a|
-off
-a|
-off
-a|
-off
-a|
-down
-a|
-auto
-a|
-RS-FEC
-a|
-RS-FEC
-a|
-fc-fec
-a|
-fc-fec
-a|
-fc-fec
-a|
-down
-a|
-auto
-a|
-RS-FEC
-a|
-RS-FEC
-a|
-rs-ieee
-a|
-rs-ieee
-a|
-rs-iee
-a|
-*UP*
-a|
-auto
-a|
-RS-FEC
-a|
-RS-FEC
-a|
-rs-fec
-a|
-rs-fec
-a|
-rs-fec
-a|
-down
-a|
-none
-a|
-none
-a|
-none
-a|
-rs-fec
-a|
-rs-fec
-a|
-rs-fec
-a|
-down
-a|
-none
-a|
-none
-a|
-none
-a|
-auto
-a|
-auto
-a| 
-auto
-a| 
-down
-a|
-none
-a|
-none
-a|
-none
-a|
-off
-a|
-off
-a| 
-off
-a| 
-*UP*
-a|
-none
-a|
-none
-a|
-none
-a|
-fc-fec
-a|
-fc-fec
-a| 
-fc-fec
-a| 
-down
-a|
-none
-a|
-none
-a|
-none
-a|
-rs-cons16
-a|
-rs-cons16
-a| 
-rs-cons16
-a| 
-down
-a|
-none
-a|
-none
-a|
-none
-a|
-rs-ieee
-a|
-rs-ieee
-a| 
-rs-ieee
-a| 
-down
-a|
-fc
-a|
-FC-FEC/BASE-R
-a|
-none
-a|
-auto
-a|
-auto
-a| 
-auto
-a| 
-*UP*
-a|
-fc
-a|
-FC-FEC/BASE-R
-a|
-none
-a|
-off
-a|
-off
-a| 
-off
-a| 
-down
-a|
-fc
-a|
-FC-FEC/BASE-R
-a|
-none
-a|
-fc-fec
-a|
-fc-fec
-a| 
-fc-fec
-a| 
-*UP*
-a|
-fc
-a|
-FC-FEC/BASE-R
-a|
-none
-a|
-rs-cons16
-a|
-rs-cons16
-a| 
-rs-cons16
-a| 
-down
-a|
-fc
-a|
-FC-FEC/BASE-R
-a|
-none
-a|
-rs-fec
-a|
-rs-fec
-a| 
-rs-fec
-a| 
-down
-a|
-fc
-a|
-FC-FEC/BASE-R
-a|
-none
-a|
-rs-ieee
-a|
-rs-ieee
-a| 
-rs-ieee
-a| 
-down
-a|
-rs
-a|
-RS-FEC
-a|
-none
-a|
-auto
-a|
-auto
-a| 
-auto
-a| 
-down
-a|
-rs
-a|
-RS-FEC
-a|
-none
-a|
-fc-fec
-a|
-rc-fec
-a| 
-rc-fec
-a| 
-down
-a|
-rs
-a|
-RS-FEC
-a|
-none
-a|
-off
-a|
-off
-a| 
-off
-a| 
-down
-a|
-rs
-a|
-RS-FEC
-a|
-RS-FEC
-a|
-rs-cons16
-a|
-rs-cons16
-a| 
-rs-cons16
-a| 
-*UP*
-a|
-rs
-a|
-RS-FEC
-a|
-RS-FEC
-a|
-rs-fec
-a|
-rs-fec
-a| 
-rs-fec
-a| 
-down
-a|
-rs
-a|
-RS-FEC
-a|
-RS-FEC
-a|
-rs-ieee
-a|
-rs-ieee
-a| 
-rs-ieee
-a| 
-*UP*
-|===
-
-//image::../media/FEC_fiber_table.jpg[25G ports with Fiber/Optical cables]
-
-* For CX7 25GbE Eth1/10/1, 2m Copper, see the following table for details:
-
-|===
-
-3+^h| CX7 25GbE - Eth1/10/1 - 2m Copper
-h| Switch side port h| FEC h| Link status
-a|
-Eth 1/10/1
-a|
-auto
-a|
-*UP*
-a|
-
-a|
-fc-fec
-a|
-*UP*
-a|
-
-a|
-off
-a|
-*UP*
-a|
-
-a|
-rs-cons16
-a|
-*UP*
-a|
-
-a|
-rs-fec
-a|
-*UP*
-a|
-
-a|
-rs-ieee
-a|
-*UP*
-|===
-
-=== Bootarg implementation
-
-Use the following command to set the 25GbE port FEC to either `auto` or `fc`, as required:
-----
-systemshell -node <node> -command sudo sysctl dev.ice.<X>.requested_fec=<auto/fc>
-----
-
-* When set to *`auto`*:
-** The `auto` setting propagates the setting to hardware immediately and no reboot is required.
-** If `bootarg.cpk_fec_fc_eXx already exists`, it is deleted from the bootarg storage.
-** After a reboot, the `auto` setting remains in place since `auto` is the default FEC setting.
-
-* When set to *`fc`*:
-** The `FC-FEC` setting propagates the setting to the hardware immediately and no reboot is required.
-** A new `bootarg.cpk_fec_fc_eXx` is created with the value set to "true".
-** After a reboot, `FC-FEC` setting remains in place for the driver code to use.
+//Use the following command to set the 25GbE port FEC to either `auto` or `fc`, as required:
+//----
+//systemshell -node <node> -command sudo sysctl dev.ice.<X>.requested_fec=<auto/fc>
+//----
 
 // New content for AFFFASDOC-193, 2024-MAR-06
