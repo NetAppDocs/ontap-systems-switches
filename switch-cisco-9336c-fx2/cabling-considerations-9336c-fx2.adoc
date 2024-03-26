@@ -36,25 +36,42 @@ copy running-config startup-config
 == 25GbE FEC requirements
 
 === FAS2820 e0a/e0b ports
-* FAS2820 e0a and e0b ports might require FEC configuration changes to link up with 9336C-FX2 switch ports.
-** Change the controller port from `auto` to `fc` and the port comes up. 
-** Set the switch port to `auto` and the port comes up.
+FAS2820 e0a and e0b ports might require FEC configuration changes to link up with 9336C-FX2 switch ports.
+For these switch ports e0a and e0b, the fec setting is set to `rs-cons16` while the controller side is set to `auto`.
 
-* When set to *`auto`*:
-** The `auto` setting propagates the setting to hardware immediately and no reboot is required.
+----
+(cs2)(config-if)# fec ?
+	  auto       FEC auto
+	  fc-fec     CL74(25/50G)
+	  off        Turn FEC off
+	  rs-cons16  RS FEC Consortium 1.6 (25G)
+	  rs-fec     CL91(100G) or Consortium 1.5 (25/50G)
+	  rs-ieee    RS FEC IEEE (25G)
+(cs2)(config-if)# 
+(cs2)(config-if)# fec
+  int eth1/9
+	fec rs-cons16
+----
+
+//** Change the controller port from `auto` to `fc` and the port comes up. 
+//** Set the switch port to `auto` and the port comes up.
+
+//* When set to *`auto`*:
+//** The `auto` setting propagates the setting to hardware immediately and no reboot is required.
 //** If `bootarg.cpk_fec_fc_eXx already exists`, it is deleted from the bootarg storage.
-** After a reboot, the `auto` setting remains in place since `auto` is the default FEC setting.
+//** After a reboot, the `auto` setting remains in place since `auto` is the default FEC setting.
 
-=== Support for optical connections
-* An optical connection should autonegotiate successfully.
+//==== Support for fiber/optical connections
+//* Set the switch port to  fec=`rs-cons16`
+//* The Controller side is set to `auto`
+//* An optical connection should autonegotiate successfully.
 
-=== Support for copper connections
-* A copper connection requires setting FireCode (FC) on the FAS2820 port.
-* When set to *`fc`*:
-** The `FC-FEC` setting propagates the setting to the hardware immediately and no reboot is required.
+//==== Support for copper connections
+//* A copper connection requires setting FireCode (FC) on the FAS2820 port.
+//* When set to *`fc`*:
+//** The `FC-FEC` setting propagates the setting to the hardware immediately and no reboot is required.
 //** A new `bootarg.cpk_fec_fc_eXx` is created with the value set to "true".
-** After a reboot, `FC-FEC` setting remains in place for the driver code to use.
-
+//** After a reboot, `FC-FEC` setting remains in place for the driver code to use.
 
 //* For 25GbE ports with copper cables, see the following table for details.
 //+ 
@@ -156,7 +173,7 @@ copy running-config startup-config
 
 //image::../media/FEC_copper_table.jpg[25G ports with copper cables]
 
-* For CX7 25GbE **---Do I need to mention this specifically??**
+//* For CX7 25GbE **---Do I need to mention this specifically??**
 
 //=== Bootarg implementation
 
