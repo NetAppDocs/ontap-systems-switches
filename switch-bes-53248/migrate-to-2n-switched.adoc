@@ -271,6 +271,36 @@ The following example shows that ports 1 through 16 are enabled on switch cs1:
 (cs1)(Config)# *exit*
 ----
 
+. Verify that all cluster ports are up:
++
+`network port show -ipspace Cluster`
++
+.Show example
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cluster1::*> *network port show -ipspace Cluster*
+
+Node: node1
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+
+Node: node2
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+----
+====
+
 . Verify that all cluster LIFs are up and operational:
 +
 `network interface show -vserver Cluster`
