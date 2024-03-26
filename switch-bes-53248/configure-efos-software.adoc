@@ -128,7 +128,7 @@ cluster1::*> **network interface modify -vserver Cluster -lif * -auto-revert fal
 ====
 [subs=+quotes]
 ----
-(cs2)# *show bootvar*
+(cs2)# *copy active backup*
 
  Image Descriptions
 
@@ -139,14 +139,14 @@ cluster1::*> **network interface modify -vserver Cluster -lif * -auto-revert fal
 --------------------------------------------------------------------
  unit      active      backup        current-active    next-active
 --------------------------------------------------------------------
-    1      3.7.0.4     3.7.0.4       3.7.0.4           3.10.0.3
+    1      3.7.0.4     3.4.4.6       3.7.0.4           3.10.0.3
 
 (cs2)# *copy active backup*
 Copying active to backup
 Management access will be blocked for the duration of the operation
 Copy operation successful
 
-(cs2)# *show bootvar*
+(cs2)# *copy active backup*
 
 Image Descriptions
 
@@ -156,7 +156,7 @@ Image Descriptions
 --------------------------------------------------------------------
  unit      active      backup      current-active    next-active
 --------------------------------------------------------------------
-    1      3.7.0.4     3.7.0.4     3.7.0.4           3.7.0.4
+    1      3.7.0.4     3.4.4.6     3.7.0.4           3.10.0.3
 (cs2)#
 ----
 ====
@@ -174,14 +174,14 @@ Image Descriptions
 
 Switch: 1
 
-System Description............................. BES-53248A1, 3.4.3.3, Linux 4.4.117-ceeeb99d, 2016.05.00.05
+System Description............................. BES-53248A1, 3.7.0.4, Linux 4.4.117-ceeeb99d, 2016.05.00.05
 Machine Type................................... BES-53248A1
 Machine Model.................................. BES-53248
 Serial Number.................................. QTFCU38260014
 Maintenance Level.............................. A
 Manufacturer................................... 0xbc00
 Burned In MAC Address.......................... D8:C4:97:71:12:3D
-Software Version............................... 3.4.3.3
+Software Version............................... 3.7.0.4
 Operating System............................... Linux 4.4.117-ceeeb99d
 Network Processing Device...................... BCM56873_A0
 CPLD Version................................... 0xff040c03
@@ -245,9 +245,9 @@ Image Descriptions
 
  Images currently available on Flash
 --------------------------------------------------------------------
- unit     active      backup       current-active        next-active
+ unit      active      backup      current-active    next-active
 --------------------------------------------------------------------
-    1      3.7.0.4     3.7.0.4       3.7.0.4           3.10.0.3
+    1      3.7.0.4     3.7.0.4     3.7.0.4           3.10.0.3
 ----
 ====
 
@@ -286,14 +286,14 @@ System will now restart!
 
 Switch: 1
 
-System Description............................. BES-53248A1, 3.4.4.6, Linux 4.4.211-28a6fe76, 2016.05.00.04
+System Description............................. BES-53248A1, 3.7.0.4, Linux 4.4.211-28a6fe76, 2016.05.00.04
 Machine Type................................... BES-53248A1,
 Machine Model.................................. BES-53248
 Serial Number.................................. QTFCU38260023
 Maintenance Level.............................. A
 Manufacturer................................... 0xbc00
 Burned In MAC Address.......................... D8:C4:97:71:0F:40
-Software Version............................... 3.4.4.6
+Software Version............................... 3.7.0.4
 Operating System............................... Linux 4.4.211-28a6fe76
 Network Processing Device...................... BCM56873_A0
 CPLD Version................................... 0xff040c03
@@ -330,7 +330,7 @@ link:configure-licenses.html[Install licenses for BES-53248 cluster switches].
 === Method 2: Upgrade EFOS using the ONIE OS installation
 You can perform the following steps if one EFOS version is FIPS compliant and the other EFOS version is non-FIPS compliant. These steps can be used to install the non-FIPS or FIPS compliant EFOS 3.7.x.x image from ONIE if the switch fails to boot.
 
-NOTE: If you upgrade EFOS using the ONIE OS installation the configuration is reset to factory defaults and licenses are deleted. Set up the switch to return it to normal operation and then install licenses and a supported RCF.
+NOTE: If you upgrade EFOS using the ONIE OS installation the configuration is reset to factory defaults and licenses are deleted. You must set up the switch and install licenses and a supported RCF to return the switch to normal operation.
 
 .Steps
 . Disable auto-revert on the cluster LIFs.
@@ -482,11 +482,11 @@ unit 	active 	    backup   current-active  next-active
 ====
 
 . Complete the installation.
-The switch reboots with no configuration applied and resets to factory defaults. Follow these four steps:
-.. link:configure-licenses[Install the licenses for the BES-53248 cluster switch.] 
-.. link:configure-install-rcf[Install the RCF file. ]
-.. link:configure-ssh[Enable SSH on the BES-53248 cluster switch.]
-.. link:configure-log-collection[Enable the log collection feature.]
+The switch reboots with no configuration applied and resets to factory defaults. Follow these four steps to reconfigure the switch:
+.. link:../configure-licenses.html[Install licenses] 
+.. link:../configure-install-rcf.html[Install the RCF file]
+.. link:../configure-ssh.html[Enable SSH]
+.. link:../configure-log-collection.html[Enable log collection feature]
 . Repeat steps 2 through to 8 on the partner switch.
 . Enable auto-revert on the cluster LIFs.
 +
