@@ -45,8 +45,10 @@ copy running-config startup-config
 //** If `bootarg.cpk_fec_fc_eXx already exists`, it is deleted from the bootarg storage.
 ** After a reboot, the `auto` setting remains in place since `auto` is the default FEC setting.
 
+=== Support for optical connections
 * An optical connection should autonegotiate successfully.
 
+=== Support for copper connections
 * A copper connection requires setting FireCode (FC) on the FAS2820 port.
 * When set to *`fc`*:
 ** The `FC-FEC` setting propagates the setting to the hardware immediately and no reboot is required.
