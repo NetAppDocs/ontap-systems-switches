@@ -12,7 +12,7 @@ summary: 'Before configuring your Cisco 9336C-FX2 switch, review the following i
 Before configuring your Cisco 9336C-FX2 switch, review the following considerations. 
 
 == Support for NVIDIA CX6, CX6-DX, and CX7 Ethernet ports
-If connecting a switch port to an ONTAP controller using NVIDIA ConnectX-6 (CX6), ConnectX-6 Dx (CX6-DX) or ConnectX-7 (CX7) NIC ports, you must hard-code the switch port speed.
+If connecting a switch port to an ONTAP controller using NVIDIA ConnectX-6 (CX6), ConnectX-6 Dx (CX6-DX), or ConnectX-7 (CX7) NIC ports, you must hard-code the switch port speed.
 
 [subs=+quotes]
 ----
@@ -33,7 +33,7 @@ See the https://hwu.netapp.com/Switch/Index[Hardware Universe^] for more informa
 
 === FAS2820 e0a/e0b ports
 FAS2820 e0a and e0b ports require FEC configuration changes to link up with 9336C-FX2 switch ports.
-For these switch ports e0a and e0b, the fec setting is set to `rs-cons16`.
+For switch ports e0a and e0b, the fec setting is set to `rs-cons16`.
 
 [subs=+quotes]
 ----
