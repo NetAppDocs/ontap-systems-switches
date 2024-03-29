@@ -1,0 +1,177 @@
+---
+permalink: switch-cisco-9336c-fx2/cabling-considerations-9336c-fx2.html
+sidebar: sidebar
+keywords: 9336c-fx2 cabling setup, 9336c-fx2 switches configuration, nx-os
+summary: 'Before configuring your Cisco 9336C-FX2 switch, review the following information.'
+---
+= Review cabling and configuration considerations
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+Before configuring your Cisco 9336C-FX2 switch, review the following considerations. 
+
+== Support for NVIDIA CX6, CX6-DX, and CX7 Ethernet ports
+If connecting a switch port to an ONTAP controller using NVIDIA ConnectX-6 (CX6), ConnectX-6 Dx (CX6-DX), or ConnectX-7 (CX7) NIC ports, you must hard-code the switch port speed.
+
+[subs=+quotes]
+----
+(cs1)(config)# interface Ethernet1/19
+*For 100GbE speed:*
+(cs1)(config-if)# *speed 100000*
+*For 40GbE speed:*
+(cs1)(config-if)# *speed 40000*
+(cs1)(config-if)# no negotiate auto
+(cs1)(config-if)# exit
+(cs1)(config)# exit
+*Save the changes:*
+(cs1)# *copy running-config startup-config*
+----
+See the https://hwu.netapp.com/Switch/Index[Hardware Universe^] for more information on switch ports.
+
+== 25GbE FEC requirements
+
+=== FAS2820 e0a/e0b ports
+FAS2820 e0a and e0b ports require FEC configuration changes to link up with 9336C-FX2 switch ports.
+For switch ports e0a and e0b, the fec setting is set to `rs-cons16`.
+
+[subs=+quotes]
+----
+(cs1)(config)# interface Ethernet1/8-9
+(cs1)(config-if-range)# *fec rs-cons16*
+(cs1)(config-if-range)# exit
+(cs1)(config)# exit
+*Save the changes:*
+(cs1)# *copy running-config startup-config*
+----
+
+//** Change the controller port from `auto` to `fc` and the port comes up. 
+//** Set the switch port to `auto` and the port comes up.
+
+//* When set to *`auto`*:
+//** The `auto` setting propagates the setting to hardware immediately and no reboot is required.
+//** If `bootarg.cpk_fec_fc_eXx already exists`, it is deleted from the bootarg storage.
+//** After a reboot, the `auto` setting remains in place since `auto` is the default FEC setting.
+
+//==== Support for fiber/optical connections
+//* Set the switch port to  fec=`rs-cons16`
+//* The Controller side is set to `auto`
+//* An optical connection should autonegotiate successfully.
+
+//==== Support for copper connections
+//* A copper connection requires setting FireCode (FC) on the FAS2820 port.
+//* When set to *`fc`*:
+//** The `FC-FEC` setting propagates the setting to the hardware immediately and no reboot is required.
+//** A new `bootarg.cpk_fec_fc_eXx` is created with the value set to "true".
+//** After a reboot, `FC-FEC` setting remains in place for the driver code to use.
+
+//* For 25GbE ports with copper cables, see the following table for details.
+//+ 
+//If the Controller side is `auto`, the switch side is set to FEC 25GbE.
+
+//|===
+
+//3+^h| FAS2820 FEC 4+h| Switch FEC 
+//.2+h| Write 2+h| Read 
+//.2+h| Write 2+h| Read
+//.2+h| Link status h| requested_fec h| negoiated_fec
+//h| applied h| operational 
+//a| auto
+//a| RS-FEC
+//a| FC-FEC/BASE-R
+//a| auto
+//a| auto
+//a| auto
+//a| *UP*
+//a| auto
+//a| RS-FEC
+//a| FC-FEC/BASE-R
+//a| off
+//a| off
+//a| off
+//a| *UP*
+//a| auto
+//a| RS-FEC
+//a| FC-FEC/BASE-R
+//a| fc-fec
+//a| fc-fec
+//a| fc-fec
+//a| *UP*
+//a|auto
+//a| RS-FEC
+//a| FC-FEC/BASE-R
+//a| rs-con16
+//a| rs-cons16
+//a| rs-cons16
+//a| *UP*
+//a| auto
+//a| RS-FEC
+//a| FC-FEC/BASE-R
+//a| rs-ieee
+//a| rs-ieee
+//a| rs-iee
+//a| *UP*
+//a| auto
+//a| RS-FEC
+//a| FC-FEC/BASE-R
+//a| rs-fec
+//a| rs-fec
+//a| rs-fec
+//a| down
+//a| rs
+//a| RS-FEC
+//a| none
+//a| auto
+//a| auto
+//a| auto
+//a| down
+//a| rs
+//a| RS-FEC
+//a| none
+//a| off
+//a| off
+//a| off
+//a| down
+//a| rs
+//a| RS-FEC
+//a| none
+//a| fc-fec
+//a| fc-fec
+//a| fc-fec
+//a| down
+//a| rs
+//a| RS-FEC
+//a| none
+//a| rs-cons16
+//a| rs-cons16
+//a| rs-cons16
+//a| down
+//a| rs
+//a| RS-FEC
+//a| none
+//a| rs-fec
+//a| rs-fec
+//a| rs-fec
+//a| down
+//a| rs
+//a| RS-FEC
+//a| none
+//a| rs-ieee
+//a| rs-ieee
+//a| rs-ieee
+//a| down
+//|===
+
+
+//image::../media/FEC_copper_table.jpg[25G ports with copper cables]
+
+//* For CX7 25GbE **---Do I need to mention this specifically??**
+
+//=== Bootarg implementation
+
+//Use the following command to set the 25GbE port FEC to either `auto` or `fc`, as required:
+//----
+//systemshell -node <node> -command sudo sysctl dev.ice.<X>.requested_fec=<auto/fc>
+//----
+
+// New content for AFFFASDOC-193, 2024-MAR-06
