@@ -29,20 +29,5 @@ If connecting a switch port to an ONTAP controller using NVIDIA ConnectX-6 (CX6)
 ----
 See the https://hwu.netapp.com/Switch/Index[Hardware Universe^] for more information on switch ports.
 
-== 25GbE FEC requirements
-
-=== FAS2820 e0a/e0b ports
-FAS2820 e0a and e0b ports require FEC configuration changes to link up with 3232C switch ports.
-For switch ports e0a and e0b, the fec setting is set to `rs-cons16`.
-
-[subs=+quotes]
-----
-(cs1)(config)# interface Ethernet1/8-9
-(cs1)(config-if-range)# *fec rs-cons16*
-(cs1)(config-if-range)# exit
-(cs1)(config)# exit
-*Save the changes:*
-(cs1)# *copy running-config startup-config*
-----
 
 // New content for AFFFASDOC-210, 2024-APR-03
