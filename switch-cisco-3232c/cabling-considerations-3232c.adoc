@@ -1,0 +1,48 @@
+---
+permalink: switch-cisco-3232c/cabling-considerations-3232c.html
+sidebar: sidebar
+keywords: 3232c cabling setup, 3232c switches configuration, nx-os
+summary: 'Before configuring your Cisco 3232C switch, review the following information.'
+---
+= Review cabling and configuration considerations
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+Before configuring your Cisco 3232C switch, review the following considerations. 
+
+== Support for NVIDIA CX6, CX6-DX, and CX7 Ethernet ports
+If connecting a switch port to an ONTAP controller using NVIDIA ConnectX-6 (CX6), ConnectX-6 Dx (CX6-DX), or ConnectX-7 (CX7) NIC ports, you must hard-code the switch port speed.
+
+[subs=+quotes]
+----
+(cs1)(config)# interface Ethernet1/19
+*For 100GbE speed:*
+(cs1)(config-if)# *speed 100000*
+*For 40GbE speed:*
+(cs1)(config-if)# *speed 40000*
+(cs1)(config-if)# no negotiate auto
+(cs1)(config-if)# exit
+(cs1)(config)# exit
+*Save the changes:*
+(cs1)# *copy running-config startup-config*
+----
+See the https://hwu.netapp.com/Switch/Index[Hardware Universe^] for more information on switch ports.
+
+== 25GbE FEC requirements
+
+=== FAS2820 e0a/e0b ports
+FAS2820 e0a and e0b ports require FEC configuration changes to link up with 9336C-FX2 switch ports.
+For switch ports e0a and e0b, the fec setting is set to `rs-cons16`.
+
+[subs=+quotes]
+----
+(cs1)(config)# interface Ethernet1/8-9
+(cs1)(config-if-range)# *fec rs-cons16*
+(cs1)(config-if-range)# exit
+(cs1)(config)# exit
+*Save the changes:*
+(cs1)# *copy running-config startup-config*
+----
+
+// New content for AFFFASDOC-210, 2024-APR-03
