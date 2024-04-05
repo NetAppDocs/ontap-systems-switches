@@ -279,7 +279,7 @@ Cluster  node2_clus2   e0b       true
 ----
 ====
 +
-If any cluster LIFS have not returned to their home ports, revert them manually:
+If any cluster LIFS have not returned to their home ports, revert them manually from the local node:
 +
 `network interface revert -vserver Cluster -lif _lif_name_`
 
@@ -317,3 +317,4 @@ For more information, see link:https://kb.netapp.com/Advice_and_Troubleshooting/
 +
 `set -privilege admin`
 
+// Update for GH issue #173, 20204-APR-04
