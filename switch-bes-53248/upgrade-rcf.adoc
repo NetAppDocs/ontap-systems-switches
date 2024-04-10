@@ -13,9 +13,9 @@ You can upgrade the Reference Configuration File (RCF) after configuring the BES
 
 If you are upgrading an RCF from an older version, you must reset the Broadcom switch settings and perform basic configuration to re-apply the RCF. You must perform this operation every time you want to upgrade or change an RCF. See the https://kb.netapp.com/onprem/Switches/Broadcom/How_to_clear_configuration_on_a_Broadcom_interconnect_switch_while_retaining_remote_connectivity[KB article^] for details.
 
-== Review requirements
+//== Review requirements
 
-.Before you begin
+.What you'll need
 * A current backup of the switch configuration.
 * A fully functioning cluster (no errors in the logs or similar issues).
 * The current RCF file, available from the https://mysupport.netapp.com/site/products/all/details/broadcom-cluster-switches/downloads-tab[Broadcom Cluster Switches^] page.
@@ -25,8 +25,8 @@ If you are upgrading an RCF from an older version, you must reset the Broadcom s
 .Suggested documentation
 * Consult the switch compatibility table for the supported ONTAP and RCF versions. See the https://mysupport.netapp.com/site/info/broadcom-cluster-switch[EFOS Software download^] page. Note that there can be command dependencies between the command syntax in the RCF and that found in versions of EFOS.
 * Refer to the appropriate software and upgrade guides available on the https://www.broadcom.com/support/bes-switch[Broadcom^] site for complete documentation on the BES-53248 switch upgrade and downgrade procedures.
+//== Install the configuration file
 
-== Install the configuration file
 .About the examples
 
 The examples in this procedure use the following switch and node nomenclature:
@@ -46,7 +46,7 @@ No operational inter-switch link (ISL) is needed during this procedure. This is 
 
 CAUTION: Before installing a new switch software version and RCFs, use the https://kb.netapp.com/onprem/Switches/Broadcom/How_to_clear_configuration_on_a_Broadcom_interconnect_switch_while_retaining_remote_connectivity[KB: How to clear configuration on a Broadcom interconnect switch while retaining remote connectivity^]. If you must erase the switch settings completely, then you will need to perform the basic configuration again. You must be connected to the switch using the serial console, since a complete configuration erasure resets the configuration of the management network.
 
-== Step 1: Prepare for the installation
+== Step 1: Prepare for the upgrade
 
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
 +
@@ -144,7 +144,9 @@ cluster1::*>
 ----
 ====
 
-.. Verify that all the cluster interfaces (LIFs) are on the home port: `network interface show -role cluster`
+.. Verify that all the cluster interfaces (LIFs) are on the home port: 
++
+`network interface show -role cluster`
 +
 .Show example
 [%collapsible]
