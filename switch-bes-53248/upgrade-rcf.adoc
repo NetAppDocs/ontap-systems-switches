@@ -9,7 +9,7 @@ summary: 'You can upgrade the Reference Configuration File (RCF) after configuri
 :imagesdir: ../media/
 
 [.lead]
-You can upgrade the Reference Configuration File (RCF) after configuring the BES-53248 cluster switch and after applying any new licenses.
+You can upgrade the Reference Configuration File (RCF) after upgrading the BES-53248 cluster switch EFOS and after applying any new licenses.
 
 If you are upgrading an RCF from an older version, you must reset the Broadcom switch settings and perform basic configuration to re-apply the RCF. You must perform this operation every time you want to upgrade or change an RCF. See the https://kb.netapp.com/onprem/Switches/Broadcom/How_to_clear_configuration_on_a_Broadcom_interconnect_switch_while_retaining_remote_connectivity[KB article^] for details.
 
@@ -1009,3 +1009,5 @@ RPC status:
 . If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
 +
 `system node autosupport invoke -node * -type all -message MAINT=END`
+
+// New content for GH issues #72, 109, 12, AFFFASDOC-212, 2024-APR-02
