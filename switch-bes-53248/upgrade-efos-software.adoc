@@ -96,11 +96,8 @@ IMPORTANT: Note that after upgrading BES-53248 cluster switches from EFOS 3.3.x.
 . Connect the BES-53248 cluster switch to the management network.
 . Use the `ping` command to verify connectivity to the server hosting EFOS, licenses, and the RCF file.
 +
-.Show example
-[%collapsible]
-====
 This example verifies that the switch is connected to the server at IP address 172.19.2.1:
-
++
 [subs=+quotes]
 ----
 (cs2)# *ping 172.19.2.1*
@@ -108,7 +105,6 @@ Pinging 172.19.2.1 with 0 bytes of data:
 
 Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 ----
-====
 
 . Back up the current active image on cs2:
 +
@@ -192,9 +188,6 @@ Additional Packages............................ BGP-4
 +
 Copying the image file to the active image means that when you reboot, that image establishes the running EFOS version. The previous image remains available as a backup.
 +
-.Show example
-[%collapsible]
-==== 
 
 [subs=+quotes]
 ----
@@ -215,7 +208,6 @@ SFTP Code transfer starting...
 
 File transfer operation completed successfully.
 ----
-====
 
 . Display the boot images for the active and backup configuration:
 +
