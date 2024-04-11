@@ -46,7 +46,7 @@ No operational inter-switch link (ISL) is needed during this procedure. This is 
 
 CAUTION: Before installing a new switch software version and RCFs, use the https://kb.netapp.com/onprem/Switches/Broadcom/How_to_clear_configuration_on_a_Broadcom_interconnect_switch_while_retaining_remote_connectivity[KB: How to clear configuration on a Broadcom interconnect switch while retaining remote connectivity^]. If you must erase the switch settings completely, then you will need to perform the basic configuration again. You must be connected to the switch using the serial console, since a complete configuration erasure resets the configuration of the management network.
 
-== Step 1: Prepare for the upgrade
+== Step 1: Prepare for upgrade
 
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
 +
@@ -59,7 +59,7 @@ NOTE: The AutoSupport message notifies technical support of this maintenance tas
 The following command suppresses automatic case creation for two hours:
 +
 ----
-cluster1::*> system node autosupport invoke -node \* -type all -message MAINT=2h
+cluster1::*> system node autosupport invoke -node * -type all -message MAINT=2h
 ----
 
 . Change the privilege level to advanced, entering *y* when prompted to continue:
