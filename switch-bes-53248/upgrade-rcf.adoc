@@ -184,7 +184,9 @@ Cluster
 
 .ONTAP 9.8 and later
 --
-Beginning with ONTAP 9.8, use the command: `system switch ethernet show -is-monitoring-enabled-operational true`
+Beginning with ONTAP 9.8, use the command: 
+
+`system switch ethernet show -is-monitoring-enabled-operational true`
 
 [subs=+quotes]
 ----
@@ -210,7 +212,9 @@ cluster1::*>
 
 .ONTAP 9.7 and earlier
 --
-For ONTAP 9.7 and earlier, use the command: `system cluster-switch show -is-monitoring-enabled-operational true`
+For ONTAP 9.7 and earlier, use the command: 
+
+`system cluster-switch show -is-monitoring-enabled-operational true`
 
 [subs=+quotes]
 ----
@@ -322,12 +326,6 @@ Only proceed when all the cluster LIFs have been removed from the ports on the s
 
 .. Copy and paste the following commands to remove the previous RCF configuration (depending on the previous RCF version used, some commands might generate an error if a particular setting is not present):
 +
-
-.Show example
-[%collapsible]
-====
-
-[subs=+quotes]
 ----
 clear config interface 0/1-0/56
 y
@@ -365,15 +363,9 @@ no vlan 17
 no vlan 18
 exit
 ----
-==== 
 
 .. Save the running configuration to the startup configuration:
 +
-
-.Show example
-[%collapsible]
-====
-
 [subs=+quotes]
 
 ----
@@ -389,14 +381,9 @@ Config file 'startup-config' created successfully .
 
 Configuration Saved!
 ----
-====
 
 .. Perform a reboot of the switch:
 +
-
-.Show example
-[%collapsible]
-====
 
 [subs=+quotes]
 ----
@@ -405,7 +392,6 @@ Configuration Saved!
 Are you sure you would like to reset the system? (y/n) *y*
 
 ----
-====
 
 .. Log in to the switch again using SSH to complete the RCF installation.
 
@@ -416,9 +402,6 @@ Are you sure you would like to reset the system? (y/n) *y*
 +
 This example shows SFTP being used to copy an RCF to the bootflash on switch cs2:
 +
-.Show example
-[%collapsible]
-====
 
 [subs=+quotes]
 ----
@@ -436,7 +419,6 @@ Are you sure you want to start? (y/n) *y*
 SFTP Code transfer starting...
 File transfer operation completed successfully.
 ----
-====
 
 . Verify that the script was downloaded and saved to the file name you gave it:
 +
@@ -482,6 +464,8 @@ Configuration script 'BES-53248_RCF_v1.9-Cluster-HA.scr' applied.
 ====
 
 . Examine the banner output from the `show clibanner` command. You must read and follow these instructions to ensure the proper configuration and operation of the switch. 
++
+`show clibanner`
 +
 .Show example
 [%collapsible]
@@ -561,9 +545,7 @@ Intf      Type   Mode      Mode         Status     Status Trap    Mode   Timeout
 ----
 ====
 
-. Verify on the switch that your changes have been made:
-+
-`show running-config`
+. Verify on the switch that your changes have been made.
 +
 
 [subs=+quotes]
@@ -739,7 +721,7 @@ cluster1-04/cdp
 .ONTAP 9.8 and later
 --
 Beginning with ONTAP 9.8, use the command: 
-+
+
 `system switch ethernet show -is-monitoring-enabled-operational true`
 
 [subs=+quotes]
@@ -767,7 +749,7 @@ cluster1::*>
 .ONTAP 9.7 and earlier
 --
 For ONTAP 9.7 and earlier, use the command: 
-+
+
 `system cluster-switch show -is-monitoring-enabled-operational true`
 
 [subs=+quotes]

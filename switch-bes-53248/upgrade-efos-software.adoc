@@ -106,16 +106,23 @@ Pinging 172.19.2.1 with 0 bytes of data:
 Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 ----
 
+. Disable auto-revert on the cluster LIFs.
++
+[subs=+quotes]
+----
+cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert false*
+----
+
 . Back up the current active image on cs2:
 +
-`show bootvar`
+`copy active backup`
 +
 .Show example
 [%collapsible]
 ====
 [subs=+quotes]
 ----
-(cs2)# *show bootvar*
+(cs2)# copy active backup
 
  Image Descriptions
 
@@ -126,14 +133,14 @@ Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 --------------------------------------------------------------------
  unit      active      backup        current-active    next-active
 --------------------------------------------------------------------
-    1      3.4.3.3     Q.10.22.1     3.4.3.3           3.4.3.3
+    1      3.7.0.4     3.4.4.6       3.7.0.4           3.10.0.3
 
-(cs2)# *copy active backup*
+(cs2)# copy active backup
 Copying active to backup
 Management access will be blocked for the duration of the operation
 Copy operation successful
 
-(cs2)# *show bootvar*
+(cs2)# copy active backup
 
 Image Descriptions
 
@@ -143,7 +150,7 @@ Image Descriptions
 --------------------------------------------------------------------
  unit      active      backup      current-active    next-active
 --------------------------------------------------------------------
-    1      3.4.3.3     3.4.3.3     3.4.3.3           3.4.3.3
+    1      3.7.0.4     3.4.4.6     3.7.0.4           3.10.0.3
 (cs2)#
 ----
 ====
@@ -161,14 +168,14 @@ Image Descriptions
 
 Switch: 1
 
-System Description............................. BES-53248A1, 3.4.3.3, Linux 4.4.117-ceeeb99d, 2016.05.00.05
+System Description............................. BES-53248A1, 3.7.0.4, Linux 4.4.117-ceeeb99d, 2016.05.00.05
 Machine Type................................... BES-53248A1
 Machine Model.................................. BES-53248
 Serial Number.................................. QTFCU38260014
 Maintenance Level.............................. A
 Manufacturer................................... 0xbc00
 Burned In MAC Address.......................... D8:C4:97:71:12:3D
-Software Version............................... 3.4.3.3
+Software Version............................... 3.7.0.4
 Operating System............................... Linux 4.4.117-ceeeb99d
 Network Processing Device...................... BCM56873_A0
 CPLD Version................................... 0xff040c03
@@ -188,16 +195,15 @@ Additional Packages............................ BGP-4
 +
 Copying the image file to the active image means that when you reboot, that image establishes the running EFOS version. The previous image remains available as a backup.
 +
-
 [subs=+quotes]
 ----
-(cs2)# *copy sftp://root@172.19.2.1//tmp/EFOS-3.4.4.6.stk active*
+(cs2)# *copy sftp://root@172.19.2.1//tmp/EFOS-3.10.0.3.stk active*
 Remote Password:********
 
 Mode........................................... SFTP
 Set Server IP.................................. 172.19.2.1
 Path........................................... //tmp/
-Filename....................................... EFOS-3.4.4.6.stk
+Filename....................................... EFOS-3.10.0.3.stk
 Data Type...................................... Code
 Destination Filename........................... active
 
@@ -228,9 +234,9 @@ Image Descriptions
 
  Images currently available on Flash
 --------------------------------------------------------------------
- unit     active      backup       current-active        next-active
+ unit      active      backup      current-active    next-active
 --------------------------------------------------------------------
-    1     3.4.3.3     3.4.3.3       3.4.3.3              3.4.4.6
+    1      3.7.0.4     3.7.0.4     3.7.0.4           3.10.0.3
 ----
 ====
 
@@ -249,7 +255,7 @@ Image Descriptions
 The system has unsaved changes.
 Would you like to save them now? (y/n) *y*
 
-Config file 'startup-config' created successfully .
+Config file 'startup-config' created successfully.
 Configuration Saved!
 System will now restart!
 ----
@@ -269,14 +275,14 @@ System will now restart!
 
 Switch: 1
 
-System Description............................. BES-53248A1, 3.4.4.6, Linux 4.4.211-28a6fe76, 2016.05.00.04
+System Description............................. BES-53248A1, 3.10.0.3, Linux 4.4.211-28a6fe76, 2016.05.00.04
 Machine Type................................... BES-53248A1,
 Machine Model.................................. BES-53248
 Serial Number.................................. QTFCU38260023
 Maintenance Level.............................. A
 Manufacturer................................... 0xbc00
 Burned In MAC Address.......................... D8:C4:97:71:0F:40
-Software Version............................... 3.4.4.6
+Software Version............................... 3.10.0.3
 Operating System............................... Linux 4.4.211-28a6fe76
 Network Processing Device...................... BCM56873_A0
 CPLD Version................................... 0xff040c03
@@ -292,6 +298,19 @@ Additional Packages............................ BGP-4
 ----
 ====
 
+. Repeat steps 4 through to 9 on the switch cs1.
+
+. Enable auto-revert on the cluster LIFs.
++
+[subs=+quotes]
+----
+cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert true*
+----
+
+. Verify that the cluster LIFs have reverted to their home port:
++
+`network interface show -role Cluster`
+
 .What's next?
 
 link:configure-licenses.html[Install licenses for BES-53248 cluster switches]. 
@@ -302,6 +321,12 @@ You can perform the following steps if one EFOS version is FIPS compliant and th
 NOTE: This functionality is only available for EFOS 3.7.x.x or later non-FIPS compliant.
 
 .Steps
+. Disable auto-revert on the cluster LIFs.
++
+[subs=+quotes]
+----
+cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert false*
+----
 . Boot the switch into ONIE installation mode.
 +
 During boot, select ONIE when you see the prompt.
@@ -443,9 +468,19 @@ unit 	active 	    backup   current-active  next-active
 ----
 ====
 
-. Complete the installation.
+. Complete the installation.*Is this the correct next step here?*
 +
-The switch will reboot with no configuration applied and reset to factory defaults.
+The switch will reboot with no configuration applied and reset to factory defaults. 
+. Repeat steps 2 through to 8 on the switch cs1.
+. Enable auto-revert on the cluster LIFs.
++
+[subs=+quotes]
+----
+cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert true*
+----
+. Verify that the cluster LIFs have reverted to their home port:
++
+`network interface show -role Cluster`
 
 .What's next?
 
