@@ -40,7 +40,7 @@ NOTE: The procedure requires the use of both ONTAP commands and Cisco Nexus 3000
 
 === Step 1: Check the health status of switches and ports 
 
-. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
+. If AutoSupport is enabled, suppress automatic case creation by invoking an AutoSupport message:
 `system node autosupport invoke -node * -type all - message MAINT=xh`
 +
 _x_ is the duration of the maintenance window in hours.
@@ -110,7 +110,7 @@ node2
 ----
 ====
 
-. Check that there are no storage switch or cabling issues with the cluster:
+. Check that there are no storage switch or cabling issues:
 +
 `system health alert show -instance`
 +
@@ -329,9 +329,9 @@ Module       Image                  Running-Version(pri:alt)           New-Versi
 
 
 Switch will be reloaded for disruptive upgrade.
-Do you want to continue with the installation (y/n)?  [n]  y
+Do you want to continue with the installation (y/n)?  [n] *y*
 input string too long
-Do you want to continue with the installation (y/n)?  [n] y
+Do you want to continue with the installation (y/n)?  [n] *y*
 
 Install is in progress, please wait.
 
@@ -458,7 +458,7 @@ S1
     Version Source: CDP
 
 S2
-                            storage-network    172.17.227.6     NX3232C
+                            storage-network    172.17.227.6    NX3232C
      Serial Number: FOC220443LZ
       Is Monitored: true
             Reason: None
@@ -522,3 +522,5 @@ There are no entries matching your query.
 // QA clean-up, 2022-03-04
 
 // 2023 FEB 09, GH issue #67
+
+// Updates for GH issue #140, 2024-04-16
