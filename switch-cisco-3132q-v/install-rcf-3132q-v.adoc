@@ -608,9 +608,6 @@ cluster1::*>
 ====
 
 . Repeat Steps 1 to 10 on switch cs1.
-
-=== Step 3: Reboot and verify the configuration
-
 . Enable auto-revert on the cluster LIFs.
 +
 .Show example 
@@ -623,15 +620,13 @@ cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert True
 
 . Reboot switch cs1. You do this to trigger the cluster LIFs to revert to their home ports. You can ignore the "cluster ports down" events reported on the nodes while the switch reboots.
 +
-.Show example 
-[%collapsible]
-====
 [subs=+quotes]
 ----
 cs1# *reload*
 This command will reboot the system. (y/n)?  [n] *y*
 ----
-====
+
+=== Step 3: Verify the configuration
 
 . Verify that the switch ports connected to the cluster ports are up.
 +
@@ -912,3 +907,4 @@ NOTE: If any of these commands return an error, contact NetApp support.
 // Removed POAP info due to Cisco bug, as per AFFFASDOC-65, 2023-MAY-30
 // Updates for GH issue #122, 2023-SEPT-11
 // Updates for AFFFASDOC-118, 2023-SEPT-13
+// Updates for GH issue #176, 2024-APR-18
