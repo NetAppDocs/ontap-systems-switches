@@ -382,8 +382,6 @@ Management interfaces will not be available during this time.
 Are you sure you want to save? (y/n) *y*
 
 Config file 'startup-config' created successfully.
-
-
 Configuration Saved!
 ----
 
@@ -393,7 +391,6 @@ Configuration Saved!
 [subs=+quotes]
 ----
 (cs2)# *reload*
-
 Are you sure you would like to reset the system? (y/n) *y*
 ----
 
@@ -572,18 +569,16 @@ Management interfaces will not be available during this time.
 Are you sure you want to save? (y/n) *y*
 
 Config file 'startup-config' created successfully.
-
 Configuration Saved!
 ----
 ====
 
 . Reboot the switch and verify that the running configuration is correct.
 +
+[subs=+quotes]
 ----
 (cs2)# *reload*
-
 Are you sure you would like to reset the system? (y/n) *y*
-
 System will now restart!
 ----
 
@@ -611,7 +606,6 @@ Management interfaces will not be available during this time.
 Are you sure you want to save? (y/n) *y*
 
 Config file 'startup-config' created successfully.
-
 Configuration Saved!
 ----
 
@@ -853,7 +847,9 @@ cluster1-04          true     true          false
 ====
 
 . Repeat steps 4 to 14 on switch cs1. 
+
 . Enable auto-revert on the cluster LIFs:
++
 `cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert true`
 
 . Reboot switch cs1. You do this to trigger the cluster LIFs to revert to their home ports. You can ignore the “cluster ports down” events reported on the nodes while the switch reboots.
