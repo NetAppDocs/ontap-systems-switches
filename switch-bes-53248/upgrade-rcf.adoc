@@ -253,7 +253,7 @@ cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert false
 +
 [subs=+quotes]
 ----
-(cs2)> enable
+(cs2)> *enable*
 (cs2)#
 (cs2)# *configure*
 (cs2)(Config)# *interface 0/1-0/16*
@@ -264,7 +264,10 @@ cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert false
 
 . Verify that the cluster LIFs have migrated to the ports hosted on cluster switch cs1. This might take a few seconds.
 +
+[source,cli]
+----
 `network interface show -role cluster`
+----
 +
 .Show example
 [%collapsible]
@@ -291,7 +294,10 @@ cluster1::*>
 
 . Verify that the cluster is healthy: 
 +
+[source,cli]
+----
 `cluster show`
+----
 +
 .Show example
 [%collapsible]
@@ -311,8 +317,10 @@ cluster1-04          true    true          false
 
 . If you have not already done so, save the current switch configuration by copying the output of the following command to a log file: 
 +
+[source,cli]
+----
 `show running-config`
-
+----
 . Clean the configuration on switch cs2 and perform a basic setup.
 +
 CAUTION: When updating or applying a new RCF, you must erase the switch settings and perform basic configuration. You must be connected to the switch using the serial console to erase switch settings.
