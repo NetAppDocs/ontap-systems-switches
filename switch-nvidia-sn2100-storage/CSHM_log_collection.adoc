@@ -13,7 +13,7 @@ The Ethernet switch health monitor (CSHM) is responsible for ensuring the operat
 
 .Before you begin
 
-* The user for log collection must be specified when the Reference Configuration File (RCF) is applied. By default, this user is set to 'admin'. If you wish to use a different user, you must specify this in the *# SHM User*s section of the RCF.
+* The user for log collection must be specified when the Reference Configuration File (RCF) is applied. By default, this user is set to _admin_. If you wish to use a different user, you must specify this in the *# SHM User*s section of the RCF.
 * The user must have access to the *nv show* commands. This can be added by running `sudo adduser USER nv show` and replacing USER with the user for log collection.
 * Switch health monitoring must be enabled for the switch. Verify this by ensuring the `Is Monitored:` field is set to *true* in the output of the `system switch ethernet show` command.
 
