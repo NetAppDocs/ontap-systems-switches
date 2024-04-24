@@ -11,7 +11,7 @@ summary: 'You can upgrade the Reference Configuration File (RCF) after configuri
 [.lead]
 You can upgrade the Reference Configuration File (RCF) after upgrading the BES-53248 cluster switch EFOS and after applying any new licenses.
 
-If you are upgrading an RCF from an older version, you must reset the Broadcom switch settings and perform basic configuration to re-apply the RCF. You must perform this operation every time you want to upgrade or change an RCF. See the https://kb.netapp.com/onprem/Switches/Broadcom/How_to_clear_configuration_on_a_Broadcom_interconnect_switch_while_retaining_remote_connectivity[KB article^] for details.
+If you are upgrading an RCF from an older version, you must reset the Broadcom switch settings and perform basic configuration to re-apply the RCF. You must perform this operation every time you want to upgrade or downgrade an RCF. See the Knowledge Base article https://kb.netapp.com/onprem/Switches/Broadcom/How_to_clear_configuration_on_a_Broadcom_interconnect_switch_while_retaining_remote_connectivity[How to clear a configuration on a Broadcom interconnect switch while retaining remote connectivity^] for details.
 
 //== Review requirements
 
@@ -44,7 +44,7 @@ The procedure requires the use of both ONTAP commands and Broadcom switch comman
 
 No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To ensure non-disruptive cluster operations, the following procedure migrates all the cluster LIFs to the operational partner switch while performing the steps on the target switch.
 
-CAUTION: Before installing a new switch software version and RCFs, use the https://kb.netapp.com/onprem/Switches/Broadcom/How_to_clear_configuration_on_a_Broadcom_interconnect_switch_while_retaining_remote_connectivity[KB: How to clear configuration on a Broadcom interconnect switch while retaining remote connectivity^]. If you must erase the switch settings completely, then you will need to perform the basic configuration again. You must be connected to the switch using the serial console, since a complete configuration erasure resets the configuration of the management network.
+CAUTION: Before installing a new switch software version and RCFs, use the Knowledge Base article https://kb.netapp.com/onprem/Switches/Broadcom/How_to_clear_configuration_on_a_Broadcom_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Broadcom interconnect switch while retaining remote connectivity^]. If you must erase the switch settings completely, then you will need to perform the basic configuration again. You must be connected to the switch using the serial console, since a complete configuration erasure resets the configuration of the management network.
 
 == Step 1: Prepare for upgrade
 
@@ -253,8 +253,13 @@ cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert false
 +
 [subs=+quotes]
 ----
+(cs2)> enable
+(cs2)#
+(cs2)# *configure*
 (cs2)(Config)# *interface 0/1-0/16*
 (cs2)(Interface 0/1-0/16)# *shutdown*
+(cs2)(Interface 0/1-0/16)# *exit*
+(cs2)(Config)#
 ----
 
 . Verify that the cluster LIFs have migrated to the ports hosted on cluster switch cs1. This might take a few seconds.
@@ -376,7 +381,7 @@ Management interfaces will not be available during this time.
 
 Are you sure you want to save? (y/n) *y*
 
-Config file 'startup-config' created successfully .
+Config file 'startup-config' created successfully.
 
 
 Configuration Saved!
@@ -393,7 +398,7 @@ Are you sure you would like to reset the system? (y/n) *y*
 
 ----
 
-.. Log in to the switch again using SSH to complete the RCF installation.
+//.. Log in to the switch again using SSH to complete the RCF installation.
 
 
 . If additional port licenses have been installed on the switch, you must modify the RCF to configure the additional licensed ports. See link:configure-licenses.html#activate-newly-licensed-ports[Activate newly licensed ports^] for details. 
@@ -575,15 +580,8 @@ Configuration Saved!
 ----
 ====
 
-. Reboot the switch and verify that the running configuration is correct:
+. Reboot the switch and verify that the running configuration is correct.
 +
-`reload`
-+
-.Show example
-[%collapsible]
-====
-
-[subs=+quotes]
 ----
 (cs2)# *reload*
 
@@ -591,14 +589,17 @@ Are you sure you would like to reset the system? (y/n) *y*
 
 System will now restart!
 ----
-====
 
 . On cluster switch cs2, bring up the ports connected to the cluster ports of the nodes.
 +
 [subs=+quotes]
 ----
+(cs2)> *enable*
+(cs2)#
+(cs2)# *configure*
 (cs2)(Config)# *interface 0/1-0/16*
 (cs2)(Interface 0/1-0/16)# *no shutdown*
+(cs2)(Config)# *exit*
 ----
 
 . Verify the ports on switch cs2: 
@@ -611,7 +612,7 @@ System will now restart!
 
 [subs=+quotes]
 ----
-(cs1)# show interfaces status all | exclude Detach
+(cs1)# *show interfaces status all | exclude Detach*
 
                                 Link    Physical    Physical    Media       Flow
 Port       Name                 State   Mode        Status      Type        Control     VLAN
@@ -783,9 +784,12 @@ The following example uses the interface example output:
 +
 [subs=+quotes]
 ----
+(cs2)> *enable*
+(cs2)#
 (cs1)# *configure*
 (cs1)(Config)# *interface 0/1-0/16*
 (cs1)(Interface 0/1-0/16)# *shutdown*
+(cs1)(Config)# *exit*
 ----
 
 . Verify that the cluster LIFs have migrated to the ports hosted on switch cs2. This might take a few seconds.
@@ -1023,8 +1027,8 @@ RPC status:
 +
 `system node autosupport invoke -node * -type all -message MAINT=END`
 
-.What's next?
+//.What's next?
 
-link:complete-upgrade.html[Complete the upgrade of your switch]. 
+//link:complete-upgrade.html[Complete the upgrade of your switch]. 
 
 // New content for GH issues #72, 109, 12, AFFFASDOC-212, 2024-APR-02

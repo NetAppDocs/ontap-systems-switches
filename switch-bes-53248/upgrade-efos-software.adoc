@@ -37,26 +37,26 @@ h| *Procedure* h| *Current EFOS version* h| *New EFOS version* h| *High level st
 .5+a|Steps to upgrade EFOS between two (non) FIPS compliant versions
 a| 3.4.x.x
 a| 3.4.x.x
-a| Install the new EFOS image using <<Method 1: Install EFOS>>.
+a| Upgrade the new EFOS image using <<Method 1: Upgrade EFOS>>.
 The configuration and license information is retained.
 a| 3.4.4.6 (or later 3.4.x.x)
 a| 3.7.x.x or later non-FIPS compliant
-a|Upgrade EFOS using <<Method 1: Install EFOS>>.
+a|Upgrade EFOS using <<Method 1: Upgrade EFOS>>.
 Reset the switch to factory defaults and apply the RCF file for EFOS 3.7.x.x or later.
 .2+|3.7.x.x or later non-FIPS compliant
 a|3.4.4.6 (or later 3.4.x.x)
-a|Downgrade EFOS using <<Method 1: Install EFOS>>.
+a|Downgrade EFOS using <<Method 1: Upgrade EFOS>>.
 Reset the switch to factory defaults and apply the RCF file for EFOS 3.4.x.x
 a|3.7.x.x or later non-FIPS compliant
-a|Install the new EFOS image using <<Method 1: Install EFOS>>. The configuration and license information is retained.
+a|Upgrade the new EFOS image using <<Method 1: Upgrade EFOS>>. The configuration and license information is retained.
 a|3.7.x.x or later FIPS compliant
 a|3.7.x.x or later FIPS compliant
-a|Install the new EFOS image using <<Method 1: Install EFOS>>.
+a|Upgrade the new EFOS image using <<Method 1: Upgrade EFOS>>.
 The configuration and license information is retained.
 .2+a|Steps to upgrade to/from a FIPS compliant EFOS version
 a|Non-FIPS compliant
 a|FIPS compliant
-.2+a|Installation of the EFOS image using <<Method 2: Upgrade EFOS using the ONIE OS installation>>. The switch configuration and license information will be lost.
+.2+a|Upgrade of the EFOS image using <<Method 2: Upgrade EFOS using the ONIE OS installation>>. The switch configuration and license information will be lost.
 a|FIPS compliant
 a|Non-FIPS compliant
 |===
@@ -65,14 +65,18 @@ a|Non-FIPS compliant
 ====
 To check if your version of EFOS is FIPS compliant or non-FIPS compliant, use the `show fips status` command. In the following examples, *IP_switch_a1* is using FIPS compliant EFOS and *IP_switch_a2* is using non-FIPS compliant EFOS. 
 
-* On switch IP_switch_a1:
+* On switch IP_switch_a1 (FIPS compliant EFOS):
++
+[subs=+quotes]
 ----
 IP_switch_a1 # *show fips status*
 
 System running in FIPS mode
 ----
 
-* On switch IP_switch_a2:
+* On switch IP_switch_a2 (non-FIPS compliant EFOS):
++
+[subs=+quotes]
 ----
 IP_switch_a2 # *show fips status*
                      ^
@@ -80,14 +84,16 @@ IP_switch_a2 # *show fips status*
 ----
 ====
 
-== Install the software
+== Upgrade the software
 Use one of the following methods:
 
-* <<Method 1: Install EFOS>>. Use for most cases (see the table above).
+* <<Method 1: Upgrade EFOS>>. Use for most cases (see the table above).
 * <<Method 2: Upgrade EFOS using the ONIE OS installation>>. Use if one EFOS version is FIPS compliant and the other EFOS version is non-FIPS compliant.
 
-=== Method 1: Install EFOS
-Perform the following steps to install or upgrade the EFOS software.
+NOTE: Upgrade EFOS on one switch at a time to ensure continued cluster network operation.
+
+=== Method 1: Upgrade EFOS
+Perform the following steps to upgrade the EFOS software.
 
 IMPORTANT: Note that after upgrading BES-53248 cluster switches from EFOS 3.3.x.x or 3.4.x.x to EFOS 3.7.0.4 or 3.8.0.2, Inter-Switch Links (ISLs) and port channel are marked in the *Down* state. See this KB article: https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Systems/Fabric%2C_Interconnect_and_Management_Switches/BES-53248_Cluster_Switch_NDU_failed_upgrade_to_EFOS_3.7.0.4_and_later[BES-53248 Cluster Switch NDU failed upgrade to EFOS 3.7.0.4 and later^] for further details.
 
@@ -113,16 +119,16 @@ Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert false*
 ----
 
-. Back up the current active image on cs2:
+. Display the boot images for the active and backup configuration:
 +
-`copy active backup`
+`show bootvar`
 +
 .Show example
 [%collapsible]
 ====
 [subs=+quotes]
 ----
-(cs2)# copy active backup
+(cs2)# *show bootvar*
 
  Image Descriptions
 
@@ -133,14 +139,26 @@ cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert fals
 --------------------------------------------------------------------
  unit      active      backup        current-active    next-active
 --------------------------------------------------------------------
-    1      3.7.0.4     3.4.4.6       3.7.0.4           3.10.0.3
+    1      3.7.0.4     3.4.4.6       3.7.0.4           3.7.0.4
 
-(cs2)# copy active backup
+----
+====
+
+. Back up the current active image on cs2:
++
+`copy active backup`
++
+.Show example
+[%collapsible]
+====
+[subs=+quotes]
+----
+(cs2)# *copy active backup*
 Copying active to backup
 Management access will be blocked for the duration of the operation
 Copy operation successful
 
-(cs2)# copy active backup
+(cs2)# *show bootvar*
 
 Image Descriptions
 
@@ -149,8 +167,8 @@ Image Descriptions
  Images currently available on Flash
 --------------------------------------------------------------------
  unit      active      backup      current-active    next-active
---------------------------------------------------------------------
-    1      3.7.0.4     3.4.4.6     3.7.0.4           3.10.0.3
+------------------------------------------------------------------   
+    1      3.7.0.4     3.4.4.6       3.7.0.4           3.7.0.4
 (cs2)#
 ----
 ====
@@ -190,6 +208,8 @@ Additional Packages............................ BGP-4
 ............................................... Prototype Open API
 ----
 ====
++
+NOTE: If you installed any licences, please review their status.
 
 . Download the image file to the switch.
 +
@@ -298,7 +318,7 @@ Additional Packages............................ BGP-4
 ----
 ====
 
-. Repeat steps 4 through to 9 on the switch cs1.
+. Repeat steps 5 through to 10 on the switch cs1.
 
 . Enable auto-revert on the cluster LIFs.
 +
@@ -310,15 +330,19 @@ cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert true
 . Verify that the cluster LIFs have reverted to their home port:
 +
 `network interface show -role Cluster`
++
+For further details, see link:https://docs.netapp.com/us-en/ontap/networking/revert_a_lif_to_its_home_port.html[Revert a LIF to its home port].
 
-.What's next?
+//.What's next?
 
-link:configure-licenses.html[Install licenses for BES-53248 cluster switches]. 
+//link:configure-licenses.html[Install licenses for BES-53248 cluster switches]. 
 
 === Method 2: Upgrade EFOS using the ONIE OS installation
-You can perform the following steps if one EFOS version is FIPS compliant and the other EFOS version is non-FIPS compliant. These steps can be used to install the non-FIPS or FIPS compliant EFOS 3.7.x.x image from ONIE if the switch fails to boot.
+You can perform the following steps if one EFOS version is FIPS compliant and the other EFOS version is non-FIPS compliant. These steps can be used to upgrade the non-FIPS or FIPS compliant EFOS 3.7.x.x image from ONIE if the switch fails to boot.
 
 NOTE: This functionality is only available for EFOS 3.7.x.x or later non-FIPS compliant.
+
+CAUTION: If you upgrade EFOS using the ONIE OS installation, the configuration is reset to factory defaults and licenses are deleted. You must set up the switch and install licenses and a supported RCF to return the switch to normal operation.
 
 .Steps
 . Disable auto-revert on the cluster LIFs.
@@ -329,11 +353,8 @@ cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert fals
 ----
 . Boot the switch into ONIE installation mode.
 +
-During boot, select ONIE when you see the prompt.
+During boot, select ONIE when you see the prompt:
 +
-.Show example
-[%collapsible]
-====
 ----
 +--------------------------------------------------------------------+
 |EFOS                                                                |
@@ -350,13 +371,10 @@ During boot, select ONIE when you see the prompt.
 |                                                                    |
 +--------------------------------------------------------------------+
 ----
-====
+
 +
 After you select *ONIE*, the switch loads and presents you with several choices. Select *Install OS*.
 +
-.Show example
-[%collapsible]
-====
 ----
 +--------------------------------------------------------------------+
 |*ONIE: Install OS                                                   |
@@ -373,7 +391,6 @@ After you select *ONIE*, the switch loads and presents you with several choices.
 |                                                                    |
 +--------------------------------------------------------------------+
 ----
-====
 +
 The switch boots into ONIE installation mode.
 
@@ -463,14 +480,18 @@ Images currently available on Flash
 ---- 	----------- -------- --------------- ------------
 unit 	active 	    backup   current-active  next-active
 ---- 	----------- -------- --------------- ------------
-1 	    3.7.0.4     3.7.0.4  3.7.0.4         3.7.0.4
+   1    3.7.0.4     3.7.0.4  3.7.0.4         3.10.0.3
 (cs2) #
 ----
 ====
 
-. Complete the installation.*Is this the correct next step here?*
-+
-The switch will reboot with no configuration applied and reset to factory defaults. 
+. Complete the installation. The switch reboots with no configuration applied and resets to factory defaults. Complete the following steps to reconfigure the switch:
+.. link:configure-licenses.html[Install licenses] 
+.. link:configure-install-rcf.html[Install the RCF]
+.. link:configure-ssh.html[Enable SSH]
+.. link:CSHM_log_collection.html[Enable log collection]
+.. link:CSHM_snmpv3.html[Configure SNMPv3 for monitoring]
+
 . Repeat steps 2 through to 8 on the switch cs1.
 . Enable auto-revert on the cluster LIFs.
 +
@@ -481,9 +502,11 @@ cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert true
 . Verify that the cluster LIFs have reverted to their home port:
 +
 `network interface show -role Cluster`
++
+For further details, see link:https://docs.netapp.com/us-en/ontap/networking/revert_a_lif_to_its_home_port.html[Revert a LIF to its home port].
 
-.What's next?
+//.What's next?
 
-link:configure-licenses.html[Install licenses for BES-53248 cluster switches.]. 
+//link:configure-licenses.html[Install licenses for BES-53248 cluster switches.]. 
 
 // New content for GH issues #72, 109, 12, AFFFASDOC-212, 2024-APR-02
