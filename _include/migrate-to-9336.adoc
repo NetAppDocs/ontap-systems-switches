@@ -215,8 +215,10 @@ cs2                         cluster-network     10.233.205.93   N5K-C5596UP
 . Disable auto-revert on the cluster LIFs.
 +
 `network interface modify -vserver Cluster -lif * -auto-revert false`
++
+NOTE: Disabling auto-revert ensures ONTAP only fails over the cluster LIFs when the switch ports are shutdown later. 
 
-. On cluster switch cs2, shut down the ports connected to the cluster ports of the nodes in order to fail over the cluster LIFs:
+. On cluster switch cs2, shut down the ports connected to the cluster ports of *all* the nodes in order to fail over the cluster LIFs:
 +
 [subs=+quotes]
 ----
@@ -334,14 +336,14 @@ cs2-new# *show interface brief*
 cs2-new# *show cdp neighbors*
 ----
 
-. On cluster switch cs1, shut down the ports connected to the cluster ports of the nodes in order to fail over the cluster LIFs. The following example uses the interface example output from step 7.
+. On cluster switch cs1, shut down the ports connected to the cluster ports of *all* the nodes in order to fail over the cluster LIFs.
 +
 [subs=+quotes]
 ----
 cs1(config)# *interface eth1/1-1/2*
 cs1(config-if-range)# *shutdown*
 ----
-All cluster LIFs will move to the cs2-new switch.
+All cluster LIFs fail over to the cs2-new switch.
 
 . Verify that the cluster LIFs have failed over to the ports hosted on switch cs2-new. This might take a few seconds: 
 +
@@ -712,3 +714,4 @@ cluster1::*>
 // Updates for GH #112, 2023-JUL-19
 // Updates for AFFFASDOC-145, 2023-OCT-26
 // Updates for GH issue #156, 2024-MAR-05
+// Updates for GH issue #178, 2024-APR_22
