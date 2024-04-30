@@ -114,14 +114,17 @@ Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 
 . Disable auto-revert on the cluster LIFs.
 +
-[subs=+quotes]
+[source,cli]
 ----
-cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert false*
+network interface modify -vserver Cluster -lif * -auto-revert false
 ----
 
 . Display the boot images for the active and backup configuration:
 +
-`show bootvar`
+[source,cli]
+----
+show bootvar
+----
 +
 .Show example
 [%collapsible]
@@ -146,7 +149,10 @@ cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert fals
 
 . Back up the current active image on cs2:
 +
-`copy active backup`
+[source,cli]
+----
+copy active backup
+----
 +
 .Show example
 [%collapsible]
@@ -175,7 +181,10 @@ Image Descriptions
 
 . Verify the running version of the EFOS software:
 +
-`show version`
+[source,cli]
+----
+show version
+----
 +
 .Show example
 [%collapsible]
@@ -237,7 +246,10 @@ File transfer operation completed successfully.
 
 . Display the boot images for the active and backup configuration:
 +
-`show bootvar`
+[source,cli]
+----
+show bootvar
+----
 +
 .Show example
 [%collapsible]
@@ -262,7 +274,10 @@ Image Descriptions
 
 . Reboot the switch:
 +
-`reload`
+[source,cli]
+----
+reload
+----
 +
 .Show example
 [%collapsible]
@@ -283,7 +298,10 @@ System will now restart!
 
 . Log in again and verify the new version of the EFOS software:
 +
-`show version`
+[source,cli]
+----
+show version
+----
 +
 .Show example
 [%collapsible]
@@ -322,14 +340,17 @@ Additional Packages............................ BGP-4
 
 . Enable auto-revert on the cluster LIFs.
 +
-[subs=+quotes]
+[source,cli]
 ----
-cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert true*
+network interface modify -vserver Cluster -lif * -auto-revert true
 ----
 
 . Verify that the cluster LIFs have reverted to their home port:
 +
-`network interface show -role Cluster`
+[source,cli]
+----
+network interface show -role Cluster
+----
 +
 For further details, see link:https://docs.netapp.com/us-en/ontap/networking/revert_a_lif_to_its_home_port.html[Revert a LIF to its home port].
 
@@ -347,10 +368,11 @@ CAUTION: If you upgrade EFOS using the ONIE OS installation, the configuration i
 .Steps
 . Disable auto-revert on the cluster LIFs.
 +
-[subs=+quotes]
+[source,cli]
 ----
-cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert false*
+network interface modify -vserver Cluster -lif * -auto-revert false
 ----
+
 . Boot the switch into ONIE installation mode.
 +
 During boot, select ONIE when you see the prompt:
@@ -421,7 +443,10 @@ ONIE:/ # route add default gw 10.10.10.1
 
 . Verify that the server hosting the ONIE installation file is reachable:
 +
-`ping`
+[source,cli]
+----
+ping
+----
 +
 .Show example
 [%collapsible]
@@ -464,7 +489,10 @@ The software installs and then reboots the switch. Let the switch reboot normall
 +
 . Verify that the new switch software is installed: 
 +
-`show bootvar`
+[source,cli]
+----
+show bootvar
+----
 +
 .Show example
 [%collapsible]
@@ -495,13 +523,17 @@ unit 	active 	    backup   current-active  next-active
 . Repeat steps 2 through to 8 on the switch cs1.
 . Enable auto-revert on the cluster LIFs.
 +
-[subs=+quotes]
+[source,cli]
 ----
-cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert true*
+network interface modify -vserver Cluster -lif * -auto-revert true
 ----
+
 . Verify that the cluster LIFs have reverted to their home port:
 +
-`network interface show -role Cluster`
+[source,cli]
+----
+network interface show -role Cluster
+----
 +
 For further details, see link:https://docs.netapp.com/us-en/ontap/networking/revert_a_lif_to_its_home_port.html[Revert a LIF to its home port].
 

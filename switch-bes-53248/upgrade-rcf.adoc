@@ -396,6 +396,11 @@ exit
 
 .. Save the running configuration to the startup configuration:
 +
+[source,cli]
+----
+write memory
+----
++
 [subs=+quotes]
 
 ----
@@ -412,7 +417,11 @@ Configuration Saved!
 
 .. Perform a reboot of the switch:
 +
-
+[source,cli]
+----
+reload
+----
++
 [subs=+quotes]
 ----
 (cs2)# *reload*
@@ -590,11 +599,11 @@ show running config
 
 . Save the running configuration so that it becomes the startup configuration when you reboot the switch:
 +
-`write memory`
+[source,cli]
+----
+write memory
+----
 +
-.Show example
-[%collapsible]
-====
 
 [subs=+quotes]
 ----
@@ -607,9 +616,13 @@ Are you sure you want to save? (y/n) *y*
 Config file 'startup-config' created successfully.
 Configuration Saved!
 ----
-====
 
 . Reboot the switch and verify that the running configuration is correct.
++
+[source,cli]
+----
+reload
+----
 +
 [subs=+quotes]
 ----
@@ -631,6 +644,11 @@ System will now restart!
 ----
 
 . Save the running configuration to the startup configuration:
++
+[source,cli]
+----
+write memory
+----
 +
 [subs=+quotes]
 ----
@@ -909,9 +927,15 @@ cluster1-04          true     true          false
 +
 [source,cli]
 ----
-cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert true
+network interface modify -vserver Cluster -lif * -auto-revert true
 ----
+
 . Reboot switch cs1. You do this to trigger the cluster LIFs to revert to their home ports. You can ignore the “cluster ports down” events reported on the nodes while the switch reboots.
++
+[source,cli]
+----
+reload
+----
 +
 [subs=+quotes]
 
