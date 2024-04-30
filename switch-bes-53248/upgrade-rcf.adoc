@@ -58,19 +58,26 @@ NOTE: The AutoSupport message notifies technical support of this maintenance tas
 +
 The following command suppresses automatic case creation for two hours:
 +
+[source,cli]
 ----
-cluster1::*> system node autosupport invoke -node * -type all -message MAINT=2h
+system node autosupport invoke -node * -type all -message MAINT=2h
 ----
 
 . Change the privilege level to advanced, entering *y* when prompted to continue:
 +
-`set -privilege advanced`
+[source,cli]
+----
+set -privilege advanced
+----
 +
 The advanced prompt (*>) appears.
 
 . Display the cluster ports on each node that are connected to the cluster switches: 
 +
-`network device-discovery show`
+[source,cli]
+----
+network device-discovery show
+----
 +
 .Show example
 [%collapsible]
@@ -101,7 +108,10 @@ cluster1::*>
 . Check the administrative and operational status of each cluster port.
 .. Verify that all the cluster ports are up with a healthy status: 
 +
-`network port show -role cluster`
+[source,cli]
+----
+network port show -role cluster
+----
 +
 .Show example
 [%collapsible]
@@ -150,7 +160,10 @@ cluster1::*>
 
 .. Verify that all the cluster interfaces (LIFs) are on the home port: 
 +
-`network interface show -role cluster`
+[source,cli]
+----
+network interface show -role cluster
+----
 +
 .Show example
 [%collapsible]
@@ -185,9 +198,10 @@ Cluster
 .ONTAP 9.8 and later
 --
 Beginning with ONTAP 9.8, use the command: 
-
-`system switch ethernet show -is-monitoring-enabled-operational true`
-
+[source,cli]
+----
+system switch ethernet show -is-monitoring-enabled-operational true
+----
 [subs=+quotes]
 ----
 cluster1::*> *system switch ethernet show -is-monitoring-enabled-operational true*
@@ -213,8 +227,10 @@ cluster1::*>
 .ONTAP 9.7 and earlier
 --
 For ONTAP 9.7 and earlier, use the command: 
-
-`system cluster-switch show -is-monitoring-enabled-operational true`
+[source,cli]
+----
+system cluster-switch show -is-monitoring-enabled-operational true
+----
 
 [subs=+quotes]
 ----
@@ -244,8 +260,9 @@ cluster1::*>
 
 . [[step6]]Disable auto-revert on the cluster LIFs.
 +
+[source,cli]
 ----
-cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert false
+network interface modify -vserver Cluster -lif * -auto-revert false
 ----
 
 == Step 2: Configure ports
@@ -266,7 +283,7 @@ cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert false
 +
 [source,cli]
 ----
-`network interface show -role cluster`
+network interface show -role cluster
 ----
 +
 .Show example
@@ -296,7 +313,7 @@ cluster1::*>
 +
 [source,cli]
 ----
-`cluster show`
+cluster show
 ----
 +
 .Show example
@@ -319,7 +336,7 @@ cluster1-04          true    true          false
 +
 [source,cli]
 ----
-`show running-config`
+show running-config
 ----
 . Clean the configuration on switch cs2 and perform a basic setup.
 +
@@ -429,7 +446,10 @@ File transfer operation completed successfully.
 
 . Verify that the script was downloaded and saved to the file name you gave it:
 +
-`script list`
+[source,cli]
+----
+script list
+----
 +
 .Show example
 [%collapsible]
@@ -449,7 +469,10 @@ BES-53248_RCF_v1.9-Cluster-HA.scr          2241         2020 09 30 05:41:00
 
 . Apply the script to the switch:
 +
-`script apply`
+[source,cli]
+----
+script apply
+----
 +
 .Show example
 [%collapsible]
@@ -472,7 +495,10 @@ Configuration script 'BES-53248_RCF_v1.9-Cluster-HA.scr' applied.
 
 . Examine the banner output from the `show clibanner` command. You must read and follow these instructions to ensure the proper configuration and operation of the switch. 
 +
-`show clibanner`
+[source,cli]
+----
+show clibanner
+----
 +
 .Show example
 [%collapsible]
@@ -512,7 +538,10 @@ command has been executed and the switch rebooted
 
 . On the switch, verify that the additional licensed ports appear after the RCF is applied:
 +
-`show port all | exclude Detach`
+[source,cli]
+----
+show port all | exclude Detach
+----
 +
 .Show example
 [%collapsible]
@@ -554,6 +583,10 @@ Intf      Type   Mode      Mode         Status     Status Trap    Mode   Timeout
 
 . Verify on the switch that your changes have been made.
 +
+[source,cli]
+----
+show running config
+----
 
 [subs=+quotes]
 ----
@@ -619,7 +652,10 @@ Configuration Saved!
 
 . Verify the ports on switch cs2: 
 +
-`show interfaces status all | exclude Detach`
+[source,cli]
+----
+show interfaces status all | exclude Detach
+----
 +
 .Show example
 [%collapsible]
@@ -655,7 +691,10 @@ Port       Name                 State   Mode        Status      Type        Cont
 . Verify the health of cluster ports on the cluster.
 .. Verify that e0b ports are up and healthy across all nodes in the cluster: 
 +
-`network port show -role cluster`
+[source,cli]
+----
+network port show -role cluster
+----
 +
 .Show example
 [%collapsible]
@@ -702,7 +741,10 @@ e0b       Cluster      Cluster          up   9000  auto/100000 healthy false
 
 .. Verify the switch health from the cluster:
 +
-`network device-discovery show`
+[source,cli]
+----
+network device-discovery show
+----
 +
 .Show example
 [%collapsible]
@@ -809,7 +851,10 @@ The following example uses the interface example output:
 
 . Verify that the cluster LIFs have migrated to the ports hosted on switch cs2. This might take a few seconds.
 +
-`network interface show -role cluster`
+[source,cli]
+----
+network interface show -role cluster
+----
 +
 .Show example
 [%collapsible]
@@ -836,7 +881,10 @@ cluster1::*>
 
 . Verify that the cluster is healthy: 
 +
-`cluster show`
+[source,cli]
+----
+cluster show
+----
 +
 .Show example
 [%collapsible]
@@ -858,8 +906,10 @@ cluster1-04          true     true          false
 
 . Enable auto-revert on the cluster LIFs:
 +
-`cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert true`
-
+[source,cli]
+----
+cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert true
+----
 . Reboot switch cs1. You do this to trigger the cluster LIFs to revert to their home ports. You can ignore the “cluster ports down” events reported on the nodes while the switch reboots.
 +
 [subs=+quotes]
@@ -875,7 +925,10 @@ Configuration Saved! System will now restart!
 == Step 3: Verify the configuration
 . On switch cs1, verify that the switch ports connected to the cluster ports are *up*: 
 +
-`show interfaces status all`
+[source,cli]
+----
+show interfaces status all
+----
 +
 .Show example
 [%collapsible]
@@ -910,7 +963,10 @@ Port       Name                 State   Mode        Status      Type        Cont
 
 . Verify that the ISL between switches cs1 and cs2 is functional: 
 +
-`show port-channel 1/1`
+[source,cli]
+----
+show port-channel 1/1
+----
 +
 .Show example
 [%collapsible]
@@ -939,7 +995,10 @@ Ports   Timeout       Speed     Active
 
 . Verify that the cluster LIFs have reverted to their home port: 
 +
-`network interface show -role cluster`
+[source,cli]
+----
+network interface show -role cluster
+----
 +
 .Show example
 [%collapsible]
@@ -965,7 +1024,10 @@ Cluster
 
 . Verify that the cluster is healthy: 
 +
-`cluster show`
+[source,cli]
+----
+cluster show
+----
 +
 .Show example
 [%collapsible]
@@ -985,7 +1047,10 @@ cluster1-04          true    true          false
 
 . Ping the remote cluster interfaces to verify connectivity: 
 +
-`cluster ping-cluster -node local`
+[source,cli]
+----
+cluster ping-cluster -node local
+----
 +
 .Show example
 [%collapsible]
@@ -1034,11 +1099,17 @@ RPC status:
 
 . Change the privilege level back to admin: 
 +
-`set -privilege admin`
+[source,cli]
+----
+set -privilege admin
+----
 
 . If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
 +
-`system node autosupport invoke -node * -type all -message MAINT=END`
+[source,cli]
+----
+system node autosupport invoke -node * -type all -message MAINT=END
+----
 
 //.What's next?
 
