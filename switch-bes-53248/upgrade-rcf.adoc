@@ -588,10 +588,10 @@ Intf      Type   Mode      Mode         Status     Status Trap    Mode   Timeout
 show running config
 ----
 
-[subs=+quotes]
-----
-(cs2)# *show running-config*
-----
+//[subs=+quotes]
+//----
+//(cs2)# *show running-config*
+//----
 
 . Save the running configuration so that it becomes the startup configuration when you reboot the switch:
 +
@@ -771,6 +771,8 @@ cluster1-04/cdp
 ----
 ====
 
+. Verify that the cluster displays information for both cluster switches.
+
 // start of tabbed content 
 [role="tabbed-block"] 
 
@@ -779,8 +781,10 @@ cluster1-04/cdp
 .ONTAP 9.8 and later
 --
 Beginning with ONTAP 9.8, use the command: 
-
-`system switch ethernet show -is-monitoring-enabled-operational true`
+[source,cli]
+----
+system switch ethernet show -is-monitoring-enabled-operational true
+----
 
 [subs=+quotes]
 ----
@@ -807,8 +811,10 @@ cluster1::*>
 .ONTAP 9.7 and earlier
 --
 For ONTAP 9.7 and earlier, use the command: 
-
-`system cluster-switch show -is-monitoring-enabled-operational true`
+[source,cli]
+----
+system cluster-switch show -is-monitoring-enabled-operational true
+----
 
 [subs=+quotes]
 ----
