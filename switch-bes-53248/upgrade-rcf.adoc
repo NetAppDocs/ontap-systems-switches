@@ -11,7 +11,7 @@ summary: 'You can upgrade the Reference Configuration File (RCF) after configuri
 [.lead]
 You can upgrade the Reference Configuration File (RCF) after upgrading the BES-53248 cluster switch EFOS and after applying any new licenses.
 
-If you are upgrading an RCF from an older version, you must reset the Broadcom switch settings and perform basic configuration to re-apply the RCF. You must perform this operation every time you want to upgrade or downgrade an RCF. See the Knowledge Base article https://kb.netapp.com/onprem/Switches/Broadcom/How_to_clear_configuration_on_a_Broadcom_interconnect_switch_while_retaining_remote_connectivity[How to clear a configuration on a Broadcom interconnect switch while retaining remote connectivity^] for details.
+//If you are upgrading an RCF from an older version, you must reset the Broadcom switch settings and perform basic configuration to re-apply the RCF. You must perform this operation every time you want to upgrade or downgrade an RCF. See the Knowledge Base article https://kb.netapp.com/onprem/Switches/Broadcom/How_to_clear_configuration_on_a_Broadcom_interconnect_switch_while_retaining_remote_connectivity[How to clear a configuration on a Broadcom interconnect switch while retaining remote connectivity^] for details.
 
 //== Review requirements
 
@@ -392,10 +392,7 @@ exit
 
 .. Save the running configuration to the startup configuration:
 +
-[source,cli]
-----
-write memory
-----
+`write memory`
 +
 [subs=+quotes]
 ----
@@ -833,71 +830,8 @@ cluster1::*>
 ==== 
 // end of tabbed content
 
-[start=18]
-. [[step18]]On cluster switch cs1, shut down the ports connected to the cluster ports of the nodes.
-+
-The following example uses the interface example output:
-+
-[subs=+quotes]
-----
-(cs2)> *enable*
-(cs1)# *configure*
-(cs1)(Config)# *interface 0/1-0/16*
-(cs1)(Interface 0/1-0/16)# *shutdown*
-(cs1)(Config)# *exit*
-----
-
-. Verify that the cluster LIFs have migrated to the ports hosted on switch cs2. This might take a few seconds.
-+
-[source,cli]
-----
-network interface show -role cluster
-----
-+
-.Show example
-[%collapsible]
-====
-
-[subs=+quotes]
-----
-cluster1::*> *network interface show -role cluster*
-            Logical            Status     Network            Current            Current  Is
-Vserver     Interface          Admin/Oper Address/Mask       Node               Port     Home
------------ ------------------ ---------- ------------------ ------------------ -------- ----
-Cluster
-            cluster1-01_clus1  up/up      169.254.3.4/23     cluster1-01        e0a      false
-            cluster1-01_clus2  up/up      169.254.3.5/23     cluster1-01        e0b      true
-            cluster1-02_clus1  up/up      169.254.3.8/23     cluster1-02        e0a      false
-            cluster1-02_clus2  up/up      169.254.3.9/23     cluster1-02        e0b      true
-            cluster1-03_clus1  up/up      169.254.1.3/23     cluster1-03        e0a      false
-            cluster1-03_clus2  up/up      169.254.1.1/23     cluster1-03        e0b      true
-            cluster1-04_clus1  up/up      169.254.1.6/23     cluster1-04        e0a      false
-            cluster1-04_clus2  up/up      169.254.1.7/23     cluster1-04        e0b      true
-cluster1::*>
-----
-====
-
-. Verify that the cluster is healthy: 
-+
-`cluster show`
-+
-.Show example
-[%collapsible]
-====
-
-[subs=+quotes]
-----
-cluster1::*> *cluster show*
-Node                 Health   Eligibility   Epsilon
--------------------- -------- ------------- -------
-cluster1-01          true     true          false
-cluster1-02          true     true          false
-cluster1-03          true     true          true
-cluster1-04          true     true          false
-----
-====
-
-. Repeat steps 1 to 19 on switch cs1. 
+[start=20]
+. [[step20]]Repeat steps 1 to 19 on switch cs1. 
 
 . Enable auto-revert on the cluster LIFs:
 +
@@ -906,19 +840,14 @@ cluster1-04          true     true          false
 network interface modify -vserver Cluster -lif * -auto-revert true
 ----
 
-. Reboot switch cs1. You do this to trigger the cluster LIFs to revert to their home ports. You can ignore the “cluster ports down” events reported on the nodes while the switch reboots.
+. . Verify that the cluster LIFs have reverted to their home port:
 +
-`reload`
+[source,cli]
+----
+network interface show -role Cluster
+----
 +
-[subs=+quotes]
-
-----
-(cs1)# *reload*
-The system has unsaved changes. 
-Would you like to save them now? (y/n) *y*
-Config file 'startup-config' created successfully. 
-Configuration Saved! System will now restart!
-----
+For further details, see link:https://docs.netapp.com/us-en/ontap/networking/revert_a_lif_to_its_home_port.html[Revert a LIF to its home port].
 
 == Step 3: Verify the configuration
 . On switch cs1, verify that the switch ports connected to the cluster ports are *up*: 
