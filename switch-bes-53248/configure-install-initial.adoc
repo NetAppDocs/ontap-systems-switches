@@ -47,9 +47,6 @@ The examples in the configuration procedures use the following switch and node n
 . Log in to the switch as `admin` and press *Enter* when prompted for a password.
 The default switch name is *routing*. At the prompt, enter `enable`. This gives you access to Privileged EXEC mode for switch configuration.
 +
-.Show example
-[%collapsible]
-====
 [subs=+quotes]
 ----
 User: *admin*
@@ -58,34 +55,25 @@ Password:
 Password:
 (Routing)#
 ----
-====
 
 . Change the switch name to *cs2*.
 +
-.Show example
-[%collapsible]
-====
 [subs=+quotes]
 ----
 (Routing)# *hostname cs2*
 (cs2)#
 ----
-====
 
 . To set a static IP address, use the `serviceport protocol`, `network protocol`, and `serviceport ip` commands as shown in the example.
 +
 The serviceport is set to use DHCP by default. The IP address, subnet mask, and default gateway address are assigned automatically.
 +
-.Show example
-[%collapsible]
-====
 [subs=+quotes]
 ----
 (cs2)# *serviceport protocol none*
 (cs2)# *network protocol none*
 (cs2)# *serviceport ip ipaddr netmask gateway*
 ----
-====
 
 . Verify the results using the command:
 +
@@ -155,8 +143,8 @@ Burned In MAC Address.......................... D8:C4:97:71:12:3C
 (cs2)#
 ----
 ====
-+
-For EFOS version 3.10.0.3 and later, use the command `ntp server`. 
+
+.. For EFOS version 3.10.0.3 and later, use the command: 
 +
 `ntp server`
 +
@@ -187,7 +175,7 @@ vrf                      Configure the NTP VRF.
 ----
 ====
 
- .. Configure the time manually if you did not use `ntp server` to configure the time in the previous step.
+. Configure the time manually if you did not configure an `ntp server` in the previous step:
 +
 `clock`
 +
@@ -204,7 +192,7 @@ vrf                      Configure the NTP VRF.
 (cs2)(Config)# *clock set 07:00:00*
 (cs2)(Config)# *clock set 10/20/2020*
 
-(cs2) (Config)# *show clock*
+(cs2)(Config)# *show clock*
 
 07:00:11 EST(UTC-5:00) Oct 20 2020
 No time source
@@ -217,6 +205,8 @@ No time source
 . Save the running configuration to the startup configuration:
 +
 `write memory`
++
+[subs=+quotes]
 ----
 (cs2)# *write memory*
 

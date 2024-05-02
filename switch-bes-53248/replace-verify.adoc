@@ -15,7 +15,10 @@ You can use the following commands to verify the health of the ONTAP cluster net
 
 . Display information about the network ports on the cluster using the command:
 +
-`network port show -ipspace Cluster`
+[source,cli]
+----
+network port show -ipspace Cluster
+----
 +
 `Link` must have the value `up` and `Health Status` must be `healthy`.
 +
@@ -49,7 +52,10 @@ e0b    Cluster      Cluster          up   9000  auto/10000 healthy  false
 
 . For each LIF, verify that `Is Home` is `true` and `Status Admin/Oper` is `up` on both nodes, using the command:
 +
-`network interface show -vserver Cluster`
+[source,cli]
+----
+network interface show -vserver Cluster
+----
 +
 .Show example
 [%collapsible]
