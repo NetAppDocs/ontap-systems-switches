@@ -121,10 +121,7 @@ network interface modify -vserver Cluster -lif * -auto-revert false
 
 . Display the boot images for the active and backup configuration:
 +
-[source,cli]
-----
-show bootvar
-----
+`show bootvar`
 +
 .Show example
 [%collapsible]
@@ -181,10 +178,8 @@ Image Descriptions
 
 . Verify the running version of the EFOS software:
 +
-[source,cli]
-----
-show version
-----
+`show version`
+
 +
 .Show example
 [%collapsible]
@@ -246,10 +241,8 @@ File transfer operation completed successfully.
 
 . Display the boot images for the active and backup configuration:
 +
-[source,cli]
-----
-show bootvar
-----
+`show bootvar`
+
 +
 .Show example
 [%collapsible]
@@ -274,10 +267,8 @@ Image Descriptions
 
 . Reboot the switch:
 +
-[source,cli]
-----
-reload
-----
+`reload`
+
 +
 .Show example
 [%collapsible]
@@ -298,10 +289,8 @@ System will now restart!
 
 . Log in again and verify the new version of the EFOS software:
 +
-[source,cli]
-----
-show version
-----
+`show version`
+
 +
 .Show example
 [%collapsible]
@@ -443,10 +432,8 @@ ONIE:/ # route add default gw 10.10.10.1
 
 . Verify that the server hosting the ONIE installation file is reachable:
 +
-[source,cli]
-----
-ping
-----
+`ping`
+
 +
 .Show example
 [%collapsible]
@@ -489,10 +476,7 @@ The software installs and then reboots the switch. Let the switch reboot normall
 +
 . Verify that the new switch software is installed: 
 +
-[source,cli]
-----
-show bootvar
-----
+`show bootvar`
 +
 .Show example
 [%collapsible]

@@ -271,7 +271,6 @@ network interface modify -vserver Cluster -lif * -auto-revert false
 [subs=+quotes]
 ----
 (cs2)> *enable*
-(cs2)#
 (cs2)# *configure*
 (cs2)(Config)# *interface 0/1-0/16*
 (cs2)(Interface 0/1-0/16)# *shutdown*
@@ -311,10 +310,7 @@ cluster1::*>
 
 . Verify that the cluster is healthy: 
 +
-[source,cli]
-----
-cluster show
-----
+`cluster show`
 +
 .Show example
 [%collapsible]
@@ -350,7 +346,6 @@ Only proceed when all the cluster LIFs have been removed from the ports on the s
 +
 ----
 (cs2)> enable
-
 (cs2)#
 ----
 
@@ -403,7 +398,6 @@ write memory
 ----
 +
 [subs=+quotes]
-
 ----
 (cs2)# *write memory*
 
@@ -418,17 +412,13 @@ Configuration Saved!
 
 .. Perform a reboot of the switch:
 +
-[source,cli]
-----
-reload
-----
+`reload`
 +
 [subs=+quotes]
 ----
 (cs2)# *reload*
 Are you sure you would like to reset the system? (y/n) *y*
 ----
-
 
 . If additional port licenses have been installed on the switch, you must modify the RCF to configure the additional licensed ports. See link:configure-licenses.html#activate-newly-licensed-ports[Activate newly licensed ports^] for details. 
 
@@ -456,10 +446,7 @@ File transfer operation completed successfully.
 
 . Verify that the script was downloaded and saved to the file name you gave it:
 +
-[source,cli]
-----
-script list
-----
+`script list`
 +
 .Show example
 [%collapsible]
@@ -479,10 +466,7 @@ BES-53248_RCF_v1.9-Cluster-HA.scr          2241         2020 09 30 05:41:00
 
 . Apply the script to the switch:
 +
-[source,cli]
-----
-script apply
-----
+`script apply`
 +
 .Show example
 [%collapsible]
@@ -505,10 +489,7 @@ Configuration script 'BES-53248_RCF_v1.9-Cluster-HA.scr' applied.
 
 . Examine the banner output from the `show clibanner` command. You must read and follow these instructions to ensure the proper configuration and operation of the switch. 
 +
-[source,cli]
-----
-show clibanner
-----
+`show clibanner`
 +
 .Show example
 [%collapsible]
@@ -600,11 +581,11 @@ show running config
 
 . Save the running configuration so that it becomes the startup configuration when you reboot the switch:
 +
-[source,cli]
-----
-write memory
-----
+`write memory`
 +
+.Show example
+[%collapsible]
+====
 
 [subs=+quotes]
 ----
@@ -617,13 +598,11 @@ Are you sure you want to save? (y/n) *y*
 Config file 'startup-config' created successfully.
 Configuration Saved!
 ----
+====
 
 . Reboot the switch and verify that the running configuration is correct.
 +
-[source,cli]
-----
-reload
-----
+`reload`
 +
 [subs=+quotes]
 ----
@@ -637,7 +616,6 @@ System will now restart!
 [subs=+quotes]
 ----
 (cs2)> *enable*
-(cs2)#
 (cs2)# *configure*
 (cs2)(Config)# *interface 0/1-0/16*
 (cs2)(Interface 0/1-0/16)# *no shutdown*
@@ -646,11 +624,11 @@ System will now restart!
 
 . Save the running configuration to the startup configuration:
 +
-[source,cli]
-----
-write memory
-----
+`write memory`
 +
+.Show example
+[%collapsible]
+====
 [subs=+quotes]
 ----
 (cs2)# *write memory*
@@ -663,6 +641,7 @@ Are you sure you want to save? (y/n) *y*
 Config file 'startup-config' created successfully.
 Configuration Saved!
 ----
+====
 
 . Verify the ports on switch cs2: 
 +
@@ -862,7 +841,6 @@ The following example uses the interface example output:
 [subs=+quotes]
 ----
 (cs2)> *enable*
-(cs2)#
 (cs1)# *configure*
 (cs1)(Config)# *interface 0/1-0/16*
 (cs1)(Interface 0/1-0/16)# *shutdown*
@@ -901,10 +879,7 @@ cluster1::*>
 
 . Verify that the cluster is healthy: 
 +
-[source,cli]
-----
-cluster show
-----
+`cluster show`
 +
 .Show example
 [%collapsible]
@@ -922,7 +897,7 @@ cluster1-04          true     true          false
 ----
 ====
 
-. Repeat steps 4 to 14 on switch cs1. 
+. Repeat steps 1 to 19 on switch cs1. 
 
 . Enable auto-revert on the cluster LIFs:
 +
@@ -933,10 +908,7 @@ network interface modify -vserver Cluster -lif * -auto-revert true
 
 . Reboot switch cs1. You do this to trigger the cluster LIFs to revert to their home ports. You can ignore the “cluster ports down” events reported on the nodes while the switch reboots.
 +
-[source,cli]
-----
-reload
-----
+`reload`
 +
 [subs=+quotes]
 
@@ -1050,10 +1022,7 @@ Cluster
 
 . Verify that the cluster is healthy: 
 +
-[source,cli]
-----
-cluster show
-----
+`cluster show`
 +
 .Show example
 [%collapsible]
