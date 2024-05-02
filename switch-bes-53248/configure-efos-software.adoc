@@ -9,7 +9,7 @@ summary: 'Follow these steps to install the Ethernet Fabric OS (EFOS) software o
 :imagesdir: ../media/
 
 [.lead]
-Follow these steps to install or upgrade the Ethernet Fabric OS (EFOS) software on the BES-53248 cluster switch.
+Follow these steps to install the Ethernet Fabric OS (EFOS) software on the BES-53248 cluster switch.
 
 EFOS software includes a set of advanced networking features and protocols for developing Ethernet and IP infrastructure systems. This software architecture is suitable for any network organizational device using applications that require thorough packet inspection or separation. 
 
@@ -17,81 +17,17 @@ EFOS software includes a set of advanced networking features and protocols for d
 
 .Before you begin
 * Download the applicable Broadcom EFOS software for your cluster switches from the https://www.broadcom.com/support/bes-switch[Broadcom Ethernet Switch Support^] site.
-* Review the following notes regarding EFOS versions.
-
-====
-*Note the following:*
-
-* When upgrading from EFOS 3.4.x.x to EFOS 3.7.x.x or later, the switch must be running EFOS 3.4.4.6 (or later 3.4.x.x release). If you are running a release prior to that, then upgrade the switch to EFOS 3.4.4.6 (or later 3.4.x.x release) first, then upgrade the switch to EFOS 3.7.x.x or later.
-
-* The configuration for EFOS 3.4.x.x and 3.7.x.x or later are different. Changing the EFOS version from 3.4.x.x to 3.7.x.x or later, or vice versa, requires the switch to be reset to factory defaults and the RCF files for the corresponding EFOS version to be (re)applied. This procedure requires access through the serial console port.
-
-* Beginning with EFOS version 3.7.x.x or later, a non-FIPS compliant and a FIPS compliant version is available. Different steps apply when moving from a non-FIPS compliant to a FIPS compliant version or vice versa. Changing EFOS from a non-FIPS compliant to a FIPS compliant version or vice versa will reset the switch to factory defaults. This procedure requires access through the serial console port.
-====
-// BURT-1392530
-
-|===
-
-h| *Procedure* h| *Current EFOS version* h| *New EFOS version* h| *High level steps*
-
-.5+a|Steps to upgrade EFOS between two (non) FIPS compliant versions
-a| 3.4.x.x
-a| 3.4.x.x
-a| Install the new EFOS image using <<Method 1: Install EFOS>>.
-The configuration and license information is retained.
-a| 3.4.4.6 (or later 3.4.x.x)
-a| 3.7.x.x or later non-FIPS compliant
-a|Upgrade EFOS using <<Method 1: Install EFOS>>.
-Reset the switch to factory defaults and apply the RCF file for EFOS 3.7.x.x or later.
-.2+|3.7.x.x or later non-FIPS compliant
-a|3.4.4.6 (or later 3.4.x.x)
-a|Downgrade EFOS using <<Method 1: Install EFOS>>.
-Reset the switch to factory defaults and apply the RCF file for EFOS 3.4.x.x
-a|3.7.x.x or later non-FIPS compliant
-a|Install the new EFOS image using <<Method 1: Install EFOS>>. The configuration and license information is retained.
-a|3.7.x.x or later FIPS compliant
-a|3.7.x.x or later FIPS compliant
-a|Install the new EFOS image using <<Method 1: Install EFOS>>.
-The configuration and license information is retained.
-.2+a|Steps to upgrade to/from a FIPS compliant EFOS version
-a|Non-FIPS compliant
-a|FIPS compliant
-.2+a|Installation of the EFOS image using <<Method 2: Upgrade EFOS using the ONIE OS installation>>. The switch configuration and license information will be lost.
-a|FIPS compliant
-a|Non-FIPS compliant
-|===
-
-[IMPORTANT]
-====
-To check if your version of EFOS is FIPS compliant or non-FIPS compliant, use the `show fips status` command. In the following examples, *IP_switch_a1* is using FIPS compliant EFOS and *IP_switch_a2* is using non-FIPS compliant EFOS. 
-
-* On switch IP_switch_a1:
-----
-IP_switch_a1 # show fips status
-
-System running in FIPS mode
-----
-
-* On switch IP_switch_a2:
-----
-IP_switch_a2 # show fips status
-                     ^
-% Invalid input detected at `^` marker.
-----
-====
 
 == Install the software
-Use one of the following methods to install or upgrade the EFOS software :
+Use one of the following methods to install the EFOS software :
 
-* <<Method 1: Install EFOS>>. Use for most cases (see the table above).
-* <<Method 2: Upgrade EFOS using the ONIE OS installation>>. Use if one EFOS version is FIPS compliant and the other EFOS version is non-FIPS compliant.
+* <<Method 1: Install EFOS>>. Use for most cases.
+* <<Method 2: Install EFOS in ONIE mode>>. Use if one EFOS version is FIPS compliant and the other EFOS version is non-FIPS compliant.
 
-IMPORTANT: Install or upgrade EFOS on one switch at a time to ensure continued cluster network operation.
+IMPORTANT: Install EFOS on one switch at a time to ensure continued cluster network operation.
 
 === Method 1: Install EFOS
-Perform the following steps to install or upgrade the EFOS software.
-
-IMPORTANT: Note that after upgrading BES-53248 cluster switches from EFOS 3.3.x.x or 3.4.x.x to EFOS 3.7.0.4 or 3.8.0.2, Inter-Switch Links (ISLs) and port channel are marked in the *Down* state. See this KB article: https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Systems/Fabric%2C_Interconnect_and_Management_Switches/BES-53248_Cluster_Switch_NDU_failed_upgrade_to_EFOS_3.7.0.4_and_later[BES-53248 Cluster Switch NDU failed upgrade to EFOS 3.7.0.4 and later^] for further details.
+Perform the following steps to install the EFOS software.
 
 .Steps
 
@@ -112,91 +48,6 @@ Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 ----
 ====
 
-. Disable auto-revert on the cluster LIFs.
-+
-[subs=+quotes]
-----
-cluster1::*> **network interface modify -vserver Cluster -lif * -auto-revert false**
-----
-
-. Back up the current active image on cs2:
-+
-`copy active backup`
-+
-.Show example
-[%collapsible]
-====
-[subs=+quotes]
-----
-(cs2)# *copy active backup*
-
- Image Descriptions
-
- active :
- backup :
-
- Images currently available on Flash
---------------------------------------------------------------------
- unit      active      backup        current-active    next-active
---------------------------------------------------------------------
-    1      3.7.0.4     3.4.4.6       3.7.0.4           3.7.0.4
-
-(cs2)# *copy active backup*
-Copying active to backup
-Management access will be blocked for the duration of the operation
-Copy operation successful
-
-(cs2)# *copy active backup*
-
-Image Descriptions
-
- active :
- backup :
- Images currently available on Flash
---------------------------------------------------------------------
- unit      active      backup      current-active    next-active
---------------------------------------------------------------------
-    1      3.7.0.4     3.4.4.6     3.7.0.4           3.7.0.4
-(cs2)#
-----
-====
-
-. Verify the running version of the EFOS software:
-+
-`show version`
-+
-.Show example
-[%collapsible]
-====
-[subs=+quotes]
-----
-(cs2)# *show version*
-
-Switch: 1
-
-System Description............................. BES-53248A1, 3.7.0.4, Linux 4.4.117-ceeeb99d, 2016.05.00.05
-Machine Type................................... BES-53248A1
-Machine Model.................................. BES-53248
-Serial Number.................................. QTFCU38260014
-Maintenance Level.............................. A
-Manufacturer................................... 0xbc00
-Burned In MAC Address.......................... D8:C4:97:71:12:3D
-Software Version............................... 3.7.0.4
-Operating System............................... Linux 4.4.117-ceeeb99d
-Network Processing Device...................... BCM56873_A0
-CPLD Version................................... 0xff040c03
-
-Additional Packages............................ BGP-4
-...............................................	QOS
-...............................................	Multicast
-............................................... IPv6
-............................................... Routing
-............................................... Data Center
-............................................... OpEN API
-............................................... Prototype Open API
-----
-====
-.. If you installed any licences, please review. 
 . Download the image file to the switch.
 +
 Copying the image file to the active image means that when you reboot, that image establishes the running EFOS version. The previous image remains available as a backup.
@@ -309,7 +160,7 @@ Additional Packages............................ BGP-4
 ----
 ====
 
-. Repeat steps 4 through to 9 on the partner switch.
+. Repeat steps 3 through to 6 on the partner switch.
 . Enable auto-revert on the cluster LIFs.
 +
 [subs=+quotes]
@@ -333,13 +184,6 @@ You can perform the following steps if one EFOS version is FIPS compliant and th
 NOTE: If you upgrade EFOS using the ONIE OS installation the configuration is reset to factory defaults and licenses are deleted. You must set up the switch and install licenses and a supported RCF to return the switch to normal operation.
 
 .Steps
-. Disable auto-revert on the cluster LIFs.
-+
-[subs=+quotes]
-----
-cluster1::*> **network interface modify -vserver Cluster -lif * -auto-revert false**
-----
-
 . Boot the switch into ONIE installation mode.
 +
 During boot, select ONIE when you see the prompt.
@@ -483,12 +327,13 @@ unit 	active 	    backup   current-active  next-active
 
 . Complete the installation.
 The switch reboots with no configuration applied and resets to factory defaults. Follow these four steps to reconfigure the switch:
+.. link:configure-install-initial.html[Configure switch]
 .. link:configure-licenses.html[Install licenses] 
 .. link:configure-install-rcf.html[Install the RCF file]
 .. link:configure-ssh.html[Enable SSH]
 .. link:CSHM_log_collection.html[Enable log collection]
 .. link:CSHM_snmpv3.html[Configure SNMPv3 for monitoring]
-. Repeat steps 2 through to 8 on the partner switch.
+. Repeat steps 1 through to 7 on the partner switch.
 . Enable auto-revert on the cluster LIFs.
 +
 [subs=+quotes]
