@@ -20,7 +20,7 @@ To configure a NVIDIA SN2100 switch on systems running ONTAP, follow these steps
 Instructions are available in the _NVIDIA Switch Installation Guide_.
 . link:configure-sn2100-cluster.html[Configure the switch]. 
 +
-Instructions are available in NVIDIA’s documentation.
+Instructions are available in NVIDIA's documentation.
 . link:cabling-considerations-sn2100-cluster.html[Review cabling and configuration considerations]. 
 +
 Review requirements for optical connections, the QSA adapter, and the switchport speed.
@@ -33,7 +33,10 @@ You can install Cumulus Linux (CL) OS when the switch is running either Cumulus 
 . link:install-rcf-sn2100-cluster.html[Install the Reference Configuration File (RCF) script]. 
 +
 There are two RCF scripts available for Clustering and Storage applications. The procedure for each is the same. 
-. link:install-snmpv3-sn2100-cluster.html[Configure SNMPv3 for switch log collection]. 
+. link:CSHM_log_collection.html[Enable log collection].
++
+Use this feature to collect switch-related log files in ONTAP.
+. link:CSHM_snmpv3.html[Configure SNMPv3 for monitoring]. 
 +
 This release includes support for SNMPv3 for switch log collection and for Switch Health Monitoring (SHM).
 
@@ -48,3 +51,5 @@ Before you begin installation or maintenance, be sure to review the following:
 * link:components-sn2100-cluster.html[Components and part numbers]
 * link:required-documentation-sn2100-cluster.html[Required documentation]
 * https://hwu.netapp.com[Hardware Universe^] for all supported ONTAP versions.
+
+// Fixed broken link, 2024-APR-30
