@@ -102,13 +102,12 @@ Burned In MAC Address.......................... D8:C4:97:71:12:3C
 
 . Configure the domain and name server:
 +
-`ip domain name <domain_name>`
+[source,cli]
+----
+ip domain name <domain_name>
+ip name server <server_name>
+----
 +
-`ip name server <server_name>`
-+
-.Show example
-[%collapsible]
-====
 
 [subs=+quotes]
 ----
@@ -118,7 +117,6 @@ Burned In MAC Address.......................... D8:C4:97:71:12:3C
 (cs2)(Config)# *exit*
 (cs2)#
 ----
-====
 
 . Configure the NTP server.
 
@@ -126,35 +124,42 @@ Burned In MAC Address.......................... D8:C4:97:71:12:3C
 [role="tabbed-block"] 
 
 ==== 
-.EFOS 3.9.0.2 and earlier
+.EFOS 3.10.0.3 and later
 --
-Configure the time zone and time synchronization (SNTP):
+Configure the time zone and time synchronization (NTP):
 
-`sntp client mode <client_mode>`
-
-`sntp server <server_name>`
-
-`clock`
+[source,cli]
+----
+sntp server <server_name>
+clock
+----
 
 [subs=+quotes]
 ----
-(cs2)# configure
-(cs2)(Config)# *sntp client mode unicast*
-(cs2)(Config)# *sntp server 10.99.99.5*
+(cs2)# *configure*
+(cs2)(Config)# *ntp server 10.99.99.5*
 (cs2)(Config)# *clock timezone -7*
 (cs2)(Config)# *exit*
 (cs2)#
 ----
 --
 
-.EFOS 3.10.0.3 and later
+.EFOS 3.9.0.2 and earlier
 --
-Configure the time zone and time synchronization (NTP):
+Configure the time zone and time synchronization (SNTP):
+
+[source,cli]
+----
+sntp client mode <client_mode>
+sntp server <server_name>
+clock
+----
 
 [subs=+quotes]
 ----
-(cs2)configure 
-(cs2)(Config)# *ntp server 10.99.99.5*
+(cs2)# *configure*
+(cs2)(Config)# *sntp client mode unicast*
+(cs2)(Config)# *sntp server 10.99.99.5*
 (cs2)(Config)# *clock timezone -7*
 (cs2)(Config)# *exit*
 (cs2)#
@@ -170,22 +175,23 @@ Configure the time zone and time synchronization (NTP):
 [role="tabbed-block"] 
 
 ==== 
-.EFOS 3.9.0.2 and earlier
+.EFOS 3.10.0.3 and later
 --
+Configure the time manually.
+
 `clock`
 
 [subs=+quotes]
 ----
 
-(cs2)# *config*
-(cs2)(Config)# *no sntp client mode*
+(cs2)# *configure*
 (cs2)(Config)# *clock summer-time recurring 1 sun mar 02:00 1 sun nov 02:00 offset 60 zone EST*
 (cs2)(Config)# *clock timezone -5 zone EST*
 (cs2)(Config)# *clock set 07:00:00*
-(cs2)(Config)# *clock set 10/20/2020*
+(cs2)(Config)# *clock set 10/20/2023*
 (cs2)(Config)# *show clock*
 
-07:00:11 EST(UTC-5:00) Oct 20 2020
+07:00:11 EST(UTC-5:00) Oct 20 2023
 No time source
 
 (cs2)(Config)# *exit*
@@ -193,21 +199,24 @@ No time source
 ----
 --
 
-.EFOS 3.10.0.3 and later
+.EFOS 3.9.0.2 and earlier
 --
+Configure the time manually.
+
 `clock`
 
 [subs=+quotes]
 ----
 
-(cs2)# *config*
+(cs2)# *configure*
+(cs2)(Config)# *no sntp client mode*
 (cs2)(Config)# *clock summer-time recurring 1 sun mar 02:00 1 sun nov 02:00 offset 60 zone EST*
 (cs2)(Config)# *clock timezone -5 zone EST*
 (cs2)(Config)# *clock set 07:00:00*
-(cs2)(Config)# *clock set 10/20/2020*
+(cs2)(Config)# *clock set 10/20/2023*
 (cs2)(Config)# *show clock*
 
-07:00:11 EST(UTC-5:00) Oct 20 2020
+07:00:11 EST(UTC-5:00) Oct 20 2023
 No time source
 
 (cs2)(Config)# *exit*
