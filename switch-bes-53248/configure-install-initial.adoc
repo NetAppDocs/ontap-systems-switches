@@ -121,17 +121,20 @@ Burned In MAC Address.......................... D8:C4:97:71:12:3C
 ====
 
 . Configure the NTP server.
- .. Configure the time zone and time synchronization (SNTP):
-+
+
+// start of tabbed content 
+[role="tabbed-block"] 
+
+==== 
+.EFOS 3.9.0.2 and earlier
+--
+Configure the time zone and time synchronization (SNTP):
+
 `sntp client mode <client_mode>`
-+
+
 `sntp server <server_name>`
-+
+
 `clock`
-+
-.Show example
-[%collapsible]
-====
 
 [subs=+quotes]
 ----
@@ -142,56 +145,44 @@ Burned In MAC Address.......................... D8:C4:97:71:12:3C
 (cs2)(Config)# *exit*
 (cs2)#
 ----
-====
+--
 
-.. For EFOS version 3.10.0.3 and later, use the command: 
-+
-`ntp server`
-+
-.Show example
-[%collapsible]
-====
+.EFOS 3.10.0.3 and later
+--
+Configure the time zone and time synchronization (NTP):
 
 [subs=+quotes]
 ----
 (cs2)configure 
-(cs2)(Config)# *ntp server ?*
-
-ip-address|ipv6-address|hostname  Enter a valid IPv4/IPv6 address or hostname.
-
 (cs2)(Config)# *ntp server 10.99.99.5*
 (cs2)(Config)# *clock timezone -7*
-
-(cs2)(Config)# *ntp ?*
-
-authenticate             Enables NTP authentication.
-authentication-key       Configure NTP authentication key.
-broadcast                Enables NTP broadcast mode.
-broadcastdelay           Configure NTP broadcast delay in microseconds.
-server                   Configure NTP server.
-source-interface         Configure the NTP source-interface.
-trusted-key              Configure NTP authentication key number for trusted time source.
-vrf                      Configure the NTP VRF.
+(cs2)(Config)# *exit*
+(cs2)#
 ----
-====
+--
+==== 
+// end of tabbed content
 
-. Configure the time manually if you did not configure an `ntp server` in the previous step:
-+
+[start=10]
+. [[step10]]Configure the time manually if you did not configure an NTP server in the previous step.
+
+// start of tabbed content 
+[role="tabbed-block"] 
+
+==== 
+.EFOS 3.9.0.2 and earlier
+--
 `clock`
-+
-.Show example
-[%collapsible]
-====
 
 [subs=+quotes]
 ----
+
 (cs2)# *config*
 (cs2)(Config)# *no sntp client mode*
 (cs2)(Config)# *clock summer-time recurring 1 sun mar 02:00 1 sun nov 02:00 offset 60 zone EST*
 (cs2)(Config)# *clock timezone -5 zone EST*
 (cs2)(Config)# *clock set 07:00:00*
 (cs2)(Config)# *clock set 10/20/2020*
-
 (cs2)(Config)# *show clock*
 
 07:00:11 EST(UTC-5:00) Oct 20 2020
@@ -200,9 +191,34 @@ No time source
 (cs2)(Config)# *exit*
 (cs2)#
 ----
-====
+--
 
-. Save the running configuration to the startup configuration:
+.EFOS 3.10.0.3 and later
+--
+`clock`
+
+[subs=+quotes]
+----
+
+(cs2)# *config*
+(cs2)(Config)# *clock summer-time recurring 1 sun mar 02:00 1 sun nov 02:00 offset 60 zone EST*
+(cs2)(Config)# *clock timezone -5 zone EST*
+(cs2)(Config)# *clock set 07:00:00*
+(cs2)(Config)# *clock set 10/20/2020*
+(cs2)(Config)# *show clock*
+
+07:00:11 EST(UTC-5:00) Oct 20 2020
+No time source
+
+(cs2)(Config)# *exit*
+(cs2)#
+----
+--
+==== 
+// end of tabbed content
+
+[start=11]
+. [[step11]]Save the running configuration to the startup configuration:
 +
 `write memory`
 +
@@ -222,7 +238,7 @@ Configuration Saved!
 
 .What's next?
 
-link:configure-efos-software.html[Install the EFOS software].
+link:configure-efos-software.html[Install the EFOS software]
 
 // Added note for ntp usage, as per GH issue #94, 2023-MAY-16
 // Updated with details for ntp for EFOS 3.10, as per AFFFASDOC-141, 2023-OCT-12

@@ -266,7 +266,14 @@ network interface modify -vserver Cluster -lif * -auto-revert false
 ----
 
 == Step 2: Configure ports
-. On cluster switch cs2, shut down the ports connected to the cluster ports of the nodes.
+. On switch cs2, confirm the list of ports that are connected to the nodes in the cluster.
++
+[source,cli]
+----
+show isdp neighbor
+----
+
+. On switch cs2, shut down the ports connected to the cluster ports of the nodes. For example, if ports 0/1 to 0/16 are connected to ONTAP nodes:
 +
 [subs=+quotes]
 ----
