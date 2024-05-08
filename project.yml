@@ -1,18 +1,16 @@
 settings:
   name: Cluster and storage switches
-  search: ontap-systems-switches
   internal:
     pdf_enabled: true
   prod:
     pdf_enabled: true
     harmony_enabled: true
   pdf:
-    #gen-type: named only
     zip-level: 1
     zip-filename: ontap-systems-switches-pdfs.zip
 sidebar:
   entries:
-    - title: AFF and FAS switch docs
+    - title: Switch docs for ONTAP hardware
       url: "/index.html"
     - title: Get started
       entries:
@@ -26,15 +24,11 @@ sidebar:
       entries:
         - section: switch-bes-53248
         - section: switch-cisco-9336c-fx2
-          pdf-filename: switch-cisco-9336c-fx2-cluster
         - section: switch-nvidia-sn2100
-          pdf-filename: switch-nvidia-sn2100-cluster
     - title: Storage switches
       entries:
         - section: switch-cisco-9336c-fx2-storage
-          pdf-filename: switch-cisco-9336c-fx2-storage
         - section: switch-nvidia-sn2100-storage
-          pdf-filename: switch-nvidia-sn2100-storage
     - title: Shared switches
       entries:
         - section: switch-cisco-9336c-fx2-shared
@@ -50,5 +44,5 @@ sidebar:
     - title: Legal notices
       url: "/legal-notices.html"
 product-family:
-  name: AFF and FAS Systems
+  name: ONTAP hardware systems
   repo: ontap-systems-family

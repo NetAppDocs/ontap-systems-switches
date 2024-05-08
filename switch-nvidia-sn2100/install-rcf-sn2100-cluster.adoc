@@ -15,7 +15,10 @@ Follow this procedure to install the RCF script.
 Before installing the RCF script, make sure that the following are available on the switch:
 
 * Cumulus Linux is installed. See the https://hwu.netapp.com/Switch/Index[Hardware Universe^] for supported versions.
+
 * IP address, subnet mask, and default gateway defined via DHCP or manually configured.
+
+NOTE: You must specify a user in the RCF (in addition to the admin user) to be used specifically for log collection. 
 
 .Current RCF script versions
 There are two RCF scripts available for Cluster and Storage applications. Download RCFs from https://mysupport.netapp.com/site/info/nvidia-cluster-switch[here^]. The procedure for each is the same.
@@ -56,7 +59,7 @@ ADMDN  swp3   N/A  9216   NotConfigured
 ADMDN  swp4   N/A  9216   NotConfigured
 ADMDN  swp5   N/A  9216   NotConfigured
 ADMDN  swp6   N/A  9216   NotConfigured
-ADMDN  swp7   N/A  9216   NotConfigure
+ADMDN  swp7   N/A  9216   NotConfigured
 ADMDN  swp8   N/A  9216   NotConfigured
 ADMDN  swp9   N/A  9216   NotConfigured
 ADMDN  swp10  N/A  9216   NotConfigured
@@ -379,7 +382,8 @@ lo IP Address: ::1/128
 .
 .
 .
-+ swp15 9216 100G up cumulus swp15 swp----
++ swp15 9216 100G up cumulus swp15 swp
+
 admin@sw1:mgmt:~$ *nv show interface*
 Interface     MTU   Speed State Remote Host         Remote Port- Type      Summary
 ------------- ----- ----- ----- ------------------- ------------ --------- -------------
@@ -403,8 +407,9 @@ mode               lossless     lossless  Roce Mode
 congestion-control
   congestion-mode   ECN,RED                Congestion config mode
   enabled-tc        0,2,5                  Congestion config enabled Traffic Class
-  max-threshold     200000 B               Congestion config max-threshold
-  min-threshold     40000 B                Congestion config min-threshold
+  max-threshold     195.31 KB              Congestion config max-threshold
+  min-threshold     39.06 KB               Congestion config min-threshold
+  probability       100
 lldp-app-tlv
   priority          3                      switch-priority of roce
   protocol-id       4791                   L4 port number
@@ -450,7 +455,45 @@ RoCE pool config
     1   roce-reserved-ingress  Dynamic  50%   2,5                -
     2   lossy-default-egress   Dynamic  50%   -                  0
     3   roce-reserved-egress   Dynamic  inf   -                  2,5
+
+Exception List
+=================
+        description                                                             
+    --  -----------------------------------------------------------------------…
+    1   RoCE PFC Priority Mismatch.Expected pfc-priority: 3.                    
+    2   Congestion Config TC Mismatch.Expected enabled-tc: 0,3.                 
+    3   Congestion Config mode Mismatch.Expected congestion-mode: ECN.          
+    4   Congestion Config min-threshold Mismatch.Expected min-threshold: 150000.
+    5   Congestion Config max-threshold Mismatch.Expected max-threshold:        
+        1500000.                                                                
+    6   Scheduler config mismatch for traffic-class mapped to switch-prio0.       
+        Expected scheduler-weight: DWRR-50%.                                  
+    7   Scheduler config mismatch for traffic-class mapped to switch-prio1.      
+        Expected scheduler-weight: DWRR-50%.                                  
+    8   Scheduler config mismatch for traffic-class mapped to switch-prio2.       
+        Expected scheduler-weight: DWRR-50%.                                  
+    9   Scheduler config mismatch for traffic-class mapped to switch-prio3.      
+        Expected scheduler-weight: DWRR-50%.                                  
+    10  Scheduler config mismatch for traffic-class mapped to switch-prio4.       
+        Expected scheduler-weight: DWRR-50%.                                  
+    11  Scheduler config mismatch for traffic-class mapped to switch-prio5.       
+        Expected scheduler-weight: DWRR-50%.                                  
+    12  Scheduler config mismatch for traffic-class mapped to switch-prio6.      
+        Expected scheduler-weight: strict-priority.                           
+    13  Scheduler config mismatch for traffic-class mapped to switch-prio7.      
+        Expected scheduler-weight: DWRR-50%.                                  
+    14  Invalid reserved config for ePort.TC[2].Expected 0 Got 1024             
+    15  Invalid reserved config for ePort.TC[5].Expected 0 Got 1024             
+    16  Invalid traffic-class mapping for switch-priority 2.Expected 0 Got 2    
+    17  Invalid traffic-class mapping for switch-priority 3.Expected 3 Got 0    
+    18  Invalid traffic-class mapping for switch-priority 5.Expected 0 Got 5    
+    19  Invalid traffic-class mapping for switch-priority 6.Expected 6 Got 0    
+Incomplete Command: set interface swp3-16 link fast-linkupp3-16 link fast-linkup 
+Incomplete Command: set interface swp3-16 link fast-linkupp3-16 link fast-linkup
+Incomplete Command: set interface swp3-16 link fast-linkupp3-16 link fast-linkup
 ----
++
+NOTE: The exceptions listed do not affect performance and can be safely ignored. 
 
 . Verify information for the transceiver in the interface:
 +
@@ -559,9 +602,11 @@ sw2                         cluster-network    10.233.205.91    MSN2100-CB2RC
 // end of tabbed content 
 
 .What's next?
-link:install-snmpv3-sn2100-cluster.html[Configure switch log collection].
+link:CSHM_log_collection.html[Enable log collection]
 
 // GH issue #77 replacing 4.4.2 with 4.4.3, 2023-FEB-22
 // Updates for the LH 5.4 integrity release, 2023-APR-18
 // Updates for AFFFASDOC-130 expanding 'nv' command set, 2023-SEP-13
 // Updates for GH issues #136 & 137 (scp note and nv commit command), 2023-NOV-15
+// Updates for AFFFASDOC-192, 2024-JAN-25
+// Fixed broken link, 2020-APR-30

@@ -45,6 +45,10 @@ The https://hwu.netapp.com/Home/Index[_NetApp Hardware Universe_^] contains info
 
 * Any site customization (SMTP, SNMP, and SSH) are configured on the new switches.
 
+.Port group speed constraints
+* The 48 10/25GbE (SFP28/SFP+) ports are combined into 12 x 4-port groups as follows: Ports 1-4, 5-8, 9-12, 13-16, 17-20, 21-24, 25-28, 29-32, 33-36, 37-40, 41-44, and 45-48.
+* The SFP28/SFP+ port speed must be the same (10GbE or 25GbE) across all ports in the 4-port group.
+* If speeds in a 4-port group are different, the switch ports will not operate correctly.
 
 == Migrate to the cluster environment
 
@@ -85,13 +89,8 @@ The advanced prompt (`*>`) appears.
 +
 NOTE: You must not disable the ISL ports.
 +
-
-.Show example 
-[%collapsible]
-====
-
 The following example shows that node-facing ports 1 through 16 are disabled on switch cs1:
-
++
 [subs=+quotes]
 ----
 (cs1)# *configure*
@@ -100,16 +99,15 @@ The following example shows that node-facing ports 1 through 16 are disabled on 
 (cs1)(Interface 0/1-0/16)# *exit*
 (cs1)(Config)# *exit*
 ----
-====
 
-. Verify that the ISL and the physical ports on the ISL between the two BES-53248 switches cs1 and cs2 are *up*:
+. Verify that the ISL and the physical ports on the ISL between the two BES-53248 switches cs1 and cs2 are up:
 +
 `show port-channel`
 +
 .Show example
 [%collapsible]
 ====
-The following example shows that the ISL ports are *up* on switch cs1:
+The following example shows that the ISL ports are up on switch cs1:
 
 [subs=+quotes]
 ----
@@ -133,7 +131,7 @@ Ports  Timeout       Speed      Active
 (cs1) #
 ----
 
-The following example shows that the ISL ports are *up* on switch cs2:
+The following example shows that the ISL ports are up on switch cs2:
 
 [subs=+quotes]
 ----
@@ -195,11 +193,9 @@ cs2            0/56     176       R            BES-53248   0/56
 ----
 ====
 
-. Verify that all cluster ports are "up":
+. Verify that all cluster ports are up:
 +
 `network port show -ipspace Cluster`
-+
-Each port should display "up" for `Link` and "healthy" for `Health Status`.
 +
 .Show example
 [%collapsible]
@@ -227,9 +223,9 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy
 ----
 ====
 
-. Verify that all cluster LIFs are "up" and operational: `network interface show -vserver Cluster`
+. Verify that all cluster LIFs are up and operational: 
 +
-Each cluster LIF should display "true" for `Is Home` and have a `Status Admin/Oper` of "up/up"
+`network interface show -vserver Cluster`
 +
 .Show example
 [%collapsible]
@@ -239,14 +235,14 @@ Each cluster LIF should display "true" for `Is Home` and have a `Status Admin/Op
 ----
 cluster1::*> *network interface show -vserver Cluster*
 
-            Logical    Status     Network            Current       Current Is
-Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
------------ ---------- ---------- ------------------ ------------- ------- -----
+            Logical      Status     Network            Current       Current Is
+Vserver     Interface    Admin/Oper Address/Mask       Node          Port    Home
+----------- ------------ ---------- ------------------ ------------- ------- -----
 Cluster
-            node1_clus1  up/up    169.254.209.69/16  node1         e0a     true
-            node1_clus2  up/up    169.254.49.125/16  node1         e0b     true
-            node2_clus1  up/up    169.254.47.194/16  node2         e0a     true
-            node2_clus2  up/up    169.254.19.183/16  node2         e0b     true
+            node1_clus1  up/up      169.254.209.69/16  node1         e0a     true
+            node1_clus2  up/up      169.254.49.125/16  node1         e0b     true
+            node2_clus1  up/up      169.254.47.194/16  node2         e0a     true
+            node2_clus2  up/up      169.254.19.183/16  node2         e0b     true
 ----
 ====
 
@@ -264,12 +260,8 @@ The https://hwu.netapp.com/Home/Index[_NetApp Hardware Universe_^] contains more
 . Disconnect the cable from cluster port e0a on node2, and then connect e0a to port 2 on cluster switch cs1, using the appropriate cabling supported by the BES-53248 switches.
 . Enable all node-facing ports on cluster switch cs1.
 +
-.Show example
-[%collapsible]
-====
-
 The following example shows that ports 1 through 16 are enabled on switch cs1:
-
++
 [subs=+quotes]
 ----
 (cs1)# *configure*
@@ -278,17 +270,44 @@ The following example shows that ports 1 through 16 are enabled on switch cs1:
 (cs1)(Interface 0/1-0/16)# *exit*
 (cs1)(Config)# *exit*
 ----
+
+. Verify that all cluster ports are up:
++
+`network port show -ipspace Cluster`
++
+.Show example
+[%collapsible]
 ====
 
-. Verify that all cluster LIFs are up, operational, and display as `true` for `Is Home`:
+[subs=+quotes]
+----
+cluster1::*> *network port show -ipspace Cluster*
+
+Node: node1
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+
+Node: node2
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+----
+====
+
+. Verify that all cluster LIFs are up and operational:
 +
 `network interface show -vserver Cluster`
 +
 .Show example
 [%collapsible]
 ====
-
-The following example shows that all of the LIFs are up on node1 and node2 and that `Is Home` results are `true`:
 
 [subs=+quotes]
 ----
@@ -298,9 +317,9 @@ cluster1::*> *network interface show -vserver Cluster*
 Vserver  Interface    Admin/Oper Address/Mask       Node        Port    Home
 -------- ------------ ---------- ------------------ ----------- ------- ----
 Cluster
-         node1_clus1  up/up      169.254.209.69/16  node1       e0a     true
+         node1_clus1  up/up      169.254.209.69/16  node1       e0a     false
          node1_clus2  up/up      169.254.49.125/16  node1       e0b     true
-         node2_clus1  up/up      169.254.47.194/16  node2       e0a     true
+         node2_clus1  up/up      169.254.47.194/16  node2       e0a     false
          node2_clus2  up/up      169.254.19.183/16  node2       e0b     true
 ----
 ====
@@ -328,14 +347,11 @@ node2                true    true          false
 
 . Disconnect the cable from cluster port e0b on node1, and then connect e0b to port 1 on cluster switch cs2, using the appropriate cabling supported by the BES-53248 switches.
 . Disconnect the cable from cluster port e0b on node2, and then connect e0b to port 2 on cluster switch cs2, using the appropriate cabling supported by the BES-53248 switches.
+
 . Enable all node-facing ports on cluster switch cs2.
 +
-.Show example
-[%collapsible]
-====
-
 The following example shows that ports 1 through 16 are enabled on switch cs2:
-
++
 [subs=+quotes]
 ----
 (cs2)# *configure*
@@ -344,17 +360,14 @@ The following example shows that ports 1 through 16 are enabled on switch cs2:
 (cs2)(Interface 0/1-0/16)# *exit*
 (cs2)(Config)# *exit*
 ----
-====
 
-. Verify that all cluster ports are *up*:
+. Verify that all cluster ports are up:
 +
 `network port show -ipspace Cluster`
 +
 .Show example
 [%collapsible]
 ====
-
-The following example shows that all of the cluster ports are *up* on node1 and node2:
 
 [subs=+quotes]
 ----
@@ -403,8 +416,6 @@ NOTE: This might take several minutes to complete.
 .Show example
 [%collapsible]
 ====
-
-The following example shows that all LIFs are up on node1 and node2 and that `Is Home` results are `true`:
 
 [subs=+quotes]
 ----
@@ -575,7 +586,8 @@ For more information, see: https://kb.netapp.com/Advice_and_Troubleshooting/Data
 
 .What's next?
 
-After your migration completes, you might need to install the required configuration file to support the Cluster Switch Health Monitor (CSHM) for BES-53248 cluster switches. See link:configure-health-monitor.html[Install the Cluster Switch Health Monitor (CSHM) configuration file] and link:configure-log-collection.html[Enable the log collection feature].
+After your migration completes, you might need to install the required configuration file to support the Ethernet Switch Health Monitor (CSHM) for BES-53248 cluster switches. See link:CSHM_log_collection.html[Enable log collection].
 
 // Updates for AFFFASDOC-111, 2023-SEPT-06
-
+// Updates for GH issue #156, 2024-MAR-05
+// Updates for GH issues #161, #163, 2024-MAR-14

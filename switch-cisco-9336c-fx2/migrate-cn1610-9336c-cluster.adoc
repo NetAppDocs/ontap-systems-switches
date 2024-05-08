@@ -15,8 +15,6 @@ You can migrate NetApp CN1610 cluster switches for an ONTAP cluster to Cisco 933
 
 You must be aware of certain configuration information, port connections and cabling requirements when you are replacing NetApp CN1610 cluster switches with Cisco 9336C-FX2 cluster switches.
 
-//See link:configure-overview-sn2100-cluster.html[Overview of installation and configuration for NVIDIA SN2100 switches].
-
 .Supported switches
 
 The following cluster switches are supported:
@@ -36,15 +34,13 @@ Verify that your configuration meets the following requirements:
 ** A redundant and fully functional NetApp cluster using NetApp CN1610 switches.
 ** Management connectivity and console access to both the NetApp CN1610 switches and the new switches.
 ** All cluster LIFs in the up state with the cluster LIFs are on their home ports.
-** ISL ports enabled and cabled between the NetApp CN1610 switches and between the new switches.
+//** ISL ports enabled and cabled between the NetApp CN1610 switches and between the new switches.
 * Some of the ports are configured on Cisco 9336C-FX2 switches to run at 40GbE or 100GbE.
 * You have planned, migrated, and documented 40GbE and 100GbE connectivity from nodes to Cisco 9336C-FX2 cluster switches.
 
 == Migrate the switches
 
 .About the examples
-
-//In this procedure, Cisco Nexus 3232C cluster switches are used for example commands and outputs.
 
 The examples in this procedure use the following switch and node nomenclature:
 
@@ -54,10 +50,20 @@ The examples in this procedure use the following switch and node nomenclature:
 * The cluster LIFs are _node1_clus1_ and _node1_clus2_ on node 1, and _node2_clus1_ and _node2_clus2_ on node 2 respectively.
 * The `cluster1::*>` prompt indicates the name of the cluster.
 * The cluster ports used in this procedure are _e3a_ and _e3b_.
-//* Breakout ports take the format: swp[port]s[breakout port 0-3]. For example, four breakout ports on swp1 are _swp1s0_, _swp1s1_, _swp1s2_, and _swp1s3_.
-* Switch C2 is replaced by switch cs2 first and then switch C1 is replaced by switch cs1.
-** The cabling between the nodes and C2 is then disconnected from C2 and reconnected to cs2
+
+.About this task
+
+This procedure covers the following scenario:
+
+* Switch C2 is replaced by switch cs2 first. 
+** Shut down the ports to the cluster nodes. All ports must be shut down simultaneously to avoid cluster instability.
+** The cabling between the nodes and C2 is then disconnected from C2 and reconnected to cs2.
+
+* Switch C1 is replaced by switch cs1.
+** Shut down the ports to the cluster nodes. All ports must be shut down simultaneously to avoid cluster instability.
 ** The cabling between the nodes and C1 is then disconnected from C1 and reconnected to cs1.
+
+NOTE: No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To ensure non-disruptive cluster operations, the following procedure migrates all of the cluster LIFs to the operational partner switch while performing the steps on the target switch.
 
 === Step 1: Prepare for migration
 
@@ -76,17 +82,6 @@ The advanced prompt (*>) appears.
 . Disable auto-revert on the cluster LIFs: 
 +
 `network interface modify -vserver Cluster -lif * -auto-revert false`
-+
-.Show example
-[%collapsible]
-====
-[subs=+quotes]
-----
-cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert false*
-
-Warning: Disabling the auto-revert feature of the cluster logical interface may effect the availability of your cluster network. Are you sure you want to continue? {y|n}: *y*
-----
-====
 
 === Step 2: Configure ports and cabling
 
@@ -249,11 +244,8 @@ RPC status:
 ----
 ====
 
-. On switch C2, shut down the ports connected to the cluster ports of the nodes.
+. On switch C2, shut down the ports connected to the cluster ports of the nodes in order to fail over the cluster LIFs.
 +
-.Show example
-[%collapsible]
-====
 [subs=+quotes]
 ----
 (C2)# *configure*
@@ -262,7 +254,6 @@ RPC status:
 (C2)(Interface 0/1-0/12)# *exit*
 (C2)(Config)# *exit*
 ----
-====
 
 . Move the node cluster ports from the old switch C2 to the new switch cs2, using appropriate cabling supported by Cisco 9336C-FX2.
 
@@ -339,11 +330,8 @@ Cluster
 ----
 ====
 
-. On switch C1, shut down the ports connected to the cluster ports of the nodes.
+. On switch C1, shut down the ports connected to the cluster ports of the nodes in order to fail over the cluster LIFs.
 +
-.Show example
-[%collapsible]
-====
 [subs=+quotes]
 ----
 (C1)# *configure*
@@ -352,7 +340,6 @@ Cluster
 (C1)(Interface 0/1-0/12)# *exit*
 (C1)(Config)# *exit*
 ----
-====
 
 . Move the node cluster ports from the old switch C1 to the new switch cs1, using appropriate cabling supported by Cisco 9336C-FX2.
 
@@ -493,11 +480,9 @@ Cluster
 ====
 
 
-. Enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the two commands: 
+. To set up log collection, run the following command for each switch. You are prompted to enter the switch name, username, and password for log collection. 
 +
-`system switch ethernet log setup-password` and `system switch ethernet log enable-collection`
-+
-.. Enter: `system switch ethernet log setup-password`
+`system switch ethernet log setup-password`
 +
 .Show example
 [%collapsible]
@@ -530,49 +515,36 @@ Enter the password: <enter switch password>
 Enter the password again: <enter switch password>
 ----
 ====
+
+. To start log collection, run the following command, replacing DEVICE with the switch used in the previous command. This starts both types of log collection: the detailed *Support* logs and an hourly collection of *Periodic* data.
 +
-.. Followed by: `system switch ethernet log enable-collection`
+`system switch ethernet log modify -device _<switch-name>_ -log-request true`
 +
 .Show example
 [%collapsible]
 ====
 [subs=+quotes]
 ----
-cluster1::*> *system  switch ethernet log enable-collection*
+cluster1::*> *system switch ethernet log modify -device cs1 -log-request true*
 
-Do you want to enable cluster log collection for all nodes in the cluster?
-{y|n}: [n] *y*
+Do you want to modify the cluster switch log collection configuration? {y|n}: [n] *y*
 
 Enabling cluster switch log collection.
 
+cluster1::*> *system switch ethernet log modify -device cs2 -log-request true*
+
+Do you want to modify the cluster switch log collection configuration? {y|n}: [n] *y*
+
+Enabling cluster switch log collection.
 cluster1::*>
 ----
 ====
-+
-NOTE: If any of these commands return an error, contact NetApp support.
-
-. Initiate the switch log collection feature: 
-+
-`system switch ethernet log collect -device *`
 +
 Wait for 10 minutes and then check that the log collection was successful using the command: 
 +
 `system switch ethernet log show`
 +
-.Show example
-[%collapsible]
-====
-[subs=+quotes]
-----
-cluster1::*> system switch ethernet log show
-Log Collection Enabled: true
-
-Index  Switch                       Log Timestamp        Status
------- ---------------------------- -------------------  ---------    
-1      cs1 (b8:ce:f6:19:1b:42)      4/29/2022 03:05:25   complete   
-2      cs2 (b8:ce:f6:19:1b:96)      4/29/2022 03:07:42   complete
-----
-====
+NOTE: If any of these commands return an error, contact NetApp support.
 
 . Change the privilege level back to admin: 
 +
@@ -583,3 +555,5 @@ Index  Switch                       Log Timestamp        Status
 `system node autosupport invoke -node * -type all -message MAINT=END`
 
 // New procedure for migrating from CN1610 to 93362-FX2 - GH issue #107, 2023-JUN-20
+// Updates for AFFFASDOC-189, 2024-Jan-17
+// Update for GH issue #156, 2024-MAR-05
