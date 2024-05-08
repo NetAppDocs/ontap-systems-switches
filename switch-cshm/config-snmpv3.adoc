@@ -20,7 +20,7 @@ The following commands configure an SNMPv3 username on Cisco 9336C-FX2 switches:
 
 ==== 
 
-.Broadcom
+.Broadcom switches
 --
 * For *no authentication*:
 +
@@ -63,9 +63,6 @@ cluster1::*> system switch ethernet modify -device _DEVICE_ -snmp-version SNMPv3
 show snmp status
 ----
 +
-.Show example
-[%collapsible]
-+
 [subs=+quotes]
 ----
 (sw1)(Config)# *snmp-server user <username> network-admin auth-md5 <password> priv-aes128 <password>*
@@ -84,9 +81,6 @@ show snmp status
 ----
 security login create -user-or-group-name <username> -application snmp -authentication-method usm -remote-switch-ipaddress 10.231.80.212
 ----
-+
-.Show example
-[%collapsible]
 +
 [subs=+quotes]
 ----
@@ -113,9 +107,6 @@ Enter privacy protocol password again:
 ----
 system switch ethernet show-all -device "sw1" -instance
 ----
-+
-.Show example
-[%collapsible]
 +
 [subs=+quotes]
 ----
@@ -147,9 +138,6 @@ cluster1::*> *system switch ethernet modify -device "sw1" -snmp-version SNMPv3 -
 system switch ethernet polling-interval show
 ----
 +
-.Show example
-[%collapsible]
-+
 [subs=+quotes]
 ----
 cluster1::*> *system switch ethernet polling-interval show*
@@ -173,7 +161,7 @@ DEPRECATED-Community String or SNMPv3 Username: -
 ----
 
 --
-.Cisco
+.Cisco switches
 --
 * For *no authentication*:
 +
@@ -191,18 +179,18 @@ snmp-server user _SNMPv3_USER_ auth [md5|sha] _AUTH-PASSWORD_
 +
 [source,cli]
 ----
-`snmp-server user _SNMPv3_USER_ AuthEncrypt  auth [md5|sha] _AUTH-PASSWORD_ priv aes-128 _PRIV-PASSWORD_
+snmp-server user _SNMPv3_USER_ AuthEncrypt  auth [md5|sha] _AUTH-PASSWORD_ priv aes-128 _PRIV-PASSWORD_
 ----
 
 The following command configures an SNMPv3 username on the ONTAP side:
-+
+
 [source,cli]
 ----
 security login create -user-or-group-name _SNMPv3_USER_ -application snmp -authentication-method usm -remote-switch-ipaddress _ADDRESS_
 ----
 
 The following command establishes the SNMPv3 username with CSHM:
-+
+
 [source,cli]
 ----
 system switch ethernet modify -device _DEVICE_ -snmp-version SNMPv3 -community-or-username _SNMPv3_USER_
@@ -213,11 +201,8 @@ system switch ethernet modify -device _DEVICE_ -snmp-version SNMPv3 -community-o
 +
 [source,cli]
 ----
-`show snmp user
+show snmp user
 ----
-+
-.Show example
-[%collapsible]
 +
 [subs=+quotes]
 ----
@@ -250,10 +235,6 @@ User              Auth               Priv
 ----
 security login create -user-or-group-name <username> -application snmp -authentication-method usm -remote-switch-ipaddress 10.231.80.212
 ----
-
-+
-.Show example
-[%collapsible]
 +
 [subs=+quotes]
 ----
@@ -282,9 +263,6 @@ Enter privacy protocol password again:
 ----
 system switch ethernet show-all -device "sw1" -instance
 ----
-+
-.Show example
-[%collapsible]
 +
 [subs=+quotes]
 ----
@@ -316,9 +294,6 @@ cluster1::*>
 system switch ethernet polling-interval show
 ----
 +
-.Show example
-[%collapsible]
-+
 [subs=+quotes]
 ----
 cluster1::*> *system switch ethernet polling-interval show*
@@ -344,7 +319,7 @@ cluster1::*>
 ----
 
 --
-.NVIDIA
+.NVIDIA switches
 --
 * For *no authentication*:
 +
@@ -366,14 +341,14 @@ net add snmp-server username _SNMPv3_USER_ [auth-md5|auth-sha] _AUTH-PASSWORD_ [
 ----
 
 The following command configures an SNMPv3 username on the ONTAP side:
-+
+
 [source,cli]
 ----
 security login create -user-or-group-name _SNMPv3_USER_ -application snmp -authentication-method usm -remote-switch-ipaddress _ADDRESS_
 ----
 
 The following command establishes the SNMPv3 username with CSHM:
-+
+
 [source,cli]
 ----
 system switch ethernet modify -device _DEVICE_ -snmp-version SNMPv3 -community-or-username _SNMPv3_USER_
@@ -386,9 +361,6 @@ system switch ethernet modify -device _DEVICE_ -snmp-version SNMPv3 -community-o
 ----
 net show snmp status
 ----
-+
-.Show example
-[%collapsible]
 +
 [subs=+quotes]
 ----
@@ -466,9 +438,6 @@ cumulus@sw1:~$
 security login create -user-or-group-name SNMPv3User -application snmp -authentication-method usm -remote-switch-ipaddress 10.231.80.212
 ----
 +
-.Show example
-[%collapsible]
-+
 [subs=+quotes]
 ----
 cluster1::*> *security login create -user-or-group-name SNMPv3User -application snmp -authentication-method usm -remote-switch-ipaddress 10.231.80.212*
@@ -494,9 +463,6 @@ Enter privacy protocol password again:
 ----
 system switch ethernet show-all -device "sw1 (b8:59:9f:09:7c:22)" -instance
 ----
-+
-.Show example
-[%collapsible]
 +
 [subs=+quotes]
 ----
@@ -527,9 +493,6 @@ cluster1::*> *system switch ethernet modify -device "sw1 (b8:59:9f:09:7c:22)" -s
 system switch ethernet polling-interval show
 ----
 +
-.Show example
-[%collapsible]
-+
 [subs=+quotes]
 ----
 cluster1::*> *system switch ethernet polling-interval show*
@@ -554,3 +517,4 @@ DEPRECATED-Community String or SNMPv3 Username: -
 --
 ==== 
 // end of tabbed content
+// New content for AFFFASDOC-216, 2024-MAY-08
