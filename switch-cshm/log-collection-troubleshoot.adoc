@@ -10,3 +10,22 @@ summary: You can use the commands provided here to verify that all is operationa
 
 [.lead]
 You can use ......
+
+.Troubleshoot
+If you encounter any of the following error statuses reported by the log collection feature (visible in the output of `system switch ethernet log show`), try the corresponding debug steps:
+
+|===
+
+h| *Log collection error status* h| *Resolution* 
+a| *RSA keys not present*
+a| Regenerate ONTAP SSH keys. Contact NetApp support.
+a| *switch password error*
+a| Verify credentials, test SSH connectivity, and regenerate ONTAP SSH keys. Review the switch documentation or contact NetApp support for instructions.
+a| *ECDSA keys not present for FIPS*
+a| If FIPS mode is enabled, ECDSA keys need to be generated on the switch before retrying.
+a| *pre-existing log found*
+a| Remove the previous log collection file on the switch.
+a| *switch dump log error*
+a| Ensure the switch user has log collection permissions. Refer to the prerequisites above.
+
+|===

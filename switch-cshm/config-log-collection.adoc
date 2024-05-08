@@ -9,4 +9,87 @@ summary: You can use the commands provided here to verify that all is operationa
 :imagesdir: ../media/
 
 [.lead]
+You can use the log collection feature to collect switch-related log files in ONTAP. 
+
 The Ethernet switch health monitor (CSHM) is responsible for ensuring the operational health of Cluster and Storage network switches and collecting switch logs for debugging purposes. This procedure guides you through the process of setting up and starting the collection of detailed *Support* logs from the switch and starts an hourly collection of *Periodic* data that is collected by AutoSupport.
+
+.Before you begin
+
+* Verify that you have set up your environment using the 9336C-FX2 cluster switch *CLI*.
+* Switch health monitoring must be enabled for the switch. Verify this by ensuring the `Is Monitored:` field is set to *true* in the output of the `system switch ethernet show` command.
+
+.Steps
+
+. Create a password for the Ethernet switch health monitor log collection feature:
++
+[source,cli]
+----
+system switch ethernet log setup-password
+----
++
+.Show example
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cluster1::*> *system switch ethernet log setup-password*
+Enter the switch name: *<return>*
+The switch name entered is not recognized.
+Choose from the following list:
+*cs1*
+*cs2*
+
+cluster1::*> *system switch ethernet log setup-password*
+
+Enter the switch name: *cs1*
+Would you like to specify a user other than admin for log collection? {y|n}: *n*
+
+Enter the password: *<enter switch password>*
+Enter the password again: *<enter switch password>*
+
+cluster1::*> *system switch ethernet log setup-password*
+
+Enter the switch name: *cs2*
+Would you like to specify a user other than admin for log collection? {y|n}: *n*
+
+Enter the password: *<enter switch password>*
+Enter the password again: *<enter switch password>*
+----
+====
+
+. To start log collection, run the following command, replacing DEVICE with the switch used in the previous command. This starts both types of log collection: the detailed *Support* logs and an hourly collection of *Periodic* data.
++
+[source,cli]
+----
+system switch ethernet log modify -device _<switch-name>_ -log-request true
+----
+
++
+.Show example 
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cluster1::*> *system switch ethernet log modify -device cs1 -log-request true*
+
+Do you want to modify the cluster switch log collection configuration? {y|n}: [n] *y*
+
+Enabling cluster switch log collection.
+
+cluster1::*> *system switch ethernet log modify -device cs2 -log-request true*
+
+Do you want to modify the cluster switch log collection configuration? {y|n}: [n] *y*
+
+Enabling cluster switch log collection.
+----
+====
++
+Wait for 10 minutes and then check that the log collection completes:
++
+`system switch ethernet log show`
++
+CAUTION: If any of these commands return an error or if the log collection does not complete, contact NetApp support.
+
+
