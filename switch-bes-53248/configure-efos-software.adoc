@@ -24,14 +24,12 @@ Use one of the following methods to install the EFOS software :
 * <<Method 1: Install EFOS>>. Use for most cases.
 * <<Method 2: Install EFOS in ONIE mode>>. Use if one EFOS version is FIPS compliant and the other EFOS version is non-FIPS compliant.
 
-IMPORTANT: Install EFOS on one switch at a time to ensure continued cluster network operation.
-
 === Method 1: Install EFOS
 Perform the following steps to install the EFOS software.
 
 .Steps
 
-. Connect the BES-53248 cluster switch to the management network.
+. Login to the switch serial console port or connect with SSH.
 . Use the `ping` command to verify connectivity to the server hosting EFOS, licenses, and the RCF file.
 +
 .Show example
@@ -137,14 +135,14 @@ System will now restart!
 
 Switch: 1
 
-System Description............................. BES-53248A1, 3.7.0.4, Linux 4.4.211-28a6fe76, 2016.05.00.04
+System Description............................. BES-53248A1, 3.10.0.3, Linux 4.4.211-28a6fe76, 2016.05.00.04
 Machine Type................................... BES-53248A1,
 Machine Model.................................. BES-53248
 Serial Number.................................. QTFCU38260023
 Maintenance Level.............................. A
 Manufacturer................................... 0xbc00
 Burned In MAC Address.......................... D8:C4:97:71:0F:40
-Software Version............................... 3.7.0.4
+Software Version............................... 3.10.0.3
 Operating System............................... Linux 4.4.211-28a6fe76
 Network Processing Device...................... BCM56873_A0
 CPLD Version................................... 0xff040c03
@@ -161,22 +159,6 @@ Additional Packages............................ BGP-4
 ====
 
 . Repeat steps 3 through to 6 on the partner switch.
-. Enable auto-revert on the cluster LIFs.
-+
-[subs=+quotes]
-----
-cluster1::*> **network interface modify -vserver Cluster -lif * -auto-revert True**
-----
-
-. Verify that the cluster LIFs have reverted to their home port:
-+
-`network interface show -role cluster`
-
-For details see https://docs.netapp.com/us-en/ontap/networking/revert_a_lif_to_its_home_port.html[Revert a LIF to its home port^].
-
-.What's next?
-
-link:configure-licenses.html[Install licenses for BES-53248 cluster switches]. 
 
 === Method 2: Install EFOS in ONIE mode
 You can perform the following steps if one EFOS version is FIPS compliant and the other EFOS version is non-FIPS compliant. These steps can be used to install the non-FIPS or FIPS compliant EFOS 3.7.x.x image from ONIE if the switch fails to boot.
@@ -332,22 +314,6 @@ The switch reboots with no configuration applied and resets to factory defaults.
 .. link:CSHM_log_collection.html[Enable log collection]
 .. link:CSHM_snmpv3.html[Configure SNMPv3 for monitoring]
 . Repeat steps 1 through to 7 on the partner switch.
-. Enable auto-revert on the cluster LIFs.
-+
-[subs=+quotes]
-----
-cluster1::*> **network interface modify -vserver Cluster -lif * -auto-revert True**
-----
-
-. Verify that the cluster LIFs have reverted to their home port:
-+
-`network interface show -role cluster`
-
-For details see https://docs.netapp.com/us-en/ontap/networking/revert_a_lif_to_its_home_port.html[Revert a LIF to its home port^].
-
-.What's next?
-
-link:configure-licenses.html[Install licenses for BES-53248 cluster switches]. 
 
 // 2023 FEB 16, ontap-systems-switches-issues-76
 // added details for BES-53248A1 under show version commands, 2023-APR-05
