@@ -74,14 +74,30 @@ SFTP Code transfer starting...
 File transfer operation completed successfully.
 ----
 ====
-NOTE: You can also use the following protocols:
-* FTP
-* Trivial File Transfer Protocol (TFTP)
-* XMODEM
-* YMODEM
-* ZMODEM
-+
-If your software package supports secure management you can use the SSH File Transfer Protocol (SFTP) and the Secure Copy Protocol (SCP).  If FTP is used, a password is required. CLI-based file transfers using the HTTP and HTTPS protocols are supported on selected platforms where a native wget utility is available.
+See the following table for guidance on protocols you can use when downloading the image file:
+|===
+
+h| *Protocol* h| *Guidance* 
+a| *Trivial File Transfer Protocol (TFTP)*
+a| None
+a| *XMODEM*
+a| None
+a| *YMODEM*
+a| None
+a| *ZMODEM*
+a| None
+a| *FTP*
+a| Password required
+a| *SSH File Transfer Protocol (SFTP)*
+a| If your software package supports secure management
+a| *Secure Copy Protocol (SCP)*
+a| If your software package supports secure management
+a| *HTTP*
+a| CLI-based file transfers are supported on selected platforms where a native wget utility is available
+a| *HTTPS*
+a| CLI-based file transfers are supported on selected platforms where a native WGET utility is available
+
+|===
 . Display the boot images for the active and backup configuration:
 +
 `show bootvar`
@@ -313,7 +329,7 @@ unit 	active 	    backup   current-active  next-active
 ====
 
 . Complete the installation.
-The switch reboots with no configuration applied and resets to factory defaults. Follow these four steps to reconfigure the switch:
+The switch reboots with no configuration applied and resets to factory defaults. Follow these six steps to reconfigure the switch:
 .. link:configure-install-initial.html[Configure switch]
 .. link:configure-licenses.html[Install licenses] 
 .. link:configure-install-rcf.html[Install the RCF file]
