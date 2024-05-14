@@ -16,7 +16,9 @@ EFOS software includes a set of advanced networking features and protocols for d
 == Prepare for installation
 
 .Before you begin
+* This procedure is only suitable for new installations.
 * Download the applicable Broadcom EFOS software for your cluster switches from the https://www.broadcom.com/support/bes-switch[Broadcom Ethernet Switch Support^] site.
+* Ensure the link:configure-install-initial.html[BES-53248 cluster switch is configured].
 
 == Install the software
 Use one of the following methods to install the EFOS software :
@@ -48,8 +50,34 @@ Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 
 . Download the image file to the switch.
 +
+Check the following table for information on supported protocols:
+
+|===
+
+h| *Protocol* h| *Prerequisite* 
+a| Trivial File Transfer Protocol (TFTP)
+a| None
+a| SSH File Transfer Protocol (SFTP)
+a| Your software package must support secure management
+a| FTP
+a| Password required
+a| XMODEM
+a| None
+a| YMODEM
+a| None
+a| ZMODEM
+a| None
+a| Secure Copy Protocol (SCP)
+a| Your software package must support secure management
+a| HTTP
+a| CLI-based file transfers supported on selected platforms when a native WGET utility is available
+a| HTTPS
+a| CLI-based file transfers supported on selected platforms when a native WGET utility is available
+
+|===
+
 Copying the image file to the active image means that when you reboot, that image establishes the running EFOS version. The previous image remains available as a backup.
-+
+
 .Show example
 [%collapsible]
 ==== 
@@ -74,30 +102,7 @@ SFTP Code transfer starting...
 File transfer operation completed successfully.
 ----
 ====
-See the following table for guidance on protocols you can use when downloading the image file:
-|===
 
-h| *Protocol* h| *Guidance* 
-a| *Trivial File Transfer Protocol (TFTP)*
-a| None
-a| *XMODEM*
-a| None
-a| *YMODEM*
-a| None
-a| *ZMODEM*
-a| None
-a| *FTP*
-a| Password required
-a| *SSH File Transfer Protocol (SFTP)*
-a| If your software package supports secure management
-a| *Secure Copy Protocol (SCP)*
-a| If your software package supports secure management
-a| *HTTP*
-a| CLI-based file transfers are supported on selected platforms where a native wget utility is available
-a| *HTTPS*
-a| CLI-based file transfers are supported on selected platforms where a native WGET utility is available
-
-|===
 . Display the boot images for the active and backup configuration:
 +
 `show bootvar`
@@ -187,6 +192,7 @@ Additional Packages............................ BGP-4
 You can perform the following steps if one EFOS version is FIPS compliant and the other EFOS version is non-FIPS compliant. These steps can be used to install the non-FIPS or FIPS compliant EFOS 3.7.x.x image from ONIE if the switch fails to boot.
 
 .Steps
+. Connect to a console that is attached to the serial port of the switch.
 . Boot the switch into ONIE installation mode.
 +
 During boot, select ONIE when you see the prompt.
@@ -255,7 +261,7 @@ Stopping: discover... done.
 ONIE:/ #
 ----
 
-. Configure the Ethernet interface and add the route using `ifconfig eth0 <ipAddress> netmask <netmask> up` and `route add default gw <gatewayAddress>`
+. Configure the Ethernet interface of the switch management port and add the route using `ifconfig eth0 <ipAddress> netmask <netmask> up` and `route add default gw <gatewayAddress>`
 +
 ----
 ONIE:/ # ifconfig eth0 10.10.10.10 netmask 255.255.255.0 up
