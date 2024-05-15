@@ -11,7 +11,7 @@ summary: 'You can install the Reference Configuration File (RCF) after configuri
 [.lead]
 You can install the Reference Configuration File (RCF) after configuring the BES-53248 cluster switch and after applying the new licenses.
 
-If you are upgrading an RCF from an older version, you must reset the Broadcom switch settings and perform basic configuration to re-apply the RCF. You must perform this operation every time you want to upgrade or change an RCF. See the https://kb.netapp.com/onprem/Switches/Broadcom/How_to_clear_configuration_on_a_Broadcom_interconnect_switch_while_retaining_remote_connectivity[KB article^] for details.
+//If you are upgrading an RCF from an older version, you must reset the Broadcom switch settings and perform basic configuration to re-apply the RCF. You must perform this operation every time you want to upgrade or change an RCF. See the https://kb.netapp.com/onprem/Switches/Broadcom/How_to_clear_configuration_on_a_Broadcom_interconnect_switch_while_retaining_remote_connectivity[KB article^] for details.
 
 == Review requirements
 
@@ -20,11 +20,11 @@ If you are upgrading an RCF from an older version, you must reset the Broadcom s
 * A fully functioning cluster (no errors in the logs or similar issues).
 * The current RCF file, available from the https://mysupport.netapp.com/site/products/all/details/broadcom-cluster-switches/downloads-tab[Broadcom Cluster Switches^] page.
 * A boot configuration in the RCF that reflects the desired boot images, required if you are installing only EFOS and keeping your current RCF version. If you need to change the boot configuration to reflect the current boot images, you must do so before reapplying the RCF so that the correct version is instantiated on future reboots.
-* A console connection to the switch, required when installing the RCF from a factory-default state. This requirement is optional if you have used the Knowledge Base article  https://kb.netapp.com/onprem/Switches/Broadcom/How_to_clear_configuration_on_a_Broadcom_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Broadcom interconnect switch while retaining remote connectivity^] to clear the configuration, beforehand.
+* A console connection to the switch, required when installing the RCF from a factory-default state. This requirement is optional if you have used the Knowledge Base article https://kb.netapp.com/onprem/Switches/Broadcom/How_to_clear_configuration_on_a_Broadcom_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Broadcom interconnect switch while retaining remote connectivity^] to clear the configuration, beforehand.
 
 .Suggested documentation
-* Consult the switch compatibility table for the supported ONTAP and RCF versions. See the https://mysupport.netapp.com/site/info/broadcom-cluster-switch[EFOS Software download^] page. Note that there can be command dependencies between the command syntax in the RCF and that found in versions of EFOS.
-* Refer to the appropriate software and upgrade guides available on the https://www.broadcom.com/support/bes-switch[Broadcom^] site for complete documentation on the BES-53248 switch upgrade and downgrade procedures.
+Consult the switch compatibility table for the supported ONTAP and RCF versions. See the https://mysupport.netapp.com/site/info/broadcom-cluster-switch[EFOS Software download^] page. Note that there can be command dependencies between the command syntax in the RCF and that found in versions of EFOS.
+//* Refer to the appropriate software and upgrade guides available on the https://www.broadcom.com/support/bes-switch[Broadcom^] site for complete documentation on the BES-53248 switch upgrade and downgrade procedures.
 
 == Install the configuration file
 .About the examples
@@ -44,13 +44,16 @@ The procedure requires the use of both ONTAP commands and Broadcom switch comman
 
 No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To ensure non-disruptive cluster operations, the following procedure migrates all the cluster LIFs to the operational partner switch while performing the steps on the target switch.
 
-CAUTION: Before installing a new switch software version and RCFs, use the https://kb.netapp.com/onprem/Switches/Broadcom/How_to_clear_configuration_on_a_Broadcom_interconnect_switch_while_retaining_remote_connectivity[KB: How to clear configuration on a Broadcom interconnect switch while retaining remote connectivity^]. If you must erase the switch settings completely, then you will need to perform the basic configuration again. You must be connected to the switch using the serial console, since a complete configuration erasure resets the configuration of the management network.
+CAUTION: Before installing a new switch software version and RCFs, use the Knowledge Base article https://kb.netapp.com/onprem/Switches/Broadcom/How_to_clear_configuration_on_a_Broadcom_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Broadcom interconnect switch while retaining remote connectivity^]. If you must erase the switch settings completely, then you will need to perform the basic configuration again. You must be connected to the switch using the serial console, since a complete configuration erasure resets the configuration of the management network.
 
 == Step 1: Prepare for the installation
 
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
 +
-`system node autosupport invoke -node * -type all -message MAINT=xh`
+[source,cli]
+----
+system node autosupport invoke -node * -type all -message MAINT=xh
+----
 +
 where _x_ is the duration of the maintenance window in hours.
 +
@@ -64,11 +67,19 @@ cluster1::*> system node autosupport invoke -node \* -type all -message MAINT=2h
 
 . Change the privilege level to advanced, entering *y* when prompted to continue:
 +
-`set -privilege advanced`
+[source,cli]
+----
+set -privilege advanced
+----
 +
 The advanced prompt (*>) appears.
 
-. Display the cluster ports on each node that are connected to the cluster switches: `network device-discovery show`
+. Display the cluster ports on each node that are connected to the cluster switches: 
++
+[source,cli]
+----
+network device-discovery show
+----
 +
 .Show example
 [%collapsible]
@@ -97,7 +108,12 @@ cluster1::*>
 ====
 
 . Check the administrative and operational status of each cluster port.
-.. Verify that all the cluster ports are up with a healthy status: `network port show –role cluster`
+.. Verify that all the cluster ports are up with a healthy status: 
++
+[source,cli]
+----
+network port show -role cluster
+----
 +
 .Show example
 [%collapsible]
@@ -144,7 +160,12 @@ cluster1::*>
 ----
 ====
 
-.. Verify that all the cluster interfaces (LIFs) are on the home port: `network interface show -role cluster`
+.. Verify that all the cluster interfaces (LIFs) are on the home port: 
++
+[source,cli]
+----
+network interface show -role cluster
+----
 +
 .Show example
 [%collapsible]
@@ -178,7 +199,11 @@ Cluster
 
 .ONTAP 9.8 and later
 --
-Beginning with ONTAP 9.8, use the command: `system switch ethernet show -is-monitoring-enabled-operational true`
+Beginning with ONTAP 9.8, use the command: 
+[source,cli]
+----
+system switch ethernet show -is-monitoring-enabled-operational true
+----
 
 [subs=+quotes]
 ----
@@ -204,7 +229,11 @@ cluster1::*>
 
 .ONTAP 9.7 and earlier
 --
-For ONTAP 9.7 and earlier, use the command: `system cluster-switch show -is-monitoring-enabled-operational true`
+For ONTAP 9.7 and earlier, use the command: 
+[source,cli]
+----
+system cluster-switch show -is-monitoring-enabled-operational true
+----
 
 [subs=+quotes]
 ----
@@ -234,22 +263,37 @@ cluster1::*>
 
 . [[step6]]Disable auto-revert on the cluster LIFs.
 +
+[source,cli]
 ----
-cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert false
+network interface modify -vserver Cluster -lif * -auto-revert false
 ----
 
 == Step 2: Configure ports
-. On cluster switch cs2, shut down the ports connected to the cluster ports of the nodes.
+. On switch cs2, confirm the list of ports that are connected to the nodes in the cluster.
++
+[source,cli]
+----
+show isdp neighbor
+----
+
+. On cluster switch cs2, shut down the ports connected to the cluster ports of the nodes. For example, if ports 0/1 to 0/16 are connected to ONTAP nodes:
 +
 [subs=+quotes]
 ----
+(cs2)> *enable*
+(cs2)# *configure*
 (cs2)(Config)# *interface 0/1-0/16*
 (cs2)(Interface 0/1-0/16)# *shutdown*
+(cs2)(Interface 0/1-0/16)# *exit*
+(cs2)(Config)#
 ----
 
 . Verify that the cluster LIFs have migrated to the ports hosted on cluster switch cs1. This might take a few seconds.
 +
-`network interface show -role cluster`
+[source,cli]
+----
+network interface show -role cluster
+----
 +
 .Show example
 [%collapsible]
@@ -274,7 +318,9 @@ cluster1::*>
 ----
 ====
 
-. Verify that the cluster is healthy: `cluster show`
+. Verify that the cluster is healthy: 
++
+`cluster show`
 +
 .Show example
 [%collapsible]
@@ -292,12 +338,17 @@ cluster1-04          true    true          false
 ----
 ====
 
-. If you have not already done so, save the current switch configuration by copying the output of the following command to a log file: `show running-config`
+. If you have not already done so, save the current switch configuration by copying the output of the following command to a log file: 
++
+[source,cli]
+----
+show running-config
+----
 
 . Clean the configuration on switch cs2 and perform a basic setup.
 +
-CAUTION: When updating or applying a new RCF, you must erase the switch settings and perform basic configuration. You must be connected to the switch using the serial console to erase switch settings.
-+
+CAUTION: When updating or applying a new RCF, you must erase the switch settings and perform basic configuration. You must be connected to the switch using the serial console to erase switch settings. This requirement is optional if you have used the Knowledge Base article https://kb.netapp.com/onprem/Switches/Broadcom/How_to_clear_configuration_on_a_Broadcom_interconnect_switch_while_retaining_remote_connectivity[How to clear the configuration on a Broadcom interconnect switch while retaining remote connectivity] to clear the configuration, beforehand.
+
 .. SSH into the switch.
 +
 Only proceed when all the cluster LIFs have been removed from the ports on the switch and the switch is prepared to have the configuration cleared.
@@ -306,18 +357,12 @@ Only proceed when all the cluster LIFs have been removed from the ports on the s
 +
 ----
 (cs2)> enable
-
 (cs2)#
 ----
 
 .. Copy and paste the following commands to remove the previous RCF configuration (depending on the previous RCF version used, some commands might generate an error if a particular setting is not present):
 +
-
-.Show example
-[%collapsible]
-====
-
-[subs=+quotes]
+[source,cli]
 ----
 clear config interface 0/1-0/56
 y
@@ -355,17 +400,11 @@ no vlan 17
 no vlan 18
 exit
 ----
-==== 
 
 .. Save the running configuration to the startup configuration:
 +
 
-.Show example
-[%collapsible]
-====
-
 [subs=+quotes]
-
 ----
 (cs2)# *write memory*
 
@@ -374,28 +413,19 @@ Management interfaces will not be available during this time.
 
 Are you sure you want to save? (y/n) *y*
 
-Config file 'startup-config' created successfully .
-
+Config file 'startup-config' created successfully.
 
 Configuration Saved!
 ----
-====
 
 .. Perform a reboot of the switch:
 +
-
-.Show example
-[%collapsible]
-====
-
 [subs=+quotes]
 ----
 (cs2)# *reload*
 
 Are you sure you would like to reset the system? (y/n) *y*
-
 ----
-====
 
 .. Log in to the switch again using SSH to complete the RCF installation.
 
@@ -432,9 +462,6 @@ File transfer operation completed successfully.
 +
 `script list`
 +
-.Show example
-[%collapsible]
-====
 
 [subs=+quotes]
 ----
@@ -446,15 +473,11 @@ BES-53248_RCF_v1.9-Cluster-HA.scr          2241         2020 09 30 05:41:00
 
 1 configuration script(s) found.
 ----
-====
 
 . Apply the script to the switch:
 +
 `script apply`
 +
-.Show example
-[%collapsible]
-====
 
 [subs=+quotes]
 ----
@@ -469,7 +492,6 @@ Configuration Saved!
 
 Configuration script 'BES-53248_RCF_v1.9-Cluster-HA.scr' applied.
 ----
-====
 
 . Examine the banner output from the `show clibanner` command. You must read and follow these instructions to ensure the proper configuration and operation of the switch. 
 +
@@ -511,7 +533,10 @@ command has been executed and the switch rebooted
 
 . On the switch, verify that the additional licensed ports appear after the RCF is applied:
 +
-`show port all | exclude Detach`
+[source,cli]
+----
+show port all | exclude Detach
+----
 +
 .Show example
 [%collapsible]
@@ -553,7 +578,10 @@ Intf      Type   Mode      Mode         Status     Status Trap    Mode   Timeout
 
 . Verify on the switch that your changes have been made:
 +
-`show running-config`
+[source,cli]
+----
+show running-config
+----
 +
 
 [subs=+quotes]
@@ -565,9 +593,6 @@ Intf      Type   Mode      Mode         Status     Status Trap    Mode   Timeout
 +
 `write memory`
 +
-.Show example
-[%collapsible]
-====
 
 [subs=+quotes]
 ----
@@ -581,16 +606,11 @@ Config file 'startup-config' created successfully.
 
 Configuration Saved!
 ----
-====
 
 . Reboot the switch and verify that the running configuration is correct:
 +
 `reload`
 +
-.Show example
-[%collapsible]
-====
-
 [subs=+quotes]
 ----
 (cs2)# *reload*
@@ -599,17 +619,25 @@ Are you sure you would like to reset the system? (y/n) *y*
 
 System will now restart!
 ----
-====
 
-. On cluster switch cs2, bring up the ports connected to the cluster ports of the nodes.
+. On cluster switch cs2, bring up the ports connected to the cluster ports of the nodes. For example, if ports 0/1 to 0/16 are connected to ONTAP nodes:
 +
 [subs=+quotes]
 ----
+(cs2)> *enable*
+(cs2)# *configure*
 (cs2)(Config)# *interface 0/1-0/16*
 (cs2)(Interface 0/1-0/16)# *no shutdown*
+(cs2)(Interface 0/1-0/16)# *exit*
+(cs2)(Config)#
 ----
 
-. Verify the ports on switch cs2: `show interfaces status all | exclude Detach`
+. Verify the ports on switch cs2: 
++
+[source,cli]
+----
+show interfaces status all | exclude Detach
+----
 +
 .Show example
 [%collapsible]
@@ -643,7 +671,12 @@ Port       Name                 State   Mode        Status      Type        Cont
 ====
 
 . Verify the health of cluster ports on the cluster.
-.. Verify that e0b ports are up and healthy across all nodes in the cluster: `network port show -role cluster`
+.. Verify that e0b ports are up and healthy across all nodes in the cluster: 
++
+[source,cli]
+----
+network port show -role cluster
+----
 +
 .Show example
 [%collapsible]
@@ -688,7 +721,12 @@ e0b       Cluster      Cluster          up   9000  auto/100000 healthy false
 ----
 ====
 
-.. Verify the switch health from the cluster. 
+.. Verify the switch health from the cluster:
++
+[source,cli]
+----
+network device-discovery show -protocol cdp
+----s
 +
 .Show example
 [%collapsible]
@@ -715,6 +753,8 @@ cluster1-04/cdp
 ----
 ====
 
+. Verify that the cluster displays information for both cluster switches.
+
 // start of tabbed content 
 [role="tabbed-block"] 
 
@@ -722,7 +762,11 @@ cluster1-04/cdp
 
 .ONTAP 9.8 and later
 --
-Beginning with ONTAP 9.8, use the command: `system switch ethernet show -is-monitoring-enabled-operational true`
+Beginning with ONTAP 9.8, use the command: 
+[source,cli]
+----
+system switch ethernet show -is-monitoring-enabled-operational true
+----
 
 [subs=+quotes]
 ----
@@ -748,7 +792,12 @@ cluster1::*>
 
 .ONTAP 9.7 and earlier
 --
-For ONTAP 9.7 and earlier, use the command: `system cluster-switch show -is-monitoring-enabled-operational true`
+For ONTAP 9.7 and earlier, use the command: 
+
+[source,cli]
+----
+system cluster-switch show -is-monitoring-enabled-operational true
+----
 
 [subs=+quotes]
 ----
@@ -774,20 +823,25 @@ cluster1::*>
 ==== 
 // end of tabbed content
 
-[start=18]
-. [[step18]]On cluster switch cs1, shut down the ports connected to the cluster ports of the nodes.
+[start=20]
+. [[step20]]On cluster switch cs1, shut down the ports connected to the cluster ports of the nodes.
 +
 The following example uses the interface example output:
 +
 [subs=+quotes]
 ----
+(cs1)> *enable*
 (cs1)# *configure*
 (cs1)(Config)# *interface 0/1-0/16*
 (cs1)(Interface 0/1-0/16)# *shutdown*
 ----
 
 . Verify that the cluster LIFs have migrated to the ports hosted on switch cs2. This might take a few seconds.
-`network interface show -role cluster`
++
+[source,cli]
+----
+network interface show -role cluster
+----
 +
 .Show example
 [%collapsible]
@@ -812,7 +866,9 @@ cluster1::*>
 ----
 ====
 
-. Verify that the cluster is healthy: `cluster show`
+. Verify that the cluster is healthy: 
++
+`cluster show`
 +
 .Show example
 [%collapsible]
@@ -832,13 +888,14 @@ cluster1-04          true     true          false
 
 . Repeat steps 4 to 14 on switch cs1. 
 . Enable auto-revert on the cluster LIFs:
-`cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert true`
++
+[source,cli]
+----
+network interface modify -vserver Cluster -lif * -auto-revert true
+----
 
 . Reboot switch cs1. You do this to trigger the cluster LIFs to revert to their home ports. You can ignore the “cluster ports down” events reported on the nodes while the switch reboots.
 +
-.Show example
-[%collapsible]
-====
 
 [subs=+quotes]
 ----
@@ -848,10 +905,14 @@ Would you like to save them now? (y/n) *y*
 Config file 'startup-config' created successfully. 
 Configuration Saved! System will now restart!
 ----
-====
 
 == Step 3: Verify the configuration
-. On switch cs1, verify that the switch ports connected to the cluster ports are *up*.
+. On switch cs1, verify that the switch ports connected to the cluster ports are *up*:
++
+[source,cli]
+----
+show interfaces status all | exclude Detach
+----
 +
 .Show example
 [%collapsible]
@@ -884,7 +945,12 @@ Port       Name                 State   Mode        Status      Type        Cont
 ----
 ====
 
-. Verify that the ISL between switches cs1 and cs2 is functional: `show port-channel 1/1`
+. Verify that the ISL between switches cs1 and cs2 is functional: 
++
+[source,cli]
+----
+show port-channel 1/1
+----
 +
 .Show example
 [%collapsible]
@@ -911,7 +977,12 @@ Ports   Timeout       Speed     Active
 ----
 ====
 
-. Verify that the cluster LIFs have reverted to their home port: `network interface show -role cluster`
+. Verify that the cluster LIFs have reverted to their home port: 
++
+[source,cli]
+----
+network interface show -role cluster
+----
 +
 .Show example
 [%collapsible]
@@ -935,7 +1006,9 @@ Cluster
 ----
 ====
 
-. Verify that the cluster is healthy: `cluster show`
+. Verify that the cluster is healthy: 
++
+`cluster show`
 +
 .Show example
 [%collapsible]
@@ -953,7 +1026,12 @@ cluster1-04          true    true          false
 ----
 ====
 
-. Ping the remote cluster interfaces to verify connectivity: `cluster ping-cluster -node local`
+. Ping the remote cluster interfaces to verify connectivity: 
++
+[source,cli]
+----
+cluster ping-cluster -node local
+----
 +
 .Show example
 [%collapsible]
@@ -1002,15 +1080,23 @@ RPC status:
 
 . Change the privilege level back to admin: 
 +
-`set -privilege admin`
+[source,cli]
+----
+set -privilege admin
+----
 
 . If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
 +
-`system node autosupport invoke -node * -type all -message MAINT=END`
+[source,cli]
+----
+system node autosupport invoke -node * -type all -message MAINT=END
+----
 
 
 .What's next?
-link:configure-health-monitor.html[Install the CSHM configuration file].
+
+link:configure-ssh.html[Enable SSH for log collection].
 // Updates for GH issues #72 & 79, 2023-APR-04
 // Updated rcf.scr file version from 1.6 to 1.9 as per AFFFASDOC-66, 2023-MAY-31
 // Updated for GH issue #118, 2023-AUG-29
+// Updated for GH issues #72, 109, 12, AFFFASDOC-212, 2024-May-10
