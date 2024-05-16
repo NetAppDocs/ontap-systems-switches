@@ -50,7 +50,7 @@ Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 
 . Download the image file to the switch.
 +
-Check the following table for information on supported protocols:
+Check the following table for information on supported copy protocols:
 +
 |===
 
@@ -186,7 +186,14 @@ Additional Packages............................ BGP-4
 ----
 ====
 
-. Repeat steps 3 through to 6 on the partner switch.
+. Complete the installation.
+Follow these five steps to reconfigure the switch:
+.. link:configure-licenses.html[Install licenses] 
+.. link:configure-install-rcf.html[Install the RCF file]
+.. link:configure-ssh.html[Enable SSH]
+.. link:CSHM_log_collection.html[Enable log collection]
+.. link:CSHM_snmpv3.html[Configure SNMPv3 for monitoring]
+. Repeat steps 1 to 7 on the partner switch.
 
 === Method 2: Install EFOS in ONIE mode
 You can perform the following steps if one EFOS version is FIPS compliant and the other EFOS version is non-FIPS compliant. These steps can be used to install the non-FIPS or FIPS compliant EFOS 3.7.x.x image from ONIE if the switch fails to boot.
@@ -342,9 +349,9 @@ The switch reboots with no configuration applied and resets to factory defaults.
 .. link:configure-ssh.html[Enable SSH]
 .. link:CSHM_log_collection.html[Enable log collection]
 .. link:CSHM_snmpv3.html[Configure SNMPv3 for monitoring]
-. Repeat steps 1 through to 7 on the partner switch.
+. Repeat steps 1 to 8 on the partner switch.
 
 // 2023 FEB 16, ontap-systems-switches-issues-76
 // added details for BES-53248A1 under show version commands, 2023-APR-05
 // Updates for AFFFASDOC-41, 2023-MAY-10
-// 2024-03-01, GitHub issue 159
+// 2024-05-16, GitHub issue 159
