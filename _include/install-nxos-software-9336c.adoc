@@ -6,17 +6,20 @@
 
 * A current backup of the switch configuration.
 * A fully functioning cluster (no errors in the logs or similar issues).
+
+.Suggested documentation
+
 * link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet switch page^] 
 +
 Consult the switch compatibility table for the supported ONTAP and NX-OS versions.
 
 //* Appropriate software and upgrade guides available on the Cisco web site for the Cisco switch upgrade and downgrade procedures. See https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series Switches^].
 
-* link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/products-installation-guides-list.html[Software Upgrade and downgrade guides] 
+* link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/products-installation-guides-list.html[Software Upgrade and downgrade guides^] 
 +
 Refer to the appropriate software and upgrade guides available on the Cisco web site for complete documentation on the Cisco switch upgrade and downgrade procedures.
 
-* link:https://www.cisco.com/c/dam/en/us/td/docs/dcn/tools/nexus-9k3k-issu-matrix/index.html[Cisco Nexus 9000 and 3000 Upgrade and ISSU Matrix]
+* link:https://www.cisco.com/c/dam/en/us/td/docs/dcn/tools/nexus-9k3k-issu-matrix/index.html[Cisco Nexus 9000 and 3000 Upgrade and ISSU Matrix^]
 +
 Provides information on Disruptive Upgrade/Downgrade for Cisco NX-OS software on Nexus 9000 Series Switches 
 based on your current and target releases.
@@ -42,11 +45,8 @@ The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Serie
 
 . Use the ping command to verify connectivity to the server hosting the NX-OS software and the RCF.
 +
-.Show example
-[%collapsible]
-
-====
 This example verifies that the switch can reach the server at IP address 172.19.2.1:
++
 
 [subs=+quotes]
 ----
@@ -55,7 +55,7 @@ Pinging 172.19.2.1 with 0 bytes of data:
 
 Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 ----
-====
+
 
 . Copy the NX-OS software and EPLD images to the Nexus 9336C-FX2 switch.
 +
@@ -354,9 +354,6 @@ Module 1 EPLD upgrade is successful.
 
 . After the switch reboot, log in again and verify that the new version of EPLD loaded successfully.
 +
-.Show example
-[%collapsible]
-====
 
 [subs=+quotes]
 ----
@@ -372,7 +369,6 @@ GEM  FPGA                        0x2
 GEM  FPGA                        0x2
 GEM  FPGA                        0x2
 ----
-====
 
 . Repeat steps 1 to 8 to install the NX-OS software on switch cs1.
 
