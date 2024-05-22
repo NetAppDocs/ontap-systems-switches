@@ -428,7 +428,9 @@ Configuration Saved!
 Are you sure you would like to reset the system? (y/n) *y*
 ----
 
-. If additional port licenses have been installed on the switch, you must modify the RCF to configure the additional licensed ports. See link:configure-licenses.html#activate-newly-licensed-ports[Activate newly licensed ports^] for details. 
+. Note the following: 
+.. If additional port licenses have been installed on the switch, you must modify the RCF to configure the additional licensed ports. See link:configure-licenses.html#activate-newly-licensed-ports[Activate newly licensed ports^] for details. 
+.. Record any customizations that were made in the previous RCF and apply these to the new RCF. For example, setting port speeds or hard-coding FEC mode.
 
 . Copy the RCF to the bootflash of switch cs2 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP.
 +
