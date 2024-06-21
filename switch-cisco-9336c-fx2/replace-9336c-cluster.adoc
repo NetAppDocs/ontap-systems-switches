@@ -15,6 +15,7 @@ Follow these steps to replace a defective Nexus 9336C-FX2 switch in a cluster ne
 
 Before performing the switch replacement, make sure that: 
 
+* You have verified the switch serial number to ensure that the correct switch is replaced. 
 * On the existing cluster and network infrastructure:
  ** The existing cluster is verified as completely functional, with at least one fully connected cluster switch.
  ** All cluster ports are *up*.
@@ -603,3 +604,5 @@ NOTE: If any of these commands return an error, contact NetApp support.
 . If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message: 
 +
 `system node autosupport invoke -node * -type all -message MAINT=END`
+
+// Updates for GH issues #191, 192, 2024-JUN-19
