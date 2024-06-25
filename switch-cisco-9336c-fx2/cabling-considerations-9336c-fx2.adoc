@@ -45,6 +45,9 @@ For switch ports e0a and e0b, the fec setting is set to `rs-cons16`.
 (cs1)# *copy running-config startup-config*
 ----
 
+== Ports do not link up due to TCAM resources
+On the 9336C-FX2 switch,the Ternary Content Addressable Memory (TCAM) resources configured in the configuration utilized by the switch are exhausted. See the Knowledge Base article https://kb.netapp.com/on-prem/Switches/Cisco-KBs/Ports_do_not_link_up_on_Cisco_Nexus_9336C-FX2_due_to_TCAM_resources[Ports do not link up on Cisco Nexus 9336C-FX2 due to TCAM resources^] for details on how to resolve this issue. 
+
 //** Change the controller port from `auto` to `fc` and the port comes up. 
 //** Set the switch port to `auto` and the port comes up.
 
@@ -175,3 +178,4 @@ For switch ports e0a and e0b, the fec setting is set to `rs-cons16`.
 //----
 
 // New content for AFFFASDOC-193, 2024-MAR-06
+// Updates for AFFFASDOC-229, 2024-JUN-25
