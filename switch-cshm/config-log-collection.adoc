@@ -1,31 +1,28 @@
 ---
 permalink: switch-cshm/config-log-collection.html
 sidebar: sidebar
-keywords: configuration, cshm, log collection configure 
-summary: You can use the log collection feature to collect switch-related log files in ONTAP.
+keywords: log collection feature,collect switch-related log files,SSh key,crypto key generation
+summary: 'The Ethernet switch health monitor (CSHM) log collection feature is used to collect logs from cluster or storage network switches in ONTAP.'
 ---
 = Configure Log collection 
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-You can use the log collection feature to collect switch-related log files in ONTAP. 
-
-The Ethernet switch health monitor (CSHM) is responsible for ensuring the operational health of Cluster and Storage network switches and collecting switch logs for debugging purposes. This procedure guides you through the process of setting up and starting the collection of detailed *Support* logs from the switch and starts an hourly collection of *Periodic* data that is collected by AutoSupport.
+The Ethernet switch health monitor (CSHM) is responsible for ensuring the operational health of Cluster and Storage network switches and collecting switch logs for debugging purposes. This procedure guides you through the process of setting up collection, requesting detailed *Support* logs, and enabling an hourly collection of *Periodic* data that is collected by AutoSupport.
 
 .Before you begin
 
-* Verify that you have set up your environment using the 9336C-FX2 cluster switch *CLI*.
+* The user for log collection must be specified when the Reference Configuration File (RCF) is applied. By default, this user is set to 'admin'. If you wish to use a different user, you must specify this in the *# SHM User*s section of the RCF.
+* The user must have access to the *nv show* commands. This can be added by running `sudo adduser USER nv show` and replacing USER with the user for log collection.
 * Switch health monitoring must be enabled for the switch. Verify this by ensuring the `Is Monitored:` field is set to *true* in the output of the `system switch ethernet show` command.
 
 .Steps
 
-. Create a password for the Ethernet switch health monitor log collection feature:
+. To set up log collection, run the following command for each switch. You are prompted to enter the switch name, username, and password for log collection.
 +
-[source,cli]
-----
-system switch ethernet log setup-password
-----
+`system switch ethernet log setup-password`
+
 +
 .Show example
 [%collapsible]
@@ -58,18 +55,21 @@ Enter the password again: *<enter switch password>*
 ----
 ====
 
-. To start log collection, run the following command, replacing DEVICE with the switch used in the previous command. This starts both types of log collection: the detailed *Support* logs and an hourly collection of *Periodic* data.
-+
-[source,cli]
-----
-system switch ethernet log modify -device _<switch-name>_ -log-request true
-----
+.Steps
 
-+
-.Show example 
-[%collapsible]
-====
+// start of tabbed content 
 
+[role="tabbed-block"] 
+
+==== 
+
+.ONTAP 9.14.1 and earlier
+--
+
+. To request support log collection and enable periodic collection, run the following command. This starts both types of log collection: the detailed `Support` logs and an hourly collection of `Periodic` data.
++
+`system switch ethernet log modify -device _<switch-name>_ -log-request true`
++
 [subs=+quotes]
 ----
 cluster1::*> *system switch ethernet log modify -device cs1 -log-request true*
@@ -84,12 +84,133 @@ Do you want to modify the cluster switch log collection configuration? {y|n}: [n
 
 Enabling cluster switch log collection.
 ----
-====
 +
 Wait for 10 minutes and then check that the log collection completes:
 +
 `system switch ethernet log show`
 +
+----
+--
+
+.ONTAP 9.15.1 and later
+
+--
+
+. To enable periodic log collection:
++
+`system switch ethernet log modify -device _<switch-name>_ -periodic-enabled true`
++
+For example: //TODO: add for all of them
++
+[subs=+quotes]
+----
+cluster1::*> *system switch ethernet log modify -device cs1 -periodic-enabled true
+
+Do you want to modify the cluster switch log collection configuration? {y|n}: [n] *y*
+
+'cs1': Periodic log collection has been scheduled to run every hour.
+
+cluster1::*> *system switch ethernet log modify -device cs2 -periodic-enabled true
+
+Do you want to modify the cluster switch log collection configuration? {y|n}: [n] *y*
+
+'cs2': Periodic log collection has been scheduled to run every hour.
+
+cluster1::*> system switch ethernet log show
+                                          Periodic    Periodic    Support
+Switch                                    Log Enabled Log State   Log State
+
+cs1                                       true        scheduled   never-run
+cs2                                       true        scheduled   never-run
+2 entries were displayed.
+----
+
+. To disable periodic log collection:
++
+`system switch ethernet log modify -device _<switch-name>_ -periodic-enabled true`
++
+[subs=+quotes]
+----
+cluster1::*> *system switch ethernet log modify -device cs1 -periodic-enabled false
+
+Do you want to modify the cluster switch log collection configuration? {y|n}: [n] *y*
+
+'cs1': Periodic collection has been halted.
+
+cluster1::*> *system switch ethernet log show
+                                          Periodic    Periodic    Support
+Switch                                    Log Enabled Log State   Log State
+
+cs1                                       false       halted      never-run
+cs2                                       true        scheduled   never-run
+2 entries were displayed.
+----
+
+. To request support log collection:
++
+`system switch ethernet log collect-support-log -device _<switch-name>_`
++
+[subs=+quotes]
+----
+cluster1::*> *system switch ethernet log collect-support-log -device cs1
+
+'cs1': Waiting for the next Ethernet switch polling cycle to begin support collection. 
+
+cluster1::*> *system switch ethernet log collect-support-log -device cs2
+
+'cs2': Waiting for the next Ethernet switch polling cycle to begin support collection. 
+
+cluster1::*> *system switch ethernet log show
+                                          Periodic    Periodic    Support
+Switch                                    Log Enabled Log State   Log State
+
+cs1                                       false       halted      initiated
+cs2                                       true        scheduled   initiated
+2 entries were displayed.
+----
+
+. To view all details of log collection, including the enablement, status message, previous timestamp and filename of periodic collection, the request status, status message, previous timestamp and filename of support collection, use the following:
++
+`system switch ethernet log show -instance`
++
+// TODO: add collapsible
+[subs=+quotes]
+----
+cluster1::*> *system switch ethernet log show -instance
+
+                    Switch Name: cs1
+           Periodic Log Enabled: true
+            Periodic Log Status: Periodic log collection has been scheduled to run every hour.
+    Last Periodic Log Timestamp: 3/11/2024 11:02:59
+          Periodic Log Filename: cluster1:/mroot/etc/log/shm-cluster-info.tgz
+          Support Log Requested: false
+             Support Log Status: Successfully gathered support logs - see filename for their location.
+     Last Support Log Timestamp: 3/11/2024 11:14:20
+           Support Log Filename: cluster1:/mroot/etc/log/shm-cluster-log.tgz
+
+                    Switch Name: cs2
+           Periodic Log Enabled: false
+            Periodic Log Status: Periodic collection has been halted.
+    Last Periodic Log Timestamp: 3/11/2024 11:05:18
+          Periodic Log Filename: cluster1:/mroot/etc/log/shm-cluster-info.tgz
+          Support Log Requested: false
+             Support Log Status: Successfully gathered support logs - see filename for their location.
+     Last Support Log Timestamp: 3/11/2024 11:18:54
+           Support Log Filename: cluster1:/mroot/etc/log/shm-cluster-log.tgz
+2 entries were displayed.
+----
+--
+====
+
+// end of tabbed content 
+
 CAUTION: If any of these commands return an error or if the log collection does not complete, contact NetApp support.
 
+.Troubleshooting
+If you encounter any of the following error statuses reported by the log collection feature (visible in the output of `system switch ethernet log show`), try the corresponding debug steps:
 
+|===
+
+// Link to KBs for log collection (need to update)
+
+|===
