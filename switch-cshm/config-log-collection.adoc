@@ -11,13 +11,13 @@ summary: 'The Ethernet switch health monitor (CSHM) log collection feature is us
 [.lead]
 The Ethernet switch health monitor (CSHM) is responsible for ensuring the operational health of Cluster and Storage network switches and collecting switch logs for debugging purposes. This procedure guides you through the process of setting up collection, requesting detailed *Support* logs, and enabling an hourly collection of *Periodic* data that is collected by AutoSupport.
 
-.Before you begin
+== Before you begin
 
 * The user for log collection must be specified when the Reference Configuration File (RCF) is applied. By default, this user is set to 'admin'. If you wish to use a different user, you must specify this in the *# SHM User's* section of the RCF.
 * The user must have access to the *nv show* commands. This can be added by running `sudo adduser USER nv show` and replacing USER with the user for log collection.
 * Switch health monitoring must be enabled for the switch. Verify this by ensuring the `Is Monitored:` field is set to *true* in the output of the `system switch ethernet show` command.
 
-.Steps
+== Steps
 
 // start of tabbed content 
 
@@ -143,13 +143,13 @@ cluster1::*> *system switch ethernet log modify -device cs1 -periodic-enabled tr
 
 Do you want to modify the cluster switch log collection configuration? {y|n}: [n] *y*
 
-'cs1': Periodic log collection has been scheduled to run every hour.
+*cs1*: Periodic log collection has been scheduled to run every hour.
 
 cluster1::*> *system switch ethernet log modify -device cs2 -periodic-enabled true*
 
 Do you want to modify the cluster switch log collection configuration? {y|n}: [n] *y*
 
-'cs2': Periodic log collection has been scheduled to run every hour.
+*cs2*: Periodic log collection has been scheduled to run every hour.
 
 cluster1::*> *system switch ethernet log show*
                                           Periodic    Periodic    Support
@@ -173,7 +173,7 @@ cluster1::*> *system switch ethernet log modify -device cs1 -periodic-enabled fa
 
 Do you want to modify the cluster switch log collection configuration? {y|n}: [n] *y*
 
-'cs1': Periodic collection has been halted.
+*cs1*: Periodic collection has been halted.
 
 cluster1::*> *system switch ethernet log show
                                           Periodic    Periodic    Support
@@ -195,11 +195,11 @@ system switch ethernet log collect-support-log -device _<switch-name>_
 ----
 cluster1::*> *system switch ethernet log collect-support-log -device cs1*
 
-'cs1': Waiting for the next Ethernet switch polling cycle to begin support collection. 
+*cs1*: Waiting for the next Ethernet switch polling cycle to begin support collection. 
 
 cluster1::*> *system switch ethernet log collect-support-log -device cs2*
 
-'cs2': Waiting for the next Ethernet switch polling cycle to begin support collection. 
+*cs2*: Waiting for the next Ethernet switch polling cycle to begin support collection. 
 
 cluster1::*> *system switch ethernet log show
                                           Periodic    Periodic    Support
@@ -247,7 +247,7 @@ cluster1::*> *system switch ethernet log show -instance*
 
 // end of tabbed content 
 
-CAUTION: If any error statuses are reported by the log collection feature (visible in the output of `system switch ethernet log show`), see link:monitor-troubleshoot.html[Troubleshoot log collection] for further details.
+CAUTION: If any error statuses are reported by the log collection feature (visible in the output of `system switch ethernet log show`), see link:log-collection-troubleshoot.html[Troubleshoot log collection] for further details.
 
 |===
 
