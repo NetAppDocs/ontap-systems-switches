@@ -27,10 +27,10 @@ NOTE: In ONTAP releases 9.5P7 and earlier and 9.6P2 and earlier, you must downlo
  .. On the Switch Health Monitor Configuration Files for ONTAP - Description page, click *Download* for the applicable cluster switch model, for example: *NVIDIA SN2100*
  .. On the End User License Agreement page, click *Accept*
  .. On the Switch Health Monitor Configuration Files for ONTAP - Download page, select the applicable configuration file, for example, *NVIDIA_SN2100.zip*
+
 . Upload the applicable zip file to your internal web server where the IP address is X.X.X.X.
 +
 For an internal web server IP address of 192.168.2.20 and assuming a /usr/download directory exists, you can upload your zip file to your web server using scp:
-+
 +
 [subs=+quotes]
 ----
@@ -39,14 +39,12 @@ For an internal web server IP address of 192.168.2.20 and assuming a /usr/downlo
 
 . Access the advanced mode setting from one of the ONTAP systems in the cluster, using the command set-privilege advanced:
 +
-+
 [subs=+quotes]
 ----
 cluster1::> *set -privilege advanced*
 ----
 
 . Run the switch health monitor configure command system cluster-switch configure-health-monitor -node * -package-url X.X.X.X/location_to_download_zip_file:
-+
 +
 [subs=+quotes]
 ----
@@ -55,7 +53,6 @@ cluster1::> *system cluster-switch configure-health-monitor -node * -package-url
 
 . Verify that the command output contains the text string *downloaded package processed successfully*. If an error occurs, contact NetApp support.
 . Run the command `system switch ethernet show` on the ONTAP system and make sure that the cluster switches are discovered with the monitored field set to *True*.
-+
 +
 [subs=+quotes]
 ----
