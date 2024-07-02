@@ -13,25 +13,33 @@ The Ethernet switch health monitor (CSHM) is responsible for ensuring the operat
 
 .Before you begin
 
-* The user for log collection must be specified when the Reference Configuration File (RCF) is applied. By default, this user is set to 'admin'. If you wish to use a different user, you must specify this in the *# SHM User*s section of the RCF.
+* The user for log collection must be specified when the Reference Configuration File (RCF) is applied. By default, this user is set to 'admin'. If you wish to use a different user, you must specify this in the *# SHM User's* section of the RCF.
 * The user must have access to the *nv show* commands. This can be added by running `sudo adduser USER nv show` and replacing USER with the user for log collection.
 * Switch health monitoring must be enabled for the switch. Verify this by ensuring the `Is Monitored:` field is set to *true* in the output of the `system switch ethernet show` command.
 
 .Steps
 
+// start of tabbed content 
+
+[role="tabbed-block"] 
+
+==== 
+
+.ONTAP 9.14.1 and earlier
+--
+
 . To set up log collection, run the following command for each switch. You are prompted to enter the switch name, username, and password for log collection.
 +
-`system switch ethernet log setup-password`
-
+[source,cli]
+----
+system switch ethernet log setup-password
+----
 +
-.Show example
-[%collapsible]
-====
 
 [subs=+quotes]
 ----
 cluster1::*> *system switch ethernet log setup-password*
-Enter the switch name: *<return>*
+Enter the switch name: <return>
 The switch name entered is not recognized.
 Choose from the following list:
 *cs1*
@@ -48,27 +56,19 @@ Enter the password again: *<enter switch password>*
 cluster1::*> *system switch ethernet log setup-password*
 
 Enter the switch name: *cs2*
+
 Would you like to specify a user other than admin for log collection? {y|n}: *n*
 
 Enter the password: *<enter switch password>*
 Enter the password again: *<enter switch password>*
 ----
-====
-
-.Steps
-
-// start of tabbed content 
-
-[role="tabbed-block"] 
-
-==== 
-
-.ONTAP 9.14.1 and earlier
---
 
 . To request support log collection and enable periodic collection, run the following command. This starts both types of log collection: the detailed `Support` logs and an hourly collection of `Periodic` data.
 +
-`system switch ethernet log modify -device _<switch-name>_ -log-request true`
+[source,cli]
+----
+system switch ethernet log modify -device _<switch-name>_ -log-request true
+----
 +
 [subs=+quotes]
 ----
@@ -87,36 +87,71 @@ Enabling cluster switch log collection.
 +
 Wait for 10 minutes and then check that the log collection completes:
 +
-`system switch ethernet log show`
-+
+[source,cli]
+----
+system switch ethernet log show
 ----
 --
 
+
 .ONTAP 9.15.1 and later
-
 --
-
-. To enable periodic log collection:
+. To set up log collection, run the following command for each switch. You are prompted to enter the switch name, username, and password for log collection.
 +
-`system switch ethernet log modify -device _<switch-name>_ -periodic-enabled true`
-+
-For example: //TODO: add for all of them
+[source,cli]
+----
+system switch ethernet log setup-password
+----
 +
 [subs=+quotes]
 ----
-cluster1::*> *system switch ethernet log modify -device cs1 -periodic-enabled true
+cluster1::*> *system switch ethernet log setup-password*
+Enter the switch name: <return>
+The switch name entered is not recognized.
+Choose from the following list:
+*cs1*
+*cs2*
+
+cluster1::*> *system switch ethernet log setup-password*
+
+Enter the switch name: *cs1*
+Would you like to specify a user other than admin for log collection? {y|n}: *n*
+
+Enter the password: *<enter switch password>*
+Enter the password again: *<enter switch password>*
+
+cluster1::*> *system switch ethernet log setup-password*
+
+Enter the switch name: *cs2*
+
+Would you like to specify a user other than admin for log collection? {y|n}: *n*
+
+Enter the password: *<enter switch password>*
+Enter the password again: *<enter switch password>*
+----
+
+. To enable periodic log collection:
++
+[source,cli]
+----
+system switch ethernet log modify -device _<switch-name>_ -periodic-enabled true
+----
++
+[subs=+quotes]
+----
+cluster1::*> *system switch ethernet log modify -device cs1 -periodic-enabled true*
 
 Do you want to modify the cluster switch log collection configuration? {y|n}: [n] *y*
 
 'cs1': Periodic log collection has been scheduled to run every hour.
 
-cluster1::*> *system switch ethernet log modify -device cs2 -periodic-enabled true
+cluster1::*> *system switch ethernet log modify -device cs2 -periodic-enabled true*
 
 Do you want to modify the cluster switch log collection configuration? {y|n}: [n] *y*
 
 'cs2': Periodic log collection has been scheduled to run every hour.
 
-cluster1::*> system switch ethernet log show
+cluster1::*> *system switch ethernet log show*
                                           Periodic    Periodic    Support
 Switch                                    Log Enabled Log State   Log State
 
@@ -127,11 +162,14 @@ cs2                                       true        scheduled   never-run
 
 . To disable periodic log collection:
 +
-`system switch ethernet log modify -device _<switch-name>_ -periodic-enabled true`
+[source,cli]
+----
+system switch ethernet log modify -device _<switch-name>_ -periodic-enabled true
+----
 +
 [subs=+quotes]
 ----
-cluster1::*> *system switch ethernet log modify -device cs1 -periodic-enabled false
+cluster1::*> *system switch ethernet log modify -device cs1 -periodic-enabled false*
 
 Do you want to modify the cluster switch log collection configuration? {y|n}: [n] *y*
 
@@ -148,15 +186,18 @@ cs2                                       true        scheduled   never-run
 
 . To request support log collection:
 +
-`system switch ethernet log collect-support-log -device _<switch-name>_`
+[source,cli]
+----
+system switch ethernet log collect-support-log -device _<switch-name>_
+----
 +
 [subs=+quotes]
 ----
-cluster1::*> *system switch ethernet log collect-support-log -device cs1
+cluster1::*> *system switch ethernet log collect-support-log -device cs1*
 
 'cs1': Waiting for the next Ethernet switch polling cycle to begin support collection. 
 
-cluster1::*> *system switch ethernet log collect-support-log -device cs2
+cluster1::*> *system switch ethernet log collect-support-log -device cs2*
 
 'cs2': Waiting for the next Ethernet switch polling cycle to begin support collection. 
 
@@ -171,12 +212,14 @@ cs2                                       true        scheduled   initiated
 
 . To view all details of log collection, including the enablement, status message, previous timestamp and filename of periodic collection, the request status, status message, previous timestamp and filename of support collection, use the following:
 +
-`system switch ethernet log show -instance`
+[source,cli]
+----
+system switch ethernet log show -instance
+----
 +
-// TODO: add collapsible
 [subs=+quotes]
 ----
-cluster1::*> *system switch ethernet log show -instance
+cluster1::*> *system switch ethernet log show -instance*
 
                     Switch Name: cs1
            Periodic Log Enabled: true
@@ -204,10 +247,7 @@ cluster1::*> *system switch ethernet log show -instance
 
 // end of tabbed content 
 
-CAUTION: If any of these commands return an error or if the log collection does not complete, contact NetApp support.
-
-.Troubleshooting
-If you encounter any of the following error statuses reported by the log collection feature (visible in the output of `system switch ethernet log show`), try the corresponding debug steps:
+CAUTION: If any error statuses are reported by the log collection feature (visible in the output of `system switch ethernet log show`), see link:monitor-troubleshoot.html[Troubleshoot log collection] for further details.
 
 |===
 
