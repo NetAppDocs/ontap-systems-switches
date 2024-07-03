@@ -4,7 +4,7 @@ sidebar: sidebar
 keywords: log collection feature,collect switch-related log files,SSh key,crypto key generation
 summary: 'The Ethernet switch health monitor (CSHM) log collection feature is used to collect logs from cluster or storage network switches in ONTAP.'
 ---
-= Configure Log collection 
+= Configure log collection 
 :icons: font
 :imagesdir: ../media/
 
@@ -156,30 +156,6 @@ cluster1::*> *system switch ethernet log show*
 Switch                                    Log Enabled Log State   Log State
 
 cs1                                       true        scheduled   never-run
-cs2                                       true        scheduled   never-run
-2 entries were displayed.
-----
-
-. To disable periodic log collection:
-+
-[source,cli]
-----
-system switch ethernet log modify -device _<switch-name>_ -periodic-enabled true
-----
-+
-[subs=+quotes]
-----
-cluster1::*> *system switch ethernet log modify -device cs1 -periodic-enabled false*
-
-Do you want to modify the cluster switch log collection configuration? {y|n}: [n] *y*
-
-*cs1*: Periodic collection has been halted.
-
-cluster1::*> *system switch ethernet log show
-                                          Periodic    Periodic    Support
-Switch                                    Log Enabled Log State   Log State
-
-cs1                                       false       halted      never-run
 cs2                                       true        scheduled   never-run
 2 entries were displayed.
 ----
