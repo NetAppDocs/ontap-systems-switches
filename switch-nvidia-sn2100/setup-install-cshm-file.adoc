@@ -9,23 +9,24 @@ summary: You can use this procedure to install the applicable configuration file
 :imagesdir: ../media/
 
 [.lead]
-Follow this procedure to install the applicable configuration file for Ethernet switch health monitoring of NVIDIA cluster switches. Supported models are:
+Follow this procedure to install the applicable configuration file for Ethernet switch health monitoring of NVIDIA cluster switches. 
+Supported models are:
 
 * MSN2100-CB2FC
 * MSN2100-CB2RC
 * X190006-PE
 * X190006-PI
 
-NOTE: In ONTAP release 9.10.1 and later, you must download the Ethernet switch health monitor configuration file separately. 
+NOTE: The following installation procedure applies to ONTAP version 9.10.1 and later.
 
 //In future patch releases the configuration file will be bundled with ONTAP. 
 
 .Before you begin
 
-* Verify that you need to download the configuration file by running `system switch ethernet show` and check if *other* is shown for your model. 
+* Verify that you need to download the configuration file by running `system switch ethernet show` and check if *OTHER* is shown for your model. 
 +
-If your model is still showing *other*  after applying the configuration file, contact NetApp support. 
-* Make sure that the Ethernet switch health monitor process is running using `spm show -name cshm`
+If your model is still showing *OTHER*  after applying the configuration file, contact NetApp support. 
+* Make sure that the Ethernet switch health monitor process is running using `spm show -name cshmd`
 * Make sure that the ONTAP cluster is up and running.
 * Enable SSH to use all of the features available in CSHM.
 
@@ -64,11 +65,38 @@ For an internal web server IP address of 192.168.2.20 and assuming a /usr/downlo
 cluster1::> *system cluster-switch configure-health-monitor -node * -package-url 192.168.2.20/usr/download/NVIDIA_SN2100.zip*
 ----
 
-. Verify that the command output contains the text string *downloaded package processed successfully*. If an error occurs, contact NetApp support.
-+
-Wait up to twice the Ethernet switch health monitor polling interval, found by running `system switch ethernet polling-interval show`
+. Verify the command output text as follows:
 
-. Run the command `system switch ethernet show` on the ONTAP system and make sure that the cluster switches are discovered with the monitored field set to *True*.
+// start of tabbed content 
+
+[role="tabbed-block"] 
+
+==== 
+
+.9.15.1 and later
+--
+Ethernet switch health monitoring installed the configuration file.
+--
+
+.9.11.1 through 9.14.1
+--
+SHM installed the configuration file.
+--
+
+.9.10.1
+--
+CSHM downloaded package processed successfully.
+--
+====
+
+// end of tabbed content 
+
+If an error occurs, contact NetApp support.
+
+[start=6]
+. [[step6]]Wait up to twice the Ethernet switch health monitor polling interval, found by running `system switch ethernet polling-interval show` before completing the next step.
+
+. Run the command `system switch ethernet show` on the ONTAP system and make sure that the cluster switches are discovered with the monitored field set to *True* and the serial number not set to *Unknown*.
 +
 [subs=+quotes]
 ----
