@@ -58,7 +58,7 @@ For an internal web server IP address of 192.168.2.20 and assuming a /usr/downlo
 //cluster1::> *set -privilege advanced*
 //----
 
-. Run the switch health monitor configure command `system cluster-switch configure-health-monitor -node * -package-url X.X.X.X/location_to_download_zip_file`:
+. Run the switch health monitor configure command.
 +
 [subs=+quotes]
 ----
@@ -96,7 +96,7 @@ If an error occurs, contact NetApp support.
 [start=6]
 . [[step6]]Wait up to twice the Ethernet switch health monitor polling interval, found by running `system switch ethernet polling-interval show` before completing the next step.
 
-. Run the command `system switch ethernet show` on the ONTAP system and make sure that the cluster switches are discovered with the monitored field set to *True* and the serial number not set to *Unknown*.
+. Run the command `system switch ethernet show` on the ONTAP system and make sure that the cluster switches are discovered with the monitored field set to *True* and the serial number field populated and not showing *Unknown*.
 +
 [subs=+quotes]
 ----
