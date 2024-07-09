@@ -11,10 +11,12 @@ summary: 'The Ethernet switch health monitor (CSHM) log collection feature is us
 [.lead]
 The Ethernet switch health monitor (CSHM) is responsible for ensuring the operational health of Cluster and Storage network switches and collecting switch logs for debugging purposes. This procedure guides you through the process of setting up collection, requesting detailed *Support* logs, and enabling an hourly collection of *Periodic* data that is collected by AutoSupport.
 
+IMPORTANT: If you enable FIPS mode, you must complete the following: 1. Regenerate ssh keys on the switch, as per vendor instructions. 2. Regenerate ssh keys on the ONTAP side using `debug system regenerate-systemshell-key-pair` 3. Re-run log collection setup routine using `system switch ethernet log setup-password`
+
 == Before you begin
 
 * The user for log collection must be specified when the Reference Configuration File (RCF) is applied. By default, this user is set to 'admin'. If you wish to use a different user, you must specify this in the *# SHM User's* section of the RCF.
-* The user must have access to the *nv show* commands. This can be added by running `sudo adduser USER nv show` and replacing USER with the user for log collection.
+* The user must have access to the switch *show* commands. If not available, create a new user and grant the necessary permissions to the user. 
 * Switch health monitoring must be enabled for the switch. Verify this by ensuring the `Is Monitored:` field is set to *true* in the output of the `system switch ethernet show` command.
 
 == Steps
