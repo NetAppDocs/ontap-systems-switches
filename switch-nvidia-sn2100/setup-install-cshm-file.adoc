@@ -107,7 +107,7 @@ CSHM downloaded package processed successfully.
 If an error occurs, contact NetApp support.
 
 [start=6]
-. [[step6]]Wait up to twice the Ethernet switch health monitor polling interval, found by running `system switch ethernet polling-interval show` before completing the next step.
+. [[step6]]Wait up to twice the Ethernet switch health monitor polling interval, found by running `system switch ethernet polling-interval show`, before completing the next step.
 
 . Run the command `system switch ethernet show` on the ONTAP system and make sure that the cluster switches are discovered with the monitored field set to *True* and the serial number field not showing *Unknown*.
 +
