@@ -11,7 +11,11 @@ summary: You can use the following commands ......
 [.lead]
 Health monitors proactively monitor certain critical conditions in your cluster and raise alerts if they detect a fault or risk.
 
-If there are active alerts, the system health status reports a degraded status for the cluster.
-The alerts include the information that you need to respond to degraded system health.
+//If there are active alerts, the system health status reports a degraded status for the cluster.
+//The alerts include the information that you need to respond to degraded system health. 
 
-Alerts are enabled by running the command: `system health alert definition show -monitor ethernet-switch`
+To view the currently raised Ethernet switch health monitor alerts, run the command: `system health alert show -monitor ethernet-switch`
+
+//Alerts are enabled by running the command: `system health alert definition show -monitor ethernet-switch`
+
+To view the available Ethernet switch health monitor alerts, run the command: `system health alert definition show -monitor ethernet-switch`

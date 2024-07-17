@@ -9,11 +9,13 @@ summary: You can use the following commands .....
 :imagesdir: ../media/
 
 [.lead]
-Alerts are raised if a fault, risk, or critical condition is detected in your cluster. 
+Alerts are raised if a fault, risk, or critical condition is detected for an Ethernet switch in your cluster.
+//Alerts are raised if a fault, risk, or critical condition is detected in your cluster. 
 
-If there are active alerts, the system health status reports a degraded status for the cluster.
+If there are raised alerts, the system health status reports a degraded status for the cluster.
 The alerts raised include the information that you need to respond to degraded system health.
 
-Alerts are enabled by running the command: `system health alert definition show -monitor ethernet-switch`
+To view the available Ethernet switch health monitor alerts, run the command: `system health alert definition show -monitor ethernet-switch`
+//Alerts are enabled by running the command: `system health alert definition show -monitor ethernet-switch`
 
-See the Knowledge Base article https://kb.netapp.com/on-prem/ontap/OHW/OHW-KBs/Cluster_Switch_Health_Monitor_CSHM_Alert_Resolution_Guide[Switch Health Monitor Alert Resolution Guide^] for possible alerts and their resolution details.
+See the Knowledge Base article https://kb.netapp.com/on-prem/ontap/OHW/OHW-KBs/Cluster_Switch_Health_Monitor_CSHM_Alert_Resolution_Guide[Switch Health Monitor Alert Resolution Guide^] for advanced resolution details of alerts.
