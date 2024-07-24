@@ -13,6 +13,8 @@ SNMP is used to monitor the switches. The Ethernet Switch Health Monitor (CSHM) 
 
 SNMPv3 is more secure than SNMPv2 because it introduces robust security features such as authentication, encryption, and message integrity, which protect against unauthorized access and ensure data confidentiality and integrity during transmission.
 
+NOTE: SNMPv3 is only supported on ONTAP 9.12.1 and later.
+
 Follow this procedure to configure SNMPv3 for your specific switch, which supports CSHM.
 
 .About this task
@@ -26,7 +28,7 @@ The following commands are used to configure an SNMPv3 username on *Broadcom*, *
 
 .Broadcom switches
 --
-Configure an SNMPv3 username on Broadcom BES-53248 switches:
+Configure an SNMPv3 username NETWORK-OPERATOR on Broadcom BES-53248 switches.
 
 * For *no authentication*:
 +
@@ -169,7 +171,7 @@ DEPRECATED-Community String or SNMPv3 Username: -
 --
 .Cisco switches
 --
-Configure an SNMPv3 username on Cisco 9336C-FX2 switches:
+Configure an SNMPv3 username SNMPv3_USER on Cisco 9336C-FX2 switches:
 
 * For *no authentication*:
 +
@@ -187,7 +189,7 @@ snmp-server user SNMPv3_USER auth [md5|sha] AUTH-PASSWORD
 +
 [source,cli]
 ----
-snmp-server user SNMPv3_USE AuthEncrypt  auth [md5|sha] AUTH-PASSWORD priv aes-128 PRIV-PASSWORD
+snmp-server user SNMPv3_USER AuthEncrypt  auth [md5|sha] AUTH-PASSWORD priv aes-128 PRIV-PASSWORD
 ----
 
 The following command configures an SNMPv3 username on the ONTAP side:
@@ -329,7 +331,7 @@ cluster1::*>
 --
 .NVIDIA - CLI 5.4 and earlier
 --
-Configure an SNMPv3 username on NVIDIA SN2100 switches running CLI 5.4 and earlier:
+Configure an SNMPv3 username SNMPv3_USER on NVIDIA SN2100 switches running CLI 5.4 and earlier:
 
 * For *no authentication*:
 +
