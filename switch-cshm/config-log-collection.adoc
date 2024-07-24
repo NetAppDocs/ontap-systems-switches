@@ -77,7 +77,7 @@ Enter the password again: *<enter switch password>*
 +
 [source,cli]
 ----
-system switch ethernet log modify -device _<switch-name>_ -log-request true
+system switch ethernet log modify -device <switch-name> -log-request true
 ----
 +
 [subs=+quotes]
@@ -144,7 +144,7 @@ Enter the password again: *<enter switch password>*
 +
 [source,cli]
 ----
-system switch ethernet log modify -device _<switch-name>_ -periodic-enabled true
+system switch ethernet log modify -device <switch-name> -periodic-enabled true
 ----
 +
 [subs=+quotes]
@@ -174,7 +174,7 @@ cs2                                       true        scheduled   never-run
 +
 [source,cli]
 ----
-system switch ethernet log collect-support-log -device _<switch-name>_
+system switch ethernet log collect-support-log -device <switch-name>
 ----
 +
 [subs=+quotes]

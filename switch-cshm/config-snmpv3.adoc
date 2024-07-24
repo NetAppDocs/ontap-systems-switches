@@ -53,7 +53,7 @@ The following command configures an SNMPv3 username on the ONTAP side:
 +
 [subs=+quotes]
 ----
-security login create -user-or-group-name _SNMPv3_USER_ -application snmp -authentication-method usm -remote-switch-ipaddress _ADDRESS_
+security login create -user-or-group-name SNMPv3_USER -application snmp -authentication-method usm -remote-switch-ipaddress ADDRESS
 ----
 
 The following command establishes the SNMPv3 username with CSHM:
@@ -62,7 +62,7 @@ The following command establishes the SNMPv3 username with CSHM:
 +
 [subs=+quotes]
 ----
-cluster1::*> system switch ethernet modify -device _DEVICE_ -snmp-version SNMPv3 -community-or-username _SNMPv3_USER_
+cluster1::*> system switch ethernet modify -device DEVICE -snmp-version SNMPv3 -community-or-username SNMPv3_USER
 ----
 
 .Steps
@@ -179,33 +179,33 @@ Configure an SNMPv3 username on Cisco 9336C-FX2 switches:
 +
 [source,cli]
 ----
-snmp-server user _SNMPv3_USER_ NoAuth
+snmp-server user SNMPv3_USER NoAuth
 ----
 * For *MD5/SHA authentication*:
 +
 [source,cli]
 ----
-snmp-server user _SNMPv3_USER_ auth [md5|sha] _AUTH-PASSWORD_
+snmp-server user SNMPv3_USER auth [md5|sha] AUTH-PASSWORD
 ----
 * For *MD5/SHA authentication with AES/DES encryption*:
 +
 [source,cli]
 ----
-snmp-server user _SNMPv3_USER_ AuthEncrypt  auth [md5|sha] _AUTH-PASSWORD_ priv aes-128 _PRIV-PASSWORD_
+snmp-server user SNMPv3_USE AuthEncrypt  auth [md5|sha] AUTH-PASSWORD priv aes-128 PRIV-PASSWORD
 ----
 
 The following command configures an SNMPv3 username on the ONTAP side:
 
 [source,cli]
 ----
-security login create -user-or-group-name _SNMPv3_USER_ -application snmp -authentication-method usm -remote-switch-ipaddress _ADDRESS_
+security login create -user-or-group-name SNMPv3_USER -application snmp -authentication-method usm -remote-switch-ipaddress ADDRESS
 ----
 
 The following command establishes the SNMPv3 username with CSHM:
 
 [source,cli]
 ----
-system switch ethernet modify -device _DEVICE_ -snmp-version SNMPv3 -community-or-username _SNMPv3_USER_
+system switch ethernet modify -device DEVICE -snmp-version SNMPv3 -community-or-username SNMPv3_USER
 ----
 
 .Steps
@@ -339,33 +339,33 @@ Configure an SNMPv3 username on NVIDIA SN2100 switches running CLI 5.4 and earli
 +
 [source,cli]
 ----
-net add snmp-server username _SNMPv3_USER_ auth-none
+net add snmp-server username SNMPv3_USER auth-none
 ----
 * For *MD5/SHA authentication*:
 +
 [source,cli]
 ----
-net add snmp-server username _SNMPv3_USER_ [auth-md5|auth-sha] _AUTH-PASSWORD_
+net add snmp-server username SNMPv3_USER [auth-md5|auth-sha] AUTH-PASSWORD
 ----
 * For *MD5/SHA authentication with AES/DES encryption*:
 +
 [source,cli]
 ----
-net add snmp-server username _SNMPv3_USER_ [auth-md5|auth-sha] _AUTH-PASSWORD_ [encrypt-aes|encrypt-des] _PRIV-PASSWORD_
+net add snmp-server username SNMPv3_USER [auth-md5|auth-sha] AUTH-PASSWORD [encrypt-aes|encrypt-des] PRIV-PASSWORD
 ----
 
 The following command configures an SNMPv3 username on the ONTAP side:
 
 [source,cli]
 ----
-security login create -user-or-group-name _SNMPv3_USER_ -application snmp -authentication-method usm -remote-switch-ipaddress _ADDRESS_
+security login create -user-or-group-name SNMPv3_USER -application snmp -authentication-method usm -remote-switch-ipaddress ADDRESS
 ----
 
 The following command establishes the SNMPv3 username with CSHM:
 
 [source,cli]
 ----
-system switch ethernet modify -device _DEVICE_ -snmp-version SNMPv3 -community-or-username _SNMPv3_USER_
+system switch ethernet modify -device DEVICE -snmp-version SNMPv3 -community-or-username SNMPv3_USER
 ----
 
 .Steps
