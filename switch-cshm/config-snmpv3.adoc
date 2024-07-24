@@ -50,6 +50,8 @@ snmp-server user SNMPv3UserAuthEncrypt NETWORK-OPERATOR [auth-md5|auth-sha] [pri
 The following command configures an SNMPv3 username on the ONTAP side:
 
 [source,cli]
++
+[subs=+quotes]
 ----
 security login create -user-or-group-name _SNMPv3_USER_ -application snmp -authentication-method usm -remote-switch-ipaddress _ADDRESS_
 ----
@@ -57,6 +59,8 @@ security login create -user-or-group-name _SNMPv3_USER_ -application snmp -authe
 The following command establishes the SNMPv3 username with CSHM:
 
 [source,cli]
++
+[subs=+quotes]
 ----
 cluster1::*> system switch ethernet modify -device _DEVICE_ -snmp-version SNMPv3 -community-or-username _SNMPv3_USER_
 ----
@@ -340,11 +344,6 @@ net add snmp-server username _SNMPv3_USER_ auth-none
 * For *MD5/SHA authentication*:
 +
 [source,cli]
-----
-net add snmp-server username _SNMPv3_USER_ [auth-md5|auth-sha] _AUTH-PASSWORD_
-----
-+
-[subs=+quotes]
 ----
 net add snmp-server username _SNMPv3_USER_ [auth-md5|auth-sha] _AUTH-PASSWORD_
 ----

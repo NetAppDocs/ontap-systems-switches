@@ -24,8 +24,8 @@ The Ethernet switch health monitor (CSHM) is responsible for ensuring the operat
 * The user must have access to the switch *show* commands. If not available, create a new user and grant the necessary permissions to the user. 
 * Switch health monitoring must be enabled for the switch. Verify this by ensuring the `Is Monitored:` field is set to *true* in the output of the `system switch ethernet show` command.
 //* For NVIDIA switches, the user for log collection must be specified when the Reference Configuration File (RCF) is applied. By default, this user is set to 'admin'. If you wish to use a different user, you must specify this in the *# SHM User's* section of the RCF.
-* For NVIDIA switches, the user for log collection must be permitted to run the log collection commands without displaying a password prompt. To allow this usage, run the following command:
-`echo ‘admin ALL = NOPASSWD: /usr/cumulus/bin/cl-support, /usr/sbin/csmgrctl' | sudo EDITOR='tee -a' visudo -f /etc/sudoers.d/cumulus`
+* For NVIDIA switches, the user for log collection must be permitted to run the log collection commands without displaying a password prompt. To allow this usage, run the command:
+`echo 'admin ALL = NOPASSWD: /usr/cumulus/bin/cl-support, /usr/sbin/csmgrctl' | sudo EDITOR='tee -a' visudo -f /etc/sudoers.d/cumulus`
 
 == Steps
 
