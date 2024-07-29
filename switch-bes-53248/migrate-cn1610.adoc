@@ -687,75 +687,7 @@ RPC status:
 ----
 ====
 
-. To set up log collection, run the following command for each switch. You are prompted to enter the switch name, username, and password for log collection.
-+
-`system switch ethernet log setup-password`
 
-+
-.Show example
-[%collapsible]
-====
-
-[subs=+quotes]
-----
-cluster1::*> *system switch ethernet log setup-password*
-Enter the switch name: *<return>*
-The switch name entered is not recognized.
-Choose from the following list:
-*cs1*
-*cs2*
-
-cluster1::*> *system switch ethernet log setup-password*
-
-Enter the switch name: *cs1*
-Would you like to specify a user other than admin for log collection? {y|n}: *n*
-
-Enter the password: *<enter switch password>*
-Enter the password again: *<enter switch password>*
-
-cluster1::*> *system switch ethernet log setup-password*
-
-Enter the switch name: *cs2*
-Would you like to specify a user other than admin for log collection? {y|n}: *n*
-
-Enter the password: *<enter switch password>*
-Enter the password again: *<enter switch password>*
-----
-====
-
-. To start log collection, run the following command, replacing DEVICE with the switch used in the previous command. This starts both types of log collection: the detailed *Support* logs and an hourly collection of *Periodic* data.
-+
-`system switch ethernet log modify -device _<switch-name>_ -log-request true`
-
-+
-.Show example 
-[%collapsible]
-====
-
-[subs=+quotes]
-----
-cluster1::*> *system switch ethernet log modify -device cs1 -log-request true*
-
-Do you want to modify the cluster switch log collection configuration?
-{y|n}: [n] *y*
-
-Enabling cluster switch log collection.
-
-cluster1::*> *system switch ethernet log modify -device cs2 -log-request true*
-
-Do you want to modify the cluster switch log collection configuration?
-{y|n}: [n] *y*
-
-Enabling cluster switch log collection.
-----
-====
-+
-Wait for 10 minutes and then check that the log collection completes:
-+
-`system switch ethernet log show`
-+
-CAUTION: If any of these commands return an error or if the log collection does not complete, contact NetApp support.
-+
 
 . If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
 +
@@ -766,7 +698,9 @@ CAUTION: If any of these commands return an error or if the log collection does 
 cluster::*> system node autosupport invoke -node * -type all -message MAINT=END
 ----
 
-//.What's next?
+.What's next?
+
+link:../switch-cshm/config-overview.html[Configure switch health monitoring].
 
 //After your migration completes, you might need to install the required configuration file to support the Cluster Switch Health Monitor (CSHM) for BES-53248 cluster switches. See link:configure-health-monitor.html[Install the Cluster Switch Health Monitor (CSHM) configuration file] and link:configure-log-collection.html[Enable the log collection feature].
 
@@ -776,3 +710,4 @@ cluster::*> system node autosupport invoke -node * -type all -message MAINT=END
 // Updates for GH issue #135, 2023-OCT-23
 // Updates for AFFFASDOC-186, 2024-JAN-10
 // Updates for GH issue #156, 2024-MAR-05
+// Updates as part of AFFFASDOC-216/217, 2024-JUL-29
