@@ -1187,59 +1187,6 @@ C2                          cluster-network    10.10.1.104      NX3232C
 ----
 ====
 
-. [[forty]]Enable the cluster switch health monitor log collection feature for collecting switch-related log files: 
-+
-`system cluster-switch log setup-password`
-+
-`system cluster-switch log enable-collection`
-+
-.Show example
-[%collapsible]
-====
-
-[subs=+quotes]
-----
-cluster::*> *system cluster-switch log setup-password*
-Enter the switch name: <return>
-The switch name entered is not recognized.
-Choose from the following list:
-C1
-C2
-
-cluster::*> *system cluster-switch log setup-password*
-
-Enter the switch name: *C1*
-RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
-Do you want to continue? {y|n}::[n] *y*
-
-Enter the password: <enter switch password>
-Enter the password again: <enter switch password>
-
-cluster::*> *system cluster-switch log setup-password*
-
-Enter the switch name: *C2*
-RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
-Do you want to continue? {y|n}:: [n] *y*
-
-Enter the password: <enter switch password>
-Enter the password again: <enter switch password>
-
-cluster::*> *system cluster-switch log enable-collection*
-
-Do you want to enable cluster log collection for all nodes in the cluster?
-{y|n}: [n] *y*
-
-Enabling cluster switch log collection.
-
-cluster::*>
-----
-====
-+
-[NOTE]
-====
-If any of these commands return an error, contact NetApp support.
-====
-
 . If you suppressed automatic case creation, reenable it by invoking an AutoSupport message:
 +
 `system node autosupport invoke -node * -type all -message MAINT=END`
