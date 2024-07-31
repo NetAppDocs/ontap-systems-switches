@@ -15,6 +15,7 @@ Follow these steps to replace a defective Nexus 9336C-FX2 switch in a cluster ne
 
 Before performing the switch replacement, make sure that: 
 
+* You have verified the switch serial number to ensure that the correct switch is replaced. 
 * On the existing cluster and network infrastructure:
  ** The existing cluster is verified as completely functional, with at least one fully connected cluster switch.
  ** All cluster ports are *up*.
@@ -31,6 +32,13 @@ Before performing the switch replacement, make sure that:
 Any previous site customizations, such as STP, SNMP, and SSH, are copied to the new switch.
 
 * You have executed the command for migrating a cluster LIF from the node where the cluster LIF is hosted.
+
+== Enable console logging
+NetApp strongly recommends that you enable console logging on the devices that you are using and take the following actions when replacing your switch:
+
+* Leave AutoSupport enabled during maintenance.
+* Trigger a maintenance AutoSupport before and after maintenance to disable case creation for the duration of the maintenance. See this Knowledge Base article https://kb.netapp.com/Support_Bulletins/Customer_Bulletins/SU92[SU92: How to suppress automatic case creation during scheduled maintenance windows^] for further details.
+* Enable session logging for any CLI sessions. For instructions on how to enable session logging, review the "Logging Session Output" section in this Knowledge Base article https://kb.netapp.com/on-prem/ontap/Ontap_OS/OS-KBs/How_to_configure_PuTTY_for_optimal_connectivity_to_ONTAP_systems[How to configure PuTTY for optimal connectivity to ONTAP systems^].
 
 == Replace the switch
 
@@ -516,4 +524,6 @@ Total entries displayed: 4
 
 link:../switch-cshm/config-overview.html[Configure switch health monitoring].
 
-// Updates for AFFFASDOC-216, 217, 2024-JUL-29
+// Updates for GH issues #191, 192, 2024-JUN-19
+// Updates for internal GH issue #228, 2024-JUN-26
+

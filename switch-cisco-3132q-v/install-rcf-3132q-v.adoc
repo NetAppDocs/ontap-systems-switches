@@ -19,7 +19,7 @@ Follow this procedure to install the RCF after setting up the Nexus 3132Q-V swit
 * A fully functioning cluster (no errors in the logs or similar issues).
 * The current Reference Configuration File (RCF).
 //* A boot configuration in the RCF that reflects the desired boot images, required if you are installing only NX-OS and keeping your current RCF version. If you need to change the boot configuration to reflect the current boot images, you must do so before reapplying the RCF so that the correct version is instantiated on future reboots.
-* A console connection to the switch, required when installing the RCF.
+* A console connection to the switch is required when installing the RCF. This requirement is optional if you have used the Knowledge Base article https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear the configuration on a Cisco interconnect switch while retaining remote connectivity^] to clear the configuration, beforehand.
 * link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet switch^]. Consult the switch compatibility table for the supported ONTAP and RCF versions. Note that there can be command dependencies between the command syntax in the RCF and that found in versions of NX-OS.
 * https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-installation-guides-list.html[Cisco Nexus 3000 Series Switches^]. Consult the appropriate software and upgrade guides available on the Cisco web site for complete documentation on the Cisco switch upgrade and downgrade procedures.
 
@@ -259,7 +259,7 @@ cluster1::*>
 
 . Clean the configuration on switch cs2 and perform a basic setup.
 +
-CAUTION: When updating or applying a new RCF, you must erase the switch settings and perform basic configuration. You must be connected to the switch serial console port to set up the switch again.
+WARNING: When updating or applying a new RCF, you must erase the switch settings and perform basic configuration. You *must* be connected to the switch serial console port to set up the switch again. However, this requirement is optional if you have used the Knowledge Base article https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear the configuration on a Cisco interconnect switch while retaining remote connectivity^] to clear the configuration, beforehand.
 
 .. Clean the configuration:
 +
@@ -403,7 +403,7 @@ NOTE: For steps on how to bring your 10GbE ports online after an upgrade of the 
 
 . After you verify the RCF versions and switch settings are correct, copy the running-config file to the startup-config file.
 +
-For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-installation-guides-list.html[Cisco Nexus 3000 Series NX-OS Command Reference] guides.
+For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-installation-guides-list.html[Cisco Nexus 3000 Series NX-OS Command Reference^] guides.
 +
 .Show example 
 [%collapsible]
@@ -413,7 +413,7 @@ cs2# copy running-config startup-config [#######################################
 ----
 ====
 
-. Reboot switch cs2. You can ignore the "cluster ports down" events reported on the nodes while the switch reboots.
+. Reboot switch cs2. You can ignore both the "cluster ports down" events reported on the nodes while the switch reboots and the error `% Invalid command at '^' marker` output. 
 +
 .Show example 
 [%collapsible]
@@ -425,7 +425,7 @@ This command will reboot the system. (y/n)?  [n] *y*
 ----
 ====
 
-. Apply the same RCF and save the running configuration for a second time.
+. Apply the same RCF and save the running configuration for a second time. This is necessary as the RCF utilizes QoS and requires TCAM re-configuration that involves loading the RCF twice with the switch rebooted in between.
 +
 .Show example 
 [%collapsible]
@@ -786,3 +786,7 @@ link:../switch-cshm/config-overview.html[Configure switch health monitoring]
 // Updates for AFFFASDOC-118, 2023-SEPT-13
 // Updates for GH issue #176, 2024-APR-18
 // Updates for AFFFASDOC-216/217, 2024-JUL-08
+// Updates for GH issue #182, 2024-MAY-14
+// Updates for GH issue #189, 2024-JUN-18
+// Updates for GH issue #196, 2024-JUL-17
+
