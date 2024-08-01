@@ -11,6 +11,8 @@ summary: "You can nondisruptively replace a defective NetApp CN1610 cluster swit
 [.lead]
 Follow these steps to replace a defective NetApp CN1610 switch in a cluster network. This is a non-disruptive procedure (NDU).
 
+== Review requirements
+
 .What you'll need
 
 Before you perform the switch replacement, the following conditions must exist before you perform the switch replacement in the current environment and on the replacement switch for existing cluster and network infrastructure:
@@ -19,6 +21,15 @@ Before you perform the switch replacement, the following conditions must exist b
 * All of the cluster ports must be *up*.
 * All of the cluster logical interfaces (LIFs) must be up and must not have been migrated.
 * The ONTAP cluster `ping-cluster -node node1` command must indicate that basic connectivity and larger than PMTU communication are successful on all of the paths.
+
+== Enable console logging
+NetApp strongly recommends that you enable console logging on the devices that you are using and take the following actions when replacing your switch:
+
+* Leave AutoSupport enabled during maintenance.
+* Trigger a maintenance AutoSupport before and after maintenance to disable case creation for the duration of the maintenance. See this Knowledge Base article https://kb.netapp.com/Support_Bulletins/Customer_Bulletins/SU92[SU92: How to suppress automatic case creation during scheduled maintenance windows^] for further details.
+* Enable session logging for any CLI sessions. For instructions on how to enable session logging, review the "Logging Session Output" section in this Knowledge Base article https://kb.netapp.com/on-prem/ontap/Ontap_OS/OS-KBs/How_to_configure_PuTTY_for_optimal_connectivity_to_ONTAP_systems[How to configure PuTTY for optimal connectivity to ONTAP systems^].
+
+== Replace the switch
 
 .About this task
 You must execute the command for migrating a cluster LIF from the node where the cluster LIF is hosted.

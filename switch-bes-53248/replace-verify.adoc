@@ -4,18 +4,21 @@ sidebar: sidebar
 keywords: command, verify, operational, bes, cluster, switch, upgrade, verify the configuration after a cluster switch upgrade - bes-53428 switches
 summary: You can use the commands provided here to verify that all is operational after a BES-53248 cluster switch upgrade.
 ---
-= Verify the configuration after a BES-53248 cluster switch upgrade
+= Verify the ONTAP cluster network after an EFOS software or RCF upgrade of the BES-53248 cluster switches
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-You can use recommended commands to verify operations after a BES-53248 cluster switch upgrade.
+You can use the following commands to verify the health of the ONTAP cluster network after an upgrade of the EFOS software or RCF for BES-53248 cluster switches.
 
 .Steps
 
 . Display information about the network ports on the cluster using the command:
 +
-`network port show -ipspace Cluster`
+[source,cli]
+----
+network port show -ipspace Cluster
+----
 +
 `Link` must have the value `up` and `Health Status` must be `healthy`.
 +
@@ -49,7 +52,10 @@ e0b    Cluster      Cluster          up   9000  auto/10000 healthy  false
 
 . For each LIF, verify that `Is Home` is `true` and `Status Admin/Oper` is `up` on both nodes, using the command:
 +
-`network interface show -vserver Cluster`
+[source,cli]
+----
+network interface show -vserver Cluster
+----
 +
 .Show example
 [%collapsible]
@@ -87,3 +93,5 @@ node1                true    true          false
 node2                true    true          false
 ----
 ====
+
+// Updates for for GH issues #72, 109, 12, AFFFASDOC-212, 2024-MAY-02
