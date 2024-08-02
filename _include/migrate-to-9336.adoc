@@ -591,129 +591,15 @@ RPC status:
 ====
 
 [start=5]
-. [[step5]]Enable the Ethernet switch health monitor log collection feature for collecting switch-related log files.
-+
-// start of tabbed content
+. [[step5]]If you suppressed automatic case creation, reenable it by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=END`
 
-[role="tabbed-block"]
+.What's next?
+link:../switch-cshm/config-overview.html[Configure switch health monitoring].
 
-====
-.ONTAP 9.8 and later
---
-Enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the following two commands: `system switch ethernet log setup-password` and `system switch ethernet log enable-collection`
-
-*NOTE:* You will need the password for the *admin* user on the switches.
-
-
-Enter: `system switch ethernet log setup-password`
-
-[subs=+quotes]
-----
-cluster1::*> *system switch ethernet log setup-password*
-Enter the switch name: <return>
-The switch name entered is not recognized.
-Choose from the following list:
-cs1-new
-cs2-new
-
-cluster1::*> *system switch ethernet log setup-password*
-
-Enter the switch name: *cs1-new*
-RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
-Do you want to continue? {y|n}::[n] *y*
-
-Enter the password: <password of switch's admin user>
-Enter the password again: <password of switch's admin user>
-
-cluster1::*> *system switch ethernet log setup-password*
-
-Enter the switch name: *cs2-new*
-RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
-Do you want to continue? {y|n}:: [n] *y*
-
-Enter the password: <password of switch's admin user>
-Enter the password again: <password of switch's admin user>
-----
-Followed by: `system switch ethernet log enable-collection`
-
-[subs=+quotes]
-----
-cluster1::*> *system  switch ethernet log enable-collection*
-
-Do you want to enable cluster log collection for all nodes in the cluster?
-{y|n}: [n] *y*
-
-Enabling cluster switch log collection.
-
-cluster1::*>
-----
-
-*NOTE:* If any of these commands return an error, contact NetApp support.
-
---
-
-.ONTAP releases 9.5P16, 9.6P12, and 9.7P10 and later patch releases
-
---
-Enable the Ethernet switch health monitor log collection feature for collecting switch-related log files, using the commands: `system cluster-switch log setup-password` and `system cluster-switch log enable-collection`
-
-*NOTE:* You will need the password for the *admin* user on the switches.
-
-
-Enter: `system cluster-switch log setup-password`
-
-[subs=+quotes]
-----
-cluster1::*> *system cluster-switch log setup-password*
-Enter the switch name: <return>
-The switch name entered is not recognized.
-Choose from the following list:
-cs1-new
-cs2-new
-
-cluster1::*> *system cluster-switch log setup-password*
-
-Enter the switch name: *cs1-new*
-RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
-Do you want to continue? {y|n}::[n] *y*
-
-Enter the password: <password of switch's admin user>
-Enter the password again: <password of switch's admin user>
-
-cluster1::*> *system cluster-switch log setup-password*
-
-Enter the switch name: *cs2-new*
-RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
-Do you want to continue? {y|n}:: [n] *y*
-
-Enter the password: <password of switch's admin user>
-Enter the password again: <password of switch's admin user>
-----
-
-Followed by: `system cluster-switch log enable-collection`
-
-[subs=+quotes]
-----
-cluster1::*> *system cluster-switch log enable-collection*
-
-Do you want to enable cluster log collection for all nodes in the cluster?
-{y|n}: [n] *y*
-
-Enabling cluster switch log collection.
-
-cluster1::*>
-----
-
-*NOTE:* If any of these commands return an error, contact NetApp support.
---
-====
-
-[start=6]
-. [[step6]]If you suppressed automatic case creation, reenable it by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=END`
-
-// Updates for AFFFASDOC-45, 2023-MAY-09
 // Updates for GH #112, 2023-JUL-19
 // Updates for AFFFASDOC-145, 2023-OCT-26
 // Updates for GH issue #156, 2024-MAR-05
 // Updates for GH issue #178, 2024-APR_22
+// Updates for AFFFASDOC-216, 217, 2024-JUL-30
 // Updates for GH issues # 191, 192, 2024-JUN-19
+
