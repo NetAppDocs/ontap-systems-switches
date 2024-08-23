@@ -321,7 +321,7 @@ The following commands enable all node-facing ports on switch sw1.
 +
 [subs=+quotes]
 ----
-cumulus@sw1:~$ *nv unset interface swp1s0-3,swp2s0-3,swp3-14 link state down*
+cumulus@sw1:~$ *nv set interface swp1s0-3,swp2s0-3,swp3-14 link state up*
 cumulus@sw1:~$ *nv config apply*
 cumulus@sw1:~$ *nv config save*
 ----
@@ -503,7 +503,7 @@ The following commands enable the node-facing ports on switch sw2:
 +
 [subs=+quotes]
 ----
-cumulus@sw2:~$ *nv unset interface swp1s0-3,swp2s0-3,swp3-14 link state down*
+cumulus@sw2:~$ *nv set interface swp1s0-3,swp2s0-3,swp3-14 link state up*
 cumulus@sw2:~$ *nv config apply*
 cumulus@sw2:~$ *nv config save*
 ----
@@ -788,4 +788,5 @@ link:../switch-cshm/config-overview.html[Configure switch health monitoring].
 
 // Updates for AFFFASDOC-195, 2024-JAN-31
 // Updates for AFFFASDOC-216, 217, 2024-JUL-29
+// Updates for AFFFASDOC-259, 2024-AUG-21
 
