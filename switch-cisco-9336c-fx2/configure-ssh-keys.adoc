@@ -4,7 +4,7 @@ sidebar: sidebar
 keywords: ssh, requirement, cluster, switch, health, monitor, cshm, log, collection, feature, cisco 9336c-fx2
 summary: SSH is a requirement when using the Cluster Switch Health Monitor \(CSHM\) and log collection features. To enable SSH on Cisco 9336c-fx2 cluster switches, you generate the SSH keys first and then enable SSH.
 ---
-= Generate SSH keys on 9336C-FX2 cluster switches
+= Generate SSH keys
 :icons: font
 :imagesdir: ../media/
 
@@ -98,7 +98,7 @@ Configuration Saved!
 
 [subs=+quotes]
 ----
-(switch)# *show ssh key*
+(switch)# show ssh key
 **************************************
 rsa Keys generated:Fri Jun 28 02:16:00 2024
  
@@ -119,9 +119,9 @@ fingerprint:
 SHA256:TFGe2hXn6QIpcs/vyHzftHJ7Dceg0vQaULYRAlZeHwQ
 **************************************
  
-(switch)# *show feature | include scpServer*
+(switch)# show feature | include scpServer
 scpServer              1          enabled
-(switch)# *show feature | include ssh*
+(switch)# show feature | include ssh
 sshServer              1          enabled
 (switch)#
 ----
