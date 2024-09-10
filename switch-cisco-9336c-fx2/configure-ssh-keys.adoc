@@ -1,0 +1,135 @@
+---
+permalink: switch-cisco-9336c-fx2/configure-ssh-keys.html
+sidebar: sidebar
+keywords: ssh, requirement, cluster, switch, health, monitor, cshm, log, collection, feature, cisco 9336c-fx2
+summary: SSH is a requirement when using the Cluster Switch Health Monitor \(CSHM\) and log collection features. To enable SSH on Cisco 9336c-fx2 cluster switches, you generate the SSH keys first and then enable SSH.
+---
+= Generate SSH keys on 9336C-FX2 cluster switches
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+If you are using the Ethernet Switch Health Monitor (CSHM) and log collection features, you must generate the SSH keys on the cluster switches.
+
+.Steps
+
+//. Verify that SSH is disabled:
+//+
+//`show ip ssh`
+//+
+//.Show example
+//[%collapsible]
+//====
+
+//[subs=+quotes]
+//----
+//(switch)# *show ip ssh*
+
+//SSH Configuration
+
+//Administrative Mode: .......................... Disabled
+//SSH Port: ..................................... 22
+//Protocol Level: ............................... Version 2
+//SSH Sessions Currently Active: ................ 0
+//Max SSH Sessions Allowed: ..................... 5
+//SSH Timeout (mins): ........................... 5
+//Keys Present: ................................. DSA(1024) RSA(1024) ECDSA(521)
+//Key Generation In Progress: ................... None
+//SSH Public Key Authentication Mode: ........... Disabled
+//SCP server Administrative Mode: ............... Disabled
+//----
+//====
+
+. Generate the SSH keys:
++
+`crypto key generate`
++
+.Show example
+[%collapsible]
+====
+[subs=+quotes]
+----
+(switch)# *config*
+
+(switch) (Config)# *crypto key generate rsa*
+
+Do you want to overwrite the existing RSA keys? (y/n): *y*
+
+
+(switch) (Config)# *crypto key generate dsa*
+
+Do you want to overwrite the existing DSA keys? (y/n): *y*
+
+
+(switch) (Config)# *crypto key generate ecdsa 256 force*
+
+Do you want to overwrite the existing ECDSA keys? (y/n): *y*
+
+(switch) (Config)# *aaa authorization commands "noCmdAuthList" none*
+(switch) (Config)# *exit*
+(switch)# *ip ssh server enable*
+(switch)# *ip scp server enable*
+(switch)# *ip ssh pubkey-auth*
+(switch)# *write mem*
+
+This operation may take a few minutes.
+Management interfaces will not be available during this time.
+Are you sure you want to save? (y/n) *y*
+
+Config file 'startup-config' created successfully.
+
+Configuration Saved!
+----
+====
+//+
+//WARNING: Make sure that SSH is disabled before modifying the keys otherwise a warning is reported on the switch.
+//+
+. Reboot the switch:
++
+`reload`
+
+. Verify that SSH is enabled:
++
+`show ssh key`
++
+.Show example
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+(switch)# *show ssh key*
+**************************************
+rsa Keys generated:Fri Jun 28 02:16:00 2024
+ 
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDiNrD52Q586wTGJjFAbjBlFaA23EpDrZ2sDCewl7nwlioC6HBejxluIObAH8hrW8kR+gj0ZAfPpNeLGTg3APj/yiPTBoIZZxbWRShywAM5PqyxWwRb7kp9Zt1YHzVuHYpSO82KUDowKrL6lox/YtpKoZUDZjrZjAp8hTv3JZsPgQ==
+ 
+bitcount:1024
+fingerprint:
+SHA256:aHwhpzo7+YCDSrp3isJv2uVGz+mjMMokqdMeXVVXfdo
+**************************************
+could not retrieve dsa key information
+**************************************
+ecdsa Keys generated:Fri Jun 28 02:30:56 2024
+ 
+ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1MjEAAACFBABJ+ZX5SFKhS57evkE273e0VoqZi4/32dt+f14fBuKv80MjMsmLfjKtCWy1wgVt1Zi+C5TIBbugpzez529zkFSF0ADb8JaGCoaAYe2HvWR/f6QLbKbqVIewCdqWgxzrIY5BPP5GBdxQJMBiOwEdnHg1u/9Pzh/Vz9cHDcCW9qGE780QHA==
+ 
+bitcount:521
+fingerprint:
+SHA256:TFGe2hXn6QIpcs/vyHzftHJ7Dceg0vQaULYRAlZeHwQ
+**************************************
+ 
+(switch)# *show feature | include scpServer*
+scpServer              1          enabled
+(switch)# *show feature | include ssh*
+sshServer              1          enabled
+(switch)#
+----
+====
+
+.What's next?
+
+link:../switch-cshm/config-overview.html[Configure switch health monitoring].
+
+
+// New content for GH issue #204 (reopened), 2024-SEP-10
