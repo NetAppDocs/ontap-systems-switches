@@ -4,91 +4,27 @@ sidebar: sidebar
 keywords: ssh, requirement, cluster, switch, health, monitor, cshm, log, collection, feature, cisco 9336c-fx2
 summary: SSH is a requirement when using the Cluster Switch Health Monitor \(CSHM\) and log collection features. To enable SSH on Cisco 9336c-fx2 cluster switches, you generate the SSH keys first and then enable SSH.
 ---
-= Generate SSH keys
+= Verify your SSH set up
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-If you are using the Ethernet Switch Health Monitor (CSHM) and log collection features, you must generate the SSH keys on the cluster switches.
+If you are using the Ethernet Switch Health Monitor (CSHM) and log collection features, verify that SSH and SSH keys are enabled on the cluster switches.
 
 .Steps
 
-//. Verify that SSH is disabled:
-//+
-//`show ip ssh`
-//+
-//.Show example
-//[%collapsible]
-//====
-
-//[subs=+quotes]
-//----
-//(switch)# *show ip ssh*
-
-//SSH Configuration
-
-//Administrative Mode: .......................... Disabled
-//SSH Port: ..................................... 22
-//Protocol Level: ............................... Version 2
-//SSH Sessions Currently Active: ................ 0
-//Max SSH Sessions Allowed: ..................... 5
-//SSH Timeout (mins): ........................... 5
-//Keys Present: ................................. DSA(1024) RSA(1024) ECDSA(521)
-//Key Generation In Progress: ................... None
-//SSH Public Key Authentication Mode: ........... Disabled
-//SCP server Administrative Mode: ............... Disabled
-//----
-//====
-
-. Generate the SSH keys:
+. Verify that SSH is enabled:
 +
-`crypto key generate`
+`show ssh server`
 +
-.Show example
-[%collapsible]
-====
+
 [subs=+quotes]
 ----
-(switch)# *config*
-
-(switch) (Config)# *crypto key generate rsa*
-
-Do you want to overwrite the existing RSA keys? (y/n): *y*
-
-
-(switch) (Config)# *crypto key generate dsa*
-
-Do you want to overwrite the existing DSA keys? (y/n): *y*
-
-
-(switch) (Config)# *crypto key generate ecdsa 256 force*
-
-Do you want to overwrite the existing ECDSA keys? (y/n): *y*
-
-(switch) (Config)# *aaa authorization commands "noCmdAuthList" none*
-(switch) (Config)# *exit*
-(switch)# *ip ssh server enable*
-(switch)# *ip scp server enable*
-(switch)# *ip ssh pubkey-auth*
-(switch)# *write mem*
-
-This operation may take a few minutes.
-Management interfaces will not be available during this time.
-Are you sure you want to save? (y/n) *y*
-
-Config file 'startup-config' created successfully.
-
-Configuration Saved!
+(switch) *show ssh server*
+ssh version 2 is enabled
 ----
-====
-//+
-//WARNING: Make sure that SSH is disabled before modifying the keys otherwise a warning is reported on the switch.
-//+
-. Reboot the switch:
-+
-`reload`
 
-. Verify that SSH is enabled:
+. Verify that the SSH keys are enabled:
 +
 `show ssh key`
 +
@@ -99,7 +35,7 @@ Configuration Saved!
 [subs=+quotes]
 ----
 (switch)# *show ssh key*
-
+___________________________________________
 rsa Keys generated:Fri Jun 28 02:16:00 2024
  
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDiNrD52Q586wTGJjFAbjBlFaA23EpDrZ2sDCewl7nwlioC6HBejxluIObAH8hrW8kR+gj0ZAfPpNeLGTg3APj/yiPTBoIZZxbWRShywAM5PqyxWwRb7kp9Zt1YHzVuHYpSO82KUDowKrL6lox/YtpKoZUDZjrZjAp8hTv3JZsPgQ==
@@ -107,8 +43,9 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDiNrD52Q586wTGJjFAbjBlFaA23EpDrZ2sDCewl7nw
 bitcount:1024
 fingerprint:
 SHA256:aHwhpzo7+YCDSrp3isJv2uVGz+mjMMokqdMeXVVXfdo
-
+____________________________________________
 could not retrieve dsa key information
+____________________________________________
 
 ecdsa Keys generated:Fri Jun 28 02:30:56 2024
  
@@ -117,8 +54,8 @@ ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1MjEAAACFBABJ+ZX5
 bitcount:521
 fingerprint:
 SHA256:TFGe2hXn6QIpcs/vyHzftHJ7Dceg0vQaULYRAlZeHwQ
+_____________________________________________
 
- 
 (switch)# *show feature | include scpServer*
 scpServer              1          enabled
 (switch)# *show feature | include ssh*
