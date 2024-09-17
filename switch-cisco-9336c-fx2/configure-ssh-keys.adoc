@@ -4,7 +4,7 @@ sidebar: sidebar
 keywords: ssh, requirement, cluster, switch, health, monitor, cshm, log, collection, feature, cisco 9336c-fx2
 summary: SSH is a requirement when using the Cluster Switch Health Monitor \(CSHM\) and log collection features. To enable SSH on Cisco 9336c-fx2 cluster switches, you generate the SSH keys first and then enable SSH.
 ---
-= Verify your SSH set up
+= Verify your SSH configuration
 :icons: font
 :imagesdir: ../media/
 
@@ -14,9 +14,9 @@ If you are using the Ethernet Switch Health Monitor (CSHM) and log collection fe
 .Steps
 
 . Verify that SSH is enabled:
-+
-`show ssh server`
-+
+//+
+//`show ssh server`
+//+
 
 [subs=+quotes]
 ----
@@ -35,7 +35,7 @@ ssh version 2 is enabled
 [subs=+quotes]
 ----
 (switch)# *show ssh key*
-___________________________________________
+
 rsa Keys generated:Fri Jun 28 02:16:00 2024
  
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDiNrD52Q586wTGJjFAbjBlFaA23EpDrZ2sDCewl7nwlioC6HBejxluIObAH8hrW8kR+gj0ZAfPpNeLGTg3APj/yiPTBoIZZxbWRShywAM5PqyxWwRb7kp9Zt1YHzVuHYpSO82KUDowKrL6lox/YtpKoZUDZjrZjAp8hTv3JZsPgQ==
@@ -43,9 +43,8 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDiNrD52Q586wTGJjFAbjBlFaA23EpDrZ2sDCewl7nw
 bitcount:1024
 fingerprint:
 SHA256:aHwhpzo7+YCDSrp3isJv2uVGz+mjMMokqdMeXVVXfdo
-____________________________________________
+
 could not retrieve dsa key information
-____________________________________________
 
 ecdsa Keys generated:Fri Jun 28 02:30:56 2024
  
@@ -54,7 +53,6 @@ ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1MjEAAACFBABJ+ZX5
 bitcount:521
 fingerprint:
 SHA256:TFGe2hXn6QIpcs/vyHzftHJ7Dceg0vQaULYRAlZeHwQ
-_____________________________________________
 
 (switch)# *show feature | include scpServer*
 scpServer              1          enabled
