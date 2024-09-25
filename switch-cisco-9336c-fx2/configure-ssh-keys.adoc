@@ -60,7 +60,11 @@ sshServer              1          enabled
 ----
 ====
 
-.What's next?
+IMPORTANT: When enabling FIPS, you must change the bitcount to 256 using the command `ssh key ecdsa 256 force` on the switch. See https://docs.netapp.com/us-en/ontap/networking/configure_network_security_using_federal_information_processing_standards_@fips@.html#enable-fips[Configure network security using FIPS^] for details. 
+
+
+
+What's next?
 
 link:../switch-cshm/config-overview.html[Configure switch health monitoring].
 
