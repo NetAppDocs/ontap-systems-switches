@@ -215,7 +215,9 @@ cs2                         cluster-network     10.233.205.93   N5K-C5596UP
 ----
 ====
 
-. Disable auto-revert on the cluster LIFs. By disabling auto-revert for this procedure, the cluster LIFs will not automatically move back to their home port. They remain on the current port while it continues to be up and operational.
+. Disable auto-revert on the cluster LIFs. 
++
+By disabling auto-revert for this procedure, the cluster LIFs will not automatically move back to their home port. They remain on the current port while it continues to be up and operational.
 +
 `network interface modify -vserver Cluster -lif * -auto-revert false`
 +

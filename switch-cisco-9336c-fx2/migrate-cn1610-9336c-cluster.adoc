@@ -81,7 +81,9 @@ where _x_ is the duration of the maintenance window in hours.
 +
 The advanced prompt (*>) appears.
 
-. Disable auto-revert on the cluster LIFs. By disabling auto-revert for this procedure, the cluster LIFs will not automatically move back to their home port. They remain on the current port while it continues to be up and operational.
+. Disable auto-revert on the cluster LIFs. 
++
+By disabling auto-revert for this procedure, the cluster LIFs will not automatically move back to their home port. They remain on the current port while it continues to be up and operational.
 +
 `network interface modify -vserver Cluster -lif * -auto-revert false`
 
