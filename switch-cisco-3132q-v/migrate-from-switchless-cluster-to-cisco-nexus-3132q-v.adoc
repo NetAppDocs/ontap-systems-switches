@@ -727,15 +727,55 @@ network options switchless-cluster show
 
 === Step 5: Verify the configuration
 
-. Ping the remote cluster interfaces and perform an RPC server check:
+. Verify the connectivity of the remote cluster interfaces: 
 +
-`cluster ping-cluster`
-+
-.Show example
-[%collapsible]
+// start of tabbed content
+
+[role="tabbed-block"]
+
 ====
+
+.ONTAP 9.9.1 and later
+
+--
+You can use the `network interface check cluster-connectivity` command to start an accessibility check for cluster connectivity and then display the details: 
+
+`network interface check cluster-connectivity start` and `network interface check cluster-connectivity show`
+
+[subs=+quotes]
 ----
-cluster::*> cluster ping-cluster -node n1
+cluster1::*> *network interface check cluster-connectivity start*
+----
+
+*NOTE:* Wait for a number of seconds before running the show command to display the details.
+
+
+[subs=+quotes]
+----
+cluster1::*> *network interface check cluster-connectivity show*
+                                  Source          Destination       Packet
+Node   Date                       LIF             LIF               Loss
+------ -------------------------- --------------- ----------------- -----------
+node1
+       3/5/2022 19:21:18 -06:00   node1_clus2      node2_clus1      none
+       3/5/2022 19:21:20 -06:00   node1_clus2      node2_clus2      none
+
+node2
+       3/5/2022 19:21:18 -06:00   node2_clus2      node1_clus1      none
+       3/5/2022 19:21:20 -06:00   node2_clus2      node1_clus2      none
+----
+--
+
+.All ONTAP releases
+--
+For all ONTAP releases, you can also use the `cluster ping-cluster -node <name>` command to check the connectivity:
+
+`cluster ping-cluster -node <name>`
+
+
+[subs=+quotes]
+----
+cluster::*> *cluster ping-cluster -node n1*
 Host is n1
 Getting addresses from network interface table...
 Cluster n1_clus1 n1		e4a	10.10.0.1
@@ -761,15 +801,20 @@ RPC status:
 1 paths up, 0 paths down (tcp check)
 1 paths up, 0 paths down (ucp check)
 ----
+--
 ====
 
-. If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
+// end of tabbed content
+
+[start=2]
+. [[step2]]If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
 +
 `system node autosupport invoke -node * -type all -message MAINT=END`
 
 .What's next?
 
-link:../switch-cshm/config-overview.html[Configure switch health monitoring]
+link:../switch-cshm/config-overview.html[Configure switch health monitoring].
 
 // QA clean-up, 2022-03-03
 // Updated as part of AFFFASDOC-216, 217, 2024-JUL-30
+// Updates for GH issue #212, 20204-OCT-14

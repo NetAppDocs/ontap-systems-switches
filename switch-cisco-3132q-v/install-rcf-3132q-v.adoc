@@ -726,54 +726,84 @@ cluster1::*>
 ----
 ====
 
-. Ping the remote cluster interfaces to verify connectivity:
+. Verify the connectivity of the remote cluster interfaces: 
 +
-`cluster ping-cluster -node local`
-+
-.Show example 
-[%collapsible]
+// start of tabbed content
+
+[role="tabbed-block"]
+
 ====
+
+.ONTAP 9.9.1 and later
+
+--
+You can use the `network interface check cluster-connectivity` command to start an accessibility check for cluster connectivity and then display the details: 
+
+`network interface check cluster-connectivity start` and `network interface check cluster-connectivity show`
 
 [subs=+quotes]
 ----
-cluster1::*> *cluster ping-cluster -node local*
-Host is cluster1-03
+cluster1::*> *network interface check cluster-connectivity start*
+----
+
+*NOTE:* Wait for a number of seconds before running the show command to display the details.
+
+
+[subs=+quotes]
+----
+cluster1::*> *network interface check cluster-connectivity show*
+                                  Source          Destination       Packet
+Node   Date                       LIF             LIF               Loss
+------ -------------------------- --------------- ----------------- -----------
+node1
+       3/5/2022 19:21:18 -06:00   node1_clus2      node2_clus1      none
+       3/5/2022 19:21:20 -06:00   node1_clus2      node2_clus2      none
+
+node2
+       3/5/2022 19:21:18 -06:00   node2_clus2      node1_clus1      none
+       3/5/2022 19:21:20 -06:00   node2_clus2      node1_clus2      none
+----
+--
+
+.All ONTAP releases
+--
+For all ONTAP releases, you can also use the `cluster ping-cluster -node <name>` command to check the connectivity:
+
+`cluster ping-cluster -node <name>`
+
+
+[subs=+quotes]
+----
+cluster1::*> *cluster ping-cluster -node node2*
+Host is node2
 Getting addresses from network interface table...
-Cluster cluster1-03_clus1 169.254.1.3 cluster1-03 e0a
-Cluster cluster1-03_clus2 169.254.1.1 cluster1-03 e0b
-Cluster cluster1-04_clus1 169.254.1.6 cluster1-04 e0a
-Cluster cluster1-04_clus2 169.254.1.7 cluster1-04 e0b
-Cluster cluster1-01_clus1 169.254.3.4 cluster1-01 e0a
-Cluster cluster1-01_clus2 169.254.3.5 cluster1-01 e0d
-Cluster cluster1-02_clus1 169.254.3.8 cluster1-02 e0a
-Cluster cluster1-02_clus2 169.254.3.9 cluster1-02 e0d
-Local = 169.254.1.3 169.254.1.1
-Remote = 169.254.1.6 169.254.1.7 169.254.3.4 169.254.3.5 169.254.3.8 169.254.3.9
+Cluster node1_clus1 169.254.209.69 node1     e0a
+Cluster node1_clus2 169.254.49.125 node1     e0b
+Cluster node2_clus1 169.254.47.194 node2     e0a
+Cluster node2_clus2 169.254.19.183 node2     e0b
+Local = 169.254.47.194 169.254.19.183
+Remote = 169.254.209.69 169.254.49.125
 Cluster Vserver Id = 4294967293
 Ping status:
-............
-Basic connectivity succeeds on 12 path(s)
+....
+Basic connectivity succeeds on 4 path(s)
 Basic connectivity fails on 0 path(s)
-................................................
-Detected 9000 byte MTU on 12 path(s):
-    Local 169.254.1.3 to Remote 169.254.1.6
-    Local 169.254.1.3 to Remote 169.254.1.7
-    Local 169.254.1.3 to Remote 169.254.3.4
-    Local 169.254.1.3 to Remote 169.254.3.5
-    Local 169.254.1.3 to Remote 169.254.3.8
-    Local 169.254.1.3 to Remote 169.254.3.9
-    Local 169.254.1.1 to Remote 169.254.1.6
-    Local 169.254.1.1 to Remote 169.254.1.7
-    Local 169.254.1.1 to Remote 169.254.3.4
-    Local 169.254.1.1 to Remote 169.254.3.5
-    Local 169.254.1.1 to Remote 169.254.3.8
-    Local 169.254.1.1 to Remote 169.254.3.9
-Larger than PMTU communication succeeds on 12 path(s)
+................
+Detected 9000 byte MTU on 4 path(s):
+    Local 169.254.19.183 to Remote 169.254.209.69
+    Local 169.254.19.183 to Remote 169.254.49.125
+    Local 169.254.47.194 to Remote 169.254.209.69
+    Local 169.254.47.194 to Remote 169.254.49.125
+Larger than PMTU communication succeeds on 4 path(s)
 RPC status:
-6 paths up, 0 paths down (tcp check)
-6 paths up, 0 paths down (udp check)
+2 paths up, 0 paths down (tcp check)
+2 paths up, 0 paths down (udp check)
 ----
+
+--
 ====
+
+// end of tabbed content
 
 .What's next?
 link:configure-ssh-keys.html[Verify SSH configuration].
@@ -792,3 +822,4 @@ link:configure-ssh-keys.html[Verify SSH configuration].
 // Updates for GH issue #189, 2024-JUN-18
 // Updates for GH issue #196, 2024-JUL-17
 // Updates for AFFFASDOC-258, 2024-AUG-22
+// Updates for GH issue #212, 2024-OCT-14
