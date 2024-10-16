@@ -927,17 +927,54 @@ Cluster
 ----
 ====
 
-. Ping the remote cluster interfaces and then perform a remote procedure call server check: 
+. Verify the connectivity of the remote cluster interfaces: 
 +
-`cluster ping-cluster`
-+
-.Show example
-[%collapsible]
-====
-The following example shows how to ping the remote cluster interfaces:
+// start of tabbed content
 
+[role="tabbed-block"]
+
+====
+
+.ONTAP 9.9.1 and later
+
+--
+You can use the `network interface check cluster-connectivity` command to start an accessibility check for cluster connectivity and then display the details: 
+
+`network interface check cluster-connectivity start` and `network interface check cluster-connectivity show`
+
+[subs=+quotes]
 ----
-cluster::*> cluster ping-cluster -node n1
+cluster1::*> *network interface check cluster-connectivity start*
+----
+
+*NOTE:* Wait for a number of seconds before running the show command to display the details.
+
+
+[subs=+quotes]
+----
+cluster1::*> *network interface check cluster-connectivity show*
+                                  Source      Destination   Packet
+Node   Date                       LIF         LIF           Loss
+------ -------------------------- ---------- -------------- -----------
+n1
+       3/5/2022 19:21:18 -06:00   n1_clus2   n1_clus1       none
+       3/5/2022 19:21:20 -06:00   n1_clus2   n2_clus2       none
+
+n2
+       3/5/2022 19:21:18 -06:00   n2_clus2   n1_clus1       none
+       3/5/2022 19:21:20 -06:00   n2_clus2   n1_clus2       none
+----
+--
+
+.All ONTAP releases
+--
+For all ONTAP releases, you can also use the `cluster ping-cluster -node <name>` command to check the connectivity:
+
+`cluster ping-cluster -node <name>`
+
+[subs=+quotes]
+----
+cluster::*> *cluster ping-cluster -node n1*
 Host is n1
 Getting addresses from network interface table...
 Cluster n1_clus1 n1       e0a    10.10.0.1
@@ -980,9 +1017,13 @@ RPC status:
 4 paths up, 0 paths down (tcp check)
 4 paths up, 0 paths down (udp check)
 ----
+--
 ====
 
-. Expand the cluster by adding nodes to the Nexus 3132Q-V cluster switches.
+// end of tabbed content
+
+[start=7]
+. [[step7]]Expand the cluster by adding nodes to the Nexus 3132Q-V cluster switches.
 
 
 . Display the information about the devices in your configuration:
@@ -1193,8 +1234,9 @@ C2                          cluster-network    10.10.1.104      NX3132V
 
 .What's next?
 
-link:../switch-cshm/config-overview.html[Configure switch health monitoring]
+link:../switch-cshm/config-overview.html[Configure switch health monitoring].
 
 // QA clean-up, 2022-03-03
 // Updates for AFFFASDOC-102, 2023-NOV-28
 // Updated as part of AFFFASDOC-216, 217, 2024-JUL-30
+// Updates for GH issue #212, 20204-OCT-16

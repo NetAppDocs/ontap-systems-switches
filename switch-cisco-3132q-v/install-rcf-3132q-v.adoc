@@ -752,16 +752,16 @@ cluster1::*> *network interface check cluster-connectivity start*
 [subs=+quotes]
 ----
 cluster1::*> *network interface check cluster-connectivity show*
-                                  Source          Destination       Packet
-Node   Date                       LIF             LIF               Loss
------- -------------------------- --------------- ----------------- -----------
-node1
-       3/5/2022 19:21:18 -06:00   node1_clus2      node2_clus1      none
-       3/5/2022 19:21:20 -06:00   node1_clus2      node2_clus2      none
+                                  Source              Destination         Packet
+Node   Date                       LIF                 LIF                 Loss
+------ -------------------------- ------------------- ------------------- -----------
+cluster1-01
+       3/5/2022 19:21:18 -06:00   cluster1-01_clus2   cluster1-02_clus1   none
+       3/5/2022 19:21:20 -06:00   cluster1-01_clus2   cluster1-02_clus2   none
 
-node2
-       3/5/2022 19:21:18 -06:00   node2_clus2      node1_clus1      none
-       3/5/2022 19:21:20 -06:00   node2_clus2      node1_clus2      none
+cluster1-02
+       3/5/2022 19:21:18 -06:00   cluster1-02_clus2   cluster1-01_clus1   none
+       3/5/2022 19:21:20 -06:00   cluster1-02_clus2   cluster1-01_clus2   none
 ----
 --
 
@@ -774,13 +774,13 @@ For all ONTAP releases, you can also use the `cluster ping-cluster -node <name>`
 
 [subs=+quotes]
 ----
-cluster1::*> *cluster ping-cluster -node node2*
-Host is node2
+cluster1::*> *cluster ping-cluster -node local*
+Host is cluster1-02
 Getting addresses from network interface table...
-Cluster node1_clus1 169.254.209.69 node1     e0a
-Cluster node1_clus2 169.254.49.125 node1     e0b
-Cluster node2_clus1 169.254.47.194 node2     e0a
-Cluster node2_clus2 169.254.19.183 node2     e0b
+Cluster cluster1-01_clus1 169.254.209.69 cluster1-01     e0a
+Cluster cluster1-01_clus2 169.254.49.125 cluster1-01     e0b
+Cluster cluster1-02_clus1 169.254.47.194 cluster1-02     e0a
+Cluster cluster1-02_clus2 169.254.19.183 cluster1-02     e0b
 Local = 169.254.47.194 169.254.19.183
 Remote = 169.254.209.69 169.254.49.125
 Cluster Vserver Id = 4294967293
