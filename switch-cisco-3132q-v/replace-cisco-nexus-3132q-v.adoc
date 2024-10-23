@@ -306,13 +306,58 @@ cluster::*> network port modify -node n4 -port e4e -up-admin false
 ----
 ====
 
-. Ping the remote cluster interfaces and perform an RPC server check:
+. Verify the connectivity of the remote cluster interfaces: 
 +
-`cluster ping-cluster`
-+
-.Show example
-[%collapsible]
+// start of tabbed content
+
+[role="tabbed-block"]
+
 ====
+
+.ONTAP 9.9.1 and later
+
+--
+You can use the `network interface check cluster-connectivity` command to start an accessibility check for cluster connectivity and then display the details: 
+
+`network interface check cluster-connectivity start` and `network interface check cluster-connectivity show`
+
+[subs=+quotes]
+----
+cluster1::*> *network interface check cluster-connectivity start*
+----
+
+*NOTE:* Wait for a number of seconds before running the show command to display the details.
+
+
+[subs=+quotes]
+----
+cluster1::*> *network interface check cluster-connectivity show*
+                                  Source     Destination   Packet
+Node   Date                       LIF        LIF           Loss
+------ -------------------------- ---------- ------------- -----------
+n1
+       3/5/2022 19:21:18 -06:00   n1_clus2   n2_clus1      none
+       3/5/2022 19:21:20 -06:00   n1_clus2   n2_clus2      none
+
+n2
+       3/5/2022 19:21:18 -06:00   n2_clus2   n1_clus1      none
+       3/5/2022 19:21:20 -06:00   n2_clus2   n1_clus2      none
+n3
+...
+...
+n4
+...
+...
+----
+--
+
+.All ONTAP releases
+--
+For all ONTAP releases, you can also use the `cluster ping-cluster -node <name>` command to check the connectivity:
+
+`cluster ping-cluster -node <name>`
+
+[subs=+quotes]
 ----
 cluster::*> cluster ping-cluster -node n1
 Host is n1
@@ -377,9 +422,13 @@ RPC status:
 8 paths up, 0 paths down (tcp check)
 8 paths up, 0 paths down (udp check)
 ----
+--
 ====
 
-. Shut down the ports 1/31 and 1/32 on CL1, and the active Nexus 3132Q-V switch:
+// end of tabbed content
+
+[start=9]
+. [[step9]]Shut down the ports 1/31 and 1/32 on CL1, and the active Nexus 3132Q-V switch:
 +
 `shutdown`
 +
@@ -391,8 +440,8 @@ This example shows the ISL ports 1/31 and 1/32 being shut down on switch CL1:
 ----
 (CL1)# configure
 (CL1)(Config)# interface e1/31-32
-(CL1(config-if-range)# shutdown
-(CL1(config-if-range)# exit
+(CL1)(config-if-range)# shutdown
+(CL1)(config-if-range)# exit
 (CL1)(Config)# exit
 (CL1)#
 ----
@@ -407,8 +456,8 @@ This example shows the ISL ports 1/31 and 1/32 being shut down on switch CL1:
 ----
 (CL1)# configure
 (CL1)(Config)# interface e1/31-32
-(CL1(config-if-range)# no shutdown
-(CL1(config-if-range)# exit
+(CL1)(config-if-range)# no shutdown
+(CL1)(config-if-range)# exit
 (CL1)(Config)# exit
 (CL1)#
 ----
@@ -879,4 +928,5 @@ link:../switch-cshm/config-overview.html[Configure switch health monitoring]
 // QA clean-up, 2022-03-03
 // Updated as part of AFFFASDOC-216, 217, 20024-JUL-30
 // Updates for internal GH issue #228, 2024-JUN-26
+// Updates for GH issue #212, 2024-OCT-21
 
