@@ -66,9 +66,10 @@ ADMDN  swp16  N/A  9216   NotConfigured
 +
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:~$ *pwd*
+admin@sw1:mgmt:~$ *pwd*
 /home/cumulus
-cumulus@cumulus:mgmt: */tmp$ scp _<user>@<host:/<path>_/MSN2100-RCF-v1.8-Cluster*
+cumulus@cumulus:mgmt:~$ *cd /tmp*
+cumulus@cumulus:mgmt:/tmp$ *scp _<user>@<host:/<path>_/MSN2100-RCF-v1.8-Cluster*
 ssologin@10.233.204.71's password:
 MSN2100-RCF-v1.8-Cluster                 100% 8607   111.2KB/s         00:00
 ----
@@ -292,3 +293,4 @@ link:setup-install-cshm-file.html[Install the CSHM file].
 // Updates for AFFFASDOC-216/217, 2024-JUL-08
 // Updates for AFFFASDOC-255, 2024-AUG-07
 // Updates for AFFFASDOC-258, 2024-AUG-22
+// Updates for GH issue #216, 2024-OCT-24

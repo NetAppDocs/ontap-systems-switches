@@ -782,13 +782,51 @@ cluster1::*>
 ----
 ====
 
-. Ping the remote cluster interfaces to verify connectivity:
+
+. Verify the connectivity of the remote cluster interfaces: 
 +
-`cluster ping-cluster -node local`
-+
-.Show example 
-[%collapsible]
+// start of tabbed content
+
+[role="tabbed-block"]
+
 ====
+
+.ONTAP 9.9.1 and later
+
+--
+You can use the `network interface check cluster-connectivity` command to start an accessibility check for cluster connectivity and then display the details: 
+
+`network interface check cluster-connectivity start` and `network interface check cluster-connectivity show`
+
+[subs=+quotes]
+----
+cluster1::*> *network interface check cluster-connectivity start*
+----
+
+*NOTE:* Wait for a number of seconds before running the `show` command to display the details.
+
+
+[subs=+quotes]
+----
+cluster1::*> *network interface check cluster-connectivity show*
+                                  Source               Destination         Packet
+Node   Date                       LIF                  LIF                 Loss
+------ -------------------------- -------------------- ------------------- -----------
+node1
+       3/5/2022 19:21:18 -06:00   cluster1-01_clus2    cluster1-02-clus1   none
+       3/5/2022 19:21:20 -06:00   cluster1-01_clus2    cluster1-02_clus2   none
+node2
+       3/5/2022 19:21:18 -06:00   cluster1-02_clus2    cluster1-01_clus1   none
+       3/5/2022 19:21:20 -06:00   cluster1-02_clus2    cluster1-01_clus2   none
+----
+--
+
+.All ONTAP releases
+--
+For all ONTAP releases, you can also use the `cluster ping-cluster -node <name>` command to check the connectivity:
+
+`cluster ping-cluster -node <name>`
+
 
 [subs=+quotes]
 ----
@@ -829,7 +867,10 @@ RPC status:
 6 paths up, 0 paths down (tcp check)
 6 paths up, 0 paths down (udp check)
 ----
+--
 ====
+
+// end of tabbed content
 
 .What's next?
 
@@ -839,4 +880,4 @@ link:configure-ssh-keys.html[Verify SSH configuration].
 // Updates for AFFFASDOC-258, 2024-AUG-22
 // Updates for GH issue #206, 2024-SEP-04
 // Updated as part of GH issue #204, 2024-SEP-19
-
+// Updates for GH issue #212, 2024-OCT-17
