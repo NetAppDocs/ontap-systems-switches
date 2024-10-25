@@ -328,19 +328,66 @@ cluster::*> *network port modify -node n4 -port e4e -up-admin false*
 ----
 ====
 
-. Ping the remote cluster interfaces and perform an RPC server check:
+. Verify the connectivity of the remote cluster interfaces: 
 +
-`cluster ping-cluster -node _node-name_`
-+
-.Show example
-[%collapsible]
+// start of tabbed content
+
+[role="tabbed-block"]
+
 ====
-The following example shows node n1 being pinged and the RPC status indicated afterward:
+
+.ONTAP 9.9.1 and later
+
+--
+You can use the `network interface check cluster-connectivity` command to start an accessibility check for cluster connectivity and then display the details: 
+
+`network interface check cluster-connectivity start` and `network interface check cluster-connectivity show`
 
 [subs=+quotes]
 ----
-cluster::*> *cluster ping-cluster -node n1*
-Host is n1 Getting addresses from network interface table...
+cluster1::*> *network interface check cluster-connectivity start*
+----
+
+*NOTE:* Wait for a number of seconds before running the `show` command to display the details.
+
+
+[subs=+quotes]
+----
+cluster1::*> *network interface check cluster-connectivity show*
+                                  Source           Destination      Packet
+Node   Date                       LIF              LIF              Loss
+------ -------------------------- ---------------- ---------------- -----------
+n1
+       3/5/2022 19:21:18 -06:00   n1_clus2         n2-clus1         none
+       3/5/2022 19:21:20 -06:00   n1_clus2         n2_clus2         none
+.
+.
+n2
+       3/5/2022 19:21:18 -06:00   n2_clus2         n1_clus1         none
+       3/5/2022 19:21:20 -06:00   n2_clus2         n1_clus2         none
+.
+.
+n3
+.
+.
+.n4
+.
+.
+----
+--
+
+.All ONTAP releases
+--
+For all ONTAP releases, you can also use the `cluster ping-cluster -node <name>` command to check the connectivity:
+
+`cluster ping-cluster -node <name>`
+
+
+[subs=+quotes]
+----
+cluster1::*> *cluster ping-cluster -node local*
+Host is n1 
+Getting addresses from network interface table...
 Cluster n1_clus1 n1        e0a    10.10.0.1
 Cluster n1_clus2 n1        e0b    10.10.0.2
 Cluster n1_clus3 n1        e0c    10.10.0.3
@@ -394,9 +441,12 @@ Detected 9000 byte MTU on 32 path(s):
     Local 10.10.0.4 to Remote 10.10.0.12
 Larger than PMTU communication succeeds on 32 path(s) RPC status:
 8 paths up, 0 paths down (tcp check)
-8	paths up, 0 paths down (udp check)
+8 paths up, 0 paths down (udp check)
 ----
+--
 ====
+
+// end of tabbed content
 
 === Step 2: Migrate ISLs to switch CL1 and C2
 
@@ -613,19 +663,66 @@ e4e       Cluster      Cluster          up   9000 auto/40000  -        -
 ----
 ====
 
-. Ping the remote cluster interfaces and perform an RPC server check:
+. Verify the connectivity of the remote cluster interfaces: 
 +
-`cluster ping-cluster -node _node-name_`
-+
-.Show example
-[%collapsible]
+// start of tabbed content
+
+[role="tabbed-block"]
+
 ====
-The following example shows node n1 being pinged and the RPC status indicated afterward:
+
+.ONTAP 9.9.1 and later
+
+--
+You can use the `network interface check cluster-connectivity` command to start an accessibility check for cluster connectivity and then display the details: 
+
+`network interface check cluster-connectivity start` and `network interface check cluster-connectivity show`
 
 [subs=+quotes]
 ----
-cluster::*> *cluster ping-cluster -node n1*
-Host is n1 Getting addresses from network interface table...
+cluster1::*> *network interface check cluster-connectivity start*
+----
+
+*NOTE:* Wait for a number of seconds before running the `show` command to display the details.
+
+
+[subs=+quotes]
+----
+cluster1::*> *network interface check cluster-connectivity show*
+                                  Source           Destination      Packet
+Node   Date                       LIF              LIF              Loss
+------ -------------------------- ---------------- ---------------- -----------
+n1
+       3/5/2022 19:21:18 -06:00   n1_clus2         n2-clus1         none
+       3/5/2022 19:21:20 -06:00   n1_clus2         n2_clus2         none
+.
+.
+n2
+       3/5/2022 19:21:18 -06:00   n2_clus2         n1_clus1         none
+       3/5/2022 19:21:20 -06:00   n2_clus2         n1_clus2         none
+.
+.
+n3
+.
+.
+.n4
+.
+.
+----
+--
+
+.All ONTAP releases
+--
+For all ONTAP releases, you can also use the `cluster ping-cluster -node <name>` command to check the connectivity:
+
+`cluster ping-cluster -node <name>`
+
+
+[subs=+quotes]
+----
+cluster1::*> *cluster ping-cluster -node local*
+Host is n1 
+Getting addresses from network interface table...
 Cluster n1_clus1 n1        e0a    10.10.0.1
 Cluster n1_clus2 n1        e0b    10.10.0.2
 Cluster n1_clus3 n1        e0c    10.10.0.3
@@ -634,17 +731,17 @@ Cluster n2_clus1 n2        e0a    10.10.0.5
 Cluster n2_clus2 n2        e0b    10.10.0.6
 Cluster n2_clus3 n2        e0c    10.10.0.7
 Cluster n2_clus4 n2        e0d    10.10.0.8
-Cluster n3_clus1 n3        e0a    10.10.0.9
+Cluster n3_clus1 n4        e0a    10.10.0.9
 Cluster n3_clus2 n3        e0e    10.10.0.10
 Cluster n4_clus1 n4        e0a    10.10.0.11
 Cluster n4_clus2 n4        e0e    10.10.0.12
 Local = 10.10.0.1 10.10.0.2 10.10.0.3 10.10.0.4
-Remote = 10.10.0.5 10.10.0.6 10.10.0.7 10.10.0.8 10.10.0.9 10.10.0.10 10.10.0.11 10.10.0.12
-Cluster Vserver Id = 4294967293 Ping status:
+Remote = 10.10.0.5 10.10.0.6 10.10.0.7 10.10.0.8 10.10.0.9 10.10.0.10 10.10.0.11
+10.10.0.12 Cluster Vserver Id = 4294967293 Ping status:
 ....
 Basic connectivity succeeds on 32 path(s)
 Basic connectivity fails on 0 path(s) ................
-Detected 1500 byte MTU on 32 path(s):
+Detected 9000 byte MTU on 32 path(s):
     Local 10.10.0.1 to Remote 10.10.0.5
     Local 10.10.0.1 to Remote 10.10.0.6
     Local 10.10.0.1 to Remote 10.10.0.7
@@ -679,9 +776,12 @@ Detected 1500 byte MTU on 32 path(s):
     Local 10.10.0.4 to Remote 10.10.0.12
 Larger than PMTU communication succeeds on 32 path(s) RPC status:
 8 paths up, 0 paths down (tcp check)
-8	paths up, 0 paths down (udp check)
+8 paths up, 0 paths down (udp check)
 ----
+--
 ====
+
+// end of tabbed content
 
 === Step 4: Verify all ports and LIF are correctly migrated
 
@@ -846,7 +946,8 @@ C2                          cluster-network    10.10.1.103      NX3232C
 
 .What's next?
 
-link:../switch-cshm/config-overview.html[Configure switch health monitoring]
+link:../switch-cshm/config-overview.html[Configure switch health monitoring].
 
 // Format fixes as part of AFFFASDOC-98, 20203-SEPT-19
 // Updated as part of AFFFASDOC-216, 217, 2024-JUL-30
+// Updates for GH issue #212, 2024-OCT-16
