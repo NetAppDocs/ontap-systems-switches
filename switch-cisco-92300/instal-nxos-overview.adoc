@@ -125,16 +125,55 @@ Cluster
 4 entries were displayed.
 ----
 ====
-. Ping the remote cluster LIFs:
+
+. Verify the connectivity of the remote cluster interfaces: 
 +
-`cluster ping-cluster -node node-name`
-+
-.Show example 
-[%collapsible]
+// start of tabbed content
+
+[role="tabbed-block"]
+
 ====
+
+.ONTAP 9.9.1 and later
+
+--
+You can use the `network interface check cluster-connectivity` command to start an accessibility check for cluster connectivity and then display the details: 
+
+`network interface check cluster-connectivity start` and `network interface check cluster-connectivity show`
+
 [subs=+quotes]
 ----
-cluster1::*> *cluster ping-cluster -node node2*
+cluster1::*> *network interface check cluster-connectivity start*
+----
+
+*NOTE:* Wait for a number of seconds before running the `show` command to display the details.
+
+
+[subs=+quotes]
+----
+cluster1::*> *network interface check cluster-connectivity show*
+                                  Source           Destination      Packet
+Node   Date                       LIF              LIF              Loss
+------ -------------------------- ---------------- ---------------- -----------
+node1
+       3/5/2022 19:21:18 -06:00   node1_clus2      node2-clus1      none
+       3/5/2022 19:21:20 -06:00   node1_clus2      node2_clus2      none
+node2
+       3/5/2022 19:21:18 -06:00   node2_clus2      node1_clus1      none
+       3/5/2022 19:21:20 -06:00   node2_clus2      node1_clus2      none
+----
+--
+
+.All ONTAP releases
+--
+For all ONTAP releases, you can also use the `cluster ping-cluster -node <name>` command to check the connectivity:
+
+`cluster ping-cluster -node <name>`
+
+
+[subs=+quotes]
+----
+cluster1::*> *cluster ping-cluster -node local*
 Host is node2
 Getting addresses from network interface table...
 Cluster node1_clus1 169.254.209.69 node1     e0a
@@ -159,9 +198,14 @@ RPC status:
 2 paths up, 0 paths down (tcp check)
 2 paths up, 0 paths down (udp check)
 ----
+--
 ====
 
-. Verify that the auto-revert command is enabled on all cluster LIFs:
+// end of tabbed content
+
+[start=6]
+
+. [[step6]] Verify that the auto-revert command is enabled on all cluster LIFs:
 +
 `network interface show -vserver Cluster -fields auto-revert`
 +
@@ -190,3 +234,4 @@ Cluster
 link:install-nxos-software.html[Install the NX-OS software].
 
 // Updated as part of AFFFASDOC-216, 217, 2024-JUL-30
+// Updates for GH issue #212, 2024-OCT-23
