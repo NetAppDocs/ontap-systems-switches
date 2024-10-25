@@ -209,17 +209,54 @@ c1                    0/16          175    S I s       CN1610           0/16
 ----
 ====
 
-. Verify that the cluster network has full connectivity: 
+. Verify the connectivity of the remote cluster interfaces: 
 +
-`cluster ping-cluster -node node-name`
-+
-.Show example
-[%collapsible]
+// start of tabbed content
+
+[role="tabbed-block"]
+
 ====
+
+.ONTAP 9.9.1 and later
+
+--
+You can use the `network interface check cluster-connectivity` command to start an accessibility check for cluster connectivity and then display the details: 
+
+`network interface check cluster-connectivity start` and `network interface check cluster-connectivity show`
+
 [subs=+quotes]
 ----
-cluster1::*> *cluster ping-cluster -node node2*
+cluster1::*> *network interface check cluster-connectivity start*
+----
 
+*NOTE:* Wait for a number of seconds before running the `show` command to display the details.
+
+
+[subs=+quotes]
+----
+cluster1::*> *network interface check cluster-connectivity show*
+                                  Source           Destination      Packet
+Node   Date                       LIF              LIF              Loss
+------ -------------------------- ---------------- ---------------- -----------
+node1
+       3/5/2022 19:21:18 -06:00   node1_clus2      node2-clus1      none
+       3/5/2022 19:21:20 -06:00   node1_clus2      node2_clus2      none
+node2
+       3/5/2022 19:21:18 -06:00   node2_clus2      node1_clus1      none
+       3/5/2022 19:21:20 -06:00   node2_clus2      node1_clus2      none
+----
+--
+
+.All ONTAP releases
+--
+For all ONTAP releases, you can also use the `cluster ping-cluster -node <name>` command to check the connectivity:
+
+`cluster ping-cluster -node <name>`
+
+
+[subs=+quotes]
+----
+cluster1::*> *cluster ping-cluster -node local*
 Host is node2
 Getting addresses from network interface table...
 Cluster node1_clus1 169.254.209.69 node1     e3a
@@ -244,9 +281,14 @@ RPC status:
 2 paths up, 0 paths down (tcp check)
 2 paths up, 0 paths down (udp check)
 ----
+--
 ====
 
-. On switch c2, shut down the ports connected to the cluster ports of the nodes in order to fail over the cluster LIFs.
+// end of tabbed content
+
+[start=5]
+
+. [[step5]] On switch c2, shut down the ports connected to the cluster ports of the nodes in order to fail over the cluster LIFs.
 +
 [subs=+quotes]
 ----
@@ -511,3 +553,4 @@ link:../switch-cshm/config-overview.html[Configure switch health monitoring].
 // Updated info for log collection as per AFFFASDOC-142, 2023-OCT-18
 // Updates for GH issue #156, 2024-MAR-05
 // Updates for AFFFASDOC-216,217, 2024-JUL-29
+// Updates for GH issue #212, 2024-OCT-23
