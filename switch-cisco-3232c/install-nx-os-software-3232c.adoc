@@ -187,9 +187,11 @@ cluster1::*>
 ----
 ====
 
-. Disable auto-revert on the cluster LIFs.
+
+. Disable auto-revert on the cluster LIFs. The cluster LIFs fail over to the partner cluster switch and remain there as you perform the upgrade procedure on the targeted switch:
 +
-`cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert false*` 
+`network interface modify -vserver Cluster -lif * -auto-revert false` 
+
 
 
 . Copy the NX-OS software and EPLD images to the Nexus 3232C switch.
@@ -332,7 +334,7 @@ Notifying services about system upgrade.
 Compatibility check is done:
 Module  bootable          Impact              Install-type  Reason
 ------- ----------------- ------------------- ------------- ------
-     1     yes            disruptive          reset         default upgrade is not hitless
+     1     Yes            Disruptive          Reset         Default upgrade is not hitless
 
 
 Images will be upgraded according to following table:
@@ -473,7 +475,7 @@ cs2#
 ----
 ====
 
-. If you are upgrading to NX-OS version 9.3.11, then after the switch reboot, log in again, upgrade the EPLD golden image and reboot the switch once again else skip to step 12. 
+. If you are upgrading to NX-OS version 9.3(11), you must upgrade the EPLD `golden` image and reboot the switch once again. Otherwise, skip to step 12.
 +
 See https://www.cisco.com/c/en/us/td/docs/switches/datacenter/nexus9000/sw/93x/epld-rn/nxos_n9K_epldRN_9311.html[EPLD Upgrade Release Notes, Release 9.3(11)^] for further details. 
 +
@@ -660,11 +662,11 @@ cluster1::*>
 ----
 ====
 
-. Repeat steps 1 to 14 on switch cs2.
+. Repeat steps 6 to 14 on switch cs2.
 
 . Enable auto-revert on the cluster LIFs.
 +
-`cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert True*` 
+`network interface modify -vserver Cluster -lif * -auto-revert true` 
 
 . Verify that the cluster LIFs have reverted to their home port: 
 +
@@ -696,8 +698,10 @@ cluster1::*>
 +
 If any cluster LIFs have not returned to their home ports, revert them manually from the local node: 
 +
-`network interface revert -vserver vserver_name -lif lif_name`
+`network interface revert -vserver Cluster -lif lif_name`
 
 .What's next?
 
 link:install-rcf-3232c.html[Install RCF config file].
+
+// Updates for GH issue #217, 2024-OCT-29
