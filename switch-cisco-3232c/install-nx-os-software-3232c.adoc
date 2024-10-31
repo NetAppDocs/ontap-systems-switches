@@ -59,7 +59,7 @@ Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 cluster1::*> *network device-discovery show*
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
------------ ------ ------------------------- ----------------  --------
+----------- ------ ------------------------- ----------------  ----------
 cluster1-01/cdp
             e0a    cs1                       Ethernet1/7       N3K-C3232C
             e0d    cs2                       Ethernet1/7       N3K-C3232C
@@ -167,7 +167,7 @@ cluster1::*>
 ----
 cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true*
 Switch                      Type               Address          Model
---------------------------- ------------------ ---------------- -----
+--------------------------- ------------------ ---------------- ----------
 cs1                         cluster-network    10.233.205.90    N3K-C3232C
      Serial Number: FOCXXXXXXGD
       Is Monitored: true
@@ -191,8 +191,7 @@ cluster1::*>
 . Disable auto-revert on the cluster LIFs. The cluster LIFs fail over to the partner cluster switch and remain there as you perform the upgrade procedure on the targeted switch:
 +
 `network interface modify -vserver Cluster -lif * -auto-revert false` 
-
-
++
 
 . Copy the NX-OS software and EPLD images to the Nexus 3232C switch.
 +
@@ -594,7 +593,7 @@ e0d       Cluster      Cluster          up   9000  auto/100000 healthy false
 cluster1::*> *network device-discovery show -protocol cdp*
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
------------ ------ ------------------------- ----------------- --------
+----------- ------ ------------------------- ----------------- ----------
 cluster1-01/cdp
             e0a    cs1                       Ethernet1/7       N3K-C3232C
             e0d    cs2                       Ethernet1/7       N3K-C3232C
@@ -662,7 +661,7 @@ cluster1::*>
 ----
 ====
 
-. Repeat steps 6 to 14 on switch cs2.
+. Repeat steps 6 to 14 on switch cs1.
 
 . Enable auto-revert on the cluster LIFs.
 +
