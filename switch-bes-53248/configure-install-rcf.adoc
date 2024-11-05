@@ -448,7 +448,7 @@ Are you sure you would like to reset the system? (y/n) *y*
 [start=8]
 . Copy the RCF to the bootflash of switch cs2 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP.
 +
-This example shows SFTP being used to copy an RCF to the bootflash on switch cs2:
+This example shows TFTP being used to copy an RCF to the bootflash on switch cs2:
 +
 .Show example
 [%collapsible]
@@ -456,10 +456,10 @@ This example shows SFTP being used to copy an RCF to the bootflash on switch cs2
 
 [subs=+quotes]
 ----
-(cs2)# *copy sftp://172.19.2.1/tmp/BES-53248_RCF_v1.9-Cluster-HA.txt
-nvram:script BES-53248_RCF_v1.9-Cluster-HA.scr*
+(cs2)# *copy tftp://10.193.85.1/BES-53248-RCF-v1.9-Cluster-HA.txt
+nvram:reference-config*
 Remote Password:**
-Mode........................................... SFTP
+Mode........................................... TFTP
 Set Server IP.................................. 172.19.2.1
 Path........................................... //tmp/
 Filename....................................... BES-53248_RCF_v1.9-Cluster-HA.txt
@@ -467,7 +467,7 @@ Data Type...................................... Config Script
 Destination Filename........................... BES-53248_RCF_v1.9-Cluster-HA.scr
 Management access will be blocked for the duration of the transfer
 Are you sure you want to start? (y/n) *y*
-SFTP Code transfer starting...
+TFTP Code transfer starting...
 File transfer operation completed successfully.
 ----
 //====
@@ -483,9 +483,9 @@ File transfer operation completed successfully.
 
 Configuration Script Name                  Size(Bytes)  Date of Modification
 -----------------------------------------  -----------  --------------------
-BES-53248_RCF_v1.9-Cluster-HA.scr          2241         2020 09 30 05:41:00
-
-1 configuration script(s) found.
+Reference-config.scr                       2680         2024 05 31 21:54:22
+2 configuration script(s) found.
+2042 Kbytes free.
 ----
 
 . Apply the script to the switch:
@@ -495,7 +495,7 @@ BES-53248_RCF_v1.9-Cluster-HA.scr          2241         2020 09 30 05:41:00
 
 [subs=+quotes]
 ----
-(cs2)# *script apply BES-53248_RCF_v1.9-Cluster-HA.scr*
+(cs2)# *script apply reference-config.scr*
 
 Are you sure you want to apply the configuration script? (y/n) *y*
 
