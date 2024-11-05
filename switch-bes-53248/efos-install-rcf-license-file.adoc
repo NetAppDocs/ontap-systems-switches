@@ -1,17 +1,17 @@
 ---
-permalink: switch-bes-53248/configure-install-rcf.html
+permalink: switch-bes-53248/efos-install-rcf-license-file.html
 sidebar: sidebar
-keywords: install rcf,setup rcf,rcf file
+keywords: install rcf,setup rcf,rcf file, efos, license file
 summary: 'You can install the Reference Configuration File (RCF) after configuring the BES-53248 cluster switch and after applying the new licenses.'
 ---
-= Install the Reference Configuration File (RCF)
+= Install the Reference Configuration File (RCF) and license file
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-You can install the Reference Configuration File (RCF) after configuring the BES-53248 cluster switch and after applying the new licenses.
+Beginning with EFOS 3.12.0.1, you can install the Reference Configuration File (RCF) and license file after configuring the BES-53248 cluster switch. 
 
-IMPORTANT: For EFOS 3.12.0.1 only, follow the installation steps in link:efos-install-rcf-license-file.html[Install the Reference Configuration File (RCF) and license file].
+NOTE: Since all ports are configured when you install the RCF, you should then install your license to activate the configured ports. 
 
 //If you are upgrading an RCF from an older version, you must reset the Broadcom switch settings and perform basic configuration to re-apply the RCF. You must perform this operation every time you want to upgrade or change an RCF. See the https://kb.netapp.com/onprem/Switches/Broadcom/How_to_clear_configuration_on_a_Broadcom_interconnect_switch_while_retaining_remote_connectivity[KB article^] for details.
 
@@ -434,46 +434,44 @@ Are you sure you would like to reset the system? (y/n) *y*
 
 .. Log in to the switch again using SSH to complete the RCF installation.
 
+//. Note the following:
+//.. If additional port licenses have been installed on the switch, you must modify the RCF to configure the additional licensed ports. See link:configure-licenses.html#activate-newly-licensed-ports[Activate newly licensed ports] for details. 
 
-. Note the following:
-.. If additional port licenses have been installed on the switch, you must modify the RCF to configure the additional licensed ports. See link:configure-licenses.html#activate-newly-licensed-ports[Activate newly licensed ports] for details. 
-.. Record any customizations that were made in the previous RCF and apply these to the new RCF. For example, setting port speeds or hard-coding FEC mode.
+[start=7]
+. Record any customizations that were made in the previous RCF and apply these to the new RCF. For example, setting port speeds or hard-coding FEC mode.
 
-// start of tabbed content 
-
-[role="tabbed-block"] 
-
-==== 
-
-.EFOS version 3.12.x and later
---
-[start=8]
-. Copy the RCF to the bootflash of switch cs2 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP.
+. Copy the RCF to the bootflash of switch cs2 using one of the following transfer protocols: FTP, HTTP, TFTP, SFTP, or SCP.
 +
-This example shows TFTP being used to copy an RCF to the bootflash on switch cs2:
+This example shows HTTP being used to copy an RCF to the bootflash on switch cs2:
 +
 .Show example
 [%collapsible]
-//====
+====
 
 [subs=+quotes]
 ----
-(cs2)# *copy tftp://10.193.85.1/BES-53248-RCF-v1.9-Cluster-HA.txt
-nvram:reference-config*
-Remote Password:**
-Mode........................................... TFTP
+(cs2)# *copy http://172.19.2.1/x/eng,tmp/src/files/RCFs/BES-53248-RCF-v1.12-Cluster-HA.txt nvram:reference-config*
+
+Mode........................................... HTTP
 Set Server IP.................................. 172.19.2.1
-Path........................................... //tmp/
-Filename....................................... BES-53248_RCF_v1.9-Cluster-HA.txt
-Data Type...................................... Config Script
-Destination Filename........................... BES-53248_RCF_v1.9-Cluster-HA.scr
+Path........................................... x/eng,tmp/src/files/RCFs/
+Filename....................................... BES-53248-RCF-v1.12-Cluster-HA.txt
+Data Type...................................... Unknown
+
 Management access will be blocked for the duration of the transfer
 Are you sure you want to start? (y/n) *y*
-TFTP Code transfer starting...
+File transfer in progress. 
+Management access will be blocked for the duration of the transfer. 
+Please wait...
+HTTP Unknown file type transfer starting...
+Validating configuration script
+.....
+....
+Configuration script validated.
 File transfer operation completed successfully.
 ----
-//====
-[start=9]
+====
+
 . Verify that the script was downloaded and saved to the file name you gave it:
 +
 `script list`
@@ -486,14 +484,17 @@ File transfer operation completed successfully.
 Configuration Script Name                  Size(Bytes)  Date of Modification
 -----------------------------------------  -----------  --------------------
 Reference-config.scr                       2680         2024 05 31 21:54:22
-2 configuration script(s) found.
-2042 Kbytes free.
+1 configuration script(s) found.
+2045 Kbytes free.
 ----
 
 . Apply the script to the switch:
 +
 `script apply`
 +
+.Show example
+[%collapsible]
+====
 
 [subs=+quotes]
 ----
@@ -505,80 +506,56 @@ The system has unsaved changes.
 Would you like to save them now? (y/n) *y*
 Config file 'startup-config' created successfully.
 Configuration Saved!
-
-Configuration script 'BES-53248_RCF_v1.9-Cluster-HA.scr' applied.
+...
+...
+Configuration script 'reference-config.scr' applied.
 ----
---
+====
 
-.All other EFOS versions
---
-[start=8]
-. Copy the RCF to the bootflash of switch cs2 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP.
-+
-This example shows SFTP being used to copy an RCF to the bootflash on switch cs2:
+. Install the license file.
+
 +
 .Show example
 [%collapsible]
-//====
+====
 
 [subs=+quotes]
 ----
-(cs2)# *copy sftp://172.19.2.1/tmp/BES-53248_RCF_v1.9-Cluster-HA.txt
-nvram:script BES-53248_RCF_v1.9-Cluster-HA.scr*
-Remote Password:**
-Mode........................................... SFTP
+(cs2)# *copy http://172.19.2.1/x/eng,tmp/src/files/BES-53248-LIC.dat nvram:license-key 1*
+Mode........................................... HTTP
 Set Server IP.................................. 172.19.2.1
-Path........................................... //tmp/
-Filename....................................... BES-53248_RCF_v1.9-Cluster-HA.txt
-Data Type...................................... Config Script
-Destination Filename........................... BES-53248_RCF_v1.9-Cluster-HA.scr
+Path........................................... x/eng,tmp/src/files/
+Filename....................................... BES-53248-LIC.dat
+Data Type...................................... license
+
 Management access will be blocked for the duration of the transfer
 Are you sure you want to start? (y/n) *y*
-SFTP Code transfer starting...
-File transfer operation completed successfully.
-----
-//====
-[start=9]
-. Verify that the script was downloaded and saved to the file name you gave it:
-+
-`script list`
-+
 
-[subs=+quotes]
-----
-(cs2)# *script list*
+File transfer in progress. Management access will be blocked for the duration of the transfer. 
 
-Configuration Script Name                  Size(Bytes)  Date of Modification
------------------------------------------  -----------  --------------------
-BES-53248_RCF_v1.9-Cluster-HA.scr          2241         2020 09 30 05:41:00
+Please wait...
 
-1 configuration script(s) found.
-----
+License Key transfer operation completed successfully. 
 
-. Apply the script to the switch:
-+
-`script apply`
-+
+System reboot is required.
+(cs2)# *write memory*
 
-[subs=+quotes]
-----
-(cs2)# *script apply BES-53248_RCF_v1.9-Cluster-HA.scr*
+This operation may take a few minutes.
 
-Are you sure you want to apply the configuration script? (y/n) *y*
+Management interfaces will not be available during this time.
+Are you sure you want to save? (y/n) *y*
 
-The system has unsaved changes.
-Would you like to save them now? (y/n) *y*
 Config file 'startup-config' created successfully.
+
 Configuration Saved!
 
-Configuration script 'BES-53248_RCF_v1.9-Cluster-HA.scr' applied.
+(cs2)# *reload*
+Are you sure you would like to reset the system? (y/n) *y*
+...
+... 
 ----
---
-==== 
+====
 
-// end of tabbed content
-
-[start=11]
 . Examine the banner output from the `show clibanner` command. You must read and follow these instructions to ensure the proper configuration and operation of the switch. 
 +
 .Show example
@@ -591,29 +568,353 @@ Configuration script 'BES-53248_RCF_v1.9-Cluster-HA.scr' applied.
 
 Banner Message configured :
 =========================
-BES-53248 Reference Configuration File v1.9 for Cluster/HA/RDMA
+BES-53248 Reference Configuration File v1.12 for Cluster/HA/RDMA
 
 Switch   : BES-53248
-Filename : BES-53248-RCF-v1.9-Cluster.txt
-Date     : 10-26-2022
-Version  : v1.9
+Filename : BES-53248-RCF-v1.12-Cluster.txt
+Date     : 11-04-2024
+Version  : v1.12
 Port Usage:
 Ports 01 - 16: 10/25GbE Cluster Node Ports, base config
 Ports 17 - 48: 10/25GbE Cluster Node Ports, with licenses
 Ports 49 - 54: 40/100GbE Cluster Node Ports, with licenses, added right to left
 Ports 55 - 56: 100GbE Cluster ISL Ports, base config
 NOTE:
-- The 48 SFP28/SFP+ ports are organized into 4-port groups in terms of port
-speed:
-Ports 1-4, 5-8, 9-12, 13-16, 17-20, 21-24, 25-28, 29-32, 33-36, 37-40, 41-44,
-45-48
-The port speed should be the same (10GbE or 25GbE) across all ports in a 4-port
-group
+- The 48 SFP28/SFP+ ports are organized into 4-port groups in terms of port speed:
+  Ports 1-4, 5-8, 9-12, 13-16, 17-20, 21-24, 25-28, 29-32, 33-36, 37-40, 41-44, 45-48
+  The port speed should be the same (10GbE or 25GbE) across all ports in a 4-port group
 - If additional licenses are purchased, follow the 'Additional Node Ports
-activated with Licenses' section for instructions
-- If SSH is active, it will have to be re-enabled manually after 'erase
-startup-config'
-command has been executed and the switch rebooted
+  activated with Licenses' section for instructions
+- If SSH is active, it will have to be re-enabled manually after 'erase startup-config'
+  command has been executed and the switch rebooted"
+exit
+!
+! Global Parameters
+vlan database
+vlan 17
+vlan 18
+exit
+!
+no ip telnet server enable
+configure
+no username guest
+cut-through mode
+no port-channel resilient-hashing
+logging persistent 4
+isdp run
+isdp timer 5
+no isdp advertise-v2
+spanning-tree bpduguard
+snmp-server community "cshm1!" ro
+errdisable recovery cause link-flap
+errdisable recovery interval 30
+!
+
+class-map match-any RDMA
+match ip dscp 16
+match cos 2
+exit
+
+class-map match-any HA
+match ip dscp 40
+match cos 5
+exit
+
+class-map match-any CLUSTER
+match ip dscp 0
+match cos 0
+exit
+!
+
+! Policy map for Cluster/HA/RDMA traffic for all interface speeds
+
+policy-map CLUSTER in
+class RDMA
+assign-queue 2
+police-simple rate-percent 60 64 conform-action transmit violate-action transmit
+exit
+
+class HA
+assign-queue 5
+police-simple rate-percent 60 64 conform-action transmit violate-action transmit
+exit
+
+class CLUSTER
+assign-queue 0
+police-simple rate-percent 60 64 conform-action transmit violate-action transmit
+
+exit
+exit
+
+
+! Policy map and Class map definitions for 25GbE interfaces
+!
+!policy-map WRED_25G in
+!class HA
+!assign-queue 5
+!police-simple rate-percent 60 64 conform-action transmit violate-action transmit
+!exit
+!class CLUSTER
+!assign-queue 0
+!police-simple rate-percent 60 64 conform-action transmit violate-action transmit
+!exit
+!exit
+!
+! Policy Map and Class MAP defintions for 100GbE interfaces when supported
+!
+!policy-map CLUSTER in
+!class HA
+!assign-queue 5
+!police-simple rate-percent 60 64 conform-action transmit violate-action transmit
+!exit
+!class CLUSTER
+!assign-queue 0
+!police-simple rate-percent 60 64 conform-action transmit violate-action transmit
+!exit
+!exit
+!
+! Map dot1p priority values to CoS
+!
+classofservice trust dot1p
+classofservice dot1p-mapping 0 0
+classofservice dot1p-mapping 2 2
+classofservice dot1p-mapping 5 5
+!
+! identify WRED thresholds and enable ECN
+!
+random-detect queue-parms 0 min-thresh 80 90 95 97 max-thresh 100 100 100 100 drop-prob 10 10 10 10 ecn
+random-detect queue-parms 2 min-thresh 90 70 50 50 max-thresh 100 100 100 100 drop-prob 3 5 10 50 ecn
+random-detect queue-parms 5 min-thresh 90 70 50 50 max-thresh 100 100 100 100 drop-prob 3 5 10 50 ecn
+cos-queue min-bandwidth 28 0 28 0 0 43 0 0
+cos-queue random-detect 0 2 5
+
+!cos-queue min-bandwidth 40 0 0 0 0 60 0 0
+!cos-queue random-detect 0 5
+!
+port-channel name 1/1 Cluster-ISL
+interface 0/55
+addport 1/1
+exit
+interface 0/56
+addport 1/1
+exit
+!
+port-channel name 1/64 RCF-Version
+!
+interface 0/1-0/16
+no shutdown
+description "10/25GbE Node Port"
+service-policy in CLUSTER
+spanning-tree edgeport
+mtu 9216
+switchport mode trunk
+switchport trunk allowed vlan 1,17-18
+datacenter-bridging
+priority-flow-control mode on
+priority-flow-control priority 2 no-drop
+priority-flow-control priority 5 no-drop
+exit
+exit
+!
+interface 0/55-0/56
+no shutdown
+description "Cluster ISL Port"
+service-policy in CLUSTER
+mtu 9216
+switchport mode trunk
+datacenter-bridging
+priority-flow-control mode on
+priority-flow-control priority 2 no-drop
+exit
+exit
+!
+!
+interface 1/1
+no shutdown
+description "Cluster ISL"
+service-policy in CLUSTER
+no port-channel static
+port-channel load-balance 7
+mtu 9216
+switchport mode trunk
+exit
+!
+! Interface 1/64 is reserved. The description field is being used to identify
+! the version of this file when viewing output of the "show running-config" command.
+! Do not delete or use this port for connections.
+interface 1/64
+description "RCF BES-53248 v1.12 1-CLUSTER"
+exit
+!
+!
+!===== Additional Node Ports activated with Licenses ===
+!Instructions:
+! (1) Apply licenses purchased to use Ports 17 - 54
+! (2) Run 'show port all | exclude Detach', and note the interfaces between 0/16 and 0/55.
+!     These are the interfaces activated with licenses
+!
+! IMPORTANT NOTES
+! In certain conditions, BES-53248 may not be able to auto-negotiate port
+! speed correctly, and port speed has to be manually set in config mode, e.g.
+! interface 0/49
+! speed 40G full-duplex
+! interface 0/49
+! speed 100G full-duplex
+!
+! 8-port 10/25GbE node port license block
+!
+interface 0/17-0/24
+no shutdown
+description "10/25GbE Node Port"
+service-policy in CLUSTER
+spanning-tree edgeport
+mtu 9216
+switchport mode trunk
+switchport trunk allowed vlan 1,17-18
+datacenter-bridging
+priority-flow-control mode on
+priority-flow-control priority 2 no-drop
+priority-flow-control priority 5 no-drop
+exit
+exit
+!
+interface 0/25-0/32
+no shutdown
+description "10/25GbE Node Port"
+service-policy in CLUSTER
+spanning-tree edgeport
+mtu 9216
+switchport mode trunk
+switchport trunk allowed vlan 1,17-18
+datacenter-bridging
+priority-flow-control mode on
+priority-flow-control priority 2 no-drop
+priority-flow-control priority 5 no-drop
+exit
+exit
+!
+interface 0/33-0/40
+no shutdown
+description "10/25GbE Node Port"
+service-policy in CLUSTER
+spanning-tree edgeport
+mtu 9216
+switchport mode trunk
+switchport trunk allowed vlan 1,17-18
+datacenter-bridging
+priority-flow-control mode on
+priority-flow-control priority 2 no-drop
+priority-flow-control priority 5 no-drop
+exit
+exit
+!
+interface 0/41-0/48
+no shutdown
+description "10/25GbE Node Port"
+service-policy in CLUSTER
+spanning-tree edgeport
+mtu 9216
+switchport mode trunk
+switchport trunk allowed vlan 1,17-18
+datacenter-bridging
+priority-flow-control mode on
+priority-flow-control priority 2 no-drop
+priority-flow-control priority 5 no-drop
+exit
+exit
+!
+! 2-port or 6-port 40/100GbE node port license block
+!
+interface 0/49
+no shutdown
+description "40/100GbE Node Port"
+service-policy in CLUSTER
+spanning-tree edgeport
+mtu 9216
+switchport mode trunk
+switchport trunk allowed vlan 1,17-18
+datacenter-bridging
+priority-flow-control mode on
+priority-flow-control priority 2 no-drop
+priority-flow-control priority 5 no-drop
+exit
+exit
+!
+interface 0/50
+no shutdown
+description "40/100GbE Node Port"
+service-policy in CLUSTER
+spanning-tree edgeport
+mtu 9216
+switchport mode trunk
+switchport trunk allowed vlan 1,17-18
+datacenter-bridging
+priority-flow-control mode on
+priority-flow-control priority 2 no-drop
+priority-flow-control priority 5 no-drop
+exit
+exit
+!
+interface 0/51
+no shutdown
+description "40/100GbE Node Port"
+service-policy in CLUSTER
+spanning-tree edgeport
+mtu 9216
+switchport mode trunk
+switchport trunk allowed vlan 1,17-18
+datacenter-bridging
+priority-flow-control mode on
+priority-flow-control priority 2 no-drop
+priority-flow-control priority 5 no-drop
+exit
+exit
+!
+interface 0/52
+no shutdown
+description "40/100GbE Node Port"
+service-policy in CLUSTER
+spanning-tree edgeport
+mtu 9216
+switchport mode trunk
+switchport trunk allowed vlan 1,17-18
+datacenter-bridging
+priority-flow-control mode on
+priority-flow-control priority 2 no-drop
+priority-flow-control priority 5 no-drop
+exit
+exit
+!
+interface 0/53
+no shutdown
+description "40/100GbE Node Port"
+service-policy in CLUSTER
+spanning-tree edgeport
+mtu 9216
+switchport mode trunk
+switchport trunk allowed vlan 1,17-18
+datacenter-bridging
+priority-flow-control mode on
+priority-flow-control priority 2 no-drop
+priority-flow-control priority 5 no-drop
+exit
+exit
+!
+interface 0/54
+no shutdown
+description "40/100GbE Node Port"
+service-policy in CLUSTER
+spanning-tree edgeport
+mtu 9216
+switchport mode trunk
+switchport trunk allowed vlan 1,17-18
+datacenter-bridging
+priority-flow-control mode on
+priority-flow-control priority 2 no-drop
+priority-flow-control priority 5 no-drop
+exit
+exit
+!
 ----
 ====
 
@@ -909,8 +1210,8 @@ cluster1::*>
 ==== 
 // end of tabbed content
 
-[start=20]
-. [[step20]]On cluster switch cs1, shut down the ports connected to the cluster ports of the nodes.
+[start=21]
+. [[step21]]On cluster switch cs1, shut down the ports connected to the cluster ports of the nodes.
 +
 The following example uses the interface example output:
 +
@@ -1221,8 +1522,4 @@ system node autosupport invoke -node * -type all -message MAINT=END
 .What's next?
 link:configure-ssh.html[Enable SSH].
 
-// Updates for GH issues #72 & 79, 2023-APR-04
-// Updated rcf.scr file version from 1.6 to 1.9 as per AFFFASDOC-66, 2023-MAY-31
-// Updated for GH issue #118, 2023-AUG-29
-// Updated link for AFFFASDOC-216/217, 2024-JUL-15
-// Updates for GH issue #212, 2024-OCT-14
+// New content for AFFFASDOC-277, 2024-NOV-4
