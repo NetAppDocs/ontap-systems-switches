@@ -450,7 +450,7 @@ Are you sure you would like to reset the system? (y/n) *y*
 [start=8]
 . Copy the RCF to the bootflash of switch cs2 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP.
 +
-This example shows TFTP being used to copy an RCF to the bootflash on switch cs2:
+This example shows SFTP being used to copy an RCF to the bootflash on switch cs2:
 +
 .Show example
 [%collapsible]
@@ -458,7 +458,7 @@ This example shows TFTP being used to copy an RCF to the bootflash on switch cs2
 
 [subs=+quotes]
 ----
-(cs2)# *copy tftp://10.193.85.1/BES-53248-RCF-v1.9-Cluster-HA.txt
+(cs2)# *copy sftp://172.19.2.1/BES-53248-RCF-v1.9-Cluster-HA.txt
 nvram:reference-config*
 Remote Password:**
 Mode........................................... TFTP

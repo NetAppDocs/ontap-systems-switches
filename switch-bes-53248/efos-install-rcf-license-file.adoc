@@ -450,11 +450,11 @@ This example shows HTTP being used to copy an RCF to the bootflash on switch cs2
 
 [subs=+quotes]
 ----
-(cs2)# *copy http://172.19.2.1/x/eng,tmp/src/files/RCFs/BES-53248-RCF-v1.12-Cluster-HA.txt nvram:reference-config*
+(cs2)# *copy http://<ip-to-webserver>/path/to/BES-53248-RCF-v1.12-Cluster-HA.txt nvram:reference-config*
 
 Mode........................................... HTTP
 Set Server IP.................................. 172.19.2.1
-Path........................................... x/eng,tmp/src/files/RCFs/
+Path........................................... <ip-to-webserver>/path/to/
 Filename....................................... BES-53248-RCF-v1.12-Cluster-HA.txt
 Data Type...................................... Unknown
 
@@ -521,10 +521,10 @@ Configuration script 'reference-config.scr' applied.
 
 [subs=+quotes]
 ----
-(cs2)# *copy http://172.19.2.1/x/eng,tmp/src/files/BES-53248-LIC.dat nvram:license-key 1*
+(cs2)# *copy http://<ip-to-webserver>/path/to/BES-53248-LIC.dat nvram:license-key 1*
 Mode........................................... HTTP
 Set Server IP.................................. 172.19.2.1
-Path........................................... x/eng,tmp/src/files/
+Path........................................... <ip-to-webserver>/path/to/
 Filename....................................... BES-53248-LIC.dat
 Data Type...................................... license
 
