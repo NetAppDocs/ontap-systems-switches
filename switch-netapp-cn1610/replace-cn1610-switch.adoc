@@ -462,9 +462,9 @@ cluster::*> *cluster ping-cluster -node <node_name>*
 
 [subs=+quotes]
 ----
-(cs2) #*config*
-(cs2)(config)#*interface 0/1-0/12*
-(cs2)(interface 0/13-0/16)#*no shutdown*
+(new_cs1) #*config*
+(new_cs1)(config)#*interface 0/1-0/12*
+(new_cs1)(interface 0/13-0/16)#*no shutdown*
 ----
 ====
 
@@ -529,3 +529,4 @@ cluster::*> *cluster show*
 `system node autosupport invoke -node * -type all -message MAINT=END`
 
 // Converted this procedure to GitHub, as per GH issue #98, 2023-MAY-23
+// Update for GH issue #220, 2024-NOV-7
