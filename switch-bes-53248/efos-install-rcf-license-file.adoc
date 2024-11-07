@@ -11,16 +11,19 @@ summary: 'You can install the Reference Configuration File (RCF) after configuri
 [.lead]
 Beginning with EFOS 3.12.0.1, you can install the Reference Configuration File (RCF) and license file after configuring the BES-53248 cluster switch. 
 
-CAUTION: Since all ports are configured when you install the RCF, you should then install your license to activate the configured ports. 
+CAUTION: SAll ports are configured when you install the RCF, but you need to install your license to activate the configured ports. 
 
 //If you are upgrading an RCF from an older version, you must reset the Broadcom switch settings and perform basic configuration to re-apply the RCF. You must perform this operation every time you want to upgrade or change an RCF. See the https://kb.netapp.com/onprem/Switches/Broadcom/How_to_clear_configuration_on_a_Broadcom_interconnect_switch_while_retaining_remote_connectivity[KB article^] for details.
 
 == Review requirements
 
 .Before you begin
+
+Verify that the following are in place:  
+
 * A current backup of the switch configuration.
 * A fully functioning cluster (no errors in the logs or similar issues).
-* The current RCF file, available from the https://mysupport.netapp.com/site/products/all/details/broadcom-cluster-switches/downloads-tab[Broadcom Cluster Switches^] page.
+* The current RCF, available from the https://mysupport.netapp.com/site/products/all/details/broadcom-cluster-switches/downloads-tab[Broadcom Cluster Switches^] page.
 * A boot configuration in the RCF that reflects the desired boot images, required if you are installing only EFOS and keeping your current RCF version. If you need to change the boot configuration to reflect the current boot images, you must do so before reapplying the RCF so that the correct version is instantiated on future reboots.
 * A console connection to the switch, required when installing the RCF from a factory-default state. This requirement is optional if you have used the Knowledge Base article https://kb.netapp.com/onprem/Switches/Broadcom/How_to_clear_configuration_on_a_Broadcom_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Broadcom interconnect switch while retaining remote connectivity^] to clear the configuration, beforehand.
 
@@ -46,7 +49,7 @@ The procedure requires the use of both ONTAP commands and Broadcom switch comman
 
 No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To ensure non-disruptive cluster operations, the following procedure migrates all the cluster LIFs to the operational partner switch while performing the steps on the target switch.
 
-CAUTION: Before installing a new switch software version and RCFs, use the Knowledge Base article https://kb.netapp.com/onprem/Switches/Broadcom/How_to_clear_configuration_on_a_Broadcom_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Broadcom interconnect switch while retaining remote connectivity^]. If you must erase the switch settings completely, then you will need to perform the basic configuration again. You must be connected to the switch using the serial console, since a complete configuration erasure resets the configuration of the management network.
+CAUTION: Before installing a new switch software version and RCFs, use the Knowledge Base article https://kb.netapp.com/onprem/Switches/Broadcom/How_to_clear_configuration_on_a_Broadcom_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Broadcom interconnect switch while retaining remote connectivity^]. If you must erase the switch settings completely, then you need to perform the basic configuration again. You must be connected to the switch using the serial console because a complete configuration erasure resets the configuration of the management network.
 
 == Step 1: Prepare for the installation
 
@@ -472,7 +475,7 @@ File transfer operation completed successfully.
 ----
 ====
 
-. Verify that the script was downloaded and saved to the file name you gave it:
+. Verify that the script was downloaded and saved under the file name you gave it:
 +
 `script list`
 +
@@ -556,7 +559,7 @@ Are you sure you would like to reset the system? (y/n) *y*
 ----
 ====
 
-. Examine the banner output from the `show clibanner` command. You must read and follow these instructions to ensure the proper configuration and operation of the switch. 
+. Examine the banner output from the `show clibanner` command. You must read and follow these instructions to verify the proper configuration and operation of the switch. 
 +
 .Show example
 [%collapsible]
@@ -635,7 +638,7 @@ Intf      Type   Mode      Mode         Status     Status Trap    Mode   Timeout
 ----
 ====
 
-. Verify on the switch that your changes have been made:
+. On the switch, verify that your changes have been made:
 +
 [source,cli]
 ----
@@ -953,7 +956,7 @@ cluster1-04          true     true          false
 network interface modify -vserver Cluster -lif * -auto-revert true
 ----
 
-. Reboot switch cs1. You do this to trigger the cluster LIFs to revert to their home ports. You can ignore the “cluster ports down” events reported on the nodes while the switch reboots.
+. Reboot switch cs1. This triggers the cluster LIFs to revert to their home ports. You can ignore the “cluster ports down” events reported on the nodes while the switch reboots.
 +
 
 [subs=+quotes]
@@ -1194,4 +1197,4 @@ system node autosupport invoke -node * -type all -message MAINT=END
 .What's next?
 link:configure-ssh.html[Enable SSH].
 
-// New content for AFFFASDOC-277, 2024-NOV-4
+// New content for AFFFASDOC-277, 2024-NOV-04

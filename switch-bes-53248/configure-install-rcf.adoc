@@ -18,6 +18,9 @@ CAUTION: For EFOS 3.12 and later, follow the installation steps in link:efos-ins
 == Review requirements
 
 .Before you begin
+
+Verify that the following are in place:
+
 * A current backup of the switch configuration.
 * A fully functioning cluster (no errors in the logs or similar issues).
 * The current RCF file, available from the https://mysupport.netapp.com/site/products/all/details/broadcom-cluster-switches/downloads-tab[Broadcom Cluster Switches^] page.
@@ -46,7 +49,7 @@ The procedure requires the use of both ONTAP commands and Broadcom switch comman
 
 No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To ensure non-disruptive cluster operations, the following procedure migrates all the cluster LIFs to the operational partner switch while performing the steps on the target switch.
 
-CAUTION: Before installing a new switch software version and RCFs, use the Knowledge Base article https://kb.netapp.com/onprem/Switches/Broadcom/How_to_clear_configuration_on_a_Broadcom_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Broadcom interconnect switch while retaining remote connectivity^]. If you must erase the switch settings completely, then you will need to perform the basic configuration again. You must be connected to the switch using the serial console, since a complete configuration erasure resets the configuration of the management network.
+CAUTION: Before installing a new switch software version and RCFs, use the Knowledge Base article https://kb.netapp.com/onprem/Switches/Broadcom/How_to_clear_configuration_on_a_Broadcom_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Broadcom interconnect switch while retaining remote connectivity^]. If you must erase the switch settings completely, then you need to perform the basic configuration again. You must be connected to the switch using the serial console because a complete configuration erasure resets the configuration of the management network.
 
 == Step 1: Prepare for the installation
 
@@ -474,7 +477,7 @@ File transfer operation completed successfully.
 ----
 //====
 [start=9]
-. Verify that the script was downloaded and saved to the file name you gave it:
+. Verify that the script was downloaded and saved under the file name you gave it:
 +
 `script list`
 +
@@ -579,7 +582,7 @@ Configuration script 'BES-53248_RCF_v1.9-Cluster-HA.scr' applied.
 // end of tabbed content
 
 [start=11]
-. Examine the banner output from the `show clibanner` command. You must read and follow these instructions to ensure the proper configuration and operation of the switch. 
+. Examine the banner output from the `show clibanner` command. You must read and follow these instructions to verify the proper configuration and operation of the switch. 
 +
 .Show example
 [%collapsible]
@@ -980,7 +983,7 @@ cluster1-04          true     true          false
 network interface modify -vserver Cluster -lif * -auto-revert true
 ----
 
-. Reboot switch cs1. You do this to trigger the cluster LIFs to revert to their home ports. You can ignore the “cluster ports down” events reported on the nodes while the switch reboots.
+. Reboot switch cs1. This triggers the cluster LIFs to revert to their home ports. You can ignore the “cluster ports down” events reported on the nodes while the switch reboots.
 +
 
 [subs=+quotes]
@@ -1226,4 +1229,4 @@ link:configure-ssh.html[Enable SSH].
 // Updated for GH issue #118, 2023-AUG-29
 // Updated link for AFFFASDOC-216/217, 2024-JUL-15
 // Updates for GH issue #212, 2024-OCT-14
-// Updates for AFFFASDOC-277, 2024-NOV-4
+// Updates for AFFFASDOC-277, 2024-NOV-04
