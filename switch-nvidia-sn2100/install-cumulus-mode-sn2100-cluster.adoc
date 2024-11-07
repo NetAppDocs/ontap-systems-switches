@@ -135,6 +135,22 @@ cumulus@sw1:~$ *sudo dpkg-reconfigure tzdata*
 .. Follow the on-screen menu options to select the geographic area and region.
 .. To set the time zone for all services and daemons, reboot the switch.
 .. Verify that the date and time on the switch are correct and update if necessary.
+... Verify your current time zone: 
++
+----
+cumulus@switch:~$ date +%Z
+----
+... Set the software clock according to the configured time zone: 
++
+----
+cumulus@switch:~$ sudo date -s "Tue Jan 26 00:37:13 2023"
+----
++
+... Set the current value of the software clock to the hardware clock: 
++
+----
+cumulus@switch:~$ sudo hwclock -w
+----
 
 . Install Cumulus Linux 4.4.3:
 +
@@ -293,6 +309,37 @@ cumulus@sw1:~$ *sudo dpkg-reconfigure tzdata*
 .. Follow the on-screen menu options to select the geographic area and region.
 .. To set the time zone for all services and daemons, reboot the switch.
 .. Verify that the date and time on the switch are correct and update if necessary.
+... Verify your current time zone: 
++
+
+[subs=+quotes]
+----
+cumulus@sw1:~$ *date +%Z*
+----
+... Set the software clock according to the configured time zone: 
++
+
+[subs=+quotes]
+----
+cumulus@sw1:~$ *sudo date -s "Tue Jan 26 00:37:13 2023"*
+----
++
+... Set the current value of the software clock to the hardware clock: 
++
+
+[subs=+quotes]
+----
+cumulus@sw1:~$ *sudo hwclock -w*
+----
+... Add an NTP server if required:
++
+
+[subs=+quotes]
+----
+cumulus@sw1:~$ *nv set service ntp default server _<cumulus.network.ntp.org>_ iburst on*
+cumulus@sw1:~$ *nv config apply*
+cumulus@sw1:~$ *nv config save*
+----
 
 . Install Cumulus Linux 5.4:
 +
@@ -411,3 +458,4 @@ link:install-rcf-sn2100-cluster.html[Install the Reference Configuration File (R
 // Updated password examples, 2023-MAR-07
 // Added in content for LH - CLI version 5.x, 2023-APR-08
 // Updated as per AFFFASDOC-135, 2023-OCT-04
+// Updates for AFFFASDOC-278, 2024-NOV-07

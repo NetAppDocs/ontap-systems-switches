@@ -82,14 +82,14 @@ UP     swp6    100G  9216   Trunk/L2    SHFFG1826000102 (e0b)   Master: bridge(U
 .
 ----
 
-. Download the Cumulux Linux 5.x image:
+. Download the Cumulux Linux 5.x image:tmp
 +
 [subs=+quotes]
 ----
-admin@sw1:mgmt:~$ *sudo onie-install -a -i http://<ip-to-webserver>/path/to/cumulus-linux-5.4.0-mlx-amd64.bin*
+admin@sw1:mgmt:~$ *sudo onie-install -a -i http://_<ip-to-webserver>_/path/to/cumulus-linux-5.4.0-mlx-amd64.bin*
 [sudo] password for cumulus:
-Fetching installer: http://<ip-to-webserver>/path/to/cumulus-linux-5.4.0-mlx-amd64.bin
-Downloading URL: http://<ip-to-webserver>/path/to/cumulus-linux-5.4.0-mlx-amd64.bin
+Fetching installer: http://_<ip-to-webserver>_/path/to/cumulus-linux-5.4.0-mlx-amd64.bin
+Downloading URL: http://_<ip-to-webserver>_/path/to/cumulus-linux-5.4.0-mlx-amd64.bin
 ######################################################################### 100.0%
 Success: HTTP download complete.
 EFI variables are not supported on this system
@@ -113,8 +113,7 @@ Reboot required to take effect.
 +
 [subs=+quotes]
 ----
-admin@sw1:mgmt:~$ *sudo onie-install -a -i http://<ip-to-webserver>/path/to/cumulus-linux-5.4.0-mlx-amd64.bin*
- *sudo reboot*
+admin@sw1:mgmt:~$ *sudo reboot*
 ----
 
 . Change the password:
@@ -293,10 +292,10 @@ Interface     MTU   Speed State Remote Host         Remote Port- Type      Summa
 +
 [subs=+quotes]
 ----
-admin@sw1:mgmt:~$ *sudo onie-install -a -i http://<ip-to-webserver>/path/to/cumulus-linux-5.4.0-mlx-amd64.bin*
+admin@sw1:mgmt:~$ *sudo onie-install -a -i http://_<ip-to-webserver>_/path/to/cumulus-linux-5.4.0-mlx-amd64.bin*
 [sudo] password for cumulus:
-Fetching installer: http://<ip-to-webserver>/path/to/cumulus-linux-5.4.0-mlx-amd64.bin
-Downloading URL: http://<ip-to-webserver>/path/to/cumulus-linux-5.4.0-mlx-amd64.bin
+Fetching installer: http://_<ip-to-webserver>_/path/to/cumulus-linux-5.4.0-mlx-amd64.bin
+Downloading URL: http://_<ip-to-webserver>_/path/to/cumulus-linux-5.4.0-mlx-amd64.bin
 ######################################################################### 100.0%
 Success: HTTP download complete.
 EFI variables are not supported on this system
@@ -470,4 +469,4 @@ https://docs.nvidia.com/networking-ethernet-software/cumulus-linux-54/System-Con
 link:install-rcf-sn2100-cluster.html[Install the Reference Configuration File (RCF) script].
 
 // New content as part of the LH release of CL 5.4, 2023-APR-17
-// Updates for AFFFASDOC-278, 2024-NOV-6
+// Updates for AFFFASDOC-278, 2024-NOV-06
