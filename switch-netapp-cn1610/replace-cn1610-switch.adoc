@@ -53,9 +53,9 @@ The configuration commands in the following example are for FASTPATH 1.2.0.7:
 
 [subs=+quotes]
 ----
-(old_cs1) *>enable*
-(old_cs1) *#show running-config*
-(old_cs1) *#show startup-config*
+(old_cs1)> *enable*
+(old_cs1)# *show running-config*
+(old_cs1)# *show startup-config*
 ----
 ====
 
@@ -69,7 +69,7 @@ The command in the following example is for FASTPATH 1.2.0.7:
 
 [subs=+quotes]
 ----
-(old_cs1) *#show running-config filename.scr*
+(old_cs1)# *show running-config filename.scr*
 Config script created successfully.
 ----
 ====
@@ -85,7 +85,7 @@ NOTE: You can use any file name except `CN1610_CS_RCF_v1.2.scr`. The file name m
 
 [subs=+quotes]
 ----
-(old_cs1) #*copy nvram:script filename.scr scp://<Username>@<remote_IP_address>/path_to_file/filename.scr*
+(old_cs1)# *copy nvram:script filename.scr scp://<Username>@<remote_IP_address>/path_to_file/filename.scr*
 ----
 ====
 
@@ -119,7 +119,7 @@ commands.
 
 [subs=+quotes]
 ----
-(new_cs1) #*serviceport ip <ipaddr> <netmask> <gateway>*
+(new_cs1)# *serviceport ip <ipaddr> <netmask> <gateway>*
 ----
 ====
 
@@ -137,8 +137,8 @@ You can use the `ping` command to verify the address. If you are unable to estab
 
 [subs=+quotes]
 ----
-(new_cs1) >*enable*
-(new_cs1) #*show version*
+(new_cs1)> *enable*
+(new_cs1)# *show version*
 ----
 ====
 
@@ -150,7 +150,7 @@ You can use the `ping` command to verify the address. If you are unable to estab
 
 [subs=+quotes]
 ----
-(new_cs1) #*copy tftp://<server_ip_address>/CN1610_CS_RCF_v1.2.txt nvram:script CN1610_CS_RCF_v1.2.scr*
+(new_cs1)# *copy tftp://<server_ip_address>/CN1610_CS_RCF_v1.2.txt nvram:script CN1610_CS_RCF_v1.2.scr*
 Mode.	TFTP
 Set Server IP.	172.22.201.50
 Path.	/
@@ -181,7 +181,7 @@ File transfer operation completed successfully.
 
 [subs=+quotes]
 ----
-(new_cs1) #*script list*
+(new_cs1)# *script list*
 Configuration Script Nam   Size(Bytes)
 -------------------------- -----------
 CN1610_CS_RCF_v1.1.scr            2191
@@ -201,7 +201,7 @@ latest_config.scr                 2356
 
 [subs=+quotes]
 ----
-(new_cs1) #*script apply CN1610_CS_RCF_v1.2.scr*
+(new_cs1)# *script apply CN1610_CS_RCF_v1.2.scr*
 Are you sure you want to apply the configuration script? (y/n) *y*
 ...
 (the entire script is displayed line by line)
@@ -221,7 +221,7 @@ After the script is applied, those settings will be active in the running-config
 
 [subs=+quotes]
 ----
-(new_cs1) #*write memory*
+(new_cs1)# *write memory*
 This operation may take a few minutes.
 Management interfaces will not be available during this time. 
 
@@ -241,7 +241,7 @@ Configuration Saved!
 
 [subs=+quotes]
 ----
-(new_cs1) #*copy tftp://<server_ip_address>/NetApp_CN1610_1.2.0.7.stk active*
+(new_cs1)# *copy tftp://<server_ip_address>/NetApp_CN1610_1.2.0.7.stk active*
 Mode.	TFTP
 Set Server IP.	tftp_server_ip_address
 Path.	/
@@ -269,7 +269,7 @@ The switch must be rebooted for the command in step 6 to reflect the new image. 
 
 [subs=+quotes]
 ----
-(new_cs1) #*reload*
+(new_cs1)# *reload*
 The system has unsaved changes.
 Would you like to save them now? (y/n) *y* 
 
@@ -293,7 +293,7 @@ User:admin Password: (new_cs1) >*enable*
 
 [subs=+quotes]
 ----
-(new_cs1) #*copy tftp://<server_ip_address>/<filename>.scr nvram:script <filename>.scr*
+(new_cs1)# *copy tftp://<server_ip_address>/<filename>.scr nvram:script <filename>.scr*
 ----
 ====
 
@@ -305,7 +305,7 @@ User:admin Password: (new_cs1) >*enable*
 
 [subs=+quotes]
 ----
-(new_cs1) #*script apply <filename>.scr*
+(new_cs1)# *script apply <filename>.scr*
 Are you sure you want to apply the configuration script? (y/n) *y*
 
 The system has unsaved changes.
@@ -325,7 +325,7 @@ Configuration Saved!
 
 [subs=+quotes]
 ----
-(new_cs1) #*write memory*
+(new_cs1)# *write memory*
 ----
 ====
 
@@ -349,14 +349,13 @@ The AutoSupport message notifies technical support of this maintenance task so t
 ----
 User:*admin*
 Password:
-(new_cs1) >*enable*
-(new_cs1) #
-
-(new_cs1) #*config*
-(new_cs1)(config)#*interface 0/1-0/12*
-(new_cs1)(interface 0/1-0/12)#*shutdown*
-(new_cs1)(interface 0/1-0/12)#*exit* 
-(new_cs1) #*write memory*
+(new_cs1)> *enable*
+(new_cs1)#
+(new_cs1)# *config*
+(new_cs1)(config)# *interface 0/1-0/12*
+(new_cs1)(interface 0/1-0/12)# *shutdown*
+(new_cs1)(interface 0/1-0/12)# *exit* 
+(new_cs1)# *write memory*
 ----
 ====
 
@@ -431,10 +430,10 @@ cluster::*> *cluster ping-cluster -node <node_name>*
 
 [subs=+quotes]
 ----
-(cs2) #*config*
-(cs2)(config)#*interface 0/13-0/16*
-(cs2)(interface 0/13-0/16)#*shutdown*
-(cs2) #*show port-channel 3/1*
+(cs2)# *config*
+(cs2)(config)# *interface 0/13-0/16*
+(cs2)(interface 0/13-0/16)# *shutdown*
+(cs2)# *show port-channel 3/1*
 ----
 ====
 
@@ -448,9 +447,9 @@ cluster::*> *cluster ping-cluster -node <node_name>*
 
 [subs=+quotes]
 ----
-(cs2) #*config*
-(cs2)(config)#*interface 0/13-0/16*
-(cs2)(interface 0/13-0/16)#*no shutdown*
+(cs2)# *config*
+(cs2)(config)# *interface 0/13-0/16*
+(cs2)(interface 0/13-0/16)# *no shutdown*
 ----
 ====
 
@@ -462,9 +461,9 @@ cluster::*> *cluster ping-cluster -node <node_name>*
 
 [subs=+quotes]
 ----
-(cs2) #*config*
-(cs2)(config)#*interface 0/1-0/12*
-(cs2)(interface 0/13-0/16)#*no shutdown*
+(new_cs1)# *config*
+(new_cs1)(config)# *interface 0/1-0/12*
+(new_cs1)(interface 0/13-0/16)# *no shutdown*
 ----
 ====
 
@@ -518,9 +517,9 @@ cluster::*> *cluster show*
 
 [subs=+quotes]
 ----
-(new_cs1) >*enable*
-(new_cs1) #*show running-config*
-(new_cs1) #*show startup-config*
+(new_cs1)> *enable*
+(new_cs1)# *show running-config*
+(new_cs1)# *show startup-config*
 ----
 ====
 
@@ -529,3 +528,4 @@ cluster::*> *cluster show*
 `system node autosupport invoke -node * -type all -message MAINT=END`
 
 // Converted this procedure to GitHub, as per GH issue #98, 2023-MAY-23
+// Update for GH issue #220, 2024-NOV-7
