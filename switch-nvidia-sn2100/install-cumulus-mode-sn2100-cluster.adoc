@@ -177,7 +177,7 @@ cumulus@sw1:~$ *net pending*
 cumulus@sw1:~$ *net commit*
 ----
 
-.. Verify `ntpd` is running on the system:
+.. Verify that `ntpd` is running on the system:
 +
 [subs=+quotes]
 ----
@@ -185,7 +185,7 @@ cumulus@sw1:~$ *ps -ef | grep ntp*
 ntp       4074     1  0 Jun20 ?        00:00:33 /usr/sbin/ntpd -p /var/run/ntpd.pid -g -u 101:102
 ----
 
-.. Specify the NTP source interface. By default, the source interface that NTP uses is `eth0`. You can configure a different the NTP source interface as follows:
+.. Specify the NTP source interface. By default, the source interface that NTP uses is `eth0`. You can configure a different NTP source interface as follows:
 +
 
 [subs=+quotes]
@@ -388,7 +388,7 @@ cumulus@sw1:~$ *nv config apply*
 cumulus@sw1:~$ *nv config save*
 ----
 
-.. Verify `ntpd` is running on the system:
+.. Verify that `ntpd` is running on the system:
 +
 [subs=+quotes]
 ----
@@ -396,7 +396,7 @@ cumulus@sw1:~$ *ps -ef | grep ntp*
 ntp       4074     1  0 Jun20 ?        00:00:33 /usr/sbin/ntpd -p /var/run/ntpd.pid -g -u 101:102
 ----
 
-.. Specify the NTP source interface. By default, the source interface that NTP uses is `eth0`. You can configure a different the NTP source interface as follows:
+.. Specify the NTP source interface. By default, the source interface that NTP uses is `eth0`. You can configure a different NTP source interface as follows:
 +
 [subs=+quotes]
 ----
