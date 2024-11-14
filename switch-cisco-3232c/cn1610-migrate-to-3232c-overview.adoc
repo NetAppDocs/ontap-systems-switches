@@ -26,22 +26,22 @@ If necessary, refer to the following for more information:
 
 .About the examples
 
-The examples in this procedure use four nodes: 
+The examples in the migration procedure use four nodes: 
 
-* Two nodes use four 10 GbE cluster interconnect ports: e0a, e0b, e0c, and e0d. 
-* The other two nodes use two 40 GbE cluster interconnect fiber cables: e4a and e4e. 
+* Two nodes use four 10 GbE cluster interconnect ports: **e0a*, *e0b*, *e0c*, and *e0d*. 
+* The other two nodes use two 40 GbE cluster interconnect fiber cables: *e4a* and *e4e*. 
 +
-The link:https://hwu.netapp.com/[_Hardware Universe_^] has information about the cluster fiber cables on your platforms.
+The link:https://hwu.netapp.com/[_Hardware Universe_^] has information about the cluster fiber cables for your platforms.
 
 The examples in this procedure use the following switch and node nomenclature:
 
-* The nodes are n1, n2, n3, and n4.
+* The nodes are *n1*, *n2*, *n3*, and *n4*.
 * The command outputs might vary depending on different releases of ONTAP software.
-* The CN1610 switches to be replaced are CL1 and CL2.
-* The Nexus 3232C switches to replace the CN1610 switches are C1 and C2.
-* n1_clus1 is the first cluster logical interface (LIF) that is connected to cluster switch 1 (CL1 or C1) for node n1.
-* n1_clus2 is the first cluster LIF that is connected to cluster switch 2 (CL2 or C2) for node n1.
-* n1_clus3 is the second LIF that is connected to cluster switch 2 (CL2 or C2) for node n1.
-* n1_clus4 is the second LIF that is connected to cluster switch 1 (CL1 or C1) for node n1.
+* The CN1610 switches to be replaced are *CL1* and *CL2*.
+* The Nexus 3232C switches to replace the CN1610 switches are *C1* and *C2*.
+* *n1_clus1* is the first cluster logical interface (LIF) that is connected to cluster switch 1 (CL1 or C1) for node *n1*.
+* *n1_clus2* is the first cluster LIF that is connected to cluster switch 2 (CL2 or C2) for node *n1*.
+* *n1_clus3* is the second LIF that is connected to cluster switch 2 (CL2 or C2) for node *n1*.
+* *n1_clus4* is the second LIF that is connected to cluster switch 1 (CL1 or C1) for node *n1*.
 * The number of 10 GbE and 40/100 GbE ports are defined in the reference configuration files (RCFs) available on the https://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco® Cluster Network Switch Reference Configuration File Download^] page.
 
