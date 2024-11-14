@@ -1,0 +1,39 @@
+---
+permalink: switch-cisco-3232c/cn1610-migrate-workflow.html
+sidebar: sidebar
+keywords: 3232c cabling setup, 3232c switches configuration, nx-os
+summary: 'Before configuring your Cisco 3232C switch, review the following information.'
+---
+= Migrate from CN1610 switches workflow
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+Follow these workflow steps to migrate your CN1610 switch.
+
+.Before you begin
+To migrate your CN1610 switch, you must meet certain requirements. Review the link:migrate-requirements-3232c.html[Migration requirements].
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png[One]link:cn1610-migrate-to-3232c-overview.html[Overview of migration to Cisco Nexus 3232c switches]
+[role="quick-margin-para"]
+Verify whether the system has security key manager enabled or encrypted disks.
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png[Two]link:cn1610-prepare-to-migrate.html[Prepare for migration]
+[role="quick-margin-para"]
+Shut down or take over the impaired controller so that the healthy controller continues to serve data from the impaired controller storage. 
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png[Three]link:cn1610-replace-CL2.html[Replace cluster switch CL2]
+[role="quick-margin-para"]
+Remove the failed boot media from the System Management module and install the replacement boot media, and then transfer an ONTAP image using a USB flash drive to the replacement boot media.
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png[Four]link:cn1610-replace-CL1.html.html[Replace cluster switch CL1]
+[role="quick-margin-para"]
+Boot the ONTAP image from the USB drive, restore the file system, and verify the environmental variables..
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-5.png[Five]link:cn1610-complete-migration.html[Complete your migration]
+[role="quick-margin-para"]
+Restore the onboard key manager configuration or the external key manager from the ONATP boot menu.
+
+//.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-6.png[Six]link:bootmedia-complete-rma.html[Return the failed part to NetApp]
+//[role="quick-margin-para"]
+//Return the failed part to NetApp, as described in the RMA instructions shipped with the kit.
