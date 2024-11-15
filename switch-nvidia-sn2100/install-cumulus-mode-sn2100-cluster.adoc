@@ -124,17 +124,76 @@ unreachable default metric 4278198272
 127.0.0.0/8 dev mgmt proto kernel scope link src 127.0.0.1
 ----
 
-. Configure the time zone using NTP interactive mode.
+. Set the date, time, time zone, and NTP server on the switch.
 
-.. On a terminal, run the following command:
+.. Verify the current time zone:
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *cat /etc/timezone*
+----
+
+.. Update to the new time zone:
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *sudo dpkg-reconfigure --frontend noninteractive tzdata*
+----
+
+.. Verify your current time zone: 
++
+[subs=+quotes]
+----
+cumulus@switch:~$ *date +%Z*
+----
+
+.. To set the time zone using the guided wizard, run the following command:
 +
 [subs=+quotes]
 ----
 cumulus@sw1:~$ *sudo dpkg-reconfigure tzdata*
 ----
-.. Follow the on-screen menu options to select the geographic area and region.
-.. To set the time zone for all services and daemons, reboot the switch.
-.. Verify that the date and time on the switch are correct and update if necessary.
+
+.. Set the software clock according to the configured time zone: 
++
+[subs=+quotes]
+----
+cumulus@switch:~$ *sudo date -s "Tue Oct 28 00:37:13 2023"*
+----
++
+.. Set the current value of the software clock to the hardware clock: 
++
+[subs=+quotes]
+----
+cumulus@switch:~$ *sudo hwclock -w*
+----
+
+.. Add an NTP server if required:
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *net add time ntp server _<cumulus.network.ntp.org>_ iburst*
+cumulus@sw1:~$ *net pending*
+cumulus@sw1:~$ *net commit*
+----
+
+.. Verify that `ntpd` is running on the system:
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *ps -ef | grep ntp*
+ntp       4074     1  0 Jun20 ?        00:00:33 /usr/sbin/ntpd -p /var/run/ntpd.pid -g -u 101:102
+----
+
+.. Specify the NTP source interface. By default, the source interface that NTP uses is `eth0`. You can configure a different NTP source interface as follows:
++
+
+[subs=+quotes]
+----
+cumulus@sw1:~$ *net add time ntp source _<src_int>_*
+cumulus@sw1:~$ *net pending*
+cumulus@sw1:~$ *net commit*
+----
 
 . Install Cumulus Linux 4.4.3:
 +
@@ -282,17 +341,68 @@ unreachable default metric 4278198272
 127.0.0.0/8 dev mgmt proto kernel scope link src 127.0.0.1
 ----
 
-. Configure the time zone using NTP interactive mode.
+. Set the time zone, date, time, and NTP server on the switch.
 
-.. On a terminal, run the following command:
+.. Set the time zone:
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *nv set system timezone US/Eastern*
+cumulus@sw1:~$ *nv config apply*
+----
+
+.. Verify your current time zone: 
++
+[subs=+quotes]
+----
+cumulus@switch:~$ *date +%Z*
+----
+
+.. To set the time zone using the guided wizard, run the following command:
 +
 [subs=+quotes]
 ----
 cumulus@sw1:~$ *sudo dpkg-reconfigure tzdata*
 ----
-.. Follow the on-screen menu options to select the geographic area and region.
-.. To set the time zone for all services and daemons, reboot the switch.
-.. Verify that the date and time on the switch are correct and update if necessary.
+
+.. Set the software clock according to the configured time zone: 
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *sudo date -s "Tue Oct 28 00:37:13 2023"*
+----
+
+.. Set the current value of the software clock to the hardware clock: 
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *sudo hwclock -w*
+----
+
+.. Add an NTP server if required:
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *nv set service ntp default server _<cumulus.network.ntp.org>_ iburst on*
+cumulus@sw1:~$ *nv config apply*
+cumulus@sw1:~$ *nv config save*
+----
+
+.. Verify that `ntpd` is running on the system:
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *ps -ef | grep ntp*
+ntp       4074     1  0 Jun20 ?        00:00:33 /usr/sbin/ntpd -p /var/run/ntpd.pid -g -u 101:102
+----
+
+.. Specify the NTP source interface. By default, the source interface that NTP uses is `eth0`. You can configure a different NTP source interface as follows:
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *nv set service ntp default listen _<src_int>_*
+cumulus@sw1:~$ *nv config apply*
+----
 
 . Install Cumulus Linux 5.4:
 +
@@ -411,3 +521,4 @@ link:install-rcf-sn2100-cluster.html[Install the Reference Configuration File (R
 // Updated password examples, 2023-MAR-07
 // Added in content for LH - CLI version 5.x, 2023-APR-08
 // Updated as per AFFFASDOC-135, 2023-OCT-04
+// Updates for AFFFASDOC-278, 2024-NOV-07
