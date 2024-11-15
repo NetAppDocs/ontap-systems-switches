@@ -75,21 +75,19 @@ ADMDN  swp16  N/A  9216   NotConfigured
 +
 [subs=+quotes]
 ----
-admin@sw1:mgmt:~$ *pwd*
-/home/cumulus
 cumulus@cumulus:mgmt:~$ *cd /tmp*
-cumulus@cumulus:mgmt:/tmp$ *scp _<user>@<host:/<path>_/MSN2100-RCF-v1.x-Cluster-HA-Breakout-LLDP ./*
+cumulus@cumulus:mgmt:/tmp$ *scp _<user>@<host:/<path>_/MSN2100-RCF-v1._x_-Cluster-HA-Breakout-LLDP .*
 ssologin@10.233.204.71's password:
-MSN2100-RCF-v1.x-Cluster-HA-Breakout-LLDP         100% 8607   111.2KB/s         00:00
+MSN2100-RCF-v1._x_-Cluster-HA-Breakout-LLDP         100% 8607   111.2KB/s         00:00
 ----
 +
 NOTE: While `scp` is used in the example, you can use your preferred method of file transfer.
 
-. Apply the RCF python script *MSN2100-RCF-v1.x-Cluster-HA-Breakout-LLDP*.
+. Apply the RCF python script *MSN2100-RCF-v1._x_-Cluster-HA-Breakout-LLDP*.
 +
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:/tmp$ *sudo python3 MSN2100-RCF-v1.x-Cluster-HA-Breakout-LLDP*
+cumulus@cumulus:mgmt:/tmp$ *sudo python3 MSN2100-RCF-v1._x_-Cluster-HA-Breakout-LLDP*
 [sudo] password for cumulus:
 ...
 Step 1: Creating the banner file
@@ -298,20 +296,19 @@ Interface     MTU   Speed State Remote Host         Remote Port- Type      Summa
 +
 [subs=+quotes]
 ----
-admin@sw1:mgmt:~$ *pwd*
-/home/cumulus
-cumulus@cumulus:mgmt: */tmp$ scp _<user>@<host:/<path>_/MSN2100-RCF-v1.x-Cluster-HA-Breakout-LLDP ./*
+cumulus@cumulus:mgmt:~$ *cd /tmp*
+cumulus@cumulus:mgmt:/tmp$ *scp _<user>@<host:/<path>_/MSN2100-RCF-v1._x_-Cluster-HA-Breakout-LLDP .*
 ssologin@10.233.204.71's password:
 MSN2100-RCF-v1.x-Cluster-HA-Breakout-LLDP          100% 8607   111.2KB/s         00:00
 ----
 +
 NOTE: While `scp` is used in the example, you can use your preferred method of file transfer.
 
-. Apply the RCF python script *MSN2100-RCF-v1.x-Cluster-HA-Breakout-LLDP*.
+. Apply the RCF python script *MSN2100-RCF-v1._x_-Cluster-HA-Breakout-LLDP*.
 +
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:/tmp$ *sudo python3 MSN2100-RCF-v1.x-Cluster-HA-Breakout-LLDP*
+cumulus@cumulus:mgmt:/tmp$ *sudo python3 MSN2100-RCF-v1._x_-Cluster-HA-Breakout-LLDP*
 [sudo] password for cumulus:
 .
 .
@@ -336,15 +333,16 @@ NOTE: In step 3 *Updating the MOTD file* above, the command `cat /etc/issue` is 
 +
 For example:
 +
+
 ----
 admin@sw1:mgmt:~$ cat /etc/issue
 ******************************************************************************
 *
 * NetApp Reference Configuration File (RCF)
 * Switch       : Mellanox MSN2100
-* Filename     : MSN2100-RCF-1.x-Cluster-HA-Breakout-LLDP
+* Filename     : MSN2100-RCF-1._x_-Cluster-HA-Breakout-LLDP
 * Release Date : 13-02-2023
-* Version      : 1.x-Cluster-HA-Breakout-LLDP
+* Version      : 1._x_-Cluster-HA-Breakout-LLDP
 *
 * Port Usage:
 * Port 1      : 4x10G Breakout mode for Cluster+HA Ports, swp1s0-3
@@ -623,3 +621,4 @@ link:setup-install-cshm-file.html[Install the CSHM file].
 // Updates for AFFFASDOC-258, 2024-AUG-22
 // Updates for AFFFASDOC-248, 2024-AUG-21
 // Updates for GH issue #216, 2024-OCT-24
+// Updates for AFFFASDOC-278, 2024-NOV-11
