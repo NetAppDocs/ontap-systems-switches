@@ -41,7 +41,7 @@ The two nodes must be connected and functioning in a two-node switchless cluster
  ** Initial customization of the switch
  ** All ISL ports enabled and cabled
 
-== Migrate the switches
+== About this task
 
 .About the examples
 
@@ -63,9 +63,7 @@ The examples in this procedure use two nodes, each utilizing two 40 GbE cluster 
 The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 ====
 
-
-
-=== Step 1: Display and migrate physical and logical ports
+== Display and migrate physical and logical ports
 
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
 +
@@ -307,7 +305,7 @@ cluster::*> *network interface migrate -vserver cluster -lif n2_clus1 -source-no
 ----
 ====
 
-=== Step 2: Shut down the reassigned LIFs and disconnect the cables 
+== Shut down the reassigned LIFs and disconnect the cables 
 
 . Verify the cluster interfaces have successfully migrated:
 +
@@ -430,7 +428,7 @@ Larger than PMTU communication succeeds on 4 path(s) RPC status:
 +
 You can refer to the running configuration and connect the first 40 GbE port on the switch C1 (port 1/7 in this example) to e4a on n1 using cabling supported for Nexus 3232C switches.
 
-=== Step 3: Enable the cluster ports
+== Enable the cluster ports
 
 . Disconnect the cable from e4a on node n2.
 +
@@ -544,7 +542,7 @@ Cluster
 ----
 ====
 
-=== Step 4: Enable the reassigned LIFs
+== Enable the reassigned LIFs
 
 . Display the cluster port connectivity on each node:
 +
@@ -854,3 +852,4 @@ link:../switch-cshm/config-overview.html[Configure switch health monitoring].
 // Format fixes as part of AFFFASDOC-98, 20203-SEPT-19
 // Updated as part of AFFFASDOC-216, 217, 2024-JUL-30
 // Updates for GH issue #212, 2024-OCT-17
+// Updates for GH issue #262, 2024-NOV-19
