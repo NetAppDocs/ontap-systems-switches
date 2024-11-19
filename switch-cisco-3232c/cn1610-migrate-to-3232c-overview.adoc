@@ -4,16 +4,14 @@ sidebar: sidebar
 keywords: install, cisco nexus 3232c switch,
 summary: 'Before configuring Cisco Nexus 3232c switches, review an overview of the process and the nomenclature.'
 ---
-= Overview of migration to Cisco Nexus 3232C switches
-:icons: font
+= Migration requirements
 :imagesdir: ../media/
 
 [.lead]
 Cisco Nexus 3232C switches can be used as cluster switches in your AFF or FAS cluster. Cluster switches allow you to build ONTAP clusters with more than two nodes. 
+//.Before you begin
 
-.Before you begin
-
-Before migration, be sure to review link:migrate-requirements-3232c.html[Migration requirements]. 
+//Before migration, be sure to review link:migrate-requirements-3232c.html[Migration requirements]. 
 
 NOTE: The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 
@@ -24,7 +22,52 @@ If necessary, refer to the following for more information:
 * http://hwu.netapp.com[Hardware Universe^]
 
 
-.About the examples
+== CN1610 migrate requirements
+The cluster switches support the following node connections:
+
+* NetApp CN1610: ports 0/1 through 0/12 (10 GbE)
+* Cisco Nexus 3232C: ports e1/1-30 (40 or 100 or 4x10GbE)
+
+The cluster switches use the following inter-switch link (ISL) ports.
+
+* NetApp CN1610: ports 0/13 through 0/16 (10 GbE)
+* Cisco Nexus 3232C: ports 1/31-32 (100GbE)
+
+[NOTE]
+====
+You must use 4x10G breakout cables on the Cisco Nexus 3232C cluster switch.
+====
+
+The following table shows the cabling connections that are required at each stage as you make the transition from NetApp CN1610 switches to Cisco Nexus 3232C cluster switches:
+[options="header"]
+|===
+| Stage| Description| Required cables
+a|
+Initial
+a|
+CN1610 to CN1610 (SFP+ to SFP+)
+a|
+4 SFP+ optical fiber or copper direct-attach cables
+a|
+Transition
+a|
+CN1610 to 3232C (QSFP to SFP+)
+a|
+1 QSFP and 4 SFP+ optical fiber or copper breakout cables
+a|
+Final
+a|
+3232C to 3232C (QSFP to QSFP)
+a|
+2 QSFP optical fiber or copper direct-attach cables
+|===
+You must have downloaded the applicable reference configuration files (RCFs). The number of 10 GbE and 40/100 GbE ports are defined in the RCFs available on the https://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco® Cluster Network Switch Reference Configuration File Download^] page.
+
+The ONTAP and NX-OS versions that are supported in this procedure are listed on the link:https://mysupport.netapp.com/NOW/download/software/cm_switches/.html[Cisco Ethernet Switches page^].
+
+The ONTAP and FASTPATH versions that are supported in this procedure are listed on the link:http://support.netapp.com/NOW/download/software/cm_switches_ntap/.html[NetApp CN1601 and CN1610 Switches page^].
+
+== About the examples used
 
 The examples in the migration procedure use four nodes: 
 
@@ -45,3 +88,7 @@ The examples in this procedure use the following switch and node nomenclature:
 * *n1_clus4* is the second LIF that is connected to cluster switch 1 (CL1 or C1) for node *n1*.
 * The number of 10 GbE and 40/100 GbE ports are defined in the reference configuration files (RCFs) available on the https://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco® Cluster Network Switch Reference Configuration File Download^] page.
 
+.What's next?
+link:cn1610-prepare-to-migrate.html[Prepare for migration].
+
+//Updates for internal GH issue #262, 2024-11-14
