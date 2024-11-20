@@ -57,7 +57,7 @@ The link:http://mysupport.netapp.com/NOW/download/software/cm_switches/[Cisco Et
 
 In addition, you must plan, migrate, and read the required documentation on 10 GbE and 40/100 GbE connectivity from nodes to Nexus 3132Q-V cluster switches.
 
-== Migrate the switches
+== About this task
 
 .About the examples
 
@@ -68,16 +68,15 @@ The examples in this procedure use the following switch and node nomenclature:
 
 [NOTE]
 ====
-The examples in this procedure use two nodes, each utilizing two 40/100 GbE cluster interconnect ports e4a and e4e. The link:https://hwu.netapp.com/[Hardware Universe^] has details about the cluster ports on your platforms.
+The examples in this procedure use two nodes, each utilizing two 40/100 GbE cluster interconnect ports *e4a* and *e4e*. The link:https://hwu.netapp.com/[Hardware Universe^] has details about the cluster ports on your platforms.
 ====
 
-.About this task
 This procedure covers the following scenarios:
 
-* n1_clus1 is the first cluster logical interface (LIF) to be connected to cluster switch C1 for node n1.
-* n1_clus2 is the first cluster LIF to be connected to cluster switch C2 for node n1.
-* n2_clus1 is the first cluster LIF to be connected to cluster switch C1 for node n2.
-* n2_clus2 is the second cluster LIF to be connected to cluster switch C2 for node n2.
+* *n1_clus1* is the first cluster logical interface (LIF) to be connected to cluster switch C1 for node *n1*.
+* *n1_clus2* is the first cluster LIF to be connected to cluster switch C2 for node *n1*.
+* *n2_clus1* is the first cluster LIF to be connected to cluster switch C1 for node *n2*.
+* *n2_clus2* is the second cluster LIF to be connected to cluster switch C2 for node *n2*.
 * The number of 10 GbE and 40/100 GbE ports are defined in the reference configuration files (RCFs) available on the https://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco ® Cluster Network Switch Reference Configuration File Download^] page.
 
 [NOTE]
@@ -90,7 +89,7 @@ The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Serie
 * The second cluster port is moved to C2.
 * The two-node switchless cluster option is disabled.
 
-=== Step 1: Prepare for migration
+== Step 1: Prepare for migration
 
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
 +
@@ -112,7 +111,7 @@ The AutoSupport message notifies technical support of this maintenance task so t
 [%collapsible]
 ====
 ----
-cluster::*> network port show –role cluster
+cluster::*> network port show -role cluster
   (network port show)
 Node: n1
                                                                        Ignore
@@ -168,7 +167,7 @@ You must prepare both switches at this time. If you need to upgrade the RCF and 
 
 . Click *CONTINUE* on the *Description* page, accept the license agreement, and then follow the instructions on the *Download* page to download the RCF.
 
-=== Step 2: Move first cluster port to C1
+== Step 2: Move first cluster port to C1
 
 . On Nexus 3132Q-V switches C1 and C2, disable all node-facing ports C1 and C2, but do not disable the ISL ports.
 +
@@ -304,9 +303,9 @@ Execute this command from each local node.
 ====
 ----
 cluster::*> network interface migrate -vserver Cluster -lif n1_clus1 -source-node n1
-–destination-node n1 -destination-port e4e
+-destination-node n1 -destination-port e4e
 cluster::*> network interface migrate -vserver Cluster -lif n2_clus1 -source-node n2
-–destination-node n2 -destination-port e4e
+-destination-node n2 -destination-port e4e
 ----
 ====
 
@@ -341,7 +340,6 @@ Cluster
 cluster::*> network port modify -node n1 -port e4a -up-admin false
 cluster::*> network port modify -node n2 -port e4a -up-admin false
 ----
-
 
 . Verify the connectivity of the remote cluster interfaces: 
 +
@@ -471,7 +469,7 @@ cluster::*> network port modify -node n2 -port e4a -up-admin true
 [%collapsible]
 ====
 ----
-cluster::*> network port show –role cluster
+cluster::*> network port show -role cluster
   (network port show)
 Node: n1
                                                                        Ignore
@@ -530,7 +528,7 @@ Cluster
 ----
 ====
 
-=== Step 3: Move second cluster port to C2
+== Step 3: Move second cluster port to C2
 
 . Display the cluster port connectivity on each node:
 +
@@ -563,9 +561,9 @@ n2         /cdp
 ====
 ----
 cluster::*> network interface migrate -vserver Cluster -lif n1_clus2 -source-node n1
-–destination-node n1 -destination-port e4a
+-destination-node n1 -destination-port e4a
 cluster::*> network interface migrate -vserver Cluster -lif n2_clus2 -source-node n2
-–destination-node n2 -destination-port e4a
+-destination-node n2 -destination-port e4a
 ----
 ====
 
@@ -576,8 +574,8 @@ cluster::*> network interface migrate -vserver Cluster -lif n2_clus2 -source-nod
 The following example shows the specified ports being shut down on both nodes:
 +
 ----
-	cluster::*> network port modify -node n1 -port e4e -up-admin false
-	cluster::*> network port modify -node n2 -port e4e -up-admin false
+cluster::*> network port modify -node n1 -port e4e -up-admin false
+cluster::*> network port modify -node n2 -port e4e -up-admin false
 ----
 
 . Verify the cluster LIF status:
@@ -634,8 +632,8 @@ C2(config)# exit
 The following example shows the specified ports being brought up:
 +
 ----
-	cluster::*> network port modify -node n1 -port e4e -up-admin true
-	cluster::*> network port modify -node n2 -port e4e -up-admin true
+cluster::*> network port modify -node n1 -port e4e -up-admin true
+cluster::*> network port modify -node n2 -port e4e -up-admin true
 ----
 
 . For each node, revert all of the migrated cluster interconnect LIFs:
@@ -645,8 +643,8 @@ The following example shows the specified ports being brought up:
 The following example shows the migrated LIFs being reverted to their home ports.
 +
 ----
-	cluster::*> network interface revert -vserver Cluster -lif n1_clus2
-	cluster::*> network interface revert -vserver Cluster -lif n2_clus2
+cluster::*> network interface revert -vserver Cluster -lif n1_clus2
+cluster::*> network interface revert -vserver Cluster -lif n2_clus2
 ----
 
 . Verify that all of the cluster interconnect ports are now reverted to their home ports:
@@ -675,13 +673,13 @@ Cluster
 
 . Verify that all of the cluster interconnect ports are in the `up` state.
 +
-`network port show –role cluster`
+`network port show -role cluster`
 +
 .Show example
 [%collapsible]
 ====
 ----
-cluster::*> network port show –role cluster
+cluster::*> network port show -role cluster
   (network port show)
 Node: n1
                                                                        Ignore
@@ -702,7 +700,7 @@ e4e       Cluster      Cluster          up   9000 auto/40000  -        -
 ----
 ====
 
-=== Step 4: Disable the two-node switchless cluster option
+== Step 4: Disable the two-node switchless cluster option
 
 . Display the cluster switch port numbers each cluster port is connected to on each node:
 +
@@ -737,7 +735,7 @@ cluster::*> system cluster-switch show
 
 Switch                      Type               Address          Model
 --------------------------- ------------------ ---------------- ---------------
-C1                         cluster-network     10.10.1.101      NX3132V
+C1                          cluster-network    10.10.1.101      NX3132V
      Serial Number: FOX000001
       Is Monitored: true
             Reason:
@@ -745,7 +743,7 @@ C1                         cluster-network     10.10.1.101      NX3132V
                     7.0(3)I4(1)
     Version Source: CDP
 
-C2                          cluster-network     10.10.1.102      NX3132V
+C2                          cluster-network      10.10.1.102    NX3132V
      Serial Number: FOX000002
       Is Monitored: true
             Reason:
@@ -771,7 +769,7 @@ network options switchless-cluster modify -enabled false
 network options switchless-cluster show
 ----
 
-=== Step 5: Verify the configuration
+== Step 5: Verify the configuration
 
 . Verify the connectivity of the remote cluster interfaces: 
 +
@@ -863,4 +861,5 @@ link:../switch-cshm/config-overview.html[Configure switch health monitoring].
 
 // QA clean-up, 2022-03-03
 // Updated as part of AFFFASDOC-216, 217, 2024-JUL-30
-// Updates for GH issue #212, 20204-OCT-14
+// Updates for GH issue #212, 2024-OCT-14
+// Updates for GH issue #262, 2024-NOV-20

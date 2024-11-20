@@ -12,9 +12,8 @@ summary: "If you have a two-node switchless cluster, you can migrate nondisrupti
 If you have a two-node _switchless_ cluster, you can migrate to a two-node _switched_ cluster that includes Cisco Nexus 3232C cluster network switches. This is a nondisruptive procedure.
 
 == Review requirements
-
-.Migration requirements
-Before migration, be sure to review link:migrate-requirements-3232c.html[Migration requirements]. 
+//.Migration requirements
+//Before migration, be sure to review link:migrate-requirements-3232c.html[Migration requirements]. 
 
 .What you'll need
 
@@ -63,7 +62,7 @@ The examples in this procedure use two nodes, each utilizing two 40 GbE cluster 
 The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 ====
 
-== Display and migrate physical and logical ports
+== Step 1: Display and migrate physical and logical ports
 
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
 +
@@ -305,7 +304,7 @@ cluster::*> *network interface migrate -vserver cluster -lif n2_clus1 -source-no
 ----
 ====
 
-== Shut down the reassigned LIFs and disconnect the cables 
+== Step 2: Shut down the reassigned LIFs and disconnect the cables 
 
 . Verify the cluster interfaces have successfully migrated:
 +
@@ -428,7 +427,7 @@ Larger than PMTU communication succeeds on 4 path(s) RPC status:
 +
 You can refer to the running configuration and connect the first 40 GbE port on the switch C1 (port 1/7 in this example) to e4a on n1 using cabling supported for Nexus 3232C switches.
 
-== Enable the cluster ports
+== Step 3: Enable the cluster ports
 
 . Disconnect the cable from e4a on node n2.
 +
@@ -542,7 +541,7 @@ Cluster
 ----
 ====
 
-== Enable the reassigned LIFs
+== Step 4: Enable the reassigned LIFs
 
 . Display the cluster port connectivity on each node:
 +
