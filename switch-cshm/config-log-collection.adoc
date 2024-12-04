@@ -41,6 +41,8 @@ The Ethernet switch health monitor (CSHM) is responsible for ensuring the operat
 
 . To set up log collection, run the following command for each switch. You are prompted to enter the switch name, username, and password for log collection.
 +
+For NVIDIA switches, make sure that the user has the necessary permissions as outlined in the Before you begin section. 
++
 [source,cli]
 ----
 system switch ethernet log setup-password
@@ -60,7 +62,7 @@ cluster1::*> *system switch ethernet log setup-password*
 
 Enter the switch name: *cs1*
 Would you like to specify a user other than admin for log collection? {y|n}: *n*
-
+*Note: Enter y if you want to use a different user to the default user*
 Enter the password: *<enter switch password>*
 Enter the password again: *<enter switch password>*
 
@@ -109,6 +111,8 @@ system switch ethernet log show
 --
 . To set up log collection, run the following command for each switch. You are prompted to enter the switch name, username, and password for log collection.
 +
+For NVIDIA switches, make sure that the user has the necessary permissions as outlined in the Before you begin section.
++
 [source,cli]
 ----
 system switch ethernet log setup-password
@@ -127,6 +131,7 @@ cluster1::*> *system switch ethernet log setup-password*
 
 Enter the switch name: *cs1*
 Would you like to specify a user other than admin for log collection? {y|n}: *n*
+*Note: Enter y if you want to use a different user to the default user*
 
 Enter the password: *<enter switch password>*
 Enter the password again: *<enter switch password>*
@@ -236,8 +241,9 @@ cluster1::*> *system switch ethernet log show -instance*
 
 CAUTION: If any error statuses are reported by the log collection feature (visible in the output of `system switch ethernet log show`), see link:log-collection-troubleshoot.html[Troubleshoot log collection] for further details.
 
-// Link to KBs for log collection (need to update)
-// Update from AClose (see Teams), 2024-SEP-17
-
 .What's next?
 link:config-snmpv3.html[Configure SNMPv3 (Optional)].
+
+// Link to KBs for log collection (need to update)
+// Update from AClose (see Teams), 2024-SEP-17
+// Updates for GH issue #228, 2024-DEC-04
