@@ -19,9 +19,9 @@ Make sure you understand the configuration requirements, port connections, and c
  ** The nodes with 10 GbE cluster connections require QSFP optical modules with breakout fiber cables or QSFP to SFP+ copper break-out cables.
  ** The nodes with 40 GbE cluster connections require supported QSFP/QSFP28 optical modules with fiber cables or QSFP/QSFP28 copper direct-attach cables.
  ** The cluster switches use the appropriate ISL cabling: 2x QSFP28 fiber or copper direct-attach cables.
-* On Nexus 3132Q-V, you can operate QSFP ports as either 40 Gb Ethernet or 4 x10 Gb Ethernet modes.
+* On Nexus 3132Q-V, you can operate QSFP ports as either 40 Gb Ethernet or 4x10 Gb Ethernet modes.
 +
-By default, there are 32 ports in the 40 Gb Ethernet mode. These 40 Gb Ethernet ports are numbered in a 2-tuple naming convention. For example, the second 40 Gb Ethernet port is numbered as 1/2. The process of changing the configuration from 40 Gb Ethernet to 10 Gb Ethernet is called _breakout_ and the process of changing the configuration from 10 Gb Ethernet to 40 Gb Ethernet is called _breakin_. When you break out a 40 Gb Ethernet port into 10 Gb Ethernet ports, the resulting ports are numbered using a 3-tuple naming convention. For example, the breakout ports of the second 40 Gb Ethernet port are numbered as 1/2/1, 1/2/2, 1/2/3, 1/2/4.
+By default, there are 32 ports in the 40 Gb Ethernet mode. These 40 Gb Ethernet ports are numbered in a 2-tuple naming convention. For example, the second 40 Gb Ethernet port is numbered as 1/2. The process of changing the configuration from 40 Gb Ethernet to 10 Gb Ethernet is called _breakout_ and the process of changing the configuration from 10 Gb Ethernet to 40 Gb Ethernet is called _breakin_. When you break out a 40 Gb Ethernet port into 10 Gb Ethernet ports, the resulting ports are numbered using a 3-tuple naming convention. For example, the breakout ports of the second 40 Gb Ethernet port are numbered as 1/2/1, 1/2/2, 1/2/3, and 1/2/4.
 
 * On the left side of Nexus 3132Q-V is a set of four SFP+ ports multiplexed to the first QSFP port.
 +
@@ -114,7 +114,7 @@ NOTE: When you use the first four SFP+ ports, it will disable the first 40GbE QS
 
 * You must have configured some of the ports on Nexus 3132Q-V switches to run at 10 GbE or 40 GbE.
 +
-You can break out the first six ports into 4x 10 GbE mode by using the `interface breakout module 1 port 1-6 map 10g-4x` command. Similarly, you can regroup the first six QSFP+ ports from _breakout_ configuration by using the `no interface breakout module 1 port 1-6 map 10g-4x` command.
+You can break out the first six ports into 4x10 GbE mode by using the `interface breakout module 1 port 1-6 map 10g-4x` command. Similarly, you can regroup the first six QSFP+ ports from _breakout_ configuration by using the `no interface breakout module 1 port 1-6 map 10g-4x` command.
 
 * You must have done the planning, migration, and read the required documentation on 10 GbE and 40 GbE connectivity from nodes to Nexus 3132Q-V cluster switches.
 * The ONTAP and NX-OS versions that are supported in this procedure are listed on the link:http://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switches^] page.
