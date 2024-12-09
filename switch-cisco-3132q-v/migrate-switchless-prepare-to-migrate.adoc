@@ -1,0 +1,95 @@
+---
+permalink: switch-cisco-3132q-v/migrate-switchless-prepare-to-migrate.html
+sidebar: sidebar
+keywords: cisco 3132q-v, cluster switches
+summary: "You can use Cisco Nexus 3132q-v switches as cluster switches in your AFF or FAS cluster."
+---
+= Prepare for migration
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+Follow these steps to prepare your switchless cluster for migration to a switched cluster. 
+
+.Steps
+
+. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
++
+`system node autosupport invoke -node * -type all - message MAINT=xh`
++
+_x_ is the duration of the maintenance window in hours.
++
+[NOTE]
+====
+The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
+====
+
+. Determine the administrative or operational status for each cluster interface:
+ .. Display the network port attributes:
++
+`network port show`
++
+.Show example
+[%collapsible]
+====
+----
+cluster::*> network port show -role cluster
+  (network port show)
+Node: n1
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e4a       Cluster      Cluster          up   9000 auto/40000  -        -
+e4e       Cluster      Cluster          up   9000 auto/40000  -        -
+
+Node: n2
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e4a       Cluster      Cluster          up   9000 auto/40000  -        -
+e4e       Cluster      Cluster          up   9000 auto/40000  -        -
+4 entries were displayed.
+----
+====
+
+ .. Display information about the logical interfaces:
++
+`network interface show`
++
+.Show example
+[%collapsible]
+====
+----
+cluster::*> network interface show -role cluster
+ (network interface show)
+            Logical    Status     Network            Current       Current Is
+Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
+----------- ---------- ---------- ------------------ ------------- ------- ----
+Cluster
+            n1_clus1   up/up      10.10.0.1/24       n1            e4a     true
+            n1_clus2   up/up      10.10.0.2/24       n1            e4e     true
+            n2_clus1   up/up      10.10.0.3/24       n2            e4a     true
+            n2_clus2   up/up      10.10.0.4/24       n2            e4e     true
+4 entries were displayed.
+----
+====
+
+. Verify that the appropriate RCFs and image are installed on the new 3132Q-V switches as necessary for your requirements, and make any essential site customizations, such as users and passwords, network addresses, and so on.
++
+You must prepare both switches at this time. If you need to upgrade the RCF and image software, you must follow these steps:
+
+ .. Go to the link:http://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switches^] page on the NetApp Support Site.
+
+ .. Note your switch and the required software versions in the table on that page.
+ .. Download the appropriate version of RCF.
+ .. Click *CONTINUE* on the *Description* page, accept the license agreement, and then follow the instructions on the *Download* page to download the RCF.
+ .. Download the appropriate version of the image software.
+
+. Click *CONTINUE* on the *Description* page, accept the license agreement, and then follow the instructions on the *Download* page to download the RCF.
+
+.What's next?
+link:cn1610-configure-ports.html[Configure your ports].
+
+//Updates for internal GH issue #262, 2024-11-19

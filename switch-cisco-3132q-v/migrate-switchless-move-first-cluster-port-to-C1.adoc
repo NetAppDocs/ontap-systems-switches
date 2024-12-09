@@ -1,0 +1,378 @@
+---
+permalink: switch-cisco-3132q-v/migrate-switchless-move-first-cluster-port-to-C1.html
+sidebar: sidebar
+keywords: cisco 3132q-v, cluster switches
+summary: "You can use Cisco Nexus 3132q-v switches as cluster switches in your AFF or FAS cluster."
+---
+= Move first cluster port to C1
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+Follow these steps to configure your ports for migration from the CN1610 switches to the new Nexus 3132Q-V switches.
+
+.Steps
+
+. On Nexus 3132Q-V switches C1 and C2, disable all node-facing ports C1 and C2, but do not disable the ISL ports.
++
+.Show example
+[%collapsible]
+====
+
+The following example shows ports 1 through 30 being disabled on Nexus 3132Q-V cluster switches C1 and C2 using a configuration supported in RCF `NX3132_RCF_v1.1_24p10g_26p40g.txt`:
+
+----
+C1# copy running-config startup-config
+[########################################] 100%
+Copy complete.
+C1# configure
+C1(config)# int e1/1/1-4,e1/2/1-4,e1/3/1-4,e1/4/1-4,e1/5/1-4,e1/6/1-4,e1/7-30
+C1(config-if-range)# shutdown
+C1(config-if-range)# exit
+C1(config)# exit
+
+C2# copy running-config startup-config
+[########################################] 100%
+Copy complete.
+C2# configure
+C2(config)# int e1/1/1-4,e1/2/1-4,e1/3/1-4,e1/4/1-4,e1/5/1-4,e1/6/1-4,e1/7-30
+C2(config-if-range)# shutdown
+C2(config-if-range)# exit
+C2(config)# exit
+----
+====
+
+. Connect ports 1/31 and 1/32 on C1 to the same ports on C2 using supported cabling.
+. Verify that the ISL ports are operational on C1 and C2:
++
+`show port-channel summary`
++
+.Show example
+[%collapsible]
+====
+----
+C1# show port-channel summary
+Flags: D - Down         P - Up in port-channel (members)
+       I - Individual   H - Hot-standby (LACP only)
+       s - Suspended    r - Module-removed
+       S - Switched     R - Routed
+       U - Up (port-channel)
+       M - Not in use. Min-links not met
+--------------------------------------------------------------------------------
+Group Port-        Type   Protocol  Member Ports
+      Channel
+--------------------------------------------------------------------------------
+1     Po1(SU)      Eth    LACP      Eth1/31(P)   Eth1/32(P)
+
+C2# show port-channel summary
+Flags: D - Down         P - Up in port-channel (members)
+       I - Individual   H - Hot-standby (LACP only)
+       s - Suspended    r - Module-removed
+       S - Switched     R - Routed
+       U - Up (port-channel)
+       M - Not in use. Min-links not met
+--------------------------------------------------------------------------------
+Group Port-        Type   Protocol  Member Ports
+      Channel
+--------------------------------------------------------------------------------
+1     Po1(SU)      Eth    LACP      Eth1/31(P)   Eth1/32(P)
+----
+====
+
+. Display the list of neighboring devices on the switch:
++
+`show cdp neighbors`
++
+.Show example
+[%collapsible]
+====
+----
+C1# show cdp neighbors
+Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
+                  S - Switch, H - Host, I - IGMP, r - Repeater,
+                  V - VoIP-Phone, D - Remotely-Managed-Device,
+                  s - Supports-STP-Dispute
+
+Device-ID          Local Intrfce  Hldtme Capability  Platform      Port ID
+C2                 Eth1/31        174    R S I s     N3K-C3132Q-V  Eth1/31
+C2                 Eth1/32        174    R S I s     N3K-C3132Q-V  Eth1/32
+
+Total entries displayed: 2
+
+C2# show cdp neighbors
+Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
+                  S - Switch, H - Host, I - IGMP, r - Repeater,
+                  V - VoIP-Phone, D - Remotely-Managed-Device,
+                  s - Supports-STP-Dispute
+
+Device-ID          Local Intrfce  Hldtme Capability  Platform      Port ID
+C1                 Eth1/31        178    R S I s     N3K-C3132Q-V  Eth1/31
+C1                 Eth1/32        178    R S I s     N3K-C3132Q-V  Eth1/32
+
+Total entries displayed: 2
+----
+====
+
+. Display the cluster port connectivity on each node:
++
+`network device-discovery show`
++
+.Show example
+[%collapsible]
+====
+The following example shows a two-node switchless cluster configuration.
+
+----
+cluster::*> network device-discovery show
+            Local  Discovered
+Node        Port   Device              Interface        Platform
+----------- ------ ------------------- ---------------- ----------------
+n1         /cdp
+            e4a    n2                  e4a              FAS9000
+            e4e    n2                  e4e              FAS9000
+n2         /cdp
+            e4a    n1                  e4a              FAS9000
+            e4e    n1                  e4e              FAS9000
+----
+====
+
+. Migrate the clus1 interface to the physical port hosting clus2:
++
+`network interface migrate`
++
+Execute this command from each local node.
++
+.Show example
+[%collapsible]
+====
+----
+cluster::*> network interface migrate -vserver Cluster -lif n1_clus1 -source-node n1
+-destination-node n1 -destination-port e4e
+cluster::*> network interface migrate -vserver Cluster -lif n2_clus1 -source-node n2
+-destination-node n2 -destination-port e4e
+----
+====
+
+. Verify the cluster interfaces migration:
++
+`network interface show`
++
+.Show example
+[%collapsible]
+====
+----
+
+cluster::*> network interface show -role cluster
+ (network interface show)
+            Logical    Status     Network            Current       Current Is
+Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
+----------- ---------- ---------- ------------------ ------------- ------- ----
+Cluster
+            n1_clus1   up/up      10.10.0.1/24       n1            e4e     false
+            n1_clus2   up/up      10.10.0.2/24       n1            e4e     true
+            n2_clus1   up/up      10.10.0.3/24       n2            e4e     false
+            n2_clus2   up/up      10.10.0.4/24       n2            e4e     true
+4 entries were displayed.
+----
+====
+
+. Shut down cluster ports clus1 LIF on both nodes:
++
+`network port modify`
++
+----
+cluster::*> network port modify -node n1 -port e4a -up-admin false
+cluster::*> network port modify -node n2 -port e4a -up-admin false
+----
+
+. Verify the connectivity of the remote cluster interfaces: 
++
+// start of tabbed content
+
+[role="tabbed-block"]
+
+====
+
+.ONTAP 9.9.1 and later
+
+--
+You can use the `network interface check cluster-connectivity` command to start an accessibility check for cluster connectivity and then display the details: 
+
+`network interface check cluster-connectivity start` and `network interface check cluster-connectivity show`
+
+[subs=+quotes]
+----
+cluster1::*> *network interface check cluster-connectivity start*
+----
+
+*NOTE:* Wait for a number of seconds before running the show command to display the details.
+
+
+[subs=+quotes]
+----
+cluster1::*> *network interface check cluster-connectivity show*
+                                  Source          Destination       Packet
+Node   Date                       LIF             LIF               Loss
+------ -------------------------- --------------- ----------------- -----------
+n1
+       3/5/2022 19:21:18 -06:00   n1_clus2        n2_clus1      none
+       3/5/2022 19:21:20 -06:00   n1_clus2        n2_clus2      none
+
+n2
+       3/5/2022 19:21:18 -06:00   n2_clus2        n1_clus1      none
+       3/5/2022 19:21:20 -06:00   n2_clus2        n1_clus2      none
+----
+--
+
+.All ONTAP releases
+--
+For all ONTAP releases, you can also use the `cluster ping-cluster -node <name>` command to check the connectivity:
+
+`cluster ping-cluster -node <name>`
+
+
+[subs=+quotes]
+----
+cluster::*> *cluster ping-cluster -node n1*
+Host is n1
+Getting addresses from network interface table...
+Cluster n1_clus1 n1		e4a	10.10.0.1
+Cluster n1_clus2 n1		e4e	10.10.0.2
+Cluster n2_clus1 n2		e4a	10.10.0.3
+Cluster n2_clus2 n2		e4e	10.10.0.4
+
+Local = 10.10.0.1 10.10.0.2
+Remote = 10.10.0.3 10.10.0.4
+Cluster Vserver Id = 4294967293
+Ping status:
+....
+Basic connectivity succeeds on 4 path(s)
+Basic connectivity fails on 0 path(s)
+................
+Detected 1500 byte MTU on 32 path(s):
+    Local 10.10.0.1 to Remote 10.10.0.3
+    Local 10.10.0.1 to Remote 10.10.0.4
+    Local 10.10.0.2 to Remote 10.10.0.3
+    Local 10.10.0.2 to Remote 10.10.0.4
+Larger than PMTU communication succeeds on 4 path(s)
+RPC status:
+1 paths up, 0 paths down (tcp check)
+1 paths up, 0 paths down (ucp check)
+----
+--
+====
+
+// end of tabbed content
+
+[start=10]
+
+. [[step10]]Disconnect the cable from e4a on node n1.
++
+You can refer to the running configuration and connect the first 40 GbE port on the switch C1 (port 1/7 in this example) to e4a on n1 using supported cabling on Nexus 3132Q-V.
++
+NOTE: When reconnecting any cables to a new Cisco cluster switch, the cables used must be either fiber or cabling supported by Cisco.
+
+. Disconnect the cable from e4a on node n2.
++
+You can refer to the running configuration and connect e4a to the next available 40 GbE port on C1, port 1/8, using supported cabling.
+
+. Enable all node-facing ports on C1.
++
+.Show example
+[%collapsible]
+====
+The following example shows ports 1 through 30 being enabled on Nexus 3132Q-V cluster switches C1 and C2 using the configuration supported in RCF `NX3132_RCF_v1.1_24p10g_26p40g.txt`:
+
+----
+C1# configure
+C1(config)# int e1/1/1-4,e1/2/1-4,e1/3/1-4,e1/4/1-4,e1/5/1-4,e1/6/1-4,e1/7-30
+C1(config-if-range)# no shutdown
+C1(config-if-range)# exit
+C1(config)# exit
+----
+====
+
+. Enable the first cluster port, e4a, on each node:
++
+`network port modify`
++
+.Show example
+[%collapsible]
+====
+----
+cluster::*> network port modify -node n1 -port e4a -up-admin true
+cluster::*> network port modify -node n2 -port e4a -up-admin true
+----
+====
+
+. Verify that the clusters are up on both nodes:
++
+`network port show`
++
+.Show example
+[%collapsible]
+====
+----
+cluster::*> network port show -role cluster
+  (network port show)
+Node: n1
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e4a       Cluster      Cluster          up   9000 auto/40000  -        -
+e4e       Cluster      Cluster          up   9000 auto/40000  -        -
+
+Node: n2
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e4a       Cluster      Cluster          up   9000 auto/40000  -        -
+e4e       Cluster      Cluster          up   9000 auto/40000  -        -
+4 entries were displayed.
+----
+====
+
+. For each node, revert all of the migrated cluster interconnect LIFs:
++
+`network interface revert`
++
+.Show example
+[%collapsible]
+====
+The following example shows the migrated LIFs being reverted to their home ports.
+----
+cluster::*> network interface revert -vserver Cluster -lif n1_clus1
+cluster::*> network interface revert -vserver Cluster -lif n2_clus1
+----
+====
+
+. Verify that all of the cluster interconnect ports are now reverted to their home ports:
++
+`network interface show`
++
+The `Is Home` column should display a value of `true` for all of the ports listed in the `Current Port` column. If the displayed value is `false`, the port has not been reverted.
++
+.Show example
+[%collapsible]
+====
+----
+cluster::*> network interface show -role cluster
+ (network interface show)
+            Logical    Status     Network            Current       Current Is
+Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
+----------- ---------- ---------- ------------------ ------------- ------- ----
+Cluster
+            n1_clus1   up/up      10.10.0.1/24       n1            e4a     true
+            n1_clus2   up/up      10.10.0.2/24       n1            e4e     true
+            n2_clus1   up/up      10.10.0.3/24       n2            e4a     true
+            n2_clus2   up/up      10.10.0.4/24       n2            e4e     true
+4 entries were displayed.
+----
+====
+
+.What's next?
+link:cn1610-complete-migration.html[Complete your migration].
+
+//Updates for internal GH issue #262, 2024-11-19
