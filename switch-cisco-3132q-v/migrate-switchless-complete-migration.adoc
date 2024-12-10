@@ -13,6 +13,73 @@ Follow these steps to complete the migration from switchless clusters to two-nod
 
 .Steps
 
+. Display the cluster switch port numbers each cluster port is connected to on each node:
++
+`network device-discovery show`
++
+.Show example
+[%collapsible]
+====
+----
+	cluster::*> network device-discovery show
+            Local  Discovered
+Node        Port   Device              Interface        Platform
+----------- ------ ------------------- ---------------- ----------------
+n1         /cdp
+            e4a    C1                  Ethernet1/7      N3K-C3132Q-V
+            e4e    C2                  Ethernet1/7      N3K-C3132Q-V
+n2         /cdp
+            e4a    C1                  Ethernet1/8      N3K-C3132Q-V
+            e4e    C2                  Ethernet1/8      N3K-C3132Q-V
+----
+====
+
+. Display discovered and monitored cluster switches:
++
+`system cluster-switch show`
++
+.Show example
+[%collapsible]
+====
+----
+cluster::*> system cluster-switch show
+
+Switch                      Type               Address          Model
+--------------------------- ------------------ ---------------- ---------------
+C1                          cluster-network    10.10.1.101      NX3132V
+     Serial Number: FOX000001
+      Is Monitored: true
+            Reason:
+  Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
+                    7.0(3)I4(1)
+    Version Source: CDP
+
+C2                          cluster-network      10.10.1.102    NX3132V
+     Serial Number: FOX000002
+      Is Monitored: true
+            Reason:
+  Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
+                    7.0(3)I4(1)
+    Version Source: CDP
+
+2 entries were displayed.
+----
+====
+
+. Disable the two-node switchless configuration settings on any node:
++
+`network options switchless-cluster`
++
+----
+network options switchless-cluster modify -enabled false
+----
+
+. Verify that the `switchless-cluster` option has been disabled.
++
+----
+network options switchless-cluster show
+----
+
 . Verify the connectivity of the remote cluster interfaces: 
 +
 // start of tabbed content
@@ -92,8 +159,8 @@ RPC status:
 
 // end of tabbed content
 
-[start=2]
-. [[step2]]If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
+[start=6]
+. [[step6]]If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
 +
 `system node autosupport invoke -node * -type all -message MAINT=END`
 
