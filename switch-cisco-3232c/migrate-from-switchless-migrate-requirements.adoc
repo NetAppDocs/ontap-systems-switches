@@ -1,0 +1,62 @@
+---
+permalink: switch-cisco-3232c/migrate-from-switchless-migrate-requirements.html
+sidebar: sidebar
+keywords: install, cisco nexus 3232c switch,
+summary: 'Before configuring Cisco Nexus 3232c switches, review an overview of the process and the nomenclature.'
+---
+= Migration requirements
+:imagesdir: ../media/
+
+[.lead]
+If you have a two-node switchless cluster, you can migrate to a two-node switched cluster that includes Cisco Nexus 3232C cluster network switches. This is a nondisruptive procedure. 
+
+== What you'll need
+
+Ensure that:
+
+* Ports are available for node connections. The cluster switches use the Inter-Switch Link (ISL) ports e1/31-32.
+* You have appropriate cables for cluster connections:
+ ** The nodes with 10 GbE cluster connections require QSFP optical modules with breakout fiber cables or QSFP to SFP+ copper breakout cables.
+ ** The nodes with 40/100 GbE cluster connections require supported QSFP/QSFP28 optical modules with fiber cables or QSFP/QSFP28 copper direct-attach cables.
+ ** The cluster switches require the appropriate ISL cabling: 
+*** 2x QSFP28 fiber or copper direct-attach cables.
+
+* The configurations are properly set up and functioning.
++
+The two nodes must be connected and functioning in a two-node switchless cluster setting.
+
+* All cluster ports are in the *up* state.
+* The Cisco Nexus 3232C cluster switch are supported.
+* The existing cluster network configuration has the following:
+ ** A redundant and fully functional Nexus 3232C cluster infrastructure on both switches
+ ** The latest RCF and NX-OS versions on your switches
+ ** Management connectivity on both switches
+ ** Console access to both switches
+ ** All cluster logical interfaces (LIFs) in the *up* state without having been migrated
+ ** Initial customization of the switch
+ ** All ISL ports enabled and cabled
+
+== About the examples used
+
+The examples in this procedure use the following switch and node nomenclature:
+
+* Nexus 3232C cluster switches, *C1* and *C2*.
+* The nodes are *n1* and *n2*.
+
+The examples in this procedure use two nodes, each using two 40 GbE cluster interconnect ports *e4a* and *e4e*. The link:https://hwu.netapp.com/[_Hardware Universe_^] has details about the cluster ports on your platforms.
+
+* *n1_clus1* is the first cluster logical interface (LIF) to be connected to cluster switch *C1* for node *n1*.
+* *n1_clus2* is the first cluster LIF to be connected to cluster switch *C2* for node *n1*.
+* *n2_clus1* is the first cluster LIF to be connected to cluster switch *C1* for node *n2*.
+* *n2_clus2* is the second cluster LIF to be connected to cluster switch *C2* for node *n2*.
+* The number of 10 GbE and 40/100 GbE ports are defined in the reference configuration files (RCFs) available on the https://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco® Cluster Network Switch Reference Configuration File Download^] page.
+
+[NOTE]
+====
+The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
+====
+
+.What's next?
+link:migrate-from-switchless-prepare-to-migrate.html[Prepare for migration].
+
+//Updates for internal GH issue #262, 2024-DEC-10
