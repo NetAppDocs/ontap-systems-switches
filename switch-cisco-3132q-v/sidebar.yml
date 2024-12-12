@@ -25,6 +25,8 @@ entries:
         url: "/switch-cisco-3132q-v/install-cisco-nexus-3132qv.html"
       - title: Review cabling and configuration
         url: "/switch-cisco-3132q-v/cabling-considerations-3132q-v.html"
+
+
   - title: Configure software
     pdf-filename: Configure_software_3132q-v
     entries:
@@ -36,18 +38,56 @@ entries:
         url: "/switch-cisco-3132q-v/install-rcf-3132q-v.html"
       - title: Verify SSH configuration
         url: "/switch-cisco-3132q-v/configure-ssh-keys.html"
-#- title: Configure SNMPv3 for monitoring
-# url: "/switch-cisco-3132q-v/CSHM_snmpv3.html"
+
       
   - title: Migrate switches
     pdf-filename: Migrate_switches_3132q-v
     entries:
-      - title: Migrate from CN5596 switches
-        url: "/switch-cisco-3132q-v/migrate-from-cisco-nexus-5596-to-cisco-nexus-3232c.html"
-      - title: Migrate from CN1610 switches
-        url: "/switch-cisco-3132q-v/replace-cn1610-with-cisco-nexus-3232c.html"
-      - title: Migrate from switchless to switched cluster
-        url: "/switch-cisco-3132q-v/migrate-from-switchless-cluster-to-cisco-nexus-3132q-v.html"
+      - title: CN1610 switch migration
+        pdf-filename: CN1610_switch_migration
+        entries:
+        - title: CN1610 switch migration workflow
+          url: "/switch-cisco-3132q-v/cn1610-migrate-workflow.html"
+        - title: Migration requirements
+          url: "/switch-cisco-3132q-v/cn1610-migrate-requirements.html"
+        - title: Prepare for migration
+          url: "/switch-cisco-3132q-v/cn1610-prepare-to-migrate.html"
+        - title: Configure your ports
+          url: "/switch-cisco-3132q-v/cn1610-configure-ports.html"
+        - title: Complete you migration
+          url: "/switch-cisco-3132q-v/cn1610-complete-migration.html"
+
+      - title: Cisco Nexus 5596 switch migration
+        pdf-filename: CN5596_switch_migration
+        entries:
+        - title: Cisco Nexus 5596 switch migration workflow
+          url: "/switch-cisco-3132q-v/cn5596-migrate-workflow.html"
+        - title: Migration requirements
+          url: "/switch-cisco-3132q-v/cn5596-migrate-requirements.html"
+        - title: Prepare for migration
+          url: "/switch-cisco-3132q-v/cn5596-prepare-to-migrate.html"
+        - title: Configure your ports
+          url: "/switch-cisco-3132q-v/cn5596-configure-ports.html"
+        - title: Complete your migration
+          url: "/switch-cisco-3132q-v/cn5596-complete-migration.html"
+  #    - title: Migrate from CN5596 switches
+  #      url: "/switch-cisco-3132q-v/migrate-from-cisco-nexus-5596-to-cisco-nexus-3232c.html"
+  #    - title: Migrate from CN1610 switches
+  #      url: "/switch-cisco-3132q-v/replace-cn1610-with-cisco-nexus-3232c.html"
+      - title: Migrate from switchless clusters to two-node switched clusters
+        pdf-filename: Migrate_from_switchless_to_switched_cluster
+        entries:
+        - title: Migrate from switchless to two-node switched workflow
+          url: "/switch-cisco-3132q-v/migrate-switchless-to-switched-workflow.html"
+        - title: Migration requirements
+          url: "/switch-cisco-3132q-v/migrate-switchless-to-switched-requirements.html"
+        - title: Prepare for migration
+          url: "/switch-cisco-3132q-v/migrate-switchless-prepare-to-migrate.html"
+        - title: Configure your ports
+          url: "/switch-cisco-3132q-v/migrate-switchless-configure-ports.html"
+        - title: Complete your migration
+          url: "/switch-cisco-3132q-v/migrate-switchless-complete-migration.html"
+  #     url: "/switch-cisco-3132q-v/migrate-from-switchless-cluster-to-cisco-nexus-3132q-v.html"
   #   - title: Migrate from switched to switchless cluster
   #     url: "/switch-cisco-3132q-v/migrate-to-switchless-cluster-interconnect.html"
   - title: Replace switches

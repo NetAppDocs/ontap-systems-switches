@@ -1,14 +1,27 @@
+---
+permalink: switch-cisco-9336c-fx2/install-rcf-software-9336c-cluster.html
+sidebar: sidebar
+keywords: install rcf, cisco switches
+summary: 'You can install the RCF after setting up the Nexus 9336C-FX2 switch for the first time.You can also use this procedure to upgrade your RCF version.'
+---
+= Install the Reference Configuration File (RCF)
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+You install the Reference Configuration File (RCF) after setting up the Nexus 9336C-FX2 switch for the first time.
+
 .Before you begin
-Make sure of the following:
+
+Verify the following installations and connections:
 
 * A console connection to the switch. The console connection is optional if you have remote access to the switch.
-* Switch cs1 and switch cs2 are powered up and the initial switch setup is complete (the Management IP address and SSH is setup)
-*	The desired NX-OS version has been installed.  
-*	ISL connections between switches are connected. 
-*	ONTAP node cluster ports are not connected.
+* Switch cs1 and switch cs2 are powered up and the initial switch setup is complete (the Management IP address and SSH is setup).
+* The desired NX-OS version has been installed.  
+* ISL connections between switches are connected. 
+* ONTAP node cluster ports are not connected.
 
-
-=== Step 1: Install the RCF on the switches
+== Step 1: Install the RCF on the switches
 
 . Login to switch cs1 using SSH or by using a serial console.
 
@@ -128,7 +141,7 @@ For more information on Cisco commands, see the appropriate guide in the https:/
 
 . Connect the cluster ports of all nodes in the ONTAP cluster to switches cs1 and cs2.
 
-=== Step 2: Verify the switch connections
+== Step 2: Verify the switch connections
 
 . Verify that the switch ports connected to the cluster ports are *up*.
 +
@@ -334,7 +347,7 @@ cs1#
 ----
 ====
 
-=== Step 3: Set up your ONTAP cluster
+== Step 3: Set up your ONTAP cluster
 
 NetApp recommends that you use System Manager to set up new clusters. 
 
@@ -350,3 +363,4 @@ link:configure-ssh-keys.html[Verify SSH configuration].
 // Updated as part of Jackie's review for AFFFASDOC-216, 217, 2024-JUL-25
 // Updates for AFFFASDOC-258, 2024-AUG-22
 // Updates for GH issue #204. 2024-SEP-05
+// Updates for GH issue #262, 2024-NOV-20
