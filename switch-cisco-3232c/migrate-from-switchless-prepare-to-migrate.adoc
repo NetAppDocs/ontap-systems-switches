@@ -4,7 +4,7 @@ sidebar: sidebar
 keywords: cisco 3232c, cluster switches
 summary: "You can use Cisco Nexus 3232C switches as cluster switches in your AFF or FAS cluster."
 ---
-= Prepare for migration
+= Prepare for migration from two-node switchless clusters to two-node switched clusters
 :icons: font
 :imagesdir: ../media/
 
@@ -106,16 +106,16 @@ http://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Swit
 
  .. Note your switch and the required software versions in the table on that page.
  .. Download the appropriate version of RCF.
- .. Click *CONTINUE* on the *Description* page, accept the license agreement, and then follow the instructions on the *Download* page to download the RCF.
+ .. Select *CONTINUE* on the *Description* page, accept the license agreement, and then follow the instructions on the *Download* page to download the RCF.
  .. Download the appropriate version of the image software.
 +
 https://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco Cluster and Management Network Switch Reference Configuration File download page^]
 
-. Click *CONTINUE* on the *Description* page, accept the license agreement, and then follow the instructions on the *Download* page to download the RCF.
+. Select *CONTINUE* on the *Description* page, accept the license agreement, and then follow the instructions on the *Download* page to download the RCF.
 
 . On Nexus 3232C switches C1 and C2, disable all node-facing ports C1 and C2, but do not disable the ISL ports e1/31-32.
 +
-For more information on Cisco commands, see the guides listed in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-command-reference-list.html[Cisco Nexus 3000 Series NX-OS Command References^].
+For more information on Cisco commands, see the following list in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-command-reference-list.html[Cisco Nexus 3000 Series NX-OS Command References^].
 +
 .Show example
 [%collapsible]
@@ -146,7 +146,7 @@ C2(config)# exit
 +
 `show port-channel summary`
 +
-For more information on Cisco commands, see the guides listed in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-command-reference-list.html[Cisco Nexus 3000 Series NX-OS Command References^].
+For more information on Cisco commands, see the following list in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-command-reference-list.html[Cisco Nexus 3000 Series NX-OS Command References^].
 +
 .Show example
 [%collapsible]
@@ -184,7 +184,7 @@ Group Port-        Type   Protocol  Member Ports
 
 . Display the list of neighboring devices on the switch.
 +
-For more information on Cisco commands, see the guides listed in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-command-reference-list.html[Cisco Nexus 3000 Series NX-OS Command References^].
+For more information on Cisco commands, see the following list in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-command-reference-list.html[Cisco Nexus 3000 Series NX-OS Command References^].
 +
 .Show example
 [%collapsible]
