@@ -19,11 +19,11 @@ Make sure you understand the port and node connections and cabling requirements 
 * The cluster switches use the Inter-Switch Link (ISL) ports e1/31-32.
 * The link:https://hwu.netapp.com/[Hardware Universe^] contains information about supported cabling to Nexus 3132Q-V switches:
  ** The nodes with 10 GbE cluster connections require QSFP optical modules with breakout fiber cables or QSFP to SFP+ copper break-out cables.
- ** The nodes with 40/100 GbE cluster connections require supported QSFP/QSFP28 optical modules with fiber cables or QSFP/QSFP28 copper direct-attach cables.
+ ** The nodes with 40 GbE cluster connections require supported QSFP/QSFP28 optical modules with fiber cables or QSFP/QSFP28 copper direct-attach cables.
  ** The cluster switches use the appropriate ISL cabling: 2x QSFP28 fiber or copper direct-attach cables.
-* On Nexus 3132Q-V, you can operate QSFP ports as either 40/100 Gb Ethernet or 4 x10 Gb Ethernet modes.
+* On Nexus 3132Q-V, you can operate QSFP ports as either 40 Gb Ethernet or 4 x10 Gb Ethernet modes.
 +
-By default, there are 32 ports in the 40/100 Gb Ethernet mode. These 40 Gb Ethernet ports are numbered in a 2-tuple naming convention. For example, the second 40 Gb Ethernet port is numbered as 1/2. The process of changing the configuration from 40 Gb Ethernet to 10 Gb Ethernet is called _breakout_ and the process of changing the configuration from 10 Gb Ethernet to 40 Gb Ethernet is called _breakin_. When you break out a 40/100 Gb Ethernet port into 10 Gb Ethernet ports, the resulting ports are numbered using a 3-tuple naming convention. For example, the breakout ports of the second 40/100 Gb Ethernet port are numbered as 1/2/1, 1/2/2, 1/2/3, 1/2/4.
+By default, there are 32 ports in the 40 Gb Ethernet mode. These 40 Gb Ethernet ports are numbered in a 2-tuple naming convention. For example, the second 40 Gb Ethernet port is numbered as 1/2. The process of changing the configuration from 40 Gb Ethernet to 10 Gb Ethernet is called _breakout_ and the process of changing the configuration from 10 Gb Ethernet to 40 Gb Ethernet is called _breakin_. When you break out a 40 Gb Ethernet port into 10 Gb Ethernet ports, the resulting ports are numbered using a 3-tuple naming convention. For example, the breakout ports of the second 40 Gb Ethernet port are numbered as 1/2/1, 1/2/2, 1/2/3, and 1/2/4.
 
 * On the left side of Nexus 3132Q-V is a set of four SFP+ ports multiplexed to the first QSFP port.
 +
@@ -31,11 +31,11 @@ By default, the RCF is structured to use the first QSFP port.
 +
 You can make four SFP+ ports active instead of a QSFP port for Nexus 3132Q-V by using the `hardware profile front portmode sfp-plus` command. Similarly, you can reset Nexus 3132Q-V to use a QSFP port instead of four SFP+ ports by using the `hardware profile front portmode qsfp` command.
 
-* Make sure you configured some of the ports on Nexus 3132Q-V to run at 10 GbE or 40/100 GbE.
+* Make sure you configured some of the ports on Nexus 3132Q-V to run at 10 GbE or 40 GbE.
 +
 You can break-out the first six ports into 4x10 GbE mode by using the `interface breakout module 1 port 1-6 map 10g-4x` command. Similarly, you can regroup the first six QSFP+ ports from breakout configuration by using the `no interface breakout module 1 port 1-6 map 10g-4x` command.
 
-* The number of 10 GbE and 40/100 GbE ports are defined in the reference configuration files (RCFs) available on the https://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco ® Cluster Network Switch Reference Configuration File Download^] page.
+* The number of 10 GbE and 40 GbE ports are defined in the reference configuration files (RCFs) available on the https://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco ® Cluster Network Switch Reference Configuration File Download^] page.
 
 .Before you begin
 
@@ -55,7 +55,7 @@ The link:http://mysupport.netapp.com/NOW/download/software/cm_switches/[Cisco Et
  ** Initial customization of the switch.
  ** All the ISL ports enabled and cabled.
 
-In addition, you must plan, migrate, and read the required documentation on 10 GbE and 40/100 GbE connectivity from nodes to Nexus 3132Q-V cluster switches.
+In addition, you must plan, migrate, and read the required documentation on 10 GbE and 40 GbE connectivity from nodes to Nexus 3132Q-V cluster switches.
 
 .About the examples used
 
@@ -66,7 +66,7 @@ The examples in this procedure use the following switch and node nomenclature:
 
 [NOTE]
 ====
-The examples in this procedure use two nodes, each utilizing two 40/100 GbE cluster interconnect ports *e4a* and *e4e*. The link:https://hwu.netapp.com/[Hardware Universe^] has details about the cluster ports on your platforms.
+The examples in this procedure use two nodes, each using two 40 GbE cluster interconnect ports e4a and e4e. The link:https://hwu.netapp.com/[Hardware Universe^] has details about the cluster ports on your platforms.
 ====
 
 This procedure covers the following scenarios:
@@ -76,6 +76,7 @@ This procedure covers the following scenarios:
 * *n2_clus1* is the first cluster LIF to be connected to cluster switch C1 for node *n2*.
 * *n2_clus2* is the second cluster LIF to be connected to cluster switch C2 for node *n2*.
 * The number of 10 GbE and 40/100 GbE ports are defined in the reference configuration files (RCFs) available on the https://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco ® Cluster Network Switch Reference Configuration File Download^] page.
+
 
 [NOTE]
 ====
@@ -861,3 +862,5 @@ link:../switch-cshm/config-overview.html[Configure switch health monitoring].
 // Updated as part of AFFFASDOC-216, 217, 2024-JUL-30
 // Updates for GH issue #212, 2024-OCT-14
 // Updates for GH issue #262, 2024-NOV-20
+// Updates for GH issue #227, 2024-DEC-02
+
