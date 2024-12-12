@@ -1,4 +1,31 @@
-=== Step 1: Prepare for the upgrade
+---
+permalink: switch-cisco-9336c-fx2/upgrade-rcf-software-9336c-cluster.html
+sidebar: sidebar
+keywords: install rcf, cisco switches
+summary: 'You can install the RCF after setting up the Nexus 9336C-FX2 switch for the first time.You can also use this procedure to upgrade your RCF version.'
+---
+= Upgrade you Reference Configuration File (RCF)
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+You upgrade your RCF version when you have an existing version of the RCF file installed on your operational switches. 
+
+.Before you begin
+Make sure you have the following:
+
+* A current backup of the switch configuration.
+* A fully functioning cluster (no errors in the logs or similar issues).
+* The current RCF.
+* If you are updating your RCF version, you need a boot configuration in the RCF that reflects the desired boot images. 
++
+If you need to change the boot configuration to reflect the current boot images, you must do so before reapplying the RCF so that the correct version is instantiated on future reboots.
+
+NOTE: No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To ensure non-disruptive cluster operations, the following procedure migrates all of the cluster LIFs to the operational partner switch while performing the steps on the target switch.
+
+CAUTION: Before installing a new switch software version and RCFs, you must erase the switch settings and perform basic configuration. You must be connected to the switch using the serial console or have preserved basic configuration information prior to erasing the switch settings.
+
+== Step 1: Prepare for the upgrade
 
 . Display the cluster ports on each node that are connected to the cluster switches: 
 +
@@ -145,7 +172,7 @@ cluster1::*>
 +
 `cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert false*` 
 
-=== Step 2: Configure ports
+== Step 2: Configure ports
 
 . On cluster switch cs1, shut down the ports connected to the cluster ports of the nodes.
 +
@@ -466,7 +493,6 @@ You might observe the following output on the cs1 switch console depending on th
 ----
 ====
 
-
 . Verify that the cluster is healthy: 
 +
 `cluster show`
@@ -495,7 +521,7 @@ cluster1::*>
 +
 `cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert True*` 
 
-=== Step 3: Verify the cluster network configuration and cluster health
+== Step 3: Verify the cluster network configuration and cluster health
 
 . Verify that the switch ports connected to the cluster ports are *up*.
 +
@@ -881,3 +907,4 @@ link:configure-ssh-keys.html[Verify SSH configuration].
 // Updates for GH issue #206, 2024-SEP-04
 // Updated as part of GH issue #204, 2024-SEP-19
 // Updates for GH issue #212, 2024-OCT-17
+// Updates for GH issue #262, 2024-NOV-20
