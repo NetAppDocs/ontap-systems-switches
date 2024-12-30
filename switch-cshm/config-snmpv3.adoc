@@ -337,19 +337,19 @@ Configure an SNMPv3 username SNMPv3_USER on NVIDIA SN2100 switches running CLI 5
 +
 [source,cli]
 ----
-net add snmp-server username SNMPv3_USER auth-none
+nv set service snmp-server username SNMPv3_USER auth-none
 ----
 * For *MD5/SHA authentication*:
 +
 [source,cli]
 ----
-net add snmp-server username SNMPv3_USER [auth-md5|auth-sha] AUTH-PASSWORD
+nv set service snmp-server username SNMPv3_USER [auth-md5|auth-sha] snmpv3Password
 ----
 * For *MD5/SHA authentication with AES/DES encryption*:
 +
 [source,cli]
 ----
-net add snmp-server username SNMPv3_USER [auth-md5|auth-sha] AUTH-PASSWORD [encrypt-aes|encrypt-des] PRIV-PASSWORD
+nv set service snmp-server username SNMPv3_USER [auth-md5|auth-sha] AUTH-PASSWORD [encrypt-aes|encrypt-des] PRIV-PASSWORD
 ----
 
 The following command configures an SNMPv3 username on the ONTAP side:
@@ -532,3 +532,4 @@ DEPRECATED-Community String or SNMPv3 Username: -
 
 
 // New content for AFFFASDOC-216, 2024-MAY-08
+// GH issue #233 updated Nvidia commands, 2024-DEC-30
