@@ -18,7 +18,6 @@ Verify the following installations and connections:
 * A console connection to the switch. The console connection is optional if you have remote access to the switch.
 * Switch cs1 and switch cs2 are powered up and the initial switch setup is complete (the Management IP address and SSH is setup).
 * The desired NX-OS version has been installed.  
-* ISL connections between switches are connected. 
 * ONTAP node cluster ports are not connected.
 
 == Step 1: Install the RCF on the switches
@@ -134,14 +133,23 @@ For more information on Cisco commands, see the appropriate guide in the https:/
 [subs=+quotes]
 ----
 cs1# *show interface brief | grep up*
-.
-.
-Eth1/1/1      1       eth  access up      none                    10G(D) --
-Eth1/1/2      1       eth  access up      none                    10G(D) --
-Eth1/7        1       eth  trunk  up      none                   100G(D) --
-Eth1/8        1       eth  trunk  up      none                   100G(D) --
-.
-.
+mgmt0  --           up     10.233.204.27                           1000    1500
+Eth1/11         1       eth  trunk  up      none                     100G(D) --
+Eth1/12         1       eth  trunk  up      none                     100G(D) --
+Eth1/13         1       eth  trunk  up      none                     100G(D) --
+Eth1/14         1       eth  trunk  up      none                     100G(D) --
+Eth1/15         1       eth  trunk  up      none                     100G(D) --
+Eth1/16         1       eth  trunk  up      none                     100G(D) --
+Eth1/17         1       eth  trunk  up      none                     100G(D) --
+Eth1/18         1       eth  trunk  up      none                     100G(D) --
+Eth1/23         1       eth  trunk  up      none                     100G(D) --
+Eth1/24         1       eth  trunk  up      none                     100G(D) --
+Eth1/25         1       eth  trunk  up      none                     100G(D) --
+Eth1/26         1       eth  trunk  up      none                     100G(D) --
+Eth1/27         1       eth  trunk  up      none                     100G(D) --
+Eth1/28         1       eth  trunk  up      none                     100G(D) --
+Eth1/29         1       eth  trunk  up      none                     100G(D) --
+Eth1/30         1       eth  trunk  up      none                     100G(D) --
 ----
 ====
 
@@ -161,38 +169,19 @@ cs1# *show vlan brief*
 
 VLAN Name                             Status    Ports
 ---- -------------------------------- --------- -------------------------------
-1    default                          active    Po1, Eth1/1, Eth1/2, Eth1/3
-                                                Eth1/4, Eth1/5, Eth1/6, Eth1/7
-                                                Eth1/8, Eth1/35, Eth1/36
-                                                Eth1/9/1, Eth1/9/2, Eth1/9/3
-                                                Eth1/9/4, Eth1/10/1, Eth1/10/2
-                                                Eth1/10/3, Eth1/10/4
-17   VLAN0017                         active    Eth1/1, Eth1/2, Eth1/3, Eth1/4
+1    default                          active    Po999
+30   VLAN0030                         active    Eth1/1, Eth1/2, Eth1/3, Eth1/4
                                                 Eth1/5, Eth1/6, Eth1/7, Eth1/8
-                                                Eth1/9/1, Eth1/9/2, Eth1/9/3
-                                                Eth1/9/4, Eth1/10/1, Eth1/10/2
-                                                Eth1/10/3, Eth1/10/4
-18   VLAN0018                         active    Eth1/1, Eth1/2, Eth1/3, Eth1/4
-                                                Eth1/5, Eth1/6, Eth1/7, Eth1/8
-                                                Eth1/9/1, Eth1/9/2, Eth1/9/3
-                                                Eth1/9/4, Eth1/10/1, Eth1/10/2
-                                                Eth1/10/3, Eth1/10/4
-31   VLAN0031                         active    Eth1/11, Eth1/12, Eth1/13
-                                                Eth1/14, Eth1/15, Eth1/16
-                                                Eth1/17, Eth1/18, Eth1/19
-                                                Eth1/20, Eth1/21, Eth1/22
-32   VLAN0032                         active    Eth1/23, Eth1/24, Eth1/25
-                                                Eth1/26, Eth1/27, Eth1/28
-                                                Eth1/29, Eth1/30, Eth1/31
-                                                Eth1/32, Eth1/33, Eth1/34
-33   VLAN0033                         active    Eth1/11, Eth1/12, Eth1/13
-                                                Eth1/14, Eth1/15, Eth1/16
-                                                Eth1/17, Eth1/18, Eth1/19
-                                                Eth1/20, Eth1/21, Eth1/22
-34   VLAN0034                         active    Eth1/23, Eth1/24, Eth1/25
-                                                Eth1/26, Eth1/27, Eth1/28
-                                                Eth1/29, Eth1/30, Eth1/31
-                                                Eth1/32, Eth1/33, Eth1/34
+                                                Eth1/9, Eth1/10, Eth1/11
+                                                Eth1/12, Eth1/13, Eth1/14
+                                                Eth1/15, Eth1/16, Eth1/17
+                                                Eth1/18, Eth1/19, Eth1/20
+                                                Eth1/21, Eth1/22, Eth1/23
+                                                Eth1/24, Eth1/25, Eth1/26
+                                                Eth1/27, Eth1/28, Eth1/29
+                                                Eth1/30, Eth1/31, Eth1/32
+                                                Eth1/33, Eth1/34, Eth1/35
+                                                Eth1/36
 
 cs1# *show interface trunk*
 
@@ -208,124 +197,234 @@ Eth1/5        1       trunking      --
 Eth1/6        1       trunking      --
 Eth1/7        1       trunking      --
 Eth1/8        1       trunking      --
-Eth1/9/1      1       trunking      --
-Eth1/9/2      1       trunking      --
-Eth1/9/3      1       trunking      --
-Eth1/9/4      1       trunking      --
-Eth1/10/1     1       trunking      --
-Eth1/10/2     1       trunking      --
-Eth1/10/3     1       trunking      --
-Eth1/10/4     1       trunking      --
-Eth1/11       33      trunking      --
-Eth1/12       33      trunking      --
-Eth1/13       33      trunking      --
-Eth1/14       33      trunking      --
-Eth1/15       33      trunking      --
-Eth1/16       33      trunking      --
-Eth1/17       33      trunking      --
-Eth1/18       33      trunking      --
-Eth1/19       33      trunking      --
-Eth1/20       33      trunking      --
-Eth1/21       33      trunking      --
-Eth1/22       33      trunking      --
-Eth1/23       34      trunking      --
-Eth1/24       34      trunking      --
-Eth1/25       34      trunking      --
-Eth1/26       34      trunking      --
-Eth1/27       34      trunking      --
-Eth1/28       34      trunking      --
-Eth1/29       34      trunking      --
-Eth1/30       34      trunking      --
-Eth1/31       34      trunking      --
-Eth1/32       34      trunking      --
-Eth1/33       34      trunking      --
-Eth1/34       34      trunking      --
-Eth1/35       1       trnk-bndl     Po1
-Eth1/36       1       trnk-bndl     Po1
-Po1           1       trunking      --
-
-------------------------------------------------------
+Eth1/9        1       trunking      --
+Eth1/10       1       trunking      --
+Eth1/11       1       trunking      --
+Eth1/12       1       trunking      --
+Eth1/13       1       trunking      --
+Eth1/14       1       trunking      --
+Eth1/15       1       trunking      --
+Eth1/16       1       trunking      --
+Eth1/17       1       trunking      --
+Eth1/18       1       trunking      --
+Eth1/19       1       trunking      --
+Eth1/20       1       trunking      --
+Eth1/21       1       trunking      --
+Eth1/22       1       trunking      --
+Eth1/23       1       trunking      --
+Eth1/24       1       trunking      --
+Eth1/25       1       trunking      --
+Eth1/26       1       trunking      --
+Eth1/27       1       trunking      --
+Eth1/28       1       trunking      --
+Eth1/29       1       trunking      --
+Eth1/30       1       trunking      --
+Eth1/31       1       trunking      --
+Eth1/32       1       trunking      --
+Eth1/33       1       trunking      --
+Eth1/34       1       trunking      --
+Eth1/35       1       trunking      --
+Eth1/36       1       trunking      --
+ 
+--------------------------------------------------------------------------------
 Port          Vlans Allowed on Trunk
-------------------------------------------------------
-Eth1/1        1,17-18
-Eth1/2        1,17-18
-Eth1/3        1,17-18
-Eth1/4        1,17-18
-Eth1/5        1,17-18
-Eth1/6        1,17-18
-Eth1/7        1,17-18
-Eth1/8        1,17-18
-Eth1/9/1      1,17-18
-Eth1/9/2      1,17-18
-Eth1/9/3      1,17-18
-Eth1/9/4      1,17-18
-Eth1/10/1     1,17-18
-Eth1/10/2     1,17-18
-Eth1/10/3     1,17-18
-Eth1/10/4     1,17-18
-Eth1/11       31,33
-Eth1/12       31,33
-Eth1/13       31,33
-Eth1/14       31,33
-Eth1/15       31,33
-Eth1/16       31,33
-Eth1/17       31,33
-Eth1/18       31,33
-Eth1/19       31,33
-Eth1/20       31,33
-Eth1/21       31,33
-Eth1/22       31,33
-Eth1/23       32,34
-Eth1/24       32,34
-Eth1/25       32,34
-Eth1/26       32,34
-Eth1/27       32,34
-Eth1/28       32,34
-Eth1/29       32,34
-Eth1/30       32,34
-Eth1/31       32,34
-Eth1/32       32,34
-Eth1/33       32,34
-Eth1/34       32,34
-Eth1/35       1
-Eth1/36       1
-Po1           1
-..
-..
-..
-..
-..
+--------------------------------------------------------------------------------
+Eth1/1        30
+Eth1/2        30
+Eth1/3        30
+Eth1/4        30
+Eth1/5        30
+Eth1/6        30
+Eth1/7        30
+Eth1/8        30
+Eth1/9        30
+Eth1/10       30
+Eth1/11       30
+Eth1/12       30
+Eth1/13       30
+Eth1/14       30
+Eth1/15       30
+Eth1/16       30
+Eth1/17       30
+Eth1/18       30
+Eth1/19       30
+Eth1/20       30
+Eth1/21       30
+Eth1/22       30
+Eth1/23       30
+Eth1/24       30
+Eth1/25       30
+Eth1/26       30
+Eth1/27       30
+Eth1/28       30
+Eth1/29       30
+Eth1/30       30
+Eth1/31       30
+Eth1/32       30
+Eth1/33       30
+Eth1/34       30
+Eth1/35       30
+Eth1/36       30
+ 
+--------------------------------------------------------------------------------
+Port          Vlans Err-disabled on Trunk
+--------------------------------------------------------------------------------
+Eth1/1        none
+Eth1/2        none
+Eth1/3        none
+Eth1/4        none
+Eth1/5        none
+Eth1/6        none
+Eth1/7        none
+Eth1/8        none
+Eth1/9        none
+Eth1/10       none
+Eth1/11       none
+Eth1/12       none
+Eth1/13       none
+Eth1/14       none
+Eth1/15       none
+Eth1/16       none
+Eth1/17       none
+Eth1/18       none
+Eth1/19       none
+Eth1/20       none
+Eth1/21       none
+Eth1/22       none
+Eth1/23       none
+Eth1/24       none
+Eth1/25       none
+Eth1/26       none
+Eth1/27       none
+Eth1/28       none
+Eth1/29       none
+Eth1/30       none
+Eth1/31       none
+Eth1/32       none
+Eth1/33       none
+Eth1/34       none
+Eth1/35       none
+Eth1/36       none
+ 
+--------------------------------------------------------------------------------
+Port          STP Forwarding
+--------------------------------------------------------------------------------
+Eth1/1        none
+Eth1/2        none
+Eth1/3        none
+Eth1/4        none
+Eth1/5        none
+Eth1/6        none
+Eth1/7        none
+Eth1/8        none
+Eth1/9        none
+Eth1/10       none
+Eth1/11       30
+Eth1/12       30
+Eth1/13       30
+Eth1/14       30
+Eth1/15       30
+Eth1/16       30
+Eth1/17       30
+Eth1/18       30
+Eth1/19       none
+Eth1/20       none
+Eth1/21       none
+Eth1/22       none
+Eth1/23       30
+Eth1/24       30
+Eth1/25       30
+Eth1/26       30
+Eth1/27       30
+Eth1/28       30
+Eth1/29       30
+Eth1/30       30
+Eth1/31       none
+Eth1/32       none
+Eth1/33       none
+Eth1/34       none
+Eth1/35       none
+Eth1/36       none
+ 
+--------------------------------------------------------------------------------
+Port          Vlans in spanning tree forwarding state and not pruned
+--------------------------------------------------------------------------------
+Eth1/1        Feature VTP is not enabled                        
+none
+Eth1/2        Feature VTP is not enabled
+none
+Eth1/3        Feature VTP is not enabled
+none
+Eth1/4        Feature VTP is not enabled
+none
+Eth1/5        Feature VTP is not enabled
+none
+Eth1/6        Feature VTP is not enabled
+none
+Eth1/7        Feature VTP is not enabled
+none
+Eth1/8        Feature VTP is not enabled
+none
+Eth1/9        Feature VTP is not enabled
+none
+Eth1/10       Feature VTP is not enabled
+none
+Eth1/11       Feature VTP is not enabled
+30
+Eth1/12       Feature VTP is not enabled
+30
+Eth1/13       Feature VTP is not enabled
+30
+Eth1/14       Feature VTP is not enabled
+30
+Eth1/15       Feature VTP is not enabled
+30
+Eth1/16       Feature VTP is not enabled
+30
+Eth1/17       Feature VTP is not enabled
+30
+Eth1/18       Feature VTP is not enabled
+30
+Eth1/19       Feature VTP is not enabled
+none
+Eth1/20       Feature VTP is not enabled
+none
+Eth1/21       Feature VTP is not enabled
+none
+Eth1/22       Feature VTP is not enabled
+none
+Eth1/23       Feature VTP is not enabled
+30
+Eth1/24       Feature VTP is not enabled
+30
+Eth1/25       Feature VTP is not enabled
+30
+Eth1/26       Feature VTP is not enabled
+30
+Eth1/27       Feature VTP is not enabled
+30
+Eth1/28       Feature VTP is not enabled
+30
+Eth1/29       Feature VTP is not enabled
+30
+Eth1/30       Feature VTP is not enabled
+30
+Eth1/31       Feature VTP is not enabled
+none
+Eth1/32       Feature VTP is not enabled
+none
+Eth1/33       Feature VTP is not enabled
+none
+Eth1/34       Feature VTP is not enabled
+none
+Eth1/35       Feature VTP is not enabled
+none
+Eth1/36       Feature VTP is not enabled
+none
 ----
 ====
 +
 NOTE: For specific port and VLAN usage details, refer to the banner and important notes section in your RCF.
-
-. Verify that the ISL between cs1 and cs2 is functional:
-+
-`show port-channel summary`
-+
-.Show example 
-[%collapsible]
-====
-
-[subs=+quotes]
-----
-cs1# *show port-channel summary*
-Flags:  D - Down        P - Up in port-channel (members)
-        I - Individual  H - Hot-standby (LACP only)
-        s - Suspended   r - Module-removed
-        b - BFD Session Wait
-        S - Switched    R - Routed
-        U - Up (port-channel)
-        p - Up in delay-lacp mode (member)
-        M - Not in use. Min-links not met
---------------------------------------------------------------------------------
-Group Port-       Type     Protocol  Member Ports      Channel
---------------------------------------------------------------------------------
-1     Po1(SU)     Eth      LACP      Eth1/35(P)        Eth1/36(P)
-cs1#
-----
-====
 
 == Step 3: Set up your ONTAP cluster
 
@@ -337,7 +436,7 @@ Go to https://docs.netapp.com/us-en/ontap/task_configure_ontap.html[Configure ON
 
 .What's next?
 
-link:configure-ssh-keys.html[Verify SSH configuration].
+link:../switch-cshm/config-overview.html[Configure switch health monitoring].
 
 
 // Updates for GH issue #187, 2025-JAN-08
