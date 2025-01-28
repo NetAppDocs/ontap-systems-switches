@@ -187,9 +187,9 @@ Image Descriptions
  backup :
 
  Images currently available on Flash
---------------------------------------------------------------------
+------------------------------------------------------------------
  unit      active      backup      current-active    next-active
---------------------------------------------------------------------
+------------------------------------------------------------------
     1      3.7.0.4     3.7.0.4     3.7.0.4           3.10.0.3
 ----
 ====
@@ -197,10 +197,39 @@ Image Descriptions
 . Boot the system from the backup configuration:
 +
 `boot system backup`
++
+
+[subs=+quotes]
+----
+(cs2)# *boot system backup*
+Activating image backup ..
+----
 
 . Display the boot images for the active and backup configuration:
 +
 `show bootvar`
+
++
+.Show example
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+(cs2)# *show bootvar*
+
+Image Descriptions
+
+ active :
+ backup :
+
+ Images currently available on Flash
+------------------------------------------------------------------
+ unit      active      backup      current-active    next-active
+------------------------------------------------------------------
+    1    3.12.0.1    3.11.0.2            3.12.0.1       3.11.0.2
+----
+====
 
 . Save the running configuration to the startup configuration:
 +
@@ -215,8 +244,11 @@ Image Descriptions
 ----
 (cs2)# *write memory*
 This operation may take a few minutes.
+
 Management interfaces will not be available during this time.
+
 Are you sure you want to save? (y/n) *y*
+
 Config file 'startup-config' created successfully.
 Configuration Saved!
 ----
@@ -282,7 +314,7 @@ Additional Packages............................ BGP-4
 ----
 ====
 
-. Repeat steps 5 through to 10 on the switch cs1.
+. Repeat steps 5 through to 11 on the switch cs1.
 
 . Enable auto-revert on the cluster LIFs.
 +
