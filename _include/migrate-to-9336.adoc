@@ -215,7 +215,7 @@ cs2                         cluster-network     10.233.205.93   N5K-C5596UP
 ----
 ====
 
-. Disable auto-revert on the cluster LIFs. 
+. [[step_4]]Disable auto-revert on the cluster LIFs. 
 +
 By disabling auto-revert for this procedure, the cluster LIFs will not automatically move back to their home port. They remain on the current port while it continues to be up and operational.
 +
@@ -223,7 +223,7 @@ By disabling auto-revert for this procedure, the cluster LIFs will not automatic
 +
 NOTE: Disabling auto-revert ensures ONTAP only fails over the cluster LIFs when the switch ports are shutdown later. 
 
-. [[step_5]]On cluster switch cs2, shut down the ports connected to the cluster ports of *all* the nodes in order to fail over the cluster LIFs:
+. On cluster switch cs2, shut down the ports connected to the cluster ports of *all* the nodes in order to fail over the cluster LIFs:
 +
 [subs=+quotes]
 ----
@@ -273,7 +273,7 @@ node2      true    true          false
 ----
 ====
 
-. If at this point, the cluster is showing as unhealthy, rollback the operation as follows: 
+. If the cluster LIFs have failed over to switch cs1 and the cluster is healthy, go to <<step_10,Step. 10>>. If some cluster LIFs are not healthy or the cluster is unhealthy,  you can roll back the connectivity to the cs2, as follows:
 .. Bring up the ports connected to the cluster ports of *all* the nodes:
 +
 [subs=+quotes]
@@ -324,9 +324,9 @@ node2      true    true          false
 ----
 ====
 
-. Once the cluster is showing as healthy, resume the process from <<step_5,Step. 5>>.
+. Once you have restored LIF and cluster health, restart the process from <<step_4,Step. 4>>. 
 
-. Move all cluster node connection cables from the old cs2 switch to the new cs2-new switch.
+. [[step_10]]Move all cluster node connection cables from the old cs2 switch to the new cs2-new switch.
 +
 *Cluster node connection cables moved to the cs2-new switch*
 +
