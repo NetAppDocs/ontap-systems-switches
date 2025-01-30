@@ -4,7 +4,7 @@ sidebar: sidebar
 keywords: install rcf, cisco switches
 summary: 'You can install the RCF after setting up the Nexus 9336C-FX2 switch for the first time.You can also use this procedure to upgrade your RCF version.'
 ---
-= Upgrade your Reference Configuration File (RCF)
+= Upgrade your reference configuration file (RCF)
 :icons: font
 :imagesdir: ../media/
 
@@ -23,7 +23,7 @@ If you need to change the boot configuration to reflect the current boot images,
 
 NOTE: No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To ensure non-disruptive cluster operations, the following procedure migrates all of the cluster LIFs to the operational partner switch while performing the steps on the target switch.
 
-CAUTION: Before installing a new switch software version and RCFs, you must erase the switch settings and perform basic configuration. You must be connected to the switch using the serial console or have preserved basic configuration information prior to erasing the switch settings.
+CAUTION: Before installing a new switch software version and RCFs, you must erase the switch settings and perform basic configuration. You must be connected to the switch using the serial console or have preserved basic configuration information before erasing the switch settings.
 
 == Step 1: Prepare for the upgrade
 
@@ -241,7 +241,7 @@ cluster1::*>
 
 .. Record any custom additions between the current running-config and the RCF file in use (such as an SNMP configuration for your organization).  
 +
-.. For NX-OS 10.2 and newer use the `show diff running-config` command to compare with the saved RCF file in the bootflash.  Otherwise, use a third part diff/compare tool.
+.. For NX-OS 10.2 and later, use the `show diff running-config` command to compare with the saved RCF file in the bootflash. Otherwise, use a third party diff or compare tool.
 
 . Save basic configuration details to the write_erase.cfg file on the bootflash.
 +
@@ -277,7 +277,7 @@ cluster1::*>
 
 . After the management IP address is reachable again, log in to the switch through SSH.
 +
-You may need to update host file entries related to the SSH keys.
+You might need to update host file entries related to the SSH keys.
 
 . Copy the RCF to the bootflash of switch cs1 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. 
 +
