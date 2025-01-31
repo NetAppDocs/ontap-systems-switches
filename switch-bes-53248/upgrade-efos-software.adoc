@@ -95,7 +95,7 @@ NOTE: Upgrade EFOS on one switch at a time to ensure continued cluster network o
 === Method 1: Upgrade EFOS
 Perform the following steps to upgrade the EFOS software.
 
-IMPORTANT: Note that after upgrading BES-53248 cluster switches from EFOS 3.3.x.x or 3.4.x.x to EFOS 3.7.0.4 or 3.8.0.2, Inter-Switch Links (ISLs) and port channel are marked in the *Down* state. See this KB article: https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Systems/Fabric%2C_Interconnect_and_Management_Switches/BES-53248_Cluster_Switch_NDU_failed_upgrade_to_EFOS_3.7.0.4_and_later[BES-53248 Cluster Switch NDU failed upgrade to EFOS 3.7.0.4 and later^] for further details.
+IMPORTANT: Note that after upgrading BES-53248 cluster switches from EFOS 3.3.x.x or 3.4.x.x to EFOS 3.7.0.4 or 3.8.0.2, Inter-Switch Links (ISLs) and port channels are marked in the *Down* state. This is expected behavior and it's safe to continue with the upgrade unless you are having issues with auto-reverting LIFs. See the Knowledge Base article: https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Systems/Fabric%2C_Interconnect_and_Management_Switches/BES-53248_Cluster_Switch_NDU_failed_upgrade_to_EFOS_3.7.0.4_and_later[BES-53248 Cluster Switch NDU failed upgrade to EFOS 3.7.0.4 and later^] for further details.
 
 .Steps
 
@@ -516,3 +516,5 @@ For further details, see link:https://docs.netapp.com/us-en/ontap/networking/rev
 
 // New content for GH issues #72, 109, 12, AFFFASDOC-212, 2024-APR-02
 // Updates for GH issue #224, 2025-JAN-14
+// Updates for GH issue #222, 2025-JAN-28
+
