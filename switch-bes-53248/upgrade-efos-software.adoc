@@ -95,7 +95,7 @@ NOTE: Upgrade EFOS on one switch at a time to ensure continued cluster network o
 === Method 1: Upgrade EFOS
 Perform the following steps to upgrade the EFOS software.
 
-IMPORTANT: Note that after upgrading BES-53248 cluster switches from EFOS 3.3.x.x or 3.4.x.x to EFOS 3.7.0.4 or 3.8.0.2, Inter-Switch Links (ISLs) and port channel are marked in the *Down* state. See this KB article: https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Systems/Fabric%2C_Interconnect_and_Management_Switches/BES-53248_Cluster_Switch_NDU_failed_upgrade_to_EFOS_3.7.0.4_and_later[BES-53248 Cluster Switch NDU failed upgrade to EFOS 3.7.0.4 and later^] for further details.
+IMPORTANT: Note that after upgrading BES-53248 cluster switches from EFOS 3.3.x.x or 3.4.x.x to EFOS 3.7.0.4 or 3.8.0.2, Inter-Switch Links (ISLs) and port channels are marked in the *Down* state. This is expected behavior and it's safe to continue with the upgrade unless you are having issues with auto-reverting LIFs. See the Knowledge Base article: https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Systems/Fabric%2C_Interconnect_and_Management_Switches/BES-53248_Cluster_Switch_NDU_failed_upgrade_to_EFOS_3.7.0.4_and_later[BES-53248 Cluster Switch NDU failed upgrade to EFOS 3.7.0.4 and later^] for further details.
 
 .Steps
 
@@ -139,81 +139,10 @@ network interface modify -vserver Cluster -lif * -auto-revert false
 --------------------------------------------------------------------
  unit      active      backup        current-active    next-active
 --------------------------------------------------------------------
-    1      3.7.0.4     3.4.4.6       3.7.0.4           3.7.0.4
+    1      3.7.0.4     3.4.4.6              3.7.0.4        3.7.0.4
 
 ----
 ====
-
-. Back up the current active image on cs2:
-+
-[source,cli]
-----
-copy active backup
-----
-+
-.Show example
-[%collapsible]
-====
-[subs=+quotes]
-----
-(cs2)# *copy active backup*
-Copying active to backup
-Management access will be blocked for the duration of the operation
-Copy operation successful
-
-(cs2)# *show bootvar*
-
-Image Descriptions
-
- active :
- backup :
- Images currently available on Flash
---------------------------------------------------------------------
- unit      active      backup      current-active    next-active
-------------------------------------------------------------------   
-    1      3.7.0.4     3.4.4.6       3.7.0.4           3.7.0.4
-(cs2)#
-----
-====
-
-. Verify the running version of the EFOS software:
-+
-`show version`
-
-+
-.Show example
-[%collapsible]
-====
-[subs=+quotes]
-----
-(cs2)# *show version*
-
-Switch: 1
-
-System Description............................. BES-53248A1, 3.7.0.4, Linux 4.4.117-ceeeb99d, 2016.05.00.05
-Machine Type................................... BES-53248A1
-Machine Model.................................. BES-53248
-Serial Number.................................. QTFCU38260014
-Maintenance Level.............................. A
-Manufacturer................................... 0xbc00
-Burned In MAC Address.......................... D8:C4:97:71:12:3D
-Software Version............................... 3.7.0.4
-Operating System............................... Linux 4.4.117-ceeeb99d
-Network Processing Device...................... BCM56873_A0
-CPLD Version................................... 0xff040c03
-
-Additional Packages............................ BGP-4
-...............................................	QOS
-...............................................	Multicast
-............................................... IPv6
-............................................... Routing
-............................................... Data Center
-............................................... OpEN API
-............................................... Prototype Open API
-----
-====
-+
-NOTE: If you installed any licences, please review their status.
 
 . Download the image file to the switch.
 +
@@ -221,7 +150,7 @@ Copying the image file to the active image means that when you reboot, that imag
 +
 [subs=+quotes]
 ----
-(cs2)# *copy sftp://root@172.19.2.1//tmp/EFOS-3.10.0.3.stk active*
+(cs2)# *copy sftp://root@172.19.2.1//tmp/EFOS-3.10.0.3.stk backup*
 Remote Password:********
 
 Mode........................................... SFTP
@@ -229,7 +158,7 @@ Set Server IP.................................. 172.19.2.1
 Path........................................... //tmp/
 Filename....................................... EFOS-3.10.0.3.stk
 Data Type...................................... Code
-Destination Filename........................... active
+Destination Filename........................... backup
 
 Management access will be blocked for the duration of the transfer
 Are you sure you want to start? (y/n) *y*
@@ -258,10 +187,70 @@ Image Descriptions
  backup :
 
  Images currently available on Flash
---------------------------------------------------------------------
+------------------------------------------------------------------
  unit      active      backup      current-active    next-active
---------------------------------------------------------------------
-    1      3.7.0.4     3.7.0.4     3.7.0.4           3.10.0.3
+------------------------------------------------------------------
+    1      3.7.0.4    3.7.0.4             3.7.0.4       3.10.0.3
+----
+====
+
+. Boot the system from the backup configuration:
++
+`boot system backup`
++
+
+[subs=+quotes]
+----
+(cs2)# *boot system backup*
+Activating image backup ..
+----
+
+. Display the boot images for the active and backup configuration:
++
+`show bootvar`
+
++
+.Show example
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+(cs2)# *show bootvar*
+
+Image Descriptions
+
+ active :
+ backup :
+
+ Images currently available on Flash
+------------------------------------------------------------------
+ unit      active      backup      current-active    next-active
+------------------------------------------------------------------
+    1    3.10.0.3    3.10.0.3            3.10.0.3       3.11.0.2
+----
+====
+
+. Save the running configuration to the startup configuration:
++
+`write memory`
+
++
+.Show example
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+(cs2)# *write memory*
+This operation may take a few minutes.
+
+Management interfaces will not be available during this time.
+
+Are you sure you want to save? (y/n) *y*
+
+Config file 'startup-config' created successfully.
+Configuration Saved!
 ----
 ====
 
@@ -325,7 +314,7 @@ Additional Packages............................ BGP-4
 ----
 ====
 
-. Repeat steps 5 through to 10 on the switch cs1.
+. Repeat steps 5 through to 11 on the switch cs1.
 
 . Enable auto-revert on the cluster LIFs.
 +
@@ -526,3 +515,6 @@ For further details, see link:https://docs.netapp.com/us-en/ontap/networking/rev
 //link:configure-licenses.html[Install licenses for BES-53248 cluster switches.]. 
 
 // New content for GH issues #72, 109, 12, AFFFASDOC-212, 2024-APR-02
+// Updates for GH issue #224, 2025-JAN-14
+// Updates for GH issue #222, 2025-JAN-28
+
