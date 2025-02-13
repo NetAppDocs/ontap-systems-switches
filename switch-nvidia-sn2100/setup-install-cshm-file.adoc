@@ -29,6 +29,9 @@ If your model is still showing *OTHER*  after applying the configuration file, c
 //* Make sure that the Ethernet switch health monitor process is running using `spm show -name cshmd`
 * Make sure that the ONTAP cluster is up and running.
 * Enable SSH to use all of the features available in CSHM.
+* Make sure to clear the following directory on all nodes: 
++
+`/mroot/etc/cshm_nod/nod_sign/`
 
 .Steps
 
@@ -123,3 +126,4 @@ link:../switch-cshm/config-overview.html[Configure switch health monitoring].
 
 // Updates for AFFFASDOC-237, 2024-JUL-02
 // Updates for AFFFASDOC-255, 2024-AUG-07
+// Updates for AFFFASDOC-281, 2025-FEB-13
