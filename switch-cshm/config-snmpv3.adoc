@@ -569,75 +569,26 @@ system switch ethernet modify -device DEVICE -snmp-version SNMPv3 -community-or-
 +
 [source,cli]
 ----
-net show snmp status
+nv show system snmp-server
 ----
 +
 [subs=+quotes]
 ----
-cumulus@sw1:~$ *net show snmp status*
-Simple Network Management Protocol (SNMP) Daemon.
----------------------------------  ----------------
-Current Status                     active (running)
-Reload Status                      enabled
-Listening IP Addresses             all vrf mgmt
-Main snmpd PID                     4318
-Version 1 and 2c Community String  Configured
-Version 3 Usernames                Not Configured
----------------------------------  ----------------
-cumulus@sw1:~$
-cumulus@sw1:~$ *net add snmp-server username SNMPv3User auth-md5 <password> encrypt-aes <password>*
-cumulus@sw1:~$ *net commit*
---- /etc/snmp/snmpd.conf        2020-08-02 21:09:34.686949282 +0000
-+++ /run/nclu/snmp/snmpd.conf   2020-08-11 00:13:51.826126655 +0000
-@@ -1,26 +1,28 @@
- #### Auto-generated config file: do not edit. ####
- agentaddress udp:@mgmt:161
- agentxperms 777 777 snmp snmp
- agentxsocket /var/agentx/master
- createuser _snmptrapusernameX
-+createuser SNMPv3User MD5 <password> AES <password>
- ifmib_max_num_ifaces 500
- iquerysecname _snmptrapusernameX
- master agentx
- monitor -r 60 -o laNames -o laErrMessage "laTable" laErrorFlag != 0
- pass -p 10 1.3.6.1.2.1.1.1 /usr/share/snmp/sysDescr_pass.py
- pass_persist 1.2.840.10006.300.43 /usr/share/snmp/ieee8023_lag_pp.py
- pass_persist 1.3.6.1.2.1.17 /usr/share/snmp/bridge_pp.py
- pass_persist 1.3.6.1.2.1.31.1.1.1.18 /usr/share/snmp/snmpifAlias_pp.py
- pass_persist 1.3.6.1.2.1.47 /usr/share/snmp/entity_pp.py
- pass_persist 1.3.6.1.2.1.99 /usr/share/snmp/entity_sensor_pp.py
- pass_persist 1.3.6.1.4.1.40310.1 /usr/share/snmp/resq_pp.py
- pass_persist 1.3.6.1.4.1.40310.2 /usr/share/snmp/cl_drop_cntrs_pp.py
- pass_persist 1.3.6.1.4.1.40310.3 /usr/share/snmp/cl_poe_pp.py
- pass_persist 1.3.6.1.4.1.40310.4 /usr/share/snmp/bgpun_pp.py
- pass_persist 1.3.6.1.4.1.40310.5 /usr/share/snmp/cumulus-status.py
- pass_persist 1.3.6.1.4.1.40310.6 /usr/share/snmp/cumulus-sensor.py
- pass_persist 1.3.6.1.4.1.40310.7 /usr/share/snmp/vrf_bgpun_pp.py
-+rocommunity cshm1! default
- rouser _snmptrapusernameX
-+rouser SNMPv3User priv
- sysobjectid 1.3.6.1.4.1.40310
- sysservices 72
--rocommunity cshm1! default
-
-
-net add/del commands since the last "net commit"
-
-User        Timestamp                   Command
-----------  --------------------------  -------------------------------------------------------------------------
-SNMPv3User  2020-08-11 00:13:51.826987  net add snmp-server username SNMPv3User auth-md5 <password> encrypt-aes <password>
-
-cumulus@sw1:~$
-cumulus@sw1:~$ *net show snmp status*
-Simple Network Management Protocol (SNMP) Daemon.
----------------------------------  ----------------
-Current Status                     active (running)
-Reload Status                      enabled
-Listening IP Addresses             all vrf mgmt
-Main snmpd PID                     24253
-Version 1 and 2c Community String  Configured
-Version 3 Usernames                Configured     *<---- Configured here*
----------------------------------  ----------------
+cumulus@sw1:~$ *nv show system snmp-server*
+                      applied
+--------------------  ---------------------------------------
+[username]            SNMPv3_USER
+[username]            limiteduser1
+[username]            testuserauth
+[username]            testuserauthaes
+[username]            testusernoauth
+trap-link-up
+  check-frequency     60
+trap-link-down
+  check-frequency     60
+[listening-address]   all
+[readonly-community]  $nvsec$94d69b56e921aec1790844eb53e772bf
+state                 enabled
 cumulus@sw1:~$
 ----
 
