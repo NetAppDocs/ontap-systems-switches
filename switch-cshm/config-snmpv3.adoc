@@ -535,19 +535,19 @@ Configure an SNMPv3 username SNMPv3_USER on NVIDIA SN2100 switches running CLI 5
 +
 [source,cli]
 ----
-nv set service snmp-server username SNMPv3_USER auth-none
+nv set system snmp-server username SNMPv3_USER auth-none
 ----
 * For *MD5/SHA authentication*:
 +
 [source,cli]
 ----
-nv set service snmp-server username SNMPv3_USER [auth-md5|auth-sha] AUTH-PASSWORD
+nv set system snmp-server username SNMPv3_USER [auth-md5|auth-sha] AUTH-PASSWORD
 ----
 * For *MD5/SHA authentication with AES/DES encryption*:
 +
 [source,cli]
 ----
-nv set service snmp-server username SNMPv3_USER [auth-md5|auth-sha] AUTH-PASSWORD [encrypt-aes|encrypt-des] PRIV-PASSWORD
+nv set system snmp-server username SNMPv3_USER [auth-md5|auth-sha] AUTH-PASSWORD [encrypt-aes|encrypt-des] PRIV-PASSWORD
 ----
 
 The following command configures an SNMPv3 username on the ONTAP side:
