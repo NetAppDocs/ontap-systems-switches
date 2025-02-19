@@ -36,15 +36,13 @@ If your model is still showing *OTHER*  after applying the configuration file, c
 .. Change to advanced privilege:
 +
 `priv set advanced`
-.. List the configuration files in the `/etc/cshm_nod/nod_sign` directory:
+.. List the configuration files in the `/etc/cshm_nod/nod_sign` directory. If the directory exists and contains configuration files, it lists the file names.
 +
 `ls /etc/cshm_nod/nod_sign`
-+
-If the directory exists and contains configuration files, it lists the file names.
 .. Delete all of the NOD files with names corresponding to the switch models connected:
 +
 `rm /etc/cshm_nod/nod_sign/<filename>`
-.. Confirm that the directory no longer contains any NOD files:
+.. Confirm that the directory no longer contains the deleted NOD files:
 +
 `ls /etc/cshm_nod/nod_sign`
 
