@@ -12,8 +12,8 @@ summary: You can use this procedure to install the applicable configuration file
 Follow this procedure to install the applicable configuration file for Ethernet switch health monitoring of NVIDIA cluster switches. 
 Supported models are:
 
-//* MSN2100-CB2FC
-//* MSN2100-CB2RC
+* MSN2100-CB2FC
+* MSN2100-CB2RC
 * X190006-PE
 * X190006-PI
 
@@ -39,7 +39,9 @@ If your model is still showing *OTHER*  after applying the configuration file, c
 .. List the configuration files in the `/etc/cshm_nod/nod_sign` directory. If the directory exists and contains configuration files, it lists the file names.
 +
 `ls /etc/cshm_nod/nod_sign`
-.. Delete all of the NOD files with names corresponding to the switch models connected:
+.. Delete all NOD files corresponding to your connected switch models. 
++
+If unsure, remove all NOD files for the supported models listed above, then download and install the latest NOD files for those same models.
 +
 `rm /etc/cshm_nod/nod_sign/<filename>`
 .. Confirm that the deleted NOD files are no longer in the directory:
