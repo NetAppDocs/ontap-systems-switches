@@ -29,6 +29,22 @@ If your model is still showing *OTHER* after applying the configuration file, co
 //* Make sure that the Ethernet switch health monitor process is running using `spm show -name cshmd`
 * Make sure that the ONTAP cluster is up and running.
 * Enable SSH to use all of the features available in CSHM.
+* Clear the `/mroot/etc/cshm_nod/nod_sign/` directory on all nodes as follows: 
+.. Enter the nodeshell:
++
+`system node run -node <name>`
+.. Change to advanced privilege:
++
+`priv set advanced`
+.. List the configuration files in the `/etc/cshm_nod/nod_sign` directory. If the directory exists and contains configuration files, it lists the file names.
++
+`ls /etc/cshm_nod/nod_sign`
+.. Delete all of the NOD files with names corresponding to the switch models connected:
++
+`rm /etc/cshm_nod/nod_sign/<filename>`
+.. Confirm that the deleted NOD files are no longer in the directory:
++
+`ls /etc/cshm_nod/nod_sign`
 
 .Steps
 
@@ -46,12 +62,16 @@ If your model is still showing *OTHER* after applying the configuration file, co
 
 .ONTAP 9.15.1 and later
 --
+* MSN2100-CB2FC-v1.4.zip
+* MSN2100-CB2RC-v1.4.zip
 * X190006-PE.zip
 * X190006-PI.zip
 --
 
 .ONTAP 9.11.1 through 9.14.1
 --
+* MSN2100-CB2FC_PRIOR_R9.15.1-v1.4.zip
+* MSN2100-CB2RC_PRIOR_R9.15.1-v1.4.zip
 * X190006-PE_PRIOR_9.15.1.zip
 * X190006-PI_PRIOR_9.15.1.zip
 --
@@ -75,7 +95,7 @@ If your model is still showing *OTHER* after applying the configuration file, co
 +
 [subs=+quotes]
 ----
-cluster1::> *system cluster-switch configure-health-monitor -node * -package-url 192.168.2.20/usr/download/_[filename.zip]_*
+cluster1::> *system cluster-switch configure-health-monitor -node * -package-url http://192.168.2.20/usr/download/_[filename.zip]_*
 ----
 
 . Verify that the command output ends with the following text for your ONTAP version:
@@ -123,3 +143,4 @@ link:../switch-cshm/config-overview.html[Configure switch health monitoring].
 
 // Updates for AFFFASDOC-237, 2024-JUL-02
 // Updates for AFFFASDOC-255, 2024-AUG-07
+// Updates for AFFFASDOC-281, 2025-FEB-19
