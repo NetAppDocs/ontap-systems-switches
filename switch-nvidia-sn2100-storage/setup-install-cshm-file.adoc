@@ -29,7 +29,7 @@ If your model is still showing *OTHER* after applying the configuration file, co
 //* Make sure that the Ethernet switch health monitor process is running using `spm show -name cshmd`
 * Make sure that the ONTAP cluster is up and running.
 * Enable SSH to use all of the features available in CSHM.
-* Clear the `/mroot/etc/cshm_nod/nod_sign/` directory on all nodes as follows: 
+* Clear the `/mroot/etc/cshm_nod/nod_sign/` directory on all nodes: 
 .. Enter the nodeshell:
 +
 `system node run -node <name>`
@@ -41,7 +41,7 @@ If your model is still showing *OTHER* after applying the configuration file, co
 `ls /etc/cshm_nod/nod_sign`
 .. Delete all NOD files corresponding to your connected switch models. 
 +
-If unsure, remove all NOD files for the supported models listed above, then download and install the latest NOD files for those same models.
+If you are unsure, remove all NOD files for the supported models listed above, then download and install the latest NOD files for those same models.
 +
 `rm /etc/cshm_nod/nod_sign/<filename>`
 .. Confirm that the deleted NOD files are no longer in the directory:
