@@ -24,6 +24,7 @@ The Ethernet switch health monitor (CSHM) is responsible for ensuring the operat
 * The user must have access to the switch `show` commands. If these are not available, create a new user and grant the necessary permissions to the user. 
 * Switch health monitoring must be enabled for the switch. Verify this by ensuring the `Is Monitored:` field is set to *true* in the output of the `system switch ethernet show` command.
 //* For NVIDIA switches, the user for log collection must be specified when the Reference Configuration File (RCF) is applied. By default, this user is set to 'admin'. If you wish to use a different user, you must specify this in the *# SHM User's* section of the RCF.
+* For log collection with Broadcom and Cisco switches, a new user should be created on the switch for each setup with log collection enabled. These switches do not support multiple SSH keys for the same user. Any additional log collection setup performed overwrites any pre-existing SSH keys for the user.
 * For support log collection with NVIDIA switches, the _user_ for log collection must be permitted to run the `cl-support` command without having to provide a password. To allow this usage, run the command:
 +
 `echo '_<user>_ ALL = NOPASSWD: /usr/cumulus/bin/cl-support' | sudo EDITOR='tee -a' visudo -f /etc/sudoers.d/cumulus`
@@ -247,3 +248,4 @@ link:config-snmpv3.html[Configure SNMPv3 (Optional)].
 // Link to KBs for log collection (need to update)
 // Update from AClose (see Teams), 2024-SEP-17
 // Updates for GH issue #228, 2024-DEC-04
+// Updates for AFFFASDOC-295, 2025-FEB-12
