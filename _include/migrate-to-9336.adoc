@@ -215,7 +215,7 @@ cs2                         cluster-network     10.233.205.93   N5K-C5596UP
 ----
 ====
 
-. Disable auto-revert on the cluster LIFs. 
+. [[step_4]]Disable auto-revert on the cluster LIFs. 
 +
 By disabling auto-revert for this procedure, the cluster LIFs will not automatically move back to their home port. They remain on the current port while it continues to be up and operational.
 +
@@ -227,8 +227,12 @@ NOTE: Disabling auto-revert ensures ONTAP only fails over the cluster LIFs when 
 +
 [subs=+quotes]
 ----
+cs2# *configure*
 cs2(config)# *interface eth1/1-1/2*
 cs2(config-if-range)# *shutdown*
+cs2(config-if-range)# *exit*
+cs2(config)# *exit*
+cs2#
 ----
 
 . Verify that the cluster LIFs have failed over to the ports hosted on cluster switch cs1. This might take a few seconds.
@@ -269,7 +273,60 @@ node2      true    true          false
 ----
 ====
 
-. Move all cluster node connection cables from the old cs2 switch to the new cs2-new switch.
+. If the cluster LIFs have failed over to switch cs1 and the cluster is healthy, go to <<step_10,Step. 10>>. If some cluster LIFs are not healthy or the cluster is unhealthy,  you can roll back the connectivity to the switch cs2, as follows:
+.. Bring up the ports connected to the cluster ports of *all* the nodes:
++
+[subs=+quotes]
+----
+cs2# *configure*
+cs2(config)# *interface eth1/1-1/2*
+cs2(config-if-range)# *no shutdown*
+cs2(config-if-range)# *exit*
+cs2(config)# *exit*
+cs2#
+----
+
+.. Verify that the cluster LIFs have failed over to the ports hosted on cluster switch cs1. This might take a few seconds.
++
+`network interface show -vserver Cluster`
++
+.Show example 
+[%collapsible]
+====
+[subs=+quotes]
+----
+cluster1::*> *network interface show -vserver Cluster*
+            Logical       Status     Network            Current    Current Is
+Vserver     Interface     Admin/Oper Address/Mask       Node       Port    Home
+----------- ------------- ---------- ------------------ ---------- ------- ----
+Cluster
+            node1_clus1   up/up      169.254.3.4/16     node1      e0a     true
+            node1_clus2   up/up      169.254.3.5/16     node1      e0a     false
+            node2_clus1   up/up      169.254.3.8/16     node2      e0a     true
+            node2_clus2   up/up      169.254.3.9/16     node2      e0a     false
+----
+====
+
+.. Verify that the cluster is healthy: 
++
+`cluster show`
++
+.Show example 
+[%collapsible]
+====
+[subs=+quotes]
+----
+cluster1::*> cluster show
+Node       Health  Eligibility   Epsilon
+---------- ------- ------------- -------
+node1      true    true          false
+node2      true    true          false
+----
+====
+
+. Once you have restored LIF and cluster health, restart the process from <<step_4,Step. 4>>. 
+
+. [[step_10]]Move all cluster node connection cables from the old cs2 switch to the new cs2-new switch.
 +
 *Cluster node connection cables moved to the cs2-new switch*
 +
@@ -345,8 +402,12 @@ cs2-new# *show cdp neighbors*
 +
 [subs=+quotes]
 ----
+cs1# *configure*
 cs1(config)# *interface eth1/1-1/2*
 cs1(config-if-range)# *shutdown*
+cs1(config-if-range)# *exit*
+cs1(config)# *exit*
+cs1#
 ----
 All cluster LIFs fail over to the cs2-new switch.
 
@@ -610,3 +671,4 @@ link:../switch-cshm/config-overview.html[Configure switch health monitoring].
 // Updates for GH issues #191, 192, 2024-JUN-19
 // Updates for GH issue #210, 2024-OCT-08 
 // Updates for GH issue #212, 2024-OCT-14
+// Updates for AFFFASDOC-283, 2025-JAN-28
