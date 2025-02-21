@@ -21,7 +21,7 @@ Before installing the RCF script, make sure that the following are available on 
 NOTE: You must specify a user in the RCF (in addition to the admin user) to be used specifically for log collection. 
 
 .Current RCF script versions
-There are two RCF scripts available for Cluster and Storage applications. Download RCFs from https://mysupport.netapp.com/site/info/nvidia-cluster-switch[here^]. The procedure for each is the same.
+There are two RCF scripts available for Cluster and Storage applications. Download RCFs from https://mysupport.netapp.com/site/info/nvidia-cluster-switch[NVIDIA SN2100 software download^] page. The procedure for each is the same.
 
 * Cluster:  *MSN2100-RCF-v1._x_-Cluster-HA-Breakout-LLDP*
 * Storage: *MSN2100-RCF-v1._x_-Storage*
@@ -269,7 +269,7 @@ sw2                         cluster-network    10.233.205.91    MSN2100-CB2RC
 ----
 --
 
-.Cumulus Linux 5.x
+.Cumulus Linux 5.4
 
 --
 . Display the available interfaces on the SN2100 switch:
@@ -374,19 +374,323 @@ NOTE: For any RCF python script issues that cannot be corrected, contact https:/
 [subs=+quotes]
 ----
 admin@sw1:mgmt:~$ *nv show interface*
-Interface   MTU   Speed State Remote Host Remote Port Type Summary
------------ ----- ----- ----- ----------- ----------- ---- -------------
-+ cluster_isl 9216 200G up bond
-+ eth0 1500 100M up RTP-LF01-410G38.rtp.eng.netapp.com Eth105/1/14 eth IP Address: 10.231.80.206/22
-eth0 IP Address: fd20:8b1e:b255:85a0:bace:f6ff:fe31:4a0e/64
-+ lo 65536 up loopback IP Address: 127.0.0.1/8
-lo IP Address: ::1/128
-+ swp1s0 9216 10G up cumulus1 e0b swp
+Interface     MTU   Speed State Remote Host         Remote Port- Type      Summary
+------------- ----- ----- ----- ------------------- ------------ --------- -------------
++ cluster_isl 9216  200G  up                                      bond
++ eth0        1500  100M  up    mgmt-sw1            Eth105/1/14   eth       IP Address: 10.231.80 206/22
+  eth0                                                                      IP Address: fd20:8b1e:f6ff:fe31:4a0e/64
++ lo          65536       up                                      loopback  IP Address: 127.0.0.1/8
+  lo                                                                        IP Address: ::1/128
++ swp1s0      9216 10G    up cluster01                e0b         swp
 .
 .
 .
-+ swp15 9216 100G up cumulus swp15 swp
++ swp15      9216 100G    up sw2                      swp15       swp
++ swp16      9216 100G    up sw2                      swp16       swp
 
+admin@sw1:mgmt:~$ *nv show qos roce*
+                   operational  applied   description
+-----------------  -----------  --------- ----------------------------------------
+enable             on                     Turn feature 'on' or 'off'. This feature is disabled by default.
+mode               lossless     lossless  Roce Mode
+congestion-control
+  congestion-mode   ECN,RED                Congestion config mode
+  enabled-tc        0,2,5                  Congestion config enabled Traffic Class
+  max-threshold     195.31 KB              Congestion config max-threshold
+  min-threshold     39.06 KB               Congestion config min-threshold
+  probability       100
+lldp-app-tlv
+  priority          3                      switch-priority of roce
+  protocol-id       4791                   L4 port number
+  selector          UDP                    L4 protocol
+pfc
+  pfc-priority      2, 5                   switch-prio on which PFC is enabled
+  rx-enabled        enabled                PFC Rx Enabled status
+  tx-enabled        enabled                PFC Tx Enabled status
+trust
+  trust-mode        pcp,dscp               Trust Setting on the port for packet classification
+
+RoCE PCP/DSCP->SP mapping configurations
+===========================================
+        pcp  dscp                     switch-prio
+    --  ---  -----------------------  -----------
+    0   0    0,1,2,3,4,5,6,7          0
+    1   1    8,9,10,11,12,13,14,15    1
+    2   2    16,17,18,19,20,21,22,23  2
+    3   3    24,25,26,27,28,29,30,31  3
+    4   4    32,33,34,35,36,37,38,39  4
+    5   5    40,41,42,43,44,45,46,47  5
+    6   6    48,49,50,51,52,53,54,55  6
+    7   7    56,57,58,59,60,61,62,63  7
+
+RoCE SP->TC mapping and ETS configurations
+=============================================
+        switch-prio  traffic-class  scheduler-weight
+    --  -----------  -------------  ----------------
+    0   0            0              DWRR-28%
+    1   1            0              DWRR-28%
+    2   2            2              DWRR-28%
+    3   3            0              DWRR-28%
+    4   4            0              DWRR-28%
+    5   5            5              DWRR-43%
+    6   6            0              DWRR-28%
+    7   7            0              DWRR-28%
+
+RoCE pool config
+===================
+        name                   mode     size  switch-priorities  traffic-class
+    --  ---------------------  -------  ----  -----------------  -------------
+    0   lossy-default-ingress  Dynamic  50%   0,1,3,4,6,7        -
+    1   roce-reserved-ingress  Dynamic  50%   2,5                -
+    2   lossy-default-egress   Dynamic  50%   -                  0
+    3   roce-reserved-egress   Dynamic  inf   -                  2,5
+
+Exception List
+=================
+        description                                                             
+    --  -----------------------------------------------------------------------…
+    1   RoCE PFC Priority Mismatch.Expected pfc-priority: 3.                    
+    2   Congestion Config TC Mismatch.Expected enabled-tc: 0,3.                 
+    3   Congestion Config mode Mismatch.Expected congestion-mode: ECN.          
+    4   Congestion Config min-threshold Mismatch.Expected min-threshold: 150000.
+    5   Congestion Config max-threshold Mismatch.Expected max-threshold:        
+        1500000.                                                                
+    6   Scheduler config mismatch for traffic-class mapped to switch-prio0.       
+        Expected scheduler-weight: DWRR-50%.                                  
+    7   Scheduler config mismatch for traffic-class mapped to switch-prio1.      
+        Expected scheduler-weight: DWRR-50%.                                  
+    8   Scheduler config mismatch for traffic-class mapped to switch-prio2.       
+        Expected scheduler-weight: DWRR-50%.                                  
+    9   Scheduler config mismatch for traffic-class mapped to switch-prio3.      
+        Expected scheduler-weight: DWRR-50%.                                  
+    10  Scheduler config mismatch for traffic-class mapped to switch-prio4.       
+        Expected scheduler-weight: DWRR-50%.                                  
+    11  Scheduler config mismatch for traffic-class mapped to switch-prio5.       
+        Expected scheduler-weight: DWRR-50%.                                  
+    12  Scheduler config mismatch for traffic-class mapped to switch-prio6.      
+        Expected scheduler-weight: strict-priority.                           
+    13  Scheduler config mismatch for traffic-class mapped to switch-prio7.      
+        Expected scheduler-weight: DWRR-50%.                                  
+    14  Invalid reserved config for ePort.TC[2].Expected 0 Got 1024             
+    15  Invalid reserved config for ePort.TC[5].Expected 0 Got 1024             
+    16  Invalid traffic-class mapping for switch-priority 2.Expected 0 Got 2    
+    17  Invalid traffic-class mapping for switch-priority 3.Expected 3 Got 0    
+    18  Invalid traffic-class mapping for switch-priority 5.Expected 0 Got 5    
+    19  Invalid traffic-class mapping for switch-priority 6.Expected 6 Got 0    
+Incomplete Command: set interface swp3-16 link fast-linkupp3-16 link fast-linkup 
+Incomplete Command: set interface swp3-16 link fast-linkupp3-16 link fast-linkup
+Incomplete Command: set interface swp3-16 link fast-linkupp3-16 link fast-linkup
+----
++
+NOTE: The exceptions listed don't affect performance and can be safely ignored. 
+
+. Verify information for the transceiver in the interface:
++
+[subs=+quotes]
+----
+admin@sw1:mgmt:~$ *nv show interface --view=pluggables*
+Interface  Identifier     Vendor Name  Vendor PN        Vendor SN       Vendor Rev
+---------  -------------  -----------  ---------------  --------------  ----------
+swp1s0     0x00 None
+swp1s1     0x00 None
+swp1s2     0x00 None
+swp1s3     0x00 None
+swp2s0     0x11 (QSFP28)  CISCO-LEONI  L45593-D278-D20  LCC2321GTTJ     00
+swp2s1     0x11 (QSFP28)  CISCO-LEONI  L45593-D278-D20  LCC2321GTTJ     00
+swp2s2     0x11 (QSFP28)  CISCO-LEONI  L45593-D278-D20  LCC2321GTTJ     00
+swp2s3     0x11 (QSFP28)  CISCO-LEONI  L45593-D278-D20  LCC2321GTTJ     00
+swp3       0x00 None
+swp4       0x00 None
+swp5       0x00 None
+swp6       0x00 None
+.
+.
+.
+swp15      0x11 (QSFP28)  Amphenol     112-00595        APF20279210117  B0
+swp16      0x11 (QSFP28)  Amphenol     112-00595        APF20279210166  B0
+----
+
+. Verify that the nodes each have a connection to each switch:
++
+[subs=+quotes]
+----
+admin@sw1:mgmt:~$ *nv show interface --view=lldp*
+
+LocalPort  Speed  Mode        RemoteHost               RemotePort
+---------  -----  ----------  -----------------------  -----------
+eth0       100M   Mgmt        mgmt-sw1                 Eth110/1/29
+swp2s1     25G    Trunk/L2    node1                    e0a
+swp15      100G   BondMember  sw2                      swp15
+swp16      100G   BondMember  sw2                      swp16
+----
+
+. Verify the health of cluster ports on the cluster.
++
+.. Verify that cluster ports are up and healthy across all nodes in the cluster: 
++
+[subs=+quotes]
+----
+cluster1::*> *network port show -role cluster*
+
+Node: node1
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+
+Node: node2
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+----
+
+.. Verify the switch health from the cluster (this might not show switch sw2, since LIFs are not homed on e0d).
++
+[subs=+quotes]
+----
+cluster1::*> *network device-discovery show -protocol lldp*
+Node/       Local  Discovered
+Protocol    Port   Device (LLDP: ChassisID)  Interface Platform
+----------- ------ ------------------------- --------- ----------
+node1/lldp
+            e3a    sw1 (b8:ce:f6:19:1a:7e)   swp3      -
+            e3b    sw2 (b8:ce:f6:19:1b:96)   swp3      -
+
+node2/lldp
+            e3a    sw1 (b8:ce:f6:19:1a:7e)   swp4      -
+            e3b    sw2 (b8:ce:f6:19:1b:96)   swp4      -
+
+
+cluster1::*> *system switch ethernet show -is-monitoring-enabled-operational true*
+Switch                      Type               Address          Model
+--------------------------- ------------------ ---------------- -----
+sw1                         cluster-network    10.233.205.90    MSN2100-CB2RC
+     Serial Number: MNXXXXXXGD
+      Is Monitored: true
+            Reason: None
+  Software Version: Cumulus Linux version 5.4.0 running on Mellanox
+                    Technologies Ltd. MSN2100
+    Version Source: LLDP
+
+sw2                         cluster-network    10.233.205.91    MSN2100-CB2RC
+     Serial Number: MNCXXXXXXGS
+      Is Monitored: true
+            Reason: None
+  Software Version: Cumulus Linux version 5.4.0 running on Mellanox
+                    Technologies Ltd. MSN2100
+    Version Source: LLDP
+----
+--
+
+.Cumulus Linux 5.11
+
+--
+. Display the available interfaces on the SN2100 switch:
++
+[subs=+quotes]
+----
+admin@sw1:mgmt:~$ *nv show interface*
+Interface     MTU   Speed State Remote Host         Remote Port- Type      Summary
+------------- ----- ----- ----- ------------------- ------------ --------- -------------
++ cluster_isl 9216  200G  up                                      bond
++ eth0        1500  100M  up    mgmt-sw1            Eth105/1/14   eth       IP Address: 10.231.80 206/22
+  eth0                                                                      IP Address: fd20:8b1e:f6ff:fe31:4a0e/64
++ lo          65536       up                                      loopback  IP Address: 127.0.0.1/8
+  lo                                                                        IP Address: ::1/128
++ swp1s0      9216 10G    up cluster01                e0b         swp
+.
+.
+.
++ swp15      9216 100G    up sw2                      swp15       swp
++ swp16      9216 100G    up sw2                      swp16       swp
+----
+
+. Copy the RCF python script to the switch.
++
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ *cd /tmp*
+cumulus@cumulus:mgmt:/tmp$ *scp _<user>@<host:/<path>_/MSN2100-RCF-v1._x_-Cluster-HA-Breakout-LLDP .*
+ssologin@10.233.204.71's password:
+MSN2100-RCF-v1.x-Cluster-HA-Breakout-LLDP          100% 8607   111.2KB/s         00:00
+----
++
+NOTE: Although `scp` is used in the example, you can use your preferred method of file transfer.
+
+. Apply the RCF python script *MSN2100-RCF-v1._x_-Cluster-HA-Breakout-LLDP*.
++
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:/tmp$ *sudo python3 MSN2100-RCF-v1._x_-Cluster-HA-Breakout-LLDP*
+[sudo] password for cumulus:
+.
+.
+Step 1: Creating the banner file
+Step 2: Registering banner message
+Step 3: Updating the MOTD file
+Step 4: Ensuring passwordless use of cl-support command by admin
+Step 5: Disabling apt-get
+Step 6: Creating the interfaces
+Step 7: Adding the interface config
+Step 8: Disabling cdp
+Step 9: Adding the lldp config
+Step 10: Adding the RoCE base config
+Step 11: Modifying RoCE Config
+Step 12: Configure SNMP
+Step 13: Reboot the switch
+----
++
+The RCF script completes the steps listed in the example above.
++
+NOTE: In step 3 *Updating the MOTD file* above, the command `cat /etc/issue` is run. This allows you to verify the RCF filename, RCF version, ports to use, and other important information in the RCF banner. 
++
+For example:
++
+
+----
+admin@sw1:mgmt:~$ cat /etc/issue
+******************************************************************************
+*
+* NetApp Reference Configuration File (RCF)
+* Switch       : Mellanox MSN2100
+* Filename     : MSN2100-RCF-1._x_-Cluster-HA-Breakout-LLDP
+* Release Date : 13-02-2023
+* Version      : 1._x_-Cluster-HA-Breakout-LLDP
+*
+* Port Usage:
+* Port 1      : 4x10G Breakout mode for Cluster+HA Ports, swp1s0-3
+* Port 2      : 4x25G Breakout mode for Cluster+HA Ports, swp2s0-3
+* Ports 3-14  : 40/100G for Cluster+HA Ports, swp3-14
+* Ports 15-16 : 100G Cluster ISL Ports, swp15-16
+*
+* NOTE:
+*   RCF manually sets swp1s0-3 link speed to 10000 and
+*   auto-negotiation to off for Intel 10G
+*   RCF manually sets swp2s0-3 link speed to 25000 and
+*   auto-negotiation to off for Chelsio 25G
+*
+*
+* IMPORTANT: Perform the following steps to ensure proper RCF installation:
+* - Copy the RCF file to /tmp
+* - Ensure the file has execute permission
+* - From /tmp run the file as sudo python3 <filename>
+*
+******************************************************************************
+----
++
+NOTE: For any RCF python script issues that cannot be corrected, contact https://mysupport.netapp.com/[NetApp Support^] for assistance.
+
+. Reapply any previous customizations to the switch configuration. Refer to link:cabling-considerations-sn2100-cluster.html[Review cabling and configuration considerations] for details of any further changes required.
+
+. Verify the configuration after the reboot:
++
+[subs=+quotes]
+----
 admin@sw1:mgmt:~$ *nv show interface*
 Interface     MTU   Speed State Remote Host         Remote Port- Type      Summary
 ------------- ----- ----- ----- ------------------- ------------ --------- -------------
@@ -502,7 +806,7 @@ NOTE: The exceptions listed do not affect performance and can be safely ignored.
 +
 [subs=+quotes]
 ----
-admin@sw1:mgmt:~$ *nv show interface --view=pluggables*
+admin@sw1:mgmt:~$ *nv show platform transceiver*
 Interface  Identifier     Vendor Name  Vendor PN        Vendor SN       Vendor Rev
 ---------  -------------  -----------  ---------------  --------------  ----------
 swp1s0     0x00 None
@@ -528,7 +832,7 @@ swp16      0x11 (QSFP28)  Amphenol     112-00595        APF2027
 +
 [subs=+quotes]
 ----
-admin@sw1:mgmt:~$ *nv show interface --view=lldp*
+admin@sw1:mgmt:~$ *nv show interface lldp*
 
 LocalPort  Speed  Mode        RemoteHost               RemotePort
 ---------  -----  ----------  -----------------------  -----------
@@ -622,3 +926,4 @@ link:setup-install-cshm-file.html[Install the CSHM file].
 // Updates for AFFFASDOC-248, 2024-AUG-21
 // Updates for GH issue #216, 2024-OCT-24
 // Updates for AFFFASDOC-278, 2024-NOV-11
+// Updates for AFFFASDOC-281, 2025-FEB-13
