@@ -301,38 +301,74 @@ cluster::*> *network port modify -node n2 -port e0c -up-admin false*
 ----
 ====
 
-. Ping the remote cluster interfaces and perform an RPC server check:
+
+. Verify the connectivity of the remote cluster interfaces: 
 +
-`cluster ping-cluster -node _node-name_`
-+
-.Show example
-[%collapsible]
+// start of tabbed content
+
+[role="tabbed-block"]
+
 ====
-The following example shows node n1 being pinged and the RPC status indicated afterward:
+
+.ONTAP 9.9.1 and later
+
+--
+You can use the `network interface check cluster-connectivity` command to start an accessibility check for cluster connectivity and then display the details: 
+
+`network interface check cluster-connectivity start` and `network interface check cluster-connectivity show`
 
 [subs=+quotes]
 ----
-cluster::*> *cluster ping-cluster -node n1*
+cluster1::*> *network interface check cluster-connectivity start*
+----
+
+*NOTE:* Wait for a number of seconds before running the show command to display the details.
+
+
+[subs=+quotes]
+----
+cluster1::*> *network interface check cluster-connectivity show*
+                                  Source           Destination      Packet
+Node   Date                       LIF              LIF              Loss
+------ -------------------------- ---------------- ---------------- -----------
+n1
+       3/5/2022 19:21:18 -06:00   n1_clus2         n2-clus1         none
+       3/5/2022 19:21:20 -06:00   n1_clus2         n2_clus2         none
+
+n2
+       3/5/2022 19:21:18 -06:00   n2_clus2         n1_clus1         none
+       3/5/2022 19:21:20 -06:00   n2_clus2         n1_clus2         none
+----
+--
+
+.All ONTAP releases
+--
+For all ONTAP releases, you can also use the `cluster ping-cluster -node <name>` command to check the connectivity:
+
+`cluster ping-cluster -node <name>`
+
+
+[subs=+quotes]
+----
+cluster1::*> *cluster ping-cluster -node local*
 Host is n1
 Getting addresses from network interface table...
-Cluster n1_clus1 n1		e0a	10.10.0.1
-Cluster n1_clus2 n1		e0b	10.10.0.2
-Cluster n1_clus3 n1		e0c	10.10.0.3
-Cluster n1_clus4 n1		e0d	10.10.0.4
-Cluster n2_clus1 n2		e0a	10.10.0.5
-Cluster n2_clus2 n2		e0b	10.10.0.6
-Cluster n2_clus3 n2		e0c	10.10.0.7
-Cluster n2_clus4 n2		e0d	10.10.0.8
-
+Cluster n1_clus1 n1       e0a    10.10.0.1
+Cluster n1_clus2 n1       e0b    10.10.0.2
+Cluster n1_clus3 n1       e0c    10.10.0.3
+Cluster n1_clus4 n1       e0d    10.10.0.4
+Cluster n2_clus1 n2       e0a    10.10.0.5
+Cluster n2_clus2 n2       e0b    10.10.0.6
+Cluster n2_clus3 n2       e0c    10.10.0.7
+Cluster n2_clus4 n2       e0d    10.10.0.8
 Local = 10.10.0.1 10.10.0.2 10.10.0.3 10.10.0.4
 Remote = 10.10.0.5 10.10.0.6 10.10.0.7 10.10.0.8
-Cluster Vserver Id = 4294967293
-Ping status:
+Cluster Vserver Id = 4294967293 Ping status:
 ....
 Basic connectivity succeeds on 16 path(s)
 Basic connectivity fails on 0 path(s)
 ................
-Detected 1500 byte MTU on 16 path(s):
+Detected 9000 byte MTU on 16 path(s):
     Local 10.10.0.1 to Remote 10.10.0.5
     Local 10.10.0.1 to Remote 10.10.0.6
     Local 10.10.0.1 to Remote 10.10.0.7
@@ -349,14 +385,19 @@ Detected 1500 byte MTU on 16 path(s):
     Local 10.10.0.4 to Remote 10.10.0.6
     Local 10.10.0.4 to Remote 10.10.0.7
     Local 10.10.0.4 to Remote 10.10.0.8
+
 Larger than PMTU communication succeeds on 16 path(s)
 RPC status:
 4 paths up, 0 paths down (tcp check)
 4 paths up, 0 paths down (udp check)
 ----
+--
 ====
 
-. Shut down ISLs 41 through 48 on CL1, the active Nexus 5596 switch using the Cisco `shutdown` command.
+// end of tabbed content
+
+[start=3]
+. [[step3]] Shut down ISLs 41 through 48 on CL1, the active Nexus 5596 switch, using the Cisco `shutdown` command.
 +
 For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-command-reference-list.html[Cisco Nexus 3000 Series NX-OS Command References^].
 +
@@ -560,38 +601,74 @@ e0d       Cluster      Cluster          up   9000  auto/10000 -        -
 ----
 ====
 
-. Ping the remote cluster interfaces and perform an RPC server check:
+
+. Verify the connectivity of the remote cluster interfaces: 
 +
-`cluster ping-cluster -node node-name`
-+
-.Show example
-[%collapsible]
+// start of tabbed content
+
+[role="tabbed-block"]
+
 ====
-The following example shows node n1 being pinged and the RPC status indicated afterward:
+
+.ONTAP 9.9.1 and later
+
+--
+You can use the `network interface check cluster-connectivity` command to start an accessibility check for cluster connectivity and then display the details: 
+
+`network interface check cluster-connectivity start` and `network interface check cluster-connectivity show`
 
 [subs=+quotes]
 ----
-cluster::*> *cluster ping-cluster -node n1*
+cluster1::*> *network interface check cluster-connectivity start*
+----
+
+*NOTE:* Wait for a number of seconds before running the `show` command to display the details.
+
+
+[subs=+quotes]
+----
+cluster1::*> *network interface check cluster-connectivity show*
+                                  Source           Destination      Packet
+Node   Date                       LIF              LIF              Loss
+------ -------------------------- ---------------- ---------------- -----------
+n1
+       3/5/2022 19:21:18 -06:00   n1_clus2         n2-clus1         none
+       3/5/2022 19:21:20 -06:00   n1_clus2         n2_clus2         none
+
+n2
+       3/5/2022 19:21:18 -06:00   n2_clus2         n1_clus1         none
+       3/5/2022 19:21:20 -06:00   n2_clus2         n1_clus2         none
+----
+--
+
+.All ONTAP releases
+--
+For all ONTAP releases, you can also use the `cluster ping-cluster -node <name>` command to check the connectivity:
+
+`cluster ping-cluster -node <name>`
+
+
+[subs=+quotes]
+----
+cluster1::*> *cluster ping-cluster -node local*
 Host is n1
 Getting addresses from network interface table...
-Cluster n1_clus1 n1		e0a	10.10.0.1
-Cluster n1_clus2 n1		e0b	10.10.0.2
-Cluster n1_clus3 n1		e0c	10.10.0.3
-Cluster n1_clus4 n1		e0d	10.10.0.4
-Cluster n2_clus1 n2		e0a	10.10.0.5
-Cluster n2_clus2 n2		e0b	10.10.0.6
-Cluster n2_clus3 n2		e0c	10.10.0.7
-Cluster n2_clus4 n2		e0d	10.10.0.8
-
+Cluster n1_clus1 n1       e0a    10.10.0.1
+Cluster n1_clus2 n1       e0b    10.10.0.2
+Cluster n1_clus3 n1       e0c    10.10.0.3
+Cluster n1_clus4 n1       e0d    10.10.0.4
+Cluster n2_clus1 n2       e0a    10.10.0.5
+Cluster n2_clus2 n2       e0b    10.10.0.6
+Cluster n2_clus3 n2       e0c    10.10.0.7
+Cluster n2_clus4 n2       e0d    10.10.0.8
 Local = 10.10.0.1 10.10.0.2 10.10.0.3 10.10.0.4
 Remote = 10.10.0.5 10.10.0.6 10.10.0.7 10.10.0.8
-Cluster Vserver Id = 4294967293
-Ping status:
+Cluster Vserver Id = 4294967293 Ping status:
 ....
 Basic connectivity succeeds on 16 path(s)
 Basic connectivity fails on 0 path(s)
 ................
-Detected 1500 byte MTU on 16 path(s):
+Detected 9000 byte MTU on 16 path(s):
     Local 10.10.0.1 to Remote 10.10.0.5
     Local 10.10.0.1 to Remote 10.10.0.6
     Local 10.10.0.1 to Remote 10.10.0.7
@@ -608,14 +685,19 @@ Detected 1500 byte MTU on 16 path(s):
     Local 10.10.0.4 to Remote 10.10.0.6
     Local 10.10.0.4 to Remote 10.10.0.7
     Local 10.10.0.4 to Remote 10.10.0.8
+
 Larger than PMTU communication succeeds on 16 path(s)
 RPC status:
 4 paths up, 0 paths down (tcp check)
 4 paths up, 0 paths down (udp check)
 ----
+--
 ====
 
-. On each node in the cluster, migrate the interfaces associated with the first Nexus 5596 switch, CL1, to be replaced:
+// end of tabbed content
+
+[start=15]
+. [[step15]] On each node in the cluster, migrate the interfaces associated with the first Nexus 5596 switch, CL1, to be replaced:
 +
 `network interface migrate -vserver _vserver-name_ -lif _lif-name_ -source-node _source-node-name_ 
 -destination-node _destination-node-name_ -destination-port _destination-port-name_`
@@ -886,37 +968,74 @@ Cluster
 ----
 ====
 
-. Ping the remote cluster interfaces and perform an RPC server check:
-+
-`cluster ping-cluster -node _node-name_`
-+
-.Show example
-[%collapsible]
-====
-The following example shows node n1 being pinged and the RPC status indicated afterward:
 
+. Verify the connectivity of the remote cluster interfaces: 
++
+// start of tabbed content
+
+[role="tabbed-block"]
+
+====
+
+.ONTAP 9.9.1 and later
+
+--
+You can use the `network interface check cluster-connectivity` command to start an accessibility check for cluster connectivity and then display the details: 
+
+`network interface check cluster-connectivity start` and `network interface check cluster-connectivity show`
+
+[subs=+quotes]
 ----
-cluster::*> cluster ping-cluster -node n1
+cluster1::*> *network interface check cluster-connectivity start*
+----
+
+*NOTE:* Wait for a number of seconds before running the `show` command to display the details.
+
+
+[subs=+quotes]
+----
+cluster1::*> *network interface check cluster-connectivity show*
+                                  Source           Destination      Packet
+Node   Date                       LIF              LIF              Loss
+------ -------------------------- ---------------- ---------------- -----------
+n1
+       3/5/2022 19:21:18 -06:00   n1_clus2         n2-clus1         none
+       3/5/2022 19:21:20 -06:00   n1_clus2         n2_clus2         none
+
+n2
+       3/5/2022 19:21:18 -06:00   n2_clus2         n1_clus1         none
+       3/5/2022 19:21:20 -06:00   n2_clus2         n1_clus2         none
+----
+--
+
+.All ONTAP releases
+--
+For all ONTAP releases, you can also use the `cluster ping-cluster -node <name>` command to check the connectivity:
+
+`cluster ping-cluster -node <name>`
+
+
+[subs=+quotes]
+----
+cluster1::*> *cluster ping-cluster -node local*
 Host is n1
 Getting addresses from network interface table...
-Cluster n1_clus1 n1		e0a	10.10.0.1
-Cluster n1_clus2 n1		e0b	10.10.0.2
-Cluster n1_clus3 n1		e0c	10.10.0.3
-Cluster n1_clus4 n1		e0d	10.10.0.4
-Cluster n2_clus1 n2		e0a	10.10.0.5
-Cluster n2_clus2 n2		e0b	10.10.0.6
-Cluster n2_clus3 n2		e0c	10.10.0.7
-Cluster n2_clus4 n2		e0d	10.10.0.8
-
+Cluster n1_clus1 n1       e0a    10.10.0.1
+Cluster n1_clus2 n1       e0b    10.10.0.2
+Cluster n1_clus3 n1       e0c    10.10.0.3
+Cluster n1_clus4 n1       e0d    10.10.0.4
+Cluster n2_clus1 n2       e0a    10.10.0.5
+Cluster n2_clus2 n2       e0b    10.10.0.6
+Cluster n2_clus3 n2       e0c    10.10.0.7
+Cluster n2_clus4 n2       e0d    10.10.0.8
 Local = 10.10.0.1 10.10.0.2 10.10.0.3 10.10.0.4
 Remote = 10.10.0.5 10.10.0.6 10.10.0.7 10.10.0.8
-Cluster Vserver Id = 4294967293
-Ping status:
+Cluster Vserver Id = 4294967293 Ping status:
 ....
 Basic connectivity succeeds on 16 path(s)
 Basic connectivity fails on 0 path(s)
 ................
-Detected 1500 byte MTU on 16 path(s):
+Detected 9000 byte MTU on 16 path(s):
     Local 10.10.0.1 to Remote 10.10.0.5
     Local 10.10.0.1 to Remote 10.10.0.6
     Local 10.10.0.1 to Remote 10.10.0.7
@@ -933,14 +1052,19 @@ Detected 1500 byte MTU on 16 path(s):
     Local 10.10.0.4 to Remote 10.10.0.6
     Local 10.10.0.4 to Remote 10.10.0.7
     Local 10.10.0.4 to Remote 10.10.0.8
+
 Larger than PMTU communication succeeds on 16 path(s)
 RPC status:
 4 paths up, 0 paths down (tcp check)
 4 paths up, 0 paths down (udp check)
 ----
+--
 ====
 
-. Expand the cluster by adding nodes to the Nexus 3232C cluster switches.
+// end of tabbed content
+
+[start=29]
+. [[step29]] Expand the cluster by adding nodes to the Nexus 3232C cluster switches.
 +
 The following examples show nodes n3 and n4 have 40 GbE cluster ports connected to ports e1/7 and e1/8 respectively on both the Nexus 3232C cluster switches, and both nodes have joined the cluster. The 40 GbE cluster interconnect ports used are e4a and e4e.
 +
@@ -1135,60 +1259,14 @@ C2                          cluster-network     10.10.1.104      NX3232C
 ----
 ====
 
-. Enable the cluster switch health monitor log collection feature for collecting switch-related log files:
-+
-`system cluster-switch log setup-password`
-+
-`system cluster-switch log enable-collection`
-+
-.Show example
-[%collapsible]
-====
-----
-cluster::*> system cluster-switch log setup-password
-Enter the switch name: <return>
-The switch name entered is not recognized.
-Choose from the following list:
-C1
-C2
-
-cluster::*> system cluster-switch log setup-password
-
-Enter the switch name: C1
-RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
-Do you want to continue? {y|n}::[n] y
-
-Enter the password: <enter switch password>
-Enter the password again: <enter switch password>
-
-cluster1::*> system cluster-switch log setup-password
-
-Enter the switch name: C2
-RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
-Do you want to continue? {y|n}:: [n] y
-
-Enter the password: <enter switch password>
-Enter the password again: <enter switch password>
-
-cluster::*> system cluster-switch log enable-collection
-
-Do you want to enable cluster log collection for all nodes in the cluster?
-{y|n}: [n] y
-
-Enabling cluster switch log collection.
-
-cluster::*>
-----
-====
-
-+
-[NOTE]
-====
-If any of these commands return an error, contact NetApp support.
-====
-
 . If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
 +
 `system node autosupport invoke -node * -type all -message MAINT=END`
 
+.What's next?
+
+link:../switch-cshm/config-overview.html[Configure switch health monitoring].
+
 // Format fixes as part of AFFFASDOC-98, 20203-SEPT-19
+// Updated as psrt of AFFFASDOC-216, 217, 2024-JUL-30
+// Updates for GH issue #212, 2024-OCT-17

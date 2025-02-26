@@ -19,11 +19,11 @@ Make sure you understand the port and node connections and cabling requirements 
 * The cluster switches use the Inter-Switch Link (ISL) ports e1/31-32.
 * The link:https://hwu.netapp.com/[Hardware Universe^] contains information about supported cabling to Nexus 3132Q-V switches:
  ** The nodes with 10 GbE cluster connections require QSFP optical modules with breakout fiber cables or QSFP to SFP+ copper break-out cables.
- ** The nodes with 40/100 GbE cluster connections require supported QSFP/QSFP28 optical modules with fiber cables or QSFP/QSFP28 copper direct-attach cables.
+ ** The nodes with 40 GbE cluster connections require supported QSFP/QSFP28 optical modules with fiber cables or QSFP/QSFP28 copper direct-attach cables.
  ** The cluster switches use the appropriate ISL cabling: 2x QSFP28 fiber or copper direct-attach cables.
-* On Nexus 3132Q-V, you can operate QSFP ports as either 40/100 Gb Ethernet or 4 x10 Gb Ethernet modes.
+* On Nexus 3132Q-V, you can operate QSFP ports as either 40 Gb Ethernet or 4 x10 Gb Ethernet modes.
 +
-By default, there are 32 ports in the 40/100 Gb Ethernet mode. These 40 Gb Ethernet ports are numbered in a 2-tuple naming convention. For example, the second 40 Gb Ethernet port is numbered as 1/2. The process of changing the configuration from 40 Gb Ethernet to 10 Gb Ethernet is called _breakout_ and the process of changing the configuration from 10 Gb Ethernet to 40 Gb Ethernet is called _breakin_. When you break out a 40/100 Gb Ethernet port into 10 Gb Ethernet ports, the resulting ports are numbered using a 3-tuple naming convention. For example, the breakout ports of the second 40/100 Gb Ethernet port are numbered as 1/2/1, 1/2/2, 1/2/3, 1/2/4.
+By default, there are 32 ports in the 40 Gb Ethernet mode. These 40 Gb Ethernet ports are numbered in a 2-tuple naming convention. For example, the second 40 Gb Ethernet port is numbered as 1/2. The process of changing the configuration from 40 Gb Ethernet to 10 Gb Ethernet is called _breakout_ and the process of changing the configuration from 10 Gb Ethernet to 40 Gb Ethernet is called _breakin_. When you break out a 40 Gb Ethernet port into 10 Gb Ethernet ports, the resulting ports are numbered using a 3-tuple naming convention. For example, the breakout ports of the second 40 Gb Ethernet port are numbered as 1/2/1, 1/2/2, 1/2/3, and 1/2/4.
 
 * On the left side of Nexus 3132Q-V is a set of four SFP+ ports multiplexed to the first QSFP port.
 +
@@ -31,13 +31,13 @@ By default, the RCF is structured to use the first QSFP port.
 +
 You can make four SFP+ ports active instead of a QSFP port for Nexus 3132Q-V by using the `hardware profile front portmode sfp-plus` command. Similarly, you can reset Nexus 3132Q-V to use a QSFP port instead of four SFP+ ports by using the `hardware profile front portmode qsfp` command.
 
-* Make sure you configured some of the ports on Nexus 3132Q-V to run at 10 GbE or 40/100 GbE.
+* Make sure you configured some of the ports on Nexus 3132Q-V to run at 10 GbE or 40 GbE.
 +
 You can break-out the first six ports into 4x10 GbE mode by using the `interface breakout module 1 port 1-6 map 10g-4x` command. Similarly, you can regroup the first six QSFP+ ports from breakout configuration by using the `no interface breakout module 1 port 1-6 map 10g-4x` command.
 
-* The number of 10 GbE and 40/100 GbE ports are defined in the reference configuration files (RCFs) available on the https://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco ® Cluster Network Switch Reference Configuration File Download^] page.
+* The number of 10 GbE and 40 GbE ports are defined in the reference configuration files (RCFs) available on the https://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco ® Cluster Network Switch Reference Configuration File Download^] page.
 
-.What you'll need
+.Before you begin
 
 * Configurations properly set up and functioning.
 * Nodes running ONTAP 9.4 or later.
@@ -55,11 +55,9 @@ The link:http://mysupport.netapp.com/NOW/download/software/cm_switches/[Cisco Et
  ** Initial customization of the switch.
  ** All the ISL ports enabled and cabled.
 
-In addition, you must plan, migrate, and read the required documentation on 10 GbE and 40/100 GbE connectivity from nodes to Nexus 3132Q-V cluster switches.
+In addition, you must plan, migrate, and read the required documentation on 10 GbE and 40 GbE connectivity from nodes to Nexus 3132Q-V cluster switches.
 
-== Migrate the switches
-
-.About the examples
+.About the examples used
 
 The examples in this procedure use the following switch and node nomenclature:
 
@@ -68,17 +66,17 @@ The examples in this procedure use the following switch and node nomenclature:
 
 [NOTE]
 ====
-The examples in this procedure use two nodes, each utilizing two 40/100 GbE cluster interconnect ports e4a and e4e. The link:https://hwu.netapp.com/[Hardware Universe^] has details about the cluster ports on your platforms.
+The examples in this procedure use two nodes, each using two 40 GbE cluster interconnect ports e4a and e4e. The link:https://hwu.netapp.com/[Hardware Universe^] has details about the cluster ports on your platforms.
 ====
 
-.About this task
 This procedure covers the following scenarios:
 
-* n1_clus1 is the first cluster logical interface (LIF) to be connected to cluster switch C1 for node n1.
-* n1_clus2 is the first cluster LIF to be connected to cluster switch C2 for node n1.
-* n2_clus1 is the first cluster LIF to be connected to cluster switch C1 for node n2.
-* n2_clus2 is the second cluster LIF to be connected to cluster switch C2 for node n2.
+* *n1_clus1* is the first cluster logical interface (LIF) to be connected to cluster switch C1 for node *n1*.
+* *n1_clus2* is the first cluster LIF to be connected to cluster switch C2 for node *n1*.
+* *n2_clus1* is the first cluster LIF to be connected to cluster switch C1 for node *n2*.
+* *n2_clus2* is the second cluster LIF to be connected to cluster switch C2 for node *n2*.
 * The number of 10 GbE and 40/100 GbE ports are defined in the reference configuration files (RCFs) available on the https://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco ® Cluster Network Switch Reference Configuration File Download^] page.
+
 
 [NOTE]
 ====
@@ -90,7 +88,7 @@ The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Serie
 * The second cluster port is moved to C2.
 * The two-node switchless cluster option is disabled.
 
-=== Step 1: Prepare for migration
+== Step 1: Prepare for migration
 
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
 +
@@ -112,7 +110,7 @@ The AutoSupport message notifies technical support of this maintenance task so t
 [%collapsible]
 ====
 ----
-cluster::*> network port show –role cluster
+cluster::*> network port show -role cluster
   (network port show)
 Node: n1
                                                                        Ignore
@@ -168,7 +166,7 @@ You must prepare both switches at this time. If you need to upgrade the RCF and 
 
 . Click *CONTINUE* on the *Description* page, accept the license agreement, and then follow the instructions on the *Download* page to download the RCF.
 
-=== Step 2: Move first cluster port to C1
+== Step 2: Move first cluster port to C1
 
 . On Nexus 3132Q-V switches C1 and C2, disable all node-facing ports C1 and C2, but do not disable the ISL ports.
 +
@@ -304,9 +302,9 @@ Execute this command from each local node.
 ====
 ----
 cluster::*> network interface migrate -vserver Cluster -lif n1_clus1 -source-node n1
-–destination-node n1 -destination-port e4e
+-destination-node n1 -destination-port e4e
 cluster::*> network interface migrate -vserver Cluster -lif n2_clus1 -source-node n2
-–destination-node n2 -destination-port e4e
+-destination-node n2 -destination-port e4e
 ----
 ====
 
@@ -342,15 +340,55 @@ cluster::*> network port modify -node n1 -port e4a -up-admin false
 cluster::*> network port modify -node n2 -port e4a -up-admin false
 ----
 
-. Ping the remote cluster interfaces and perform an RPC server check:
+. Verify the connectivity of the remote cluster interfaces: 
 +
-`cluster ping-cluster`
-+
-.Show example
-[%collapsible]
+// start of tabbed content
+
+[role="tabbed-block"]
+
 ====
+
+.ONTAP 9.9.1 and later
+
+--
+You can use the `network interface check cluster-connectivity` command to start an accessibility check for cluster connectivity and then display the details: 
+
+`network interface check cluster-connectivity start` and `network interface check cluster-connectivity show`
+
+[subs=+quotes]
 ----
-cluster::*> cluster ping-cluster -node n1
+cluster1::*> *network interface check cluster-connectivity start*
+----
+
+*NOTE:* Wait for a number of seconds before running the show command to display the details.
+
+
+[subs=+quotes]
+----
+cluster1::*> *network interface check cluster-connectivity show*
+                                  Source          Destination       Packet
+Node   Date                       LIF             LIF               Loss
+------ -------------------------- --------------- ----------------- -----------
+n1
+       3/5/2022 19:21:18 -06:00   n1_clus2        n2_clus1      none
+       3/5/2022 19:21:20 -06:00   n1_clus2        n2_clus2      none
+
+n2
+       3/5/2022 19:21:18 -06:00   n2_clus2        n1_clus1      none
+       3/5/2022 19:21:20 -06:00   n2_clus2        n1_clus2      none
+----
+--
+
+.All ONTAP releases
+--
+For all ONTAP releases, you can also use the `cluster ping-cluster -node <name>` command to check the connectivity:
+
+`cluster ping-cluster -node <name>`
+
+
+[subs=+quotes]
+----
+cluster::*> *cluster ping-cluster -node n1*
 Host is n1
 Getting addresses from network interface table...
 Cluster n1_clus1 n1		e4a	10.10.0.1
@@ -376,9 +414,14 @@ RPC status:
 1 paths up, 0 paths down (tcp check)
 1 paths up, 0 paths down (ucp check)
 ----
+--
 ====
 
-. Disconnect the cable from e4a on node n1.
+// end of tabbed content
+
+[start=10]
+
+. [[step10]]Disconnect the cable from e4a on node n1.
 +
 You can refer to the running configuration and connect the first 40 GbE port on the switch C1 (port 1/7 in this example) to e4a on n1 using supported cabling on Nexus 3132Q-V.
 +
@@ -425,7 +468,7 @@ cluster::*> network port modify -node n2 -port e4a -up-admin true
 [%collapsible]
 ====
 ----
-cluster::*> network port show –role cluster
+cluster::*> network port show -role cluster
   (network port show)
 Node: n1
                                                                        Ignore
@@ -484,7 +527,7 @@ Cluster
 ----
 ====
 
-=== Step 3: Move second cluster port to C2
+== Step 3: Move second cluster port to C2
 
 . Display the cluster port connectivity on each node:
 +
@@ -517,9 +560,9 @@ n2         /cdp
 ====
 ----
 cluster::*> network interface migrate -vserver Cluster -lif n1_clus2 -source-node n1
-–destination-node n1 -destination-port e4a
+-destination-node n1 -destination-port e4a
 cluster::*> network interface migrate -vserver Cluster -lif n2_clus2 -source-node n2
-–destination-node n2 -destination-port e4a
+-destination-node n2 -destination-port e4a
 ----
 ====
 
@@ -530,8 +573,8 @@ cluster::*> network interface migrate -vserver Cluster -lif n2_clus2 -source-nod
 The following example shows the specified ports being shut down on both nodes:
 +
 ----
-	cluster::*> network port modify -node n1 -port e4e -up-admin false
-	cluster::*> network port modify -node n2 -port e4e -up-admin false
+cluster::*> network port modify -node n1 -port e4e -up-admin false
+cluster::*> network port modify -node n2 -port e4e -up-admin false
 ----
 
 . Verify the cluster LIF status:
@@ -588,8 +631,8 @@ C2(config)# exit
 The following example shows the specified ports being brought up:
 +
 ----
-	cluster::*> network port modify -node n1 -port e4e -up-admin true
-	cluster::*> network port modify -node n2 -port e4e -up-admin true
+cluster::*> network port modify -node n1 -port e4e -up-admin true
+cluster::*> network port modify -node n2 -port e4e -up-admin true
 ----
 
 . For each node, revert all of the migrated cluster interconnect LIFs:
@@ -599,8 +642,8 @@ The following example shows the specified ports being brought up:
 The following example shows the migrated LIFs being reverted to their home ports.
 +
 ----
-	cluster::*> network interface revert -vserver Cluster -lif n1_clus2
-	cluster::*> network interface revert -vserver Cluster -lif n2_clus2
+cluster::*> network interface revert -vserver Cluster -lif n1_clus2
+cluster::*> network interface revert -vserver Cluster -lif n2_clus2
 ----
 
 . Verify that all of the cluster interconnect ports are now reverted to their home ports:
@@ -629,13 +672,13 @@ Cluster
 
 . Verify that all of the cluster interconnect ports are in the `up` state.
 +
-`network port show –role cluster`
+`network port show -role cluster`
 +
 .Show example
 [%collapsible]
 ====
 ----
-cluster::*> network port show –role cluster
+cluster::*> network port show -role cluster
   (network port show)
 Node: n1
                                                                        Ignore
@@ -656,7 +699,7 @@ e4e       Cluster      Cluster          up   9000 auto/40000  -        -
 ----
 ====
 
-=== Step 4: Disable the two-node switchless cluster option
+== Step 4: Disable the two-node switchless cluster option
 
 . Display the cluster switch port numbers each cluster port is connected to on each node:
 +
@@ -691,7 +734,7 @@ cluster::*> system cluster-switch show
 
 Switch                      Type               Address          Model
 --------------------------- ------------------ ---------------- ---------------
-C1                         cluster-network     10.10.1.101      NX3132V
+C1                          cluster-network    10.10.1.101      NX3132V
      Serial Number: FOX000001
       Is Monitored: true
             Reason:
@@ -699,7 +742,7 @@ C1                         cluster-network     10.10.1.101      NX3132V
                     7.0(3)I4(1)
     Version Source: CDP
 
-C2                          cluster-network     10.10.1.102      NX3132V
+C2                          cluster-network      10.10.1.102    NX3132V
      Serial Number: FOX000002
       Is Monitored: true
             Reason:
@@ -725,17 +768,57 @@ network options switchless-cluster modify -enabled false
 network options switchless-cluster show
 ----
 
-=== Step 5: Verify the configuration
+== Step 5: Verify the configuration
 
-. Ping the remote cluster interfaces and perform an RPC server check:
+. Verify the connectivity of the remote cluster interfaces: 
 +
-`cluster ping-cluster`
-+
-.Show example
-[%collapsible]
+// start of tabbed content
+
+[role="tabbed-block"]
+
 ====
+
+.ONTAP 9.9.1 and later
+
+--
+You can use the `network interface check cluster-connectivity` command to start an accessibility check for cluster connectivity and then display the details: 
+
+`network interface check cluster-connectivity start` and `network interface check cluster-connectivity show`
+
+[subs=+quotes]
 ----
-cluster::*> cluster ping-cluster -node n1
+cluster1::*> *network interface check cluster-connectivity start*
+----
+
+*NOTE:* Wait for a number of seconds before running the show command to display the details.
+
+
+[subs=+quotes]
+----
+cluster1::*> *network interface check cluster-connectivity show*
+                                  Source          Destination       Packet
+Node   Date                       LIF             LIF               Loss
+------ -------------------------- --------------- ----------------- -----------
+n1
+       3/5/2022 19:21:18 -06:00   n1_clus2        n2_clus1      none
+       3/5/2022 19:21:20 -06:00   n1_clus2        n2_clus2      none
+
+n2
+       3/5/2022 19:21:18 -06:00   n2_clus2        n1_clus1      none
+       3/5/2022 19:21:20 -06:00   n2_clus2        n1_clus2      none
+----
+--
+
+.All ONTAP releases
+--
+For all ONTAP releases, you can also use the `cluster ping-cluster -node <name>` command to check the connectivity:
+
+`cluster ping-cluster -node <name>`
+
+
+[subs=+quotes]
+----
+cluster::*> *cluster ping-cluster -node n1*
 Host is n1
 Getting addresses from network interface table...
 Cluster n1_clus1 n1		e4a	10.10.0.1
@@ -761,58 +844,23 @@ RPC status:
 1 paths up, 0 paths down (tcp check)
 1 paths up, 0 paths down (ucp check)
 ----
+--
 ====
 
-. Enable the cluster switch health monitor log collection feature for collecting switch-related log files:
-+
-`system cluster-switch log setup-password`
-+
-`system cluster-switch log enable-collection`
-+
-.Show example
-[%collapsible]
-====
-----
-cluster::*> **system cluster-switch log setup-password**
-Enter the switch name: <return>
-The switch name entered is not recognized.
-Choose from the following list:
-C1
-C2
+// end of tabbed content
 
-cluster::*> system cluster-switch log setup-password
-
-Enter the switch name: C1
-RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
-Do you want to continue? {y|n}::[n] y
-
-Enter the password: <enter switch password>
-Enter the password again: <enter switch password>
-
-cluster::*> system cluster-switch log setup-password
-
-Enter the switch name: C2
-RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
-Do you want to continue? {y|n}:: [n] y
-
-Enter the password: <enter switch password>
-Enter the password again: <enter switch password>
-
-cluster::*> system cluster-switch log enable-collection
-
-Do you want to enable cluster log collection for all nodes in the cluster?
-{y|n}: [n] y
-
-Enabling cluster switch log collection.
-
-cluster::*>
-----
-====
-+
-NOTE: If any of these commands return an error, contact NetApp support.
-
-. If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
+[start=2]
+. [[step2]]If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
 +
 `system node autosupport invoke -node * -type all -message MAINT=END`
 
+.What's next?
+
+link:../switch-cshm/config-overview.html[Configure switch health monitoring].
+
 // QA clean-up, 2022-03-03
+// Updated as part of AFFFASDOC-216, 217, 2024-JUL-30
+// Updates for GH issue #212, 2024-OCT-14
+// Updates for GH issue #262, 2024-NOV-20
+// Updates for GH issue #227, 2024-DEC-02
+

@@ -16,7 +16,7 @@ Follow this procedure to replace a defective Cisco Nexus 3132Q-V switch in a clu
 .Switch requirements
 Review the link:switch-requirements.html[Requirements for replacing Cisco Nexus 3132Q-V cluster switches].
 
-.What you'll need
+.Before you begin
 
 * The existing cluster and network configuration has:
  ** The Nexus 3132Q-V cluster infrastructure is redundant and fully functional on both switches.
@@ -51,7 +51,7 @@ The examples in this procedure use the following switch and node nomenclature:
 * n1_clus2 is the first cluster LIF connected to cluster switch CL2 or C2, for node n1.
 * n1_clus3 is the second LIF connected to cluster switch C2, for node n1.
 * n1_clus4 is the second LIF connected to cluster switch CL1, for node n1.
-* The number of 10 GbE and 40/100 GbE ports are defined in the reference configuration files (RCFs) available on the link:https://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco® Cluster Network Switch Reference Configuration File Download^] page.
+* The number of 10 GbE and 40 GbE ports are defined in the reference configuration files (RCFs) available on the link:https://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco® Cluster Network Switch Reference Configuration File Download^] page.
 * The nodes are n1, n2, n3, and n4.
 -
 The examples in this procedure use four nodes: Two nodes use four 10 GB cluster interconnect ports: e0a, e0b, e0c, and e0d. The other two nodes use two 40 GB cluster interconnect ports: e4a and e4e. See the link:https://hwu.netapp.com/[Hardware Universe^] for the actual cluster ports on your platforms.
@@ -306,13 +306,58 @@ cluster::*> network port modify -node n4 -port e4e -up-admin false
 ----
 ====
 
-. Ping the remote cluster interfaces and perform an RPC server check:
+. Verify the connectivity of the remote cluster interfaces: 
 +
-`cluster ping-cluster`
-+
-.Show example
-[%collapsible]
+// start of tabbed content
+
+[role="tabbed-block"]
+
 ====
+
+.ONTAP 9.9.1 and later
+
+--
+You can use the `network interface check cluster-connectivity` command to start an accessibility check for cluster connectivity and then display the details: 
+
+`network interface check cluster-connectivity start` and `network interface check cluster-connectivity show`
+
+[subs=+quotes]
+----
+cluster1::*> *network interface check cluster-connectivity start*
+----
+
+*NOTE:* Wait for a number of seconds before running the show command to display the details.
+
+
+[subs=+quotes]
+----
+cluster1::*> *network interface check cluster-connectivity show*
+                                  Source     Destination   Packet
+Node   Date                       LIF        LIF           Loss
+------ -------------------------- ---------- ------------- -----------
+n1
+       3/5/2022 19:21:18 -06:00   n1_clus2   n2_clus1      none
+       3/5/2022 19:21:20 -06:00   n1_clus2   n2_clus2      none
+
+n2
+       3/5/2022 19:21:18 -06:00   n2_clus2   n1_clus1      none
+       3/5/2022 19:21:20 -06:00   n2_clus2   n1_clus2      none
+n3
+...
+...
+n4
+...
+...
+----
+--
+
+.All ONTAP releases
+--
+For all ONTAP releases, you can also use the `cluster ping-cluster -node <name>` command to check the connectivity:
+
+`cluster ping-cluster -node <name>`
+
+[subs=+quotes]
 ----
 cluster::*> cluster ping-cluster -node n1
 Host is n1
@@ -377,9 +422,13 @@ RPC status:
 8 paths up, 0 paths down (tcp check)
 8 paths up, 0 paths down (udp check)
 ----
+--
 ====
 
-. Shut down the ports 1/31 and 1/32 on CL1, and the active Nexus 3132Q-V switch:
+// end of tabbed content
+
+[start=9]
+. [[step9]]Shut down the ports 1/31 and 1/32 on CL1, and the active Nexus 3132Q-V switch:
 +
 `shutdown`
 +
@@ -391,8 +440,8 @@ This example shows the ISL ports 1/31 and 1/32 being shut down on switch CL1:
 ----
 (CL1)# configure
 (CL1)(Config)# interface e1/31-32
-(CL1(config-if-range)# shutdown
-(CL1(config-if-range)# exit
+(CL1)(config-if-range)# shutdown
+(CL1)(config-if-range)# exit
 (CL1)(Config)# exit
 (CL1)#
 ----
@@ -407,8 +456,8 @@ This example shows the ISL ports 1/31 and 1/32 being shut down on switch CL1:
 ----
 (CL1)# configure
 (CL1)(Config)# interface e1/31-32
-(CL1(config-if-range)# no shutdown
-(CL1(config-if-range)# exit
+(CL1)(config-if-range)# no shutdown
+(CL1)(config-if-range)# exit
 (CL1)(Config)# exit
 (CL1)#
 ----
@@ -578,21 +627,64 @@ e4e       Cluster      Cluster          up   9000 auto/40000  -        -
 ----
 ====
 
-. Ping the remote cluster interfaces and perform an RPC server check:
+. Verify the connectivity of the remote cluster interfaces: 
 +
-`cluster ping-cluster`
-+
-.Show example
-[%collapsible]
+// start of tabbed content
+
+[role="tabbed-block"]
+
 ====
+
+.ONTAP 9.9.1 and later
+
+--
+You can use the `network interface check cluster-connectivity` command to start an accessibility check for cluster connectivity and then display the details: 
+
+`network interface check cluster-connectivity start` and `network interface check cluster-connectivity show`
+
+[subs=+quotes]
+----
+cluster1::*> *network interface check cluster-connectivity start*
+----
+
+*NOTE:* Wait for a number of seconds before running the show command to display the details.
+
+
+[subs=+quotes]
+----
+cluster1::*> *network interface check cluster-connectivity show*
+                                  Source     Destination   Packet
+Node   Date                       LIF        LIF           Loss
+------ -------------------------- ---------- ------------- -----------
+n1
+       3/5/2022 19:21:18 -06:00   n1_clus2   n2_clus1      none
+       3/5/2022 19:21:20 -06:00   n1_clus2   n2_clus2      none
+
+n2
+       3/5/2022 19:21:18 -06:00   n2_clus2   n1_clus1      none
+       3/5/2022 19:21:20 -06:00   n2_clus2   n1_clus2      none
+n3
+...
+...
+n4
+...
+...
+----
+--
+
+.All ONTAP releases
+--
+For all ONTAP releases, you can also use the `cluster ping-cluster -node <name>` command to check the connectivity:
+
+`cluster ping-cluster -node <name>`
+
+[subs=+quotes]
 ----
 cluster::*> cluster ping-cluster -node n1
 Host is n1
 Getting addresses from network interface table...
 Cluster n1_clus1 n1		e0a	10.10.0.1
 Cluster n1_clus2 n1		e0b	10.10.0.2
-Cluster n1_clus3 n1		e0c	10.10.0.3
-Cluster n1_clus4 n1		e0d	10.10.0.4
 Cluster n2_clus1 n2		e0a	10.10.0.5
 Cluster n2_clus2 n2		e0b	10.10.0.6
 Cluster n2_clus3 n2		e0c	10.10.0.7
@@ -649,7 +741,10 @@ RPC status:
 8 paths up, 0 paths down (tcp check)
 8 paths up, 0 paths down (udp check)
 ----
+--
 ====
+
+// end of tabbed content
 
 === Step 3: Verify the configuration
 
@@ -822,59 +917,17 @@ C2                          cluster-network     10.10.1.103      NX3132V
 ----
 ====
 
-. Enable the cluster switch health monitor log collection feature for collecting switch-related log files:
-+
-`system cluster-switch log setup-password`
-+
-`system cluster-switch log enable-collection`
-+
-.Show example
-[%collapsible]
-====
-----
-cluster::*> system cluster-switch log setup-password
-Enter the switch name: <return>
-The switch name entered is not recognized.
-Choose from the following list:
-C1
-C2
-
-cluster::*> system cluster-switch log setup-password
-
-Enter the switch name: C1
-RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
-Do you want to continue? {y|n}::[n] y
-
-Enter the password: <enter switch password>
-Enter the password again: <enter switch password>
-
-cluster::*> system cluster-switch log setup-password
-
-Enter the switch name: C2
-RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
-Do you want to continue? {y|n}:: [n] y
-
-Enter the password: <enter switch password>
-Enter the password again: <enter switch password>
-
-cluster::*> system cluster-switch log enable-collection
-
-Do you want to enable cluster log collection for all nodes in the cluster?
-{y|n}: [n] y
-
-Enabling cluster switch log collection.
-
-cluster::*>
-----
-====
-+
-NOTE: If any of these commands return an error, contact NetApp support.
-
 . If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
 +
 `system node autosupport invoke -node * -type all -message MAINT=END`
 
+.What's next?
 
+link:../switch-cshm/config-overview.html[Configure switch health monitoring]
 
 // QA clean-up, 2022-03-03
+// Updated as part of AFFFASDOC-216, 217, 20024-JUL-30
 // Updates for internal GH issue #228, 2024-JUN-26
+// Updates for GH issue #212, 2024-OCT-21
+// Updates for GH issue #227, 2024-DEC-02
+

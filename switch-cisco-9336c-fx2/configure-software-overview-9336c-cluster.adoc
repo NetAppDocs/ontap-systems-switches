@@ -1,7 +1,7 @@
 ---
 permalink: switch-cisco-9336c-fx2/configure-software-overview-9336c-cluster.html
 sidebar: sidebar
-keywords: BES-53248 switches, initial installation, configure switch-cisco-9336c-fx2 switch
+keywords: switches, initial installation, configure switch-cisco-9336c-fx2 switch
 summary: 'Overview of software configuration for Cisco Nexus 9336C-FX2 cluster switches'
 ---
 = Software install workflow for Cisco Nexus 9336C-FX2 cluster switches
@@ -11,59 +11,24 @@ summary: 'Overview of software configuration for Cisco Nexus 9336C-FX2 cluster s
 [.lead]
 To install and configure the software for a Cisco Nexus 9336C-FX2 switch and to install or upgrade the Reference Configuration File (RCF), follow these steps:
 
-. link:install-nxos-overview-9336c-cluster.html[Prepare to install NX-OS software and RCF]. 
-. link:install-nxos-software-9336c-cluster.html[Install the NX-OS software]. 
-. link:install-nxos-rcf-9336c-cluster.html[Install or upgrade the Reference Configuration File (RCF)]. 
+. link:install-nxos-overview-9336c-cluster.html[Prepare to install the NX-OS software and RCF]. 
 +
-Install the RCF after setting up the Nexus 9336C-FX2 switch for the first time. You can also use this procedure to upgrade your RCF version.
+The Cisco NX-OS software and reference configuration files (RCFs) must be installed on Cisco Nexus 9336C-FX2 cluster switches.
+
+. link:install-nxos-software-9336c-cluster.html[Install or upgrade the NX-OS software]. 
 +
-.Available RCF configurations
+Download and install or upgrade the NX-OS software on the Cisco Nexus 9336C-FX2 cluster switch.
+
+. link:install-upgrade-rcf-overview-cluster.html[Install or upgrade the RCF]. 
 +
-The following table describes the RCFs available for different configurations. Choose the RCF applicable to your configuration.
+Install or upgrade the RCF after setting up the Cisco Nexus 9336C-FX2 switch for the first time. You can also use this procedure to upgrade your RCF version.
+
+. link:configure-ssh-keys.html[Verify SSH configuration on the Nexus 9336C-FX2 cluster switches]. 
 +
-For specific port and VLAN usage details, refer to the banner and important notes section in your RCF.
-+ 
-[options="header" cols="1,2"]
-|===
-| RCF name | Description
-a|
-12P-1-Cluster-HA-Breakout
-a|
-Ports are configured for 4x10GbE breakout, 4x25GbE breakout, and 40/100GbE on Cisco Nexus 9336C-FX-T cluster switches. Supports systems that use shared cluster/HA Ethernet ports. See the link:https://hwu.netapp.com[Hardware Universe^] for specific model information. Additionally, all ports can be used as dedicated cluster ports.
-a|
-12P-1-Cluster-HA
-a|
-A total of 12 ports are configured for 40/100GbE (10 for cluster/HA traffic and 2 ISL ports) on Cisco Nexus 9336C-FX-T cluster switches. Supports systems that use shared cluster/HA Ethernet ports. See the link:https://hwu.netapp.com[Hardware Universe^] for specific model information. Additionally, 10 ports can be used as dedicated cluster ports.
-a|
-2-Cluster-HA-Breakout
-a|
-Supports two ONTAP clusters with at least eight nodes, including nodes that use shared Cluster+HA ports.
-a|
-4-Cluster-HA-Breakout
-a|
-Supports four ONTAP clusters with at least four nodes, including nodes that use shared Cluster+HA ports.
-a|
-1-Cluster-HA
-a|
-All ports are configured for 40/100GbE. Supports systems that use shared cluster/HA Ethernet ports. See the link:https://hwu.netapp.com[Hardware Universe^] for specific model information. Additionally, all ports can be used as dedicated cluster ports.
-a|
-1-Cluster-HA-Breakout
-a|
-Ports are configured for 4x10GbE breakout, 4x25GbE breakout (RCF 1.6+ on 100GbE switches), and 40/100GbE. Supports systems that use shared cluster/HA Ethernet ports. See the link:https://hwu.netapp.com[Hardware Universe^] for specific model information. Additionally, all ports can be used as dedicated cluster ports.
-a|
-Cluster-HA-Storage
-a|
-Ports are configured for 40/100GbE for Cluster+HA, 4x10GbE Breakout for Cluster and 4x25GbE Breakout for Cluster+HA, and 100GbE for each Storage HA Pair.
-a|
-Cluster
-a|
-Two flavors of RCF with different allocations of 4x10GbE ports (breakout) and 40/100GbE ports. All FAS/AFF nodes are supported, except for systems that use shared cluster/HA ports.
-a|
-Storage
-a|
-All ports are configured for 100GbE NVMe storage connections.
-|===
+If you use the Ethernet Switch Health Monitor (CSHM) and log collection features, verify SSH is enabled on the switches.
 
 // Updates for the Batik release ONTAPDOC-1340, 2023-SEPT-25
 // Updates for upgrade RCF details, 2024-APR-30
-// Updates for MicroFleece (AFFFASDOC-234), 2024-JUL-15
+// Updates for GH issue #204, 2024-SEP-10
+// Updates for GH issue #214, 2024-OCT-24
+// Link fix, 2025-FEB-14

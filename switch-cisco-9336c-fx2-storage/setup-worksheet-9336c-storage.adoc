@@ -17,7 +17,7 @@ The sample cabling worksheet provides examples of recommended port assignments f
 
 The sample port definition on each pair of switches is as follows:
 
-[options="header", cols="1, 1, 1, 1"]
+[options="header", cols="1,3,1,3"]
 |===
 2+|Cluster switch A
 2+|Cluster switch B
@@ -25,51 +25,51 @@ The sample port definition on each pair of switches is as follows:
 a|
 1
 a|
-4x10GbE node 1
+4x100GbE node 1
 a|
 1
 a|
-4x10GbE node 1
+4x100GbE node 1
 a|
 2
 a|
-4x10GbE node 2
+4x100GbE node 2
 a|
 2
 a|
-4x10GbE node 2
+4x100GbE node 2
 a|
 3
 a|
-4x10GbE node 3
+4x100GbE node 3
 a|
 3
 a|
-4x10GbE node 3
+4x100GbE node 3
 a|
 4
 a|
-4x25GbE node 4
+4x100GbE node 4
 a|
 4
 a|
-4x25GbE node 4
+4x100GbE node 4
 a|
 5
 a|
-4x25GbE node 5
+4x100GbE node 5
 a|
 5
 a|
-4x25GbE node 5
+4x100GbE node 5
 a|
 6
 a|
-4x25GbE node 6
+4x100GbE node 6
 a|
 6
 a|
-4x25GbE node 6
+4x100GbE node 6
 a|
 7
 a|
@@ -215,36 +215,116 @@ a|
 a|
 4x100GbE node 24
 a|
-25 through 34
+25
 a|
-Reserved
+4x100GbE node 25
 a|
-25 through 34
+25
 a|
-Reserved
+4x100GbE node 25
+a|
+26
+a|
+4x100GbE node 26
+a|
+26
+a|
+4x100GbE node 26
+a|
+27
+a|
+4x100GbE node 27
+a|
+27
+a|
+4x100GbE node 27
+a|
+28
+a|
+4x100GbE node 28
+a|
+28
+a|
+4x100GbE node 28
+a|
+29
+a|
+4x100GbE node 29
+a|
+29
+a|
+4x100GbE node 29
+a|
+30
+a|
+4x100GbE node 30
+a|
+30
+a|
+4x100GbE node 30
+a|
+31
+a|
+4x100GbE node 31
+a|
+31
+a|
+4x100GbE node 31
+a|
+32
+a|
+4x100GbE node 32
+a|
+32
+a|
+4x100GbE node 32
+a|
+33
+a|
+4x100GbE node 33
+a|
+33
+a|
+4x100GbE node 33
+a|
+30
+a|
+4x100GbE node 30
+a|
+30
+a|
+4x100GbE node 33
+a|
+34
+a|
+4x100GbE node 34
+a|
+34
+a|
+4x100GbE node 34
 a|
 35
 a|
-100G ISL to switch B port 35
+4x100GbE node 35
 a|
 35
 a|
-100G ISL to switch A port 35
+4x100GbE node 35
 a|
 36
 a|
-100G ISL to switch B port 36
+4x100GbE node 36
 a|
 36
 a|
-100G ISL to switch A port 36
+4x100GbE node 36
 |===
 
 == Blank cabling worksheet
 
 You can use the blank cabling worksheet to document the platforms that are supported as nodes in a cluster. The _Supported Cluster Connections_ section of the https://hwu.netapp.com[Hardware Universe^] defines the cluster ports used by the platform.
 
-[options="header", cols="1, 1, 1, 1"]
+[options="header", cols="5%, 45%, 5%, 45%"]
 |===
 2+|Cluster switch A
 2+|Cluster switch B
@@ -441,29 +521,103 @@ a|
 a|
 
 a|
-25 through 34
+25
 a|
-Reserved
+
 a|
-25 through 34
+25
 a|
-Reserved
+
+a|
+26
+a|
+
+a|
+26
+a|
+
+a|
+27
+a|
+
+a|
+27
+a|
+
+a|
+28
+a|
+
+a|
+28
+a|
+
+a|
+29
+a|
+
+a|
+29
+a|
+
+a|
+30
+a|
+
+a|
+30
+a|
+
+a|
+31
+a|
+
+
+a|
+31
+a|
+
+a|
+32
+a|
+
+
+a|
+32
+a|
+
+a|
+33
+a|
+
+a|
+33
+a|
+
+a|
+34
+a|
+
+a|
+34
+a|
+
 a|
 35
 a|
-100G ISL to switch B port 35
+
 a|
 35
 a|
-100G ISL to switch A port 35
+
 a|
 36
 a|
-100G ISL to switch B port 36
+
 a|
 36
 a|
-100G ISL to switch A port 36
 |===
 
 // Updates for GH issues # 150 & 149, 2024-JAN-10
+// Updates for AFFFASDOC-68, 2024-OCT-31

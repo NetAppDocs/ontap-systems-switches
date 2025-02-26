@@ -15,8 +15,7 @@ You can also use this procedure to upgrade your RCF version. See the Knowledge B
 
 == Review requirements
 
-.What you'll need
-
+.Before you begin
 * A current backup of the switch configuration.
 * A fully functioning cluster (no errors in the logs or similar issues).
 * The current Reference Configuration File (RCF).
@@ -402,6 +401,8 @@ When you check the output to verify you have the correct RCF, make sure that the
 +
 The output varies according to your site configuration. Check the port settings and refer to the release notes for any changes specific to the RCF that you have installed.
 
+. Reapply any previous customizations to the switch configuration. Refer to link:cabling-considerations-3232c.html[Review cabling and configuration considerations] for details of any further changes required.
+
 . After you verify the RCF versions and switch settings are correct, copy the running-config file to the startup-config file.
 +
 For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-installation-guides-list.html[Cisco Nexus 3000 Series NX-OS Command Reference^] guides.
@@ -603,7 +604,7 @@ cluster1::*>
 ----
 ====
 
-. Repeat Steps 7 to 15 on switch cs1.
+. Repeat Steps 7 to 17 on switch cs1.
 . Enable auto-revert on the cluster LIFs.
 +
 [subs=+quotes]
@@ -719,13 +720,65 @@ cluster1::*>
 ----
 ====
 
-. Ping the remote cluster interfaces to verify connectivity:
+
+. Verify the connectivity of the remote cluster interfaces: 
 +
-`cluster ping-cluster -node local`
-+
-.Show example 
-[%collapsible]
+// start of tabbed content
+
+[role="tabbed-block"]
+
 ====
+
+.ONTAP 9.9.1 and later
+
+--
+You can use the `network interface check cluster-connectivity` command to start an accessibility check for cluster connectivity and then display the details: 
+
+`network interface check cluster-connectivity start` and `network interface check cluster-connectivity show`
+
+[subs=+quotes]
+----
+cluster1::*> *network interface check cluster-connectivity start*
+----
+
+*NOTE:* Wait for a number of seconds before running the `show` command to display the details.
+
+
+[subs=+quotes]
+----
+cluster1::*> *network interface check cluster-connectivity show*
+                                  Source              Destination         Packet
+Node   Date                       LIF                 LIF                 Loss
+------ -------------------------- ------------------- ------------------- -----------
+cluster1-01
+       3/5/2022 19:21:18 -06:00   cluster1-01_clus2   cluster1-02_clus1   none
+       3/5/2022 19:21:20 -06:00   cluster1-01_clus2   cluster1-02_clus2   none
+.
+.
+cluster1-02
+       3/5/2022 19:21:18 -06:00   cluster1-02_clus2   cluster1-01_clus1   none
+       3/5/2022 19:21:20 -06:00   cluster1-02_clus2   cluster1-01_clus2   none
+.
+.
+cluster1-03
+.
+.
+.
+.
+cluster1-04
+.
+.
+.
+.
+----
+--
+
+.All ONTAP releases
+--
+For all ONTAP releases, you can also use the `cluster ping-cluster -node <name>` command to check the connectivity:
+
+`cluster ping-cluster -node <name>`
+
 
 [subs=+quotes]
 ----
@@ -766,7 +819,14 @@ RPC status:
 6 paths up, 0 paths down (tcp check)
 6 paths up, 0 paths down (udp check)
 ----
+--
 ====
+
+// end of tabbed content
+
+.What's next?
+link:configure-ssh-keys.html[Verify SSH configuration].
+
 
 // BURT 1453255, 2022-06-10
 // Added in paragraph under About this task, as per GH #81, 2023-FEB-23
@@ -776,3 +836,8 @@ RPC status:
 // Updates for AFFFASDOC-98, 20203-SEPT-19
 // Updates for GH issue #141, added KB details, 2023-NOV-28
 // Updates for GH issue #176, 2024-APR-18
+// Updates for AFFFASDOC-216/217, 2024-JUL-08
+// Updates for AFFFASDOC-258, 2024-AUG-22
+// Updates for GH issue #204, 2024-SEP-19
+// Updates for GH issue #215, 2024-OCT-24
+// Updates for GH issue #212, 2024-OCT-16

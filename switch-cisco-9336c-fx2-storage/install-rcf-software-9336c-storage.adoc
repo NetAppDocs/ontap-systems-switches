@@ -1,0 +1,442 @@
+---
+permalink: switch-cisco-9336c-fx2-storage/install-rcf-software-9336c-storage.html
+sidebar: sidebar
+keywords: install rcf, cisco switches, storage
+summary: 'You can install the RCF after setting up the Nexus 9336C-FX2 storage switch for the first time. You can also use this procedure to upgrade your RCF version.'
+---
+= Install the Reference Configuration File
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+You install the Reference Configuration File (RCF) after setting up the Nexus 9336C-FX2 storage switch for the first time.
+
+.Before you begin
+
+Verify the following installations and connections:
+
+* A console connection to the switch. The console connection is optional if you have remote access to the switch.
+* Switch cs1 and switch cs2 are powered up and the initial switch setup is complete (the Management IP address and SSH is set up).
+* The desired NX-OS version has been installed.  
+* ONTAP node cluster ports are not connected.
+
+== Step 1: Install the RCF on the switches
+
+. Login to switch cs1 using SSH or by using a serial console.
+
+. Copy the RCF to the bootflash of switch cs1 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. 
++
+For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^].
++
+.Show example 
+[%collapsible]
+====
+This example shows TFTP being used to copy an RCF to the bootflash on switch cs1:
+
+[subs=+quotes]
+----
+cs1# *copy tftp: bootflash: vrf management*
+Enter source filename: *Nexus_9336C_RCF_v1.6-Storage.txt*
+Enter hostname for the tftp server: *172.22.201.50*
+Trying to connect to tftp server......Connection to Server Established.
+TFTP get operation was successful
+Copy complete, now saving to disk (please wait)...
+----
+====
+
+. Apply the RCF previously downloaded to the bootflash.
++
+For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^].
++
+.Show example 
+[%collapsible]
+====
+This example shows the RCF `Nexus_9336C_RCF_v1.6-Storage.txt` being installed on switch cs1:
+
+----
+cs1# copy NNexus_9336C_RCF_v1.6-Storage.txt running-config echo-commands
+----
+====
++
+. Examine the banner output from the `show banner motd` command. You must read and follow these instructions to ensure the correct configuration and operation of the switch.
++
+.Show example 
+[%collapsible]
+====
+----
+cs1# show banner motd
+
+******************************************************************************
+* NetApp Reference Configuration File (RCF)  
+*                                                
+* Switch    : Nexus N9K-C9336C-FX2
+* Filename  : Nexus_9336C_RCF_v1.6-Storage.txt
+* Date      : 10-23-2020
+* Version   : v1.6
+*                                                      
+* Port Usage : Storage configuration
+* Ports  1-36: 100GbE Controller and Shelf Storage Ports
+******************************************************************************
+----
+====
+
+. Verify that the RCF is the correct newer version: 
++
+`show running-config`
++
+When you check the output to verify you have the correct RCF, make sure that the following information is correct:
+
+ ** The RCF banner
+ ** The node and port settings
+ ** Customizations
++
+The output varies according to your site configuration. Check the port settings and refer to the release notes for any changes specific to the RCF that you have installed.
+
+. Reapply any previous customizations to the switch configuration. Refer to link:cabling-considerations-9336c-fx2.html[Review cabling and configuration considerations] for details of any further changes required. 
+
+. After you verify the RCF versions and switch settings are correct, copy the running-config file to the startup-config file:
++
+`copy running-config startup-config`
++
+
+.Show example 
+[%collapsible]
+====
+----
+cs1# copy running-config startup-config [########################################] 100% Copy complete
+----
+====
++
+
+For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^].
+
+. Reboot switch cs1. 
++
+`cs1# *reload*`
++
+`This command will reboot the system. (y/n)?  [n] *y*`  
+
+. Repeat steps 1 through 7 on switch cs2.
+
+. Connect the cluster ports of all nodes in the ONTAP cluster to switches cs1 and cs2.
+
+== Step 2: Verify the switch connections
+
+. Verify that the switch ports connected to the cluster ports are *up*.
++
+`show interface brief`
++
+.Show example 
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cs1# *show interface brief | grep up*
+mgmt0  --           up     _<mgmt ip address>_                       1000    1500
+Eth1/11         1       eth  trunk  up      none                     100G(D) --
+Eth1/12         1       eth  trunk  up      none                     100G(D) --
+Eth1/13         1       eth  trunk  up      none                     100G(D) --
+Eth1/14         1       eth  trunk  up      none                     100G(D) --
+Eth1/15         1       eth  trunk  up      none                     100G(D) --
+Eth1/16         1       eth  trunk  up      none                     100G(D) --
+Eth1/17         1       eth  trunk  up      none                     100G(D) --
+Eth1/18         1       eth  trunk  up      none                     100G(D) --
+Eth1/23         1       eth  trunk  up      none                     100G(D) --
+Eth1/24         1       eth  trunk  up      none                     100G(D) --
+Eth1/25         1       eth  trunk  up      none                     100G(D) --
+Eth1/26         1       eth  trunk  up      none                     100G(D) --
+Eth1/27         1       eth  trunk  up      none                     100G(D) --
+Eth1/28         1       eth  trunk  up      none                     100G(D) --
+Eth1/29         1       eth  trunk  up      none                     100G(D) --
+Eth1/30         1       eth  trunk  up      none                     100G(D) --
+----
+====
+
+. Verify that the cluster nodes are in their correct cluster VLANs using the following commands:
++
+`show vlan brief`
++
+`show interface trunk`
++
+.Show example 
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cs1# *show vlan brief*
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Po999
+30   VLAN0030                         active    Eth1/1, Eth1/2, Eth1/3, Eth1/4
+                                                Eth1/5, Eth1/6, Eth1/7, Eth1/8
+                                                Eth1/9, Eth1/10, Eth1/11
+                                                Eth1/12, Eth1/13, Eth1/14
+                                                Eth1/15, Eth1/16, Eth1/17
+                                                Eth1/18, Eth1/19, Eth1/20
+                                                Eth1/21, Eth1/22, Eth1/23
+                                                Eth1/24, Eth1/25, Eth1/26
+                                                Eth1/27, Eth1/28, Eth1/29
+                                                Eth1/30, Eth1/31, Eth1/32
+                                                Eth1/33, Eth1/34, Eth1/35
+                                                Eth1/36
+
+cs1# *show interface trunk*
+
+-----------------------------------------------------
+Port          Native  Status        Port
+              Vlan                  Channel
+-----------------------------------------------------
+Eth1/1        1       trunking      --
+Eth1/2        1       trunking      --
+Eth1/3        1       trunking      --
+Eth1/4        1       trunking      --
+Eth1/5        1       trunking      --
+Eth1/6        1       trunking      --
+Eth1/7        1       trunking      --
+Eth1/8        1       trunking      --
+Eth1/9        1       trunking      --
+Eth1/10       1       trunking      --
+Eth1/11       1       trunking      --
+Eth1/12       1       trunking      --
+Eth1/13       1       trunking      --
+Eth1/14       1       trunking      --
+Eth1/15       1       trunking      --
+Eth1/16       1       trunking      --
+Eth1/17       1       trunking      --
+Eth1/18       1       trunking      --
+Eth1/19       1       trunking      --
+Eth1/20       1       trunking      --
+Eth1/21       1       trunking      --
+Eth1/22       1       trunking      --
+Eth1/23       1       trunking      --
+Eth1/24       1       trunking      --
+Eth1/25       1       trunking      --
+Eth1/26       1       trunking      --
+Eth1/27       1       trunking      --
+Eth1/28       1       trunking      --
+Eth1/29       1       trunking      --
+Eth1/30       1       trunking      --
+Eth1/31       1       trunking      --
+Eth1/32       1       trunking      --
+Eth1/33       1       trunking      --
+Eth1/34       1       trunking      --
+Eth1/35       1       trunking      --
+Eth1/36       1       trunking      --
+ 
+--------------------------------------------------------------------------------
+Port          Vlans Allowed on Trunk
+--------------------------------------------------------------------------------
+Eth1/1        30
+Eth1/2        30
+Eth1/3        30
+Eth1/4        30
+Eth1/5        30
+Eth1/6        30
+Eth1/7        30
+Eth1/8        30
+Eth1/9        30
+Eth1/10       30
+Eth1/11       30
+Eth1/12       30
+Eth1/13       30
+Eth1/14       30
+Eth1/15       30
+Eth1/16       30
+Eth1/17       30
+Eth1/18       30
+Eth1/19       30
+Eth1/20       30
+Eth1/21       30
+Eth1/22       30
+Eth1/23       30
+Eth1/24       30
+Eth1/25       30
+Eth1/26       30
+Eth1/27       30
+Eth1/28       30
+Eth1/29       30
+Eth1/30       30
+Eth1/31       30
+Eth1/32       30
+Eth1/33       30
+Eth1/34       30
+Eth1/35       30
+Eth1/36       30
+ 
+--------------------------------------------------------------------------------
+Port          Vlans Err-disabled on Trunk
+--------------------------------------------------------------------------------
+Eth1/1        none
+Eth1/2        none
+Eth1/3        none
+Eth1/4        none
+Eth1/5        none
+Eth1/6        none
+Eth1/7        none
+Eth1/8        none
+Eth1/9        none
+Eth1/10       none
+Eth1/11       none
+Eth1/12       none
+Eth1/13       none
+Eth1/14       none
+Eth1/15       none
+Eth1/16       none
+Eth1/17       none
+Eth1/18       none
+Eth1/19       none
+Eth1/20       none
+Eth1/21       none
+Eth1/22       none
+Eth1/23       none
+Eth1/24       none
+Eth1/25       none
+Eth1/26       none
+Eth1/27       none
+Eth1/28       none
+Eth1/29       none
+Eth1/30       none
+Eth1/31       none
+Eth1/32       none
+Eth1/33       none
+Eth1/34       none
+Eth1/35       none
+Eth1/36       none
+ 
+--------------------------------------------------------------------------------
+Port          STP Forwarding
+--------------------------------------------------------------------------------
+Eth1/1        none
+Eth1/2        none
+Eth1/3        none
+Eth1/4        none
+Eth1/5        none
+Eth1/6        none
+Eth1/7        none
+Eth1/8        none
+Eth1/9        none
+Eth1/10       none
+Eth1/11       30
+Eth1/12       30
+Eth1/13       30
+Eth1/14       30
+Eth1/15       30
+Eth1/16       30
+Eth1/17       30
+Eth1/18       30
+Eth1/19       none
+Eth1/20       none
+Eth1/21       none
+Eth1/22       none
+Eth1/23       30
+Eth1/24       30
+Eth1/25       30
+Eth1/26       30
+Eth1/27       30
+Eth1/28       30
+Eth1/29       30
+Eth1/30       30
+Eth1/31       none
+Eth1/32       none
+Eth1/33       none
+Eth1/34       none
+Eth1/35       none
+Eth1/36       none
+ 
+--------------------------------------------------------------------------------
+Port          Vlans in spanning tree forwarding state and not pruned
+--------------------------------------------------------------------------------
+Eth1/1        Feature VTP is not enabled                        
+none
+Eth1/2        Feature VTP is not enabled
+none
+Eth1/3        Feature VTP is not enabled
+none
+Eth1/4        Feature VTP is not enabled
+none
+Eth1/5        Feature VTP is not enabled
+none
+Eth1/6        Feature VTP is not enabled
+none
+Eth1/7        Feature VTP is not enabled
+none
+Eth1/8        Feature VTP is not enabled
+none
+Eth1/9        Feature VTP is not enabled
+none
+Eth1/10       Feature VTP is not enabled
+none
+Eth1/11       Feature VTP is not enabled
+30
+Eth1/12       Feature VTP is not enabled
+30
+Eth1/13       Feature VTP is not enabled
+30
+Eth1/14       Feature VTP is not enabled
+30
+Eth1/15       Feature VTP is not enabled
+30
+Eth1/16       Feature VTP is not enabled
+30
+Eth1/17       Feature VTP is not enabled
+30
+Eth1/18       Feature VTP is not enabled
+30
+Eth1/19       Feature VTP is not enabled
+none
+Eth1/20       Feature VTP is not enabled
+none
+Eth1/21       Feature VTP is not enabled
+none
+Eth1/22       Feature VTP is not enabled
+none
+Eth1/23       Feature VTP is not enabled
+30
+Eth1/24       Feature VTP is not enabled
+30
+Eth1/25       Feature VTP is not enabled
+30
+Eth1/26       Feature VTP is not enabled
+30
+Eth1/27       Feature VTP is not enabled
+30
+Eth1/28       Feature VTP is not enabled
+30
+Eth1/29       Feature VTP is not enabled
+30
+Eth1/30       Feature VTP is not enabled
+30
+Eth1/31       Feature VTP is not enabled
+none
+Eth1/32       Feature VTP is not enabled
+none
+Eth1/33       Feature VTP is not enabled
+none
+Eth1/34       Feature VTP is not enabled
+none
+Eth1/35       Feature VTP is not enabled
+none
+Eth1/36       Feature VTP is not enabled
+none
+----
+====
++
+NOTE: For specific port and VLAN usage details, refer to the banner and important notes section in your RCF.
+
+== Step 3: Set up your ONTAP cluster
+
+NetApp recommends that you use System Manager to set up new clusters. 
+
+System Manager provides a simple and easy workflow for cluster setup and configuration including assigning a node management IP address, initializing the cluster, creating a local tier, configuring protocols and provisioning initial storage.
+
+Go to https://docs.netapp.com/us-en/ontap/task_configure_ontap.html[Configure ONTAP on a new cluster with System Manager] for setup instructions.
+
+.What's next?
+
+link:../switch-cshm/config-overview.html[Configure switch health monitoring].
+
+
+// Updates for GH issue #187, 2025-JAN-08

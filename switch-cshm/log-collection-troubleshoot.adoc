@@ -1,0 +1,32 @@
+---
+permalink: switch-cshm/log-collection-troubleshoot.html
+sidebar: sidebar
+keywords: cshm, cluster, storage, switch logs, debugging, collection
+summary: You can use the commands provided here to ......
+---
+= Troubleshoot log collection
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+If you encounter any of the following error statuses reported by the log collection feature (visible in the output of the `system switch ethernet log show` command), try the corresponding debug steps:
+
+|===
+
+h| *Log collection error status* h| *Resolution* 
+a| *RSA keys not present*
+a| Regenerate ONTAP SSH keys.
+a| *Switch password error*
+a| Verify credentials, test SSH connectivity, and regenerate ONTAP SSH keys. Review the switch documentation or contact NetApp support for instructions.
+a| *ECDSA keys not present for FIPS*
+a| If FIPS mode is enabled, ECDSA keys need to be generated on the switch before retrying.
+a| *Pre-existing log found*
+a| Remove the previous log collection file on the switch.
+a| *Switch dump log error*
+a| Ensure the switch user has log collection permissions. Refer to the prerequisites above.
+
+|===
+
+NOTE: If the resolution details do not work, contact NetApp support. 
+
+// New content for AFFFASDOC-216, 2024-MAY-08

@@ -13,7 +13,7 @@ Follow this procedure to install the RCF after setting up the Nexus 3132Q-V swit
 
 == Review requirements
 
-.What you'll need
+.Before you begin
 
 * A current backup of the switch configuration.
 * A fully functioning cluster (no errors in the logs or similar issues).
@@ -401,6 +401,8 @@ The output varies according to your site configuration. Check the port settings 
 +
 NOTE: For steps on how to bring your 10GbE ports online after an upgrade of the RCF, see the Knowledge Base article https://kb.netapp.com/onprem%2FSwitches%2FCisco%2F10GbE_ports_on_Cisco_3132Q_cluster_switch_do_not_come_online[10GbE ports on a Cisco 3132Q cluster switch do not come online^]. 
 
+. Reapply any previous customizations to the switch configuration. Refer to link:cabling-considerations-3132q-v.html[Review cabling and configuration considerations] for details of any further changes required.
+
 . After you verify the RCF versions and switch settings are correct, copy the running-config file to the startup-config file.
 +
 For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-installation-guides-list.html[Cisco Nexus 3000 Series NX-OS Command Reference^] guides.
@@ -413,7 +415,7 @@ cs2# copy running-config startup-config [#######################################
 ----
 ====
 
-. Reboot switch cs2. You can ignore the "cluster ports down" events reported on the nodes while the switch reboots.
+. Reboot switch cs2. You can ignore both the "cluster ports down" events reported on the nodes while the switch reboots and the error `% Invalid command at '^' marker` output. 
 +
 .Show example 
 [%collapsible]
@@ -425,7 +427,7 @@ This command will reboot the system. (y/n)?  [n] *y*
 ----
 ====
 
-. Apply the same RCF and save the running configuration for a second time.
+. Apply the same RCF and save the running configuration for a second time. This is necessary as the RCF utilizes QoS and requires TCAM re-configuration that involves loading the RCF twice with the switch rebooted in between.
 +
 .Show example 
 [%collapsible]
@@ -607,7 +609,7 @@ cluster1::*>
 ----
 ====
 
-. Repeat Steps 1 to 10 on switch cs1.
+. Repeat Steps 1 to 11 on switch cs1.
 . Enable auto-revert on the cluster LIFs.
 +
 .Show example 
@@ -724,180 +726,87 @@ cluster1::*>
 ----
 ====
 
-. Ping the remote cluster interfaces to verify connectivity:
+. Verify the connectivity of the remote cluster interfaces: 
 +
-`cluster ping-cluster -node local`
-+
-.Show example 
-[%collapsible]
+// start of tabbed content
+
+[role="tabbed-block"]
+
 ====
+
+.ONTAP 9.9.1 and later
+
+--
+You can use the `network interface check cluster-connectivity` command to start an accessibility check for cluster connectivity and then display the details: 
+
+`network interface check cluster-connectivity start` and `network interface check cluster-connectivity show`
+
+[subs=+quotes]
+----
+cluster1::*> *network interface check cluster-connectivity start*
+----
+
+*NOTE:* Wait for a number of seconds before running the show command to display the details.
+
+
+[subs=+quotes]
+----
+cluster1::*> *network interface check cluster-connectivity show*
+                                  Source              Destination         Packet
+Node   Date                       LIF                 LIF                 Loss
+------ -------------------------- ------------------- ------------------- -----------
+cluster1-01
+       3/5/2022 19:21:18 -06:00   cluster1-01_clus2   cluster1-02_clus1   none
+       3/5/2022 19:21:20 -06:00   cluster1-01_clus2   cluster1-02_clus2   none
+
+cluster1-02
+       3/5/2022 19:21:18 -06:00   cluster1-02_clus2   cluster1-01_clus1   none
+       3/5/2022 19:21:20 -06:00   cluster1-02_clus2   cluster1-01_clus2   none
+----
+--
+
+.All ONTAP releases
+--
+For all ONTAP releases, you can also use the `cluster ping-cluster -node <name>` command to check the connectivity:
+
+`cluster ping-cluster -node <name>`
+
 
 [subs=+quotes]
 ----
 cluster1::*> *cluster ping-cluster -node local*
-Host is cluster1-03
+Host is cluster1-02
 Getting addresses from network interface table...
-Cluster cluster1-03_clus1 169.254.1.3 cluster1-03 e0a
-Cluster cluster1-03_clus2 169.254.1.1 cluster1-03 e0b
-Cluster cluster1-04_clus1 169.254.1.6 cluster1-04 e0a
-Cluster cluster1-04_clus2 169.254.1.7 cluster1-04 e0b
-Cluster cluster1-01_clus1 169.254.3.4 cluster1-01 e0a
-Cluster cluster1-01_clus2 169.254.3.5 cluster1-01 e0d
-Cluster cluster1-02_clus1 169.254.3.8 cluster1-02 e0a
-Cluster cluster1-02_clus2 169.254.3.9 cluster1-02 e0d
-Local = 169.254.1.3 169.254.1.1
-Remote = 169.254.1.6 169.254.1.7 169.254.3.4 169.254.3.5 169.254.3.8 169.254.3.9
+Cluster cluster1-01_clus1 169.254.209.69 cluster1-01     e0a
+Cluster cluster1-01_clus2 169.254.49.125 cluster1-01     e0b
+Cluster cluster1-02_clus1 169.254.47.194 cluster1-02     e0a
+Cluster cluster1-02_clus2 169.254.19.183 cluster1-02     e0b
+Local = 169.254.47.194 169.254.19.183
+Remote = 169.254.209.69 169.254.49.125
 Cluster Vserver Id = 4294967293
 Ping status:
-............
-Basic connectivity succeeds on 12 path(s)
+....
+Basic connectivity succeeds on 4 path(s)
 Basic connectivity fails on 0 path(s)
-................................................
-Detected 9000 byte MTU on 12 path(s):
-    Local 169.254.1.3 to Remote 169.254.1.6
-    Local 169.254.1.3 to Remote 169.254.1.7
-    Local 169.254.1.3 to Remote 169.254.3.4
-    Local 169.254.1.3 to Remote 169.254.3.5
-    Local 169.254.1.3 to Remote 169.254.3.8
-    Local 169.254.1.3 to Remote 169.254.3.9
-    Local 169.254.1.1 to Remote 169.254.1.6
-    Local 169.254.1.1 to Remote 169.254.1.7
-    Local 169.254.1.1 to Remote 169.254.3.4
-    Local 169.254.1.1 to Remote 169.254.3.5
-    Local 169.254.1.1 to Remote 169.254.3.8
-    Local 169.254.1.1 to Remote 169.254.3.9
-Larger than PMTU communication succeeds on 12 path(s)
+................
+Detected 9000 byte MTU on 4 path(s):
+    Local 169.254.19.183 to Remote 169.254.209.69
+    Local 169.254.19.183 to Remote 169.254.49.125
+    Local 169.254.47.194 to Remote 169.254.209.69
+    Local 169.254.47.194 to Remote 169.254.49.125
+Larger than PMTU communication succeeds on 4 path(s)
 RPC status:
-6 paths up, 0 paths down (tcp check)
-6 paths up, 0 paths down (udp check)
+2 paths up, 0 paths down (tcp check)
+2 paths up, 0 paths down (udp check)
 ----
+
+--
 ====
 
-+
-. For ONTAP 9.8 and later, enable the Ethernet switch health monitor log collection feature for collecting switch-related log files by using the commands:
-+
-`system switch ethernet log setup-password` and
-+
-`system switch ethernet log enable-collection`
-+
-.. Enter: `system switch ethernet log setup-password`
-+
-.Show example
-[%collapsible]
-====
+// end of tabbed content
 
-[subs=+quotes]
-----
-cluster1::*> *system switch ethernet log setup-password*
-Enter the switch name: *<return>*
-The switch name entered is not recognized.
-Choose from the following list:
-*cs1*
-*cs2*
-
-cluster1::*> *system switch ethernet log setup-password*
-
-Enter the switch name: *cs1*
-RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
-Do you want to continue? {y|n}::[n] *y*
-
-Enter the password: *<enter switch password>*
-Enter the password again: *<enter switch password>*
-
-cluster1::*> *system switch ethernet log setup-password*
-
-Enter the switch name: *cs2*
-RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
-Do you want to continue? {y|n}:: [n] *y*
-
-Enter the password: *<enter switch password>*
-Enter the password again: *<enter switch password>*
-----
-====
-
-.. Enter: `system switch ethernet log enable-collection`
-+
-.Show example 
-[%collapsible]
-====
-
-[subs=+quotes]
-----
-cluster1::*> *system  switch ethernet log enable-collection*
-
-Do you want to enable cluster log collection for all nodes in the cluster?
-{y|n}: [n] *y*
-
-Enabling cluster switch log collection.
-
-cluster1::*>
-----
-====
-
-+
-NOTE: If any of these commands return an error, contact NetApp support.
-
-. For ONTAP releases 9.5P16, 9.6P12, and 9.7P10 and later patch releases, enable the Ethernet switch health monitor log collection feature for collecting switch-related log files by using the commands:
-+
-`system cluster-switch log setup-password` and
-+
-`system cluster-switch log enable-collection`
-+
-.. Enter: `system cluster-switch log setup-password`
-+
-.Show example 
-[%collapsible]
-====
-[subs=+quotes]
-----
-cluster1::*> *system cluster-switch log setup-password*
-Enter the switch name: *<return>*
-The switch name entered is not recognized.
-Choose from the following list:
-*cs1*
-*cs2*
-
-cluster1::*> *system cluster-switch log setup-password*
-
-Enter the switch name: *cs1*
-RSA key fingerprint is e5:8b:c6:dc:e2:18:18:09:36:63:d9:63:dd:03:d9:cc
-Do you want to continue? {y|n}::[n] *y*
-
-Enter the password: *<enter switch password>*
-Enter the password again: *<enter switch password>*
-
-cluster1::*> *system cluster-switch log setup-password*
-
-Enter the switch name: *cs2*
-RSA key fingerprint is 57:49:86:a1:b9:80:6a:61:9a:86:8e:3c:e3:b7:1f:b1
-Do you want to continue? {y|n}:: [n] *y*
-
-Enter the password: *<enter switch password>*
-Enter the password again: *<enter switch password>*
-----
-====
-
-.. Enter: `system cluster-switch log enable-collection`
-+
-.Show example 
-[%collapsible]
-====
-
-[subs=+quotes]
-----
-cluster1::*> *system cluster-switch log enable-collection*
-
-Do you want to enable cluster log collection for all nodes in the cluster?
-{y|n}: [n] *y*
-
-Enabling cluster switch log collection.
-
-cluster1::*>
-----
-====
-
-+
-NOTE: If any of these commands return an error, contact NetApp support.
+.What's next?
+link:configure-ssh-keys.html[Verify SSH configuration].
 
 // QA clean-up, 2022-03-03
 // 2022-06-02, 1453255
@@ -908,5 +817,10 @@ NOTE: If any of these commands return an error, contact NetApp support.
 // Updates for GH issue #122, 2023-SEPT-11
 // Updates for AFFFASDOC-118, 2023-SEPT-13
 // Updates for GH issue #176, 2024-APR-18
+// Updates for AFFFASDOC-216/217, 2024-JUL-08
 // Updates for GH issue #182, 2024-MAY-14
 // Updates for GH issue #189, 2024-JUN-18
+// Updates for GH issue #196, 2024-JUL-17
+// Updates for AFFFASDOC-258, 2024-AUG-22
+// Updates for GH issue #212, 2024-OCT-14
+// Update for GH issue #234, 2025-JAN-15
