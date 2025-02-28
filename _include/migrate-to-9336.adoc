@@ -9,7 +9,8 @@ Ensure that:
 * The cluster is fully functioning (there should be no errors in the logs or similar issues).
 * Initial customization of the Cisco Nexus 9336C-FX2 switches is complete, so that:
 ** 9336C-FX2 switches are running the latest recommended version of software.
-** Reference Configuration Files (RCFs) have been applied to the switches.
+** Confirm that Reference Configuration Files (RCFs) have been fully applied to any new switches before migrating the LIFs to the new switches.
+** Check the running and startup configurations on both switches prior to shifting network traffic.
 ** Any site customization, such as DNS, NTP, SMTP, SNMP, and SSH, are configured on the new switches.
 * You have access to the switch compatibility table on the https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches^] page for the supported ONTAP, NX-OS, and RCF versions.
 * You have reviewed the appropriate software and upgrade guides available on the Cisco web site for the Cisco switch upgrade and downgrade procedures at https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html[Cisco Nexus 9000 Series Switches Support^] page.
@@ -672,3 +673,4 @@ link:../switch-cshm/config-overview.html[Configure switch health monitoring].
 // Updates for GH issue #210, 2024-OCT-08 
 // Updates for GH issue #212, 2024-OCT-14
 // Updates for AFFFASDOC-283, 2025-JAN-28
+// Updates for GH issue #241, 2025-FEB-25
