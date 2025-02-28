@@ -39,12 +39,12 @@ If your model is still showing *OTHER* after applying the configuration file, co
 .. List the configuration files in the `/etc/cshm_nod/nod_sign` directory. If the directory exists and contains configuration files, it lists the file names.
 +
 `ls /etc/cshm_nod/nod_sign`
-.. Delete all NOD files corresponding to your connected switch models. 
+.. Delete all configuration files corresponding to your connected switch models. 
 +
-If you are unsure, remove all NOD files for the supported models listed above, then download and install the latest NOD files for those same models.
+If you are unsure, remove all configuration files for the supported models listed above, then download and install the latest configuration files for those same models.
 +
 `rm /etc/cshm_nod/nod_sign/<filename>`
-.. Confirm that the deleted NOD files are no longer in the directory:
+.. Confirm that the deleted configuration files are no longer in the directory:
 +
 `ls /etc/cshm_nod/nod_sign`
 
@@ -146,3 +146,4 @@ link:../switch-cshm/config-overview.html[Configure switch health monitoring].
 // Updates for AFFFASDOC-237, 2024-JUL-02
 // Updates for AFFFASDOC-255, 2024-AUG-07
 // Updates for AFFFASDOC-281, 2025-FEB-19
+// Remove NOD from text, 2025-FEB-21
