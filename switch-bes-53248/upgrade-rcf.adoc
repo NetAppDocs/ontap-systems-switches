@@ -429,14 +429,93 @@ Configuration Saved!
 Are you sure you would like to reset the system? (y/n) *y*
 ----
 
+.. Log in to the switch again using SSH to complete the RCF installation.
+
 . Note the following: 
 .. If additional port licenses have been installed on the switch, you must modify the RCF to configure the additional licensed ports. See link:configure-licenses.html#activate-newly-licensed-ports[Activate newly licensed ports] for details. 
 .. Record any customizations that were made in the previous RCF and apply these to the new RCF. For example, setting port speeds or hard-coding FEC mode.
 
+// start of tabbed content 
+
+[role="tabbed-block"] 
+
+==== 
+
+.EFOS version 3.12.x and later
+--
+[start=8]
 . Copy the RCF to the bootflash of switch cs2 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP.
 +
 This example shows SFTP being used to copy an RCF to the bootflash on switch cs2:
 +
+.Show example
+[%collapsible]
+//====
+
+[subs=+quotes]
+----
+(cs2)# *copy sftp://172.19.2.1/BES-53248-RCF-v1.9-Cluster-HA.txt
+nvram:reference-config*
+Remote Password:**
+Mode........................................... TFTP
+Set Server IP.................................. 172.19.2.1
+Path........................................... //tmp/
+Filename....................................... BES-53248_RCF_v1.9-Cluster-HA.txt
+Data Type...................................... Config Script
+Destination Filename........................... BES-53248_RCF_v1.9-Cluster-HA.scr
+Management access will be blocked for the duration of the transfer
+Are you sure you want to start? (y/n) *y*
+TFTP Code transfer starting...
+File transfer operation completed successfully.
+----
+//====
+[start=9]
+. Verify that the script was downloaded and saved under the file name you gave it:
++
+`script list`
++
+
+[subs=+quotes]
+----
+(cs2)# *script list*
+
+Configuration Script Name                  Size(Bytes)  Date of Modification
+-----------------------------------------  -----------  --------------------
+Reference-config.scr                       2680         2024 05 31 21:54:22
+2 configuration script(s) found.
+2042 Kbytes free.
+----
+
+. Apply the script to the switch:
++
+`script apply`
++
+
+[subs=+quotes]
+----
+(cs2)# *script apply reference-config.scr*
+
+Are you sure you want to apply the configuration script? (y/n) *y*
+
+The system has unsaved changes.
+Would you like to save them now? (y/n) *y*
+Config file 'startup-config' created successfully.
+Configuration Saved!
+
+Configuration script 'BES-53248_RCF_v1.9-Cluster-HA.scr' applied.
+----
+--
+
+.All other EFOS versions
+--
+[start=8]
+. Copy the RCF to the bootflash of switch cs2 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP.
++
+This example shows SFTP being used to copy an RCF to the bootflash on switch cs2:
++
+.Show example
+[%collapsible]
+//====
 
 [subs=+quotes]
 ----
@@ -454,14 +533,12 @@ Are you sure you want to start? (y/n) *y*
 SFTP Code transfer starting...
 File transfer operation completed successfully.
 ----
-
+//====
+[start=9]
 . Verify that the script was downloaded and saved to the file name you gave it:
 +
 `script list`
 +
-.Show example
-[%collapsible]
-====
 
 [subs=+quotes]
 ----
@@ -473,15 +550,11 @@ BES-53248_RCF_v1.9-Cluster-HA.scr          2241         2020 09 30 05:41:00
 
 1 configuration script(s) found.
 ----
-====
 
 . Apply the script to the switch:
 +
 `script apply`
 +
-.Show example
-[%collapsible]
-====
 
 [subs=+quotes]
 ----
@@ -496,9 +569,13 @@ Configuration Saved!
 
 Configuration script 'BES-53248_RCF_v1.9-Cluster-HA.scr' applied.
 ----
-====
+--
+==== 
 
-. Examine the banner output from the `show clibanner` command. You must read and follow these instructions to ensure the proper configuration and operation of the switch. 
+// end of tabbed content
+
+[start=11]
+. [[step11]]Examine the banner output from the `show clibanner` command. You must read and follow these instructions to ensure the proper configuration and operation of the switch. 
 +
 `show clibanner`
 +
@@ -1075,8 +1152,7 @@ RPC status:
 // end of tabbed content
 
 [start=6]
-
-. [[step6]]Change the privilege level back to admin: 
+. Change the privilege level back to admin: 
 +
 [source,cli]
 ----
@@ -1097,3 +1173,4 @@ system node autosupport invoke -node * -type all -message MAINT=END
 // New content for GH issues #72, 109, 12, AFFFASDOC-212, 2024-APR-02
 // Updates for GH issue #212, 2024-OCT-14
 // Update for AFFFASDOC-280, 2024-NOV-21
+// Updates for GH issue #243, 2025-MAR-05
