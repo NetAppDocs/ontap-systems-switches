@@ -40,7 +40,7 @@ See the https://hwu.netapp.com/Switch/Index[Hardware Universe^] for more informa
 == FEC requirements
 
 * For 25G ports with copper cables, see the following table for details.
-
++
 If the Controller side is `auto`, the switch side is set to FEC 25G.
 +
 image::../media/FEC_copper_table.jpg[25G ports with copper cables]
@@ -67,3 +67,4 @@ systemshell -node <node> -command sudo sysctl dev.ice.<X>.requested_fec=<auto/fc
 ** After a reboot, `FC-FEC` setting remains in place for the driver code to use.
 
 // New content for AFFFASDOC-193, 2024-MAR-06
+// Updates for GH issue #248, 2025-MAR-14
