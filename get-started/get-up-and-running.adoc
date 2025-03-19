@@ -13,48 +13,7 @@ To get up and running with cluster, storage, and shared switches, you install ha
 
 Deploying the switch involves the following workflow.
 
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png[One] Install AFF/FAS controllers
-
-[role="quick-margin-para"] 
-Install your AFF/FAS controllers in the rack or cabinet. Access the install and setup instructions for your AFF/FAS platform model.
-
-[%rotate, grid="none", frame="none", cols="4,9,9,9",]
-|===
-a|
-a|
-.AFF systems
-
-* https://docs.netapp.com/us-en/ontap-systems/c190/install-setup.html[AFF C190^]
-
-* https://docs.netapp.com/us-en/ontap-systems/fas2700/install-setup.html[AFF A220^]
-
-* https://docs.netapp.com/us-en/ontap-systems/a250/install-setup.html[AFF A250^]
-
-* https://docs.netapp.com/us-en/ontap-systems/a400/install-setup.html[AFF A400^]
-
-* https://docs.netapp.com/us-en/ontap-systems/fas9000/install-setup.html[AFF A700^]
-
-* https://docs.netapp.com/us-en/ontap-systems/a800/install-setup.html[AFF A800^]
-
-* https://docs.netapp.com/us-en/ontap-systems/a900/install_detailed_guide.html[AFF A900^]
-
-a|
-.FAS systems
-
-* https://docs.netapp.com/us-en/ontap-systems/fas500f/install-setup.html[FAS500f^]
-
-* https://docs.netapp.com/us-en/ontap-systems/fas8300/install-setup.html[FAS8300^]
-
-* https://docs.netapp.com/us-en/ontap-systems/fas8300/install-setup.html[FAS8700^]
-
-* https://docs.netapp.com/us-en/ontap-systems/fas9000/install-setup.html[FAS9000^]
-
-* https://docs.netapp.com/us-en/ontap-systems/fas9500/install_setup.html[FAS9500^]
-
-a|
-|===
-
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png[Two] Install the switch hardware
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png[One] Install the switch hardware
 
 [role="quick-margin-para"]
 Install your switches in the rack or cabinet. Access the following instructions for your switch model.
@@ -82,6 +41,22 @@ a|
 
 * link:../switch-cisco-9336c-fx2-shared/install-9336c-shared.html[Install Cisco Nexus 9336C-FX2 switch]
 |===
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png[Two] Install the storage system and storage shelves
+
+[role="quick-margin-para"] 
+Install your storage system and storage shelves in the cabinet or rack. Access the install and setup instructions for your platform model.
+
+[%rotate, grid="none", frame="none", cols="4,9,9,9",]
+
+* https://docs.netapp.com/us-en/ontap-systems/aff-landing/index.html[AFF systems^]
+
+* https://docs.netapp.com/us-en/ontap-systems/allsan-landing/index.html[ASA systems^]
+
+* https://docs.netapp.com/us-en/asa-r2/index.html[ASA r2 systems^]
+
+* https://docs.netapp.com/us-en/ontap-systems/fas/index.html[FAS systems^]
+
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png[Three]Cable the switches to the controllers
 
@@ -174,6 +149,16 @@ a|
 [role="quick-margin-para"]
 After you have configured your switches and installed the required software, access the install and setup instructions for your AFF/FAS platform model to complete your system setup.
 
+* https://docs.netapp.com/us-en/ontap-systems/aff-landing/index.html[AFF systems^]
+
+* https://docs.netapp.com/us-en/ontap-systems/allsan-landing/index.html[ASA systems^]
+
+* https://docs.netapp.com/us-en/asa-r2/index.html[ASA r2 systems^]
+
+* https://docs.netapp.com/us-en/ontap-systems/fas/index.html[FAS systems^]
+
+
+
 [%rotate, grid="none", frame="none", cols="4,9,9,9"]
 |===
 a|
@@ -220,3 +205,4 @@ After you have installed and set up your AFF/FAS controllers and switches, you m
 
 * For ONTAP with MetroCluster deployments, see https://docs.netapp.com/us-en/ontap-metrocluster/[Configure Metrocluster with ONTAP^].
 
+// Updates for AFFFASDOC-311, 2025-MAR-19
