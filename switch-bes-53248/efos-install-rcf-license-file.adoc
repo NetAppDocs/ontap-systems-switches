@@ -381,9 +381,21 @@ deleteport 1/1 all
 no policy-map CLUSTER
 no policy-map WRED_25G
 no policy-map WRED_100G
+no policy-map InShared
+no policy-map InMetroCluster 
+no policy-map InCluster
+no policy-map InClusterRdma
 no class-map CLUSTER
 no class-map HA
 no class-map RDMA
+no class-map c5
+no class-map c4
+no class-map CLUSTER
+no class-map CLUSTER_RDMA
+no class-map StorageSrc
+no class-map StorageDst
+no class-map RdmaSrc
+no class-map RdmaDst
 no classofservice dot1p-mapping
 no random-detect queue-parms 0
 no random-detect queue-parms 1
@@ -1199,3 +1211,4 @@ link:configure-ssh.html[Enable SSH].
 
 // New content for AFFFASDOC-277, 2024-NOV-04
 // Typo fix, 2024-NOV-12
+// Updates for GH issue #249, 2025-MAR-18
