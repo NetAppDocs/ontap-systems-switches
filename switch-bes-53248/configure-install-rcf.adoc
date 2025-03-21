@@ -461,15 +461,14 @@ This example shows SFTP being used to copy an RCF to the bootflash on switch cs2
 
 [subs=+quotes]
 ----
-(cs2)# *copy sftp://172.19.2.1/BES-53248-RCF-v1.9-Cluster-HA.txt
-nvram:reference-config*
+(cs2)# *copy sftp://172.19.2.1/BES-53248-RCF-v1.9-Cluster-HA.txt nvram:reference-config.scr*
 Remote Password:**
 Mode........................................... TFTP
 Set Server IP.................................. 172.19.2.1
-Path........................................... //tmp/
+Path........................................... /
 Filename....................................... BES-53248_RCF_v1.9-Cluster-HA.txt
 Data Type...................................... Config Script
-Destination Filename........................... BES-53248_RCF_v1.9-Cluster-HA.scr
+Destination Filename........................... reference-config.scr
 Management access will be blocked for the duration of the transfer
 Are you sure you want to start? (y/n) *y*
 TFTP Code transfer starting...
@@ -488,7 +487,7 @@ File transfer operation completed successfully.
 
 Configuration Script Name                  Size(Bytes)  Date of Modification
 -----------------------------------------  -----------  --------------------
-Reference-config.scr                       2680         2024 05 31 21:54:22
+reference-config.scr                       2680         2024 05 31 21:54:22
 2 configuration script(s) found.
 2042 Kbytes free.
 ----
@@ -509,7 +508,7 @@ Would you like to save them now? (y/n) *y*
 Config file 'startup-config' created successfully.
 Configuration Saved!
 
-Configuration script 'BES-53248_RCF_v1.9-Cluster-HA.scr' applied.
+Configuration script 'reference-config.scr' applied.
 ----
 --
 
@@ -1230,3 +1229,4 @@ link:configure-ssh.html[Enable SSH].
 // Updated link for AFFFASDOC-216/217, 2024-JUL-15
 // Updates for GH issue #212, 2024-OCT-14
 // Updates for AFFFASDOC-277, 2024-NOV-04
+// Updates for GH issue #247, 2025-MAR-14
