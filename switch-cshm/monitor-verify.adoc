@@ -1,0 +1,49 @@
+---
+permalink: switch-cshm/monitor-verify.html
+sidebar: sidebar
+keywords: verify, monitor, cluster, management, network, switches, heath, monitor
+summary: Learn how to verify monitoring of an Ethernet switch is working.
+---
+= Verify the monitoring of Ethernet switches
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+The Ethernet switch health monitor (CSHM) automatically attempts to monitor the switches that it discovers; however, monitoring might not happen automatically if the switches are not configured correctly. You should verify that the health monitor is properly configured to monitor your switches.
+
+== Confirm monitoring of the connected Ethernet switches
+To confirm that the connected Ethernet switches are being monitored, run:
+[source,cli]
+----
+system switch ethernet show
+----
+
+If the `Model` column displays *OTHER* or the `IS Monitored` field displays *false*, then ONTAP cannot monitor the switch. A value of *OTHER* typically indicates that ONTAP does not support that switch for health monitoring. 
+
+The `IS Monitored` field is set to *false* for the reason specified in the `Reason` field.
+
+[NOTE]
+====
+If a switch is not listed in the command output, ONTAP likely has not discovered it. Confirm that the switch is cabled correctly. If necessary, you can add the switch manually. See link:manage-monitor.html[Manage the monitoring of Ethernet Switches] for further details. 
+====
+
+== Confirm firmware and RCF versions are up to date
+Make sure that the switch is running the latest supported firmware and that a compatible reference configuration file (RCF) has been applied. More information is available on the
+https://mysupport.netapp.com/site/downloads[NetApp Support Downloads page^].
+
+By default, the health monitor uses SNMPv2c with the community string *cshm1!* for monitoring, but SNMPv3 can also be configured. 
+
+NOTE: See link:config-snmpv3.html[Optional: Configure SNMPv3] for details on configuring SNMPv3 for use. 
+
+If you need to change the default SNMPv2c community string, make sure that the desired SNMPv2c community string has been configured on the switch.
+[source,cli]
+----
+system switch ethernet modify -device SwitchA -snmp-version SNMPv2c -community-or-username newCommunity!
+----
+
+== Confirm management network connection
+Verify that the switch's management port is connected to the management network.
+
+A correct management port connection is required for ONTAP to perform SNMP queries and log collection.
+
+// New content for GH issue #250, 2025-MAR-19
