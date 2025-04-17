@@ -11,44 +11,6 @@ summary: Learn how to manually create, change default monitoring settings, and d
 [.lead]
 In most cases, Ethernet switches are automatically discovered by ONTAP and monitored by CSHM. The Reference Configuration File (RCF) applied to the switch, among other things, enables the Cisco Discovery Protocol (CDP) and/or the Link Layer Discovery Protocol (LLDP). However, you might need to manually add a switch that is not discovered or remove a switch that is no longer in use. You can also stop active monitoring while retaining the switch in the configuration, such as during maintenance.
 
-== Create a switch entry so that ONTAP can monitor it
-Use the `system switch ethernet create` command to manually configure and enable monitoring for a specified Ethernet switch. This is helpful if ONTAP does not add the switch automatically, or if you previously removed the switch and want to re-add it.
-
-[source,cli]
-----
-system switch ethernet create -device DeviceName -address 1.2.3.4 -snmp-version SNMPv2c -community-or-username cshm1! -model NX3132V -type cluster-network
-----
-
-A typical example is adding a switch named [DeviceName], with IP address 1.2.3.4, and SNMPv2c credentials set to *cshm1!*. Use `-type storage-network` instead of `-type cluster-network` if you are configuring a storage switch.
-
-== Disable monitoring without deleting the switch
-If you want to pause or stop monitoring for a certain switch, but still retain it for future monitoring, modify its `is-monitoring-enabled-admim` parameter instead of deleting it. 
-
-For example:
-
-[source,cli]
-----
-system switch ethernet modify -device DeviceName -is-monitoring-enabled-admin false
-----
-
-This lets you preserve switch details and configuration without generating new alerts or re-discoveries.
-
-== Remove a switch you no longer need
-Use `system switch ethernet delete` to delete a switch that has been disconnected or is no longer required:
-
-[source,cli]
-----
-system switch ethernet delete -device DeviceName
-----
-
-By default, this command succeeds only if ONTAP does not currently detect the switch through CDP or LLDP. To remove a discovered switch, use the `-force` parameter:
-
-[source,cli]
-----
-system switch ethernet delete -device DeviceName -force
-----
-
-When `-force` is used, the switch might be re-added automatically if ONTAP detects it again.
-
+include::../_include/monitor-manage-switches.adoc[]
 
 // New content for GH issue #250, 2025-MAR-19
