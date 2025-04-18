@@ -1,0 +1,16 @@
+---
+permalink: switch-cshm/monitor-manage.html
+sidebar: sidebar
+keywords: create, remove, switch, cluster, monitor, health, management
+summary: Learn how to manually create, change default monitoring settings, and delete Ethernet switches from monitoring.
+---
+= Manage the monitoring of Ethernet Switches
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+In most cases, Ethernet switches are automatically discovered by ONTAP and monitored by CSHM. The Reference Configuration File (RCF) applied to the switch, among other things, enables the Cisco Discovery Protocol (CDP) and/or the Link Layer Discovery Protocol (LLDP). However, you might need to manually add a switch that is not discovered or remove a switch that is no longer in use. You can also stop active monitoring while retaining the switch in the configuration, such as during maintenance.
+
+include::../_include/monitor-manage-switches.adoc[]
+
+// New content for GH issue #250, 2025-MAR-19
