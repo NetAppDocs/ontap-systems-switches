@@ -1,0 +1,34 @@
+== Confirm monitoring of the connected Ethernet switches
+To confirm that the connected Ethernet switches are being monitored, run:
+[source,cli]
+----
+system switch ethernet show
+----
+
+If the `Model` column displays *OTHER* or the `IS Monitored` field displays *false*, then ONTAP cannot monitor the switch. A value of *OTHER* typically indicates that ONTAP does not support that switch for health monitoring. 
+
+The `IS Monitored` field is set to *false* for the reason specified in the `Reason` field.
+
+[NOTE]
+====
+If a switch is not listed in the command output, ONTAP likely has not discovered it. Confirm that the switch is cabled correctly. If necessary, you can add the switch manually. See link:manage-monitor.html[Manage the monitoring of Ethernet Switches] for further details. 
+====
+
+== Confirm firmware and RCF versions are up to date
+Make sure that the switch is running the latest supported firmware and that a compatible reference configuration file (RCF) has been applied. More information is available on the
+https://mysupport.netapp.com/site/downloads[NetApp Support Downloads page^].
+
+By default, the health monitor uses SNMPv2c with the community string *cshm1!* for monitoring, but SNMPv3 can also be configured. 
+
+If you need to change the default SNMPv2c community string, make sure that the desired SNMPv2c community string has been configured on the switch.
+[source,cli]
+----
+system switch ethernet modify -device SwitchA -snmp-version SNMPv2c -community-or-username newCommunity!
+----
+
+NOTE: See link:config-snmpv3.html[Optional: Configure SNMPv3] for details on configuring SNMPv3 for use. 
+
+== Confirm management network connection
+Verify that the switch's management port is connected to the management network.
+
+A correct management port connection is required for ONTAP to perform SNMP queries and log collection.
