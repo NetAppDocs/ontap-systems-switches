@@ -132,11 +132,11 @@ The following commands disable the node-facing ports on switches sw1 and sw2:
 ----
 cumulus@sw1:~$ *nv set interface swp1s0-3,swp2s0-3,swp3-14 link state down*
 cumulus@sw1:~$ *nv config apply*
-cumulus@sw1:~$ *nv save*
+cumulus@sw1:~$ *nv config save*
 
 cumulus@sw2:~$ *nv set interface swp1s0-3,swp2s0-3,swp3-14 link state down*
 cumulus@sw2:~$ *nv config apply*
-cumulus@sw2:~$ *nv save*
+cumulus@sw2:~$ *nv config save*
 ----
 
 . Verify that the ISL and the physical ports on the ISL between the two SN2100 switches sw1 and sw2 are up on ports swp15 and swp16: 
@@ -833,3 +833,4 @@ link:../switch-cshm/config-overview.html[Configure switch health monitoring].
 // Updates for AFFFASDOC-216, 217, 2024-JUL-29
 // Updates for AFFFASDOC-259, 2024-AUG-21
 // Updates for GH issue #212, 2024-OCT-23
+// Updates for AFFFASDOC-328, 2025-APR-23
