@@ -535,7 +535,7 @@ cumulus@cumulus:mgmt:~$ *nv show system*
 operational         applied              description
 ------------------- -------------------- ---------------------
 hostname            cumulus              cumulus
-build               Cumulus Linux 5.3.0  system build version
+build               Cumulus Linux 5.4    system build version
 uptime              6 days, 8:37:36      system uptime
 timezone            Etc/UTC              system time zone
 ----
@@ -643,11 +643,11 @@ cumulus@sw1:~$ *nv set service ntp default listen _<src_int>_*
 cumulus@sw1:~$ *nv config apply*
 ----
 
-. Install Cumulus Linux 5.4:
+. Install Cumulus Linux 5.11.1:
 +
 [subs=+quotes]
 ----
-cumulus@sw1:mgmt:~$ *sudo onie-install -a -i http://_<web-server>/<path>_/cumulus-linux-5.4-mlx-amd64.bin*
+cumulus@sw1:mgmt:~$ *sudo onie-install -a -i http://_<web-server>/<path>_/cumulus-linux-5.11.1-mlx-amd64.bin*
 ----
 The installer starts the download. Type *y* when prompted.
 
@@ -672,11 +672,11 @@ cumulus@sw1:mgmt:~$ *sudo reboot*
 cumulus@cumulus:mgmt:~$ *nv show system*
 operational         applied                description
 ------------------- ---------------------- ---------------------
-build               Cumulus Linux 5.11.0
+build               Cumulus Linux 5.11.1
 uptime              153 days, 2:44:16
 hostname            cumulus                cumulus
 product-name        Cumulus Linux
-product-release     5.11.0
+product-release     5.11.1
 platform            x86_64-mlnx_x86-r0
 system-memory       2.76 GB used / 2.28 GB free / 7.47 GB total
 swap-memory         0 Bytes used / 0 Bytes free / 0 Bytes total
@@ -690,7 +690,7 @@ maintenance
 version
   kernel            6.1.0-cl-1-amd64
   build-date        Thu Nov 14 13:06:38 UTC 2024
-  image             5.11.0.0026
+  image             5.11.1
   onie              2019.11-5.2.0020-115200
 ----
 
@@ -767,7 +767,7 @@ swp16      100G   swp   sw6                                       swp16
 //    Done.
 //----
 //+
-//See https://docs.nvidia.com/networking-ethernet-software/cumulus-linux-54/System-Configuration/Authentication-Authorization-and-Accounting/User-Accounts/[NVIDIA User Accounts^] for more information.
+See https://docs.nvidia.com/networking-ethernet-software/cumulus-linux-511/System-Configuration/Authentication-Authorization-and-Accounting/User-Accounts/[NVIDIA User Accounts^] for more information.
 --
 ==== 
 // end of tabbed content
