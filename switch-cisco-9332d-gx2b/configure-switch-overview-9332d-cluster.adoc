@@ -1,0 +1,60 @@
+---
+permalink: switch-cisco-9332d-gx2b/configure-switch-overview-9332d-cluster.html
+sidebar: sidebar
+keywords: switches, initial installation, configure switch-cisco-9332d-gx2b switch
+summary: 'Overview of installation and configuration for Cisco Nexus 9332D-GX2B cluster switches'
+---
+= Overview of installation and configuration for Cisco Nexus 9332D-GX2B cluster switches
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+The Cisco Nexus 9332D-GX2B cluster switch is part of the Cisco Nexus 9000 platform and can be installed in a NetApp system cabinet. Cluster switches allow you to build ONTAP clusters with more than two nodes. 
+
+== Initial configuration overview
+
+To initially configure a Cisco Nexus 9332D-GX2B switch on systems running ONTAP, follow these steps:
+
+. link:setup-worksheet-9332d-cluster.html[Complete the Cisco Nexus 9332D-GX2B cabling worksheet]. 
++
+The sample cabling worksheet provides examples of recommended port assignments from the switches to the controllers. The blank worksheet provides a template that you can use in setting up your cluster.
+
+. link:install-switch-9332d-cluster.html[Install the switch]. 
++
+Set up the switch hardware.
+
+. link:setup-switch-9332d-cluster.html[Configure the 9332D-GX2B cluster switch]. 
++
+Set up the Cisco Nexus 9332D-GX2B switch.
+
+. link:install-switch-and-passthrough-panel-9332d-cluster.html[Install a Cisco Nexus 9332D-GX2B switch in a NetApp cabinet]. 
++
+Depending on your configuration, you can install the Cisco Nexus 9332D-GX2B switch and pass-through panel in a NetApp cabinet with the standard brackets that are included with the switch.
+
+. link:install-nxos-overview-9332d-cluster.html[Prepare to install the NX-OS software and RCF]. 
++
+Follow preliminary procedures in preparation for installing the Cisco NX-OS software and reference configuration files (RCFs).
+
+. link:install-nxos-software-9332d-cluster.html[Install or upgrade the NX-OS software]. 
++
+Install or upgrade the NX-OS software on the Nexus 9332D-GX2B cluster switch.
+
+. link:install-upgrade-rcf-overview-cluster.html[Install or upgrade the RCF]. 
++
+Install or upgrade the RCF after setting up the Nexus 9332D-GX2B switch for the first time. You can also use this procedure to upgrade your RCF version.
+
+. link:configure-ssh-keys.html[Verify SSH configuration on the Nexus 9332D-GX2B cluster switches]. 
++
+If you use the Ethernet Switch Health Monitor (CSHM) and log collection features, verify SSH is enabled on the switches.
+
+
+== Additional information
+
+Before you begin installation or maintenance, be sure to review the following:
+
+* link:configure-reqs-9332d-cluster.html[Configuration requirements]
+* link:components-9332d-cluster.html[Components and part numbers]
+* link:required-documentation-9332d-cluster.html[Required documentation]
+* link:smart-call-9332d-cluster.html[Smart Call Home requirements]
+
+// New content for OAM project, AFFFASDOC-331, 2025-MAY-06
