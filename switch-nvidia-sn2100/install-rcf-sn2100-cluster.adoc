@@ -43,6 +43,31 @@ Example command output uses switch management IP address 10.233.204.71, netmask 
 .Cumulus Linux 4.4.3
 --
 
+. Connect the cluster switch to the management network.
+. Use the ping command to verify connectivity to the server hosting the Cumulus Linux and the RCF.
+. Display the cluster ports on each node that are connected to the cluster switches:
++
+`network device-discovery show`
+. Check the administrative and operational status of each cluster port.
+.. Verify that all the cluster ports are up with a healthy status:
++
+`network port show -role cluster`
+.. Verify that all the cluster interfaces (LIFs) are on the home port:
++
+`network interface show -role cluster`
+.. Verify that the cluster displays information for both cluster switches:
++
+`system cluster-switch show -is-monitoring-enabled-operational true`
+. Disable auto-revert on the cluster LIFs. The cluster LIFs fail over to the partner cluster switch and remain there as you perform the upgrade procedure on the targeted switch:
++
+`network interface modify -vserver Cluster -lif * -auto-revert false`
++
+[NOTE]
+=========================================
+* If you are upgrading your RCF, you must disable auto-revert for this step.
+* If you have just upgraded your Cumulus Linux version, you do not need to disable auto-revert for this step, since it is already disabled.
+=========================================
+
 . Display the available interfaces on the SN2100 switch:
 +
 [subs=+quotes]
@@ -267,11 +292,44 @@ sw2                         cluster-network    10.233.205.91    MSN2100-CB2RC
                     Technologies Ltd. MSN2100
     Version Source: LLDP
 ----
+
+. Verify that the cluster is healthy:
++
+`cluster show`
+. Repeat steps 1 to 14 on switch cs2.
+. Enable auto-revert on the cluster LIFs.
++
+`network interface modify -vserver Cluster -lif * -auto-revert True`
 --
 
 .Cumulus Linux 5.4.0
 
 --
+. Connect the cluster switch to the management network.
+. Use the ping command to verify connectivity to the server hosting the Cumulus Linux and the RCF.
+. Display the cluster ports on each node that are connected to the cluster switches:
++
+`network device-discovery show`
+. Check the administrative and operational status of each cluster port.
+.. Verify that all the cluster ports are up with a healthy status:
++
+`network port show -role cluster`
+.. Verify that all the cluster interfaces (LIFs) are on the home port:
++
+`network interface show -role cluster`
+.. Verify that the cluster displays information for both cluster switches:
++
+`system cluster-switch show -is-monitoring-enabled-operational true`
+. Disable auto-revert on the cluster LIFs. The cluster LIFs fail over to the partner cluster switch and remain there as you perform the upgrade procedure on the targeted switch:
++
+`network interface modify -vserver Cluster -lif * -auto-revert false`
++
+[NOTE]
+=========================================
+* If you are upgrading your RCF, you must disable auto-revert for this step.
+* If you have just upgraded your Cumulus Linux version, you do not need to disable auto-revert for this step, since it is already disabled.
+=========================================
+
 . Display the available interfaces on the SN2100 switch:
 +
 [subs=+quotes]
@@ -585,11 +643,45 @@ sw2                         cluster-network    10.233.205.91    MSN2100-CB2RC
                     Technologies Ltd. MSN2100
     Version Source: LLDP
 ----
+
+. Verify that the cluster is healthy:
++
+`cluster show`
+. Repeat steps 1 to 14 on switch cs2.
+. Enable auto-revert on the cluster LIFs.
++
+`network interface modify -vserver Cluster -lif * -auto-revert True`
 --
 
 .Cumulus Linux 5.11.0
 
 --
+. Connect the cluster switch to the management network.
+. Use the ping command to verify connectivity to the server hosting the Cumulus Linux and the RCF.
+. Display the cluster ports on each node that are connected to the cluster switches:
++
+`network device-discovery show`
+. Check the administrative and operational status of each cluster port.
+.. Verify that all the cluster ports are up with a healthy status:
++
+`network port show -role cluster`
+.. Verify that all the cluster interfaces (LIFs) are on the home port:
++
+`network interface show -role cluster`
+.. Verify that the cluster displays information for both cluster switches:
++
+`system cluster-switch show -is-monitoring-enabled-operational true`
+. Disable auto-revert on the cluster LIFs. The cluster LIFs fail over to the partner cluster switch and remain there as you perform the upgrade procedure on the targeted switch:
++
+`network interface modify -vserver Cluster -lif * -auto-revert false`
++
+[NOTE]
+=========================================
+* If you are upgrading your RCF, you must disable auto-revert for this step.
+* If you have just upgraded your Cumulus Linux version, you do not need to disable auto-revert for this step, since it is already disabled.
+=========================================
+
+
 . Display the available interfaces on the SN2100 switch:
 +
 [subs=+quotes]
@@ -903,6 +995,13 @@ sw2                         cluster-network    10.233.205.91    MSN2100-CB2RC
                     Technologies Ltd. MSN2100
     Version Source: LLDP
 ----
+. Verify that the cluster is healthy:
++
+`cluster show`
+. Repeat steps 1 to 14 on switch cs2.
+. Enable auto-revert on the cluster LIFs.
++
+`network interface modify -vserver Cluster -lif * -auto-revert True`
 --
 ==== 
 
@@ -928,3 +1027,4 @@ link:setup-install-cshm-file.html[Install the CSHM file].
 // Updates for AFFFASDOC-278, 2024-NOV-11
 // Updates for AFFFASDOC-281, 2025-FEB-13
 // Updates for AFFFASDOC-202, 2025-MAR-13
+// Updates for GH issue #260, 2025-MAY-13
