@@ -1,0 +1,95 @@
+---
+sidebar: sidebar
+permalink: switch-cisco-9364d-gx2a/required-documentation-9364d-cluster.html
+keywords: shared storage cluster switch
+summary: For Cisco Nexus 9364d-gx2a switch installation and maintenance, be sure to review specific switch and controller documentation to set up your Cisco 9364d-gx2a switches and ONTAP cluster.
+---
+= Documentation requirements for Cisco Nexus 9332D-GX2B switches 
+:hardbreaks:
+:nofooter:
+:icons: font
+:linkattrs:
+:imagesdir: ./media/
+
+[.lead]
+For Cisco Nexus 9332D-GX2B switch installation and maintenance, be sure to review specific switch and controller documentation to set up your Cisco 9336-FX2 switches and ONTAP cluster.
+
+== Switch documentation
+To set up the Cisco Nexus 9332D-GX2B switches, you need the following documentation from the https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html[Cisco Nexus 9000 Series Switches Support^] page:
+
+[options="header" cols="1,2"]
+|===
+| Document title| Description
+a|
+_Nexus 9000 Series Hardware Installation Guide_
+a|
+Provides detailed information about site requirements, switch hardware details, and installation options.
+a|
+_Cisco Nexus 9000 Series Switch Software Configuration Guides_ (choose the guide for the NX-OS release installed on your switches)
+a|
+Provides initial switch configuration information that you need before you can configure the switch for ONTAP operation.
+a|
+_Cisco Nexus 9000 Series NX-OS Software Upgrade and Downgrade Guide_ (choose the guide for the NX-OS release installed on your switches)
+a|
+Provides information on how to downgrade the switch to ONTAP supported switch software, if necessary.
+a|
+_Cisco Nexus 9000 Series NX-OS Command Reference Master Index_
+a|
+Provides links to the various command references provided by Cisco.
+a|
+_Cisco Nexus 9000 MIBs Reference_
+a|
+Describes the Management Information Base (MIB) files for the Nexus 9000 switches.
+a|
+_Nexus 9000 Series NX-OS System Message Reference_
+a|
+Describes the system messages for Cisco Nexus 9000 series switches, those that are informational, and others that might help diagnose problems with links, internal hardware, or the system software.
+a|
+_Cisco Nexus 9000 Series NX-OS Release Notes (choose the notes for the NX-OS release installed on your switches)_
+a|
+Describes the features, bugs, and limitations for the Cisco Nexus 9000 Series.
+a|
+Regulatory Compliance and Safety Information for Cisco Nexus 9000 Series
+a|
+Provides international agency compliance, safety, and statutory information for the Nexus 9000 series switches.
+|===
+
+== ONTAP systems documentation
+
+To set up an ONTAP system, you need the following documents for your version of the operating system from the https://docs.netapp.com/ontap-9/index.jsp[ONTAP 9 Documentation Center^].
+
+[options="header" cols="1,2"]
+|===
+| Name| Description
+a|
+Controller-specific _Installation and Setup Instructions_
+a|
+Describes how to install NetApp hardware.
+a|
+ONTAP documentation
+a|
+Provides detailed information about all aspects of the ONTAP releases.
+a|
+https://hwu.netapp.com[Hardware Universe^]
+a|
+Provides NetApp hardware configuration and compatibility information.
+|===
+
+== Rail kit and cabinet documentation
+
+To install a Cisco 9336-FX2 switch in a NetApp cabinet, see the following hardware documentation.
+
+[options="header" cols="1,2"]
+|===
+| Name| Description
+a|
+https://library.netapp.com/ecm/ecm_download_file/ECMM1280394[42U System Cabinet, Deep Guide^]
+a|
+Describes the FRUs associated with the 42U system cabinet, and provides maintenance and FRU replacement instructions.
+a|
+link:install-switch-and-passthrough-panel-9332d-cluster.html[Install a Cisco 9332D-GX2B switch in a NetApp Cabinet^]
+a|
+Describes how to install a Cisco Nexus 9332D-GX2B switch in a four-post NetApp cabinet.
+|===
+
+// New content for OAM project, AFFFASDOC-331, 2025-MAY-08

@@ -1,0 +1,45 @@
+---
+permalink: switch-cisco-9364d-gx2a/install-switch-9364d-cluster.html
+sidebar: sidebar
+keywords: require, configuration, information, documentation, cluster, management, network, switches, set up the switches - cisco nexus 9364d-gx2a
+summary: Follow this procedure to install the Cisco Nexus 9364d-gx2a switch.
+---
+= Install the 9332D-GX2B cluster switch
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+Follow this procedure to set up and configure the Cisco Nexus 9332D-GX2B switch.
+
+.What you'll need
+* Access to an HTTP, FTP, or TFTP server at the installation site to download the applicable NX-OS and Reference Configuration File (RCF) releases.
+* Applicable NX-OS version, downloaded from the https://software.cisco.com/download/home[Cisco Software Download^] page. 
+* Applicable licenses, network and configuration information, and cables.
+* Completed link:setup-worksheet-9332d-cluster.html[cabling worksheets].
+* Applicable NetApp cluster network and management network RCFs downloaded from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com^]. All Cisco cluster network and management network switches arrive with the standard Cisco factory-default configuration. These switches also have the current version of the NX-OS software but do not have the RCFs loaded.
+* link:required-documentation-9332d-cluster.html[Required switch and ONTAP documentation].
+
+
+.Steps
+. Rack the cluster network and management network switches and controllers.
++
+[options="header" cols="1,2"]
+|===
+| If you are installing the...| Then...
+a|
+Cisco Nexus 9332D-GX2B in a NetApp system cabinet
+a|
+See the _Installing a Cisco Nexus 9336C-FX2 cluster switch and pass-through panel in a NetApp cabinet_ guide for instructions to install the switch in a NetApp cabinet.
+a|
+Equipment in a Telco rack
+a|
+See the procedures provided in the switch hardware installation guides and the NetApp installation and setup instructions.
+|===
+
+. Cable the cluster network and management network switches to the controllers using the completed cabling worksheets.
+. Power on the cluster network and management network switches and controllers.
+
+.What's next?
+Go to link:setup-switch2d-cluster.html[Configure the Cisco Nexus 9332D-GX2B switch].
+
+// New content for OAM project, AFFFASDOC-331, 2025-MAY-06

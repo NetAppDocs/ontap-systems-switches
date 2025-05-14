@@ -1,0 +1,45 @@
+---
+sidebar: sidebar
+permalink: /switch-cisco-9364d-gx2a/configure-reqs-9364d-cluster.html
+keywords: shared storage cluster switch
+summary: From ONTAP 9.9.1, you can use Cisco Nexus 9364d-gx2a switches to combine storage and cluster functionality into a shared switch scenario.
+---
+= Configuration requirements for Cisco Nexus 9332D-GX2B cluster switches
+:hardbreaks:
+:nofooter:
+:icons: font
+:linkattrs:
+:imagesdir: ./media/
+
+[.lead]
+For Cisco Nexus 9332D-GX2B switch installation and maintenance, be sure to review configuration and network requirements.
+
+== ONTAP support
+
+From ONTAP 9.9.1, you can use Cisco Nexus 9332D-GX2B switches to combine storage and cluster functionality into a shared switch configuration.
+
+If you want to build ONTAP clusters with more than two nodes, you need two supported network switches.
+
+NOTE: Ethernet switch health monitor does not support ONTAP 9.13.1P8 and earlier and 9.14.1P3 and earlier or NX-OS version 10.3(4a)(M).
+
+== Configuration requirements
+
+Make sure that:
+
+* You have the appropriate number and type of cables and cable connectors for your switches. See the https://hwu.netapp.com[Hardware Universe^].
+
+* Depending on the type of switch you are initially configuring, you need to connect to the switch console port with the included console cable.
+
+== Network requirements
+
+You need the following network information for all switch configurations.
+
+* IP subnet for management network traffic
+* Host names and IP addresses for each of the storage system controllers and all applicable switches
+* Most storage system controllers are managed through the e0M interface by connecting to the Ethernet service port (wrench icon). On AFF A800 and AFF A700s systems, the e0M interface uses a dedicated Ethernet port.
+// andris /ontap-systems-switches/pull/30
+* Refer to the https://hwu.netapp.com[Hardware Universe^] for the latest information.
+
+For more information about the initial configuration of your switch, see the following guide: https://www.cisco.com/c/en/us/td/docs/dcn/hw/nx-os/nexus9000/9336c-fx2-e/cisco-nexus-9336c-fx2-e-nx-os-mode-switch-hardware-installation-guide.html[Cisco Nexus 9336C-FX2 Installation and Upgrade Guide^].
+
+// New content for OAM project, AFFFASDOC-331, 2025-MAY-06

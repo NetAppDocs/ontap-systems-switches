@@ -1,0 +1,129 @@
+---
+permalink: switch-cisco-9364d-gx2a/setup-switch-9364d-cluster.html
+sidebar: sidebar
+keywords: require, configuration, information, documentation, cluster, management, network, switches, set up the switches - cisco nexus 9364d-gx2a
+summary: Follow this procedure to set up and configure the Cisco Nexus 9364d-gx2a switch.
+---
+= Configure the 9332D-GX2B cluster switch
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+Follow this procedure to configure the Cisco Nexus 9332D-GX2B switch.
+
+.What you'll need
+* Access to an HTTP, FTP, or TFTP server at the installation site to download the applicable NX-OS and Reference Configuration File (RCF) releases.
+* Applicable NX-OS version, downloaded from the https://software.cisco.com/download/home[Cisco software download^] page. 
+* Applicable licenses, network and configuration information, and cables.
+* Completed link:setup-worksheet-9332d-cluster.html[cabling worksheets].
+* Applicable NetApp cluster network and management network RCFs downloaded from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com^]. All Cisco cluster network and management network switches arrive with the standard Cisco factory-default configuration. These switches also have the current version of the NX-OS software but do not have the RCFs loaded.
+* link:required-documentation-9332d-cluster.html[Required switch and ONTAP documentation].
+
+
+.Steps
+. Perform an initial configuration of the cluster network switches.
++
+Provide applicable responses to the following initial setup questions when you first boot the switch. Your site's security policy defines the responses and services to enable.
++
+[options="header" cols="1,2"]
+|===
+| Prompt| Response
+a|
+Abort Auto Provisioning and continue with normal setup? (yes/no)
+a|
+Respond with *yes*. The default is no.
+a|
+Do you want to enforce secure password standard? (yes/no)
+a|
+Respond with *yes*. The default is yes.
+a|
+Enter the password for admin.
+a|
+The default password is "`admin`"; you must create a new, strong password. A weak password can be rejected.
+a|
+Would you like to enter the basic configuration dialog? (yes/no)
+a|
+Respond with *yes* at the initial configuration of the switch.
+a|
+Create another login account? (yes/no)
+a|
+Your answer depends on your site's policies on alternate administrators. The default is *no*.
+a|
+Configure read-only SNMP community string? (yes/no)
+a|
+Respond with *no*. The default is no.
+a|
+Configure read-write SNMP community string? (yes/no)
+a|
+Respond with *no*. The default is no.
+a|
+Enter the switch name.
+a|
+Enter the switch name, which is limited to 63 alphanumeric characters.
+a|
+Continue with Out-of-band (mgmt0) management configuration? (yes/no)
+a|
+Respond with *yes* (the default) at that prompt. At the mgmt0 IPv4 address: prompt, enter your IP address: ip_address.
+a|
+Configure the default-gateway? (yes/no)
+a|
+Respond with *yes*. At the IPv4 address of the default-gateway: prompt, enter your default_gateway.
+a|
+Configure advanced IP options? (yes/no)
+a|
+Respond with *no*. The default is no.
+a|
+Enable the telnet service? (yes/no)
+a|
+Respond with *no*. The default is no.
+a|
+Enabled SSH service? (yes/no)
+a|
+Respond with *yes*. The default is yes.
+
+NOTE: SSH is recommended when using Ethernet Switch Health Monitor (CSHM) for its log collection features. SSHv2 is also recommended for enhanced security.
+a|
+Enter the type of SSH key you want to generate (dsa/rsa/rsa1).
+a|
+The default is *rsa*.
+a|
+Enter the number of key bits (1024-2048).
+a|
+Enter the number of key bits from 1024 to 2048.
+a|
+Configure the NTP server? (yes/no)
+a|
+Respond with *no*. The default is no.
+a|
+Configure default interface layer (L3/L2)
+a|
+Respond with *L2*. The default is L2.
+a|
+Configure default switch port interface state (shut/noshut)
+a|
+Respond with *noshut*. The default is noshut.
+a|
+Configure CoPP system profile (strict/moderate/lenient/dense)
+a|
+Respond with *strict*. The default is strict.
+a|
+Would you like to edit the configuration? (yes/no)
+a|
+You should see the new configuration at this point. Review and make any necessary changes to the configuration you just entered. Respond with *no* at the prompt if you are satisfied with the configuration. Respond with *yes* if you want to edit your configuration settings.
+a|
+Use this configuration and save it? (yes/no)
+a|
+Respond with *yes* to save the configuration. This automatically updates the kickstart and system images.
+
+NOTE: If you do not save the configuration at this stage, none of the changes will be in effect the next time you reboot the switch.
+|===
+
+. Verify the configuration choices you made in the display that appears at the end of the setup, and make sure that you save the configuration.
+. Check the version on the cluster network switches, and if necessary, download the 
+NetApp-supported version of the software to the switches from the https://software.cisco.com/download/home[Cisco software download^] page.
+
+.What's next?
+
+Optionally, you can link:install-switch-and-passthrough-panel-9332d-cluster.html[install a Cisco Nexus 9332D-GX2B switch in a NetApp cabinet]. Otherwise, go to link:install-nxos-overview-9332d-cluster.html[Prepare to install NX-OS and RCF].
+
+// New content for OAM project, AFFFASDOC-331, 2025-MAY-08
