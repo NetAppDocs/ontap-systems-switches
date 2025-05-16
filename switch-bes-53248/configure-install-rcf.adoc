@@ -461,7 +461,7 @@ This example shows SFTP being used to copy an RCF to the bootflash on switch cs2
 
 [subs=+quotes]
 ----
-(cs2)# *copy sftp://172.19.2.1/BES-53248-RCF-v1.9-Cluster-HA.txt nvram:reference-config.scr*
+(cs2)# *copy sftp://172.19.2.1/BES-53248-RCF-v1.9-Cluster-HA.txt nvram:reference-config*
 Remote Password:**
 Mode........................................... TFTP
 Set Server IP.................................. 172.19.2.1
@@ -1230,3 +1230,4 @@ link:configure-ssh.html[Enable SSH].
 // Updates for GH issue #212, 2024-OCT-14
 // Updates for AFFFASDOC-277, 2024-NOV-04
 // Updates for GH issue #247, 2025-MAR-14
+// Removed .scr for reference-config, 2025-MAY-14
