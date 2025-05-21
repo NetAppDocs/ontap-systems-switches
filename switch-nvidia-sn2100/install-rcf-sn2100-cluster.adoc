@@ -44,7 +44,7 @@ Example command output uses switch management IP address 10.233.204.71, netmask 
 --
 
 . Connect the cluster switch to the management network.
-. Use the ping command to verify connectivity to the server hosting the Cumulus Linux and the RCF.
+. Use the `ping` command to verify connectivity to the server hosting the Cumulus Linux and the RCF.
 . Display the cluster ports on each node that are connected to the cluster switches:
 +
 `network device-discovery show`
@@ -66,7 +66,7 @@ Example command output uses switch management IP address 10.233.204.71, netmask 
 .Note the following:
 =========================================
 * If you are upgrading your RCF, you must disable auto-revert for this step.
-* If you have just upgraded your Cumulus Linux version, you do not need to disable auto-revert for this step, since it is already disabled.
+* If you have just upgraded your Cumulus Linux version, you don't need to disable auto-revert for this step because it's already disabled.
 =========================================
 
 . Display the available interfaces on the SN2100 switch:
@@ -297,7 +297,7 @@ sw2                         cluster-network    10.233.205.91    MSN2100-CB2RC
 . Verify that the cluster is healthy:
 +
 `cluster show`
-. Repeat steps 1 to 14 on the 2nd switch.
+. Repeat steps 1 to 14 on the second switch.
 . Enable auto-revert on the cluster LIFs.
 +
 `network interface modify -vserver Cluster -lif * -auto-revert true`
@@ -307,7 +307,7 @@ sw2                         cluster-network    10.233.205.91    MSN2100-CB2RC
 
 --
 . Connect the cluster switch to the management network.
-. Use the ping command to verify connectivity to the server hosting the Cumulus Linux and the RCF.
+. Use the `ping` command to verify connectivity to the server hosting the Cumulus Linux and the RCF.
 . Display the cluster ports on each node that are connected to the cluster switches:
 +
 `network device-discovery show`
@@ -329,7 +329,7 @@ sw2                         cluster-network    10.233.205.91    MSN2100-CB2RC
 .Note the following:
 =========================================
 * If you are upgrading your RCF, you must disable auto-revert for this step.
-* If you have just upgraded your Cumulus Linux version, you do not need to disable auto-revert for this step, since it is already disabled.
+* If you have just upgraded your Cumulus Linux version, you don't need to disable auto-revert for this step because it's already disabled.
 =========================================
 
 . Display the available interfaces on the SN2100 switch:
@@ -649,7 +649,7 @@ sw2                         cluster-network    10.233.205.91    MSN2100-CB2RC
 . Verify that the cluster is healthy:
 +
 `cluster show`
-. Repeat steps 1 to 14 on the 2nd switch.
+. Repeat steps 1 to 14 on the second switch.
 . Enable auto-revert on the cluster LIFs.
 +
 `network interface modify -vserver Cluster -lif * -auto-revert true`
@@ -659,7 +659,7 @@ sw2                         cluster-network    10.233.205.91    MSN2100-CB2RC
 
 --
 . Connect the cluster switch to the management network.
-. Use the ping command to verify connectivity to the server hosting the Cumulus Linux and the RCF.
+. Use the `ping` command to verify connectivity to the server hosting the Cumulus Linux and the RCF.
 . Display the cluster ports on each node that are connected to the cluster switches:
 +
 `network device-discovery show`
@@ -681,7 +681,7 @@ sw2                         cluster-network    10.233.205.91    MSN2100-CB2RC
 .Note the following:
 =========================================
 * If you are upgrading your RCF, you must disable auto-revert for this step.
-* If you have just upgraded your Cumulus Linux version, you do not need to disable auto-revert for this step, since it is already disabled.
+* If you have just upgraded your Cumulus Linux version, you don't need to disable auto-revert for this step because it's already disabled.
 =========================================
 
 . Display the available interfaces on the SN2100 switch:
@@ -1000,7 +1000,7 @@ sw2                         cluster-network    10.233.205.91    MSN2100-CB2RC
 . Verify that the cluster is healthy:
 +
 `cluster show`
-. Repeat steps 1 to 14 on the 2nd switch.
+. Repeat steps 1 to 14 on the second switch.
 . Enable auto-revert on the cluster LIFs.
 +
 `network interface modify -vserver Cluster -lif * -auto-revert true`
