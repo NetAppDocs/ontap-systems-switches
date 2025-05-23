@@ -1,3 +1,18 @@
+.Suggested documentation
+
+* link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet switch page^] 
++
+Consult the switch compatibility table for the supported ONTAP and NX-OS versions.
+
+* link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/products-installation-guides-list.html[Software Upgrade and downgrade guides^] 
++
+Refer to the appropriate software and upgrade guides available on the Cisco website for complete documentation on the Cisco switch upgrade and downgrade procedures.
+
+* link:https://www.cisco.com/c/dam/en/us/td/docs/dcn/tools/nexus-9k3k-issu-matrix/index.html[Cisco Nexus 9000 and 3000 Upgrade and ISSU Matrix^]
++
+Provides information on Disruptive Upgrade/Downgrade for Cisco NX-OS software on Nexus 9000 Series Switches based on your current and target releases.
++
+On the page, select *Disruptive Upgrade* and select your current release and target release from the dropdown list.
 
 .About the examples
 The examples in this procedure use the following switch and node nomenclature:
@@ -214,7 +229,7 @@ cluster1::*> *network interface show -vserver Cluster -fields auto-revert*
 
           Logical
 Vserver   Interface           Auto-revert
---------- ––––––-------------- ------------
+--------- ------------------- ------------
 Cluster
           cluster1-01_clus1   true
           cluster1-01_clus2   true
@@ -227,4 +242,5 @@ Cluster
 
 // Updated for AFFFASDOC-216, 217, 2024-JUL-30
 // Updates for AFFFASDOC-207, 2024-MAY-21
-// Updates for GH issue #212. 20204-OCT-17
+// Updates for GH issue #212, 2024-OCT-17
+// Updates for AFFFASDOC-338, 2025-MAY-20
