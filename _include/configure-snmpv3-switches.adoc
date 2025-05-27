@@ -1,8 +1,15 @@
-SNMPv3 is more secure than SNMPv2 because it introduces robust security features such as authentication, encryption, and message integrity, which protect against unauthorized access and ensure data confidentiality and integrity during transmission.
+SNMPv3 is more secure than SNMPv2 because it introduces robust security features such as authentication, encryption, and message integrity, which protect against unauthorized access and ensure data confidentiality and integrity during transmission. 
 
-NOTE: SNMPv3 is only supported on ONTAP 9.12.1 and later.
+[NOTE]
+.Note the following
+=========================================
+* SNMPv3 is only supported on ONTAP 9.12.1 and later. 
+* ONTAP 9.13.1P12, 9.14.1P9, 9.15.1P5, 9.16.1 and later versions fix these two issues:
+** link:https://kb.netapp.com/on-prem/ontap/OHW/OHW-Issues/CONTAP-82891[For ONTAP health monitoring of Cisco switches, SNMPv2 traffic might still be seen after switching to SNMPv3 for monitoring^] 
+** link:https://kb.netapp.com/on-prem/ontap/OHW/OHW-Issues/CONTAP-119131[False-positive switch fan and power alerts when SNMP failures occur^]
+=========================================
 
-Follow this procedure to configure SNMPv3 for your specific switch, which supports CSHM.
+//Follow this procedure to configure SNMPv3 for your specific switch, which supports CSHM.
 
 .About this task
 The following commands are used to configure an SNMPv3 username on *Broadcom*, *Cisco*, and *NVIDIA* switches:
@@ -126,7 +133,8 @@ cluster1::*>
 cluster1::*> *system switch ethernet modify -device "sw1" -snmp-version SNMPv3 -community-or-username <username>*
 ----
 
-. Verify that the serial number to be queried with the newly created SNMPv3 user is the same as detailed in the previous step after the CSHM polling period has completed.
+. After waiting the CSHM polling period, verify that the serial number is populated for the Ethernet switch.
+//. Verify that the serial number to be queried with the newly created SNMPv3 user is the same as detailed in the previous step after the CSHM polling period has completed.
 +
 [source,cli]
 ----
