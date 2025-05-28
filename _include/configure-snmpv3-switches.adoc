@@ -1,7 +1,6 @@
-SNMPv3 is more secure than SNMPv2 because it introduces robust security features such as authentication, encryption, and message integrity, which protect against unauthorized access and ensure data confidentiality and integrity during transmission. 
+//SNMPv3 is more secure than SNMPv2 because it introduces robust security features such as authentication, encryption, and message integrity, which protect against unauthorized access and ensure data confidentiality and integrity during transmission. 
 
 [NOTE]
-.Note the following
 =========================================
 * SNMPv3 is only supported on ONTAP 9.12.1 and later. 
 * ONTAP 9.13.1P12, 9.14.1P9, 9.15.1P5, 9.16.1 and later versions fix these two issues:
@@ -324,9 +323,9 @@ cluster1::*>
 ----
 
 --
-.NVIDIA - CLI 5.4
+.NVIDIA - CL 5.4.0
 --
-Configure an SNMPv3 username SNMPv3_USER on NVIDIA SN2100 switches running CLI 5.4:
+Configure an SNMPv3 username SNMPv3_USER on NVIDIA SN2100 switches running CLI 5.4.0:
 
 * For *no authentication*:
 +
@@ -522,9 +521,9 @@ DEPRECATED-Community String or SNMPv3 Username: -
                                    RCF Version: MSN2100-RCF-v1.9X6-Cluster-LLDP Aug-18-2022
 ----
 --
-.NVIDIA - CLI 5.11
+.NVIDIA - CL 5.11.0
 --
-Configure an SNMPv3 username SNMPv3_USER on NVIDIA SN2100 switches running CLI 5.11:
+Configure an SNMPv3 username SNMPv3_USER on NVIDIA SN2100 switches running CLI 5.11.0:
 
 * For *no authentication*:
 +
@@ -679,3 +678,4 @@ DEPRECATED-Community String or SNMPv3 Username: -
 // GH issue #233 updated Nvidia commands, 2024-DEC-30
 // Updates for AFFFASDOC-281, 2025-FEB-13
 // Aoife's update ONTAPDOC-2755, 2025-FEB-20
+// Updates for AFFFASDOC-341, 2025-MAY-28
