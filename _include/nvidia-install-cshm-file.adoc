@@ -1,4 +1,21 @@
-Follow this procedure to install the applicable configuration file for Ethernet switch health monitoring of NVIDIA cluster switches. 
+To configure Ethernet switch health monitoring on NVIDIA Ethernet switches, follow this procedure.
+ 
+These instructions apply if NVIDIA X190006-PE and X190006-PI switches are not detected properly, which can be confirmed by running `system switch ethernet show` and checking if *OTHER* is shown for your model.
+
+To identify your NVIDIA switch model, find the part-number with the command `nv show platform hardware` for NVIDIA CL 5.8 and earlier or `nv show platform` for later versions.
+
+For health monitoring support, these steps are also required if you are using NVIDIA CL 5.11.x with the following ONTAP releases: 
+
+* 9.10.1P20
+* 9.11.1P18
+* 9.12.1P16
+* 9.13.1P8
+* 9.14.1RC1
+* 9.15.1RC1 and later
+
+NOTE: Using CL 5.11.x with ONTAP versions earlier than the specified releases might result in inconsistent or unexpected health monitoring and log collection behavior.
+
+//Follow this procedure to install the applicable configuration file for Ethernet switch health monitoring of NVIDIA cluster switches. 
 
 Supported models are:
 
@@ -9,13 +26,11 @@ Supported models are:
 
 NOTE: This installation procedure applies to ONTAP 9.10.1 and later.
 
-//In future patch releases the configuration file will be bundled with ONTAP. 
-
 .Before you begin
 
-* Verify that you need to download the configuration file by running `system switch ethernet show` and checking if *OTHER* is shown for your model. 
-+
-If your model is still showing *OTHER*  after applying the configuration file, contact NetApp support. 
+//* Verify that you need to download the configuration file by running `system switch ethernet show` and checking if *OTHER* is shown for your model. 
+//+
+//If your model is still showing *OTHER*  after applying the configuration file, contact NetApp support. 
 //* Make sure that the Ethernet switch health monitor process is running using `spm show -name cshmd`
 * Make sure that the ONTAP cluster is up and running.
 * Enable SSH to use all of the features available in CSHM.
@@ -87,7 +102,7 @@ If you are unsure, remove all configuration files for the supported models liste
 +
 [subs=+quotes]
 ----
-cluster1::> *system cluster-switch configure-health-monitor -node * -package-url http://192.168.2.20/usr/download/_[filename.zip]_*
+cluster1::> *system switch ethernet*
 ----
 
 . Verify that the command output ends with the following text for your ONTAP version:
@@ -127,5 +142,8 @@ If an error occurs, contact NetApp support.
 ----
 cluster1::> *system switch ethernet show*
 ----
-
++
+If your model is still showing *OTHER* after applying the configuration file, contact NetApp support.
 //NOTE: If at any time you revert to an earlier version of ONTAP, you will need to install the CSHM configuration file again to enable switch health monitoring of NVIDIA cluster switches.
+
+// Updates for AFFFASDOC-341, 2025-MAY-28
