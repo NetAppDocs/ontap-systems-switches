@@ -394,9 +394,8 @@ The LIFs on the cluster nodes should have already failed over to the other clust
 +
 [subs=+quotes]
 ----
-cumulus@nsw2:~$ *net add interface swp1s0-3, swp2s0-3, swp3-14 link down*
-cumulus@nsw2:~$ *net pending*
-cumulus@nsw2:~$ *net commit*
+cumulus@nsw2:~$ *nv set interface swp15-16 link state down*
+cumulus@nsw2:~$ *nv config apply*
 ----
 
 . Disable auto-revert on the cluster LIFs: 
@@ -412,15 +411,14 @@ Warning: Disabling the auto-revert feature of the cluster logical interface may 
 
 . Verify that all cluster LIFs have auto-revert disabled: 
 +
-`net interface show -vserver Cluster -fields auto-revert`
+`network interface show -vserver Cluster -fields auto-revert`
 
 . Shut down the ISL ports swp15 and swp16 on the SN2100 switch sw1.
 +
 [subs=+quotes]
 ----
-cumulus@sw1:~$ *net add interface swp15-16 link down*
-cumulus@sw1:~$ *net pending*
-cumulus@sw1:~$ *net commit*
+cumulus@sw1:~$ *nv set interface swp15-16 link state down*
+cumulus@sw1:~$ *nv config apply*
 ----
 
 . Remove all the cables from the SN2100 sw1 switch, and then connect them to the same ports on the SN2100 nsw2 switch.
@@ -431,16 +429,15 @@ The following commands enable ISL ports swp15 and swp16 on switch sw1:
 +
 [subs=+quotes]
 ----
-cumulus@sw1:~$ *net del interface swp15-16 link down*
-cumulus@sw1:~$ *net pending*
-cumulus@sw1:~$ *net commit*
+cumulus@sw1:~$ *nv set interface swp15-16 link state down*
+cumulus@sw1:~$ *nv config apply*
 ----
 +
 The following example shows that the ISL ports are up on switch sw1:
 +
 [subs=+quotes]
 ----
-cumulus@sw1:~$ *net show interface*
+cumulus@sw1:~$ *nv show interface*
 
 State  Name         Spd   MTU    Mode        LLDP           Summary
 -----  -----------  ----  -----  ----------  -------------- ----------------------
@@ -454,7 +451,7 @@ The following example shows that the ISL ports are up on switch nsw2:
 +
 [subs=+quotes]
 ----
-cumulus@nsw2:~$ *net show interface*
+cumulus@nsw2:~$ *nv show interface*
 
 State  Name         Spd   MTU    Mode        LLDP           Summary
 -----  -----------  ----  -----  ----------  -------------  -----------------------
@@ -510,11 +507,11 @@ node2      /lldp
 
 . Verify that all node cluster ports are up: 
 +
-`net show interface`
+`nv show interface`
 +
 [subs=+quotes]
 ----
-cumulus@nsw2:~$ *net show interface*
+cumulus@nsw2:~$ *nv show interface*
 
 State  Name         Spd   MTU    Mode        LLDP              Summary
 -----  -----------  ----  -----  ----------  ----------------- ----------------------
@@ -528,13 +525,13 @@ UP     swp16        100G  9216   BondMember  sw1 (swp16)       Master: cluster_i
 
 . Verify that both nodes each have one connection to each switch: 
 +
-`net show lldp`
+`nv show interface lldp`
 +
 The following example shows the appropriate results for both switches:
 +
 [subs=+quotes]
 ----
-cumulus@sw1:~$ *net show lldp*
+cumulus@sw1:~$ *nv show interface lldp*
 
 LocalPort  Speed  Mode        RemoteHost         RemotePort
 ---------  -----  ----------  -----------------  -----------
@@ -544,7 +541,7 @@ swp15      100G   BondMember  nsw2               swp15
 swp16      100G   BondMember  nsw2               swp16
 
 
-cumulus@nsw2:~$ *net show lldp*
+cumulus@nsw2:~$ *nv show interface lldp*
 
 LocalPort  Speed  Mode        RemoteHost         RemotePort
 ---------  -----  ----------  -----------------  -----------
@@ -562,9 +559,8 @@ swp16      100G   BondMember  sw1                swp16
 +
 [subs=+quotes]
 ----
-cumulus@nsw2:~$ *net del interface swp1-14 link down*
-cumulus@nsw2:~$ *net pending*
-cumulus@nsw2:~$ *net commit*
+cumulus@nsw2:~$ *nv set interface swp1-14 link state up*
+cumulus@nsw2:~$ *nv config apply*
 ----
 
 . Display information about the nodes in a cluster: 
@@ -613,11 +609,17 @@ e3b       Cluster      Cluster          up    9000  auto/10000  healthy  false
 
 === Step 3: Verify the configuration
 
+// start of tabbed content 
+
+[role="tabbed-block"] 
+
+====
+
+.Cumulus Linux 4.4.3
+
+--
 . Verify that the cluster network is healthy.
 +
-.Show example
-[%collapsible]
-====
 [subs=+quotes]
 ----
 cumulus@sw1:~$ *net show lldp*
@@ -629,9 +631,28 @@ swp4       100G   Trunk/L2    node2           e3a
 swp15      100G   BondMember  nsw2            swp15
 swp16      100G   BondMember  nsw2            swp16
 ----
+--
+
+.Cumulus Linux 5.x
+--
+. Verify that the cluster network is healthy.
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *nv show interface lldp*
+
+LocalPort  Speed  Mode        RemoteHost      RemotePort
+---------  -----  ----------  --------------  -----------
+swp3       100G   Trunk/L2    node1           e3a
+swp4       100G   Trunk/L2    node2           e3a
+swp15      100G   BondMember  nsw2            swp15
+swp16      100G   BondMember  nsw2            swp16
+----
+--
 ====
 
-. Change the privilege level back to admin: 
+[start=2]
+. [[step2]] Change the privilege level back to admin: 
 +
 `set -privilege admin`
 
