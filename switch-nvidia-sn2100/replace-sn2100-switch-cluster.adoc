@@ -186,7 +186,7 @@ Warning: Disabling the auto-revert feature of the cluster logical interface may 
 ----
 ====
 
-. Verify that all cluster LIFs have auto-revert enabled: 
+. Verify that all cluster LIFs have auto-revert disabled: 
 +
 `net interface show -vserver Cluster -fields auto-revert`
 
@@ -453,5 +453,6 @@ link:../switch-cshm/config-overview.html[Configure switch health monitoring].
 
 // Updated info for log collection as per AFFFASDOC-142, 2023-OCT-18
 // Updated for AFFFASDOC-216/217, 2024-JUL-29
-// Updates forinternal GH issue #228, 2024-JUN-26
+// Updates for internal GH issue #228, 2024-JUN-26
+// Updates for GH issue #265, 2025-MAY-28
 
