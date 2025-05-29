@@ -6,8 +6,6 @@
 ** link:https://kb.netapp.com/on-prem/ontap/OHW/OHW-Issues/CONTAP-119131[False-positive switch fan and power alerts when SNMP failures occur^]
 =========================================
 
-//Follow this procedure to configure SNMPv3 for your specific switch, which supports CSHM.
-
 .About this task
 The following commands are used to configure an SNMPv3 username on *Broadcom*, *Cisco*, and *NVIDIA* switches:
 
@@ -131,7 +129,6 @@ cluster1::*> *system switch ethernet modify -device "sw1" -snmp-version SNMPv3 -
 ----
 
 . After waiting the CSHM polling period, verify that the serial number is populated for the Ethernet switch.
-//. Verify that the serial number to be queried with the newly created SNMPv3 user is the same as detailed in the previous step after the CSHM polling period has completed.
 +
 [source,cli]
 ----
