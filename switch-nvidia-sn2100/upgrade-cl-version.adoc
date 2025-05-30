@@ -100,7 +100,7 @@ UP     swp6    100G  9216   Trunk/L2    SHFFG1826000102 (e0b)   Master: bridge(U
 .
 ----
 
-. Download the Cumulux Linux 5.4.0 image:tmp
+. Download the Cumulux Linux 5.4.0 image:
 +
 [subs=+quotes]
 ----
@@ -502,6 +502,24 @@ See https://docs.nvidia.com/networking-ethernet-software/cumulus-linux-54/System
 .Cumulus Linux 5.4.0 to Cumulus Linux 5.11.0
 
 --
+. Connect the cluster switch to the management network.
+. Use the ping command to verify connectivity to the server hosting the Cumulus Linux and the RCF.
+. Display the cluster ports on each node that are connected to the cluster switches:
++
+`network device-discovery show`
+. Check the administrative and operational status of each cluster port.
+.. Verify that all the cluster ports are up with a healthy status:
++
+`network port show -role cluster`
+.. Verify that all the cluster interfaces (LIFs) are on the home port:
++
+`network interface show -role cluster`
+.. Verify that the cluster displays information for both cluster switches:
++
+`system cluster-switch show -is-monitoring-enabled-operational true`
+. Disable auto-revert on the cluster LIFs. The cluster LIFs fail over to the partner cluster switch and remain there as you perform the upgrade procedure on the targeted switch:
++
+`network interface modify -vserver Cluster -lif * -auto-revert false`
 . Check the current Cumulus Linux version and connected ports:
 +
 [subs=+quotes]
@@ -658,4 +676,5 @@ link:install-rcf-sn2100-cluster.html[Install or upgrade the RCF script].
 // Updates for GH issue #253, 2025-APR-08
 // Updates for GH issue #260, 2025-MAY-13
 // Updates for GH issue #263, 2025-MAY-19
+// Updates for GH issue #269, 2025-MAY-28
 
