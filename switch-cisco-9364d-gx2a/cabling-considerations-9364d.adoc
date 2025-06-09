@@ -9,7 +9,7 @@ summary: 'Before configuring your Cisco 9364d-gx2a switch, review the following 
 :imagesdir: ../media/
 
 [.lead]
-Before configuring your Cisco 9332D-GX2B switch, review the following considerations. 
+Before configuring your Cisco 9364D-GX2A switch, review the following considerations. 
 
 == Support for NVIDIA CX6, CX6-DX, and CX7 Ethernet ports
 If connecting a switch port to an ONTAP controller using NVIDIA ConnectX-6 (CX6), ConnectX-6 Dx (CX6-DX), or ConnectX-7 (CX7) NIC ports, you must hard-code the switch port speed.
@@ -45,11 +45,6 @@ For switch ports e0a and e0b, the fec setting is set to `rs-cons16`.
 *Save the changes:*
 (cs1)# *copy running-config startup-config*
 ----
-
-//== Ports do not link up due to TCAM resources
-//On the 9332D-GX2B switch, the Ternary Content Addressable Memory (TCAM) resources configured in the configuration utilized by the switch are exhausted. 
-
-//See the Knowledge Base article https://kb.netapp.com/on-prem/Switches/Cisco-KBs/Ports_do_not_link_up_on_Cisco_Nexus_9336C-FX2_due_to_TCAM_resources[Ports do not link up on Cisco Nexus 9336C-FX2 due to TCAM resources^] for details on how to resolve this issue. 
 
 
 // New content for OAM project, AFFFASDOC-331, 2025-APR-28

@@ -4,16 +4,16 @@ sidebar: sidebar
 keywords: migrate cluster Cisco Nexus 9364d-gx2a cluster switches cn1610
 summary: 'You can migrate nondisruptively NetApp CN1610 cluster switches for an ONTAP cluster to Cisco Nexus 9364d-gx2a cluster network switches.'
 ---
-= Migrate from a NetApp CN1610 cluster switch to a Cisco 9332D-GX2B cluster switch
+= Migrate from a NetApp CN1610 cluster switch to a Cisco 9364D-GX2A switch
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-You can migrate NetApp CN1610 cluster switches for an ONTAP cluster to Cisco 9332D-GX2B cluster switches. This is a nondisruptive procedure.
+You can migrate NetApp CN1610 cluster switches for an ONTAP cluster to Cisco 9364D-GX2A switches. This is a nondisruptive procedure.
 
 == Review requirements
 
-You must be aware of certain configuration information, port connections and cabling requirements when you are replacing NetApp CN1610 cluster switches with Cisco 9332D-GX2B cluster switches. Also, verify the switch serial number to ensure that the correct switch is migrated.
+You must be aware of certain configuration information, port connections and cabling requirements when you are replacing NetApp CN1610 cluster switches with Cisco 9364D-GX2A switches. Also, verify the switch serial number to ensure that the correct switch is migrated.
 
 .Supported switches
 
@@ -35,7 +35,7 @@ Verify that your configuration meets the following requirements:
 ** Management connectivity and console access to both the NetApp CN1610 switches and the new switches.
 ** All cluster LIFs in the up state with the cluster LIFs are on their home ports.
 //** ISL ports enabled and cabled between the NetApp CN1610 switches and between the new switches.
-* Some of the ports are configured on Cisco 9332D-GX2B switches to run at 40GbE or 100GbE.
+* Some of the ports are configured on Cisco 9364D-GX2A switches to run at 40GbE or 100GbE.
 * You have planned, migrated, and documented 40GbE and 100GbE connectivity from nodes to Cisco 9332D-GX2B cluster switches.
 
 == Migrate the switches
