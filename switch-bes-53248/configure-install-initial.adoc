@@ -64,29 +64,52 @@ Password:
 (cs2)#
 ----
 
+. To set a static IP address, use the `serviceport protocol`, `network protocol`, and `serviceport ip` commands as shown in the example. 
+
 // start of tabbed content 
 [role="tabbed-block"] 
 
 ==== 
 .IPV4
 --
-. To set a static IP address, use the `serviceport protocol`, `network protocol`, and `serviceport ip` commands as shown in the example.
-+
+
 The serviceport is set to use DHCP by default. The IP address, subnet mask, and default gateway address are assigned automatically.
-+
+
 [subs=+quotes]
 ----
 (cs2)# *serviceport protocol none*
 (cs2)# *network protocol none*
 (cs2)# *serviceport ip ipaddr netmask gateway*
 ----
+--
 
-. Verify the results using the command:
+.IPV6
+--
+
+The serviceport is set to use DHCP by default. The IP address, subnet mask, and default gateway address are assigned automatically.
+
+[subs=+quotes]
+----
+(cs2)# *serviceport protocol none*
+(cs2)# *network protocol none*
+(cs2)# *serviceport ip ipaddr netmask gateway*
+----
+--
+====
+
+// end of tabbed content
+
+[start=7]
+. [[step7]]Verify the results using the command:
 +
 `show serviceport`
-+
-.Show example
-[%collapsible]
+
+// start of tabbed content 
+[role="tabbed-block"] 
+
+==== 
+.IPV4
+--
 
 [subs=+quotes]
 ----
@@ -108,38 +131,22 @@ Burned In MAC Address.......................... D8:C4:97:71:12:3C
 .IPV6
 --
 
-. To set a static IP address, use the `serviceport protocol`, `network protocol`, and `serviceport ip` commands as shown in the example.
-+
-The serviceport is set to use DHCP by default. The IP address, subnet mask, and default gateway address are assigned automatically.
-+
-[subs=+quotes]
-----
-(cs2)# *serviceport protocol none*
-(cs2)# *network protocol none*
-(cs2)# *serviceport ip ipaddr netmask gateway*
-----
-
-. Verify the results using the command:
-+
-`show serviceport`
-+
-.Show example
-[%collapsible]
-
 [subs=+quotes]
 ----
 (cs2)# *show serviceport*
 Interface Status............................... Up
-IP Address..................................... 172.19.2.2
-Subnet Mask.................................... 255.255.255.0
-Default Gateway................................ 172.19.2.254
+IP Address..................................... 10.233.204.86
+Subnet Mask.................................... 255.255.254.0
+Default Gateway................................ 10.233.204.1
 IPv6 Administrative Mode....................... Enabled
-IPv6 Prefix is ................................ fe80::dac4:97ff:fe71:123c/64
-IPv6 Default Router............................ fe80::20b:45ff:fea9:5dc0
-Configured IPv4 Protocol....................... DHCP
+IPv6 Prefix is ................................ fe80::dac4:97ff:fe71:c42/64
+IPv6 Prefix is ................................ fd20:8b1e:b255:8220::9de6/64
+IPv6 Default Router............................ fd20:8b1e:b255:8220::1
+IPv6 Default Router............................ fe80::5:73ff:fea0:663
+Configured IPv4 Protocol....................... None
 Configured IPv6 Protocol....................... None
 IPv6 AutoConfig Mode........................... Disabled
-Burned In MAC Address.......................... D8:C4:97:71:12:3C
+Burned In MAC Address.......................... D8:C4:97:71:0C:42
 ----
 --
 ====
