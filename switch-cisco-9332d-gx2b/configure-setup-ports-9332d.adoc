@@ -1,0 +1,60 @@
+---
+permalink: switch-cisco-9332d-gx2b/configure-setup-ports-9332d.html
+sidebar: sidebar
+keywords: switches, initial installation, ports, configure switch-cisco-9332d-gx2b switch
+summary: 'Overview of installation and configuration for Cisco Nexus 9332D-GX2B cluster switches'
+---
+= Port details for Cisco Nexus 9332D-GX2B switches
+
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+The Cisco Nexus 9332D-GX2B switch is part of the Cisco Nexus 9000 platform and can be installed in a NetApp system cabinet. 9332D-GX2B switches allow you to build ONTAP clusters with more than two nodes. 
+
+== Cisco Nexus 9332D-GX2B switch specifications
+
+[options="header" cols="1,2"]
+|===
+| Type | Description
+a|
+Ports
+a|
+400G QSFP-DD ports and 2-port 1/10G SFP+ ports
+a|
+Buffer
+a|
+120MB
+a|
+System memory
+a|
+32 GB
+a|
+SSD
+a|
+128GB
+a| 
+USB
+a|
+1 port
+a|
+RS-232 serial console ports
+a| 
+1
+a|
+Management ports
+a|
+(1 x 10/100/1000BASE-T and 1 x 1-Gbps SFP)
+a|
+CPU
+a|
+4 cores
+a|
+|===
+
+== Port usage
+
+* Ports  1-30: 100GbE Intra-Cluster/HA/Storage Ports, int e1/{1-30}/1-4
+* Ports 31-32: Intra-Cluster ISL Ports, int e1/31-32
+
+See the https://hwu.netapp.com[Hardware Universe^] for details of ports used by the platform. 
