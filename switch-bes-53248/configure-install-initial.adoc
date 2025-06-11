@@ -70,7 +70,7 @@ Password:
 [role="tabbed-block"] 
 
 ==== 
-.IPV4
+.IPv4
 --
 
 The serviceport is set to use DHCP by default. The IP address, subnet mask, and default gateway address are assigned automatically.
@@ -79,11 +79,11 @@ The serviceport is set to use DHCP by default. The IP address, subnet mask, and 
 ----
 (cs2)# *serviceport protocol none*
 (cs2)# *network protocol none*
-(cs2)# *serviceport ip ipaddr netmask gateway*
+(cs2)# *serviceport ip <ip-address> <netmask> <gateway>*
 ----
 --
 
-.IPV6
+.IPv6
 --
 
 The serviceport is set to use DHCP by default. The IP address, subnet mask, and default gateway address are assigned automatically.
@@ -92,7 +92,7 @@ The serviceport is set to use DHCP by default. The IP address, subnet mask, and 
 ----
 (cs2)# *serviceport protocol none*
 (cs2)# *network protocol none*
-(cs2)# *serviceport ip ipaddr netmask gateway*
+(cs2)# *serviceport ipv6 <address> *
 ----
 --
 ====
@@ -108,7 +108,7 @@ The serviceport is set to use DHCP by default. The IP address, subnet mask, and 
 [role="tabbed-block"] 
 
 ==== 
-.IPV4
+.IPv4
 --
 
 [subs=+quotes]
@@ -128,7 +128,7 @@ Burned In MAC Address.......................... D8:C4:97:71:12:3C
 ----
 --
 
-.IPV6
+.IPv6
 --
 
 [subs=+quotes]
@@ -140,8 +140,8 @@ Subnet Mask.................................... 255.255.254.0
 Default Gateway................................ 10.233.204.1
 IPv6 Administrative Mode....................... Enabled
 IPv6 Prefix is ................................ fe80::dac4:97ff:fe71:c42/64
-IPv6 Prefix is ................................ fd20:8b1e:b255:8220::9de6/64
-IPv6 Default Router............................ fd20:8b1e:b255:8220::1
+IPv6 Prefix is ................................ fd20:8b1e:b255:801b::9c5d/64
+IPv6 Default Router............................ fd20:8b1e:b255:801b::1
 IPv6 Default Router............................ fe80::5:73ff:fea0:663
 Configured IPv4 Protocol....................... None
 Configured IPv6 Protocol....................... None
