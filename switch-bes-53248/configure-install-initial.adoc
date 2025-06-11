@@ -64,7 +64,7 @@ Password:
 (cs2)#
 ----
 
-. To set a static IP address, use the `serviceport protocol`, `network protocol`, and `serviceport ip` commands as shown in the example. 
+. To set a static IPv4 or IPv6 management address for the switch's serviceport:
 
 // start of tabbed content 
 [role="tabbed-block"] 
@@ -93,6 +93,7 @@ The serviceport is set to use DHCP by default. The IP address, subnet mask, and 
 (cs2)# *serviceport protocol none*
 (cs2)# *network protocol none*
 (cs2)# *serviceport ipv6 <address>*
+(cs2)# *serviceport ipv6 <gateway>*
 ----
 --
 ====
