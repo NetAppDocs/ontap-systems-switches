@@ -64,6 +64,12 @@ Password:
 (cs2)#
 ----
 
+// start of tabbed content 
+[role="tabbed-block"] 
+
+==== 
+.IPV4
+--
 . To set a static IP address, use the `serviceport protocol`, `network protocol`, and `serviceport ip` commands as shown in the example.
 +
 The serviceport is set to use DHCP by default. The IP address, subnet mask, and default gateway address are assigned automatically.
@@ -81,7 +87,6 @@ The serviceport is set to use DHCP by default. The IP address, subnet mask, and 
 +
 .Show example
 [%collapsible]
-====
 
 [subs=+quotes]
 ----
@@ -98,9 +103,51 @@ Configured IPv6 Protocol....................... None
 IPv6 AutoConfig Mode........................... Disabled
 Burned In MAC Address.......................... D8:C4:97:71:12:3C
 ----
+--
+
+.IPV6
+--
+
+. To set a static IP address, use the `serviceport protocol`, `network protocol`, and `serviceport ip` commands as shown in the example.
++
+The serviceport is set to use DHCP by default. The IP address, subnet mask, and default gateway address are assigned automatically.
++
+[subs=+quotes]
+----
+(cs2)# *serviceport protocol none*
+(cs2)# *network protocol none*
+(cs2)# *serviceport ip ipaddr netmask gateway*
+----
+
+. Verify the results using the command:
++
+`show serviceport`
++
+.Show example
+[%collapsible]
+
+[subs=+quotes]
+----
+(cs2)# *show serviceport*
+Interface Status............................... Up
+IP Address..................................... 172.19.2.2
+Subnet Mask.................................... 255.255.255.0
+Default Gateway................................ 172.19.2.254
+IPv6 Administrative Mode....................... Enabled
+IPv6 Prefix is ................................ fe80::dac4:97ff:fe71:123c/64
+IPv6 Default Router............................ fe80::20b:45ff:fea9:5dc0
+Configured IPv4 Protocol....................... DHCP
+Configured IPv6 Protocol....................... None
+IPv6 AutoConfig Mode........................... Disabled
+Burned In MAC Address.......................... D8:C4:97:71:12:3C
+----
+--
 ====
 
-. Configure the domain and name server:
+// end of tabbed content
+
+[start=8]
+. [[step8]]Configure the domain and name server:
 +
 [source,cli]
 ----
@@ -253,3 +300,4 @@ link:configure-efos-software.html[Install the EFOS software]
 // Updated with details for ntp for EFOS 3.10, as per AFFFASDOC-141, 2023-OCT-12
 // Minor update for Sunil, added in ntp server 10.99.99.5, 2023-OCT-17
 // Updates for GH issues #72, 109, 12, AFFFASDOC-212, 2024-MAY-02
+// Updates for GH issue #271, 2025-JUN-11
