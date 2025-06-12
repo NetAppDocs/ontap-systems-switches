@@ -104,14 +104,7 @@ The serviceport is set to use DHCP by default. The IP address, subnet mask, and 
 . [[step7]]Verify the results using the command:
 +
 `show serviceport`
-
-// start of tabbed content 
-[role="tabbed-block"] 
-
-==== 
-.IPv4
---
-
++
 [subs=+quotes]
 ----
 (cs2)# *show serviceport*
@@ -127,35 +120,8 @@ Configured IPv6 Protocol....................... None
 IPv6 AutoConfig Mode........................... Disabled
 Burned In MAC Address.......................... D8:C4:97:71:12:3C
 ----
---
 
-.IPv6
---
-
-[subs=+quotes]
-----
-(cs2)# *show serviceport*
-Interface Status............................... Up
-IP Address..................................... 10.233.204.86
-Subnet Mask.................................... 255.255.254.0
-Default Gateway................................ 10.233.204.1
-IPv6 Administrative Mode....................... Enabled
-IPv6 Prefix is ................................ fe80::dac4:97ff:fe71:c42/64
-IPv6 Prefix is ................................ fd20:8b1e:b255:801b::9c5d/64
-IPv6 Default Router............................ fd20:8b1e:b255:801b::1
-IPv6 Default Router............................ fe80::5:73ff:fea0:663
-Configured IPv4 Protocol....................... None
-Configured IPv6 Protocol....................... None
-IPv6 AutoConfig Mode........................... Disabled
-Burned In MAC Address.......................... D8:C4:97:71:0C:42
-----
---
-====
-
-// end of tabbed content
-
-[start=8]
-. [[step8]]Configure the domain and name server:
+. Configure the domain and name server:
 +
 [source,cli]
 ----
