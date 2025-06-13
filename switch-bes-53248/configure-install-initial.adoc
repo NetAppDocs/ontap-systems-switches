@@ -64,25 +64,47 @@ Password:
 (cs2)#
 ----
 
-. To set a static IP address, use the `serviceport protocol`, `network protocol`, and `serviceport ip` commands as shown in the example.
-+
+. To set a static IPv4 or IPv6 management address for the switch's service port:
+
+// start of tabbed content 
+[role="tabbed-block"] 
+
+==== 
+.IPv4
+--
+
 The serviceport is set to use DHCP by default. The IP address, subnet mask, and default gateway address are assigned automatically.
-+
+
 [subs=+quotes]
 ----
 (cs2)# *serviceport protocol none*
 (cs2)# *network protocol none*
-(cs2)# *serviceport ip ipaddr netmask gateway*
+(cs2)# *serviceport ip <ip-address> <netmask> <gateway>*
 ----
+--
 
-. Verify the results using the command:
+.IPv6
+--
+
+The serviceport is set to use DHCP by default. The IP address, subnet mask, and default gateway address are assigned automatically.
+
+[subs=+quotes]
+----
+(cs2)# *serviceport protocol none*
+(cs2)# *network protocol none*
+(cs2)# *serviceport ipv6 <address>*
+(cs2)# *serviceport ipv6 <gateway>*
+----
+--
+====
+
+// end of tabbed content
+
+[start=7]
+. [[step7]]Verify the results using the command:
 +
 `show serviceport`
 +
-.Show example
-[%collapsible]
-====
-
 [subs=+quotes]
 ----
 (cs2)# *show serviceport*
@@ -98,7 +120,6 @@ Configured IPv6 Protocol....................... None
 IPv6 AutoConfig Mode........................... Disabled
 Burned In MAC Address.......................... D8:C4:97:71:12:3C
 ----
-====
 
 . Configure the domain and name server:
 +
@@ -253,3 +274,4 @@ link:configure-efos-software.html[Install the EFOS software]
 // Updated with details for ntp for EFOS 3.10, as per AFFFASDOC-141, 2023-OCT-12
 // Minor update for Sunil, added in ntp server 10.99.99.5, 2023-OCT-17
 // Updates for GH issues #72, 109, 12, AFFFASDOC-212, 2024-MAY-02
+// Updates for GH issue #271, 2025-JUN-11
