@@ -9,4 +9,20 @@ summary: "You can migrate from a cluster with a switched cluster network to one 
 :imagesdir: ../media/
 
 [.lead]
+
+You can migrate from a cluster with a switched cluster network to one where two nodes are directly connected for ONTAP 9.3 and later.
+
+[NOTE]
+=========================================
+It is recommended that you update your ONTAP version before proceeding with the switched to switchless operation for Cisco Nexus 3132Q-V switches. 
+
+See the following for more details:
+
+* link:https://kb.netapp.com/Support_Bulletins/Customer_Bulletins/SU540[SU540: Chelsio T6 NIC errors cause system shutdown when upgrading from 40G to 100G network switches^] 
+
+* link:https://kb.netapp.com/on-prem/ontap/OHW/OHW-KBs/Node_panic_after_migration_from_switched_to_switchless_cluster[Node panic after migration from switched to switchless cluster^]
+=========================================
+
 include::../_include/replace-switches-with-direct-connections.adoc[]
+
+// Updates for AFFFASDOC-263, 2025-JUN-16
