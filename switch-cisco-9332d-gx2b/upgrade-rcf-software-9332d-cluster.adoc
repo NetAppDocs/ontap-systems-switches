@@ -38,22 +38,26 @@ CAUTION: Before installing a new switch software version and RCFs, you must eras
 [subs=+quotes]
 ----
 cluster1::*> *network device-discovery show*
+
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
------------ ------ ------------------------- ----------------  --------
-cluster1-01/cdp
-            e0a    cs1                       Ethernet1/7       N9K-C9336C
-            e0d    cs2                       Ethernet1/7       N9K-C9336C
-cluster1-02/cdp
-            e0a    cs1                       Ethernet1/8       N9K-C9336C
-            e0d    cs2                       Ethernet1/8       N9K-C9336C
-cluster1-03/cdp
-            e0a    cs1                       Ethernet1/1/1     N9K-C9336C
-            e0b    cs2                       Ethernet1/1/1     N9K-C9336C
-cluster1-04/cdp
-            e0a    cs1                       Ethernet1/1/2     N9K-C9336C
-            e0b    cs2                       Ethernet1/1/2     N9K-C9336C
-cluster1::*>
+----------- ------ ------------------------- ----------------  ----------------
+node1-01/cdp
+            e10a   cs1(FLM284504N6)          Ethernet1/16/3    N9K-C9332D-GX2B
+            e11a   cs1(FLM284504N6)          Ethernet1/16/4    N9K-C9332D-GX2B
+            e1a    cs1(FLM284504N6)          Ethernet1/16/1    N9K-C9332D-GX2B
+            e2a    cs2(FLM284504R2)          Ethernet1/8       N9K-C9332D-GX2B
+            e3a    cs2(FLM284504R2)          Ethernet1/7       N9K-C9332D-GX2B
+            e7a    cs1(FLM284504N6)          Ethernet1/16/2    N9K-C9332D-GX2B
+
+node1-01/lldp
+            e0M    RTP-LF01-410G53.rtp       Eth123/1/26       -
+            e10a   cs1 (c8:60:8f:34:78:d4)   Ethernet1/16/3    -
+            e11a   cs1 (c8:60:8f:34:78:d5)   Ethernet1/16/4    -
+            e1a    cs1 (c8:60:8f:34:78:d2)   Ethernet1/16/1    -
+            e2a    cs2 (c8:60:8f:34:a7:4a)   Ethernet1/8       -
+            e3a    cs2 (c8:60:8f:34:a7:46)   Ethernet1/7       -
+            e7a    cs1 (c8:60:8f:34:78:d3)   Ethernet1/16/2    -             
 ----
 ====
 
@@ -61,7 +65,7 @@ cluster1::*>
 
 .. Verify that all the cluster ports are *up* with a healthy status: 
 +
-`network port show –role cluster`
+`network port show -role cluster`
 +
 .Show example 
 [%collapsible]
@@ -147,24 +151,27 @@ cluster1::*>
 [subs=+quotes]
 ----
 cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true*
-Switch                      Type               Address          Model
---------------------------- ------------------ ---------------- -----
-cs1                         cluster-network    10.233.205.90    N9K-C9336C
-     Serial Number: FOCXXXXXXGD
-      Is Monitored: true
-            Reason: None
-  Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
-                    9.3(5)
-    Version Source: CDP
 
-cs2                         cluster-network    10.233.205.91    N9K-C9336C
-     Serial Number: FOCXXXXXXGS
+Switch                      Type               Address          Model
+--------------------------- ------------------ ---------------- ---------------
+cs1(FDO2846056X)            cluster-network    10.228.137.233   N9K-C9332D-GX2B
+     Serial Number: FDO2846056X
       Is Monitored: true
             Reason: None
   Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
-                    9.3(5)
-    Version Source: CDP
-cluster1::*>
+                    10.4(2)
+    Version Source: CDP/ISDP
+
+
+cs2(FLM284504N6)            cluster-network    10.228.137.234   N9K-C9332D-GX2B
+     Serial Number: FLM284504N6
+      Is Monitored: true
+            Reason: None
+  Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
+                    10.4(2)
+    Version Source: CDP/ISDP
+
+2 entries were displayed.
 ----
 ====
 
@@ -195,20 +202,21 @@ See the Knowledge Base article https://kb.netapp.com/on-prem/ontap/OHW/OHW-KBs/N
 [subs=+quotes]
 ----
 cluster1::*> *network interface show -role cluster*
-            Logical           Status     Network            Current       Current Is
-Vserver     Interface         Admin/Oper Address/Mask       Node          Port    Home
------------ ----------------- ---------- ------------------ ------------- ------- ----
+
+            Logical         Status     Network            Current     Current Is
+Vserver     Interface       Admin/Oper Address/Mask       Node        Port    Home
+----------- --------------- ---------- ------------------ ----------- ------- ----
 Cluster
-            cluster1-01_clus1 up/up      169.254.3.4/23     cluster1-01   e0a     true
-            cluster1-01_clus2 up/up      169.254.3.5/23     cluster1-01   e0a     false
-            cluster1-02_clus1 up/up      169.254.3.8/23     cluster1-02   e0a     true
-            cluster1-02_clus2 up/up      169.254.3.9/23     cluster1-02   e0a     false
-            cluster1-03_clus1 up/up      169.254.1.3/23     cluster1-03   e0a     true
-            cluster1-03_clus2 up/up      169.254.1.1/23     cluster1-03   e0a     false
-            cluster1-04_clus1 up/up      169.254.1.6/23     cluster1-04   e0a     true
-            cluster1-04_clus2 up/up      169.254.1.7/23     cluster1-04   e0a     false
+            node1-01_clus1  up/up      169.254.36.44/16   node1-01    e7a     true
+            node1-01_clus2  up/up      169.254.7.5/16     node1-01    e7b     true
+            node1-02_clus1  up/up      169.254.197.206/16 node1-02    e7a     true
+            node1-02_clus2  up/up      169.254.195.186/16 node1-02    e7b     true
+            node1-03_clus1  up/up      169.254.192.49/16  node1-03    e7a     true
+            node1-03_clus2  up/up      169.254.182.76/16  node1-03    e7b     true
+            node1-04_clus1  up/up      169.254.59.49/16   node1-04    e7a     true
+            node1-04_clus2  up/up      169.254.62.244/16  node1-04    e7b     true
+
 8 entries were displayed.
-cluster1::*>
 ----
 ====
 +
@@ -223,14 +231,14 @@ cluster1::*>
 [subs=+quotes]
 ----
 cluster1::*> *cluster show*
-Node                 Health  Eligibility   Epsilon
--------------------- ------- ------------  -------
-cluster1-01          true    true          false
-cluster1-02          true    true          false
-cluster1-03          true    true          true
-cluster1-04          true    true          false
+Node              Health  Eligibility   Epsilon
+----------------- ------- ------------  -------
+node1-01          true    true          false
+node1-02          true    true          false
+node1-03          true    true          true
+node1-04          true    true          false
+
 4 entries were displayed.
-cluster1::*>
 ----
 ====
 +
@@ -241,7 +249,7 @@ cluster1::*>
 
 .. Record any custom additions between the current running-config and the RCF file in use (such as an SNMP configuration for your organization).  
 +
-.. For NX-OS 10.2 and newer use the `show diff running-config` command to compare with the saved RCF file in the bootflash.  Otherwise, use a third part diff/compare tool.
+.. For NX-OS 10.2 and later, use the `show diff running-config` command to compare with the saved RCF file in the bootflash.  Otherwise, use a third part diff/compare tool.
 
 . Save basic configuration details to the write_erase.cfg file on the bootflash.
 +
@@ -291,7 +299,7 @@ This example shows TFTP being used to copy an RCF to the bootflash on switch cs1
 [subs=+quotes]
 ----
 cs1# *copy tftp: bootflash: vrf management*
-Enter source filename: *Nexus_9336C_RCF_v1.6-Cluster-HA-Breakout.txt*
+Enter source filename: *NX9332D-GX2B-RCF-v10.0-Shared.txt*
 Enter hostname for the tftp server: *172.22.201.50*
 Trying to connect to tftp server......Connection to Server Established.
 TFTP get operation was successful
@@ -306,10 +314,10 @@ For more information on Cisco commands, see the appropriate guide in the https:/
 .Show example 
 [%collapsible]
 ====
-This example shows the RCF file `Nexus_9336C_RCF_v1.6-Cluster-HA-Breakout.txt` being installed on switch cs1:
+This example shows the RCF file `NX9332D-GX2B-RCF-v10.0-Shared.txt` being installed on switch cs1:
 
 ----
-cs1# copy Nexus_9336C_RCF_v1.6-Cluster-HA-Breakout.txt running-config echo-commands
+cs1# copy NX9332D-GX2B-RCF-v10.0-Shared.txt running-config echo-commands
 ----
 ====
 +
@@ -324,33 +332,16 @@ cs1# show banner motd
 ******************************************************************************
 * NetApp Reference Configuration File (RCF)
 *
-* Switch   : Nexus N9K-C9336C-FX2
-* Filename : Nexus_9336C_RCF_v1.6-Cluster-HA-Breakout.txt
-* Date     : 10-23-2020
-* Version  : v1.6
-*
+* Switch   : NX9332D-GX2B
+* Filename : NX9332D-GX2B-RCF-v10.0-Shared.txt
+* Date     : 05-09-2025
+* Version  : v10.0
 * Port Usage:
-* Ports  1- 3: Breakout mode (4x10G) Intra-Cluster Ports, int e1/1/1-4, e1/2/1-4
-, e1/3/1-4
-* Ports  4- 6: Breakout mode (4x25G) Intra-Cluster/HA Ports, int e1/4/1-4, e1/5/
-1-4, e1/6/1-4
-* Ports  7-34: 40/100GbE Intra-Cluster/HA Ports, int e1/7-34
-* Ports 35-36: Intra-Cluster ISL Ports, int e1/35-36
+* Ports  1-30: 100GbE Intra-Cluster/HA/Storage Ports, int e1/{1-30}/1-4
+* Ports 31-32: Intra-Cluster ISL Ports, int e1/31-32
 *
-* Dynamic breakout commands:
-* 10G: interface breakout module 1 port <range> map 10g-4x
-* 25G: interface breakout module 1 port <range> map 25g-4x
-*
-* Undo breakout commands and return interfaces to 40/100G configuration in confi
-g mode:
-* no interface breakout module 1 port <range> map 10g-4x
-* no interface breakout module 1 port <range> map 25g-4x
-* interface Ethernet <interfaces taken out of breakout mode>
-* inherit port-profile 40-100G
-* priority-flow-control mode auto
-* service-policy input HA
-* exit
-*
+* IMPORTANT NOTES
+* Interface port-channel999 is reserved to identify the version of this file.
 ******************************************************************************
 ----
 ====
@@ -437,7 +428,7 @@ e0d       Cluster      Cluster          up   9000  auto/100000 healthy false
 
 .. Verify the switch health from the cluster.
 +
-`network device-discovery show -protocol cdp`
+`network device-discovery show -protocol cdp` and `system cluster-switch show -is-monitoring-enabled-operational true`
 +
 .Show example 
 [%collapsible]
@@ -446,51 +437,55 @@ e0d       Cluster      Cluster          up   9000  auto/100000 healthy false
 [subs=+quotes]
 ----
 cluster1::*> *network device-discovery show -protocol cdp*
+
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
------------ ------ ------------------------- ----------------- --------
-cluster1-01/cdp
-            e0a    cs1                       Ethernet1/7       N9K-C9336C
-            e0d    cs2                       Ethernet1/7       N9K-C9336C
-cluster01-2/cdp
-            e0a    cs1                       Ethernet1/8       N9K-C9336C
-            e0d    cs2                       Ethernet1/8       N9K-C9336C
-cluster01-3/cdp
-            e0a    cs1                       Ethernet1/1/1     N9K-C9336C
-            e0b    cs2                       Ethernet1/1/1     N9K-C9336C
-cluster1-04/cdp
-            e0a    cs1                       Ethernet1/1/2     N9K-C9336C
-            e0b    cs2                       Ethernet1/1/2     N9K-C9336C
+----------- ------ ------------------------- ----------------  ----------------
+node1-01/cdp
+            e10a   cs1(FLM284504N6)          Ethernet1/16/3    N9K-C9332D-GX2B
+            e10b   cs1(FDO2846056X)          Ethernet1/13/3    N9K-C9364D-GX2A 
+            e11a   cs1(FLM284504N6)          Ethernet1/16/4    N9K-C9332D-GX2B
+            e11b   cs1(FDO2846056X)          Ethernet1/13/4    N9K-C9364D-GX2A
+            e1a    cs1(FLM284504N6)          Ethernet1/16/1    N9K-C9332D-GX2B
+            e1b    cs1(FLM284504N6)          Ethernet1/13/1    N9K-C9364D-GX2A
+            e2a    cs2(FLM284504R2)          Ethernet1/8       N9K-C9332D-GX2B
+            e2b    cs2(FDO28390Q24)          Ethernet1/7       N9K-C9364D-GX2A
+            e3a    cs2(FLM284504R2)          Ethernet1/7       N9K-C9332D-GX2B
+            e3b    cs2(FDO28390Q24)          Ethernet1/8       N9K-C9364D-GX2A
+            e7a    cs1(FLM284504N6)          Ethernet1/16/2    N9K-C9332D-GX2B
+            e7b    cs1(FDO2846056X)          Ethernet1/13/2    N9K-C9364D-GX2A
+
+
 
 cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true*
-Switch                      Type               Address          Model
---------------------------- ------------------ ---------------- -----
-cs1                         cluster-network    10.233.205.90    NX9-C9336C
-     Serial Number: FOCXXXXXXGD
-      Is Monitored: true
-            Reason: None
-  Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
-                    9.3(5)
-    Version Source: CDP
 
-cs2                         cluster-network    10.233.205.91    NX9-C9336C
-     Serial Number: FOCXXXXXXGS
+Switch                      Type               Address          Model
+--------------------------- ------------------ ---------------- ---------------
+cs1(FDO2846056X)            cluster-network    10.228.137.233   N9K-C9332D-GX2B
+     Serial Number: FDO2846056X
       Is Monitored: true
             Reason: None
   Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
-                    9.3(5)
-    Version Source: CDP
+                    10.4(2)
+    Version Source: CDP/ISDP
+
+cs2(FLM284504N6)            cluster-network    10.228.137.234   N9K-C9332D-GX2B
+     Serial Number: FLM284504N6
+      Is Monitored: true
+            Reason: None
+  Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
+                    10.4(2)
+    Version Source: CDP/ISDP
 
 2 entries were displayed.
 ----
+//You might observe the following output on the cs1 switch console depending on the RCF version previously loaded on the switch:
 
-You might observe the following output on the cs1 switch console depending on the RCF version previously loaded on the switch:
-
-----
-2020 Nov 17 16:07:18 cs1 %$ VDC-1 %$ %STP-2-UNBLOCK_CONSIST_PORT: Unblocking port port-channel1 on VLAN0092. Port consistency restored.
-2020 Nov 17 16:07:23 cs1 %$ VDC-1 %$ %STP-2-BLOCK_PVID_PEER: Blocking port-channel1 on VLAN0001. Inconsistent peer vlan.
-2020 Nov 17 16:07:23 cs1 %$ VDC-1 %$ %STP-2-BLOCK_PVID_LOCAL: Blocking port-channel1 on VLAN0092. Inconsistent local vlan.
-----
+//----
+//2020 Nov 17 16:07:18 cs1 %$ VDC-1 %$ %STP-2-UNBLOCK_CONSIST_PORT: Unblocking port port-channel1 on VLAN0092. Port consistency restored.
+//2020 Nov 17 16:07:23 cs1 %$ VDC-1 %$ %STP-2-BLOCK_PVID_PEER: Blocking port-channel1 on VLAN0001. Inconsistent peer vlan.
+//2020 Nov 17 16:07:23 cs1 %$ VDC-1 %$ %STP-2-BLOCK_PVID_LOCAL: Blocking port-channel1 on VLAN0092. Inconsistent local vlan.
+//----
 ====
 
 . Verify that the cluster is healthy: 
@@ -504,14 +499,14 @@ You might observe the following output on the cs1 switch console depending on th
 [subs=+quotes]
 ----
 cluster1::*> *cluster show*
-Node                 Health   Eligibility   Epsilon
--------------------- -------- ------------- -------
-cluster1-01          true     true          false
-cluster1-02          true     true          false
-cluster1-03          true     true          true
-cluster1-04          true     true          false
+Node              Health   Eligibility   Epsilon
+----------------- -------- ------------- -------
+node1-01          true     true          false
+node1-02          true     true          false
+node1-03          true     true          true
+node1-04          true     true          false
+
 4 entries were displayed.
-cluster1::*>
 ----
 ====
 
@@ -556,19 +551,22 @@ Eth1/8        1       eth  trunk  up      none                   100G(D) --
 [subs=+quotes]
 ----
 cs1# *show cdp neighbors*
-
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
                   V - VoIP-Phone, D - Remotely-Managed-Device,
                   s - Supports-STP-Dispute
 
-Device-ID          Local Intrfce  Hldtme Capability  Platform      Port ID
-node1              Eth1/1         133    H           FAS2980       e0a
-node2              Eth1/2         133    H           FAS2980       e0a
-cs1                Eth1/35        175    R S I s     N9K-C9336C    Eth1/35
-cs1                Eth1/36        175    R S I s     N9K-C9336C    Eth1/36
+Device-ID          Local Intrfce  Hldtme Capability  Platform          Port ID      
+cs1                Eth1/1/1       156    H           AFX-1K            e1a           
+cs1                Eth1/1/2       156    H           AFX-1K            e7a           
+cs1                Eth1/1/3       156    H           AFX-1K            e10a          
+cs1                Eth1/1/4       156    H           AFX-1K            e11a          
+cs2                Eth1/9/1       175    H           AFX-1K            e1a           
+cs2                Eth1/9/2       175    H           AFX-1K            e7a           
+cs2                Eth1/9/3       175    H           AFX-1K            e10a          
+cs2                Eth1/9/4       175    H           AFX-1K            e11a          
 
-Total entries displayed: 4
+Total entries displayed: 8
 ----
 ====
 
@@ -588,140 +586,232 @@ cs1# *show vlan brief*
 
 VLAN Name                             Status    Ports
 ---- -------------------------------- --------- -------------------------------
-1    default                          active    Po1, Eth1/1, Eth1/2, Eth1/3
-                                                Eth1/4, Eth1/5, Eth1/6, Eth1/7
-                                                Eth1/8, Eth1/35, Eth1/36
-                                                Eth1/9/1, Eth1/9/2, Eth1/9/3
-                                                Eth1/9/4, Eth1/10/1, Eth1/10/2
-                                                Eth1/10/3, Eth1/10/4
-17   VLAN0017                         active    Eth1/1, Eth1/2, Eth1/3, Eth1/4
-                                                Eth1/5, Eth1/6, Eth1/7, Eth1/8
-                                                Eth1/9/1, Eth1/9/2, Eth1/9/3
-                                                Eth1/9/4, Eth1/10/1, Eth1/10/2
-                                                Eth1/10/3, Eth1/10/4
-18   VLAN0018                         active    Eth1/1, Eth1/2, Eth1/3, Eth1/4
-                                                Eth1/5, Eth1/6, Eth1/7, Eth1/8
-                                                Eth1/9/1, Eth1/9/2, Eth1/9/3
-                                                Eth1/9/4, Eth1/10/1, Eth1/10/2
-                                                Eth1/10/3, Eth1/10/4
-31   VLAN0031                         active    Eth1/11, Eth1/12, Eth1/13
-                                                Eth1/14, Eth1/15, Eth1/16
-                                                Eth1/17, Eth1/18, Eth1/19
-                                                Eth1/20, Eth1/21, Eth1/22
-32   VLAN0032                         active    Eth1/23, Eth1/24, Eth1/25
-                                                Eth1/26, Eth1/27, Eth1/28
-                                                Eth1/29, Eth1/30, Eth1/31
-                                                Eth1/32, Eth1/33, Eth1/34
-33   VLAN0033                         active    Eth1/11, Eth1/12, Eth1/13
-                                                Eth1/14, Eth1/15, Eth1/16
-                                                Eth1/17, Eth1/18, Eth1/19
-                                                Eth1/20, Eth1/21, Eth1/22
-34   VLAN0034                         active    Eth1/23, Eth1/24, Eth1/25
-                                                Eth1/26, Eth1/27, Eth1/28
-                                                Eth1/29, Eth1/30, Eth1/31
-                                                Eth1/32, Eth1/33, Eth1/34
+1    default                          active    Po1, Po999, Eth1/31, Eth1/32
+                                                Eth1/33, Eth1/34, Eth1/1/1
+                                                Eth1/1/2, Eth1/1/3, Eth1/1/4
+                                                Eth1/2/1, Eth1/2/2, Eth1/2/3
+                                                Eth1/2/4, Eth1/3/1, Eth1/3/2
+                                                Eth1/3/3, Eth1/3/4, Eth1/4/1
+                                                Eth1/4/2, Eth1/4/3, Eth1/4/4
+                                                Eth1/5/1, Eth1/5/2, Eth1/5/3
+                                                Eth1/5/4, Eth1/6/1, Eth1/6/2
+                                                Eth1/6/3, Eth1/6/4, Eth1/7/1
+                                                Eth1/7/2, Eth1/7/3, Eth1/7/4
+                                                Eth1/8/1, Eth1/8/2, Eth1/8/3
+                                                Eth1/8/4, Eth1/9/1, Eth1/9/2
+                                                Eth1/9/3, Eth1/9/4, Eth1/10/1
+                                                Eth1/10/2, Eth1/10/3, Eth1/10/4
+                                                Eth1/11/1, Eth1/11/2, Eth1/11/3
+                                                Eth1/11/4, Eth1/12/1, Eth1/12/2
+                                                Eth1/12/3, Eth1/12/4, Eth1/13/1
+                                                Eth1/13/2, Eth1/13/3, Eth1/13/4
+                                                Eth1/14/1, Eth1/14/2, Eth1/14/3
+                                                Eth1/14/4, Eth1/15/1, Eth1/15/2
+                                                Eth1/15/3, Eth1/15/4, Eth1/16/1
+                                                Eth1/16/2, Eth1/16/3, Eth1/16/4
+                                                Eth1/17/1, Eth1/17/2, Eth1/17/3
+                                                Eth1/17/4, Eth1/18/1, Eth1/18/2
+                                                Eth1/18/3, Eth1/18/4, Eth1/19/1
+                                                Eth1/19/2, Eth1/19/3, Eth1/19/4
+                                                Eth1/20/1, Eth1/20/2, Eth1/20/3
+                                                Eth1/20/4, Eth1/21/1, Eth1/21/2
+                                                Eth1/21/3, Eth1/21/4, Eth1/22/1
+                                                Eth1/22/2, Eth1/22/3, Eth1/22/4
+                                                Eth1/23/1, Eth1/23/2, Eth1/23/3
+                                                Eth1/23/4, Eth1/24/1, Eth1/24/2
+                                                Eth1/24/3, Eth1/24/4, Eth1/25/1
+                                                Eth1/25/2, Eth1/25/3, Eth1/25/4
+                                                Eth1/26/1, Eth1/26/2, Eth1/26/3
+                                                Eth1/26/4, Eth1/27/1, Eth1/27/2
+                                                Eth1/27/3, Eth1/27/4, Eth1/28/1
+                                                Eth1/28/2, Eth1/28/3, Eth1/28/4
+                                                Eth1/29/1, Eth1/29/2, Eth1/29/3
+                                                Eth1/29/4, Eth1/30/1, Eth1/30/2
+                                                Eth1/30/3, Eth1/30/4
+17   VLAN0017                         active    Eth1/1/1, Eth1/1/2, Eth1/1/3
+                                                Eth1/1/4, Eth1/2/1, Eth1/2/2
+                                                Eth1/2/3, Eth1/2/4, Eth1/3/1
+                                                Eth1/3/2, Eth1/3/3, Eth1/3/4
+                                                Eth1/4/1, Eth1/4/2, Eth1/4/3
+                                                Eth1/4/4, Eth1/5/1, Eth1/5/2
+                                                Eth1/5/3, Eth1/5/4, Eth1/6/1
+                                                Eth1/6/2, Eth1/6/3, Eth1/6/4
+                                                Eth1/7/1, Eth1/7/2, Eth1/7/3
+                                                Eth1/7/4, Eth1/8/1, Eth1/8/2
+                                                Eth1/8/3, Eth1/8/4, Eth1/9/1
+                                                Eth1/9/2, Eth1/9/3, Eth1/9/4
+                                                Eth1/10/1, Eth1/10/2, Eth1/10/3
+                                                Eth1/10/4, Eth1/11/1, Eth1/11/2
+                                                Eth1/11/3, Eth1/11/4, Eth1/12/1
+                                                Eth1/12/2, Eth1/12/3, Eth1/12/4
+                                                Eth1/13/1, Eth1/13/2, Eth1/13/3
+                                                Eth1/13/4, Eth1/14/1, Eth1/14/2
+                                                Eth1/14/3, Eth1/14/4, Eth1/15/1
+                                                Eth1/15/2, Eth1/15/3, Eth1/15/4
+                                                Eth1/16/1, Eth1/16/2, Eth1/16/3
+                                                Eth1/16/4, Eth1/17/1, Eth1/17/2
+                                                Eth1/17/3, Eth1/17/4, Eth1/18/1
+                                                Eth1/18/2, Eth1/18/3, Eth1/18/4
+                                                Eth1/19/1, Eth1/19/2, Eth1/19/3
+                                                Eth1/19/4, Eth1/20/1, Eth1/20/2
+                                                Eth1/20/3, Eth1/20/4, Eth1/21/1
+                                                Eth1/21/2, Eth1/21/3, Eth1/21/4
+                                                Eth1/22/1, Eth1/22/2, Eth1/22/3
+                                                Eth1/22/4, Eth1/23/1, Eth1/23/2
+                                                Eth1/23/3, Eth1/23/4, Eth1/24/1
+                                                Eth1/24/2, Eth1/24/3, Eth1/24/4
+                                                Eth1/25/1, Eth1/25/2, Eth1/25/3
+                                                Eth1/25/4, Eth1/26/1, Eth1/26/2
+                                                Eth1/26/3, Eth1/26/4, Eth1/27/1
+                                                Eth1/27/2, Eth1/27/3, Eth1/27/4
+                                                Eth1/28/1, Eth1/28/2, Eth1/28/3
+                                                Eth1/28/4, Eth1/29/1, Eth1/29/2
+                                                Eth1/29/3, Eth1/29/4, Eth1/30/1
+                                                Eth1/30/2, Eth1/30/3, Eth1/30/4
+18   VLAN0018                         active    Eth1/1/1, Eth1/1/2, Eth1/1/3
+                                                Eth1/1/4, Eth1/2/1, Eth1/2/2
+                                                Eth1/2/3, Eth1/2/4, Eth1/3/1
+                                                Eth1/3/2, Eth1/3/3, Eth1/3/4
+                                                Eth1/4/1, Eth1/4/2, Eth1/4/3
+                                                Eth1/4/4, Eth1/5/1, Eth1/5/2
+                                                Eth1/5/3, Eth1/5/4, Eth1/6/1
+                                                Eth1/6/2, Eth1/6/3, Eth1/6/4
+                                                Eth1/7/1, Eth1/7/2, Eth1/7/3
+                                                Eth1/7/4, Eth1/8/1, Eth1/8/2
+                                                Eth1/8/3, Eth1/8/4, Eth1/9/1
+                                                Eth1/9/2, Eth1/9/3, Eth1/9/4
+                                                Eth1/10/1, Eth1/10/2, Eth1/10/3
+                                                Eth1/10/4, Eth1/11/1, Eth1/11/2
+                                                Eth1/11/3, Eth1/11/4, Eth1/12/1
+                                                Eth1/12/2, Eth1/12/3, Eth1/12/4
+                                                Eth1/13/1, Eth1/13/2, Eth1/13/3
+                                                Eth1/13/4, Eth1/14/1, Eth1/14/2
+                                                Eth1/14/3, Eth1/14/4, Eth1/15/1
+                                                Eth1/15/2, Eth1/15/3, Eth1/15/4
+                                                Eth1/16/1, Eth1/16/2, Eth1/16/3
+                                                Eth1/16/4, Eth1/17/1, Eth1/17/2
+                                                Eth1/17/3, Eth1/17/4, Eth1/18/1
+                                                Eth1/18/2, Eth1/18/3, Eth1/18/4
+                                                Eth1/19/1, Eth1/19/2, Eth1/19/3
+                                                Eth1/19/4, Eth1/20/1, Eth1/20/2
+                                                Eth1/20/3, Eth1/20/4, Eth1/21/1
+                                                Eth1/21/2, Eth1/21/3, Eth1/21/4
+                                                Eth1/22/1, Eth1/22/2, Eth1/22/3
+                                                Eth1/22/4, Eth1/23/1, Eth1/23/2
+                                                Eth1/23/3, Eth1/23/4, Eth1/24/1
+                                                Eth1/24/2, Eth1/24/3, Eth1/24/4
+                                                Eth1/25/1, Eth1/25/2, Eth1/25/3
+                                                Eth1/25/4, Eth1/26/1, Eth1/26/2
+                                                Eth1/26/3, Eth1/26/4, Eth1/27/1
+                                                Eth1/27/2, Eth1/27/3, Eth1/27/4
+                                                Eth1/28/1, Eth1/28/2, Eth1/28/3
+                                                Eth1/28/4, Eth1/29/1, Eth1/29/2
+                                                Eth1/29/3, Eth1/29/4, Eth1/30/1
+                                                Eth1/30/2, Eth1/30/3, Eth1/30/4
+30   VLAN0030                         active    Eth1/1/1, Eth1/1/2, Eth1/1/3
+                                                Eth1/1/4, Eth1/2/1, Eth1/2/2
+                                                Eth1/2/3, Eth1/2/4, Eth1/3/1
+                                                Eth1/3/2, Eth1/3/3, Eth1/3/4
+                                                Eth1/4/1, Eth1/4/2, Eth1/4/3
+                                                Eth1/4/4, Eth1/5/1, Eth1/5/2
+                                                Eth1/5/3, Eth1/5/4, Eth1/6/1
+                                                Eth1/6/2, Eth1/6/3, Eth1/6/4
+                                                Eth1/7/1, Eth1/7/2, Eth1/7/3
+                                                Eth1/7/4, Eth1/8/1, Eth1/8/2
+                                                Eth1/8/3, Eth1/8/4, Eth1/9/1
+                                                Eth1/9/2, Eth1/9/3, Eth1/9/4
+                                                Eth1/10/1, Eth1/10/2, Eth1/10/3
+                                                Eth1/10/4, Eth1/11/1, Eth1/11/2
+                                                Eth1/11/3, Eth1/11/4, Eth1/12/1
+                                                Eth1/12/2, Eth1/12/3, Eth1/12/4
+                                                Eth1/13/1, Eth1/13/2, Eth1/13/3
+                                                Eth1/13/4, Eth1/14/1, Eth1/14/2
+                                                Eth1/14/3, Eth1/14/4, Eth1/15/1
+                                                Eth1/15/2, Eth1/15/3, Eth1/15/4
+                                                Eth1/16/1, Eth1/16/2, Eth1/16/3
+                                                Eth1/16/4, Eth1/17/1, Eth1/17/2
+                                                Eth1/17/3, Eth1/17/4, Eth1/18/1
+                                                Eth1/18/2, Eth1/18/3, Eth1/18/4
+                                                Eth1/19/1, Eth1/19/2, Eth1/19/3
+                                                Eth1/19/4, Eth1/20/1, Eth1/20/2
+                                                Eth1/20/3, Eth1/20/4, Eth1/21/1
+                                                Eth1/21/2, Eth1/21/3, Eth1/21/4
+                                                Eth1/22/1, Eth1/22/2, Eth1/22/3
+                                                Eth1/22/4, Eth1/23/1, Eth1/23/2
+                                                Eth1/23/3, Eth1/23/4, Eth1/24/1
+                                                Eth1/24/2, Eth1/24/3, Eth1/24/4
+                                                Eth1/25/1, Eth1/25/2, Eth1/25/3
+                                                Eth1/25/4, Eth1/26/1, Eth1/26/2
+                                                Eth1/26/3, Eth1/26/4, Eth1/27/1
+                                                Eth1/27/2, Eth1/27/3, Eth1/27/4
+                                                Eth1/28/1, Eth1/28/2, Eth1/28/3
+                                                Eth1/28/4, Eth1/29/1, Eth1/29/2
+                                                Eth1/29/3, Eth1/29/4, Eth1/30/1
+                                                Eth1/30/2, Eth1/30/3, Eth1/30/4
+40   VLAN0040                         active    Eth1/1/1, Eth1/1/2, Eth1/1/3
+                                                Eth1/1/4, Eth1/2/1, Eth1/2/2
+                                                Eth1/2/3, Eth1/2/4, Eth1/3/1
+                                                Eth1/3/2, Eth1/3/3, Eth1/3/4
+                                                Eth1/4/1, Eth1/4/2, Eth1/4/3
+                                                Eth1/4/4, Eth1/5/1, Eth1/5/2
+                                                Eth1/5/3, Eth1/5/4, Eth1/6/1
+                                                Eth1/6/2, Eth1/6/3, Eth1/6/4
+                                                Eth1/7/1, Eth1/7/2, Eth1/7/3
+                                                Eth1/7/4, Eth1/8/1, Eth1/8/2
+                                                Eth1/8/3, Eth1/8/4, Eth1/9/1
+                                                Eth1/9/2, Eth1/9/3, Eth1/9/4
+                                                Eth1/10/1, Eth1/10/2, Eth1/10/3
+                                                Eth1/10/4, Eth1/11/1, Eth1/11/2
+                                                Eth1/11/3, Eth1/11/4, Eth1/12/1
+                                                Eth1/12/2, Eth1/12/3, Eth1/12/4
+                                                Eth1/13/1, Eth1/13/2, Eth1/13/3
+                                                Eth1/13/4, Eth1/14/1, Eth1/14/2
+                                                Eth1/14/3, Eth1/14/4, Eth1/15/1
+                                                Eth1/15/2, Eth1/15/3, Eth1/15/4
+                                                Eth1/16/1, Eth1/16/2, Eth1/16/3
+                                                Eth1/16/4, Eth1/17/1, Eth1/17/2
+                                                Eth1/17/3, Eth1/17/4, Eth1/18/1
+                                                Eth1/18/2, Eth1/18/3, Eth1/18/4
+                                                Eth1/19/1, Eth1/19/2, Eth1/19/3
+                                                Eth1/19/4, Eth1/20/1, Eth1/20/2
+                                                Eth1/20/3, Eth1/20/4, Eth1/21/1
+                                                Eth1/21/2, Eth1/21/3, Eth1/21/4
+                                                Eth1/22/1, Eth1/22/2, Eth1/22/3
+                                                Eth1/22/4, Eth1/23/1, Eth1/23/2
+                                                Eth1/23/3, Eth1/23/4, Eth1/24/1
+                                                Eth1/24/2, Eth1/24/3, Eth1/24/4
+                                                Eth1/25/1, Eth1/25/2, Eth1/25/3
+                                                Eth1/25/4, Eth1/26/1, Eth1/26/2
+                                                Eth1/26/3, Eth1/26/4, Eth1/27/1
+                                                Eth1/27/2, Eth1/27/3, Eth1/27/4
+                                                Eth1/28/1, Eth1/28/2, Eth1/28/3
+                                                Eth1/28/4, Eth1/29/1, Eth1/29/2
+                                                Eth1/29/3, Eth1/29/4, Eth1/30/1
+                                                Eth1/30/2, Eth1/30/3, Eth1/30/4
+
 
 cs1# *show interface trunk*
-
------------------------------------------------------
+--------------------------------------------------------------------------------
 Port          Native  Status        Port
               Vlan                  Channel
------------------------------------------------------
-Eth1/1        1       trunking      --
-Eth1/2        1       trunking      --
-Eth1/3        1       trunking      --
-Eth1/4        1       trunking      --
-Eth1/5        1       trunking      --
-Eth1/6        1       trunking      --
-Eth1/7        1       trunking      --
-Eth1/8        1       trunking      --
-Eth1/9/1      1       trunking      --
-Eth1/9/2      1       trunking      --
-Eth1/9/3      1       trunking      --
-Eth1/9/4      1       trunking      --
-Eth1/10/1     1       trunking      --
-Eth1/10/2     1       trunking      --
-Eth1/10/3     1       trunking      --
-Eth1/10/4     1       trunking      --
-Eth1/11       33      trunking      --
-Eth1/12       33      trunking      --
-Eth1/13       33      trunking      --
-Eth1/14       33      trunking      --
-Eth1/15       33      trunking      --
-Eth1/16       33      trunking      --
-Eth1/17       33      trunking      --
-Eth1/18       33      trunking      --
-Eth1/19       33      trunking      --
-Eth1/20       33      trunking      --
-Eth1/21       33      trunking      --
-Eth1/22       33      trunking      --
-Eth1/23       34      trunking      --
-Eth1/24       34      trunking      --
-Eth1/25       34      trunking      --
-Eth1/26       34      trunking      --
-Eth1/27       34      trunking      --
-Eth1/28       34      trunking      --
-Eth1/29       34      trunking      --
-Eth1/30       34      trunking      --
-Eth1/31       34      trunking      --
-Eth1/32       34      trunking      --
-Eth1/33       34      trunking      --
-Eth1/34       34      trunking      --
-Eth1/35       1       trnk-bndl     Po1
-Eth1/36       1       trnk-bndl     Po1
-Po1           1       trunking      --
-
-------------------------------------------------------
-Port          Vlans Allowed on Trunk
-------------------------------------------------------
-Eth1/1        1,17-18
-Eth1/2        1,17-18
-Eth1/3        1,17-18
-Eth1/4        1,17-18
-Eth1/5        1,17-18
-Eth1/6        1,17-18
-Eth1/7        1,17-18
-Eth1/8        1,17-18
-Eth1/9/1      1,17-18
-Eth1/9/2      1,17-18
-Eth1/9/3      1,17-18
-Eth1/9/4      1,17-18
-Eth1/10/1     1,17-18
-Eth1/10/2     1,17-18
-Eth1/10/3     1,17-18
-Eth1/10/4     1,17-18
-Eth1/11       31,33
-Eth1/12       31,33
-Eth1/13       31,33
-Eth1/14       31,33
-Eth1/15       31,33
-Eth1/16       31,33
-Eth1/17       31,33
-Eth1/18       31,33
-Eth1/19       31,33
-Eth1/20       31,33
-Eth1/21       31,33
-Eth1/22       31,33
-Eth1/23       32,34
-Eth1/24       32,34
-Eth1/25       32,34
-Eth1/26       32,34
-Eth1/27       32,34
-Eth1/28       32,34
-Eth1/29       32,34
-Eth1/30       32,34
-Eth1/31       32,34
-Eth1/32       32,34
-Eth1/33       32,34
-Eth1/34       32,34
-Eth1/35       1
-Eth1/36       1
+--------------------------------------------------------------------------------
+Eth1/1/1      1       trunking      --
+Eth1/1/2      1       trunking      --
+Eth1/1/3      1       trunking      --
+Eth1/1/4      1       trunking      --
+Eth1/2/1      1       trunking      --
+Eth1/2/2      1       trunking      --
+Eth1/2/3      1       trunking      --
+Eth1/2/4      1       trunking      --
+ 
+Eth1/30/1     none
+Eth1/30/2     none
+Eth1/30/3     none
+Eth1/30/4     none
+Eth1/31       none
+Eth1/32       none
 Po1           1
-..
-..
-..
-..
-..
+
 ----
 ====
 +
@@ -747,9 +837,11 @@ Flags:  D - Down        P - Up in port-channel (members)
         p - Up in delay-lacp mode (member)
         M - Not in use. Min-links not met
 --------------------------------------------------------------------------------
-Group Port-       Type     Protocol  Member Ports      Channel
+Group Port-       Type     Protocol  Member Ports      
+      Channel
 --------------------------------------------------------------------------------
-1     Po1(SU)     Eth      LACP      Eth1/35(P)        Eth1/36(P)
+1     Po1(SU)     Eth      LACP      Eth1/31(P)   Eth1/32(P)   
+999   Po999(SD)   Eth      NONE      --
 cs1#
 ----
 ====
@@ -765,26 +857,27 @@ cs1#
 [subs=+quotes]
 ----
 cluster1::*> *network interface show -role cluster*
-            Logical            Status     Network            Current             Current Is
-Vserver     Interface          Admin/Oper Address/Mask       Node                Port    Home
------------ ------------------ ---------- ------------------ ------------------- ------- ----
+
+            Logical         Status     Network            Current     Current Is
+Vserver     Interface       Admin/Oper Address/Mask       Node        Port    Home
+----------- --------------- ---------- ------------------ ----------- ------- ----
 Cluster
-            cluster1-01_clus1  up/up      169.254.3.4/23     cluster1-01         e0d     true
-            cluster1-01_clus2  up/up      169.254.3.5/23     cluster1-01         e0d     true
-            cluster1-02_clus1  up/up      169.254.3.8/23     cluster1-02         e0d     true
-            cluster1-02_clus2  up/up      169.254.3.9/23     cluster1-02         e0d     true
-            cluster1-03_clus1  up/up      169.254.1.3/23     cluster1-03         e0b     true
-            cluster1-03_clus2  up/up      169.254.1.1/23     cluster1-03         e0b     true
-            cluster1-04_clus1  up/up      169.254.1.6/23     cluster1-04         e0b     true
-            cluster1-04_clus2  up/up      169.254.1.7/23     cluster1-04         e0b     true
+            node1-01_clus1  up/up      169.254.36.44/16   node1-01    e7a     true
+            node1-01_clus2  up/up      169.254.7.5/16     node1-01    e7b     true
+            node1-02_clus1  up/up      169.254.197.206/16 node1-02    e7a     true
+            node1-02_clus2  up/up      169.254.195.186/16 node1-02    e7b     true
+            node1-03_clus1  up/up      169.254.192.49/16  node1-03    e7a     true
+            node1-03_clus2  up/up      169.254.182.76/16  node1-03    e7b     true
+            node1-04_clus1  up/up      169.254.59.49/16   node1-04    e7a     true
+            node1-04_clus2  up/up      169.254.62.244/16  node1-04    e7b     true
+
 8 entries were displayed.
-cluster1::*>
 ----
 ====
 +
 If any cluster LIFs have not returned to their home ports, revert them manually from the local node: 
 +
-`network interface revert -vserver vserver_name -lif lif_name`
+`network interface revert -vserver vserver_name -lif <lif-name>`
 
 . Verify that the cluster is healthy: 
 +
@@ -797,17 +890,16 @@ If any cluster LIFs have not returned to their home ports, revert them manually 
 [subs=+quotes]
 ----
 cluster1::*> *cluster show*
-Node                 Health  Eligibility   Epsilon
--------------------- ------- ------------- -------
-cluster1-01          true    true          false
-cluster1-02          true    true          false
-cluster1-03          true    true          true
-cluster1-04          true    true          false
+Node              Health  Eligibility   Epsilon
+----------------- ------- ------------- -------
+node1-01          true    true          false
+node1-02          true    true          false
+node1-03          true    true          true
+node1-04          true    true          false
+
 4 entries were displayed.
-cluster1::*>
 ----
 ====
-
 
 . Verify the connectivity of the remote cluster interfaces: 
 +
@@ -829,21 +921,20 @@ You can use the `network interface check cluster-connectivity` command to start 
 cluster1::*> *network interface check cluster-connectivity start*
 ----
 
-*NOTE:* Wait for a number of seconds before running the `show` command to display the details.
-
+*NOTE* Wait for a number of seconds before running the `show` command to display the details.
 
 [subs=+quotes]
 ----
 cluster1::*> *network interface check cluster-connectivity show*
-                                  Source               Destination         Packet
-Node   Date                       LIF                  LIF                 Loss
------- -------------------------- -------------------- ------------------- -----------
-node1
-       3/5/2022 19:21:18 -06:00   cluster1-01_clus2    cluster1-02-clus1   none
-       3/5/2022 19:21:20 -06:00   cluster1-01_clus2    cluster1-02_clus2   none
-node2
-       3/5/2022 19:21:18 -06:00   cluster1-02_clus2    cluster1-01_clus1   none
-       3/5/2022 19:21:20 -06:00   cluster1-02_clus2    cluster1-01_clus2   none
+
+                                   Source          Destination     Packet
+Node     Date                       LIF             LIF             Loss
+------   -------------------------- --------------- --------------- -----------
+node1-01 6/4/2025 03:13:33 -04:00   node1-01_clus2  node1-02_clus1  none
+         6/4/2025 03:13:34 -04:00   node1-01_clus2  node1-02_clus2  none         
+
+node1-02 6/4/2025 03:13:33 -04:00   node1-02_clus2  node1-01_clus1  none
+         6/4/2025 03:13:34 -04:00   node1-02_clus2  node1-01_clus2  none        
 ----
 --
 

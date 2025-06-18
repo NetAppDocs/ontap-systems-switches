@@ -26,6 +26,10 @@ a|
 a|
 Supports two ONTAP clusters with at least eight nodes, including nodes that use shared Cluster+HA ports.
 a|
+2-Cluster-HA-Breakout
+a|
+Supports two ONTAP clusters with at least eight nodes, including nodes that use shared Cluster+HA ports.
+a|
 4-Cluster-HA-Breakout
 a|
 Supports four ONTAP clusters with at least four nodes, including nodes that use shared Cluster+HA ports.
@@ -56,16 +60,16 @@ All ports are configured for 100GbE NVMe storage connections.
 +
 Consult the switch compatibility table for the supported ONTAP and RCF versions on the NetApp Support Site. Note that there can be command dependencies between the command syntax in the RCF and the syntax found in specific versions of NX-OS.
 
-* link:https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-installation-guides-list.html[Cisco Nexus 3000 Series Switches^]
+* link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html[Cisco Nexus 9000 Series Switches^]
 +
 Refer to the appropriate software and upgrade guides available on the Cisco website for complete documentation on the Cisco switch upgrade and downgrade procedures.
 
 .About the examples
 The examples in this procedure use the following switch and node nomenclature:
 
-* The names of the two Cisco switches are *cs1* and *cs2*.
-* The node names are *cluster1-01*, *cluster1-02*, *cluster1-03*, and *cluster1-04*.
-* The cluster LIF names are *cluster1-01_clus1*, *cluster1-01_clus2*, *cluster1-02_clus1*, *cluster1-02_clus2*, *cluster1-03_clus1*, *cluster1-03_clus2*, *cluster1-04_clus1*, and *cluster1-04_clus2*.
+* The names of the two Cisco switches are cs1 and cs2.
+* The node names are node1-01, node1-02, node1-03, and node1-04.
+* The cluster LIF names are node1-01_clus1, node1-01_clus2, node1-02_clus1, node1-02_clus2, node1-03_clus1, node1-03_clus2, node1-04_clus1, and node1-04_clus2.
 * The `cluster1::*>` prompt indicates the name of the cluster.
 
 The examples in this procedure use four nodes. These nodes use two 10GbE cluster interconnect ports *e0a* and *e0b*. See the https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe^] to verify the correct cluster ports on your platforms.
