@@ -17,7 +17,11 @@ The examples in this procedure use the following switch and node nomenclature:
 
 * The names of the two Cisco switches are cs1 and cs2.
 * The node names are node1-01, node1-02, node1-03, and node1-04.
-* The cluster LIF names are node1-01_clus1 and node1-01_clus2 for node1-01, node1-02_clus1 and node1-02_clus2 for node1-02, node1-03_clus1 and node1-03_clus2 for node1-03, and node1-04_clus1 and node1-04_clus2 for node1-04.
+* The cluster LIF names are:
+** node1-01_clus1 and node1-01_clus2 for node1-01
+** node1-02_clus1 and node1-02_clus2 for node1-02
+** node1-03_clus1 and node1-03_clus2 for node1-03
+** node1-04_clus1 and node1-04_clus2 for node1-04
 * The `cluster1::*>` prompt indicates the name of the cluster.
 
 .About this task
@@ -55,47 +59,35 @@ network device-discovery show -protocol cdp
 ----
 cluster1::*> *network device-discovery show -protocol cdp*
 Node/       Local  Discovered
-Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
------------ ------ ------------------------- ----------------  ----------------
+Protocol    Port   Device (LLDP: ChassisID) Interface         Platform
+----------- ------ ------------------------ ----------------  ----------------
 node1-02/cdp
-            e10a   cs01(FLM284504N6)         Ethernet1/16/3    N9K-C9332D-GX2B
-            e10b   cs01(FDO2846056X)         Ethernet1/13/3    N9K-C9364D-GX2A
-            e11a   cs01(FLM284504N6)         Ethernet1/16/4    N9K-C9332D-GX2B
-            e11b   cs01(FDO2846056X)         Ethernet1/13/4    N9K-C9364D-GX2A
-            e1a    cs01(FLM284504N6)         Ethernet1/16/1    N9K-C9332D-GX2B
-            e1b    cs01(FDO2846056X)         Ethernet1/13/1    N9K-C9364D-GX2A
-            e2a    cs02(FLM284504R2)         Ethernet1/8       N9K-C9332D-GX2B
-            e2b    cs02(FDO28390Q24)         Ethernet1/7       N9K-C9364D-GX2A
-            e3a    cs02(FLM284504R2)         Ethernet1/7       N9K-C9332D-GX2B
-            e3b    cs02(FDO28390Q24)         Ethernet1/8       N9K-C9364D-GX2A
-            e7a    cs01(FLM284504N6)         Ethernet1/16/2    N9K-C9332D-GX2B
-            e7b    cs01(FDO2846056X)         Ethernet1/13/2    N9K-C9364D-GX2A
+            e10a   cs1(FLM284504N6)         Ethernet1/16/3    N9K-C9332D-GX2B
+            e10b   cs1(FDO2846056X)         Ethernet1/13/3    N9K-C9364D-GX2A
+            e11a   cs1(FLM284504N6)         Ethernet1/16/4    N9K-C9332D-GX2B
+            e11b   cs1(FDO2846056X)         Ethernet1/13/4    N9K-C9364D-GX2A
+            e1a    cs1(FLM284504N6)         Ethernet1/16/1    N9K-C9332D-GX2B
+            e1b    cs1(FDO2846056X)         Ethernet1/13/1    N9K-C9364D-GX2A
+            e2a    cs2(FLM284504R2)         Ethernet1/8       N9K-C9332D-GX2B
+            e2b    cs2(FDO28390Q24)         Ethernet1/7       N9K-C9364D-GX2A
+            e3a    cs2(FLM284504R2)         Ethernet1/7       N9K-C9332D-GX2B
+            e3b    cs2(FDO28390Q24)         Ethernet1/8       N9K-C9364D-GX2A
+            e7a    cs1(FLM284504N6)         Ethernet1/16/2    N9K-C9332D-GX2B
+            e7b    cs1(FDO2846056X)         Ethernet1/13/2    N9K-C9364D-GX2A
 
 node1-01/cdp
-            e10a   cs01(FLM284504N6)         Ethernet1/16/3    N9K-C9332D-GX2B
-            e10b   cs01(FDO2846056X)         Ethernet1/13/3    N9K-C9364D-GX2A
-            e11a   cs01(FLM284504N6)         Ethernet1/16/4    N9K-C9332D-GX2B
-            e11b   cs01(FDO2846056X)         Ethernet1/13/4    N9K-C9364D-GX2A
-            e1a    cs01(FLM284504N6)         Ethernet1/16/1    N9K-C9332D-GX2B
-            e1b    cs01(FDO2846056X)         Ethernet1/13/1    N9K-C9364D-GX2A
-            e2a    cs02(FLM284504R2)         Ethernet1/8       N9K-C9332D-GX2B
-            e2b    cs02(FDO28390Q24)         Ethernet1/7       N9K-C9364D-GX2A
-            e3a    cs02(FLM284504R2)         Ethernet1/7       N9K-C9332D-GX2B
-            e3b    cs02(FDO28390Q24)         Ethernet1/8       N9K-C9364D-GX2A
-            e7a    cs01(FLM284504N6)         Ethernet1/16/2    N9K-C9332D-GX2B
-            e7b    cs01(FDO2846056X)         Ethernet1/13/2    N9K-C9364D-GX2A
-
-Node/       Local  Discovered
-Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
------------ ------ ------------------------- ----------------- --------
-cluster1-02/cdp
-            e0a    cs1                       Eth1/2            N9K-C9336C
-            e0b    cs2                       Eth1/2            N9K-C9336C
-cluster1-01/cdp
-            e0a    cs1                       Eth1/1            N9K-C9336C
-            e0b    cs2                       Eth1/1            N9K-C9336C
-
-4 entries were displayed.
+            e10a   cs1(FLM284504N6)         Ethernet1/16/3    N9K-C9332D-GX2B
+            e10b   cs1(FDO2846056X)         Ethernet1/13/3    N9K-C9364D-GX2A
+            e11a   cs1(FLM284504N6)         Ethernet1/16/4    N9K-C9332D-GX2B
+            e11b   cs1(FDO2846056X)         Ethernet1/13/4    N9K-C9364D-GX2A
+            e1a    cs1(FLM284504N6)         Ethernet1/16/1    N9K-C9332D-GX2B
+            e1b    cs01(FDO2846056X)        Ethernet1/13/1    N9K-C9364D-GX2A
+            e2a    cs2(FLM284504R2)         Ethernet1/8       N9K-C9332D-GX2B
+            e2b    cs2(FDO28390Q24)         Ethernet1/7       N9K-C9364D-GX2A
+            e3a    cs2(FLM284504R2)         Ethernet1/7       N9K-C9332D-GX2B
+            e3b    cs2(FDO28390Q24)         Ethernet1/8       N9K-C9364D-GX2A
+            e7a    cs1(FLM284504N6)         Ethernet1/16/2    N9K-C9332D-GX2B
+            e7b    cs1(FDO2846056X)         Ethernet1/13/2    N9K-C9364D-GX2A
 ----
 ====
 
@@ -152,22 +144,6 @@ e7a       Cluster      Cluster          up   9000  auto/100000 healthy false
 e7b       Cluster      Cluster          up   9000  auto/100000 healthy false
 
 8 entries were displayed.
-
-Node: cluster1-02
-                                                  Speed(Mbps) Health
-Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status
---------- ------------ ---------------- ---- ---- ----------- ------
-e0a       Cluster      Cluster          up   9000  auto/10000 healthy
-e0b       Cluster      Cluster          up   9000  auto/10000 healthy
-
-Node: cluster1-01
-                                                  Speed(Mbps) Health
-Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status
---------- ------------ ---------------- ---- ---- ----------- ------
-e0a       Cluster      Cluster          up   9000  auto/10000 healthy
-e0b       Cluster      Cluster          up   9000  auto/10000 healthy
-
-4 entries were displayed.
 ----
 ====
 
@@ -183,37 +159,23 @@ network interface show -vserver Cluster
 ====
 
 [subs=+quotes]
+----
 cluster1::*> *network interface show -vserver Cluster*
 
-----
-            Logical       Status     Network            Current       Current Is
-Vserver     Interface     Admin/Oper Address/Mask       Node          Port    Home
------------ ------------- ---------- ------------------ ------------- ------- ----
+            Logical       Status     Network            Current   Current Is
+Vserver     Interface     Admin/Oper Address/Mask       Node      Port    Home
+----------- ------------- ---------- ------------------ --------- ------- ----
 Cluster
-            node1-01_clus1 up/up     169.254.36.44/16   node1-01      e7a     true
-            node1-01_clus2 up/up     169.254.7.5/16     node1-01      e7b     true
-            node1-02_clus1 up/up     169.254.197.206/16 node1-02      e7a     true
-            node1-02_clus2 up/up     169.254.195.186/16 node1-02      e7b     true
-            node1-03_clus1 up/up     169.254.192.49/16  node1-03      e7a     true
-            node1-03_clus2 up/up     169.254.182.76/16  node1-03      e7b     true
-            node1-04_clus1 up/up     169.254.59.49/16   node1-04      e7a     true
-            node1-04_clus2 up/up     169.254.62.244/16  node1-04      e7b     true
+            node1-01_clus1 up/up     169.254.36.44/16   node1-01  e7a     true
+            node1-01_clus2 up/up     169.254.7.5/16     node1-01  e7b     true
+            node1-02_clus1 up/up     169.254.197.206/16 node1-02  e7a     true
+            node1-02_clus2 up/up     169.254.195.186/16 node1-02  e7b     true
+            node1-03_clus1 up/up     169.254.192.49/16  node1-03  e7a     true
+            node1-03_clus2 up/up     169.254.182.76/16  node1-03  e7b     true
+            node1-04_clus1 up/up     169.254.59.49/16   node1-04  e7a     true
+            node1-04_clus2 up/up     169.254.62.244/16  node1-04  e7b     true
 
 8 entries were displayed.
-
-
-cluster1::*> *network interface show -vserver Cluster*
-
-            Logical            Status     Network            Current       Current Is
-Vserver     Interface          Admin/Oper Address/Mask       Node       steswitch-vin   Port    Home
------------ ------------------ ---------- ------------------ ------------- ------- ----
-Cluster
-            cluster1-01_clus1  up/up      169.254.209.69/16  cluster1-01   e0a     true
-            cluster1-01_clus2  up/up      169.254.49.125/16  cluster1-01   e0b     true
-            cluster1-02_clus1  up/up      169.254.47.194/16  cluster1-02   e0a     true
-            cluster1-02_clus2  up/up      169.254.19.183/16  cluster1-02   e0b     true
-
-4 entries were displayed.
 ----
 ====
 
@@ -258,17 +220,6 @@ node1-02
 .
 .
 .
-
-
-                                  Source               Destination         Packet
-Node   Date                       LIF                  LIF                 Loss
------- -------------------------- -------------------- ------------------- -----------
-node1
-       3/5/2022 19:21:18 -06:00   cluster1-01_clus2    cluster1-02-clus1   none
-       3/5/2022 19:21:20 -06:00   cluster1-01_clus2    cluster1-02_clus2   none
-node2
-       3/5/2022 19:21:18 -06:00   cluster1-02_clus2    cluster1-01_clus1   none
-       3/5/2022 19:21:20 -06:00   cluster1-02_clus2    cluster1-01_clus2   none
 ----
 --
 
@@ -327,7 +278,7 @@ network interface show -vserver Cluster -fields auto-revert
 ----
 cluster1::*> *network interface show -vserver Cluster -fields auto-revert*
         Logical
-Vserver Interface          Auto revert
+Vserver Interface          Auto-revert
 ------- ------------------ -----------
 Cluster node1-01_clus1     true        
 Cluster node1-01_clus2     true        
@@ -339,22 +290,11 @@ Cluster node1-04_clus1     true
 Cluster node1-04_clus2     true    
 
 8 entries were displayed.
-
-          Logical
-Vserver   Interface           Auto-revert
---------- ------------------- ------------
-Cluster
-          cluster1-01_clus1   true
-          cluster1-01_clus2   true
-          cluster1-02_clus1   true
-          cluster1-02_clus2   true
-4 entries were displayed.
 ----
 ====
 
+.What's next?
 
-//include::../_include/prepare-install-software-9336c.adoc[]
-
-//link:install-nxos-software-9332d-cluster.html[Install or upgrade the NX-OS software]
+link:install-nxos-software-9332d-cluster.html[Install or upgrade the NX-OS software]
 
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-06
