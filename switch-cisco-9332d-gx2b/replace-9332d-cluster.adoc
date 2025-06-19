@@ -59,7 +59,7 @@ The following procedure is based on the following cluster network topology:
 [%collapsible]
 ====
 ----
-cluster1::*> *network port show -ipspace Cluster*
+cluster1::*> network port show -ipspace Cluster
 
 Node: node1-01
                                                                        Ignore
@@ -99,7 +99,7 @@ e7b       Cluster      Cluster          up   9000  auto/100000 healthy false
 8 entries were displayed.
 
 
-cluster1::*> *network interface show -vserver Cluster*
+cluster1::*> network interface show -vserver Cluster
             Logical    Status     Network            Current     Current   Is
 Vserver     Interface  Admin/Oper Address/Mask       Node        Port      Home
 ----------- ---------- ---------- ------------------ ----------- --------- ----
@@ -115,7 +115,7 @@ Cluster
 
 8 entries were displayed.
 
-cluster1::*> *network device-discovery show -protocol cdp*
+cluster1::*> network device-discovery show -protocol cdp
 
 
 Node/       Local  Discovered
@@ -132,7 +132,7 @@ node1-01/cdp
 .
 .
 
-cs1# *show cdp neighbors*
+cs1# show cdp neighbors
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
@@ -147,7 +147,7 @@ cs2                Eth1/1/4       156    H           AFX-1K        e11a
 
 Total entries displayed: 4
 
-cs2# *show cdp neighbors*
+cs2# show cdp neighbors
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
@@ -301,7 +301,7 @@ RPC status:
 // end of tabbed content
 
 === Step 2: Configure cables and ports
-. Shut down the ISL ports 1/31 and 1/32 on the Nexus 9332D-GX2B switch cs1.
+. Shut down the ISL ports Eth1/31 and Eth1/32 on the Nexus 9332D-GX2B switch cs1.
 +
 .Show example 
 [%collapsible]
@@ -323,7 +323,7 @@ Port-Channel should indicate Po1(SU) and Member Ports should indicate Eth1/31(P)
 .Show example 
 [%collapsible]
 ====
-This example enables ISL ports 1/31 and 1/32 and displays the port channel summary on switch cs1:
+This example enables ISL ports Eth1/31 and Eth1/32 and displays the port channel summary on switch cs1:
 
 ----
 cs1# configure
@@ -344,7 +344,7 @@ Flags:  D - Down        P - Up in port-channel (members)
 Group Port-       Type     Protocol  Member       Ports
       Channel
 --------------------------------------------------------------------------------
-1     Po1(SU)     Eth      LACP      Eth1/35(P)   Eth1/36(P)
+1     Po1(SU)     Eth      LACP      Eth1/31(P)   Eth1/32(P)
 999   Po999(SD)   Eth      NONE      --
 
 ----
@@ -360,7 +360,7 @@ Group Port-       Type     Protocol  Member       Ports
 The output should be similar to the following:
 
 ----
-cluster1::*> *network port show -ipspace Cluster*
+cluster1::*> network port show -ipspace Cluster
 
 Node: node1-01
                                                                        Ignore
@@ -411,7 +411,7 @@ In this example, LIF node1-01_clus2 on node1-01 is successfully reverted if the 
 The following commands return LIF `node1-01_clus2` on `node1-01` to home port `e7a` and displays information about the LIFs on both nodes. Bringing up the first node is successful if the Is Home column is true for both cluster interfaces and they show the correct port assignments, in this example `e7a` and `e7b` on node1-01.
 
 ----
-cluster1::*> *network interface show -vserver Cluster*
+cluster1::*> network interface show -vserver Cluster
 
             Logical      Status     Network            Current    Current Is
 Vserver     Interface    Admin/Oper Address/Mask       Node       Port    Home
@@ -565,7 +565,7 @@ RPC status:
 [%collapsible]
 ====
 ----
-cluster1::*> *network port show -ipspace Cluster*
+cluster1::*> network port show -ipspace Cluster
 Node: node1-01
                                                                        Ignore
                                                   Speed(Mbps) Health   Health
@@ -603,7 +603,7 @@ e7b       Cluster      Cluster          up   9000  auto/100000 healthy false
 
 8 entries were displayed.
 
-cluster1::*> *network interface show -vserver Cluster*
+cluster1::*> network interface show -vserver Cluster
 
           Logical       Status     Network            Current    Current Is
 Vserver   Interface     Admin/Oper Address/Mask       Node       Port    Home
@@ -616,7 +616,7 @@ Cluster
 
 4 entries were displayed.
 
-cluster1::> *network device-discovery show -protocol cdp*
+cluster1::> network device-discovery show -protocol cdp
 
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
@@ -632,7 +632,7 @@ node1-01/cdp
 .
 .
 
-cs1# *show cdp neighbors*
+cs1# show cdp neighbors
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
@@ -648,7 +648,7 @@ cs2                Eth1/1/4       156    H           AFX-1K        e11a
 Total entries displayed: 4
 
 
-cs2# *show cdp neighbors*
+cs2# show cdp neighbors
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
