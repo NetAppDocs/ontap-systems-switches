@@ -15,13 +15,13 @@ Follow this procedure to configure the Cisco Nexus 9332D-GX2B switch.
 * Access to an HTTP, FTP, or TFTP server at the installation site to download the applicable NX-OS and Reference Configuration File (RCF) releases.
 * Applicable NX-OS version, downloaded from the https://software.cisco.com/download/home[Cisco software download^] page. 
 * Applicable licenses, network and configuration information, and cables.
-* Completed link:setup-worksheet-9332d-cluster.html[cabling worksheets].
-* Applicable NetApp cluster network and management network RCFs downloaded from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com^]. All Cisco cluster network and management network switches arrive with the standard Cisco factory-default configuration. These switches also have the current version of the NX-OS software but do not have the RCFs loaded.
+//* Completed link:setup-worksheet-9332d-cluster.html[cabling worksheets].
+* Applicable NetApp shared network and management network RCFs downloaded from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com^]. All Cisco shared network and management network switches arrive with the standard Cisco factory-default configuration. These switches also have the current version of the NX-OS software but do not have the RCFs loaded.
 * link:required-documentation-9332d-cluster.html[Required switch and ONTAP documentation].
 
 
 .Steps
-. Perform an initial configuration of the cluster network switches.
+. Perform an initial configuration of the shared network switches.
 +
 Provide applicable responses to the following initial setup questions when you first boot the switch. Your site's security policy defines the responses and services to enable.
 +
@@ -119,7 +119,7 @@ NOTE: If you do not save the configuration at this stage, none of the changes wi
 |===
 
 . Verify the configuration choices you made in the display that appears at the end of the setup, and make sure that you save the configuration.
-. Check the version on the cluster network switches, and if necessary, download the 
+. Check the version on the shared network switches, and if necessary, download the 
 NetApp-supported version of the software to the switches from the https://software.cisco.com/download/home[Cisco software download^] page.
 
 .What's next?
