@@ -20,12 +20,12 @@ Before performing the switch replacement, make sure that:
  ** The existing cluster is verified as completely functional, with at least one fully connected cluster switch.
  ** All cluster ports are *up*.
  ** All cluster logical interfaces (LIFs) are *up* and on their home ports.
- ** The ONTAP `cluster ping-cluster -node node1` command must indicate that basic connectivity and larger than PMTU communication are successful on all paths.
+ ** The ONTAP `cluster ping-cluster -node <node-name>` command must indicate that basic connectivity and larger than PMTU communication are successful on all paths.
 * On the Nexus 9332D-GX2B replacement switch:
  ** Management network connectivity on the replacement switch is functional.
  ** Console access to the replacement switch is in place.
- ** The node connections are ports 1/1 through 1/34.
- ** All Inter-Switch Link (ISL) ports is disabled on ports 1/35 and 1/36.
+ ** The node connections are ports 1/1 through 1/30.
+ ** All Inter-Switch Link (ISL) ports is disabled on ports 1/31 and 1/32.
  ** The desired reference configuration file (RCF) and NX-OS operating system image switch is loaded onto the switch.
  ** Initial customization of the switch is complete, as detailed in link:setup-switch-9332d-cluster.html[Configure the 9332D-GX2B cluster switch].
 +
@@ -47,9 +47,9 @@ The examples in this procedure use the following switch and node nomenclature:
 
 * The names of the existing Nexus 9332D-GX2B switches are cs1 and cs2.
 * The name of the new Nexus 9332D-GX2B switch is newcs2.
-* The node names are node1 and node2.
-* The cluster ports on each node are named e0a and e0b.
-* The cluster LIF names are node1_clus1 and node1_clus2 for node1, and node2_clus1 and node2_clus2 for node2.
+* The node names are node1-01 and node1-02.
+//* The cluster ports on each node are named e0a and e0b.
+* The cluster LIF names are node1-01_clus1 and node1-01_clus2 for node1-01, and node1-02_clus1 and node1-02_clus2 for node1-02.
 * The prompt for changes to all cluster nodes is cluster1::*>
 
 .About this task
