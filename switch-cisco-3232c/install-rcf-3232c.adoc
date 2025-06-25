@@ -611,13 +611,13 @@ cluster1::*>
 ----
 cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert true*
 ----
-. Reboot switch cs1. You do this to trigger the cluster LIFs to revert to their home ports. You can ignore the "cluster ports down" events reported on the nodes while the switch reboots.
-+
-[subs=+quotes]
-----
-cs1# *reload*
-This command will reboot the system. (y/n)?  [n] *y*
-----
+//. Reboot switch cs1. You do this to trigger the cluster LIFs to revert to their home ports. You can ignore the "cluster ports down" events reported on the nodes while the switch reboots.
+//+
+//[subs=+quotes]
+//----
+//cs1# *reload*
+//This command will reboot the system. (y/n)?  [n] *y*
+//----
 
 . Verify that the switch ports connected to the cluster ports are up.
 +
@@ -841,3 +841,4 @@ link:configure-ssh-keys.html[Verify SSH configuration].
 // Updates for GH issue #204, 2024-SEP-19
 // Updates for GH issue #215, 2024-OCT-24
 // Updates for GH issue #212, 2024-OCT-16
+// Updates for AFFFASDOC-222, 2020-JUN-25
