@@ -36,7 +36,7 @@ This example shows TFTP being used to copy an RCF to the bootflash on switch cs1
 [subs=+quotes]
 ----
 cs1# *copy tftp: bootflash: vrf management*
-Enter source filename: *NX9332D-GX2B-RCF-v10.0X3-Shared.txt*
+Enter source filename: *NX9332D-GX2B-RCF-v10.0-Shared.txt*
 Enter hostname for the tftp server: *172.22.201.50*
 Trying to connect to tftp server......Connection to Server Established.
 TFTP get operation was successful
@@ -51,10 +51,10 @@ For more information on Cisco commands, see the appropriate guide in the https:/
 .Show example 
 [%collapsible]
 ====
-This example shows the RCF file `NX9332D-GX2B-RCF-v10.0X3-Shared.txt` being installed on switch cs1:
+This example shows the RCF file `NX9332D-GX2B-RCF-v10.0-Shared.txt` being installed on switch cs1:
 
 ----
-cs1# copy NX9332D-GX2B-RCF-v10.0X3-Shared.txt running-config echo-commands
+cs1# copy NX9332D-GX2B-RCF-v10.0-Shared.txt running-config echo-commands
 ----
 ====
 +
@@ -138,10 +138,20 @@ For more information on Cisco commands, see the appropriate guide in the https:/
 cs1# *show interface brief | grep up*
 .
 .
-Eth1/1/1      1       eth  access up      none                    10G(D) --
-Eth1/1/2      1       eth  access up      none                    10G(D) --
-Eth1/7        1       eth  trunk  up      none                   100G(D) --
-Eth1/8        1       eth  trunk  up      none                   100G(D) --
+Eth1/9/3        1       eth  trunk  up      none                     100G(D) --
+Eth1/9/4        1       eth  trunk  up      none                     100G(D) --
+Eth1/15/1       1       eth  trunk  up      none                     100G(D) --
+Eth1/15/2       1       eth  trunk  up      none                     100G(D) --
+Eth1/15/3       1       eth  trunk  up      none                     100G(D) --
+Eth1/15/4       1       eth  trunk  up      none                     100G(D) --
+Eth1/16/1       1       eth  trunk  up      none                     100G(D) --
+Eth1/16/2       1       eth  trunk  up      none                     100G(D) --
+Eth1/16/3       1       eth  trunk  up      none                     100G(D) --
+Eth1/16/4       1       eth  trunk  up      none                     100G(D) --
+Eth1/17/1       1       eth  trunk  up      none                     100G(D) --
+Eth1/17/2       1       eth  trunk  up      none                     100G(D) --
+Eth1/17/3       1       eth  trunk  up      none                     100G(D) --
+Eth1/17/4       1       eth  trunk  up      none                     100G(D) --
 .
 .
 ----

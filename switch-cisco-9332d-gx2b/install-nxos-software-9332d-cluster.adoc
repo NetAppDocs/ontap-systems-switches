@@ -88,17 +88,17 @@ Protocol    Port   Device (LLDP: ChassisID) Interface         Platform
 ----------- ------ ------------------------ ----------------  ----------------
 node1-01/cdp
             e10a   cs1(FLM284504N6)         Ethernet1/16/3    N9K-C9332D-GX2B
-            e10b   cs1(FDO2846056X)         Ethernet1/13/3    N9K-C9364D-GX2A
+            e10b   cs1(FDO2846056X)         Ethernet1/13/3    N9K-C9332D-GX2B
             e11a   cs1(FLM284504N6)         Ethernet1/16/4    N9K-C9332D-GX2B
-            e11b   cs1(FDO2846056X)         Ethernet1/13/4    N9K-C9364D-GX2A
+            e11b   cs1(FDO2846056X)         Ethernet1/13/4    N9K-C9332D-GX2B
             e1a    cs1(FLM284504N6)         Ethernet1/16/1    N9K-C9332D-GX2B
-            e1b    cs1(FDO2846056X)         Ethernet1/13/1    N9K-C9364D-GX2A
+            e1b    cs1(FDO2846056X)         Ethernet1/13/1    N9K-C9332D-GX2B
             e2a    cs2(FLM284504R2)         Ethernet1/8       N9K-C9332D-GX2B
-            e2b    cs2(FDO28390Q24)         Ethernet1/7       N9K-C9364D-GX2A
+            e2b    cs2(FDO28390Q24)         Ethernet1/7       N9K-C9332D-GX2B
             e3a    cs2(FLM284504R2)         Ethernet1/7       N9K-C9332D-GX2B
-            e3b    cs2(FDO28390Q24)         Ethernet1/8       N9K-C9364D-GX2A
+            e3b    cs2(FDO28390Q24)         Ethernet1/8       N9K-C9332D-GX2B
             e7a    cs1(FLM284504N6)         Ethernet1/16/2    N9K-C9332D-GX2B
-            e7b    cs1(FDO2846056X)         Ethernet1/13/2    N9K-C9364D-GX2A
+            e7b    cs1(FDO2846056X)         Ethernet1/13/2    N9K-C9332D-GX2B
 
 node1-01/lldp
             e0M    RTP-eng.netapp.com (34:6f:90:b0:5e:3b) 
@@ -132,40 +132,38 @@ node1-01/lldp
 ----
 cluster1::*> *network port show -role cluster*
 
-Node: cluster1-01
+Node: node1-01
                                                                        Ignore
                                                   Speed(Mbps) Health   Health
 Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ---- ----------- -------- ------
-e0a       Cluster      Cluster          up   9000  auto/100000 healthy false
-e0d       Cluster      Cluster          up   9000  auto/100000 healthy false
+e7a       Cluster      Cluster          up   9000  auto/100000 healthy false
+e7b       Cluster      Cluster          up   9000  auto/100000 healthy false
 
-Node: cluster1-02
+Node: node1-02
                                                                        Ignore
                                                   Speed(Mbps) Health   Health
 Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ---- ----------- -------- ------
-e0a       Cluster      Cluster          up   9000  auto/100000 healthy false
-e0d       Cluster      Cluster          up   9000  auto/100000 healthy false
-8 entries were displayed.
+e7a       Cluster      Cluster          up   9000  auto/100000 healthy false
+e7b       Cluster      Cluster          up   9000  auto/100000 healthy false
 
-Node: cluster1-03
+Node: node1-03
 
-   Ignore
-                                                  Speed(Mbps) Health   Health
-Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
---------- ------------ ---------------- ---- ---- ----------- -------- ------
-e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
-
-Node: cluster1-04
                                                                        Ignore
                                                   Speed(Mbps) Health   Health
 Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ---- ----------- -------- ------
-e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
-cluster1::*>
+e7a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e7b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+
+Node: node1-04
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e7a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e7b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 ----
 ====
 
@@ -212,7 +210,7 @@ cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true
 
 Switch                      Type               Address          Model
 --------------------------- ------------------ ---------------- ---------------
-cs1(FDO2846056X)            cluster-network    10.228.137.233   N9K-C9364D-GX2A
+cs1(FDO2846056X)            cluster-network    10.228.137.233   N9K-C9332D-GX2B
      Serial Number: FDO2846056X
       Is Monitored: true
             Reason: None
@@ -238,7 +236,7 @@ cs2(FLM284504N6)             cluster-network   10.228.137.253   N9K-C9332D-GX2B
 +
 `network interface modify -vserver Cluster -lif * -auto-revert false`
 
-. Copy the NX-OS software and EPLD images to the Nexus 9332D-GX2B switch.
+. Copy the NX-OS software to the Nexus 9332D-GX2B switch.
 +
 .Show example
 [%collapsible]
@@ -247,37 +245,40 @@ cs2(FLM284504N6)             cluster-network   10.228.137.253   N9K-C9332D-GX2B
 [subs=+quotes]
 ----
 cs2# *copy sftp: bootflash: vrf management*
-Enter source filename: */code/nxos.9.3.5.bin*
+Enter source filename: */code/nxos.10.4.2.bin*
 Enter hostname for the sftp server: *172.19.2.1*
-Enter username: *user1*
+Enter username: *root*
 
 Outbound-ReKey for 172.19.2.1:22
 Inbound-ReKey for 172.19.2.1:22
-user1@172.19.2.1's password:
+root@172.19.2.1's password:
 sftp> progress
 Progress meter enabled
-sftp> get   /code/nxos.9.3.5.bin  /bootflash/nxos.9.3.5.bin
-/code/nxos.9.3.5.bin  100% 1261MB   9.3MB/s   02:15
+sftp> get   /code/nxos.10.4.2.bin  /bootflash/nxos.10.4.2.bin
+/code/nxos.10.4.2.bin  100% 1261MB   9.3MB/s   02:15
 sftp> exit
 Copy complete, now saving to disk (please wait)...
 Copy complete.
+----
+====
 
+. Install the NX-OS software on the Nexus 9332D-GX2B switch.
++
+.Show example
+[%collapsible]
+====
 
-cs2# *copy sftp: bootflash: vrf management*
-Enter source filename: */code/n9000-epld.9.3.5.img*
-Enter hostname for the sftp server: *172.19.2.1*
-Enter username: *user1*
+[subs=+quotes]
+----
+cs2# *install all nxos bootflash:nxos.10.4.2.bin*
 
-Outbound-ReKey for 172.19.2.1:22
-Inbound-ReKey for 172.19.2.1:22
-user1@172.19.2.1's password:
-sftp> progress
-Progress meter enabled
-sftp> get   /code/n9000-epld.9.3.5.img  /bootflash/n9000-epld.9.3.5.img
-/code/n9000-epld.9.3.5.img  100%  161MB   9.5MB/s   00:16
-sftp> exit
-Copy complete, now saving to disk (please wait)...
-Copy complete.
+Module       Image  Running-Version(pri:alt)       New-Version           Upg-Required
+
+------   ---------  -----------------------------  --------------------  ------------
+
+     1        nxos  10.4(2)                        10.4.2                No
+
+     1        bios  x.x.x:x.x.x                    x.x.x                 No
 ----
 ====
 
@@ -294,7 +295,7 @@ Copy complete.
 cs2# *show version*
 Cisco Nexus Operating System (NX-OS) Software
 TAC support: http://www.cisco.com/tac
-Copyright (C) 2002-2023, Cisco and/or its affiliates.
+Copyright (C) 2002-2025, Cisco and/or its affiliates.
 All rights reserved.
 The copyrights to certain works contained in this software are
 owned by other third parties and used and distributed under their own
@@ -382,7 +383,6 @@ Performing module support checks.
 
 Notifying services about system upgrade.
 [####################] 100% -- SUCCESS
-
 
 
 Compatibility check is done:
@@ -574,38 +574,37 @@ GEM  FPGA                        0x2
 ----
 cluster1::*> *network port show -role cluster*
 
-Node: cluster1-01
+Node: node1-01
                                                                        Ignore
                                                   Speed(Mbps) Health   Health
 Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ---- ----------- -------- ------
-e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e7a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e7b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 
-Node: cluster1-02
+Node: node1-02
                                                                        Ignore
                                                   Speed(Mbps) Health   Health
 Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ---- ----------- -------- ------
-e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e7a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e7b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 
-Node: cluster1-03
+Node: node1-03
                                                                        Ignore
                                                   Speed(Mbps) Health   Health
 Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ---- ----------- -------- ------
-e0a       Cluster      Cluster          up   9000  auto/100000 healthy false
-e0d       Cluster      Cluster          up   9000  auto/100000 healthy false
+e7a       Cluster      Cluster          up   9000  auto/100000 healthy false
+e7b       Cluster      Cluster          up   9000  auto/100000 healthy false
 
-Node: cluster1-04
+Node: node1-04
                                                                        Ignore
                                                   Speed(Mbps) Health   Health
 Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ---- ----------- -------- ------
-e0a       Cluster      Cluster          up   9000  auto/100000 healthy false
-e0d       Cluster      Cluster          up   9000  auto/100000 healthy false
-8 entries were displayed.
+e7a       Cluster      Cluster          up   9000  auto/100000 healthy false
+e7b       Cluster      Cluster          up   9000  auto/100000 healthy false
 ----
 ====
 
@@ -624,31 +623,31 @@ cluster1::*> *network device-discovery show -protocol cdp*
 
 node1-02/cdp
             e10a   cs1(FLM284504N6)         Ethernet1/16/3    N9K-C9332D-GX2B
-            e10b   cs1(FDO2846056X)         Ethernet1/13/3    N9K-C9364D-GX2A
+            e10b   cs1(FDO2846056X)         Ethernet1/13/3    N9K-C9332D-GX2B
             e11a   cs1(FLM284504N6)         Ethernet1/16/4    N9K-C9332D-GX2B
-            e11b   cs1(FDO2846056X)         Ethernet1/13/4    N9K-C9364D-GX2A
+            e11b   cs1(FDO2846056X)         Ethernet1/13/4    N9K-C9332D-GX2B
             e1a    cs1(FLM284504N6)         Ethernet1/16/1    N9K-C9332D-GX2B
-            e1b    cs1(FDO2846056X)         Ethernet1/13/1    N9K-C9364D-GX2A
+            e1b    cs1(FDO2846056X)         Ethernet1/13/1    N9K-C9332D-GX2B
             e2a    cs2(FLM284504R2)         Ethernet1/8       N9K-C9332D-GX2B
-            e2b    cs2(FDO28390Q24)         Ethernet1/7       N9K-C9364D-GX2A
+            e2b    cs2(FDO28390Q24)         Ethernet1/7       N9K-C9332D-GX2B
             e3a    cs2(FLM284504R2)         Ethernet1/7       N9K-C9332D-GX2B
-            e3b    cs2(FDO28390Q24)         Ethernet1/8       N9K-C9364D-GX2A
+            e3b    cs2(FDO28390Q24)         Ethernet1/8       N9K-C9332D-GX2B
             e7a    cs1(FLM284504N6)         Ethernet1/16/2    N9K-C9332D-GX2B
-            e7b    cs1(FDO2846056X)         Ethernet1/13/2    N9K-C9364D-GX2A
+            e7b    cs1(FDO2846056X)         Ethernet1/13/2    N9K-C9332D-GX2B
 
 node1-01/cdp
             e10a   cs1(FLM284504N6)         Ethernet1/16/3    N9K-C9332D-GX2B
-            e10b   cs1(FDO2846056X)         Ethernet1/13/3    N9K-C9364D-GX2A
+            e10b   cs1(FDO2846056X)         Ethernet1/13/3    N9K-C9332D-GX2B
             e11a   cs1(FLM284504N6)         Ethernet1/16/4    N9K-C9332D-GX2B
-            e11b   cs1(FDO2846056X)         Ethernet1/13/4    N9K-C9364D-GX2A
+            e11b   cs1(FDO2846056X)         Ethernet1/13/4    N9K-C9332D-GX2B
             e1a    cs1(FLM284504N6)         Ethernet1/16/1    N9K-C9332D-GX2B
-            e1b    cs01(FDO2846056X)        Ethernet1/13/1    N9K-C9364D-GX2A
+            e1b    cs1(FDO2846056X)         Ethernet1/13/1    N9K-C9332D-GX2B
             e2a    cs2(FLM284504R2)         Ethernet1/8       N9K-C9332D-GX2B
-            e2b    cs2(FDO28390Q24)         Ethernet1/7       N9K-C9364D-GX2A
+            e2b    cs2(FDO28390Q24)         Ethernet1/7       N9K-C9332D-GX2B
             e3a    cs2(FLM284504R2)         Ethernet1/7       N9K-C9332D-GX2B
-            e3b    cs2(FDO28390Q24)         Ethernet1/8       N9K-C9364D-GX2A
+            e3b    cs2(FDO28390Q24)         Ethernet1/8       N9K-C9332D-GX2B
             e7a    cs1(FLM284504N6)         Ethernet1/16/2    N9K-C9332D-GX2B
-            e7b    cs1(FDO2846056X)         Ethernet1/13/2    N9K-C9364D-GX2A
+            e7b    cs1(FDO2846056X)         Ethernet1/13/2    N9K-C9332D-GX2B
 .
 .
 .
@@ -656,7 +655,7 @@ node1-01/cdp
 cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true*
 Switch                      Type               Address          Model
 --------------------------- ------------------ ---------------- ---------------
-cs1(FDO2846056X)            cluster-network    10.228.137.233   N9K-C9364D-GX2A
+cs1(FDO2846056X)            cluster-network    10.228.137.233   N9K-C9332D-GX2B
      Serial Number: FDO2846056X
       Is Monitored: true
             Reason: None
