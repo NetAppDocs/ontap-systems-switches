@@ -34,23 +34,29 @@ ssh version 2 is enabled
 ----
 (switch)# *show ssh key*
 
-rsa Keys generated:Fri Jun 28 02:16:00 2024
- 
-ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDiNrD52Q586wTGJjFAbjBlFaA23EpDrZ2sDCewl7nwlioC6HBejxluIObAH8hrW8kR+gj0ZAfPpNeLGTg3APj/yiPTBoIZZxbWRShywAM5PqyxWwRb7kp9Zt1YHzVuHYpSO82KUDowKrL6lox/YtpKoZUDZjrZjAp8hTv3JZsPgQ==
- 
+rsa Keys generated:Thu May 15 15:09:55 2025
+
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDCQJPZk7OGhg0j1t0NWKylnI8R8zDpuMpU6KKAjPOCShTFpibeYQqxOPTCAKACkut8dduZmc3bY9DIOle0cKYQ8PgS2mG9ovQ0RJ56RUNhVNPdJuhXM4ckHoiVJxIAbHkbcw8rzawbkT6cNBUiZY3MrOMh0e0CnMRhh9we
+MOo/vQ==
+
+
 bitcount:1024
 fingerprint:
-SHA256:aHwhpzo7+YCDSrp3isJv2uVGz+mjMMokqdMeXVVXfdo
-
+SHA256:TMUXFgyRC3EcIZEVbQ/P0elDByBCJizPJ1XKMkIXfPI
+**************************************
 could not retrieve dsa key information
+**************************************
+ecdsa Keys generated:Thu May 15 15:12:09 2025
 
-ecdsa Keys generated:Fri Jun 28 02:30:56 2024
- 
-ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1MjEAAACFBABJ+ZX5SFKhS57evkE273e0VoqZi4/32dt+f14fBuKv80MjMsmLfjKtCWy1wgVt1Zi+C5TIBbugpzez529zkFSF0ADb8JaGCoaAYe2HvWR/f6QLbKbqVIewCdqWgxzrIY5BPP5GBdxQJMBiOwEdnHg1u/9Pzh/Vz9cHDcCW9qGE780QHA==
- 
+
+ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1MjEAAACFBADquZcNSDA/eLAaItXyxVZxsSJSE3u4et9B6+RLq162zTe/3A6JTCyBrkfrMhQt9QMQ7XrMqJGxLSinXhyUClBxwQD/ZbkZueZHiFuYg5hKN97wUYvts+EwpG2mSVonxKKp
+atmtgu48BqKfZTc4LZYL5vgdh5uuktJ0Z8mYHt3xKPXsvw==
+
+
 bitcount:521
 fingerprint:
-SHA256:TFGe2hXn6QIpcs/vyHzftHJ7Dceg0vQaULYRAlZeHwQ
+SHA256:K8LDx6L7sJjLFn8iubUhjt66uk8TYmXwnQKWVD04C1o
+**************************************
 
 (switch)# *show feature | include scpServer*
 scpServer              1          enabled
@@ -60,7 +66,7 @@ sshServer              1          enabled
 ----
 ====
 
-* Confirm with Sunil if this note is required.
+* Confirm with team if this note is required.
 
 IMPORTANT: When enabling FIPS, you must change the bitcount to 256 on the switch using the command `ssh key ecdsa 256 force`. See https://docs.netapp.com/us-en/ontap/networking/configure_network_security_using_federal_information_processing_standards_@fips@.html#enable-fips[Configure network security using FIPS^] for more details. 
 

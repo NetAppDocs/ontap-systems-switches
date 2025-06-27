@@ -22,6 +22,10 @@ For specific port and VLAN usage details, refer to the banner and important note
 |===
 | RCF name | Description
 a|
+Cluster-HA-Storage (OAM)
+a|
+NX9332D-GX2B-RCF-v10.0-Shared.txt - Supports shared cluster/HA/storage traffic on ports. 
+a|
 2-Cluster-HA-Breakout
 a|
 Supports two ONTAP clusters with at least eight nodes, including nodes that use shared Cluster+HA ports.
@@ -63,16 +67,14 @@ Refer to the appropriate software and upgrade guides available on the Cisco webs
 .About the examples
 The examples in this procedure use the following switch and node nomenclature:
 
-* The names of the two Cisco switches are *cs1* and *cs2*.
-* The node names are *cluster1-01*, *cluster1-02*, *cluster1-03*, and *cluster1-04*.
-* The cluster LIF names are *cluster1-01_clus1*, *cluster1-01_clus2*, *cluster1-02_clus1*, *cluster1-02_clus2*, *cluster1-03_clus1*, *cluster1-03_clus2*, *cluster1-04_clus1*, and *cluster1-04_clus2*.
+* The names of the two Cisco switches are cs1 and cs2.
+* The node names are node1-01, node1-02, node1-03, and node1-04.
+* The cluster LIF names are node1-01_clus1, node1-01_clus2, node1-02_clus1, node1-02_clus2, node1-03_clus1, node1-03_clus2, node1-04_clus1, and node1-04_clus2.
 * The `cluster1::*>` prompt indicates the name of the cluster.
 
-The examples in this procedure use four nodes. These nodes use two 10GbE cluster interconnect ports *e0a* and *e0b*. See the https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe^] to verify the correct cluster ports on your platforms.
+See the https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe^] to verify the correct cluster ports on your platforms.
 
 NOTE: The command outputs might vary depending on different releases of ONTAP.
-
-For details of the available RCF configurations, see link:configure-software-overview-9332d-cluster.html[Software install workflow].
 
 .Commands used
 The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
