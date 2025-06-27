@@ -411,7 +411,7 @@ vlan database
 no vlan 17
 no vlan 18
 exit
-show-running-config
+show running-config
 ----
 
 .. Save the running configuration to the startup configuration:
@@ -675,7 +675,7 @@ Intf      Type   Mode      Mode         Status     Status Trap    Mode   Timeout
 +
 [source,cli]
 ----
-show running config
+show running-config
 ----
 
 . Save the running configuration so that it becomes the startup configuration when you reboot the switch:
@@ -1188,3 +1188,4 @@ system node autosupport invoke -node * -type all -message MAINT=END
 // Updates for GH issue #246, 2025-MAR-14
 // Updates for GH issue #249, 2025-MAR-18
 // Removed .scr for reference-config, 2025-MAY-14
+// Updates for AFFFASDOC-319, 2025-JUN-25 
