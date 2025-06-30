@@ -21,11 +21,11 @@ Before performing the switch replacement, make sure that:
  ** All cluster ports are *up*.
  ** All cluster logical interfaces (LIFs) are *up* and on their home ports.
  ** The ONTAP `cluster ping-cluster -node node1` command must indicate that basic connectivity and larger than PMTU communication are successful on all paths.
-* On the Nexus 9332D-GX2B replacement switch:
+* On the Nexus 9364D-GX2A replacement switch:
  ** Management network connectivity on the replacement switch is functional.
  ** Console access to the replacement switch is in place.
- ** The node connections are ports 1/1 through 1/34.
- ** All Inter-Switch Link (ISL) ports is disabled on ports 1/35 and 1/36.
+ ** The node connections are ports 1/1 through 1/64.
+ ** All Inter-Switch Link (ISL) ports is disabled on ports 1/63 and 1/64.
  ** The desired reference configuration file (RCF) and NX-OS operating system image switch is loaded onto the switch.
  ** Initial customization of the switch is complete, as detailed in link:setup-switch-9332d-cluster.html[Configure the 9332D-GX2B cluster switch].
 +
@@ -48,7 +48,7 @@ The examples in this procedure use the following switch and node nomenclature:
 * The names of the existing Nexus 9332D-GX2B switches are cs1 and cs2.
 * The name of the new Nexus 9332D-GX2B switch is newcs2.
 * The node names are node1 and node2.
-* The cluster ports on each node are named e0a and e0b.
+* The cluster ports on each node are named e7a and e7b.
 * The cluster LIF names are node1_clus1 and node1_clus2 for node1, and node2_clus1 and node2_clus2 for node2.
 * The prompt for changes to all cluster nodes is cluster1::*>
 
@@ -61,51 +61,67 @@ The following procedure is based on the following cluster network topology:
 ----
 cluster1::*> network port show -ipspace Cluster
 
-Node: node1
+Node: node1-01
                                                                        Ignore
                                                   Speed(Mbps) Health   Health
 Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ---- ----------- -------- ------
-e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e7a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e7b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 
-Node: node2
+Node: node1-02
                                                                        Ignore
                                                   Speed(Mbps) Health   Health
 Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ---- ----------- -------- ------
-e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
-4 entries were displayed.
+e7a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e7b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 
+Node: node1-03
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e7a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e7b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+
+Node: node1-04
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e7a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e7b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 
 
 cluster1::*> network interface show -vserver Cluster
-            Logical    Status     Network            Current       Current Is
-Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
------------ ---------- ---------- ------------------ ------------- ------- ----
+            Logical         Status     Network            Current       Current Is
+Vserver     Interface       Admin/Oper Address/Mask       Node          Port    Home
+----------- --------------- ---------- ------------------ ------------- ------- ----
 Cluster
-            node1_clus1  up/up    169.254.209.69/16  node1         e0a     true
-            node1_clus2  up/up    169.254.49.125/16  node1         e0b     true
-            node2_clus1  up/up    169.254.47.194/16  node2         e0a     true
-            node2_clus2  up/up    169.254.19.183/16  node2         e0b     true
-4 entries were displayed.
-
-
+            node1-01_clus1  up/up      169.254.209.69/16  node1-01      e7a     true
+            node1-01_clus2  up/up      169.254.49.125/16  node1-01      e7b     true
+            node1-02_clus1  up/up      169.254.47.194/16  node1-02      e7a     true
+            node1-02_clus2  up/up      169.254.19.183/16  node1-02      e7b     true
+.
+.
+.
+.
 
 cluster1::*> network device-discovery show -protocol cdp
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
-node2      /cdp
-            e0a    cs1                       Eth1/2            N9K-C9336C
-            e0b    cs2                       Eth1/2            N9K-C9336C
-node1      /cdp
-            e0a    cs1                       Eth1/1            N9K-C9336C
-            e0b    cs2                       Eth1/1            N9K-C9336C
-4 entries were displayed.
-
-
+node1-01/cdp
+            e10a   cs1(FLM284504N6)          Ethernet1/16/3    N9K-C9364D-GX2A
+            e11a   cs1(FLM284504N6)          Ethernet1/16/4    N9K-C9364D-GX2A
+            e1a    cs1(FLM284504N6)          Ethernet1/16/1    N9K-C9364D-GX2A
+            e2a    cs2(FLM284504R2)          Ethernet1/8       N9K-C9364D-GX2A
+            e3a    cs2(FLM284504R2)          Ethernet1/7       N9K-C9364D-GX2A
+            e7a    cs1(FLM284504N6)          Ethernet1/16/2    N9K-C9364D-GX2A
+.
+.
+.
 
 cs1# show cdp neighbors
 
@@ -115,10 +131,10 @@ Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   s - Supports-STP-Dispute
 
 Device-ID          Local Intrfce  Hldtme Capability  Platform      Port ID
-node1              Eth1/1         144    H           FAS2980       e0a
-node2              Eth1/2         145    H           FAS2980       e0a
-cs2                Eth1/35        176    R S I s     N9K-C9336C    Eth1/35
-cs2(FDO220329V5)   Eth1/36        176    R S I s     N9K-C9336C    Eth1/36
+cs2                Eth1/1/1       156    H           AFX-1K        e1a           
+cs2                Eth1/1/2       156    H           AFX-1K        e7a           
+cs2                Eth1/1/3       156    H           AFX-1K        e10a          
+cs2                Eth1/1/4       156    H           AFX-1K        e11a 
 
 Total entries displayed: 4
 
@@ -131,10 +147,10 @@ Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   s - Supports-STP-Dispute
 
 Device-ID          Local Intrfce  Hldtme Capability  Platform      Port ID
-node1              Eth1/1         139    H           FAS2980       e0b
-node2              Eth1/2         124    H           FAS2980       e0b
-cs1                Eth1/35        178    R S I s     N9K-C9336C    Eth1/35
-cs1                Eth1/36        178    R S I s     N9K-C9336C    Eth1/36
+cs1                Eth1/9/1       175    H           AFX-1K        e1a           
+cs1                Eth1/9/2       175    H           AFX-1K        e7a           
+cs1                Eth1/9/3       175    H           AFX-1K        e10a          
+cs1                Eth1/9/4       175    H           AFX-1K        e11a     
 
 Total entries displayed: 4
 ----
@@ -169,7 +185,7 @@ If the switch that you are replacing is not functional and is powered down, go t
 ----
 newcs2# config
 Enter configuration commands, one per line. End with CNTL/Z.
-newcs2(config)# interface e1/1-34
+newcs2(config)# interface e1/1-64
 newcs2(config-if-range)# shutdown
 ----
 ====
@@ -225,12 +241,15 @@ cluster1::*> *network interface check cluster-connectivity show*
                                   Source           Destination      Packet
 Node   Date                       LIF              LIF              Loss
 ------ -------------------------- ---------------- ---------------- -----------
-node1
-       3/5/2022 19:21:18 -06:00   node1_clus2      node2-clus1      none
-       3/5/2022 19:21:20 -06:00   node1_clus2      node2_clus2      none
-node2
-       3/5/2022 19:21:18 -06:00   node2_clus2      node1_clus1      none
-       3/5/2022 19:21:20 -06:00   node2_clus2      node1_clus2      none
+node1-01  
+          6/4/2025 03:13:33 -04:00   node1-01_clus2  node1-02_clus1  none
+          6/4/2025 03:13:34 -04:00   node1-01_clus2  node1-02_clus2  none
+node1-02  
+          6/4/2025 03:13:33 -04:00   node1-02_clus2  node1-01_clus1  none
+          6/4/2025 03:13:34 -04:00   node1-02_clus2  node1-01_clus2  none
+.
+.
+.
 ----
 --
 
@@ -274,7 +293,7 @@ RPC status:
 // end of tabbed content
 
 === Step 2: Configure cables and ports
-. Shut down the ISL ports 1/35 and 1/36 on the Nexus 9332D-GX2B switch cs1.
+. Shut down the ISL ports 1/63 and 1/64 on the Nexus 9364D-GX2A switch cs1.
 +
 .Show example 
 [%collapsible]
@@ -282,26 +301,26 @@ RPC status:
 ----
 cs1# configure
 Enter configuration commands, one per line. End with CNTL/Z.
-cs1(config)# interface e1/35-36
+cs1(config)# interface e1/63-64
 cs1(config-if-range)# shutdown
 cs1(config-if-range)#
 ----
 ====
 
-. Remove all of the cables from the Nexus 9332D-GX2B cs2 switch, and then connect them to the same ports on the Nexus 9332D-GX2B newcs2 switch.
-. Bring up the ISLs ports 1/35 and 1/36 between the cs1 and newcs2 switches, and then verify the port channel operation status.
+. Remove all of the cables from the Nexus 9364D-GX2B cs2 switch, and then connect them to the same ports on the Nexus 9364D-GX2A newcs2 switch.
+. Bring up the ISLs ports 1/63 and 1/64 between the cs1 and newcs2 switches, and then verify the port channel operation status.
 +
-Port-Channel should indicate Po1(SU) and Member Ports should indicate Eth1/35(P) and Eth1/36(P).
+Port-Channel should indicate Po1(SU) and Member Ports should indicate Eth1/63(P) and Eth1/64(P).
 +
 .Show example 
 [%collapsible]
 ====
-This example enables ISL ports 1/35 and 1/36 and displays the port channel summary on switch cs1:
+This example enables ISL ports 1/63 and 1/64 and displays the port channel summary on switch cs1:
 
 ----
 cs1# configure
 Enter configuration commands, one per line. End with CNTL/Z.
-cs1(config)# int e1/35-36
+cs1(config)# int e1/63-64 
 cs1(config-if-range)# no shutdown
 
 cs1(config-if-range)# show port-channel summary
@@ -314,16 +333,17 @@ Flags:  D - Down        P - Up in port-channel (members)
         p - Up in delay-lacp mode (member)
         M - Not in use. Min-links not met
 --------------------------------------------------------------------------------
-Group Port-       Type     Protocol  Member       Ports
+Group Port-        Type     Protocol  Member Ports
       Channel
 --------------------------------------------------------------------------------
-1     Po1(SU)     Eth      LACP      Eth1/35(P)   Eth1/36(P)
+11     Po1(SU)     Eth      LACP      Eth1/63(P)   Eth1/64(P)
+999    Po999(SD)   Eth      NONE      --
 
 cs1(config-if-range)#
 ----
 ====
 
-. Verify that port e0b is up on all nodes: 
+. Verify that port e7b is up on all nodes: 
 +
 `network port show ipspace Cluster`
 +
@@ -335,23 +355,42 @@ The output should be similar to the following:
 ----
 cluster1::*> network port show -ipspace Cluster
 
-Node: node1
-                                                                        Ignore
-                                                   Speed(Mbps) Health   Health
-Port      IPspace      Broadcast Domain Link MTU   Admin/Oper  Status   Status
---------- ------------ ---------------- ---- ----- ----------- -------- -------
-e0a       Cluster      Cluster          up   9000  auto/10000  healthy  false
-e0b       Cluster      Cluster          up   9000  auto/10000  healthy  false
+Node: node1-01
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e7a       Cluster      Cluster          up   9000  auto/100000 healthy false
+e7b       Cluster      Cluster          up   9000  auto/100000 healthy false
 
-Node: node2
-                                                                        Ignore
-                                                   Speed(Mbps) Health   Health
-Port      IPspace      Broadcast Domain Link MTU   Admin/Oper  Status   Status
---------- ------------ ---------------- ---- ----- ----------- -------- -------
-e0a       Cluster      Cluster          up   9000  auto/10000  healthy  false
-e0b       Cluster      Cluster          up   9000  auto/auto   -        false
 
-4 entries were displayed.
+Node: node1-02
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e7a       Cluster      Cluster          up   9000  auto/100000 healthy false
+e7b       Cluster      Cluster          up   9000  auto/100000 healthy false
+
+
+Node: node1-03
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e7a       Cluster      Cluster          up   9000  auto/100000 healthy false
+e7b       Cluster      Cluster          up   9000  auto/100000 healthy false
+
+
+Node: node1-04
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e7a       Cluster      Cluster          up   9000  auto/100000 healthy false
+e7b       Cluster      Cluster          up   9000  auto/100000 healthy false
+
+8 entries were displayed.
 ----
 ====
 
@@ -360,21 +399,21 @@ e0b       Cluster      Cluster          up   9000  auto/auto   -        false
 .Show example 
 [%collapsible]
 ====
-In this example, LIF node1_clus2 on node1 is successfully reverted if the Home value is true and the port is e0b.
+In this example, LIF node1-01_clus2 on node1-01 is successfully reverted if the Home value is true and the port is e7b.
 
-The following commands return LIF `node1_clus2` on `node1` to home port `e0a` and displays information about the LIFs on both nodes. Bringing up the first node is successful if the Is Home column is true for both cluster interfaces and they show the correct port assignments, in this example `e0a` and `e0b` on node1.
+The following commands return LIF `node1-01_clus2` on `node1-01` to home port `e7a` and displays information about the LIFs on both nodes. Bringing up the first node is successful if the Is Home column is true for both cluster interfaces and they show the correct port assignments, in this example `e7a` and `e7b` on node1-01.
 
 ----
 cluster1::*> network interface show -vserver Cluster
 
-            Logical      Status     Network            Current    Current Is
-Vserver     Interface    Admin/Oper Address/Mask       Node       Port    Home
------------ ------------ ---------- ------------------ ---------- ------- -----
+            Logical         Status     Network            Current    Current Is
+Vserver     Interface       Admin/Oper Address/Mask       Node       Port    Home
+----------- --------------- ---------- ------------------ ---------- ------- -----
 Cluster
-            node1_clus1  up/up      169.254.209.69/16  node1      e0a     true
-            node1_clus2  up/up      169.254.49.125/16  node1      e0b     true
-            node2_clus1  up/up      169.254.47.194/16  node2      e0a     true
-            node2_clus2  up/up      169.254.19.183/16  node2      e0a     false
+            node1-01_clus1  up/up      169.254.209.69/16  node1-01   e7a     true
+            node1-01_clus2  up/up      169.254.49.125/16  node1-01   e7b     true
+            node1-02_clus1  up/up      169.254.47.194/16  node1-02   e7b     true
+            node1-02_clus2  up/up      169.254.19.183/16  node1-02   e7a     false
 
 4 entries were displayed.
 ----
@@ -394,8 +433,8 @@ cluster1::*> cluster show
 
 Node          Health  Eligibility
 ------------- ------- ------------
-node1         false   true
-node2         true    true
+node1-01      false   true
+node1-02      true    true
 ----
 ====
 
@@ -409,22 +448,25 @@ node2         true    true
 ----
 cluster1::*> network port show -ipspace Cluster
 
-Node node1                                                               Ignore
-                                                    Speed(Mbps) Health   Health
-Port      IPspace     Broadcast Domain  Link  MTU   Admin/Oper  Status   Status
---------- ----------- ----------------- ----- ----- ----------- -------- ------
-e0a       Cluster     Cluster           up    9000  auto/10000  healthy  false
-e0b       Cluster     Cluster           up    9000  auto/10000  healthy  false
+Node: node1-01
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e7a       Cluster      Cluster          up   9000  auto/100000 healthy false
+e7b       Cluster      Cluster          up   9000  auto/100000 healthy false
 
-Node: node2
-                                                                         Ignore
-                                                    Speed(Mbps) Health   Health
-Port      IPspace      Broadcast Domain Link  MTU   Admin/Oper  Status   Status
---------- ------------ ---------------- ----- ----- ----------- -------- ------
-e0a       Cluster      Cluster          up    9000  auto/10000  healthy  false
-e0b       Cluster      Cluster          up    9000  auto/10000  healthy  false
 
-4 entries were displayed.
+Node: node1-02
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e7a       Cluster      Cluster          up   9000  auto/100000 healthy false
+e7b       Cluster      Cluster          up   9000  auto/100000 healthy false
+.
+.
+.
 ----
 ====
 
@@ -456,13 +498,16 @@ cluster1::*> *network interface check cluster-connectivity start*
 cluster1::*> *network interface check cluster-connectivity show*
                                   Source           Destination      Packet
 Node   Date                       LIF              LIF              Loss
------- -------------------------- ---------------- ---------------- -----------
-node1
-       3/5/2022 19:21:18 -06:00   node1_clus2      node2-clus1      none
-       3/5/2022 19:21:20 -06:00   node1_clus2      node2_clus2      none
-node2
-       3/5/2022 19:21:18 -06:00   node2_clus2      node1_clus1      none
-       3/5/2022 19:21:20 -06:00   node2_clus2      node1_clus2      none
+------ -------------------------- ---------------- ---------------- ---------
+node1-01  
+       6/4/2025 03:13:33 -04:00   node1-01_clus2   node1-02_clus1   none
+       6/4/2025 03:13:34 -04:00   node1-01_clus2   node1-02_clus2   none
+node1-02  
+       6/4/2025 03:13:33 -04:00   node1-02_clus2   node1-01_clus1   none
+       6/4/2025 03:13:34 -04:00   node1-02_clus2   node1-01_clus2   none
+.
+.
+.
 ----
 --
 
@@ -515,23 +560,40 @@ RPC status:
 ====
 ----
 cluster1::*> network port show -ipspace Cluster
-Node: node1
+Node: node1-01
                                                                        Ignore
-                                       Speed(Mbps)            Health   Health
-Port      IPspace     Broadcast Domain Link MTU   Admin/Oper  Status   Status
---------- ----------- ---------------- ---- ----- ----------- -------- ------
-e0a       Cluster     Cluster          up   9000  auto/10000  healthy  false
-e0b       Cluster     Cluster          up   9000  auto/10000  healthy  false
-
-Node: node2
-                                                                       Ignore
-                                        Speed(Mbps)           Health   Health
+                                                  Speed(Mbps) Health   Health
 Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ---- ----------- -------- ------
-e0a       Cluster      Cluster          up   9000 auto/10000  healthy  false
-e0b       Cluster      Cluster          up   9000 auto/10000  healthy  false
+e7a       Cluster      Cluster          up   9000  auto/100000 healthy false
+e7b       Cluster      Cluster          up   9000  auto/100000 healthy false
 
-4 entries were displayed.
+
+Node: node1-02
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e7a       Cluster      Cluster          up   9000  auto/100000 healthy false
+e7b       Cluster      Cluster          up   9000  auto/100000 healthy false
+
+
+Node: node1-03
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e7a       Cluster      Cluster          up   9000  auto/100000 healthy false
+e7b       Cluster      Cluster          up   9000  auto/100000 healthy false
+
+
+Node: node1-04
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e7a       Cluster      Cluster          up   9000  auto/100000 healthy false
+e7b       Cluster      Cluster          up   9000  auto/100000 healthy false
 
 
 cluster1::*> network interface show -vserver Cluster
@@ -540,10 +602,10 @@ cluster1::*> network interface show -vserver Cluster
 Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
 ----------- ---------- ---------- ------------------ ------------- ------- ----
 Cluster
-            node1_clus1  up/up    169.254.209.69/16  node1         e0a     true
-            node1_clus2  up/up    169.254.49.125/16  node1         e0b     true
-            node2_clus1  up/up    169.254.47.194/16  node2         e0a     true
-            node2_clus2  up/up    169.254.19.183/16  node2         e0b     true
+          node1-01_clus1  up/up    169.254.209.69/16  node1-01   e7a     true
+          node1-01_clus2  up/up    169.254.49.125/16  node1-01   e7b     true
+          node1-02_clus1  up/up    169.254.47.194/16  node1-02   e7b     true
+          node1-02_clus2  up/up    169.254.19.183/16  node1-02   e7a     false
 
 4 entries were displayed.
 
@@ -552,15 +614,16 @@ cluster1::> network device-discovery show -protocol cdp
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
-node2      /cdp
-            e0a    cs1                       0/2               N9K-C9336C
-            e0b    newcs2                    0/2               N9K-C9336C
-node1      /cdp
-            e0a    cs1                       0/1               N9K-C9336C
-            e0b    newcs2                    0/1               N9K-C9336C
-
-4 entries were displayed.
-
+node1-01/cdp
+            e10a   cs1(FLM284504N6)          Ethernet1/16/3    N9K-C9642D-GX2A
+            e11a   cs1(FLM284504N6)          Ethernet1/16/4    N9K-C9364D-GX2A
+            e1a    cs1(FLM284504N6)          Ethernet1/16/1    N9K-C9364D-GX2A
+            e2a    cs2(FLM284504R2)          Ethernet1/8       N9K-C9364D-GX2A
+            e3a    cs2(FLM284504R2)          Ethernet1/7       N9K-C9364D-GX2A
+            e7a    cs1(FLM284504N6)          Ethernet1/16/2    N9K-C9364D-GX2A
+.
+.
+.
 
 cs1# show cdp neighbors
 
@@ -570,15 +633,13 @@ Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   s - Supports-STP-Dispute
 
 Device-ID            Local Intrfce  Hldtme Capability  Platform      Port ID
-node1                Eth1/1         144    H           FAS2980       e0a
-node2                Eth1/2         145    H           FAS2980       e0a
-newcs2               Eth1/35        176    R S I s     N9K-C9336C    Eth1/35
-newcs2               Eth1/36        176    R S I s     N9K-C9336C    Eth1/36
-
-Total entries displayed: 4
+newcs2               Eth1/1/1       156    H           AFX-1K        e1a           
+newcs2               Eth1/1/2       156    H           AFX-1K        e7a           
+newcs2               Eth1/1/3       156    H           AFX-1K        e10a          
+newcs2               Eth1/1/4       156    H           AFX-1K        e11a
 
 
-cs2# show cdp neighbors
+newcs2# show cdp neighbors
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
@@ -586,12 +647,10 @@ Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   s - Supports-STP-Dispute
 
 Device-ID          Local Intrfce  Hldtme Capability  Platform      Port ID
-node1              Eth1/1         139    H           FAS2980       e0b
-node2              Eth1/2         124    H           FAS2980       e0b
-cs1                Eth1/35        178    R S I s     N9K-C9336C    Eth1/35
-cs1                Eth1/36        178    R S I s     N9K-C9336C    Eth1/36
-
-Total entries displayed: 4
+cs1                Eth1/9/1       175    H           AFX-1K        e1a           
+cs1                Eth1/9/2       175    H           AFX-1K        e7a           
+cs1                Eth1/9/3       175    H           AFX-1K        e10a          
+cs1                Eth1/9/4       175    H           AFX-1K        e11a  
 ----
 ====
 

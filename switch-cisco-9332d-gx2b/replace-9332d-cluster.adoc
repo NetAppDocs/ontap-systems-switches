@@ -341,12 +341,11 @@ Flags:  D - Down        P - Up in port-channel (members)
         p - Up in delay-lacp mode (member)
         M - Not in use. Min-links not met
 --------------------------------------------------------------------------------
-Group Port-       Type     Protocol  Member       Ports
+Group Port-       Type     Protocol  Member Ports
       Channel
 --------------------------------------------------------------------------------
 1     Po1(SU)     Eth      LACP      Eth1/31(P)   Eth1/32(P)
 999   Po999(SD)   Eth      NONE      --
-
 ----
 ====
 
@@ -640,15 +639,15 @@ Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   s - Supports-STP-Dispute
 
 Device-ID          Local Intrfce  Hldtme Capability  Platform      Port ID
-cs2                Eth1/1/1       156    H           AFX-1K        e1a           
-cs2                Eth1/1/2       156    H           AFX-1K        e7a           
-cs2                Eth1/1/3       156    H           AFX-1K        e10a          
-cs2                Eth1/1/4       156    H           AFX-1K        e11a
+newcs2             Eth1/1/1       156    H           AFX-1K        e1a           
+newcs2             Eth1/1/2       156    H           AFX-1K        e7a           
+newcs2             Eth1/1/3       156    H           AFX-1K        e10a          
+newcs2             Eth1/1/4       156    H           AFX-1K        e11a
 
 Total entries displayed: 4
 
 
-cs2# show cdp neighbors
+newcs2# show cdp neighbors
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
