@@ -87,34 +87,32 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID) Interface         Platform
 ----------- ------ ------------------------ ----------------  ----------------
 node1-01/cdp
-            e10a   cs1(FLM284504N6)         Ethernet1/16/3    N9K-C9332D-GX2B
-            e10b   cs1(FDO2846056X)         Ethernet1/13/3    N9K-C9332D-GX2B
-            e11a   cs1(FLM284504N6)         Ethernet1/16/4    N9K-C9332D-GX2B
-            e11b   cs1(FDO2846056X)         Ethernet1/13/4    N9K-C9332D-GX2B
-            e1a    cs1(FLM284504N6)         Ethernet1/16/1    N9K-C9332D-GX2B
-            e1b    cs1(FDO2846056X)         Ethernet1/13/1    N9K-C9332D-GX2B
-            e2a    cs2(FLM284504R2)         Ethernet1/8       N9K-C9332D-GX2B
-            e2b    cs2(FDO28390Q24)         Ethernet1/7       N9K-C9332D-GX2B
-            e3a    cs2(FLM284504R2)         Ethernet1/7       N9K-C9332D-GX2B
-            e3b    cs2(FDO28390Q24)         Ethernet1/8       N9K-C9332D-GX2B
-            e7a    cs1(FLM284504N6)         Ethernet1/16/2    N9K-C9332D-GX2B
-            e7b    cs1(FDO2846056X)         Ethernet1/13/2    N9K-C9332D-GX2B
+            e10a   cs1(FLMXXXXXXXX)         Ethernet1/16/3    N9K-C9332D-GX2B
+            e10b   cs2(FDOXXXXXXXX)         Ethernet1/16/3    N9K-C9332D-GX2B
+            e11a   cs1(FLMXXXXXXXX)         Ethernet1/16/4    N9K-C9332D-GX2B
+            e11b   cs2(FDOXXXXXXXX)         Ethernet1/16/4    N9K-C9332D-GX2B
+            e1a    cs1(FLMXXXXXXXX)         Ethernet1/16/1    N9K-C9332D-GX2B
+            e1b    cs2(FDOXXXXXXXX)         Ethernet1/16/1    N9K-C9332D-GX2B
+            .
+            .
+            . 
+            e7a    cs1(FLMXXXXXXXX)         Ethernet1/16/2    N9K-C9332D-GX2B
+            e7b    cs2(FDOXXXXXXXX)         Ethernet1/16/2    N9K-C9332D-GX2B
 
 node1-01/lldp
             e0M    RTP-eng.netapp.com (34:6f:90:b0:5e:3b) 
                                             Eth123/1/26       -
             e10a   cs1 (c8:60:8f:34:78:d4)  Ethernet1/16/3    -
-            e10b   cs1 (04:e3:87:19:a2:5a)  Ethernet1/13/3    -
+            e10b   cs2 (04:e3:87:19:a2:5a)  Ethernet1/16/3    -
             e11a   cs1 (c8:60:8f:34:78:d5)  Ethernet1/16/4    -
-            e11b   cs1 (04:e3:87:19:a2:5b)  Ethernet1/13/4    -
+            e11b   cs2 (04:e3:87:19:a2:5b)  Ethernet1/16/4    -
             e1a    cs1 (c8:60:8f:34:78:d2)  Ethernet1/16/1    -
-            e1b    cs1 (04:e3:87:19:a2:58)  Ethernet1/13/1    -
-            e2a    cs2 (c8:60:8f:34:a7:4a)  Ethernet1/8       -
-            e2b    cs2 (28:b5:91:09:38:d8)  Ethernet1/7       -
-            e3a    cs2 (c8:60:8f:34:a7:46)  Ethernet1/7       -
-            e3b    cs2 (28:b5:91:09:38:dc)  Ethernet1/8       -
+            e1b    cs2 (04:e3:87:19:a2:58)  Ethernet1/16/1    -
+            .
+            .
+            .
             e7a    cs1 (c8:60:8f:34:78:d3)  Ethernet1/16/2    -
-            e7b    cs1 (04:e3:87:19:a2:59)  Ethernet1/13/2    -
+            e7b    cs2 (04:e3:87:19:a2:59)  Ethernet1/16/2    -
 ----
 ====
 
@@ -210,7 +208,7 @@ cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true
 
 Switch                      Type               Address          Model
 --------------------------- ------------------ ---------------- ---------------
-cs1(FDO2846056X)            cluster-network    10.228.137.233   N9K-C9332D-GX2B
+cs2(FDOXXXXXXXX)            cluster-network    10.228.137.233   N9K-C9332D-GX2B
      Serial Number: FDO2846056X
       Is Monitored: true
             Reason: None
@@ -219,7 +217,7 @@ cs1(FDO2846056X)            cluster-network    10.228.137.233   N9K-C9332D-GX2B
     Version Source: CDP/ISDP
 
 
-cs2(FLM284504N6)             cluster-network   10.228.137.253   N9K-C9332D-GX2B
+cs1(FLMXXXXXXXX)             cluster-network   10.228.137.253   N9K-C9332D-GX2B
      Serial Number: FLM284504N6
       Is Monitored: true
             Reason: None
@@ -484,82 +482,6 @@ Active Package(s):
 ----
 ====
 
-. Upgrade the EPLD image and reboot the switch.
-+
-.Show example
-[%collapsible]
-====
-
-[subs=+quotes]
-----
-cs2# *show version module 1 epld*
-
-EPLD Device                     Version
----------------------------------------
-MI   FPGA                        0x7
-IO   FPGA                        0x17
-MI   FPGA2                       0x2
-GEM  FPGA                        0x2
-GEM  FPGA                        0x2
-GEM  FPGA                        0x2
-GEM  FPGA                        0x2
-
-cs2# *install epld bootflash:n9000-epld.9.3.5.img module 1*
-Compatibility check:
-Module        Type         Upgradable        Impact    Reason
-------  ------------------ ----------------- --------- -----------
-     1         SUP         Yes       disruptive  Module Upgradable
-
-Retrieving EPLD versions.... Please wait.
-Images will be upgraded according to following table:
-Module  Type   EPLD              Running-Version   New-Version  Upg-Required
-------- ------ ----------------- ----------------- ------------ ------------
-     1  SUP    MI FPGA           0x07              0x07         No
-     1  SUP    IO FPGA           0x17              0x19         Yes
-     1  SUP    MI FPGA2          0x02              0x02         No
-The above modules require upgrade.
-The switch will be reloaded at the end of the upgrade
-Do you want to continue (y/n) ?  [n] *y*
-
-Proceeding to upgrade Modules.
-
-Starting Module 1 EPLD Upgrade
-
-Module 1 : IO FPGA [Programming] : 100.00% (     64 of      64 sectors)
-Module 1 EPLD upgrade is successful.
-Module   Type  Upgrade-Result
--------- ----- --------------
-     1   SUP   Success
-
-EPLDs upgraded.
-
-Module 1 EPLD upgrade is successful.
-----
-====
-
-. After the switch reboot, log in again and verify that the new version of EPLD loaded successfully.
-+
-
-.Show example
-[%collapsible]
-====
-
-[subs=+quotes]
-----
-cs2# *show version module 1 epld*
-
-EPLD Device                     Version
----------------------------------------
-MI   FPGA                        0x7
-IO   FPGA                        0x19
-MI   FPGA2                       0x2
-GEM  FPGA                        0x2
-GEM  FPGA                        0x2
-GEM  FPGA                        0x2
-GEM  FPGA                        0x2
-----
-====
-
 . Verify the health of cluster ports on the cluster.
 
 .. Verify that cluster ports are up and healthy across all nodes in the cluster: 
@@ -622,32 +544,30 @@ e7b       Cluster      Cluster          up   9000  auto/100000 healthy false
 cluster1::*> *network device-discovery show -protocol cdp*
 
 node1-02/cdp
-            e10a   cs1(FLM284504N6)         Ethernet1/16/3    N9K-C9332D-GX2B
-            e10b   cs1(FDO2846056X)         Ethernet1/13/3    N9K-C9332D-GX2B
-            e11a   cs1(FLM284504N6)         Ethernet1/16/4    N9K-C9332D-GX2B
-            e11b   cs1(FDO2846056X)         Ethernet1/13/4    N9K-C9332D-GX2B
-            e1a    cs1(FLM284504N6)         Ethernet1/16/1    N9K-C9332D-GX2B
-            e1b    cs1(FDO2846056X)         Ethernet1/13/1    N9K-C9332D-GX2B
-            e2a    cs2(FLM284504R2)         Ethernet1/8       N9K-C9332D-GX2B
-            e2b    cs2(FDO28390Q24)         Ethernet1/7       N9K-C9332D-GX2B
-            e3a    cs2(FLM284504R2)         Ethernet1/7       N9K-C9332D-GX2B
-            e3b    cs2(FDO28390Q24)         Ethernet1/8       N9K-C9332D-GX2B
+            e10a   cs1(FLMXXXXXXXX)         Ethernet1/16/3    N9K-C9332D-GX2B
+            e10b   cs2(FDOXXXXXXXX)         Ethernet1/16/3    N9K-C9332D-GX2B
+            e11a   cs1(FLMXXXXXXXX)         Ethernet1/16/4    N9K-C9332D-GX2B
+            e11b   cs2(FDOXXXXXXXX)         Ethernet1/16/4    N9K-C9332D-GX2B
+            e1a    cs1(FLMXXXXXXXX)         Ethernet1/16/1    N9K-C9332D-GX2B
+            e1b    cs2(FDOXXXXXXXX)         Ethernet1/16/1    N9K-C9332D-GX2B
+            .
+            .
+            .
             e7a    cs1(FLM284504N6)         Ethernet1/16/2    N9K-C9332D-GX2B
-            e7b    cs1(FDO2846056X)         Ethernet1/13/2    N9K-C9332D-GX2B
+            e7b    cs2(FDO2846056X)         Ethernet1/16/2    N9K-C9332D-GX2B
 
 node1-01/cdp
-            e10a   cs1(FLM284504N6)         Ethernet1/16/3    N9K-C9332D-GX2B
-            e10b   cs1(FDO2846056X)         Ethernet1/13/3    N9K-C9332D-GX2B
-            e11a   cs1(FLM284504N6)         Ethernet1/16/4    N9K-C9332D-GX2B
-            e11b   cs1(FDO2846056X)         Ethernet1/13/4    N9K-C9332D-GX2B
-            e1a    cs1(FLM284504N6)         Ethernet1/16/1    N9K-C9332D-GX2B
-            e1b    cs1(FDO2846056X)         Ethernet1/13/1    N9K-C9332D-GX2B
-            e2a    cs2(FLM284504R2)         Ethernet1/8       N9K-C9332D-GX2B
-            e2b    cs2(FDO28390Q24)         Ethernet1/7       N9K-C9332D-GX2B
-            e3a    cs2(FLM284504R2)         Ethernet1/7       N9K-C9332D-GX2B
-            e3b    cs2(FDO28390Q24)         Ethernet1/8       N9K-C9332D-GX2B
-            e7a    cs1(FLM284504N6)         Ethernet1/16/2    N9K-C9332D-GX2B
-            e7b    cs1(FDO2846056X)         Ethernet1/13/2    N9K-C9332D-GX2B
+            e10a   cs1(FLMXXXXXXXX)         Ethernet1/16/3    N9K-C9332D-GX2B
+            e10b   cs2(FDOXXXXXXXX)         Ethernet1/16/3    N9K-C9332D-GX2B
+            e11a   cs1(FLMXXXXXXXX)         Ethernet1/16/4    N9K-C9332D-GX2B
+            e11b   cs2(FDOXXXXXXXX)         Ethernet1/16/4    N9K-C9332D-GX2B
+            e1a    cs1(FLMXXXXXXXX)         Ethernet1/16/1    N9K-C9332D-GX2B
+            e1b    cs2(FDOXXXXXXXX)         Ethernet1/16/1    N9K-C9332D-GX2B
+           .
+           .
+           .
+            e7a    cs1(FLMXXXXXXXX)         Ethernet1/16/2    N9K-C9332D-GX2B
+            e7b    cs2(FDOXXXXXXXX)         Ethernet1/16/2    N9K-C9332D-GX2B
 .
 .
 .
@@ -655,8 +575,8 @@ node1-01/cdp
 cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true*
 Switch                      Type               Address          Model
 --------------------------- ------------------ ---------------- ---------------
-cs1(FDO2846056X)            cluster-network    10.228.137.233   N9K-C9332D-GX2B
-     Serial Number: FDO2846056X
+cs2(FDOXXXXXXXX)            cluster-network    10.228.137.233   N9K-C9332D-GX2B
+     Serial Number: FDOXXXXXXXX
       Is Monitored: true
             Reason: None
   Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
@@ -664,8 +584,8 @@ cs1(FDO2846056X)            cluster-network    10.228.137.233   N9K-C9332D-GX2B
     Version Source: CDP/ISDP
 
 
-cs2(FLM284504N6)             cluster-network   10.228.137.253   N9K-C9332D-GX2B
-     Serial Number: FLM284504N6
+cs1(FLMXXXXXXXX)             cluster-network   10.228.137.253   N9K-C9332D-GX2B
+     Serial Number: FLMXXXXXXXX
       Is Monitored: true
             Reason: None
   Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
@@ -741,8 +661,6 @@ Cluster
 If any cluster LIFs have not returned to their home ports, revert them manually from the local node: 
 +
 `network interface revert -vserver Cluster -lif <lif_name>`
-
-//include::../_include/install-nxos-software-9336c.adoc[]
 
 .What's next?
 

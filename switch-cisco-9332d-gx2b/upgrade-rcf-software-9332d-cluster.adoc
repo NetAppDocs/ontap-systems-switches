@@ -43,33 +43,31 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
 node1-01/cdp
-            e10a   cs1(FLM284504N6)          Ethernet1/16/3    N9K-C9332D-GX2B
-            e10b   cs1(FDO2846056X)          Ethernet1/13/3    N9K-C9332D-GX2B
-            e11a   cs1(FLM284504N6)          Ethernet1/16/4    N9K-C9332D-GX2B
-            e11b   cs1(FDO2846056X)          Ethernet1/13/4    N9K-C9332D-GX2B
-            e1a    cs1(FLM284504N6)          Ethernet1/16/1    N9K-C9332D-GX2B
-            e1b    cs1(FDO2846056X)          Ethernet1/13/1    N9K-C9332D-GX2B
-            e2a    cs2(FLM284504R2)          Ethernet1/8       N9K-C9332D-GX2B
-            e2b    cs2(FDO28390Q24)          Ethernet1/7       N9K-C9332D-GX2B
-            e3a    cs2(FLM284504R2)          Ethernet1/7       N9K-C9332D-GX2B
-            e3b    cs2(FDO28390Q24)          Ethernet1/8       N9K-C9332D-GX2B
-            e7a    cs1(FLM284504N6)          Ethernet1/16/2    N9K-C9332D-GX2B
-            e7b    cs1(FDO2846056X)          Ethernet1/13/2    N9K-C9332D-GX2B
+            e10a   cs1(FLMXXXXXXXX)          Ethernet1/16/3    N9K-C9332D-GX2B
+            e10b   cs2(FDOXXXXXXXX)          Ethernet1/16/3    N9K-C9332D-GX2B
+            e11a   cs1(FLMXXXXXXXX)          Ethernet1/16/4    N9K-C9332D-GX2B
+            e11b   cs2(FDOXXXXXXXX)          Ethernet1/16/4    N9K-C9332D-GX2B
+            e1a    cs1(FLMXXXXXXXX)          Ethernet1/16/1    N9K-C9332D-GX2B
+            e1b    cs2(FDOXXXXXXXX)          Ethernet1/16/1    N9K-C9332D-GX2B
+            .
+            .
+            .
+            e7a    cs1(FLMXXXXXXXX)          Ethernet1/16/2    N9K-C9332D-GX2B
+            e7b    cs2(FDOXXXXXXXX)          Ethernet1/16/2    N9K-C9332D-GX2B
 
 node1-01/lldp
             e0M    RTP-LF01-410G53.rtp       Eth123/1/26       -
             e10a   cs1 (c8:60:8f:34:78:d4)   Ethernet1/16/3    -
-            e10b   cs1 (04:e3:87:19:a2:5a)   Ethernet1/13/3    -
+            e10b   cs2 (04:e3:87:19:a2:5a)   Ethernet1/16/3    -
             e11a   cs1 (c8:60:8f:34:78:d5)   Ethernet1/16/4    -
-            e11b   cs1 (04:e3:87:19:a2:5b)   Ethernet1/13/4    -
+            e11b   cs2 (04:e3:87:19:a2:5b)   Ethernet1/16/4    -
             e1a    cs1 (c8:60:8f:34:78:d2)   Ethernet1/16/1    -
-            e1b    cs1 (04:e3:87:19:a2:58)   Ethernet1/13/1    -
-            e2a    cs2 (c8:60:8f:34:a7:4a)   Ethernet1/8       -
-            e2b    cs2 (28:b5:91:09:38:d8)   Ethernet1/7       -
-            e3a    cs2 (c8:60:8f:34:a7:46)   Ethernet1/7       -
-            e3b    cs2 (28:b5:91:09:38:dc)   Ethernet1/8       -
+            e1b    cs2 (04:e3:87:19:a2:58)   Ethernet1/16/1    -
+            .
+            .
+            .
             e7a    cs1 (c8:60:8f:34:78:d3)   Ethernet1/16/2    - 
-            e7b    cs1 (04:e3:87:19:a2:59)   Ethernet1/13/2    -        
+            e7b    cs2 (04:e3:87:19:a2:59)   Ethernet1/16/2    -        
 ----
 ====
 
@@ -163,8 +161,8 @@ cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true
 
 Switch                      Type               Address          Model
 --------------------------- ------------------ ---------------- ---------------
-cs1(FDO2846056X)            cluster-network    10.228.137.233   N9K-C9332D-GX2B
-     Serial Number: FDO2846056X
+cs2(FDOXXXXXXXX)            cluster-network    10.228.137.233   N9K-C9332D-GX2B
+     Serial Number: FDOXXXXXXXX
       Is Monitored: true
             Reason: None
   Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
@@ -172,8 +170,8 @@ cs1(FDO2846056X)            cluster-network    10.228.137.233   N9K-C9332D-GX2B
     Version Source: CDP/ISDP
 
 
-cs2(FLM284504N6)            cluster-network    10.228.137.234   N9K-C9332D-GX2B
-     Serial Number: FLM284504N6
+cs2(FLMXXXXXXXX)            cluster-network    10.228.137.234   N9K-C9332D-GX2B
+     Serial Number: FLMXXXXXXXX
       Is Monitored: true
             Reason: None
   Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
@@ -451,35 +449,33 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
 node1-01/cdp
-            e10a   cs1(FLM284504N6)          Ethernet1/16/3    N9K-C9332D-GX2B
-            e10b   cs1(FDO2846056X)          Ethernet1/13/3    N9K-C9332D-GX2B 
-            e11a   cs1(FLM284504N6)          Ethernet1/16/4    N9K-C9332D-GX2B
-            e11b   cs1(FDO2846056X)          Ethernet1/13/4    N9K-C9332D-GX2B
-            e1a    cs1(FLM284504N6)          Ethernet1/16/1    N9K-C9332D-GX2B
-            e1b    cs1(FLM284504N6)          Ethernet1/13/1    N9K-C9332D-GX2B
-            e2a    cs2(FLM284504R2)          Ethernet1/8       N9K-C9332D-GX2B
-            e2b    cs2(FDO28390Q24)          Ethernet1/7       N9K-C9332D-GX2B
-            e3a    cs2(FLM284504R2)          Ethernet1/7       N9K-C9332D-GX2B
-            e3b    cs2(FDO28390Q24)          Ethernet1/8       N9K-C9332D-GX2B
-            e7a    cs1(FLM284504N6)          Ethernet1/16/2    N9K-C9332D-GX2B
-            e7b    cs1(FDO2846056X)          Ethernet1/13/2    N9K-C9332D-GX2B
-
+            e10a   cs1(FLMXXXXXXXX)          Ethernet1/16/3    N9K-C9332D-GX2B
+            e10b   cs2(FDOXXXXXXXX)          Ethernet1/16/3    N9K-C9332D-GX2B 
+            e11a   cs1(FLMXXXXXXXX)          Ethernet1/16/4    N9K-C9332D-GX2B
+            e11b   cs2(FDOXXXXXXXX)          Ethernet1/16/4    N9K-C9332D-GX2B
+            e1a    cs1(FLMXXXXXXXX)          Ethernet1/16/1    N9K-C9332D-GX2B
+            e1b    cs2(FDOXXXXXXXX)          Ethernet1/16/1    N9K-C9332D-GX2B
+            .
+            .
+            .
+            e7a    cs1(FLMXXXXXXXX)          Ethernet1/16/2    N9K-C9332D-GX2B
+            e7b    cs2(FDOXXXXXXXX)          Ethernet1/16/2    N9K-C9332D-GX2B
 
 
 cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true*
 
 Switch                      Type               Address          Model
 --------------------------- ------------------ ---------------- ---------------
-cs1(FDO2846056X)            cluster-network    10.228.137.233   N9K-C9332D-GX2B
-     Serial Number: FDO2846056X
+cs2(FDOXXXXXXXX)            cluster-network    10.228.137.233   N9K-C9332D-GX2B
+     Serial Number: FDOXXXXXXXX
       Is Monitored: true
             Reason: None
   Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
                     10.4(2)
     Version Source: CDP/ISDP
 
-cs2(FLM284504N6)            cluster-network    10.228.137.234   N9K-C9332D-GX2B
-     Serial Number: FLM284504N6
+cs1(FLMXXXXXXXX)            cluster-network    10.228.137.234   N9K-C9332D-GX2B
+     Serial Number: FLMXXXXXXXX
       Is Monitored: true
             Reason: None
   Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
