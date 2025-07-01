@@ -11,29 +11,22 @@ summary: 'Before configuring your Cisco 9332D-GX2B switch, review the following 
 [.lead]
 Before configuring your Cisco 9332D-GX2B switch, review the following considerations. 
 
-== Support for NVIDIA CX6, CX6-DX, and CX7 Ethernet ports
+== Support for NVIDIA CX6-DX Ethernet ports
 
-To confirm this content with Sunil
 
-If connecting a switch port to an ONTAP controller using NVIDIA ConnectX-6 (CX6), ConnectX-6 Dx (CX6-DX), or ConnectX-7 (CX7) NIC ports, you must hard-code the switch port speed.
+If connecting a switch port to an ONTAP controller using NVIDIA ConnectX-6 Dx (CX6-DX) NIC ports (part number X50130B), you must hard-code the switch port speed.
 
 [subs=+quotes]
 ----
-(cs1)(config)# interface Ethernet1/19
-*For 100GbE speed:*
+(cs1)# *configure*
+(cs1)(config)# *interface Ethernet1/16/?*
 (cs1)(config-if)# *speed 100000*
-*For 40GbE speed:*
-(cs1)(config-if)# *speed 40000*
-(cs1)(config-if)# no negotiate auto
-(cs1)(config-if)# exit
-(cs1)(config)# exit
-*Save the changes:*
+(cs1)(config-if)# *no negotiate auto*
+(cs1)(config-if)# *exit*
+(cs1)(config)# *exit*
 (cs1)# *copy running-config startup-config*
 ----
 See the https://hwu.netapp.com/Switch/Index[Hardware Universe^] for more information on switch ports.
 
-== 25GbE FEC requirements
-
-Sunil to provide details
 
 // New content for OAM project, AFFFASDOC-331, 2025-APR-28
