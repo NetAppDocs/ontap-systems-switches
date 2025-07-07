@@ -177,29 +177,18 @@ Cluster
 ----
 ====
 
-. Verify the connectivity of the remote cluster interfaces: 
+. Verify the connectivity of the remote cluster interfaces. 
 +
-// start of tabbed content
-
-[role="tabbed-block"]
-
+.. You can use the `network interface check cluster-connectivity show` command to display the details of an accessibility check for cluster connectivity: 
++ 
+[source,cli]
+----
+network interface check cluster-connectivity show
+----
++
+.Show example 
+[%collapsible]
 ====
-
-.ONTAP 9.9.1 and later
-
---
-You can use the `network interface check cluster-connectivity` command to start an accessibility check for cluster connectivity and then display the details: 
-
-`network interface check cluster-connectivity start` and `network interface check cluster-connectivity show`
-
-[subs=+quotes]
-----
-cluster1::*> *network interface check cluster-connectivity start*
-----
-
-*NOTE:* Wait for a number of seconds before running the `show` command to display the details.
-
-
 [subs=+quotes]
 ----
 cluster1::*> *network interface check cluster-connectivity show*
@@ -219,49 +208,57 @@ node1-02
 .
 .
 ----
---
+====
 
-.All ONTAP releases
---
-For all ONTAP releases, you can also use the `cluster ping-cluster -node <name>` command to check the connectivity:
-
+.. Alternatively, you can use the `cluster ping-cluster -node <name>` command to check the connectivity:
++
 `cluster ping-cluster -node <name>`
-
-
++
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *cluster ping-cluster -node local*
-Host is cluster1-02
+Host is node1-04
 Getting addresses from network interface table...
-Cluster cluster1-01_clus1 169.254.209.69 cluster1-01     e0a
-Cluster cluster1-01_clus2 169.254.49.125 cluster1-01     e0b
-Cluster cluster1-02_clus1 169.254.47.194 cluster1-02     e0a
-Cluster cluster1-02_clus2 169.254.19.183 cluster1-02     e0b
-Local = 169.254.47.194 169.254.19.183
-Remote = 169.254.209.69 169.254.49.125
+Cluster node1-01_clus1 169.254.36.44 node1-01 e7a       
+Cluster node1-01_clus2 169.254.7.5   node1-01 e7b       
+Cluster node1-02_clus1 169.254.197.206 node1-02 e7a     
+Cluster node1-02_clus2 169.254.195.186 node1-02 e7b     
+Cluster node1-03_clus1 169.254.192.49 node1-03 e7a      
+Cluster node1-03_clus2 169.254.182.76 node1-03 e7b      
+Cluster node1-04_clus1 169.254.59.49 node1-04 e7a       
+Cluster node1-04_clus2 169.254.62.244 node1-04 e7b      
+Local = 169.254.59.49 169.254.62.244
+Remote = 169.254.36.44 169.254.7.5 169.254.197.206 169.254.195.186 169.254.192.49 169.254.182.76
 Cluster Vserver Id = 4294967293
 Ping status:
-
-Basic connectivity succeeds on 4 path(s)
+............
+Basic connectivity succeeds on 12 path(s)
 Basic connectivity fails on 0 path(s)
-
-Detected 9000 byte MTU on 4 path(s):
-    Local 169.254.19.183 to Remote 169.254.209.69
-    Local 169.254.19.183 to Remote 169.254.49.125
-    Local 169.254.47.194 to Remote 169.254.209.69
-    Local 169.254.47.194 to Remote 169.254.49.125
-Larger than PMTU communication succeeds on 4 path(s)
+................................................
+Detected 9000 byte MTU on 12 path(s):
+    Local 169.254.59.49 to Remote 169.254.182.76
+    Local 169.254.59.49 to Remote 169.254.192.49
+    Local 169.254.59.49 to Remote 169.254.195.186
+    Local 169.254.59.49 to Remote 169.254.197.206
+    Local 169.254.59.49 to Remote 169.254.36.44
+    Local 169.254.59.49 to Remote 169.254.7.5
+    Local 169.254.62.244 to Remote 169.254.182.76
+    Local 169.254.62.244 to Remote 169.254.192.49
+    Local 169.254.62.244 to Remote 169.254.195.186
+    Local 169.254.62.244 to Remote 169.254.197.206
+    Local 169.254.62.244 to Remote 169.254.36.44
+    Local 169.254.62.244 to Remote 169.254.7.5
+Larger than PMTU communication succeeds on 12 path(s)
 RPC status:
-2 paths up, 0 paths down (tcp check)
-2 paths up, 0 paths down (udp check)
+6 paths up, 0 paths down (tcp check)
+6 paths up, 0 paths down (udp check)
 ----
---
 ====
 
-// end of tabbed content
-
-[start=6]
-. [[step6]] Verify that the auto-revert command is enabled on all cluster LIFs: 
+. Verify that the auto-revert command is enabled on all cluster LIFs: 
 +
 [source,cli]
 ----
