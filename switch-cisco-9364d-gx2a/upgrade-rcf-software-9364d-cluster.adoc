@@ -1117,67 +1117,59 @@ node1-04          true    true          false
 
 . Verify the connectivity of the remote cluster interfaces: 
 +
-// start of tabbed content
-
-[role="tabbed-block"]
-
+.. You can use the `network interface check cluster-connectivity show` command to display the details of an accessibility check for cluster connectivity: 
++ 
+[source,cli]
+----
+network interface check cluster-connectivity show
+----
++
+.Show example 
+[%collapsible]
 ====
-
-.ONTAP 9.9.1 and later
-
---
-You can use the `network interface check cluster-connectivity` command to start an accessibility check for cluster connectivity and then display the details: 
-
-`network interface check cluster-connectivity start` and `network interface check cluster-connectivity show`
-
-[subs=+quotes]
-----
-cluster1::*> *network interface check cluster-connectivity start*
-----
-
-*NOTE:* Wait for a number of seconds before running the `show` command to display the details.
-
-
 [subs=+quotes]
 ----
 cluster1::*> *network interface check cluster-connectivity show*
-                                    Source            Destination       Packet
-Node   Date                         LIF                LIF              Loss
------- ---------------------------- ----------------- ----------------- ---------
-node1-01 6/4/2025 03:13:33 -04:00   node1-01_clus2    node1-02_clus1    none
-         6/4/2025 03:13:34 -04:00   node1-01_clus2    node1-02_clus2    none         
 
-node1-02 6/4/2025 03:13:33 -04:00   node1-02_clus2    node1-01_clus1    none
-         6/4/2025 03:13:34 -04:00   node1-02_clus2    node1-01_clus2    none   
+                                  Source           Destination     Packet
+Node   Date                       LIF              LIF             Loss
+------ -------------------------- ---------------- --------------- -----------
+node1-01
+       6/4/2025 03:13:33 -04:00   node1-01_clus2  node1-02_clus1   none
+       6/4/2025 03:13:34 -04:00   node1-01_clus2  node1-02_clus1   none 
+
+
+node1-02
+       6/4/2025 03:13:33 -04:00   node1-02_clus2  node1-01_clus1   none
+       6/4/2025 03:13:34 -04:00   node1-02_clus2  node1-01_clus2   none 
 .
 .
 .
-. 
 ----
---
+====
 
-.All ONTAP releases
---
-For all ONTAP releases, you can also use the `cluster ping-cluster -node <name>` command to check the connectivity:
-
+.. Alternatively, you can use the `cluster ping-cluster -node <name>` command to check the connectivity:
++
 `cluster ping-cluster -node <name>`
-
-
++
+.Show example 
+[%collapsible]
+====
 [subs=+quotes]
 ----
 cluster1::*> *cluster ping-cluster -node local*
-Host is cluster1-03
+Host is node1-04
 Getting addresses from network interface table...
-Cluster cluster1-03_clus1 169.254.1.3 cluster1-03 e0a
-Cluster cluster1-03_clus2 169.254.1.1 cluster1-03 e0b
-Cluster cluster1-04_clus1 169.254.1.6 cluster1-04 e0a
-Cluster cluster1-04_clus2 169.254.1.7 cluster1-04 e0b
-Cluster cluster1-01_clus1 169.254.3.4 cluster1-01 e0a
-Cluster cluster1-01_clus2 169.254.3.5 cluster1-01 e0d
-Cluster cluster1-02_clus1 169.254.3.8 cluster1-02 e0a
-Cluster cluster1-02_clus2 169.254.3.9 cluster1-02 e0d
-Local = 169.254.1.3 169.254.1.1
-Remote = 169.254.1.6 169.254.1.7 169.254.3.4 169.254.3.5 169.254.3.8 169.254.3.9
+Cluster node1-01_clus1 169.254.36.44 node1-01 e7a       
+Cluster node1-01_clus2 169.254.7.5   node1-01 e7b       
+Cluster node1-02_clus1 169.254.197.206 node1-02 e7a     
+Cluster node1-02_clus2 169.254.195.186 node1-02 e7b     
+Cluster node1-03_clus1 169.254.192.49 node1-03 e7a      
+Cluster node1-03_clus2 169.254.182.76 node1-03 e7b      
+Cluster node1-04_clus1 169.254.59.49 node1-04 e7a       
+Cluster node1-04_clus2 169.254.62.244 node1-04 e7b      
+Local = 169.254.59.49 169.254.62.244
+Remote = 169.254.36.44 169.254.7.5 169.254.197.206 169.254.195.186 169.254.192.49 169.254.182.76
 Cluster Vserver Id = 4294967293
 Ping status:
 ............
@@ -1185,27 +1177,24 @@ Basic connectivity succeeds on 12 path(s)
 Basic connectivity fails on 0 path(s)
 ................................................
 Detected 9000 byte MTU on 12 path(s):
-    Local 169.254.1.3 to Remote 169.254.1.6
-    Local 169.254.1.3 to Remote 169.254.1.7
-    Local 169.254.1.3 to Remote 169.254.3.4
-    Local 169.254.1.3 to Remote 169.254.3.5
-    Local 169.254.1.3 to Remote 169.254.3.8
-    Local 169.254.1.3 to Remote 169.254.3.9
-    Local 169.254.1.1 to Remote 169.254.1.6
-    Local 169.254.1.1 to Remote 169.254.1.7
-    Local 169.254.1.1 to Remote 169.254.3.4
-    Local 169.254.1.1 to Remote 169.254.3.5
-    Local 169.254.1.1 to Remote 169.254.3.8
-    Local 169.254.1.1 to Remote 169.254.3.9
+    Local 169.254.59.49 to Remote 169.254.182.76
+    Local 169.254.59.49 to Remote 169.254.192.49
+    Local 169.254.59.49 to Remote 169.254.195.186
+    Local 169.254.59.49 to Remote 169.254.197.206
+    Local 169.254.59.49 to Remote 169.254.36.44
+    Local 169.254.59.49 to Remote 169.254.7.5
+    Local 169.254.62.244 to Remote 169.254.182.76
+    Local 169.254.62.244 to Remote 169.254.192.49
+    Local 169.254.62.244 to Remote 169.254.195.186
+    Local 169.254.62.244 to Remote 169.254.197.206
+    Local 169.254.62.244 to Remote 169.254.36.44
+    Local 169.254.62.244 to Remote 169.254.7.5
 Larger than PMTU communication succeeds on 12 path(s)
 RPC status:
 6 paths up, 0 paths down (tcp check)
 6 paths up, 0 paths down (udp check)
 ----
---
 ====
-
-// end of tabbed content
 
 .What's next?
 

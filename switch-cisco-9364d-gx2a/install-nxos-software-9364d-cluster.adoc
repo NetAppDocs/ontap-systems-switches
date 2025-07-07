@@ -236,7 +236,6 @@ cs2(FLM284504N6)             cluster-network   10.228.137.253   N9K-C9364D-GX2A
 .. *Storage ports*
 
 ... Verify that all the storage ports are up with a healthy status: 
-
 +
 `storage port show -port-type ENET`
 +
@@ -280,7 +279,165 @@ node1-04
 ... Verify that all the HA ports are up with a healthy status: 
 
 
-. Disable auto-revert on the cluster LIFs. The cluster LIFs fail over to the partner cluster switch and remain there as you perform the upgrade procedure on the targeted switch:
+. Check the administrative and operational status of each port.
++
+// start of tabbed content
+
+[role="tabbed-block"]
+
+====
+
+.Cluster ports
+--
+... Verify that all the cluster ports are up with a healthy status: 
++
+`network port show -role cluster`
++
+
+[subs=+quotes]
+----
+cluster1::*> *network port show -role cluster*
+
+Node: node1-01
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e7a       Cluster      Cluster          up   9000  auto/100000 healthy false
+e7b       Cluster      Cluster          up   9000  auto/100000 healthy false
+
+Node: node1-02
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e7a       Cluster      Cluster          up   9000  auto/100000 healthy false
+e7b       Cluster      Cluster          up   9000  auto/100000 healthy false
+
+Node: node1-03
+
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e7a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e7b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+
+Node: node1-04
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e7a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e7b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+----
+
+... Verify that all the cluster interfaces (LIFs) are on the home port: 
++
+`network interface show -role cluster`
++
+
+[subs=+quotes]
+----
+cluster1::*> *network interface show -role cluster*
+
+            Logical         Status     Network            Current   Current Is
+Vserver     Interface       Admin/Oper Address/Mask       Node      Port    Home
+----------- --------------- ---------- ------------------ --------- ------- ----
+Cluster
+            node1-01_clus1  up/up      169.254.36.44/16   node1-01  e7a     true
+            node1-01_clus2  up/up      169.254.7.5/16     node1-01  e7b     true
+            node1-02_clus1  up/up      169.254.197.206/16 node1-02  e7a     true
+            node1-02_clus2  up/up      169.254.195.186/16 node1-02  e7b     true
+            node1-03_clus1  up/up      169.254.192.49/16  node1-03  e7a     true
+            node1-03_clus2  up/up      169.254.182.76/16  node1-03  e7b     true
+            node1-04_clus1  up/up      169.254.59.49/16   node1-04  e7a     true
+            node1-04_clus2  up/up      169.254.62.244/16  node1-04  e7b     true
+
+8 entries were displayed.
+----
+
+... Verify that the cluster displays information for both cluster switches: 
++
+`system cluster-switch show -is-monitoring-enabled-operational true`
++
+
+[subs=+quotes]
+----
+cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true*
+
+Switch                      Type               Address          Model
+--------------------------- ------------------ ---------------- ---------------
+cs1(FDO2846056X)            cluster-network    10.228.137.233   N9K-C9364D-GX2A
+     Serial Number: FDO2846056X
+      Is Monitored: true
+            Reason: None
+  Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
+                    10.4(2)
+    Version Source: CDP/ISDP
+
+
+cs2(FLM284504N6)             cluster-network   10.228.137.253   N9K-C9364D-GX2A
+     Serial Number: FLM284504N6
+      Is Monitored: true
+            Reason: None
+  Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
+                    10.4(2)
+    Version Source: CDP/ISDP
+
+2 entries were displayed.
+----
+--
+
+.Storage ports
+--
+... Verify that all the storage ports are up with a healthy status: 
+
++
+`storage port show -port-type ENET`
++
+
+[subs=+quotes]
+----
+cluster1::*> *storage port show -port-type ENET*
+
+
+                                      Speed
+Node               Port Type  Mode    (Gb/s) State    Status
+------------------ ---- ----- ------- ------ -------- -----------
+node1-01
+                   e10a ENET  -          100 enabled  online
+                   e10b ENET  -          100 enabled  online
+                   e11a ENET  -          100 enabled  online
+                   e11b ENET  -          100 enabled  online
+node1-02
+                   e10a ENET  -          100 enabled  online
+                   e10b ENET  -          100 enabled  online
+                   e11a ENET  -          100 enabled  online
+                   e11b ENET  -          100 enabled  online
+node1-03
+                   e10a ENET  -          100 enabled  online
+                   e10b ENET  -          100 enabled  online
+                   e11a ENET  -          100 enabled  online
+node1-04
+                   e10a ENET  -          100 enabled  online
+                   e10b ENET  -          100 enabled  online
+                   e11a ENET  -          100 enabled  online
+                   e11b ENET  -          100 enabled  online
+16 entries were displayed.
+----
+--
+
+.HA ports
+--
+... Verify that all the HA ports are up with a healthy status: 
+--
+====
+
+// end of tabbed content
+
+[start=6]
+. [[step6]]Disable auto-revert on the cluster LIFs. The cluster LIFs fail over to the partner cluster switch and remain there as you perform the upgrade procedure on the targeted switch:
 +
 `network interface modify -vserver Cluster -lif * -auto-revert false`
 
