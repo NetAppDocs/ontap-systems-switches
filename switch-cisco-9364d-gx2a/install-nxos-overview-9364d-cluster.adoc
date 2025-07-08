@@ -44,7 +44,11 @@ set -privilege advanced
 +
 The advanced prompt (`*>`) appears.
 
-. Display how many cluster interconnect interfaces are configured in each node for each cluster interconnect switch: 
+. Check the administrative and operational status of each port.
+
+.. *Cluster ports*
+
+... Display how many cluster interconnect interfaces are configured in each node for each cluster interconnect switch: 
 +
 [source,cli]
 ----
@@ -62,38 +66,37 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID) Interface         Platform
 ----------- ------ ------------------------ ----------------  ----------------
 node1-02/cdp
-            e10a   cs1(FLM284504N6)         Ethernet1/16/3    N9K-C9364D-GX2A
-            e10b   cs1(FDO2846056X)         Ethernet1/13/3    N9K-C9364D-GX2A
-            e11a   cs1(FLM284504N6)         Ethernet1/16/4    N9K-C9364D-GX2A
-            e11b   cs1(FDO2846056X)         Ethernet1/13/4    N9K-C9364D-GX2A
-            e1a    cs1(FLM284504N6)         Ethernet1/16/1    N9K-C9364D-GX2A
-            e1b    cs1(FDO2846056X)         Ethernet1/13/1    N9K-C9364D-GX2A
-            e2a    cs2(FLM284504R2)         Ethernet1/8       N9K-C9364D-GX2A
-            e2b    cs2(FDO28390Q24)         Ethernet1/7       N9K-C9364D-GX2A
-            e3a    cs2(FLM284504R2)         Ethernet1/7       N9K-C9364D-GX2A
-            e3b    cs2(FDO28390Q24)         Ethernet1/8       N9K-C9364D-GX2A
-            e7a    cs1(FLM284504N6)         Ethernet1/16/2    N9K-C9364D-GX2A
-            e7b    cs1(FDO2846056X)         Ethernet1/13/2    N9K-C9364D-GX2A
+            e10a   cs1(FLMXXXXXXXX)         Ethernet1/16/3    N9K-C9364D-GX2A
+            e10b   cs2(FDOXXXXXXXX)         Ethernet1/13/3    N9K-C9364D-GX2A
+            e11a   cs1(FLMXXXXXXXX)         Ethernet1/16/4    N9K-C9364D-GX2A
+            e11b   cs2(FDOXXXXXXXX)         Ethernet1/13/4    N9K-C9364D-GX2A
+            e1a    cs1(FLMXXXXXXXX)         Ethernet1/16/1    N9K-C9364D-GX2A
+            e1b    cs2(FDOXXXXXXXX)         Ethernet1/13/1    N9K-C9364D-GX2A
+            .
+            .
+            .
+            e7a    cs1(FLMXXXXXXXX)         Ethernet1/16/2    N9K-C9364D-GX2A
+            e7b    cs2(FDOXXXXXXXX)         Ethernet1/13/2    N9K-C9364D-GX2A
 
 node1-01/cdp
-            e10a   cs1(FLM284504N6)         Ethernet1/16/3    N9K-C9364D-GX2A
-            e10b   cs1(FDO2846056X)         Ethernet1/13/3    N9K-C9364D-GX2A
-            e11a   cs1(FLM284504N6)         Ethernet1/16/4    N9K-C9364D-GX2A
-            e11b   cs1(FDO2846056X)         Ethernet1/13/4    N9K-C9364D-GX2A
-            e1a    cs1(FLM284504N6)         Ethernet1/16/1    N9K-C9364D-GX2A
-            e1b    cs01(FDO2846056X)        Ethernet1/13/1    N9K-C9364D-GX2A
-            e2a    cs2(FLM284504R2)         Ethernet1/8       N9K-C9364D-GX2A
-            e2b    cs2(FDO28390Q24)         Ethernet1/7       N9K-C9364D-GX2A
-            e3a    cs2(FLM284504R2)         Ethernet1/7       N9K-C9364D-GX2A
-            e3b    cs2(FDO28390Q24)         Ethernet1/8       N9K-C9364D-GX2A
-            e7a    cs1(FLM284504N6)         Ethernet1/16/2    N9K-C9364D-GX2A
-            e7b    cs1(FDO2846056X)         Ethernet1/13/2    N9K-C9364D-GX2A
+            e10a   cs1(FLMXXXXXXXX)         Ethernet1/16/3    N9K-C9364D-GX2A
+            e10b   cs2(FDOXXXXXXXX)         Ethernet1/13/3    N9K-C9364D-GX2A
+            e11a   cs1(FLMXXXXXXXX)         Ethernet1/16/4    N9K-C9364D-GX2A
+            e11b   cs2(FDOXXXXXXXX)         Ethernet1/13/4    N9K-C9364D-GX2A
+            e1a    cs1(FLMXXXXXXXX)         Ethernet1/16/1    N9K-C9364D-GX2A
+            e1b    cs2(FDOXXXXXXXX)         Ethernet1/13/1    N9K-C9364D-GX2A
+            .
+            .
+            .
+            e7a    cs1(FLMXXXXXXXX)         Ethernet1/16/2    N9K-C9364D-GX2A
+            e7b    cs2(FDOXXXXXXXX)         Ethernet1/13/2    N9K-C9364D-GX2A
+.
+.
+.
 ----
 ====
 
-. Check the administrative or operational status of each cluster interface.
-
-.. Display the network port attributes: 
+... Display the network port attributes: 
 +
 [source,cli]
 ----
@@ -147,7 +150,7 @@ e7b       Cluster      Cluster          up   9000  auto/100000 healthy false
 ----
 ====
 
-.. Display information about the LIFs: 
+... Display information about the cluster LIFs: 
 +
 [source,cli]
 ----
@@ -176,6 +179,111 @@ Cluster
             node1-04_clus2 up/up     169.254.62.244/16  node1-04  e7b     true
 
 8 entries were displayed.
+----
+====
+
+.. *Storage ports*
+
+... Display information about the storage ports: 
++
+`storage port show -port-type ENET`
++
+.Show example 
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cluster1::*> *storage port show -port-type ENET*
+
+                                      Speed
+Node               Port Type  Mode    (Gb/s) State    Status
+------------------ ---- ----- ------- ------ -------- -----------
+node1-01
+                   e10a ENET  -          100 enabled  online
+                   e10b ENET  -          100 enabled  online
+                   e11a ENET  -          100 enabled  online
+                   e11b ENET  -          100 enabled  online
+node1-02
+                   e10a ENET  -          100 enabled  online
+                   e10b ENET  -          100 enabled  online
+                   e11a ENET  -          100 enabled  online
+                   e11b ENET  -          100 enabled  online
+node1-03
+                   e10a ENET  -          100 enabled  online
+                   e10b ENET  -          100 enabled  online
+                   e11a ENET  -          100 enabled  online
+node1-04
+                   e10a ENET  -          100 enabled  online
+                   e10b ENET  -          100 enabled  online
+                   e11a ENET  -          100 enabled  online
+                   e11b ENET  -          100 enabled  online
+16 entries were displayed.
+----
+====
+
+.. *HA ports*
+
+... Display information about the HA ports: 
++
+`ha interconnect status show -node <name>`
++
+.Show example 
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cluster1::*> *ha interconnect status show -node node1-01*
+  (system ha interconnect status show)
+
+                       Node: node1-01
+              Link 0 Status: up
+              Link 1 Status: up
+           Is Link 0 Active: true
+           Is Link 1 Active: true
+         IC RDMA Connection: up
+                       Slot: 0
+             Debug Firmware: no
+
+
+Interconnect Port 0 :
+                  Port Name: e1a-17
+                        MTU: 4096
+           Link Information: ACTIVE
+
+
+Interconnect Port 1 :
+                  Port Name: e1b-18
+                        MTU: 4096
+           Link Information: ACTIVE
+
+cluster1::*> *ha interconnect status show -node node1-02*
+  (system ha interconnect status show)
+
+                       Node: node1-02
+              Link 0 Status: up
+              Link 1 Status: up
+           Is Link 0 Active: true
+           Is Link 1 Active: true
+         IC RDMA Connection: up
+                       Slot: 0
+             Debug Firmware: no
+
+
+Interconnect Port 0 :
+                  Port Name: e1a-17
+                        MTU: 4096
+           Link Information: ACTIVE
+
+
+Interconnect Port 1 :
+                  Port Name: e1b-18
+                        MTU: 4096
+           Link Information: ACTIVE
+.
+.
+.
 ----
 ====
 

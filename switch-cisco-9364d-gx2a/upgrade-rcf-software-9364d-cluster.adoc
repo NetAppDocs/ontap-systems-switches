@@ -27,6 +27,18 @@ CAUTION: Before installing a new switch software version and RCFs, you must eras
 
 == Step 1: Prepare for the upgrade
 
+. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: 
++
+`system node autosupport invoke -node * -type all -message MAINT=xh`
++
+where _x_ is the duration of the maintenance window in hours.
+
+. Change the privilege level to advanced, entering *y* when prompted to continue: 
++
+`set -privilege advanced`
++
+The advanced prompt (*>) appears.
+
 . Display the cluster ports on each node that are connected to the switches: 
 +
 `network device-discovery show`
@@ -42,28 +54,35 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  --------
 node1-01/cdp
-            e10a   cs1(FLM284504N6)         Ethernet1/16/3    N9K-C9364D-GX2A
-            e10b   cs1(FDO2846056X)         Ethernet1/13/3    N9K-C9364D-GX2A
-            e11a   cs1(FLM284504N6)         Ethernet1/16/4    N9K-C9364D-GX2A
-            e11b   cs1(FDO2846056X)         Ethernet1/13/4    N9K-C9364D-GX2A
-            e1a    cs1(FLM284504N6)         Ethernet1/16/1    N9K-C9364D-GX2A
-            e1b    cs1(FDO2846056X)         Ethernet1/13/1    N9K-C9364D-GX2A
-            e2a    cs2(FLM284504R2)         Ethernet1/8       N9K-C9364D-GX2A
-            e2b    cs2(FDO28390Q24)         Ethernet1/7       N9K-C9364D-GX2A
-            e3a    cs2(FLM284504R2)         Ethernet1/7       N9K-C9364D-GX2A
-            e3b    cs2(FDO28390Q24)         Ethernet1/8       N9K-C9364D-GX2A
-            e7a    cs1(FLM284504N6)         Ethernet1/16/2    N9K-C9364D-GX2A
-            e7b    cs1(FDO2846056X)         Ethernet1/13/2    N9K-C9364D-GX2A
-node1-02/cdp
-.
-.
-.
+            e10a   cs1(FLMXXXXXXXX)         Ethernet1/16/3    N9K-C9364D-GX2A
+            e10b   cs1(FDOXXXXXXXX)         Ethernet1/13/3    N9K-C9364D-GX2A
+            e11a   cs1(FLMXXXXXXXX)         Ethernet1/16/4    N9K-C9364D-GX2A
+            e11b   cs1(FDOXXXXXXXX)         Ethernet1/13/4    N9K-C9364D-GX2A
+            e1a    cs1(FLMXXXXXXXX)         Ethernet1/16/1    N9K-C9364D-GX2A
+            e1b    cs1(FDOXXXXXXXX)         Ethernet1/13/1    N9K-C9364D-GX2A
+            .
+            .
+            .
+            e7a    cs1(FLMXXXXXXXX)         Ethernet1/16/2    N9K-C9364D-GX2A
+            e7b    cs1(FDOXXXXXXXX)         Ethernet1/13/2    N9K-C9364D-GX2A
+node1-01/lldp
+            e10a   cs1 (c8:60:8f:xx:xx:xx)   Ethernet1/16/3    -
+            e10b   cs2 (04:e3:87:xx:xx:xx)   Ethernet1/16/3    -
+            e11a   cs1 (c8:60:8f:xx:xx:xx)   Ethernet1/16/4    -
+            e11b   cs2 (04:e3:87:xx:xx:xx)   Ethernet1/16/4    -
+            e1a    cs1 (c8:60:8f:xx:xx:xx)   Ethernet1/16/1    -
+            e1b    cs2 (04:e3:87:xx:xx:xx)   Ethernet1/16/1    -
+            .
+            .
+            .
+            e7a    cs1 (c8:60:8f:xx:xx:xx)   Ethernet1/16/2    - 
+            e7b    cs2 (04:e3:87:xx:xx:xx)   Ethernet1/16/2    -
 ----
 ====
 
-. Check the administrative and operational status of each cluster port.
-
-.. Verify that all the cluster ports are *up* with a healthy status: 
+. Check the administrative and operational status of each port.
+.. *Cluster ports*
+... Verify that all the cluster ports are up with a healthy status: 
 +
 `network port show -role cluster`
 +
@@ -111,7 +130,7 @@ cluster1::*>
 ----
 ====
 
-.. Verify that all the cluster interfaces (LIFs) are on the home port: 
+... Verify that all the cluster interfaces (LIFs) are on the home port: 
 +
 `network interface show -role cluster`
 +
@@ -138,7 +157,7 @@ Cluster
 ----
 ====
 
-.. Verify that the cluster displays information for both cluster switches: 
+... Verify that the cluster displays information for both switches: 
 +
 `system cluster-switch show -is-monitoring-enabled-operational true`
 +
@@ -151,21 +170,127 @@ Cluster
 cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true*
 Switch                      Type               Address          Model
 --------------------------- ------------------ ---------------- -----
-cs1(FDO2846056X)            cluster-network    10.228.137.233   N9K-C9364D-GX2A
-     Serial Number: FDO2846056X
+cs1(FDOXXXXXXXX)            cluster-network    10.228.137.233   N9K-C9364D-GX2A
+     Serial Number: FDOXXXXXXXX
       Is Monitored: true
             Reason: None
   Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
                     10.4(2)
     Version Source: CDP/ISDP
 
-cs2(FLM284504N6)            cluster-network    10.228.137.234   N9K-C9364D-GX2A
-     Serial Number: FLM284504N6
+cs2(FLMXXXXXXXX)            cluster-network    10.228.137.234   N9K-C9364D-GX2A
+     Serial Number: FLMXXXXXXXX
       Is Monitored: true
             Reason: None
   Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
                     10.4(2)
     Version Source: CDP/ISDP
+----
+====
+
+.. *Storage ports*
+
+... Verify that all the storage ports are up with a healthy status: 
++
+`storage port show -port-type ENET`
++
+.Show example 
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cluster1::*> *storage port show -port-type ENET*
+
+
+                                      Speed
+Node               Port Type  Mode    (Gb/s) State    Status
+------------------ ---- ----- ------- ------ -------- -----------
+node1-01
+                   e10a ENET  -          100 enabled  online
+                   e10b ENET  -          100 enabled  online
+                   e11a ENET  -          100 enabled  online
+                   e11b ENET  -          100 enabled  online
+node1-02
+                   e10a ENET  -          100 enabled  online
+                   e10b ENET  -          100 enabled  online
+                   e11a ENET  -          100 enabled  online
+                   e11b ENET  -          100 enabled  online
+node1-03
+                   e10a ENET  -          100 enabled  online
+                   e10b ENET  -          100 enabled  online
+                   e11a ENET  -          100 enabled  online
+node1-04
+                   e10a ENET  -          100 enabled  online
+                   e10b ENET  -          100 enabled  online
+                   e11a ENET  -          100 enabled  online
+                   e11b ENET  -          100 enabled  online
+16 entries were displayed.
+----
+====
+
+.. *HA ports*
+
+... Verify that all the HA ports are up with a healthy status: 
++
+`ha interconnect status show -node <name>`
++
+.Show example 
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cluster1::*> *ha interconnect status show -node node1-01*
+  (system ha interconnect status show)
+
+                       Node: node1-01
+              Link 0 Status: up
+              Link 1 Status: up
+           Is Link 0 Active: true
+           Is Link 1 Active: true
+         IC RDMA Connection: up
+                       Slot: 0
+             Debug Firmware: no
+
+
+Interconnect Port 0 :
+                  Port Name: e1a-17
+                        MTU: 4096
+           Link Information: ACTIVE
+
+
+Interconnect Port 1 :
+                  Port Name: e1b-18
+                        MTU: 4096
+           Link Information: ACTIVE
+
+cluster1::*> *ha interconnect status show -node node1-01*
+  (system ha interconnect status show)
+
+                       Node: node1-01
+              Link 0 Status: up
+              Link 1 Status: up
+           Is Link 0 Active: true
+           Is Link 1 Active: true
+         IC RDMA Connection: up
+                       Slot: 0
+             Debug Firmware: no
+
+
+Interconnect Port 0 :
+                  Port Name: e1a-17
+                        MTU: 4096
+           Link Information: ACTIVE
+
+
+Interconnect Port 1 :
+                  Port Name: e1b-18
+                        MTU: 4096
+           Link Information: ACTIVE
+.
+.
+.
 ----
 ====
 
@@ -175,14 +300,13 @@ cs2(FLM284504N6)            cluster-network    10.228.137.234   N9K-C9364D-GX2A
 
 == Step 2: Configure ports
 
-. On cluster switch cs1, shut down the ports connected to the cluster ports of the nodes.
+. On cluster switch cs1, shut down the ports connected to the ports of the nodes.
 +
-
 `cs1(config)# *interface eth1/1/1-2,eth1/7-8*`
 +
 `cs1(config-if-range)# *shutdown*`
 +
-CAUTION: Make sure to shutdown *all* connected cluster ports to avoid any network connection issues.
+CAUTION: Make sure to shutdown *all* connected ports to avoid any network connection issues.
 See the Knowledge Base article https://kb.netapp.com/on-prem/ontap/OHW/OHW-KBs/Node_out_of_quorum_when_migrating_cluster_lif_during_switch_OS_upgrade[Node out of quorum when migrating cluster LIF during switch OS upgrade^] for further details. 
 
 . Verify that the cluster LIFs have failed over to the ports hosted on cluster switch cs1. This might take a few seconds.
@@ -324,7 +448,7 @@ cs1# show banner motd
 ******************************************************************************
 * NetApp Reference Configuration File (RCF)
 *
-* * Switch   : NX9364D-GX2A
+* Switch   : NX9364D-GX2A
 * Filename : NX9364D-GX2A-RCF-v10.0-Shared.txt
 * Date     : 05-09-2025
 * Version  : v10.0
@@ -351,7 +475,7 @@ When you check the output to verify you have the correct RCF, make sure that the
 +
 The output varies according to your site configuration. Check the port settings and refer to the release notes for any changes specific to the RCF that you have installed.
 
-. Reapply any previous customizations to the switch configuration. Refer to link:cabling-considerations-9336c-fx2.html[Review cabling and configuration considerations] for details of any further changes required. 
+. Reapply any previous customizations to the switch configuration.
 
 . After you verify the RCF versions, custom additions, and switch settings are correct, copy the running-config file to the startup-config file.
 +
@@ -370,9 +494,11 @@ For more information on Cisco commands, see the appropriate guide in the https:/
 `This command will reboot the system. (y/n)?  [n] *y*` 
 
 +
-. Verify the health of cluster ports on the cluster.
+. Verify the health of the ports on the cluster.
 
-.. Verify that cluster ports are up and healthy across all nodes in the cluster: 
+.. *Cluster ports*
+
+... Verify that cluster ports are up and healthy across all nodes in the cluster: 
 +
 `network port show -role cluster`
 +
@@ -419,9 +545,9 @@ e7b       Cluster      Cluster          up   9000  auto/100000 healthy false
 ----
 ====
 
-.. Verify the switch health from the cluster.
+... Verify the switch health from the cluster.
 +
-`network device-discovery show -protocol cdp`
+`network device-discovery show -protocol cdp` and `system cluster-switch show -is-monitoring-enabled-operational true`
 +
 .Show example 
 [%collapsible]
@@ -434,41 +560,35 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------- --------
 node1-01/cdp
-            e10a   cs1(FLM284504N6)          Ethernet1/16/3    N9K-C9364D-GX2A
-            e10b   cs1(FDO2846056X)          Ethernet1/13/3    N9K-C9364D-GX2A 
-            e11a   cs1(FLM284504N6)          Ethernet1/16/4    N9K-C9364D-GX2A
-            e11b   cs1(FDO2846056X)          Ethernet1/13/4    N9K-C9364D-GX2A
-            e1a    cs1(FLM284504N6)          Ethernet1/16/1    N9K-C9364D-GX2A
-            e1b    cs1(FLM284504N6)          Ethernet1/13/1    N9K-C9364D-GX2A
-            e2a    cs2(FLM284504R2)          Ethernet1/8       N9K-C9364D-GX2A
-            e2b    cs2(FDO28390Q24)          Ethernet1/7       N9K-C9364D-GX2A
-            e3a    cs2(FLM284504R2)          Ethernet1/7       N9K-C9364D-GX2A
-            e3b    cs2(FDO28390Q24)          Ethernet1/8       N9K-C9364D-GX2A
-            e7a    cs1(FLM284504N6)          Ethernet1/16/2    N9K-C9364D-GX2A
-            e7b    cs1(FDO2846056X)          Ethernet1/13/2    N9K-C9364D-GX2A
+            e10a   cs1(FLMXXXXXXXX)          Ethernet1/16/3    N9K-C9364D-GX2A
+            e10b   cs2(FDOXXXXXXXX)          Ethernet1/13/3    N9K-C9364D-GX2A 
+            e11a   cs1(FLMXXXXXXXX)          Ethernet1/16/4    N9K-C9364D-GX2A
+            e11b   cs2(FDOXXXXXXXX)          Ethernet1/13/4    N9K-C9364D-GX2A
+            e1a    cs1(FLMXXXXXXXX)          Ethernet1/16/1    N9K-C9364D-GX2A
+            e1b    cs2(FLMXXXXXXXX)          Ethernet1/13/1    N9K-C9364D-GX2A
+            .
+            .
+            .
+            e7a    cs1(FLMXXXXXXXX)          Ethernet1/16/2    N9K-C9364D-GX2A
+            e7b    cs2(FDOXXXXXXXX)          Ethernet1/13/2    N9K-C9364D-GX2A
 node1-02/cdp
 .
 .
-node1-03/cdp
 .
-.        
-node1-04/cdp
-.
-.
-
+ 
 cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true*
 Switch                      Type               Address          Model
 --------------------------- ------------------ ---------------- -----
-cs1(FDO2846056X)            cluster-network    10.228.137.233   N9K-C9364D-GX2A
-     Serial Number: FDO2846056X
+cs2(FDOXXXXXXXX)            cluster-network    10.228.137.233   N9K-C9364D-GX2A
+     Serial Number: FDOXXXXXXXX
       Is Monitored: true
             Reason: None
   Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
                     10.4(2)
     Version Source: CDP/ISDP
 
-cs2(FLM284504N6)            cluster-network    10.228.137.234   N9K-C9364D-GX2A
-     Serial Number: FLM284504N6
+cs1(FLMXXXXXXXX)            cluster-network    10.228.137.234   N9K-C9364D-GX2A
+     Serial Number: FLMXXXXXXXX
       Is Monitored: true
             Reason: None
   Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
@@ -477,13 +597,112 @@ cs2(FLM284504N6)            cluster-network    10.228.137.234   N9K-C9364D-GX2A
 
 2 entries were displayed.
 ----
+====
 
-//You might observe the following output on the cs1 switch console depending on the RCF version previously loaded on the switch:
+.. *Storage ports*
 
-//----
-//2020 Nov 17 16:07:18 cs1 %$ VDC-1 %$ %STP-2-UNBLOCK_CONSIST_PORT: Unblocking port port-channel1 on VLAN0092. Port consistency restored.
-//2020 Nov 17 16:07:23 cs1 %$ VDC-1 %$ %STP-2-BLOCK_PVID_PEER: Blocking port-channel1 on VLAN0001. Inconsistent peer vlan.
-//2020 Nov 17 16:07:23 cs1 %$ VDC-1 %$ %STP-2-BLOCK_PVID_LOCAL: Blocking port-channel1 on VLAN0092. Inconsistent local vlan.
+... Verify that all the storage ports are up with a healthy status: 
++
+`storage port show -port-type ENET`
++
+.Show example 
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cluster1::*> *storage port show -port-type ENET*
+
+
+                                      Speed
+Node               Port Type  Mode    (Gb/s) State    Status
+------------------ ---- ----- ------- ------ -------- -----------
+node1-01
+                   e10a ENET  -          100 enabled  online
+                   e10b ENET  -          100 enabled  online
+                   e11a ENET  -          100 enabled  online
+                   e11b ENET  -          100 enabled  online
+node1-02
+                   e10a ENET  -          100 enabled  online
+                   e10b ENET  -          100 enabled  online
+                   e11a ENET  -          100 enabled  online
+                   e11b ENET  -          100 enabled  online
+node1-03
+                   e10a ENET  -          100 enabled  online
+                   e10b ENET  -          100 enabled  online
+                   e11a ENET  -          100 enabled  online
+node1-04
+                   e10a ENET  -          100 enabled  online
+                   e10b ENET  -          100 enabled  online
+                   e11a ENET  -          100 enabled  online
+                   e11b ENET  -          100 enabled  online
+16 entries were displayed.
+----
+====
+
+.. *HA ports*
+
+... Verify that all the HA ports are up with a healthy status: 
++
+`ha interconnect status show -node <name>`
++
+.Show example 
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cluster1::*> *ha interconnect status show -node node1-01*
+  (system ha interconnect status show)
+
+                       Node: node1-01
+              Link 0 Status: up
+              Link 1 Status: up
+           Is Link 0 Active: true
+           Is Link 1 Active: true
+         IC RDMA Connection: up
+                       Slot: 0
+             Debug Firmware: no
+
+
+Interconnect Port 0 :
+                  Port Name: e1a-17
+                        MTU: 4096
+           Link Information: ACTIVE
+
+
+Interconnect Port 1 :
+                  Port Name: e1b-18
+                        MTU: 4096
+           Link Information: ACTIVE
+
+cluster1::*> *ha interconnect status show -node node1-02*
+  (system ha interconnect status show)
+
+                       Node: node1-02
+              Link 0 Status: up
+              Link 1 Status: up
+           Is Link 0 Active: true
+           Is Link 1 Active: true
+         IC RDMA Connection: up
+                       Slot: 0
+             Debug Firmware: no
+
+
+Interconnect Port 0 :
+                  Port Name: e1a-17
+                        MTU: 4096
+           Link Information: ACTIVE
+
+
+Interconnect Port 1 :
+                  Port Name: e1b-18
+                        MTU: 4096
+           Link Information: ACTIVE
+.
+.
+.
+----
 ====
 
 . Verify that the cluster is healthy: 
@@ -515,7 +734,7 @@ node1-04          true     true          false
 
 == Step 3: Verify the cluster network configuration and cluster health
 
-. Verify that the switch ports connected to the cluster ports are *up*.
+. Verify that the switch ports connected to the cluster ports are up.
 +
 `show interface brief`
 +
@@ -544,6 +763,7 @@ Eth1/17/3       1       eth  trunk  up      none                     100G(D) --
 Eth1/17/4       1       eth  trunk  up      none                     100G(D) --
 .
 .
+.
 ----
 ====
 
@@ -565,12 +785,26 @@ Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   s - Supports-STP-Dispute
 
 Device-ID          Local Intrfce  Hldtme Capability  Platform      Port ID         
-cs2                Eth1/7/1       172    H           AFX-1K        e1b           
-cs2                Eth1/7/2       172    H           AFX-1K        e7b           
-cs2                Eth1/7/3       172    H           AFX-1K        e10b          
-cs2                Eth1/7/4       172    H           AFX-1K        e11b 
+cs2(FDOXXXXXXXX)    Eth1/63        179    R S I s   N9K-C9332D-GX2B   Eth1/31
+cs2(FDOXXXXXXXX)    Eth1/64        179    R S I s   N9K-C9332D-GX2B   Eth1/32      
+node1-01            Eth1/4/1       123    H         AFX-1K            e1a           
+node1-01            Eth1/4/2       123    H         AFX-1K            e7a           
+node1-01            Eth1/4/3       123    H         AFX-1K            e10a          
+node1-01            Eth1/4/4       123    H         AFX-1K            e11a          
+node1-02            Eth1/9/1       138    H         AFX-1K            e1a           
+node1-02            Eth1/9/2       138    H         AFX-1K            e7a           
+node1-02            Eth1/9/3       138    H         AFX-1K            e10a          
+node1-02            Eth1/9/4       138    H         AFX-1K            e11a          
+node1-03            Eth1/15/1      138    H         AFX-1K            e1a           
+node1-03            Eth1/15/2      138    H         AFX-1K            e7a           
+node1-03            Eth1/15/3      138    H         AFX-1K            e10a          
+node1-03            Eth1/15/4      138    H         AFX-1K            e11a          
+node1-04            Eth1/16/1      173    H         AFX-1K            e1a           
+node1-04            Eth1/16/2      173    H         AFX-1K            e7a           
+node1-04            Eth1/16/3      173    H         AFX-1K            e10a          
+node1-04            Eth1/16/4      173    H         AFX-1K            e11a          
 
-Total entries displayed: 4
+Total entries displayed: 18
 ----
 ====
 
@@ -1022,7 +1256,9 @@ Eth1/2/1      1       trunking      --
 Eth1/2/2      1       trunking      --
 Eth1/2/3      1       trunking      --
 Eth1/2/4      1       trunking      --
- 
+.
+.
+.
 Eth1/62/2     none
 Eth1/62/3     none
 Eth1/62/4     none

@@ -95,7 +95,7 @@ When you check the output to verify you have the correct RCF, make sure that the
 +
 The output varies according to your site configuration. Check the port settings and refer to the release notes for any changes specific to the RCF that you have installed.
 
-. Reapply any previous customizations to the switch configuration. Refer to link:cabling-considerations-9332d.html[Review cabling and configuration considerations] for details of any further changes required. 
+. Reapply any previous customizations to the switch configuration
 
 . After you verify the RCF versions and switch settings are correct, copy the running-config file to the startup-config file.
 +
@@ -121,11 +121,11 @@ For more information on Cisco commands, see the appropriate guide in the https:/
 
 . Repeat steps 1 through 7 on switch cs2.
 
-. Connect the cluster ports of all nodes in the ONTAP cluster to switches cs1 and cs2.
+. Connect the ports of all nodes in the ONTAP cluster to switches cs1 and cs2.
 
 == Step 2: Verify the switch connections
 
-. Verify that the switch ports connected to the cluster ports are *up*.
+. Verify that the switch ports connected to the cluster ports are up:
 +
 `show interface brief`
 +
@@ -388,7 +388,9 @@ Eth1/2/1      1       trunking      --
 Eth1/2/2      1       trunking      --
 Eth1/2/3      1       trunking      --
 Eth1/2/4      1       trunking      --
- 
+.
+.
+. 
 Eth1/30/1     none
 Eth1/30/2     none
 Eth1/30/3     none

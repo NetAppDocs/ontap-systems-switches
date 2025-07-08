@@ -87,34 +87,34 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID) Interface         Platform
 ----------- ------ ------------------------ ----------------  ----------------
 node1-01/cdp
-            e10a   cs1(FLM284504N6)         Ethernet1/16/3    N9K-C9364D-GX2A
-            e10b   cs1(FDO2846056X)         Ethernet1/13/3    N9K-C9364D-GX2A
-            e11a   cs1(FLM284504N6)         Ethernet1/16/4    N9K-C9364D-GX2A
-            e11b   cs1(FDO2846056X)         Ethernet1/13/4    N9K-C9364D-GX2A
-            e1a    cs1(FLM284504N6)         Ethernet1/16/1    N9K-C9364D-GX2A
-            e1b    cs1(FDO2846056X)         Ethernet1/13/1    N9K-C9364D-GX2A
-            e2a    cs2(FLM284504R2)         Ethernet1/8       N9K-C9364D-GX2A
-            e2b    cs2(FDO28390Q24)         Ethernet1/7       N9K-C9364D-GX2A
-            e3a    cs2(FLM284504R2)         Ethernet1/7       N9K-C9364D-GX2A
-            e3b    cs2(FDO28390Q24)         Ethernet1/8       N9K-C9364D-GX2A
-            e7a    cs1(FLM284504N6)         Ethernet1/16/2    N9K-C9364D-GX2A
-            e7b    cs1(FDO2846056X)         Ethernet1/13/2    N9K-C9364D-GX2A
+            e10a   cs1(FLMXXXXXXXX)         Ethernet1/16/3    N9K-C9364D-GX2A
+            e10b   cs2(FDOXXXXXXXX)         Ethernet1/13/3    N9K-C9364D-GX2A
+            e11a   cs1(FLMXXXXXXXX)         Ethernet1/16/4    N9K-C9364D-GX2A
+            e11b   cs2(FDOXXXXXXXX)         Ethernet1/13/4    N9K-C9364D-GX2A
+            e1a    cs1(FLMXXXXXXXX)         Ethernet1/16/1    N9K-C9364D-GX2A
+            e1b    cs2(FDOXXXXXXXX)         Ethernet1/13/1    N9K-C9364D-GX2A
+            .
+            .
+            .
+          
+            e7a    cs1(FLMXXXXXXXX)         Ethernet1/16/2    N9K-C9364D-GX2A
+            e7b    cs2(FDOXXXXXXXX)         Ethernet1/13/2    N9K-C9364D-GX2A
 
 node1-01/lldp
-            e0M    RTP-eng.netapp.com (34:6f:90:b0:5e:3b) 
-                                            Eth123/1/26       -
-            e10a   cs1 (c8:60:8f:34:78:d4)  Ethernet1/16/3    -
-            e10b   cs1 (04:e3:87:19:a2:5a)  Ethernet1/13/3    -
-            e11a   cs1 (c8:60:8f:34:78:d5)  Ethernet1/16/4    -
-            e11b   cs1 (04:e3:87:19:a2:5b)  Ethernet1/13/4    -
-            e1a    cs1 (c8:60:8f:34:78:d2)  Ethernet1/16/1    -
-            e1b    cs1 (04:e3:87:19:a2:58)  Ethernet1/13/1    -
-            e2a    cs2 (c8:60:8f:34:a7:4a)  Ethernet1/8       -
-            e2b    cs2 (28:b5:91:09:38:d8)  Ethernet1/7       -
-            e3a    cs2 (c8:60:8f:34:a7:46)  Ethernet1/7       -
-            e3b    cs2 (28:b5:91:09:38:dc)  Ethernet1/8       -
-            e7a    cs1 (c8:60:8f:34:78:d3)  Ethernet1/16/2    -
-            e7b    cs1 (04:e3:87:19:a2:59)  Ethernet1/13/2    -
+            e10a   cs1 (c8:60:8f:xx:xx:xx)  Ethernet1/16/3    -
+            e10b   cs2 (04:e3:87:xx:xx:xx)  Ethernet1/13/3    -
+            e11a   cs1 (c8:60:8f:xx:xx:xx)  Ethernet1/16/4    -
+            e11b   cs2 (04:e3:87:xx:xx:xx)  Ethernet1/13/4    -
+            e1a    cs1 (c8:60:8f:xx:xx:xx)  Ethernet1/16/1    -
+            e1b    cs2 (04:e3:87:xx:xx:xx)  Ethernet1/13/1    -
+            .
+            .
+            .
+            e7a    cs1 (c8:60:8f:xx:xx:xx)  Ethernet1/16/2    -
+            e7b    cs2 (04:e3:87:xx:xx:xx)  Ethernet1/13/2    -
+.
+.
+.
 ----
 ====
 
@@ -212,8 +212,8 @@ cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true
 
 Switch                      Type               Address          Model
 --------------------------- ------------------ ---------------- ---------------
-cs1(FDO2846056X)            cluster-network    10.228.137.233   N9K-C9364D-GX2A
-     Serial Number: FDO2846056X
+cs2(FDOXXXXXXXX)            cluster-network    10.228.137.233   N9K-C9364D-GX2A
+     Serial Number: FDOXXXXXXXX
       Is Monitored: true
             Reason: None
   Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
@@ -221,8 +221,8 @@ cs1(FDO2846056X)            cluster-network    10.228.137.233   N9K-C9364D-GX2A
     Version Source: CDP/ISDP
 
 
-cs2(FLM284504N6)             cluster-network   10.228.137.253   N9K-C9364D-GX2A
-     Serial Number: FLM284504N6
+cs1(FLMXXXXXXXX)             cluster-network   10.228.137.253   N9K-C9364D-GX2A
+     Serial Number: FLMXXXXXXXX
       Is Monitored: true
             Reason: None
   Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
@@ -246,7 +246,6 @@ cs2(FLM284504N6)             cluster-network   10.228.137.253   N9K-C9364D-GX2A
 [subs=+quotes]
 ----
 cluster1::*> *storage port show -port-type ENET*
-
 
                                       Speed
 Node               Port Type  Mode    (Gb/s) State    Status
@@ -277,167 +276,69 @@ node1-04
 .. *HA ports*
 
 ... Verify that all the HA ports are up with a healthy status: 
-
-
-. Check the administrative and operational status of each port.
 +
-// start of tabbed content
-
-[role="tabbed-block"]
-
+`ha interconnect status show -node <name>`
++
+.Show example 
+[%collapsible]
 ====
 
-.Cluster ports
---
-... Verify that all the cluster ports are up with a healthy status: 
-+
-`network port show -role cluster`
-+
-
 [subs=+quotes]
 ----
-cluster1::*> *network port show -role cluster*
+cluster1::*> *ha interconnect status show -node node1-01*
+  (system ha interconnect status show)
 
-Node: node1-01
-                                                                       Ignore
-                                                  Speed(Mbps) Health   Health
-Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
---------- ------------ ---------------- ---- ---- ----------- -------- ------
-e7a       Cluster      Cluster          up   9000  auto/100000 healthy false
-e7b       Cluster      Cluster          up   9000  auto/100000 healthy false
+                       Node: node1-01
+              Link 0 Status: up
+              Link 1 Status: up
+           Is Link 0 Active: true
+           Is Link 1 Active: true
+         IC RDMA Connection: up
+                       Slot: 0
+             Debug Firmware: no
 
-Node: node1-02
-                                                                       Ignore
-                                                  Speed(Mbps) Health   Health
-Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
---------- ------------ ---------------- ---- ---- ----------- -------- ------
-e7a       Cluster      Cluster          up   9000  auto/100000 healthy false
-e7b       Cluster      Cluster          up   9000  auto/100000 healthy false
 
-Node: node1-03
+Interconnect Port 0 :
+                  Port Name: e1a-17
+                        MTU: 4096
+           Link Information: ACTIVE
 
-                                                                       Ignore
-                                                  Speed(Mbps) Health   Health
-Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
---------- ------------ ---------------- ---- ---- ----------- -------- ------
-e7a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e7b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 
-Node: node1-04
-                                                                       Ignore
-                                                  Speed(Mbps) Health   Health
-Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
---------- ------------ ---------------- ---- ---- ----------- -------- ------
-e7a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e7b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+Interconnect Port 1 :
+                  Port Name: e1b-18
+                        MTU: 4096
+           Link Information: ACTIVE
+
+cluster1::*> *ha interconnect status show -node node1-02*
+  (system ha interconnect status show)
+
+                       Node: node1-02
+              Link 0 Status: up
+              Link 1 Status: up
+           Is Link 0 Active: true
+           Is Link 1 Active: true
+         IC RDMA Connection: up
+                       Slot: 0
+             Debug Firmware: no
+
+
+Interconnect Port 0 :
+                  Port Name: e1a-17
+                        MTU: 4096
+           Link Information: ACTIVE
+
+
+Interconnect Port 1 :
+                  Port Name: e1b-18
+                        MTU: 4096
+           Link Information: ACTIVE
+.
+.
+.
 ----
-
-... Verify that all the cluster interfaces (LIFs) are on the home port: 
-+
-`network interface show -role cluster`
-+
-
-[subs=+quotes]
-----
-cluster1::*> *network interface show -role cluster*
-
-            Logical         Status     Network            Current   Current Is
-Vserver     Interface       Admin/Oper Address/Mask       Node      Port    Home
------------ --------------- ---------- ------------------ --------- ------- ----
-Cluster
-            node1-01_clus1  up/up      169.254.36.44/16   node1-01  e7a     true
-            node1-01_clus2  up/up      169.254.7.5/16     node1-01  e7b     true
-            node1-02_clus1  up/up      169.254.197.206/16 node1-02  e7a     true
-            node1-02_clus2  up/up      169.254.195.186/16 node1-02  e7b     true
-            node1-03_clus1  up/up      169.254.192.49/16  node1-03  e7a     true
-            node1-03_clus2  up/up      169.254.182.76/16  node1-03  e7b     true
-            node1-04_clus1  up/up      169.254.59.49/16   node1-04  e7a     true
-            node1-04_clus2  up/up      169.254.62.244/16  node1-04  e7b     true
-
-8 entries were displayed.
-----
-
-... Verify that the cluster displays information for both cluster switches: 
-+
-`system cluster-switch show -is-monitoring-enabled-operational true`
-+
-
-[subs=+quotes]
-----
-cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true*
-
-Switch                      Type               Address          Model
---------------------------- ------------------ ---------------- ---------------
-cs1(FDO2846056X)            cluster-network    10.228.137.233   N9K-C9364D-GX2A
-     Serial Number: FDO2846056X
-      Is Monitored: true
-            Reason: None
-  Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
-                    10.4(2)
-    Version Source: CDP/ISDP
-
-
-cs2(FLM284504N6)             cluster-network   10.228.137.253   N9K-C9364D-GX2A
-     Serial Number: FLM284504N6
-      Is Monitored: true
-            Reason: None
-  Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
-                    10.4(2)
-    Version Source: CDP/ISDP
-
-2 entries were displayed.
-----
---
-
-.Storage ports
---
-... Verify that all the storage ports are up with a healthy status: 
-
-+
-`storage port show -port-type ENET`
-+
-
-[subs=+quotes]
-----
-cluster1::*> *storage port show -port-type ENET*
-
-
-                                      Speed
-Node               Port Type  Mode    (Gb/s) State    Status
------------------- ---- ----- ------- ------ -------- -----------
-node1-01
-                   e10a ENET  -          100 enabled  online
-                   e10b ENET  -          100 enabled  online
-                   e11a ENET  -          100 enabled  online
-                   e11b ENET  -          100 enabled  online
-node1-02
-                   e10a ENET  -          100 enabled  online
-                   e10b ENET  -          100 enabled  online
-                   e11a ENET  -          100 enabled  online
-                   e11b ENET  -          100 enabled  online
-node1-03
-                   e10a ENET  -          100 enabled  online
-                   e10b ENET  -          100 enabled  online
-                   e11a ENET  -          100 enabled  online
-node1-04
-                   e10a ENET  -          100 enabled  online
-                   e10b ENET  -          100 enabled  online
-                   e11a ENET  -          100 enabled  online
-                   e11b ENET  -          100 enabled  online
-16 entries were displayed.
-----
---
-
-.HA ports
---
-... Verify that all the HA ports are up with a healthy status: 
---
 ====
 
-// end of tabbed content
-
-[start=6]
-. [[step6]]Disable auto-revert on the cluster LIFs. The cluster LIFs fail over to the partner cluster switch and remain there as you perform the upgrade procedure on the targeted switch:
+. Disable auto-revert on the cluster LIFs. The cluster LIFs fail over to the partner cluster switch and remain there as you perform the upgrade procedure on the targeted switch:
 +
 `network interface modify -vserver Cluster -lif * -auto-revert false`
 
@@ -481,13 +382,153 @@ Module       Image  Running-Version(pri:alt)       New-Version           Upg-Req
 
 ------   ---------  -----------------------------  --------------------  ------------
 
-     1        nxos  10.4(2)                        10.4.2                No
+     1        nxos  10.4(1)                        10.4(2)               Yes
 
      1        bios  x.x.x:x.x.x                    x.x.x                 No
 ----
 ====
 
 . Verify the running version of the NX-OS software:
++
+`show version`
++
+.Show example
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cs2# *show version*
+Cisco Nexus Operating System (NX-OS) Software
+TAC support: http://www.cisco.com/tac
+Copyright (C) 2002-2025, Cisco and/or its affiliates.
+All rights reserved.
+The copyrights to certain works contained in this software are
+owned by other third parties and used and distributed under their own
+licenses, such as open source.  This software is provided "as is," and unless
+otherwise stated, there is no warranty, express or implied, including but not
+limited to warranties of merchantability and fitness for a particular purpose.
+Certain components of this software are licensed under
+the GNU General Public License (GPL) version 2.0 or
+GNU General Public License (GPL) version 3.0  or the GNU
+Lesser General Public License (LGPL) Version 2.1 or
+Lesser General Public License (LGPL) Version 2.0.
+A copy of each such license is available at
+http://www.opensource.org/licenses/gpl-2.0.php and
+http://opensource.org/licenses/gpl-3.0.html and
+http://www.opensource.org/licenses/lgpl-2.1.php and
+http://www.gnu.org/licenses/old-licenses/library.txt.
+
+
+Software
+  BIOS: version 01.14
+  NXOS: version 10.4(1) [Feature Release]
+  Host NXOS: version 10.4(1)
+  BIOS compile time:  11/25/2024
+  NXOS image file is: bootflash:///nxos64-cs.10.4.1.F.bin
+  NXOS compile time:  11/30/2023 12:00:00 [12/14/2023 05:25:50]
+  NXOS boot mode: LXC
+
+
+Hardware
+  cisco Nexus9000 C9332D-GX2B Chassis
+  Intel(R) Xeon(R) CPU D-1633N @ 2.50GHz with 32802156 kB of memory.
+  Processor Board ID FLMXXXXXXXX
+  Device name: cs2
+  bootflash:  115802886 kB
+
+
+Kernel uptime is 5 day(s), 2 hour(s), 13 minute(s), 21 second(s)
+
+
+Last reset at 3580 usecs after Thu Jun  5 15:55:08 2025
+  Reason: Reset Requested by CLI command reload
+  System version: 10.4(1)
+  Service:
+
+
+plugin
+  Core Plugin, Ethernet Plugin
+
+
+Active Package(s):
+
+cs2#
+----
+====
+
+. Install the NX-OS image.
++
+Installing the image file causes it to be loaded every time the switch is rebooted.
++
+.Show example
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cs2# *install all nxos bootflash:nxos.10.4.2.bin*
+
+Installer will perform compatibility check first. Please wait.
+Installer is forced disruptive
+
+Verifying image bootflash:/nxos.10.4.2.bin for boot variable "nxos".
+[####################] 100% -- SUCCESS
+
+Verifying image type.
+[####################] 100% -- SUCCESS
+
+Preparing "nxos" version info using image bootflash:/nxos.10.4.2.bin.
+[####################] 100% -- SUCCESS
+
+Preparing "bios" version info using image bootflash:/nxos.10.4.2.bin.
+[####################] 100% -- SUCCESS
+
+Performing module support checks.
+[####################] 100% -- SUCCESS
+
+Notifying services about system upgrade.
+[####################] 100% -- SUCCESS
+
+
+Compatibility check is done:
+Module  Bootable  Impact          Install-type  Reason
+------  --------  --------------- ------------  ---------
+  1     yes       Disruptive      Reset         Default upgrade is not hitless
+
+
+
+Images will be upgraded according to following table:
+
+Module   Image    Running-Version(pri:alt)                 New-Version         Upg-Required
+------- --------- ---------------------------------------- ------------------- ------------
+  1      nxos     10.4(1)                                  10.4(2)             Yes
+  1      bios     xx.xx:xx.xx                              xxx                 No
+
+Switch will be reloaded for disruptive upgrade.
+
+Do you want to continue with the installation (y/n)? [n] *y*
+
+Install is in progress, please wait.
+
+Performing runtime checks.
+[####################] 100% -- SUCCESS
+
+Setting boot variables.
+[####################] 100% -- SUCCESS
+
+Performing configuration copy.
+[####################] 100% -- SUCCESS
+
+Module 1: Refreshing compact flash and upgrading bios/loader/bootrom.
+Warning: please do not remove or power off the module at this time.
+[####################] 100% -- SUCCESS
+
+Finishing the upgrade, switch will reboot in 10 seconds.
+----
+====
+
+. Verify the new version of NX-OS software after the switch has rebooted: 
 +
 `show version`
 +
@@ -532,7 +573,7 @@ Software
 Hardware
   cisco Nexus9000 C9332D-GX2B Chassis
   Intel(R) Xeon(R) CPU D-1633N @ 2.50GHz with 32802156 kB of memory.
-  Processor Board ID FLM284504N6
+  Processor Board ID FLMXXXXXXXX
   Device name: cs2
   bootflash:  115802886 kB
 
@@ -556,142 +597,11 @@ cs2#
 ----
 ====
 
-. Install the NX-OS image.
-+
-Installing the image file causes it to be loaded every time the switch is rebooted.
-+
-.Show example
-[%collapsible]
-====
+. Verify the health of all of the ports on the cluster.
 
-[subs=+quotes]
-----
-cs2# *install all nxos bootflash:nxos.9.3.5.bin*
+.. *Cluster ports*
 
-Installer will perform compatibility check first. Please wait.
-Installer is forced disruptive
-
-Verifying image bootflash:/nxos.9.3.5.bin for boot variable "nxos".
-[####################] 100% -- SUCCESS
-
-Verifying image type.
-[####################] 100% -- SUCCESS
-
-Preparing "nxos" version info using image bootflash:/nxos.9.3.5.bin.
-[####################] 100% -- SUCCESS
-
-Preparing "bios" version info using image bootflash:/nxos.9.3.5.bin.
-[####################] 100% -- SUCCESS
-
-Performing module support checks.
-[####################] 100% -- SUCCESS
-
-Notifying services about system upgrade.
-[####################] 100% -- SUCCESS
-
-
-Compatibility check is done:
-Module  Bootable  Impact          Install-type  Reason
-------  --------  --------------- ------------  ---------
-  1     yes       Disruptive      Reset         Default upgrade is not hitless
-
-
-
-Images will be upgraded according to following table:
-
-Module   Image    Running-Version(pri:alt)                 New-Version         Upg-Required
-------- --------- ---------------------------------------- ------------------- ------------
-  1      nxos     9.3(4)                                   9.3(5)                  yes
-  1      bios     v08.37(01/28/2020):v08.23(09/23/2015)    v08.38(05/29/2020)      yes
-
-
-Switch will be reloaded for disruptive upgrade.
-
-Do you want to continue with the installation (y/n)? [n] *y*
-
-Install is in progress, please wait.
-
-Performing runtime checks.
-[####################] 100% -- SUCCESS
-
-Setting boot variables.
-[####################] 100% -- SUCCESS
-
-Performing configuration copy.
-[####################] 100% -- SUCCESS
-
-Module 1: Refreshing compact flash and upgrading bios/loader/bootrom.
-Warning: please do not remove or power off the module at this time.
-[####################] 100% -- SUCCESS
-
-Finishing the upgrade, switch will reboot in 10 seconds.
-----
-====
-
-. Verify the new version of NX-OS software after the switch has rebooted: 
-+
-`show version`
-+
-.Show example
-[%collapsible]
-====
-
-[subs=+quotes]
-----
-cs2# *show version*
-
-Cisco Nexus Operating System (NX-OS) Software
-TAC support: http://www.cisco.com/tac
-Copyright (C) 2002-2020, Cisco and/or its affiliates.
-All rights reserved.
-The copyrights to certain works contained in this software are
-owned by other third parties and used and distributed under their own
-licenses, such as open source.  This software is provided "as is," and unless
-otherwise stated, there is no warranty, express or implied, including but not
-limited to warranties of merchantability and fitness for a particular purpose.
-Certain components of this software are licensed under
-the GNU General Public License (GPL) version 2.0 or
-GNU General Public License (GPL) version 3.0  or the GNU
-Lesser General Public License (LGPL) Version 2.1 or
-Lesser General Public License (LGPL) Version 2.0.
-A copy of each such license is available at
-http://www.opensource.org/licenses/gpl-2.0.php and
-http://opensource.org/licenses/gpl-3.0.html and
-http://www.opensource.org/licenses/lgpl-2.1.php and
-http://www.gnu.org/licenses/old-licenses/library.txt.
-
-Software
-  BIOS: version 05.33
-  NXOS: version 9.3(5)
-  BIOS compile time:  09/08/2018
-  NXOS image file is: bootflash:///nxos.9.3.5.bin
-  NXOS compile time:  11/4/2018 21:00:00 [11/05/2018 06:11:06]
-
-
-Hardware
-  cisco Nexus9000 C9336C-FX2 Chassis
-  Intel(R) Xeon(R) CPU E5-2403 v2 @ 1.80GHz with 8154432 kB of memory.
-  Processor Board ID FOC20291J6K
-
-  Device name: cs2
-  bootflash:   53298520 kB
-Kernel uptime is 0 day(s), 0 hour(s), 3 minute(s), 42 second(s)
-
-Last reset at 277524 usecs after Mon Nov  2 22:45:12 2020
-  Reason: Reset due to upgrade
-  System version: 9.3(4)
-  Service:
-
-plugin
-  Core Plugin, Ethernet Plugin
-
-Active Package(s):
-----
-====
-
-. Verify the health of cluster ports on the cluster.
-
-.. Verify that cluster ports are up and healthy across all nodes in the cluster: 
+... Verify that cluster ports are up and healthy across all nodes in the cluster: 
 +
 `network port show -role cluster`
 +
@@ -737,7 +647,7 @@ e7b       Cluster      Cluster          up   9000  auto/100000 healthy false
 ----
 ====
 
-.. Verify the switch health from the cluster:
+... Verify the switch health from the cluster:
 +
 `network device-discovery show -protocol cdp` and
 `system cluster-switch show -is-monitoring-enabled-operational true`
@@ -750,33 +660,31 @@ e7b       Cluster      Cluster          up   9000  auto/100000 healthy false
 ----
 cluster1::*> *network device-discovery show -protocol cdp*
 
-node1-02/cdp
-            e10a   cs1(FLM284504N6)         Ethernet1/16/3    N9K-C9364D-GX2A
-            e10b   cs1(FDO2846056X)         Ethernet1/13/3    N9K-C9364D-GX2A
-            e11a   cs1(FLM284504N6)         Ethernet1/16/4    N9K-C9364D-GX2A
-            e11b   cs1(FDO2846056X)         Ethernet1/13/4    N9K-C9364D-GX2A
-            e1a    cs1(FLM284504N6)         Ethernet1/16/1    N9K-C9364D-GX2A
-            e1b    cs1(FDO2846056X)         Ethernet1/13/1    N9K-C9364D-GX2A
-            e2a    cs2(FLM284504R2)         Ethernet1/8       N9K-C9364D-GX2A
-            e2b    cs2(FDO28390Q24)         Ethernet1/7       N9K-C9364D-GX2A
-            e3a    cs2(FLM284504R2)         Ethernet1/7       N9K-C9364D-GX2A
-            e3b    cs2(FDO28390Q24)         Ethernet1/8       N9K-C9364D-GX2A
-            e7a    cs1(FLM284504N6)         Ethernet1/16/2    N9K-C9364D-GX2A
-            e7b    cs1(FDO2846056X)         Ethernet1/13/2    N9K-C9364D-GX2A
-
 node1-01/cdp
-            e10a   cs1(FLM284504N6)         Ethernet1/16/3    N9K-C9364D-GX2A
-            e10b   cs1(FDO2846056X)         Ethernet1/13/3    N9K-C9364D-GX2A
-            e11a   cs1(FLM284504N6)         Ethernet1/16/4    N9K-C9364D-GX2A
-            e11b   cs1(FDO2846056X)         Ethernet1/13/4    N9K-C9364D-GX2A
-            e1a    cs1(FLM284504N6)         Ethernet1/16/1    N9K-C9364D-GX2A
-            e1b    cs1(FDO2846056X)         Ethernet1/13/1    N9K-C9364D-GX2A
-            e2a    cs2(FLM284504R2)         Ethernet1/8       N9K-C9364D-GX2A
-            e2b    cs2(FDO28390Q24)         Ethernet1/7       N9K-C9364D-GX2A
-            e3a    cs2(FLM284504R2)         Ethernet1/7       N9K-C9364D-GX2A
-            e3b    cs2(FDO28390Q24)         Ethernet1/8       N9K-C9364D-GX2A
-            e7a    cs1(FLM284504N6)         Ethernet1/16/2    N9K-C9364D-GX2A
-            e7b    cs1(FDO2846056X)         Ethernet1/13/2    N9K-C9364D-GX2A
+            e10a   cs1(FLMXXXXXXXX)         Ethernet1/16/3    N9K-C9364D-GX2A
+            e10b   cs2(FDOXXXXXXXX)         Ethernet1/13/3    N9K-C9364D-GX2A
+            e11a   cs1(FLMXXXXXXXX)         Ethernet1/16/4    N9K-C9364D-GX2A
+            e11b   cs2(FDOXXXXXXXX)         Ethernet1/13/4    N9K-C9364D-GX2A
+            e1a    cs1(FLMXXXXXXXX)         Ethernet1/16/1    N9K-C9364D-GX2A
+            e1b    cs2(FDOXXXXXXXX)         Ethernet1/13/1    N9K-C9364D-GX2A
+            .
+            .
+            .
+            e7a    cs1(FLMXXXXXXXX)         Ethernet1/16/2    N9K-C9364D-GX2A
+            e7b    cs2(FDOXXXXXXXX)         Ethernet1/13/2    N9K-C9364D-GX2A
+
+node1-02/cdp
+            e10a   cs1(FLMXXXXXXXX)         Ethernet1/16/3    N9K-C9364D-GX2A
+            e10b   cs2(FDOXXXXXXXX)         Ethernet1/13/3    N9K-C9364D-GX2A
+            e11a   cs1(FLMXXXXXXXX)         Ethernet1/16/4    N9K-C9364D-GX2A
+            e11b   cs2(FDOXXXXXXXX)         Ethernet1/13/4    N9K-C9364D-GX2A
+            e1a    cs1(FLMXXXXXXXX)         Ethernet1/16/1    N9K-C9364D-GX2A
+            e1b    cs2(FDOXXXXXXXX)         Ethernet1/13/1    N9K-C9364D-GX2A
+            .
+            .
+            .
+            e7a    cs1(FLMXXXXXXXX)         Ethernet1/16/2    N9K-C9364D-GX2A
+            e7b    cs2(FDOXXXXXXXX)         Ethernet1/13/2    N9K-C9364D-GX2A
 .
 .
 .
@@ -784,8 +692,8 @@ node1-01/cdp
 cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true*
 Switch                      Type               Address          Model
 --------------------------- ------------------ ---------------- ---------------
-cs1(FDO2846056X)            cluster-network    10.228.137.233   N9K-C9364D-GX2A
-     Serial Number: FDO2846056X
+cs2(FDOXXXXXXXX)            cluster-network    10.228.137.233   N9K-C9364D-GX2A
+     Serial Number: FDOXXXXXXXX
       Is Monitored: true
             Reason: None
   Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
@@ -793,21 +701,119 @@ cs1(FDO2846056X)            cluster-network    10.228.137.233   N9K-C9364D-GX2A
     Version Source: CDP/ISDP
 
 
-cs2(FLM284504N6)             cluster-network   10.228.137.253   N9K-C9364D-GX2A
-     Serial Number: FLM284504N6
+cs1(FLMXXXXXXXX)             cluster-network   10.228.137.253   N9K-C9364D-GX2A
+     Serial Number: FLMXXXXXXXX
       Is Monitored: true
             Reason: None
   Software Version: Cisco Nexus Operating System (NX-OS) Software, Versi9K-C9332D-Gon
                     10.4(2)
     Version Source: CDP/ISDP
 ----
-//You might observe the following output on the cs1 switch console depending on the RCF version previously loaded on the switch:
+====
 
-//----
-//2020 Nov 17 16:07:18 cs1 %$ VDC-1 %$ %STP-2-UNBLOCK_CONSIST_PORT: Unblocking port port-channel1 on VLAN0092. Port consistency restored.
-//2020 Nov 17 16:07:23 cs1 %$ VDC-1 %$ %STP-2-BLOCK_PVID_PEER: Blocking port-channel1 on VLAN0001. Inconsistent peer vlan.
-//2020 Nov 17 16:07:23 cs1 %$ VDC-1 %$ %STP-2-BLOCK_PVID_LOCAL: Blocking port-channel1 on VLAN0092. Inconsistent local vlan.
-//----
+.. *Storage ports*
+
+... Verify that all the storage ports are up with a healthy status: 
++
+`storage port show -port-type ENET`
++
+.Show example 
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cluster1::*> *storage port show -port-type ENET*
+
+                                      Speed
+Node               Port Type  Mode    (Gb/s) State    Status
+------------------ ---- ----- ------- ------ -------- -----------
+node1-01
+                   e10a ENET  -          100 enabled  online
+                   e10b ENET  -          100 enabled  online
+                   e11a ENET  -          100 enabled  online
+                   e11b ENET  -          100 enabled  online
+node1-02
+                   e10a ENET  -          100 enabled  online
+                   e10b ENET  -          100 enabled  online
+                   e11a ENET  -          100 enabled  online
+                   e11b ENET  -          100 enabled  online
+node1-03
+                   e10a ENET  -          100 enabled  online
+                   e10b ENET  -          100 enabled  online
+                   e11a ENET  -          100 enabled  online
+node1-04
+                   e10a ENET  -          100 enabled  online
+                   e10b ENET  -          100 enabled  online
+                   e11a ENET  -          100 enabled  online
+                   e11b ENET  -          100 enabled  online
+16 entries were displayed.
+----
+====
+
+.. *HA ports*
+
+... Verify that all the HA ports are up with a healthy status: 
++
+`ha interconnect status show -node <name>`
++
+.Show example 
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cluster1::*> *ha interconnect status show -node node1-01*
+  (system ha interconnect status show)
+
+                       Node: node1-01
+              Link 0 Status: up
+              Link 1 Status: up
+           Is Link 0 Active: true
+           Is Link 1 Active: true
+         IC RDMA Connection: up
+                       Slot: 0
+             Debug Firmware: no
+
+
+Interconnect Port 0 :
+                  Port Name: e1a-17
+                        MTU: 4096
+           Link Information: ACTIVE
+
+
+Interconnect Port 1 :
+                  Port Name: e1b-18
+                        MTU: 4096
+           Link Information: ACTIVE
+
+cluster1::*> *ha interconnect status show -node node1-02*
+  (system ha interconnect status show)
+
+                       Node: node1-02
+              Link 0 Status: up
+              Link 1 Status: up
+           Is Link 0 Active: true
+           Is Link 1 Active: true
+         IC RDMA Connection: up
+                       Slot: 0
+             Debug Firmware: no
+
+
+Interconnect Port 0 :
+                  Port Name: e1a-17
+                        MTU: 4096
+           Link Information: ACTIVE
+
+
+Interconnect Port 1 :
+                  Port Name: e1b-18
+                        MTU: 4096
+           Link Information: ACTIVE
+.
+.
+.
+----
 ====
 
 . Verify that the cluster is healthy: 
@@ -834,7 +840,7 @@ node1-04             true    true          true
 ----
 ====
 
-. Repeat steps 6 to 13 to install the NX-OS software on switch cs1.
+. Repeat steps 6 to 12 to install the NX-OS software on switch cs1.
 
 . Enable auto-revert on the cluster LIFs.
 +
