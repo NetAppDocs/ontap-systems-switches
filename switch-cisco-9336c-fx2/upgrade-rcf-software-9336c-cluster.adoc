@@ -254,6 +254,18 @@ cluster1::*>
 +
 `switch# show run | section "switchname" >> bootflash:write_erase.cfg`
 
+. For RCF version 1.12 and later, run the following commands:
++
+`echo "hardware access-list tcam region ing-racl 1024" >> bootflash:write_erase.cfg`
++
+`echo "hardware access-list tcam region egr-racl 1024" >> bootflash:write_erase.cfg`
++
+`echo "hardware access-list tcam region ing-l2-qos 1280" >> bootflash:write_erase.cfg`
+
+. Verify that the write_erase.cfg file is populated as expected:
++
+`show file bootflash:write_erase.cfg`
+
 . Issue the write erase command to erase the current saved configuration:
 +
 
@@ -515,7 +527,7 @@ cluster1::*>
 ----
 ====
 
-. Repeat steps 1 to 18 on switch cs2.
+. Repeat steps 1 to 20 on switch cs2.
 
 . Enable auto-revert on the cluster LIFs.
 +
@@ -909,3 +921,4 @@ link:configure-ssh-keys.html[Verify SSH configuration].
 // Updates for GH issue #212, 2024-OCT-17
 // Updates for GH issue #262, 2024-NOV-20
 // Typo fix, 2025-JAN-29
+// Updates for AFFFASDOC-366, 2025-JUL-08
