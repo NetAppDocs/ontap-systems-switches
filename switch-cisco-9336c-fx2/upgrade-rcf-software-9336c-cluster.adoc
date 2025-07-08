@@ -256,11 +256,11 @@ cluster1::*>
 
 . For RCF version 1.12 and later, run the following commands:
 +
-`echo "hardware access-list tcam region ing-racl 1024" >> bootflash:write_erase.cfg`
+`switch# echo "hardware access-list tcam region ing-racl 1024" >> bootflash:write_erase.cfg`
 +
-`echo "hardware access-list tcam region egr-racl 1024" >> bootflash:write_erase.cfg`
+`switch# echo "hardware access-list tcam region egr-racl 1024" >> bootflash:write_erase.cfg`
 +
-`echo "hardware access-list tcam region ing-l2-qos 1280" >> bootflash:write_erase.cfg`
+`switch# echo "hardware access-list tcam region ing-l2-qos 1280" >> bootflash:write_erase.cfg`
 
 . Verify that the write_erase.cfg file is populated as expected:
 +
