@@ -1,0 +1,73 @@
+---
+permalink: switch-bes-53248/reset-switch-bes-53248.html
+sidebar: sidebar
+keywords: BES-53248 reset switch to factory defaults, BES-53248 switches configuration, efos
+summary: 'Before configuring your Broadcom BES-53248 switch, review the following information.'
+---
+= Reset the BES-53248 cluster switch to factory defaults
+
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+Before installing a new switch software version and RCFs, you must erase the BES-53248 switch settings and perform basic configuration.
+
+.About this task
+* You must repeat these steps on each of the switches.
+* This task resets the configuration of the management network.
+
+.Steps
+. Connect to a console that is attached to the serial port of the switch.
+. Reload the switch using the `reload` command and return `y` to reset the system.
+. Select ONIE from the GRUB menu. 
++
+
+.Show example
+[%collapsible]
+====
+----
++--------------------------------------------------------------------+
+|EFOS                                                                |
+|*ONIE                                                               |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
++--------------------------------------------------------------------+
+----
+====
+
+. After you select *ONIE*, the switch loads and presents you with several choices. 
++
+Select *Uninstall OS*.
++
+.Show example
+[%collapsible]
+====
+----
++--------------------------------------------------------------------+
+| ONIE: Install OS                                                   |
+| ONIE: Rescue                                                       |
+|*ONIE: Uninstall OS                                                 |
+| ONIE: Update ONIE                                                  |
+| ONIE: Embed ONIE                                                   |
+| DIAG: Diagnostic Mode                                              |
+| DIAG: Burn-In Mode                                                 |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
+|                                                                    |
++--------------------------------------------------------------------+
+----
+====
++ 
+The uninstall process completes and the switch is reset to its factory defaults, removing EFOS and the switch configuration. When the switch is powered OFF and ON, it boots into ONIE.
+
+// New content for AFFFASDOC-323, 2025-JUL-09
