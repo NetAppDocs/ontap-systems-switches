@@ -57,8 +57,10 @@ The following procedure is based on the following cluster network topology:
 .Show example 
 [%collapsible]
 ====
+
+[subs=+quotes]
 ----
-cluster1::*> network port show -ipspace Cluster
+cluster1::*> *network port show -ipspace Cluster*
 
 Node: node1-01
                                                                        Ignore
@@ -98,7 +100,7 @@ e7b       Cluster      Cluster          up   9000  auto/100000 healthy false
 8 entries were displayed.
 
 
-cluster1::*> network interface show -vserver Cluster
+cluster1::*> *network interface show -vserver Cluster*
             Logical    Status     Network            Current     Current   Is
 Vserver     Interface  Admin/Oper Address/Mask       Node        Port      Home
 ----------- ---------- ---------- ------------------ ----------- --------- ----
@@ -114,24 +116,25 @@ Cluster
 
 8 entries were displayed.
 
-cluster1::*> network device-discovery show -protocol cdp
-
+cluster1::*> *network device-discovery show -protocol cdp*
 
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
 node1-01/cdp
             e10a   cs1(FLMXXXXXXXX)          Ethernet1/16/3    N9K-C9332D-GX2B
+            e10b   cs2(FDOXXXXXXXX)          Ethernet1/16/3    N9K-C9332D-GX2B
             e11a   cs1(FLMXXXXXXXX)          Ethernet1/16/4    N9K-C9332D-GX2B
+            e11b   cs2(FDOXXXXXXXX)          Ethernet1/16/4    N9K-C9332D-GX2B
             e1a    cs1(FLMXXXXXXXX)          Ethernet1/16/1    N9K-C9332D-GX2B
-            e2a    cs2(FLMXXXXXXXX)          Ethernet1/8       N9K-C9332D-GX2B
-            e3a    cs2(FLMXXXXXXXX)          Ethernet1/7       N9K-C9332D-GX2B
+            e1b    cs2(FDOXXXXXXXX)          Ethernet1/16/1    N9K-C9332D-GX2B
+            .
+            .
+            .
             e7a    cs1(FLMXXXXXXXX)          Ethernet1/16/2    N9K-C9332D-GX2B
-.
-.
-.
+            e7b    cs2(FDOXXXXXXXX)          Ethernet1/16/2    N9K-C9332D-GX2B
 
-cs1# show cdp neighbors
+cs1# *show cdp neighbors*
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
@@ -161,7 +164,7 @@ node1-04            Eth1/16/4      173    H         AFX-1K            e11a
 
 Total entries displayed: 18
 
-cs2# show cdp neighbors
+cs2# *show cdp neighbors*
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
@@ -219,8 +222,10 @@ If the switch that you are replacing is not functional and is powered down, go t
 .Show example 
 [%collapsible]
 ====
+
+[subs=+quotes]
 ----
-newcs2# config
+newcs2# *config*
 Enter configuration commands, one per line. End with CNTL/Z.
 newcs2(config)# *interface e1/1/1-4,e1/2/1-4,e1/3/1-4,e1/4/1-4,e1/5/1-4, ..........,e1/28/1-4,e1/29/1-4,e1/30/1-4*
 newcs2(config-if-range)# *shutdown*
@@ -234,8 +239,10 @@ newcs2(config-if-range)# *shutdown*
 .Show example 
 [%collapsible]
 ====
+
+[subs=+quotes]
 ----
-cluster1::> network interface show -vserver Cluster -fields auto-revert
+cluster1::> *network interface show -vserver Cluster -fields auto-revert*
 
              Logical
 Vserver      Interface        Auto-revert
@@ -321,11 +328,13 @@ RPC status:
 .Show example 
 [%collapsible]
 ====
+
+[subs=+quotes]
 ----
-cs1# configure
+cs1# *config*
 Enter configuration commands, one per line. End with CNTL/Z.
-cs1(config)# interface e1/31-32
-cs1(config-if-range)# shutdown
+cs1(config)# *interface e1/31-32*
+cs1(config-if-range)# *shutdown*
 ----
 ====
 
@@ -339,13 +348,16 @@ Port-Channel should indicate Po1(SU) and Member Ports should indicate Eth1/31(P)
 ====
 This example enables ISL ports Eth1/31 and Eth1/32 and displays the port channel summary on switch cs1:
 
+[subs=+quotes]
 ----
-cs1# configure
+cs1# *config*
 Enter configuration commands, one per line. End with CNTL/Z.
-cs1(config)# int e1/31-32
-cs1(config-if-range)# no shutdown
+cs1(config)# *int e1/31-32*
+cs1(config-if-range)# *no shutdown*
+cs1(config-if-range)# *exit*
+cs1(config)# *exit*
 
-cs1(config-if-range)# show port-channel summary
+cs1# *show port-channel summary*
 Flags:  D - Down        P - Up in port-channel (members)
         I - Individual  H - Hot-standby (LACP only)
         s - Suspended   r - Module-removed
@@ -372,8 +384,9 @@ Group Port-       Type     Protocol  Member Ports
 ====
 The output should be similar to the following:
 
+[subs=+quotes]
 ----
-cluster1::*> network port show -ipspace Cluster
+cluster1::*> *network port show -ipspace Cluster*
 
 Node: node1-01
                                                                        Ignore
@@ -423,19 +436,21 @@ In this example, LIF node1-01_clus2 on node1-01 is successfully reverted if the 
 
 The following commands return LIF `node1-01_clus2` on `node1-01` to home port `e7a` and displays information about the LIFs on both nodes. Bringing up the first node is successful if the Is Home column is true for both cluster interfaces and they show the correct port assignments, in this example `e7a` and `e7b` on node1-01.
 
+[subs=+quotes]
 ----
-cluster1::*> network interface show -vserver Cluster
+cluster1::*> *network interface show -vserver Cluster*
 
-            Logical      Status     Network            Current    Current Is
-Vserver     Interface    Admin/Oper Address/Mask       Node       Port    Home
+          Logical        Status     Network            Current    Current Is
+Vserver   Interface      Admin/Oper Address/Mask       Node       Port    Home
 --------- -------------- ---------- ------------------ ---------- ------- -----
 Cluster
           node1-01_clus1  up/up     169.254.209.69/16  node1-01   e7a     true
           node1-01_clus2  up/up     169.254.49.125/16  node1-01   e7b     true
           node1-02_clus1  up/up     169.254.47.194/16  node1-02   e7b     true
           node1-02_clus2  up/up     169.254.19.183/16  node1-02   e7a     false
-
-4 entries were displayed.
+          .
+          .
+          .
 ----
 ====
 
@@ -448,8 +463,9 @@ Cluster
 ====
 This example shows that the node health for node1 and node2 in this cluster is true:
 
+[subs=+quotes]
 ----
-cluster1::*> cluster show
+cluster1::*> *cluster show*
 
 Node           Health  Eligibility
 -------------- ------- ------------
@@ -467,8 +483,10 @@ node1-04       true    true
 .Show example 
 [%collapsible]
 ====
+
+[subs=+quotes]
 ----
-cluster1::*> network port show -ipspace Cluster
+cluster1::*> *network port show -ipspace Cluster*
 
 Node: node1-01
                                                                        Ignore
@@ -486,8 +504,9 @@ Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
 --------- ------------ ---------------- ---- ---- ----------- -------- ------
 e7a       Cluster      Cluster          up   9000  auto/100000 healthy false
 e7b       Cluster      Cluster          up   9000  auto/100000 healthy false
-
-4 entries were displayed.
+.
+.
+.
 ----
 ====
 
@@ -566,8 +585,10 @@ RPC status:
 .Show example 
 [%collapsible]
 ====
+
+[subs=+quotes]
 ----
-cluster1::*> network port show -ipspace Cluster
+cluster1::*> *network port show -ipspace Cluster*
 Node: node1-01
                                                                        Ignore
                                                   Speed(Mbps) Health   Health
@@ -605,7 +626,7 @@ e7b       Cluster      Cluster          up   9000  auto/100000 healthy false
 
 8 entries were displayed.
 
-cluster1::*> network interface show -vserver Cluster
+cluster1::*> *network interface show -vserver Cluster*
 
           Logical       Status     Network            Current    Current Is
 Vserver   Interface     Admin/Oper Address/Mask       Node       Port    Home
@@ -622,7 +643,7 @@ Cluster
 
 8 entries were displayed.
 
-cluster1::> network device-discovery show -protocol cdp
+cluster1::> *network device-discovery show -protocol cdp*
 
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
@@ -643,7 +664,7 @@ node1-01/cdp
 .
 .
 
-cs1# show cdp neighbors
+cs1# *show cdp neighbors*
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
@@ -673,7 +694,7 @@ node1-04              Eth1/16/4      173    H           AFX-1K            e11a
 Total entries displayed: 18
 
 
-newcs2# show cdp neighbors
+newcs2# *show cdp neighbors*
 
 Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   S - Switch, H - Host, I - IGMP, r - Repeater,
