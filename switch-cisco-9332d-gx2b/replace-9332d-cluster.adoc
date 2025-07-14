@@ -18,8 +18,8 @@ Before performing the switch replacement, make sure that:
 * You have verified the switch serial number to ensure that the correct switch is replaced. 
 * On the existing cluster and network infrastructure:
  ** The existing cluster is verified as completely functional, with at least one fully connected cluster switch.
- ** All cluster ports are *up*.
- ** All cluster logical interfaces (LIFs) are *up* and on their home ports.
+ ** All cluster ports are up.
+ ** All cluster logical interfaces (LIFs) are up and on their home ports.
  ** The ONTAP `cluster ping-cluster -node <node-name>` command must indicate that basic connectivity and larger than PMTU communication are successful on all paths.
 * On the Nexus 9332D-GX2B replacement switch:
  ** Management network connectivity on the replacement switch is functional.
@@ -48,7 +48,6 @@ The examples in this procedure use the following switch and node nomenclature:
 * The names of the existing Nexus 9332D-GX2B switches are cs1 and cs2.
 * The name of the new Nexus 9332D-GX2B switch is newcs2.
 * The node names are node1-01, node1-02, node1-03, and node1-04.
-//* The cluster ports on each node are named e0a and e0b.
 * The cluster LIF names are node1-01_clus1 and node1-01_clus2 for node1-01, node1-02_clus1 and node1-02_clus2 for node1-02, node1-03_clus1 and node1-03_clus2 for node1-03, and node1-04_clus1 and node1-04_clus2 for node1-04.
 * The prompt for changes to all cluster nodes is cluster1::*>
 
@@ -122,12 +121,12 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
 node1-01/cdp
-            e10a   cs1(FLM284504N6)          Ethernet1/16/3    N9K-C9332D-GX2B
-            e11a   cs1(FLM284504N6)          Ethernet1/16/4    N9K-C9332D-GX2B
-            e1a    cs1(FLM284504N6)          Ethernet1/16/1    N9K-C9332D-GX2B
-            e2a    cs2(FLM284504R2)          Ethernet1/8       N9K-C9332D-GX2B
-            e3a    cs2(FLM284504R2)          Ethernet1/7       N9K-C9332D-GX2B
-            e7a    cs1(FLM284504N6)          Ethernet1/16/2    N9K-C9332D-GX2B
+            e10a   cs1(FLMXXXXXXXX)          Ethernet1/16/3    N9K-C9332D-GX2B
+            e11a   cs1(FLMXXXXXXXX)          Ethernet1/16/4    N9K-C9332D-GX2B
+            e1a    cs1(FLMXXXXXXXX)          Ethernet1/16/1    N9K-C9332D-GX2B
+            e2a    cs2(FLMXXXXXXXX)          Ethernet1/8       N9K-C9332D-GX2B
+            e3a    cs2(FLMXXXXXXXX)          Ethernet1/7       N9K-C9332D-GX2B
+            e7a    cs1(FLMXXXXXXXX)          Ethernet1/16/2    N9K-C9332D-GX2B
 .
 .
 .
@@ -140,12 +139,27 @@ Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   s - Supports-STP-Dispute
 
 Device-ID          Local Intrfce  Hldtme Capability  Platform      Port ID   
-cs2                Eth1/1/1       156    H           AFX-1K        e1a           
-cs2                Eth1/1/2       156    H           AFX-1K        e7a           
-cs2                Eth1/1/3       156    H           AFX-1K        e10a          
-cs2                Eth1/1/4       156    H           AFX-1K        e11a          
+Device-ID          Local Intrfce  Hldtme Capability  Platform         Port ID
+cs2(FDOXXXXXXXX)    Eth1/31        179    R S I s   N9K-C9364D-GX2A   Eth1/63
+cs2(FDOXXXXXXXX)    Eth1/32        179    R S I s   N9K-C9364D-GX2A   Eth1/64
+node1-01            Eth1/4/1       123    H         AFX-1K            e1a
+node1-01            Eth1/4/2       123    H         AFX-1K            e7a
+node1-01            Eth1/4/3       123    H         AFX-1K            e10a
+node1-01            Eth1/4/4       123    H         AFX-1K            e11a
+node1-02            Eth1/9/1       138    H         AFX-1K            e1a
+node1-02            Eth1/9/2       138    H         AFX-1K            e7a
+node1-02            Eth1/9/3       138    H         AFX-1K            e10a
+node1-02            Eth1/9/4       138    H         AFX-1K            e11a
+node1-03            Eth1/15/1      138    H         AFX-1K            e1a
+node1-03            Eth1/15/2      138    H         AFX-1K            e7a
+node1-03            Eth1/15/3      138    H         AFX-1K            e10a
+node1-03            Eth1/15/4      138    H         AFX-1K            e11a
+node1-04            Eth1/16/1      173    H         AFX-1K            e1a
+node1-04            Eth1/16/2      173    H         AFX-1K            e7a
+node1-04            Eth1/16/3      173    H         AFX-1K            e10a
+node1-04            Eth1/16/4      173    H         AFX-1K            e11a
 
-Total entries displayed: 4
+Total entries displayed: 18
 
 cs2# show cdp neighbors
 
@@ -155,12 +169,27 @@ Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   s - Supports-STP-Dispute
 
 Device-ID          Local Intrfce  Hldtme Capability  Platform      Port ID   
-cs1                Eth1/9/1       175    H           AFX-1K        e1a           
-cs1                Eth1/9/2       175    H           AFX-1K        e7a           
-cs1                Eth1/9/3       175    H           AFX-1K        e10a          
-cs1                Eth1/9/4       175    H           AFX-1K        e11a                
+Device-ID          Local Intrfce  Hldtme Capability  Platform         Port ID
+cs1(FLMXXXXXXXX)    Eth1/31        179    R S I s   N9K-C9364D-GX2A   Eth1/63
+cs1(FLMXXXXXXXX)    Eth1/32        179    R S I s   N9K-C9364D-GX2A   Eth1/64
+node1-01            Eth1/4/1       123    H         AFX-1K            e1a
+node1-01            Eth1/4/2       123    H         AFX-1K            e7a
+node1-01            Eth1/4/3       123    H         AFX-1K            e10a
+node1-01            Eth1/4/4       123    H         AFX-1K            e11a
+node1-02            Eth1/9/1       138    H         AFX-1K            e1a
+node1-02            Eth1/9/2       138    H         AFX-1K            e7a
+node1-02            Eth1/9/3       138    H         AFX-1K            e10a
+node1-02            Eth1/9/4       138    H         AFX-1K            e11a
+node1-03            Eth1/15/1      138    H         AFX-1K            e1a
+node1-03            Eth1/15/2      138    H         AFX-1K            e7a
+node1-03            Eth1/15/3      138    H         AFX-1K            e10a
+node1-03            Eth1/15/4      138    H         AFX-1K            e11a
+node1-04            Eth1/16/1      173    H         AFX-1K            e1a
+node1-04            Eth1/16/2      173    H         AFX-1K            e7a
+node1-04            Eth1/16/3      173    H         AFX-1K            e10a
+node1-04            Eth1/16/4      173    H         AFX-1K            e11a
 
-Total entries displayed: 4
+Total entries displayed: 18
 ----
 ====
 
@@ -193,8 +222,8 @@ If the switch that you are replacing is not functional and is powered down, go t
 ----
 newcs2# config
 Enter configuration commands, one per line. End with CNTL/Z.
-newcs2(config)# interface e1/1/1-30
-newcs2(config-if-range)# shutdown
+newcs2(config)# *interface e1/1/1-4,e1/2/1-4,e1/3/1-4,e1/4/1-4,e1/5/1-4, ..........,e1/28/1-4,e1/29/1-4,e1/30/1-4*
+newcs2(config-if-range)# *shutdown*
 ----
 ====
 
@@ -210,7 +239,7 @@ cluster1::> network interface show -vserver Cluster -fields auto-revert
 
              Logical
 Vserver      Interface        Auto-revert
------------- -------   ------ -------------
+------------ ---------------- -------------
 Cluster      node1-01_clus1   true
 Cluster      node1-02_clus2   true
 Cluster      node1-03_clus1   true
@@ -221,27 +250,14 @@ Cluster      node1-04_clus2   true
 ====
 
 . Verify the connectivity of the remote cluster interfaces: 
+
+.. You can use the `network interface check cluster-connectivity` command to display the details of an accessibility check for cluster connectivity:
 +
-// start of tabbed content
-
-[role="tabbed-block"]
-
+`network interface check cluster-connectivity start`
++
+.Show example 
+[%collapsible]
 ====
-
-.ONTAP 9.9.1 and later
-
---
-You can use the `network interface check cluster-connectivity` command to start an accessibility check for cluster connectivity and then display the details: 
-
-`network interface check cluster-connectivity start` and `network interface check cluster-connectivity show`
-
-[subs=+quotes]
-----
-cluster1::*> *network interface check cluster-connectivity start*
-----
-
-*NOTE:* Wait for a number of seconds before running the `show` command to display the details.
-
 
 [subs=+quotes]
 ----
@@ -259,14 +275,16 @@ node1-02
 .
 .
 ----
---
+====
 
-.All ONTAP releases
---
-For all ONTAP releases, you can also use the `cluster ping-cluster -node <node-name>` command to check the connectivity:
-
+.. Alternatively, you can also use the `cluster ping-cluster -node <node-name>` command to check the connectivity:
++
 `cluster ping-cluster -node <node-name>`
++
 
+.Show example 
+[%collapsible]
+====
 
 [subs=+quotes]
 ----
@@ -295,10 +313,7 @@ RPC status:
 2 paths up, 0 paths down (tcp check)
 2 paths up, 0 paths down (udp check)
 ----
---
 ====
-
-// end of tabbed content
 
 === Step 2: Configure cables and ports
 . Shut down the ISL ports Eth1/31 and Eth1/32 on the Nexus 9332D-GX2B switch cs1.
@@ -311,7 +326,6 @@ cs1# configure
 Enter configuration commands, one per line. End with CNTL/Z.
 cs1(config)# interface e1/31-32
 cs1(config-if-range)# shutdown
-cs1(config-if-range)#
 ----
 ====
 
@@ -441,6 +455,8 @@ Node           Health  Eligibility
 -------------- ------- ------------
 node1-01       false   true
 node1-02       true    true
+node1-03       true    true
+node1-04       true    true
 ----
 ====
 
@@ -476,34 +492,21 @@ e7b       Cluster      Cluster          up   9000  auto/100000 healthy false
 ====
 
 . Verify the connectivity of the remote cluster interfaces: 
+
+.. You can use the `network interface check cluster-connectivity` command to display the details of an accessibility check for cluster connectivity:
 +
-// start of tabbed content
-
-[role="tabbed-block"]
-
+`network interface check cluster-connectivity start`
++
+.Show example 
+[%collapsible]
 ====
-
-.ONTAP 9.9.1 and later
-
---
-You can use the `network interface check cluster-connectivity` command to start an accessibility check for cluster connectivity and then display the details: 
-
-`network interface check cluster-connectivity start` and `network interface check cluster-connectivity show`
-
-[subs=+quotes]
-----
-cluster1::*> *network interface check cluster-connectivity start*
-----
-
-*NOTE:* Wait for a number of seconds before running the `show` command to display the details.
-
 
 [subs=+quotes]
 ----
 cluster1::*> *network interface check cluster-connectivity show*
-                                  Source           Destination      Packet
-Node   Date                       LIF              LIF              Loss
------- -------------------------- ---------------- ---------------- -----------
+                                     Source          Destination     Packet
+Node      Date                       LIF             LIF             Loss
+--------- -------------------------- --------------- --------------- -----------
 node1-01  
           6/4/2025 03:13:33 -04:00   node1-01_clus2  node1-02_clus1  none
           6/4/2025 03:13:34 -04:00   node1-01_clus2  node1-02_clus2  none
@@ -514,14 +517,16 @@ node1-02
 .
 .
 ----
---
+====
 
-.All ONTAP releases
---
-For all ONTAP releases, you can also use the `cluster ping-cluster -node <name-name>` command to check the connectivity:
+.. Alternatively, you can also use the `cluster ping-cluster -node <node-name>` command to check the connectivity:
++
+`cluster ping-cluster -node <node-name>`
++
 
-`cluster ping-cluster -node <name-name>`
-
+.Show example 
+[%collapsible]
+====
 
 [subs=+quotes]
 ----
@@ -550,10 +555,8 @@ RPC status:
 2 paths up, 0 paths down (tcp check)
 2 paths up, 0 paths down (udp check)
 ----
---
 ====
 
-// end of tabbed content
 === Step 3: Verify the configuration
 
 . Confirm the following cluster network configuration: 
@@ -611,9 +614,13 @@ Cluster
           node1-01_clus1  up/up    169.254.209.69/16  node1-01   e7a     true
           node1-01_clus2  up/up    169.254.49.125/16  node1-01   e7b     true
           node1-02_clus1  up/up    169.254.47.194/16  node1-02   e7b     true
-          node1-02_clus2  up/up    169.254.19.183/16  node1-02   e7a     false
+          node1-02_clus2  up/up    169.254.19.183/16  node1-02   e7a     true
+          node1-03_clus1  up/up    169.254.209.69/16  node1-03   e7a     true
+          node1-03_clus2  up/up    169.254.49.125/16  node1-03   e7b     true
+          node1-04_clus1  up/up    169.254.47.194/16  node1-04   e7b     true
+          node1-04_clus2  up/up    169.254.19.183/16  node1-04   e7a     false
 
-4 entries were displayed.
+8 entries were displayed.
 
 cluster1::> network device-discovery show -protocol cdp
 
@@ -621,12 +628,17 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
 node1-01/cdp
-            e10a   cs1(FLM284504N6)          Ethernet1/16/3    N9K-C9332D-GX2B
-            e11a   cs1(FLM284504N6)          Ethernet1/16/4    N9K-C9332D-GX2B
-            e1a    cs1(FLM284504N6)          Ethernet1/16/1    N9K-C9332D-GX2B
-            e2a    cs2(FLM284504R2)          Ethernet1/8       N9K-C9332D-GX2B
-            e3a    cs2(FLM284504R2)          Ethernet1/7       N9K-C9332D-GX2B
-            e7a    cs1(FLM284504N6)          Ethernet1/16/2    N9K-C9332D-GX2B
+            e10a   cs1(FLMXXXXXXXX)          Ethernet1/16/3    N9K-C9332D-GX2B
+            e10b   cs2(FDOXXXXXXXX)          Ethernet1/16/3    N9K-C9332D-GX2B
+            e11a   cs1(FLMXXXXXXXX)          Ethernet1/16/4    N9K-C9332D-GX2B
+            e11b   cs2(FDOXXXXXXXX)          Ethernet1/16/4    N9K-C9332D-GX2B
+            e1a    cs1(FLMXXXXXXXX)          Ethernet1/16/1    N9K-C9332D-GX2B
+            e1b    cs2(FDOXXXXXXXX)          Ethernet1/16/1    N9K-C9332D-GX2B
+            .
+            .
+            .
+            e7a    cs1(FLMXXXXXXXX)          Ethernet1/16/2    N9K-C9332D-GX2B
+            e7b    cs2(FDOXXXXXXXX)          Ethernet1/16/2    N9K-C9332D-GX2B
 .
 .
 .
@@ -638,13 +650,27 @@ Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   V - VoIP-Phone, D - Remotely-Managed-Device,
                   s - Supports-STP-Dispute
 
-Device-ID          Local Intrfce  Hldtme Capability  Platform      Port ID
-newcs2             Eth1/1/1       156    H           AFX-1K        e1a           
-newcs2             Eth1/1/2       156    H           AFX-1K        e7a           
-newcs2             Eth1/1/3       156    H           AFX-1K        e10a          
-newcs2             Eth1/1/4       156    H           AFX-1K        e11a
+Device-ID             Local Intrfce  Hldtme Capability  Platform          Port ID
+newcs2(FDOXXXXXXXX)   Eth1/31        179    R S I s     N9K-C9364D-GX2A   Eth1/63
+newcs2(FDOXXXXXXXX)   Eth1/32        179    R S I s     N9K-C9364D-GX2A   Eth1/64
+node1-01              Eth1/4/1       123    H           AFX-1K            e1a
+node1-01              Eth1/4/2       123    H           AFX-1K            e7a
+node1-01              Eth1/4/3       123    H           AFX-1K            e10a
+node1-01              Eth1/4/4       123    H           AFX-1K            e11a
+node1-02              Eth1/9/1       138    H           AFX-1K            e1a
+node1-02              Eth1/9/2       138    H           AFX-1K            e7a
+node1-02              Eth1/9/3       138    H           AFX-1K            e10a
+node1-02              Eth1/9/4       138    H           AFX-1K            e11a
+node1-03              Eth1/15/1      138    H           AFX-1K            e1a
+node1-03              Eth1/15/2      138    H           AFX-1K            e7a
+node1-03              Eth1/15/3      138    H           AFX-1K            e10a
+node1-03              Eth1/15/4      138    H           AFX-1K            e11a
+node1-04              Eth1/16/1      173    H           AFX-1K            e1a
+node1-04              Eth1/16/2      173    H           AFX-1K            e7a
+node1-04              Eth1/16/3      173    H           AFX-1K            e10a
+node1-04              Eth1/16/4      173    H           AFX-1K            e11a
 
-Total entries displayed: 4
+Total entries displayed: 18
 
 
 newcs2# show cdp neighbors
@@ -654,13 +680,27 @@ Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   V - VoIP-Phone, D - Remotely-Managed-Device,
                   s - Supports-STP-Dispute
 
-Device-ID          Local Intrfce  Hldtme Capability  Platform      Port ID
-cs1                Eth1/9/1       175    H           AFX-1K        e1a           
-cs1                Eth1/9/2       175    H           AFX-1K        e7a           
-cs1                Eth1/9/3       175    H           AFX-1K        e10a          
-cs1                Eth1/9/4       175    H           AFX-1K        e11a  
+Device-ID          Local Intrfce  Hldtme Capability  Platform          Port ID
+cs1(FDOXXXXXXXX)   Eth1/31        179    R S I s     N9K-C9364D-GX2A   Eth1/63
+cs1(FDOXXXXXXXX)   Eth1/32        179    R S I s     N9K-C9364D-GX2A   Eth1/64
+node1-01           Eth1/4/1       123    H           AFX-1K            e1a
+node1-01           Eth1/4/2       123    H           AFX-1K            e7a
+node1-01           Eth1/4/3       123    H           AFX-1K            e10a
+node1-01           Eth1/4/4       123    H           AFX-1K            e11a
+node1-02           Eth1/9/1       138    H           AFX-1K            e1a
+node1-02           Eth1/9/2       138    H           AFX-1K            e7a
+node1-02           Eth1/9/3       138    H           AFX-1K            e10a
+node1-02           Eth1/9/4       138    H           AFX-1K            e11a
+node1-03           Eth1/15/1      138    H           AFX-1K            e1a
+node1-03           Eth1/15/2      138    H           AFX-1K            e7a
+node1-03           Eth1/15/3      138    H           AFX-1K            e10a
+node1-03           Eth1/15/4      138    H           AFX-1K            e11a
+node1-04           Eth1/16/1      173    H           AFX-1K            e1a
+node1-04           Eth1/16/2      173    H           AFX-1K            e7a
+node1-04           Eth1/16/3      173    H           AFX-1K            e10a
+node1-04           Eth1/16/4      173    H           AFX-1K            e11a
 
-Total entries displayed: 4
+Total entries displayed: 18
 ----
 ====
 

@@ -300,11 +300,14 @@ Interconnect Port 1 :
 
 == Step 2: Configure ports
 
-. On cluster switch cs1, shut down the ports connected to the ports of the nodes.
+. On switch cs1, shut down the ports connected to all the ports of the nodes.
 +
-`cs1(config)# *interface eth1/1/1-2,eth1/7-8*`
-+
-`cs1(config-if-range)# *shutdown*`
+
+[subs=+quotes]
+----
+cs1(config)# *interface e1/1/1-4,e1/2/1-4,e1/3/1-4,e1/4/1-4,e1/5/1-4, ..........,e1/58/1-4,e1/59/1-4,e1/60/1-4,e1/61/1-4,e1/62/1-4*
+cs1(config-if-range)# *shutdown*
+----
 +
 CAUTION: Make sure to shutdown *all* connected ports to avoid any network connection issues.
 See the Knowledge Base article https://kb.netapp.com/on-prem/ontap/OHW/OHW-KBs/Node_out_of_quorum_when_migrating_cluster_lif_during_switch_OS_upgrade[Node out of quorum when migrating cluster LIF during switch OS upgrade^] for further details. 
@@ -348,8 +351,8 @@ cluster1::*>
 [subs=+quotes]
 ----
 cluster1::*> *cluster show*
-Node                 Health  Eligibility   Epsilon
--------------------- ------- ------------  -------
+Node              Health  Eligibility   Epsilon
+----------------- ------- ------------  -------
 node1-01          true    true          false
 node1-02          true    true          false
 node1-03          true    true          true
@@ -377,6 +380,20 @@ node1-04          true    true          false
 `switch# show run | section "interface mgmt0" >> bootflash:write_erase.cfg`
 +
 `switch# show run | section "switchname" >> bootflash:write_erase.cfg`
+
+. For RCF version 1.12 and later, run the following commands:
++
+`switch# echo "hardware access-list tcam region ing-racl 1024" >> bootflash:write_erase.cfg`
++
+`switch# echo "hardware access-list tcam region egr-racl 1024" >> bootflash:write_erase.cfg`
++
+`switch# echo "hardware access-list tcam region ing-l2-qos 1536" >> bootflash:write_erase.cfg`
++ 
+See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further details.
+
+. Verify that the write_erase.cfg file is populated as expected:
++
+`show file bootflash:write_erase.cfg`
 
 . Issue the write erase command to erase the current saved configuration:
 +
