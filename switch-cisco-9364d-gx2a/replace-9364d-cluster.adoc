@@ -20,7 +20,7 @@ Before performing the switch replacement, make sure that:
  ** The existing cluster is verified as completely functional, with at least one fully connected cluster switch.
  ** All cluster ports are up.
  ** All cluster logical interfaces (LIFs) are up and on their home ports.
- ** The ONTAP `cluster ping-cluster -node <name>` command must indicate that basic connectivity and larger than PMTU communication are successful on all paths.
+ ** The ONTAP `cluster ping-cluster -node <node-name>` command must indicate that basic connectivity and larger than PMTU communication are successful on all paths.
 * On the Nexus 9364D-GX2A replacement switch:
  ** Management network connectivity on the replacement switch is functional.
  ** Console access to the replacement switch is in place.
