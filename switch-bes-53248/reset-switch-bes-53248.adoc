@@ -10,7 +10,7 @@ summary: 'Before configuring your Broadcom BES-53248 switch, review the followin
 :imagesdir: ../media/
 
 [.lead]
-Before installing a new switch software version and RCFs, you must erase the BES-53248 switch settings and perform basic configuration.
+To reset the BES-53248 cluster switch to factory defaults, you must erase the BES-53248 switch settings.
 
 .About this task
 * You must be connected to the switch using the serial console.
@@ -26,9 +26,7 @@ Before installing a new switch software version and RCFs, you must erase the BES
 (cs2)# 
 ----
 
-. Erase the startup configuration and remove the banner.
-
-.. Erase the startup configuration.
+. Erase the startup configuration.
 +
 `erase startup-config`
 
@@ -40,17 +38,6 @@ Before installing a new switch software version and RCFs, you must erase the BES
 Are you sure you want to clear the configuration? (y/n) *y*
 ----
 
-. Remove the banner.
-+
-`no set clibanner`
-+
-[subs=+quotes]
-----
-(cs2)# *configure*
-(cs2)(config)# *no set clibanner*
-(cs2)(config)# *exit*
-----
-
 . Reboot the switch.
 +
 [subs=+quotes]
@@ -60,5 +47,14 @@ Are you sure you would like to reset the system? (y/n) *y*
 ----
 
 NOTE: If the system asks whether to save the unsaved or changed configuration before reloading the switch, select *No*.
+
+[start=4]
+. [[step4]] Wait for the switch to reload, and then log in to the switch.
++
+The default user is “admin”, and no password is set. A prompt similar to the following is displayed: 
++
+----
+(Routing)>
+----
 
 // New content for AFFFASDOC-323, 2025-JUL-09
