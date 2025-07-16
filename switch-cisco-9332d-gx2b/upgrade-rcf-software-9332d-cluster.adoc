@@ -41,7 +41,10 @@ The advanced prompt (*>) appears.
 
 . Display the ports on each node that are connected to the switches: 
 +
-`network device-discovery show`
+[source,cli]
+----
+network device-discovery show
+----
 +
 .Show example 
 [%collapsible]
@@ -88,7 +91,10 @@ node1-01/lldp
 
 ... Verify that all the cluster ports are up with a healthy status: 
 +
-`network ipspace show -role Cluster`
+[source,cli]
+----
+network port show -ipspace Cluster
+----
 +
 .Show example 
 [%collapsible]
@@ -96,7 +102,7 @@ node1-01/lldp
 
 [subs=+quotes]
 ----
-cluster1::*> *network ipspace show -role Cluster*
+cluster1::*> *network port show -ipspace Cluster*
 
 Node: node1-01
                                                                        Ignore
@@ -135,7 +141,10 @@ e7b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 
 ... Verify that all the cluster interfaces (LIFs) are on the home port: 
 +
-`network interface show -role cluster`
+[source,cli]
+----
+network interface show -role cluster
+----
 +
 .Show example 
 [%collapsible]
@@ -162,7 +171,10 @@ Cluster
 
 ... Verify that the cluster displays information for both switches: 
 +
-`system cluster-switch show -is-monitoring-enabled-operational true`
+[source,cli]
+----
+system cluster-switch show -is-monitoring-enabled-operational true
+----
 +
 .Show example 
 [%collapsible]
@@ -199,7 +211,7 @@ cs2(FLMXXXXXXXX)            cluster-network    10.228.137.234   N9K-C9332D-GX2B
 
 ... Verify that all the HA ports are up with a healthy status: 
 +
-`ha interconnect status show -node <name>`
+`ha interconnect status show -node <node-name>`
 +
 .Show example 
 [%collapsible]
@@ -264,7 +276,10 @@ Interconnect Port 1 :
 
 ... Verify that all the storage ports are up with a healthy status: 
 +
-`storage port show -port-type ENET`
+[source,cli]
+----
+storage port show -port-type ENET
+----
 +
 .Show example 
 [%collapsible]
@@ -305,7 +320,10 @@ node1-04
 
 ... Verify that all the storage shelf ports are up with a healthy status: 
 +
-`storage shelf port show`
+[source,cli]
+----
+storage shelf port show
+----
 +
 .Show example 
 [%collapsible]
@@ -341,7 +359,10 @@ Shelf ID Module State        Internal?
 
 ... Verify that all the storage shelf ports are up with a healthy status: 
 +
-`storage shelf port show`
+[source,cli]
+----
+storage shelf port show -fields remote-device,remote-port,connector-state
+----
 +
 .Show example 
 [%collapsible]
@@ -403,7 +424,10 @@ See the Knowledge Base article https://kb.netapp.com/on-prem/ontap/OHW/OHW-KBs/N
 
 . Verify that the cluster LIFs have failed over to the ports hosted on switch cs1. This might take a few seconds.
 +
-`network interface show -role cluster`
+[source,cli]
+----
+`network interface show -role cluster
+----
 +
 .Show example 
 [%collapsible]
@@ -602,10 +626,14 @@ For more information on Cisco commands, see the appropriate guide in the https:/
 
 +
 . Verify the health of all the ports on the cluster.
+
 .. *Cluster ports*
 ... Verify that cluster ports are up and healthy across all nodes in the cluster: 
 +
-`network ipspace show -role cluster`
+[source,cli]
+----
+network port show -ipspace cluster
+----
 +
 .Show example 
 [%collapsible]
@@ -613,7 +641,7 @@ For more information on Cisco commands, see the appropriate guide in the https:/
 
 [subs=+quotes]
 ----
-cluster1::*> *network ipspace show -role Cluster*
+cluster1::*> *network port show -ipspace Cluster*
 
 Node: node1
                                                                        Ignore
@@ -652,7 +680,15 @@ e7b       Cluster      Cluster          up   9000  auto/100000 healthy false
 
 ... Verify the switch health from the cluster.
 +
-`network device-discovery show -protocol cdp` and `system cluster-switch show -is-monitoring-enabled-operational true`
+[source,cli]
+----
+network device-discovery show -protocol cdp
+----
++
+[source,cli]
+----
+system cluster-switch show -is-monitoring-enabled-operational true
+----
 +
 .Show example 
 [%collapsible]
@@ -707,7 +743,7 @@ cs1(FLMXXXXXXXX)            cluster-network    10.228.137.234   N9K-C9332D-GX2B
 
 ... Verify that all the HA ports are up with a healthy status: 
 +
-`ha interconnect status show -node <name>`
+`ha interconnect status show -node <node-name>`
 +
 .Show example 
 [%collapsible]
@@ -772,7 +808,10 @@ Interconnect Port 1 :
 
 ... Verify that all the storage ports are up with a healthy status: 
 +
-`storage port show -port-type ENET`
+[source,cli]
+----
+storage port show -port-type ENET
+----
 +
 .Show example 
 [%collapsible]
@@ -813,7 +852,10 @@ node1-04
 
 ... Verify that all the storage shelf ports are up with a healthy status: 
 +
-`storage shelf port show`
+[source,cli]
+----
+`storage shelf port show
+----
 +
 .Show example 
 [%collapsible]
@@ -849,7 +891,10 @@ Shelf ID Module State        Internal?
 
 ... Verify the connection status of all the storage shelf ports: 
 +
-`storage shelf port show -fields remote-device,remote-port,connector-state`
+[source,cli]
+----
+storage shelf port show -fields remote-device,remote-port,connector-state
+----
 +
 .Show example 
 [%collapsible]
@@ -947,7 +992,10 @@ Eth1/17/4       1       eth  trunk  up      none                     100G(D) --
 
 . Verify that the expected nodes are still connected:
 +
-`show cdp neighbors`
+[source,cli]
+----
+show cdp neighbors
+----
 +
 .Show example 
 [%collapsible]
@@ -987,9 +1035,15 @@ Total entries displayed: 18
 
 . Verify that the cluster nodes are in their correct cluster VLANs using the following commands:
 +
-`show vlan brief`
+[source,cli]
+----
+show vlan brief
+----
 +
-`show interface trunk`
+[source,cli]
+----
+show interface trunk
+----
 +
 .Show example 
 [%collapsible]
@@ -1234,8 +1288,11 @@ Po1           1
 NOTE: For specific port and VLAN usage details, refer to the banner and important notes section in your RCF.
 
 . Verify that the ISL between cs1 and cs2 is functional:
-+
-`show port-channel summary`
+++
+[source,cli]
+----
+show port-channel summary
+----
 +
 .Show example 
 [%collapsible]
@@ -1264,7 +1321,10 @@ cs1#
 
 . Verify that the cluster LIFs have reverted to their home port: 
 +
-`network interface show -role cluster` 
+[source,cli]
+----
+network interface show -role cluster
+----
 +
 .Show example 
 [%collapsible]
@@ -1352,7 +1412,7 @@ node1-02
 
 .. Alternatively, you can use the `cluster ping-cluster -node <name>` command to check the connectivity:
 +
-`cluster ping-cluster -node <name>`
+`cluster ping-cluster -node <node-name>`
 +
 .Show example 
 [%collapsible]
