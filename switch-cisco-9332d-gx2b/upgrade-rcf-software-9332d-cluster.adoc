@@ -195,6 +195,71 @@ cs2(FLMXXXXXXXX)            cluster-network    10.228.137.234   N9K-C9332D-GX2B
 ----
 ====
 
+.. *HA ports*
+
+... Verify that all the HA ports are up with a healthy status: 
++
+`ha interconnect status show -node <name>`
++
+.Show example 
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cluster1::*> *ha interconnect status show -node node1-01*
+  (system ha interconnect status show)
+
+                       Node: node1-01
+              Link 0 Status: up
+              Link 1 Status: up
+           Is Link 0 Active: true
+           Is Link 1 Active: true
+         IC RDMA Connection: up
+                       Slot: 0
+             Debug Firmware: no
+
+
+Interconnect Port 0 :
+                  Port Name: e1a-17
+                        MTU: 4096
+           Link Information: ACTIVE
+
+
+Interconnect Port 1 :
+                  Port Name: e1b-18
+                        MTU: 4096
+           Link Information: ACTIVE
+
+cluster1::*> *ha interconnect status show -node node1-01*
+  (system ha interconnect status show)
+
+                       Node: node1-01
+              Link 0 Status: up
+              Link 1 Status: up
+           Is Link 0 Active: true
+           Is Link 1 Active: true
+         IC RDMA Connection: up
+                       Slot: 0
+             Debug Firmware: no
+
+
+Interconnect Port 0 :
+                  Port Name: e1a-17
+                        MTU: 4096
+           Link Information: ACTIVE
+
+
+Interconnect Port 1 :
+                  Port Name: e1b-18
+                        MTU: 4096
+           Link Information: ACTIVE
+.
+.
+.
+----
+====
+
 .. *Storage ports*
 
 ... Verify that all the storage ports are up with a healthy status: 
@@ -236,9 +301,9 @@ node1-04
 ----
 ====
 
-.. *HA ports*
+.. *Storage shelf ports*
 
-... Verify that all the HA ports are up with a healthy status: 
+... Verify that all the storage shelf ports are up with a healthy status: 
 +
 `ha interconnect status show -node <name>`
 +
@@ -312,8 +377,17 @@ Interconnect Port 1 :
 
 [subs=+quotes]
 ----
-cs1(config)# *interface e1/1/1-4,e1/2/1-4,e1/3/1-4,e1/4/1-4,e1/5/1-4, ..........,e1/28/1-4,e1/29/1-4,e1/30/1-4*
+cs1# *config*
+cs1(config)# *interface e1/1/1-4,e1/2/1-4,e1/3/1-4,e1/4/1-4,e1/5/1-4,e1/6/1-4,e1/7/1-4,e1/8/1-4*
 cs1(config-if-range)# *shutdown*
+cs1(config)# *interface e1/9/1-4,e1/10/1-4,e1/11/1-4,e1/12/1-4,e1/13/1-4,e1/14/1-4,e1/15/1-4,e1/16/1-4*
+cs1(config-if-range)# *shutdown*
+cs1(config)# *interface e1/17/1-4,e1/18/1-4,e1/19/1-4,e1/20/1-4,e1/21/1-4,e1/22/1-44,e1/23/1-4*
+cs1(config-if-range)# *shutdown*
+cs1(config)# *interface e1/24/1-,e1/25/1-4,e1/26/1-4,e1/27/1-4,e1/28/1-4,e1/29/1-4,e1/30/1-44*
+cs1(config-if-range)# *shutdown*
+cs1(config-if-range)# exit
+cs1(config)# exit
 ----
 +
 CAUTION: Make sure to shutdown *all* connected ports to avoid any network connection issues.
