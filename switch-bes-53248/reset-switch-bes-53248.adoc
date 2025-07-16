@@ -13,61 +13,52 @@ summary: 'Before configuring your Broadcom BES-53248 switch, review the followin
 Before installing a new switch software version and RCFs, you must erase the BES-53248 switch settings and perform basic configuration.
 
 .About this task
-* You must repeat these steps on each of the switches.
+* You must be connected to the switch using the serial console.
 * This task resets the configuration of the management network.
 
+
 .Steps
-. Connect to a console that is attached to the serial port of the switch.
-. Reload the switch using the `reload` command and return `y` to reset the system.
-. Select ONIE from the GRUB menu. 
-+
 
-.Show example
-[%collapsible]
-====
+. Change to the elevated command prompt.
++
+[subs=+quotes]
 ----
-+--------------------------------------------------------------------+
-|EFOS                                                                |
-|*ONIE                                                               |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-+--------------------------------------------------------------------+
+(cs2)> *enable*
+(cs2)# 
 ----
-====
+. Erase the startup configuration and remove the banner.
 
-. After you select *ONIE*, the switch loads and presents you with several choices. 
+.. Erase the startup configuration.
 +
-Select *Uninstall OS*.
+`erase startup-config`
+
 +
-.Show example
-[%collapsible]
-====
+[subs=+quotes]
 ----
-+--------------------------------------------------------------------+
-| ONIE: Install OS                                                   |
-| ONIE: Rescue                                                       |
-|*ONIE: Uninstall OS                                                 |
-| ONIE: Update ONIE                                                  |
-| ONIE: Embed ONIE                                                   |
-| DIAG: Diagnostic Mode                                              |
-| DIAG: Burn-In Mode                                                 |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-|                                                                    |
-+--------------------------------------------------------------------+
+(cs2)# *erase startup-config*
+
+Are you sure you want to clear the configuration? (y/n) *y*
 ----
-====
-+ 
-The uninstall process completes and the switch is reset to its factory defaults, removing EFOS and the switch configuration. When the switch is powered OFF and ON, it boots into ONIE.
+
+. Remove the banner.
++
+`no set clibanner`
++
+[subs=+quotes]
+----
+(cs2)# *configure*
+(cs2)(config)# *no set clibanner*
+(cs2)(config)# *exit*
+----
+
+. Reboot the switch.
++
+[subs=+quotes]
+----
+(cs2)# *reload*
+Are you sure you would like to reset the system? (y/n) *y*
+----
+
+NOTE: If the system asks whether to save the unsaved or changed configuration before reloading the switch, select *No*.
 
 // New content for AFFFASDOC-323, 2025-JUL-09
