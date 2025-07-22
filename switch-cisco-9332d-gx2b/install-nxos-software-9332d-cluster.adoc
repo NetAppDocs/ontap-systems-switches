@@ -116,6 +116,9 @@ node1-01/lldp
             .
             e7a    cs1 (c8:60:8f:34:78:d3)  Ethernet1/16/2    -
             e7b    cs2 (04:e3:87:19:a2:59)  Ethernet1/16/2    -
+.
+.
+.
 ----
 ====
 
@@ -435,10 +438,10 @@ shelf id connector-state remote-port    remote-device
 +
 [source,cli]
 ----
-network interface modify -vserver Cluster -lif * -auto-revert false
+network interface modify -vserver Cluster -lif -auto-revert false
 ----
 
-. Copy the NX-OS software to the Nexus 9332D-GX2B switch.
+. Copy the NX-OS software and EPLD images to the Nexus 9332D-GX2B switch.
 +
 .Show example
 [%collapsible]
@@ -461,26 +464,22 @@ sftp> get   /code/nxos.10.4.2.bin  /bootflash/nxos.10.4.2.bin
 sftp> exit
 Copy complete, now saving to disk (please wait)...
 Copy complete.
-----
-====
 
-. Install the NX-OS software on the Nexus 9332D-GX2B switch.
-+
-.Show example
-[%collapsible]
-====
+cs2# *copy sftp: bootflash: vrf management*
+Enter source filename: */code/n9000-epld.10.4.2.F.img*
+Enter hostname for the sftp server: *172.19.2.1*
+Enter username: *user1*
 
-[subs=+quotes]
-----
-cs2# *install all nxos bootflash:nxos.10.4.2.bin*
-
-Module       Image  Running-Version(pri:alt)       New-Version           Upg-Required
-
-------   ---------  -----------------------------  --------------------  ------------
-
-     1        nxos  10.4(1)                        10.4(2)               Yes
-
-     1        bios  x.x.x:x.x.x                    x.x.x                 No
+Outbound-ReKey for 172.19.2.1:22
+Inbound-ReKey for 172.19.2.1:22
+user1@172.19.2.1's password:
+sftp> progress
+Progress meter enabled
+sftp> get   /code/n9000-epld.10.4.2.F.img  /bootflash/n9000-epld.10.4.2.F.img
+/code/n9000-epld.10.4.2.F.img  100%  161MB   9.5MB/s   00:16
+sftp> exit
+Copy complete, now saving to disk (please wait)...
+Copy complete.
 ----
 ====
 
@@ -691,6 +690,83 @@ plugin
 Active Package(s):
 
 cs2#
+----
+====
+
+. Upgrade the EPLD image and reboot the switch.
+
++
+.Show example
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cs2# *show version module 1 epld*
+
+EPLD Device                     Version
+---------------------------------------
+MI   FPGA                        0x7
+IO   FPGA                        0x17
+MI   FPGA2                       0x2
+GEM  FPGA                        0x2
+GEM  FPGA                        0x2
+GEM  FPGA                        0x2
+GEM  FPGA                        0x2
+
+cs2# *install epld bootflash:n9000-epld.10.4.2.F.img module 1*
+Compatibility check:
+Module        Type         Upgradable        Impact    Reason
+------  ------------------ ----------------- --------- -----------
+     1         SUP         Yes       disruptive  Module Upgradable
+
+Retrieving EPLD versions.... Please wait.
+Images will be upgraded according to following table:
+Module  Type   EPLD              Running-Version   New-Version  Upg-Required
+------- ------ ----------------- ----------------- ------------ ------------
+     1  SUP    MI FPGA           0x07              0x07         No
+     1  SUP    IO FPGA           0x17              0x19         Yes
+     1  SUP    MI FPGA2          0x02              0x02         No
+The above modules require upgrade.
+The switch will be reloaded at the end of the upgrade
+Do you want to continue (y/n) ?  [n] *y*
+
+Proceeding to upgrade Modules.
+
+Starting Module 1 EPLD Upgrade
+
+Module 1 : IO FPGA [Programming] : 100.00% (     64 of      64 sectors)
+Module 1 EPLD upgrade is successful.
+Module   Type  Upgrade-Result
+-------- ----- --------------
+     1   SUP   Success
+
+EPLDs upgraded.
+
+Module 1 EPLD upgrade is successful.
+----
+====
+
+. After the switch reboot, log in again and verify that the new version of EPLD loaded successfully.
++
+
+.Show example
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cs2# *show version module 1 epld*
+
+EPLD Device                     Version
+---------------------------------------
+MI   FPGA                        0x7
+IO   FPGA                        0x19
+MI   FPGA2                       0x2
+GEM  FPGA                        0x2
+GEM  FPGA                        0x2
+GEM  FPGA                        0x2
+GEM  FPGA                        0x2
 ----
 ====
 
@@ -1030,11 +1106,11 @@ node1-04             true    true          true
 ----
 ====
 
-. Repeat steps 6 to 12 to install the NX-OS software on switch cs1.
+. Repeat steps 6 to 13 to install the NX-OS software and EPLD images on switch cs1.
 
 . Enable auto-revert on the cluster LIFs.
 +
-`network interface modify -vserver Cluster -lif * -auto-revert true`
+`network interface modify -vserver Cluster -lif -auto-revert true`
 
 . Verify that the cluster LIFs have reverted to their home port: 
 +
@@ -1068,7 +1144,7 @@ Cluster
 +
 If any cluster LIFs have not returned to their home ports, revert them manually from the local node: 
 +
-`network interface revert -vserver Cluster -lif <lif_name>`
+`network interface revert -vserver Cluster -lif <lif-name>`
 
 .What's next?
 
