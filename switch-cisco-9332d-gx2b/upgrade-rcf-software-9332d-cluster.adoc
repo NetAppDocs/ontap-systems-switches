@@ -397,7 +397,7 @@ shelf id connector-state remote-port    remote-device
 
 . Disable auto-revert on the cluster LIFs.
 +
-`cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert false*` 
+`network interface modify -vserver Cluster -lif -auto-revert false` 
 
 == Step 2: Configure ports
 
@@ -415,8 +415,8 @@ cs1(config)# *interface e1/17/1-4,e1/18/1-4,e1/19/1-4,e1/20/1-4,e1/21/1-4,e1/22/
 cs1(config-if-range)# *shutdown*
 cs1(config)# *interface e1/24/1-,e1/25/1-4,e1/26/1-4,e1/27/1-4,e1/28/1-4,e1/29/1-4,e1/30/1-44*
 cs1(config-if-range)# *shutdown*
-cs1(config-if-range)# exit
-cs1(config)# exit
+cs1(config-if-range)# *exit*
+cs1(config)# *exit*
 ----
 +
 CAUTION: Make sure to shutdown *all* connected ports to avoid any network connection issues.
@@ -517,7 +517,7 @@ See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco
 +
 `Warning: This command will erase the startup-configuration.`
 +
-`Do you wish to proceed anyway? (y/n)  [n] y`
+`Do you wish to proceed anyway? (y/n)  [n] *y*`
 
 . Copy the previously saved basic configuration into the startup configuration.
 +
@@ -529,7 +529,7 @@ See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco
 
 `switch# reload`
 +
-`This command will reboot the system. (y/n)?  [n] y`
+`This command will reboot the system. (y/n)?  [n] *y*`
 
 . After the management IP address is reachable again, log in to the switch through SSH.
 +
@@ -953,13 +953,16 @@ node1-04          true     true          false
 
 . Enable auto-revert on the cluster LIFs.
 +
-`cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert True*` 
+`network interface modify -vserver Cluster -lif -auto-revert true` 
 
 == Step 3: Verify the cluster network configuration and cluster health
 
 . Verify that the switch ports connected to the cluster ports are *up*.
 +
-`show interface brief`
+[source,cli]
+----
+show interface brief
+----
 +
 .Show example 
 [%collapsible]

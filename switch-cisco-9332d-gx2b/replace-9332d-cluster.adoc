@@ -338,9 +338,6 @@ RPC status:
 === Step 2: Configure cables and ports
 . Shut down the ISL ports Eth1/31 and Eth1/32 on the Nexus 9332D-GX2B switch cs1.
 +
-.Show example 
-[%collapsible]
-====
 
 [subs=+quotes]
 ----
@@ -351,7 +348,6 @@ cs1(config-if-range)# *shutdown*
 cs1(config-if-range)# exit
 cs1(config)# exit
 ----
-====
 
 . Remove all of the cables from the Nexus 9332D-GX2B cs2 switch, and then connect them to the same ports on the 9332D-GX2B newcs2 switch.
 . Bring up the ISLs ports Eth1/31 and Eth1/32 between the cs1 and newcs2 switches, and then verify the port channel operation status.
@@ -371,7 +367,7 @@ cs1(config)# *int e1/31-32*
 cs1(config-if-range)# *no shutdown*
 cs1(config-if-range)# *exit*
 cs1(config)# *exit*
-
+cs1#
 cs1# *show port-channel summary*
 Flags:  D - Down        P - Up in port-channel (members)
         I - Individual  H - Hot-standby (LACP only)

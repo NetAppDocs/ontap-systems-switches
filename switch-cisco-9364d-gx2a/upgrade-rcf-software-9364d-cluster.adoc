@@ -416,11 +416,11 @@ cs1(config-if-range)# *shutdown*
 cs1(config)# *interface e1/41/1-4,e1/42/1-4,e1/43/1-4,e1/44/1-4,e1/35/1-4,e1/46/1-4,e1/47/1-4,e1/48/1-4*
 cs1(config-if-range)# *shutdown*
 cs1(config)# *interface e1/49/1-4,e1/50/1-4,e1/51/1-4,e1/52/1-4,e1/53/1-4,e1/54/1-4,e1/55/1-4,e1/56/1-4*
-cs1(config-if-range)# *shutdown*\
+cs1(config-if-range)# *shutdown*
 cs1(config)# *interface e1/57/1-4,e1/58/1-4,e1/59/1-4,e1/60/1-4,e1/61/1-4,e1/62/1-4*
 cs1(config-if-range)# *shutdown*
-cs1(config-if-range)# exit
-cs1(config)# exit
+cs1(config-if-range)# *exit*
+cs1(config)# *exit*
 ----
 +
 CAUTION: Make sure to shutdown *all* connected ports to avoid any network connection issues.
@@ -518,7 +518,7 @@ See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco
 +
 `Warning: This command will erase the startup-configuration.`
 +
-`Do you wish to proceed anyway? (y/n)  [n] y`
+`Do you wish to proceed anyway? (y/n)  [n] *y*`
 
 . Copy the previously saved basic configuration into the startup configuration.
 +
@@ -530,7 +530,7 @@ See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco
 
 `switch# reload`
 +
-`This command will reboot the system. (y/n)?  [n] y`
+`This command will reboot the system. (y/n)?  [n] *y*`
 
 . After the management IP address is reachable again, log in to the switch through SSH.
 +
@@ -635,7 +635,7 @@ For more information on Cisco commands, see the appropriate guide in the https:/
 +
 [source,cli]
 ----
-`network port show -ipspace Cluster
+network port show -ipspace Cluster
 ----
 +
 .Show example 
