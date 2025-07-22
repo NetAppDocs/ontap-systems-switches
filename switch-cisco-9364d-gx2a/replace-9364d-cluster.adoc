@@ -48,7 +48,6 @@ The examples in this procedure use the following switch and node nomenclature:
 * The names of the existing Nexus 9364D-GX2A switches are cs1 and cs2.
 * The name of the new Nexus 9364D-GX2A switch is newcs2.
 * The node names are node1-01, node1-02, node1-03, and node1-04.
-//* The cluster ports on each node are named e7a and e7b.
 * The cluster LIF names are node1-01_clus1 and node1-01_clus2 for node1-01, node1-02_clus1 and node1-02_clus2 for node1-02, node1-03_clus1 and node1-03_clus2 for node1-03, and node1-04_clus1 and node1-04_clus2 for node1-04.
 * The prompt for changes to all cluster nodes is cluster1::*>
 
@@ -221,15 +220,33 @@ If the switch that you are replacing is not functional and is powered down, go t
 [subs=+quotes]
 ----
 newcs2# *config*
-Enter configuration commands, one per line. End with CNTL/Z.
-newcs2(config)# *interface e1/1/1-4,e1/2/1-4,e1/3/1-4,e1/4/1-4,e1/5/1-4, ..........,,e1/58/1-4,e1/59/1-4,e1/60/1-4,e1/61/1-4,e1/62/1-4*
+newcs2(config)# *interface e1/1/1-4,e1/2/1-4,e1/3/1-4,e1/4/1-4,e1/5/1-4,e1/6/1-4,e1/7/1-4,e1/8/1-4*
 newcs2(config-if-range)# *shutdown*
+newcs2(config)# *interface e1/9/1-4,e1/10/1-4,e1/11/1-4,e1/12/1-4,e1/13/1-4,e1/14/1-4,e1/15/1-4,e1/16/1-4*
+newcs2(config-if-range)# *shutdown*
+newcs2(config)# *interface e1/17/1-4,e1/18/1-4,e1/19/1-4,e1/20/1-4,e1/21/1-4,e1/22/1-4,e1/23/1-4,e1/24/1-4*
+csnewcs21(config-if-range)# *shutdown*
+newcs2(config)# *interface e1/25/1-4,e1/26/1-4,e1/27/1-4,e1/28/1-4,e1/29/1-4,e1/30/1-4,e1/31/1-4,e1/32/1-4*
+newcs2(config-if-range)# *shutdown*
+newcs2(config)# *interface e1/33/1-4,e1/34/1-4,e1/35/1-4,e1/36/1-4,e1/37/1-4,e1/38/1-4,e1/39/1-4,e1/40/1-4*
+newcs2(config-if-range)# *shutdown*
+newcs2(config)# *interface e1/41/1-4,e1/42/1-4,e1/43/1-4,e1/44/1-4,e1/35/1-4,e1/46/1-4,e1/47/1-4,e1/48/1-4*
+newcs2(config-if-range)# *shutdown*
+newcs2(config)# *interface e1/49/1-4,e1/50/1-4,e1/51/1-4,e1/52/1-4,e1/53/1-4,e1/54/1-4,e1/55/1-4,e1/56/1-4*
+newcs2(config-if-range)# *shutdown*\
+newcs2(config)# *interface e1/57/1-4,e1/58/1-4,e1/59/1-4,e1/60/1-4,e1/61/1-4,e1/62/1-4*
+newcs2(config-if-range)# *shutdown*
+newcs2(config-if-range)# exit
+newcs2(config)# exit
 ----
 ====
 
 . Verify that all cluster LIFs have auto-revert enabled: 
 +
-`network interface show -vserver Cluster -fields auto-revert`
+[source,cli]
+----
+network interface show -vserver Cluster -fields auto-revert
+----
 +
 .Show example 
 [%collapsible]
@@ -258,9 +275,12 @@ Cluster      node1-04_clus2   true
 
 . Verify the connectivity of the remote cluster interfaces: 
 
-.. You can use the `network interface check cluster-connectivity` command to display the details of an accessibility check for cluster connectivity:
+.. You can use the `network interface check cluster-connectivity show` command to display the details of an accessibility check for cluster connectivity:
 +
-`network interface check cluster-connectivity start`
+[source,cli]
+----
+network interface check cluster-connectivity show
+----
 +
 .Show example 
 [%collapsible]
@@ -335,6 +355,8 @@ cs1# *config*
 Enter configuration commands, one per line. End with CNTL/Z.
 cs1(config)# *interface e1/63-64*
 cs1(config-if-range)# *shutdown*
+cs1(config-if-range)# exit
+cs1(config)# exit
 ----
 ====
 
@@ -377,7 +399,10 @@ Group Port-        Type     Protocol  Member Ports
 
 . Verify that port e7b is up on all nodes: 
 +
-`network port show ipspace Cluster`
+[source,cli]
+----
+network port show ipspace Cluster
+----
 +
 .Show example 
 [%collapsible]
@@ -477,7 +502,10 @@ node1-04      true    true
 
 . Verify that all physical cluster ports are up: 
 +
-`network port show ipspace Cluster`
+[source,cli]
+----
+network port show ipspace Cluster
+----
 +
 .Show example 
 [%collapsible]
@@ -511,9 +539,13 @@ e7b       Cluster      Cluster          up   9000  auto/100000 healthy false
 
 . Verify the connectivity of the remote cluster interfaces: 
 
-.. You can use the `network interface check cluster-connectivity` command to display the details of an accessibility check for cluster connectivity:
+.. You can use the `network interface check cluster-connectivity show` command to display the details of an accessibility check for cluster connectivity:
 +
-`network interface check cluster-connectivity start`
+[source,cli]
+----
+network interface check cluster-connectivity show
+----
+
 +
 .Show example 
 [%collapsible]
@@ -578,9 +610,29 @@ RPC status:
 
 === Step 3: Verify the configuration
 
-. Confirm the following cluster network configuration: 
+. Verify the health of all the ports on the cluster.
+.. *Cluster ports*
+... Verify that cluster ports are up and healthy across all nodes in the cluster:
 +
-`network port show`
+[source,cli]
+----
+network port show ipspace Cluster
+----
++
+[source,cli]
+----
+network interface show -vserver cluster
+----
++
+[source,cli]
+----
+network device-discovery show -protocol cdp
+----
++
+[source,cli]
+----
+show cdp neighbors
+----
 +
 .Show example 
 [%collapsible]
@@ -625,7 +677,7 @@ e7a       Cluster      Cluster          up   9000  auto/100000 healthy false
 e7b       Cluster      Cluster          up   9000  auto/100000 healthy false
 
 
-cluster1::*> *network interface show -vserver Cluster*
+cluster1::*> *network interface show -vserver cluster*
 
           Logical         Status     Network            Current       Current Is
 Vserver   Interface       Admin/Oper Address/Mask       Node          Port    Home
@@ -718,6 +770,194 @@ node1-04           Eth1/16/3      173    H           AFX-1K            e10a
 node1-04           Eth1/16/4      173    H           AFX-1K            e11a
 
 Total entries displayed: 18    
+----
+====
+
+.. *HA ports*
+
+... Verify that all the HA ports are up with a healthy status: 
++
+`ha interconnect status show -node <node-name>`
++
+.Show example 
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cluster1::*> *ha interconnect status show -node node1-01*
+  (system ha interconnect status show)
+
+                       Node: node1-01
+              Link 0 Status: up
+              Link 1 Status: up
+           Is Link 0 Active: true
+           Is Link 1 Active: true
+         IC RDMA Connection: up
+                       Slot: 0
+             Debug Firmware: no
+
+
+Interconnect Port 0 :
+                  Port Name: e1a-17
+                        MTU: 4096
+           Link Information: ACTIVE
+
+
+Interconnect Port 1 :
+                  Port Name: e1b-18
+                        MTU: 4096
+           Link Information: ACTIVE
+
+cluster1::*> *ha interconnect status show -node node1-02*
+  (system ha interconnect status show)
+
+                       Node: node1-02
+              Link 0 Status: up
+              Link 1 Status: up
+           Is Link 0 Active: true
+           Is Link 1 Active: true
+         IC RDMA Connection: up
+                       Slot: 0
+             Debug Firmware: no
+
+
+Interconnect Port 0 :
+                  Port Name: e1a-17
+                        MTU: 4096
+           Link Information: ACTIVE
+
+
+Interconnect Port 1 :
+                  Port Name: e1b-18
+                        MTU: 4096
+           Link Information: ACTIVE
+.
+.
+.
+----
+====
+
+.. *Storage ports*
+
+... Verify that all the storage ports are up with a healthy status: 
++
+[source,cli]
+----
+storage port show -port-type ENET
+----
++
+.Show example 
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cluster1::*> *storage port show -port-type ENET*
+
+
+                                      Speed
+Node               Port Type  Mode    (Gb/s) State    Status
+------------------ ---- ----- ------- ------ -------- -----------
+node1-01
+                   e10a ENET  -          100 enabled  online
+                   e10b ENET  -          100 enabled  online
+                   e11a ENET  -          100 enabled  online
+                   e11b ENET  -          100 enabled  online
+node1-02
+                   e10a ENET  -          100 enabled  online
+                   e10b ENET  -          100 enabled  online
+                   e11a ENET  -          100 enabled  online
+                   e11b ENET  -          100 enabled  online
+node1-03
+                   e10a ENET  -          100 enabled  online
+                   e10b ENET  -          100 enabled  online
+                   e11a ENET  -          100 enabled  online
+node1-04
+                   e10a ENET  -          100 enabled  online
+                   e10b ENET  -          100 enabled  online
+                   e11a ENET  -          100 enabled  online
+                   e11b ENET  -          100 enabled  online
+16 entries were displayed.
+----
+====
+
+.. *Storage shelf ports*
+
+... Verify that all the storage shelf ports are up with a healthy status: 
++
+[source,cli]
+----
+storage shelf port show
+----
++
+.Show example 
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cluster1::*> *storage shelf port show*
+
+Shelf ID Module State        Internal?
+----- -- ------ ------------ ---------
+1.1
+       0 A      connected    false
+       1 A      connected    false
+       2 A      connected    false
+       3 A      connected    false
+       4 A      connected    false
+       5 A      connected    false
+       6 A      connected    false
+       7 A      connected    false
+       8 B      connected    false
+       9 B      connected    false
+      10 B      connected    false
+      11 B      connected    false
+      12 B      connected    false
+      13 B      connected    false
+      14 B      connected    false
+      15 B      connected    false
+
+16 entries were displayed.
+----
+====
+
+... Verify the connection status of all the storage shelf ports: 
++
+[source,cli]
+----
+storage shelf port show -fields remote-device,remote-port,connector-state
+----
++
+.Show example 
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cluster1::*> *storage shelf port show -fields remote-device,remote-port,connector-state*
+
+shelf id connector-state remote-port    remote-device                 
+----- -- --------------- -------------- -----------------
+1.1   0  connected       Ethernet1/17/1 CX9332D-cs1
+1.1   1  connected       Ethernet1/15/1 CX9364D-cs1   
+1.1   2  connected       Ethernet1/17/2 CX9332D-cs1
+1.1   3  connected       Ethernet1/15/2 CX9364D-cs1   
+1.1   4  connected       Ethernet1/17/3 CX9332D-cs1
+1.1   5  connected       Ethernet1/15/3 CX9364D-cs1   
+1.1   6  connected       Ethernet1/17/4 CX9332D-cs1
+1.1   7  connected       Ethernet1/15/4 CX9364D-cs1   
+1.1   8  connected       Ethernet1/19/1 CX9332D-cs1
+1.1   9  connected       Ethernet1/17/1 CX9364D-cs1   
+1.1   10 connected       Ethernet1/19/2 CX9332D-cs1
+1.1   11 connected       Ethernet1/17/2 CX9364D-cs1   
+1.1   12 connected       Ethernet1/19/3 CX9332D-cs1
+1.1   13 connected       Ethernet1/17/3 CX9364D-cs1   
+1.1   14 connected       Ethernet1/19/4 CX9332D-cs1
+1.1   15 connected       Ethernet1/17/4 CX9364D-cs1   
+
+16 entries were displayed.
 ----
 ====
 

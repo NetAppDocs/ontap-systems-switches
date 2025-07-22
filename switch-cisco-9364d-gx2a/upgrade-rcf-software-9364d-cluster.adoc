@@ -45,6 +45,7 @@ The advanced prompt (*>) appears.
 ----
 network device-discovery show
 ----
++
 .Show example 
 [%collapsible]
 ====
@@ -79,6 +80,9 @@ node1-01/lldp
             .
             e7a    cs1 (c8:60:8f:xx:xx:xx)   Ethernet1/16/2    - 
             e7b    cs2 (04:e3:87:xx:xx:xx)   Ethernet1/16/2    -
+.
+.
+.
 ----
 ====
 
@@ -201,7 +205,6 @@ cs2(FLMXXXXXXXX)            cluster-network    10.228.137.234   N9K-C9364D-GX2A
 ====
 
 .. *HA ports*
-
 ... Verify that all the HA ports are up with a healthy status: 
 +
 `ha interconnect status show -node <node-name>`
@@ -388,9 +391,9 @@ shelf id connector-state remote-port    remote-device
 ----
 ====
 
-. Disable auto-revert on the cluster LIFs.
+. Disable auto-revert on the cluster LIFs:
 +
-`cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert false*` 
+`network interface modify -vserver Cluster -lif -auto-revert false` 
 
 == Step 2: Configure ports
 
@@ -427,7 +430,7 @@ See the Knowledge Base article https://kb.netapp.com/on-prem/ontap/OHW/OHW-KBs/N
 +
 [source,cli]
 ----
-`network interface show -role cluster
+network interface show -role cluster
 ----
 +
 .Show example 
@@ -951,9 +954,9 @@ node1-04          true     true          false
 
 . Repeat steps 1 to 20 on switch cs2.
 
-. Enable auto-revert on the cluster LIFs.
+. Enable auto-revert on the cluster LIFs:
 +
-`cluster1::*> *network interface modify -vserver Cluster -lif  -auto-revert True*` 
+`network interface modify -vserver Cluster -lif  -auto-revert True` 
 
 == Step 3: Verify the cluster network configuration and cluster health
 
@@ -1495,7 +1498,10 @@ NOTE: For specific port and VLAN usage details, refer to the banner and importan
 
 . Verify that the ISL between cs1 and cs2 is functional:
 +
-`show port-channel summary`
+[source,cli]
+----
+show port-channel summary
+----
 +
 .Show example 
 [%collapsible]
@@ -1554,7 +1560,7 @@ Cluster
 +
 If any cluster LIFs have not returned to their home ports, revert them manually from the local node: 
 +
-`network interface revert -vserver vserver_name -lif lif_name`
+`network interface revert -vserver vserver_name -lif <lif-name>`
 
 . Verify that the cluster is healthy: 
 +
