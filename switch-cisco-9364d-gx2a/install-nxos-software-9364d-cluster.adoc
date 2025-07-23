@@ -435,7 +435,7 @@ shelf id connector-state remote-port    remote-device
 
 . Disable auto-revert on the cluster LIFs. The cluster LIFs fail over to the partner cluster switch and remain there as you perform the upgrade procedure on the targeted switch:
 +
-`network interface modify -vserver Cluster -lif -auto-revert false`
+`network interface modify -vserver Cluster -lif * -auto-revert false`
 
 . Copy the NX-OS software and EPLD images to the Nexus 9364D-GX2A switch.
 +
@@ -1105,7 +1105,7 @@ node1-04             true    true          true
 
 . Enable auto-revert on the cluster LIFs.
 +
-`network interface modify -vserver Cluster -lif -auto-revert true` 
+`network interface modify -vserver Cluster -lif * -auto-revert true` 
 
 . Verify that the cluster LIFs have reverted to their home port: 
 +

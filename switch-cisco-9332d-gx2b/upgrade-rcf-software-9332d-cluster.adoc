@@ -397,7 +397,7 @@ shelf id connector-state remote-port    remote-device
 
 . Disable auto-revert on the cluster LIFs.
 +
-`network interface modify -vserver Cluster -lif -auto-revert false` 
+`network interface modify -vserver Cluster -lif * -auto-revert false` 
 
 == Step 2: Configure ports
 
@@ -953,7 +953,7 @@ node1-04          true     true          false
 
 . Enable auto-revert on the cluster LIFs.
 +
-`network interface modify -vserver Cluster -lif -auto-revert true` 
+`network interface modify -vserver Cluster -lif * -auto-revert true` 
 
 == Step 3: Verify the cluster network configuration and cluster health
 
