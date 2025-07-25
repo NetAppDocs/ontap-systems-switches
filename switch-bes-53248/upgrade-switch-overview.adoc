@@ -4,7 +4,7 @@ sidebar: sidebar
 keywords: BES-53248 switches, initial installation, configure new bes-53248 switch
 summary: 'Before configuring BES-53248 cluster switches, review an overview of the process and the nomenclature.'
 ---
-= Overview of the upgrade process for BES-53248 cluster switches
+= Upgrade workflow for BES-53248 cluster switches
 :icons: font
 :imagesdir: ../media/
 
@@ -12,16 +12,18 @@ summary: 'Before configuring BES-53248 cluster switches, review an overview of t
 //Before upgrading your BES-53248 cluster switches, review the configuration overview.
 Follow these steps to upgrade the EFOS software and reference configuration files (RCFs) on Broadcom BES-54328 cluster switches, as applicable.
 
-. link:upgrade-efos-software.html[Upgrade your EFOS version]
-+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png[One]link:upgrade-efos-software.html[Upgrade your EFOS version]
+[role="quick-margin-para"]
 Download and install the Ethernet Fabric OS (EFOS) software on the BES-53248 cluster switch.
 
-. link:upgrade-rcf.html[Upgrade your RCF version]
-+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png[Two]link:upgrade-rcf.html[Upgrade your RCF version]
+[role="quick-margin-para"]
 Upgrade the RCF on the BES-53248 cluster switch, and then verify the ports for an additional license after the RCF is applied.
 
-. link:replace-verify.html[Verify the ONTAP cluster network after upgrade]
-+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png[Three]link:replace-verify.html[Verify the ONTAP cluster network after upgrade]
+[role="quick-margin-para"]
+
 Verify the health of the ONTAP cluster network after an upgrade of the EFOS software or RCF for BES-53248 cluster switches.
 
 // New content for GH issues #72, 109, 124, AFFFASDOC-212, 2024-APR-02
+// Updates for AFFFASDOC-370, 2025-JUL-25
