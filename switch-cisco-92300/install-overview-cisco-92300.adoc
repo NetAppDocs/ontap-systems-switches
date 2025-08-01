@@ -4,34 +4,33 @@ sidebar: sidebar
 keywords: install, cisco nexus 92300 switch,
 summary: 'Before configuring Cisco Nexus 92300 switches, review an overview of the process and the nomenclature.'
 ---
-= Overview of installation and configuration for Cisco Nexus 92300YC switches
+= Installation and setup workflow for Cisco Nexus 92300YC switches
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-Before configuring Cisco Nexus 92300YC switches, review the procedure overview.
+Cisco Nexus 92300YC switches can be used as cluster switches in your AFF or FAS cluster. Cluster switches allow you to build ONTAP clusters with more than two nodes. 
 
-To initially configure a Cisco Nexus 92300YC switch on systems running ONTAP, follow these steps:
+Follow these workflow steps to install and setup your to Cisco Nexus 92300YC switch.
 
-. link:setup-worksheet-92300yc.html[Complete Cisco Nexus 92300YC cabling worksheet]. The sample cabling worksheet provides examples of recommended port assignments from the switches to the controllers. The blank worksheet provides a template that you can use in setting up your cluster.
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png[One]link:configure-reqs-92300.html[Configuration requirements]
+[role="quick-margin-para"]
+Review the configuration requirements for the 92300YC cluster switch.
 
-. link:configure-install-initial.html[Configure the Cisco Nexus 92300YC switch]. Set up and configure the Cisco Nexus 92300YC switch.
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png[Two]link:required-documentation-92300.html[Required documentation]
+[role="quick-margin-para"]
+Review specific switch and controller documentation to set up your 92300YC switches and the ONTAP cluster.
 
-. link:install-nxos-overview.html[Prepare to install NX-OS software and Reference Configuration File (RCF)]. Prepare for installing the NX-OS software and the Reference Configuration File (RCF).
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png[Three]link:smart-call-home-92300.html[Smart Call Home requirements]
+[role="quick-margin-para"]
+Review the requirements for the Cisco Smart Call Home feature, used to monitor the hardware and software components on your network.
 
-. link:install-nxos-software.html[Install the NX-OS software]. Install the NX-OS software on the Nexus 92300YC switch. NX-OS is a network operating system for the Nexus series of Ethernet switches and MDS series of Fibre Channel (FC) storage area network switches provided by Cisco Systems.
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png[Four]link:install-hardware-workflow.html[Install the hardware]
+[role="quick-margin-para"]
+Install the switch hardware.
 
-. link:install-the-rcf-file.html[Install the Reference Configuration File (RCF)]. Install the RCF after setting up the Nexus 92300YC switch for the first time. You can also use this procedure to upgrade your RCF version.
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-5.png[Five]link:configure-software-overview-92300-cluster.html[Configure the software]
+[role="quick-margin-para"]
+Configure the switch software.
 
-//. link:setup-install-cshm-file.html[Install the Cluster Switch Health Monitor (CSHM) configuration file]. Install the applicable configuration file for cluster switch health monitoring of Nexus 92300YC cluster switches. 
-
-== Additional information
-
-Before you begin installation or maintenance, be sure to review the following:
-
-* link:configure-reqs-92300.html[Configuration requirements]
-* link:components-92300.html[Components and part numbers]
-* link:required-documentation-92300.html[Required documentation]
-* link:smart-call-home-92300.html[Smart Call Home requirements]
-
-// Updated 92300 -> 92300YC in couple of places as per GH issue #96, 2023-APR-11
+// Updates for AFFFASDOC-370, 2025-JUL-29
