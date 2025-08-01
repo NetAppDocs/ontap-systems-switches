@@ -4,58 +4,39 @@ sidebar: sidebar
 keywords: switches, initial installation, configure switch-cisco-9336c-fx2 switch
 summary: 'Overview of installation and configuration for Cisco Nexus 9336C-FX2 cluster switches'
 ---
-= Overview of installation and configuration for Cisco Nexus 9336C-FX2 cluster switches
+= Installation and setup workflow for Cisco Nexus 9336C-FX2 cluster switches
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
 The Cisco Nexus 9336C-FX2 cluster switch is part of the Cisco Nexus 9000 platform and can be installed in a NetApp system cabinet. Cluster switches allow you to build ONTAP clusters with more than two nodes. 
 
-== Initial configuration overview
+Follow these workflow steps to install and setup your to Cisco 9336C-FX2 switches.
 
-To initially configure a Cisco Nexus 9336C-FX2 switch on systems running ONTAP, follow these steps:
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png[One]link:configure-reqs-9336c-cluster.html[Review the configuration requirements]
+[role="quick-margin-para"]
+Review the configuration requirements for the 9336C-FX2 cluster switch.
 
-. link:setup-worksheet-9336c-cluster.html[Complete the Cisco Nexus 9336C-FX2 or 9336C-FX2-T cabling worksheet]. 
-+
-The sample cabling worksheet provides examples of recommended port assignments from the switches to the controllers. The blank worksheet provides a template that you can use in setting up your cluster.
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png[Two]link:components-9336c-cluster.html[Review the components and part numbers]
+[role="quick-margin-para"]
+Review the components and part numbers for the 9336C-FX2 cluster switch.
 
-. link:install-switch-9336c-cluster.html[Install the switch]. 
-+
-Set up the switch hardware.
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png[Three]link:required-documentation-9336c-cluster.html[Review the required documentation]
+[role="quick-margin-para"]
+Review specific switch and controller documentation to set up your 9336C-FX2 switches and the ONTAP cluster.
 
-. link:setup-switch-9336c-cluster.html[Configure the 9336C-FX2 cluster switch]. 
-+
-Set up the Cisco Nexus 9336C-FX2 switch.
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png[Four]link:smart-call-9336c-cluster.html[Review the Smart Call Home requirements]
+[role="quick-margin-para"]
+Review the requirements for the Cisco Smart Call Home feature, used to monitor the hardware and software components on your network.
 
-. link:install-switch-and-passthrough-panel-9336c-cluster.html[Install a Cisco Nexus 9336C-FX2 switch in a NetApp cabinet]. 
-+
-Depending on your configuration, you can install the Cisco Nexus 9336C-FX2 switch and pass-through panel in a NetApp cabinet with the standard brackets that are included with the switch.
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-5.png[Five]link:install-hardware-workflow.html[Install the hardware]
+[role="quick-margin-para"]
+Install the switch hardware.
 
-. link:install-nxos-overview-9336c-cluster.html[Prepare to install the NX-OS software and RCF]. 
-+
-Follow preliminary procedures in preparation for installing the Cisco NX-OS software and reference configuration files (RCFs).
-
-. link:install-nxos-software-9336c-cluster.html[Install or upgrade the NX-OS software]. 
-+
-Install or upgrade the NX-OS software on the Nexus 9336C-FX2 cluster switch.
-
-. link:install-upgrade-rcf-overview-cluster.html[Install or upgrade the RCF]. 
-+
-Install or upgrade the RCF after setting up the Nexus 9336C-FX2 switch for the first time. You can also use this procedure to upgrade your RCF version.
-
-. link:configure-ssh-keys.html[Verify SSH configuration on the Nexus 9336C-FX2 cluster switches]. 
-+
-If you use the Ethernet Switch Health Monitor (CSHM) and log collection features, verify SSH is enabled on the switches.
-
-
-== Additional information
-
-Before you begin installation or maintenance, be sure to review the following:
-
-* link:configure-reqs-9336c-cluster.html[Configuration requirements]
-* link:components-9336c-cluster.html[Components and part numbers]
-* link:required-documentation-9336c-cluster.html[Required documentation]
-* link:smart-call-9336c-cluster.html[Smart Call Home requirements]
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-6.png[Six]link:configure-software-overview-9336c-cluster.html[Configure the software]
+[role="quick-margin-para"]
+Configure the switch software.
 
 // Updates for GH issue #214, 2024-OCT-24
 // Updates for AFFFASDOC-304, 2025-MAR-05
+// Updates for AFFFASDOC-370, 2025-JUL-28
