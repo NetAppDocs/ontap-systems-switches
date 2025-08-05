@@ -27,6 +27,7 @@ NOTE: For more information about installing Cumulus Linux, see link:configure-so
 .About the factory reset command
 
 Factory reset provides options to:
+
 * Remove all configuration, system files, and log files.
 * Remove system files and log files but keep certain configuration, such as password policy rules, management interface configuration (such as eth0), local user accounts and roles, and SSH configuration.
 * Remove system files and log files but keep all configuration.
@@ -91,13 +92,11 @@ TYPE=keep-basic*
 
 NOTE: When you use the `keep-basic` option, you must create a `/tmp/startup-new.yaml` file with the configuration you want after factory reset, then start `factory-reset.service`. This is not necessary for the other options. 
 --
-====
-
-
-// end of tabbed content 
 
 
 See NVIDIA'S https://docs.nvidia.com/networking-ethernet-software/cumulus-linux-511/Installation-Management/Factory-Reset/[Factory Reset^] page for further details.
+====
 
+// end of tabbed content 
 
 // New content for AFFFASDOC-373, 2025-AUG-05
