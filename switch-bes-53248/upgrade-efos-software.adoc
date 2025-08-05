@@ -146,7 +146,8 @@ network interface modify -vserver Cluster -lif * -auto-revert false
 
 . Download the image file to the switch.
 +
-Copying the image file to the active image means that when you reboot, that image establishes the running EFOS version. The previous image remains available as a backup.
+Copying the image file to the backup image means that when you reboot, that image establishes the running EFOS version, completing the update.
+
 +
 [subs=+quotes]
 ----
@@ -510,11 +511,9 @@ network interface show -role Cluster
 +
 For further details, see link:https://docs.netapp.com/us-en/ontap/networking/revert_a_lif_to_its_home_port.html[Revert a LIF to its home port].
 
-//.What's next?
-
-//link:configure-licenses.html[Install licenses for BES-53248 cluster switches.]. 
 
 // New content for GH issues #72, 109, 12, AFFFASDOC-212, 2024-APR-02
 // Updates for GH issue #224, 2025-JAN-14
 // Updates for GH issue #222, 2025-JAN-28
+// Updates for GH ISSUE #277, 2025-AUG-05
 
