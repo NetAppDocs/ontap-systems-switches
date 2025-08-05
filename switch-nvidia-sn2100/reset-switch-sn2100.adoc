@@ -70,7 +70,7 @@ NOTE: The switch reboots and enters the switch software installation which takes
 
 .Cumulus Linux 5.11 and later
 --
-. To reset the switch to the factory defaults and remove all configuration, system files, and log files (the default option).
+. To reset the switch to the factory defaults and remove all configuration, system files, and log files (the default option) run:
 +
 `systemctl restart factory-reset.service`
 
@@ -92,8 +92,6 @@ TYPE=keep-basic*
 
 NOTE: When you use the `keep-basic` option, you must create a `/tmp/startup-new.yaml` file with the configuration you want after factory reset, then start `factory-reset.service`. This is not necessary for the other options. 
 --
-
-
 See NVIDIA'S https://docs.nvidia.com/networking-ethernet-software/cumulus-linux-511/Installation-Management/Factory-Reset/[Factory Reset^] page for further details.
 ====
 
