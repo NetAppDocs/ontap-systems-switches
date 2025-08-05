@@ -20,6 +20,19 @@ Before installing or upgrading the RCF script, make sure that the following are 
 
 NOTE: You must specify a user in the RCF (in addition to the admin user) to be used specifically for log collection. 
 
+.Customer configurations
+The following reference configuration categories are available:
+
+[cols="1,2"]
+|===
+| Cluster | On ports configured for 4x10GbE breakout, one port for 4x25GbE breakout and the other ports configured for 40/100GbE. Supports shared cluster/HA traffic on ports for nodes that use shared cluster/HA ports – see the platform table in the Knowledge Base article https://kb.netapp.com/on-prem/ontap/OHW/OHW-KBs/What_AFF_ASA_and_FAS_platforms_use_shared_Cluster_and_HA_Ethernet_ports[What AFF, ASA, and FAS platforms use shared Cluster and HA Ethernet ports?^]. All ports can be used as dedicated cluster ports too.
+a|
+Storage
+a|
+All ports configured for 100GbE NVMe storage connections. 
+a|
+|===
+
 .Current RCF script versions
 There are two RCF scripts available for Cluster and Storage applications. Download RCFs from https://mysupport.netapp.com/site/info/nvidia-cluster-switch[NVIDIA SN2100 software download^] page. The procedure for each is the same.
 
