@@ -12,26 +12,15 @@ summary: 'Before configuring your Cisco Nexus SN2100 switch, review the followin
 [.lead]
 To reset the SN2100 cluster switch to factory defaults:
 
-* For Cumulus Linux 5.10 and earlier, you can apply the Cumulus image.
-* For Cumulus Linux 5.10 and later, you can use the `sudo systemctl restart factory-reset.service` command. 
+* For Cumulus Linux 5.10 and earlier, you apply the Cumulus image.
+* For Cumulus Linux 5.11 and later, you use the `nv action reset system factory-default` command. 
 
 .About this task
 
 * You must be connected to the switch using the serial console.
 * You must have the root password for sudo access to the commands.
-* You must have system admin, root, or sudo privileges to run factory reset commands.
-* The switch does not support factory reset if you upgrade to Cumulus Linux 5.11 from Cumulus Linux 5.9.x or 5.10.x with package upgrade.
 
 NOTE: For more information about installing Cumulus Linux, see link:configure-software-overview-sn2100-cluster.html[Software install workflow for NVIDIA SN2100 switches].
-
-.About the factory reset command
-
-Factory reset provides options to:
-
-* Remove all configuration, system files, and log files.
-* Remove system files and log files but keep certain configuration, such as password policy rules, management interface configuration (such as eth0), local user accounts and roles, and SSH configuration.
-* Remove system files and log files but keep all configuration.
-* Remove configuration but keep system files and log files.
 
 .Steps
 
@@ -70,27 +59,23 @@ NOTE: The switch reboots and enters the switch software installation which takes
 
 .Cumulus Linux 5.11 and later
 --
-* To reset the switch to the factory defaults and remove all configuration, system files, and log files (the default option) run:
+. To reset the switch to the factory defaults and remove all configuration, system files, and log files, run:
 +
-`systemctl restart factory-reset.service`
-
-* To keep  certain configuration, keep all configuration but not system and log files, or keep system and log files but no configuration, create the `/tmp/factory-reset.conf` file, add one of the reset options to the file, then run `systemctl restart factory-reset.service`.
-+
-** `TYPE=keep-basic` resets the switch to the factory defaults but keeps password policy rules, management interface configuration (such as eth0), local user accounts and roles, and SSH configuration.
-** `TYPE=keep-all-config` resets the switch to the factory defaults but keeps all configuration.
-** `TYPE=keep-all-files` resets the switch to the factory defaults but keeps all system files and log files. 
+`nv action reset system factory-default` 
 
 +
-For example, to reset the switch to the factory defaults but keep password policy rules, management interface configuration (such as eth0), local user accounts and roles, and SSH configuration.
+For example:
 
 +
 [subs=+quotes]
 ----
-cumulus@switch:~$ *sudo nano /tmp/factory-reset.conf
-TYPE=keep-basic*
-----
+cumulus@switch:~$ *nv action reset system factory-default*
 
-NOTE: When you use the `keep-basic` option, you must create a `/tmp/startup-new.yaml` file with the configuration you want after factory reset, then start `factory-reset.service`. This is not necessary for the other options. 
+This operation will reset the system configuration, delete the log files and reboot the switch.
+Type [y] continue. 
+Type [n] to abort. 
+Do you want to continue? [y/n] *y*
+----
 
 See NVIDIA'S https://docs.nvidia.com/networking-ethernet-software/cumulus-linux-511/Installation-Management/Factory-Reset/[Factory Reset^] page for further details.
 
