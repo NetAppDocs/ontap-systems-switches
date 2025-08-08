@@ -1,0 +1,34 @@
+.About this task
+
+* You must be connected to the switch using the serial console.
+* This task resets the configuration of the management network.
+
+.Steps
+
+. Erase the existing configuration:
++
+`write erase`
+
++
+[subs=+quotes]
+----
+(cs2)# *write erase*
+
+Warning: This command will erase the startup-configuration.
+Do you wish to proceed anyway? (y/n) [n] *y*
+----
+
+. Reload the switch software:
++
+`reload`
+
++
+[subs=+quotes]
+----
+(cs2)# *reload*
+
+This command will reboot the system. (y/n)? [n] *y*
+----
++
+
+The system reboots and enters the configuration wizard. During the boot, if you receive the prompt “Abort Auto Provisioning and continue with normal setup? (yes/no)[n]”, you should respond *yes* to proceed.
