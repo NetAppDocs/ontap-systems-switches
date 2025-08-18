@@ -1,0 +1,50 @@
+---
+sidebar: sidebar
+permalink: switch-cisco-9332d-gx2b/reset-switch-9332d.html
+keywords: reset switch factory defaults
+summary: For Cisco Nexus 9332d-gx2b switch installation and maintenance, be sure to review specific switch and controller documentation to set up your Cisco 9332d-gx2b switches and ONTAP cluster.
+---
+= Reset the 9332D-GX2B switch to factory defaults
+:hardbreaks:
+:nofooter:
+:icons: font
+:linkattrs:
+:imagesdir: ./media/
+
+[.lead]
+To reset the 9332D-GX2B switch to factory defaults, you must erase the 9332D-GX2B switch settings.
+
+.About this task
+* You must be connected to the switch using the serial console.
+* This task resets the configuration of the management network.
+
+.Steps
+. Erase the existing configuration:
++
+`write erase`
++
+
+[subs=+quotes]
+----
+(cs2)# *write erase*
+
+Warning: This command will erase the startup-configuration.
+Do you wish to proceed anyway? (y/n) [n] *y*
+----
+
+. Reload the switch software:
++
+`reload`
++
+
+[subs=+quotes]
+----
+(cs2)# *reload*
+
+This command will reboot the system. (y/n)? [n] *y*
+----
+
++
+The system reboots and enters the configuration wizard. During the boot, if you receive the prompt “Abort Auto Provisioning and continue with normal setup? (yes/no)[n]”, you should respond *yes* to proceed.
+
+// New content for OAM project, AFFFASDOC-331, 2025-AUG-18
