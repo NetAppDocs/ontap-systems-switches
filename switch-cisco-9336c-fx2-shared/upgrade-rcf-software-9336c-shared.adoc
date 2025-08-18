@@ -266,7 +266,7 @@ cluster1::*>
 . Copy the previously saved basic configuration into the startup configuration.
 +
 
-`switch# copy write_erase.cfg startup-config`
+`switch# copy bootflash:write_erase.cfg startup-config`
 
 . Perform a reboot of the switch:
 +
@@ -903,3 +903,4 @@ RPC status:
 link:../switch-cshm/config-overview.html[Configure switch health monitoring].
 
 // Updates for AFFFASDOC-288, 2025-JAN-29
+// Updates for GH issue #281, 2025-AUG-18
