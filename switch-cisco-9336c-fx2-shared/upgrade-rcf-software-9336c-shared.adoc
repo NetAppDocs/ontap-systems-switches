@@ -245,7 +245,6 @@ cluster1::*>
 
 . Save basic configuration details to the write_erase.cfg file on the bootflash.
 +
-
 `cs1# show run | i "username admin password" > bootflash:write_erase.cfg`
 +
 `cs1# show run | section "vrf context management" >> bootflash:write_erase.cfg`
@@ -270,7 +269,6 @@ See the Knowledge Base article https://kb.netapp.com/on-prem/Switches/Cisco-KBs/
 
 . Issue the write erase command to erase the current saved configuration:
 +
-
 `cs1# *write erase*`
 +
 `Warning: This command will erase the startup-configuration.`
@@ -279,12 +277,10 @@ See the Knowledge Base article https://kb.netapp.com/on-prem/Switches/Cisco-KBs/
 
 . Copy the previously saved basic configuration into the startup configuration.
 +
-
 `cs1# copy bootflash:write_erase.cfg startup-config`
 
 . Perform a reboot of the switch:
 +
-
 `switch# *reload*`
 +
 `This command will reboot the system. (y/n)?  [n] *y*`
