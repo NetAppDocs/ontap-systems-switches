@@ -97,6 +97,21 @@ The output varies according to your site configuration. Check the port settings 
 
 . Reapply any previous customizations to the switch configuration
 
+. For RCF version 1.12 and later, run the following commands:
++
+`switch# echo "hardware access-list tcam region ing-racl 1024" >> bootflash:write_erase.cfg`
++
+`switch# echo "hardware access-list tcam region egr-racl 1024" >> bootflash:write_erase.cfg`
++
+`switch# echo "hardware access-list tcam region ing-l2-qos 1536" >> bootflash:write_erase.cfg`
+
++ 
+See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further details.
+
+. Verify that the write_erase.cfg file is populated as expected:
++
+`show file bootflash:write_erase.cfg`
+
 . After you verify the RCF versions and switch settings are correct, copy the running-config file to the startup-config file.
 +
 `copy running-config startup-config`
@@ -119,7 +134,7 @@ For more information on Cisco commands, see the appropriate guide in the https:/
 +
 `This command will reboot the system. (y/n)?  [n] *y*`  
 
-. Repeat steps 1 through 7 on switch cs2.
+. Repeat steps 1 through 9 on switch cs2.
 
 . Connect the ports of all nodes in the ONTAP cluster to switches cs1 and cs2.
 
