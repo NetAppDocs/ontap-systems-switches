@@ -280,11 +280,12 @@ NOTE: When upgrading or applying a new RCF, you must erase the switch settings a
 +
 `cs2# show run | section "vrf context management" >> bootflash:write_erase.cfg`
 +
-`show run | section "interface mgmt0" >> bootflash:write_erase.cfg`
+`cs2# show run | section "interface mgmt0" >> bootflash:write_erase.cfg`
 
 . For RCF version 1.12 and later, run the following commands:
 +
 `cs2# echo "hardware access-list tcam region racl-lite 512" >> bootflash:write_erase.cfg`
++
 `cs2# echo "hardware access-list tcam region qos 256" >> bootflash:write_erase.cfg`
 +
 See the Knowledge Base article https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further details.
@@ -305,7 +306,7 @@ See the Knowledge Base article https://kb.netapp.com/on-prem/Switches/Cisco-KBs/
 . Copy the previously saved basic configuration into the startup configuration.
 +
 
-`cs2# copy write_erase.cfg startup-config`
+`cs2# *copy write_erase.cfg startup-config*`
 
 . Perform a reboot of the switch:
 +
