@@ -96,21 +96,31 @@ The output varies according to your site configuration. Check the port settings 
 
 . Reapply any previous customizations to the switch configuration. Refer to link:cabling-considerations-9336c-fx2.html[Review cabling and configuration considerations] for details of any further changes required. 
 
-. After you verify the RCF versions and switch settings are correct, copy the running-config file to the startup-config file:
+. For RCF version 1.12 and later, run the following commands:
 +
-`copy running-config startup-config`
+`cs1# echo "hardware access-list tcam region ing-racl 1024" >> bootflash:write_erase.cfg`
++
+`cs1# echo "hardware access-list tcam region egr-racl 1024" >> bootflash:write_erase.cfg`
++
+`cs1# echo "hardware access-list tcam region ing-l2-qos 1280" >> bootflash:write_erase.cfg`
+
+. Verify that the write_erase.cfg file is populated as expected:
++
+`show file bootflash:write_erase.cfg`
+
+. Issue the write erase command to erase the current saved configuration:
 +
 
-.Show example 
-[%collapsible]
-====
-----
-cs1# copy running-config startup-config [########################################] 100% Copy complete
-----
-====
+`cs1# write erase`
++
+`Warning: This command will erase the startup-configuration.`
++
+`Do you wish to proceed anyway? (y/n)  [n] *y*`
+
+. Copy the previously saved basic configuration into the startup configuration.
 +
 
-For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^].
+`cs1# copy bootflash:write_erase.cfg startup-config`
 
 . Reboot switch cs1. 
 +
@@ -445,4 +455,4 @@ link:configure-ssh-keys.html[Verify SSH configuration]
 // Updates for AFFFASDOC-315, 2025-MAR-26
 // Updates for AFFFASDOC-318, 2025-APR-08
 // Updates for AFFFASDOC-370, 2025-JUL-28
-
+// Updates for AFFFASDOC-377, 2025-AUG-20

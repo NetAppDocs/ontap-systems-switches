@@ -246,27 +246,39 @@ cluster1::*>
 . Save basic configuration details to the write_erase.cfg file on the bootflash.
 +
 
-`switch# show run | i "username admin password" > bootflash:write_erase.cfg`
+`cs1# show run | i "username admin password" > bootflash:write_erase.cfg`
 +
-`switch# show run | section "vrf context management" >> bootflash:write_erase.cfg`
+`cs1# show run | section "vrf context management" >> bootflash:write_erase.cfg`
 +
-`switch# show run | section "interface mgmt0" >> bootflash:write_erase.cfg`
+`cs1# show run | section "interface mgmt0" >> bootflash:write_erase.cfg`
 +
-`switch# show run | section "switchname" >> bootflash:write_erase.cfg`
+`cs1# show run | section "switchname" >> bootflash:write_erase.cfg`
+
+. For RCF version 1.12 and later, run the following commands:
++
+`cs1# echo "hardware access-list tcam region ing-racl 1024" >> bootflash:write_erase.cfg`
++
+`cs1# echo "hardware access-list tcam region egr-racl 1024" >> bootflash:write_erase.cfg`
++
+`cs1# echo "hardware access-list tcam region ing-l2-qos 1280" >> bootflash:write_erase.cfg`
+
+. Verify that the write_erase.cfg file is populated as expected:
++
+`show file bootflash:write_erase.cfg`
 
 . Issue the write erase command to erase the current saved configuration:
 +
 
-`switch# write erase`
+`cs1# write erase`
 +
 `Warning: This command will erase the startup-configuration.`
 +
-`Do you wish to proceed anyway? (y/n)  [n] y`
+`Do you wish to proceed anyway? (y/n)  [n] *y*`
 
 . Copy the previously saved basic configuration into the startup configuration.
 +
 
-`switch# copy write_erase.cfg startup-config`
+`cs1# copy bootflash:write_erase.cfg startup-config`
 
 . Perform a reboot of the switch:
 +
@@ -903,3 +915,4 @@ RPC status:
 link:../switch-cshm/config-overview.html[Configure switch health monitoring].
 
 // Updates for AFFFASDOC-288, 2025-JAN-29
+// Updates for AFFFASDOC-377, 2025-AUG-20
