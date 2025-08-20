@@ -261,6 +261,8 @@ cluster1::*>
 `cs1# echo "hardware access-list tcam region egr-racl 1024" >> bootflash:write_erase.cfg`
 +
 `cs1# echo "hardware access-list tcam region ing-l2-qos 1280" >> bootflash:write_erase.cfg`
++
+See the Knowledge Base article https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further details.
 
 . Verify that the write_erase.cfg file is populated as expected:
 +
@@ -269,7 +271,7 @@ cluster1::*>
 . Issue the write erase command to erase the current saved configuration:
 +
 
-`cs1# write erase`
+`cs1# *write erase*`
 +
 `Warning: This command will erase the startup-configuration.`
 +
@@ -283,9 +285,9 @@ cluster1::*>
 . Perform a reboot of the switch:
 +
 
-`switch# reload`
+`switch# *reload*`
 +
-`This command will reboot the system. (y/n)?  [n] y`
+`This command will reboot the system. (y/n)?  [n] *y*`
 
 . After the management IP address is reachable again, log in to the switch through SSH.
 +
@@ -527,7 +529,7 @@ cluster1::*>
 ----
 ====
 
-. Repeat steps 1 to 18 on switch cs2.
+. Repeat steps 1 to 20 on switch cs2.
 
 . Enable auto-revert on the cluster LIFs.
 +

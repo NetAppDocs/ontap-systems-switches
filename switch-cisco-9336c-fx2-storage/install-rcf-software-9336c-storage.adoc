@@ -103,6 +103,8 @@ The output varies according to your site configuration. Check the port settings 
 `cs1# echo "hardware access-list tcam region egr-racl 1024" >> bootflash:write_erase.cfg`
 +
 `cs1# echo "hardware access-list tcam region ing-l2-qos 1280" >> bootflash:write_erase.cfg`
++
+See the Knowledge Base article https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further details.
 
 . Verify that the write_erase.cfg file is populated as expected:
 +
@@ -111,7 +113,7 @@ The output varies according to your site configuration. Check the port settings 
 . Issue the write erase command to erase the current saved configuration:
 +
 
-`cs1# write erase`
+`cs1# *write erase*`
 +
 `Warning: This command will erase the startup-configuration.`
 +
@@ -128,7 +130,7 @@ The output varies according to your site configuration. Check the port settings 
 +
 `This command will reboot the system. (y/n)?  [n] *y*`  
 
-. Repeat steps 1 through 7 on switch cs2.
+. Repeat steps 1 through 11 on switch cs2.
 
 . Connect the cluster ports of all nodes in the ONTAP cluster to switches cs1 and cs2.
 
