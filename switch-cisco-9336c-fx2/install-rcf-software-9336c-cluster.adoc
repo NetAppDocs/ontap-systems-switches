@@ -127,7 +127,7 @@ The output varies according to your site configuration. Check the port settings 
 
 . For RCF version 1.12 and later, run the following commands:
 +
-`cs1# echo "hardware access-list tcam region ing-racl 1024" >> bootflash:write_erase.cfg`
+`cs1# echo "hardware access-list tcam region ing-racl 1024" > bootflash:write_erase.cfg`
 +
 `cs1# echo "hardware access-list tcam region egr-racl 1024" >> bootflash:write_erase.cfg`
 +
@@ -139,7 +139,7 @@ See the Knowledge Base article https://kb.netapp.com/on-prem/Switches/Cisco-KBs/
 +
 `show file bootflash:write_erase.cfg`
 
-. Issue the write erase command to erase the current saved configuration:
+. Issue the `write erase` command to erase the current saved configuration:
 +
 `cs1# *write erase*`
 +
