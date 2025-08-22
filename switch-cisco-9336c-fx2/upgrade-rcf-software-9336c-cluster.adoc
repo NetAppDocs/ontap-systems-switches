@@ -278,7 +278,7 @@ cluster1::*>
 . Copy the previously saved basic configuration into the startup configuration.
 +
 
-`switch# copy write_erase.cfg startup-config`
+`switch# copy bootflash:write_erase.cfg startup-config`
 
 . Perform a reboot of the switch:
 +
@@ -922,3 +922,4 @@ link:configure-ssh-keys.html[Verify SSH configuration].
 // Updates for GH issue #262, 2024-NOV-20
 // Typo fix, 2025-JAN-29
 // Updates for AFFFASDOC-366, 2025-JUL-08
+// Updates for GH issue #282, 2025-AUG-18
