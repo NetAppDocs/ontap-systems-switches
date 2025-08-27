@@ -54,7 +54,7 @@ If SSH is not disabled, disable it as follows:
 +
 WARNING: Make sure that you disable SSH before you modify the keys, otherwise, a warning is reported on the switch.
 
-. Generate the SSH keys:
+. Within config mode, generate the SSH keys:
 +
 `crypto key generate`
 +
@@ -78,13 +78,48 @@ Do you want to overwrite the existing DSA keys? (y/n): *y*
 (switch) (Config)# *crypto key generate ecdsa 521*
 
 Do you want to overwrite the existing ECDSA keys? (y/n): *y*
+----
+====
 
+. Within config mode, set AAA authorization for ONTAP log collection:
++
+`aaa authorization commands "noCmdAuthList" none`
++
+.Show example
+[%collapsible]
+====
+[subs=+quotes]
+----
 (switch) (Config)# *aaa authorization commands "noCmdAuthList" none*
 (switch) (Config)# *exit*
+----
+====
+
+. Re-enable SSH/SCP.
++
+.Show example
+[%collapsible]
+====
+
+[subs=+quotes]
+----
 (switch)# *ip ssh server enable*
 (switch)# *ip scp server enable*
 (switch)# *ip ssh pubkey-auth*
-(switch)# *write mem*
+----
+====
+
+. Save these changes to the startup-config:
++
+`write memory`
++
+.Show example
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+(switch)# *write memory*
 
 This operation may take a few minutes.
 Management interfaces will not be available during this time.
@@ -133,9 +168,9 @@ Do you want to continue? (y/n): *y*
  
 Config file 'startup-config' created successfully.
  
-(switch) (Config)# end
-(switch)# write memory 
- 
+(switch) (Config)# *end*
+(switch)# *write memory*
+
 This operation may take a few minutes.
 Management interfaces will not be available during this time.
 Are you sure you want to save? (y/n) *y*
@@ -154,6 +189,7 @@ Configuration Saved!
 +
 `show ip ssh`
 +
+
 .Show example
 [%collapsible]
 ====
@@ -187,3 +223,4 @@ link:../switch-cshm/config-overview.html[Configure switch health monitoring].
 // Update for AFFFASDOC-216/217, 2024-JUL-08
 // Update for AFFFASDOC-266, 2024-SEP-17
 // Updates for AFFFASDOC-319, 2025-JUN-25
+// Updates for AFFFASDOC-379, 2025-AUG-27
