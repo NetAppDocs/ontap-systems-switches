@@ -11,7 +11,7 @@ summary: 'Make sure that the following are available on the switch before instal
 [.lead]
 Follow this procedure to install or upgrade the RCF script.
 
-.What you'll need
+.Before you begin
 Before installing or upgrading the RCF script, make sure that the following are available on the switch:
 
 * Cumulus Linux is installed. See the https://hwu.netapp.com/Switch/Index[Hardware Universe^] for supported versions.
@@ -19,6 +19,19 @@ Before installing or upgrading the RCF script, make sure that the following are 
 * IP address, subnet mask, and default gateway defined via DHCP or manually configured.
 
 NOTE: You must specify a user in the RCF (in addition to the admin user) to be used specifically for log collection. 
+
+.Customer configurations
+The following reference configuration categories are available:
+
+[cols="1,2"]
+|===
+| Cluster | On ports configured for 4x10GbE breakout, one port is configured for 4x25GbE breakout and the other ports are configured for 40/100GbE. Supports shared cluster/HA traffic on ports for nodes that use shared cluster/HA ports. See the platform table in the Knowledge Base article https://kb.netapp.com/on-prem/ontap/OHW/OHW-KBs/What_AFF_ASA_and_FAS_platforms_use_shared_Cluster_and_HA_Ethernet_ports[What AFF, ASA, and FAS platforms use shared Cluster and HA Ethernet ports?^]. All ports can be used as dedicated cluster ports too.
+a|
+Storage
+a|
+All ports configured for 100GbE NVMe storage connections. 
+a|
+|===
 
 .Current RCF script versions
 There are two RCF scripts available for Cluster and Storage applications. Download RCFs from https://mysupport.netapp.com/site/info/nvidia-cluster-switch[NVIDIA SN2100 software download^] page. The procedure for each is the same.
@@ -389,13 +402,13 @@ Step 13: Reboot the switch
 +
 The RCF script completes the steps listed in the example above.
 +
-NOTE: In step 3 *Updating the MOTD file* above, the command `cat /etc/issue` is run. This allows you to verify the RCF filename, RCF version, ports to use, and other important information in the RCF banner. 
+NOTE: In step 3 *Updating the MOTD file* above, the command `cat /etc/issue.net` is run. This allows you to verify the RCF filename, RCF version, ports to use, and other important information in the RCF banner. 
 +
 For example:
 +
 
 ----
-admin@sw1:mgmt:~$ cat /etc/issue
+admin@sw1:mgmt:~$ cat /etc/issue.net
 ******************************************************************************
 *
 * NetApp Reference Configuration File (RCF)
@@ -741,13 +754,13 @@ Step 13: Reboot the switch
 +
 The RCF script completes the steps listed in the example above.
 +
-NOTE: In step 3 *Updating the MOTD file* above, the command `cat /etc/issue` is run. This allows you to verify the RCF filename, RCF version, ports to use, and other important information in the RCF banner. 
+NOTE: In step 3 *Updating the MOTD file* above, the command `cat /etc/issue.net is run. This allows you to verify the RCF filename, RCF version, ports to use, and other important information in the RCF banner. 
 +
 For example:
 +
 
 ----
-admin@sw1:mgmt:~$ cat /etc/issue
+admin@sw1:mgmt:~$ cat /etc/issue.net
 ******************************************************************************
 *
 * NetApp Reference Configuration File (RCF)
@@ -1012,9 +1025,6 @@ sw2                         cluster-network    10.233.205.91    MSN2100-CB2RC
 .What's next?
 link:setup-install-cshm-file.html[Install the CSHM file].
 
-//.What's next?
-//link:../switch-cshm/config-overview.html[Configure switch health monitoring].
-
 // GH issue #77 replacing 4.4.2 with 4.4.3, 2023-FEB-22
 // Updates for the LH 5.4 integrity release, 2023-APR-18
 // Updates for AFFFASDOC-130 expanding 'nv' command set, 2023-SEP-13
@@ -1031,3 +1041,6 @@ link:setup-install-cshm-file.html[Install the CSHM file].
 // Updates for AFFFASDOC-202, 2025-MAR-13
 // Updates for GH issue #260, 2025-MAY-13
 // Updates for AFFFASDOC-250, 2025-AUG-25
+// Updates for AFFFASDOC-307, 2025-JUN-25
+// Updates for AFFFASDOC-275, 2025-AUG-05
+

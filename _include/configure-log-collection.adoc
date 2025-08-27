@@ -14,7 +14,7 @@ The Ethernet switch health monitor (CSHM) is responsible for ensuring the operat
 * Switch health monitoring must be enabled for the switch. Verify this by ensuring the `Is Monitored:` field is set to *true* in the output of the `system switch ethernet show` command.
 //* For NVIDIA switches, the user for log collection must be specified when the Reference Configuration File (RCF) is applied. By default, this user is set to 'admin'. If you wish to use a different user, you must specify this in the *# SHM User's* section of the RCF.
 * For log collection with Broadcom and Cisco switches: 
-** Users must have network admin privileges.
+** The local user must have network admin privileges.
 ** A new user should be created on the switch for each cluster setup with log collection enabled. These switches do not support multiple SSH keys for the same user. Any additional log collection setup performed overwrites any pre-existing SSH keys for the user.
 * For support log collection with NVIDIA switches, the _user_ for log collection must be permitted to run the `cl-support` command without having to provide a password. To allow this usage, run the command:
 +
@@ -234,4 +234,6 @@ system switch ethernet log show
 ====
 
 // end of tabbed content 
+
+// This include is used in ontap-metrocluster. See ONTAPDOC-2755.
 

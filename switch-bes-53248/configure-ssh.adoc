@@ -39,6 +39,20 @@ SSH Public Key Authentication Mode: ........... Disabled
 SCP server Administrative Mode: ............... Disabled
 ----
 ====
++ 
+If SSH is not disabled, disable it as follows:
++
+.Show example
+[%collapsible]
+====
+[subs=+quotes]
+----
+(switch)# *ip ssh server disable*
+(switch)# *ip scp server disable*
+----
+====
++
+WARNING: Make sure that you disable SSH before you modify the keys, otherwise, a warning is reported on the switch.
 
 . Generate the SSH keys:
 +
@@ -81,9 +95,6 @@ Config file 'startup-config' created successfully.
 Configuration Saved!
 ----
 ====
-
-+
-WARNING: Make sure that SSH is disabled before modifying the keys otherwise a warning is reported on the switch.
 
 . Encrypt the SSH keys (for *FIPS-mode only*):
 
@@ -175,3 +186,4 @@ link:../switch-cshm/config-overview.html[Configure switch health monitoring].
 // Update for GH issue #168, 2024-MAR-19
 // Update for AFFFASDOC-216/217, 2024-JUL-08
 // Update for AFFFASDOC-266, 2024-SEP-17
+// Updates for AFFFASDOC-319, 2025-JUN-25

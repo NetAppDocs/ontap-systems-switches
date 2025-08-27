@@ -1,0 +1,49 @@
+---
+permalink: switch-cisco-3132q-v/install-switch-3132qv.html
+sidebar: sidebar
+keywords: require, configuration, information, documentation, cluster, management, network, switches, set up the switches - cisco nexus 3132q-v
+summary: Follow this procedure to install the Cisco Nexus 3132Q-V switch.
+---
+= Install the 3132Q-V cluster switch
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+Follow this procedure to set up and configure the Cisco Nexus 3132Q-V switch.
+
+.Before you begin
+Make sure you have the following:
+
+* Access to an HTTP, FTP, or TFTP server at the installation site to download the applicable NX-OS and Reference Configuration File (RCF) releases.
+* Applicable NX-OS version, downloaded from the https://software.cisco.com/download/home[Cisco Software Download^] page. 
+* Applicable licenses, network and configuration information, and cables.
+* Completed link:setup_worksheet_3132q.html[cabling worksheets].
+* Applicable NetApp cluster network and management network RCFs downloaded from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com^]. All Cisco cluster network and management network switches arrive with the standard Cisco factory-default configuration. These switches also have the current version of the NX-OS software but do not have the RCFs loaded.
+* link:required-documentation-3132q.html[Required switch and ONTAP documentation].
+
+
+.Steps
+. Rack the cluster network and management network switches and controllers.
++
+[options="header" cols="1,2"]
+|===
+| If you are installing the...| Then...
+a|
+Cisco Nexus 9336C-FX2 in a NetApp system cabinet
+a|
+See the _Installing a Cisco Nexus 3132Q-V cluster switch and pass-through panel in a NetApp cabinet_ guide for instructions to install the switch in a NetApp cabinet.
+a|
+Equipment in a Telco rack
+a|
+See the procedures provided in the switch hardware installation guides and the NetApp installation and setup instructions.
+|===
+
+. Cable the cluster network and management network switches to the controllers using the completed cabling worksheets.
+. Power on the cluster network and management network switches and controllers.
+
+.What's next?
+
+Optionally, you can link:install-cisco-nexus-3132qv.html[install a Cisco Nexus 3132Q-V switch in a NetApp cabinet]. Otherwise, go to link:cabling-considerations-3132q-v.html[Review cabling and configuration].
+
+// Added link to Cisco Software Download page, as per GH issue #64, 2023-FEB-23
+// Updates for AFFFASDOC-370, 2025-JUL-29
