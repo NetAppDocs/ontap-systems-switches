@@ -9,7 +9,7 @@ summary: 'If you have an existing two-node switchless cluster environment, you c
 :imagesdir: ../media/
 
 [.lead]
-If you have an existing two-node _switchless_ cluster environment, you can migrate to a two-node _switched_ cluster environment using Cisco Nexus 9336C-FX2 switches.
+If you have an existing two-node _switchless_ cluster environment, you can migrate to a two-node _switched_ cluster environment using Cisco Nexus 9336C-FX2 and 9336C-FX2-T switches.
 
 The migration process works for all nodes using optical or Twinax ports, but is not supported on this switch if nodes are using onboard 10Gb BASE-T RJ45 ports for the cluster-network ports.
 
@@ -596,8 +596,9 @@ RPC status:
 
 .What's next?
 
-link:../switch-cshm/config-overview.html[Configure switch health monitoring].
+After you've migrated your switches, you can link:../switch-cshm/config-overview.html[configure switch health monitoring].
 
 // GH issue #83 updated interface command - MARCH-01-2023
 // Updates for AFFFASDOC-216, 217, 2024-JUL-29
 // Updates for GH issue #212, 2024-OCT-17
+// afffasdoc-380, 2025-AUG-28
