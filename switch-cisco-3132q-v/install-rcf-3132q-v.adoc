@@ -281,7 +281,7 @@ NOTE: When upgrading or applying a new RCF, you must erase the switch settings a
 
 . For RCF version 1.12 and later, run the following commands:
 +
-`cs2# echo "hardware access-list tcam region vpc-convergence 256" > bootflash:write_erase.cfg`
+`cs2# echo "hardware access-list tcam region vpc-convergence 256" >> bootflash:write_erase.cfg`
 +
 `cs2# echo "hardware access-list tcam region racl 256" >> bootflash:write_erase.cfg`
 +
