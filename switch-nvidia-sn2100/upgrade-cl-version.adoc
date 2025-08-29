@@ -67,7 +67,7 @@ See https://docs.nvidia.com/networking-ethernet-software/cumulus-linux-510/Insta
 +
 [subs=+quotes]
 ----
-admin@sw1:mgmt:~$ *net show system*
+cumulus@cumulus:mgmt:~$ *net show system*
 Hostname......... cumulus
 Build............ *Cumulus Linux 4.4.3*
 Uptime........... 0:08:20.860000
@@ -85,7 +85,7 @@ ONIE Version..... 2019.11-5.2.0020-115200
 Base MAC Address. 04:3F:72:43:92:80
 Manufacturer..... Mellanox
 
-admin@sw1:mgmt:~$ *net show interface*
+cumulus@cumulus:mgmt:~$ *net show interface*
 
 State  Name    Spd   MTU    Mode        LLDP                    Summary
 -----  ------  ----  -----  ----------  ----------------------  --------------------
@@ -105,7 +105,7 @@ UP     swp6    100G  9216   Trunk/L2    SHFFG1826000102 (e0b)   Master: bridge(U
 +
 [subs=+quotes]
 ----
-admin@sw1:mgmt:~$ *sudo onie-install -a -i http://_<ip-to-webserver>_/path/to/cumulus-linux-5.4.0-mlx-amd64.bin*
+cumulus@cumulus:mgmt:~$ *sudo onie-install -a -i http://_<ip-to-webserver>_/path/to/cumulus-linux-5.4.0-mlx-amd64.bin*
 [sudo] password for cumulus:
 Fetching installer: http://_<ip-to-webserver>_/path/to/cumulus-linux-5.4.0-mlx-amd64.bin
 Downloading URL: http://_<ip-to-webserver>_/path/to/cumulus-linux-5.4.0-mlx-amd64.bin
@@ -132,7 +132,7 @@ Reboot required to take effect.
 +
 [subs=+quotes]
 ----
-admin@sw1:mgmt:~$ *sudo reboot*
+cumulus@cumulus:mgmt:~$ *sudo reboot*
 ----
 
 . Change the password:
@@ -301,7 +301,7 @@ See https://docs.nvidia.com/networking-ethernet-software/cumulus-linux-54/System
 +
 [subs=+quotes]
 ----
-admin@sw1:mgmt:~$ *nv show system*
+cumulus@sw1:mgmt:~$ *nv show system*
                     operational          applied             
 ------------------- -------------------- -----------------
 hostname            cumulus              cumulus
@@ -309,7 +309,7 @@ build               Cumulus Linux 5.3.0
 uptime              6 days, 8:37:36      
 timezone            Etc/UTC              
 
-admin@sw1:mgmt:~$ *nv show interface*
+cumulus@sw1:mgmt:~$ *nv show interface*
 Interface     MTU   Speed State Remote Host         Remote Port- Type      Summary
 ------------- ----- ----- ----- ------------------- ------------ --------- -------------
 + cluster_isl 9216  200G  up                                      bond
@@ -329,7 +329,7 @@ Interface     MTU   Speed State Remote Host         Remote Port- Type      Summa
 +
 [subs=+quotes]
 ----
-admin@sw1:mgmt:~$ *sudo onie-install -a -i http://_<ip-to-webserver>_/path/to/cumulus-linux-5.4.0-mlx-amd64.bin*
+cumulus@sw1:mgmt:~$ *sudo onie-install -a -i http://_<ip-to-webserver>_/path/to/cumulus-linux-5.4.0-mlx-amd64.bin*
 [sudo] password for cumulus:
 Fetching installer: http://_<ip-to-webserver>_/path/to/cumulus-linux-5.4.0-mlx-amd64.bin
 Downloading URL: http://_<ip-to-webserver>_/path/to/cumulus-linux-5.4.0-mlx-amd64.bin
@@ -356,7 +356,7 @@ Reboot required to take effect.
 +
 [subs=+quotes]
 ----
-admin@sw1:mgmt:~$ *sudo reboot*
+cumulus@sw1:mgmt:~$ *sudo reboot*
 ----
 
 . Change the password:
@@ -525,7 +525,7 @@ See https://docs.nvidia.com/networking-ethernet-software/cumulus-linux-54/System
 +
 [subs=+quotes]
 ----
-admin@sw1:mgmt:~$ *nv show system*
+cumulus@sw1:mgmt:~$ *nv show system*
                     operational          applied             
 ------------------- -------------------- -----------------
 hostname            cumulus              cumulus
@@ -533,7 +533,7 @@ build               Cumulus Linux 5.4.0
 uptime              6 days, 8:37:36      
 timezone            Etc/UTC              
 
-admin@sw1:mgmt:~$ *nv show interface*
+cumulus@sw1:mgmt:~$ *nv show interface*
 Interface     MTU   Speed State Remote Host         Remote Port- Type      Summary
 ------------- ----- ----- ----- ------------------- ------------ --------- -------------
 + cluster_isl 9216  200G  up                                      bond
@@ -553,7 +553,7 @@ Interface     MTU   Speed State Remote Host         Remote Port- Type      Summa
 +
 [subs=+quotes]
 ----
-admin@sw1:mgmt:~$ *sudo onie-install -a -i http://_<ip-to-webserver>_/path/to/cumulus-linux-5.11.0-mlx-amd64.bin*
+cumulus@sw1:mgmt:~$ *sudo onie-install -a -i http://_<ip-to-webserver>_/path/to/cumulus-linux-5.11.0-mlx-amd64.bin*
 [sudo] password for cumulus:
 Fetching installer: http://_<ip-to-webserver>_/path/to/cumulus-linux-5.11.0-mlx-amd64.bin
 Downloading URL: http://_<ip-to-webserver>_/path/to/cumulus-linux-5.11.0-mlx-amd64.bin
@@ -580,7 +580,7 @@ Reboot required to take effect.
 +
 [subs=+quotes]
 ----
-admin@sw1:mgmt:~$ *sudo reboot*
+cumulus@sw1:mgmt:~$ *sudo reboot*
 ----
 
 . Change the password:
@@ -678,4 +678,4 @@ link:install-rcf-sn2100-cluster.html[Install or upgrade the RCF script].
 // Updates for GH issue #260, 2025-MAY-13
 // Updates for GH issue #263, 2025-MAY-19
 // Updates for GH issue #269, 2025-MAY-28
-
+// Updates for AFFFASDOC-250, 2025-AUG-25
