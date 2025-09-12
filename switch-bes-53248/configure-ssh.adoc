@@ -43,15 +43,15 @@ SCP server Administrative Mode: ............... Disabled
 
 ** If SSH is not disabled, disable it as follows:
 +
-.Show example
-[%collapsible]
-====
-[subs=+quotes]
-----
-(switch)# *ip ssh server disable*
-(switch)# *ip scp server disable*
-----
-====
+`no ip ssh server enable`
++
+`no ip scp server enable`
++
+[NOTE]
+================
+* For EFOS 3.12 and later, console access is required as active SSH sessions are lost when SSH is disabled.
+* For EFOS 3.11 and earlier, current SSH sessions are kept open after disabling the SSH server.
+================
 +
 WARNING: Make sure that you disable SSH before you modify the keys, otherwise, a warning is reported on the switch.
 
@@ -194,7 +194,6 @@ Configuration Saved!
 .Show example
 [%collapsible]
 ====
-
 [subs=+quotes]
 ----
 (switch)# *show ip ssh*
@@ -225,3 +224,4 @@ link:../switch-cshm/config-overview.html[Configure switch health monitoring].
 // Update for AFFFASDOC-266, 2024-SEP-17
 // Updates for AFFFASDOC-319, 2025-JUN-25
 // Updates for AFFFASDOC-379, 2025-AUG-27
+// GH issue #290, 2025-SEPT-08

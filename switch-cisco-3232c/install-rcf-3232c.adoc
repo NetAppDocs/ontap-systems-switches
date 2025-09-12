@@ -284,7 +284,7 @@ NOTE: When upgrading or applying a new RCF, you must erase the switch settings a
 
 . For RCF version 1.12 and later, run the following commands:
 +
-`cs2# echo "hardware access-list tcam region racl-lite 512" > bootflash:write_erase.cfg`
+`cs2# echo "hardware access-list tcam region racl-lite 512" >> bootflash:write_erase.cfg`
 +
 `cs2# echo "hardware access-list tcam region qos 256" >> bootflash:write_erase.cfg`
 +
@@ -846,3 +846,4 @@ link:configure-ssh-keys.html[Verify SSH configuration].
 // Updates for GH issue #212, 2024-OCT-16
 // Updates for AFFFASDOC-222, 2020-JUN-25
 // Updates for AFFFASDOC-368, 2025-AUG-20
+// GH issue #288, 2025-SEPT-08
