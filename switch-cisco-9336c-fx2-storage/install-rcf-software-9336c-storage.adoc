@@ -108,7 +108,7 @@ The output varies according to your site configuration. Check the port settings 
 
 . For RCF version 1.12 and later, run the following commands:
 +
-`cs1# echo "hardware access-list tcam region ing-racl 1024" > bootflash:write_erase.cfg`
+`cs1# echo "hardware access-list tcam region ing-racl 1024" >> bootflash:write_erase.cfg`
 +
 `cs1# echo "hardware access-list tcam region egr-racl 1024" >> bootflash:write_erase.cfg`
 +
@@ -467,3 +467,4 @@ link:configure-ssh-keys.html[verify the SSH configuration]
 // Updates for AFFFASDOC-370, 2025-JUL-28
 // Updates for AFFFASDOC-377, 2025-AUG-20
 // AFFFASDOC-380, 2025-SEPT-03
+// GH issue #288, 2025-SEPT-08
