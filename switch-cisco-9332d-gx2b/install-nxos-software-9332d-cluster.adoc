@@ -11,20 +11,15 @@ summary: You can use this procedure to install the NX-OS software on the Nexus 9
 [.lead]
 Follow this procedure to install or upgrade the NX-OS software on the Nexus 9332D-GX2B switch.
 
-Before you begin, complete the procedure in link:install-nxos-overview-9332d-cluster.html[Prepare to install NX-OS and RCF].
-
 == Review requirements
 
 .Before you begin
 
-Make sure you have the following:
+Verify the following:
 
+* Complete the procedure in link:install-nxos-overview-9332d-cluster.html[Prepare to install NX-OS and RCF].
 * A current backup of the switch configuration.
 * A fully functioning cluster (no errors in the logs or similar issues).
-
-NOTE: NX-OS 10.4.2 is the only supported version for Cisco Nexus 9332D-GX2B switches in an ONTAP cluster, at this time.
-
-IMPORTANT: Do not upgrade or downgrade your NX-OS version to an unsupported version; only 10.4.2 is currently supported.
 
 .Suggested documentation
 
@@ -55,6 +50,12 @@ The examples in this procedure use the following switch and node nomenclature:
 == Install the software
 
 The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
+
+[NOTE]
+================
+* NX-OS 10.4.2 is the only supported version for Cisco Nexus 9332D-GX2B switches in an ONTAP cluster, at this time.
+* Do not upgrade or downgrade your NX-OS version to an unsupported version; only 10.4.2 is currently supported.
+================
 
 .Steps
 
