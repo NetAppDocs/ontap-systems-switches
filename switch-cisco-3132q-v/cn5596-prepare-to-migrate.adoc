@@ -164,7 +164,7 @@ cluster::*> network interface modify -vserver node2 -lif clus2 -auto-revert fals
 +
 You must prepare both switches at this time. If you need to upgrade the RCF and image, follow these steps:
 
- .. Go to the link:http://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switches^] page on the NetApp Support Site.
+ .. Go to link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches^] on the NetApp Support Site.
  .. Note your switch and the required software versions in the table on that page.
  .. Download the appropriate version of the RCF.
  .. Select *CONTINUE* on the *Description* page, accept the license agreement, and then follow the instructions on the *Download* page to download the RCF.
@@ -184,13 +184,13 @@ To find the correct version, see the _ONTAP 8.x or later Cluster Network Switch 
 The following example shows n1 and n2, but LIF migration must be done on all of the nodes:
 
 ----
-cluster::*> network interface migrate -vserver Cluster -lif n1_clus2 -source-node n1 –
+cluster::*> network interface migrate -vserver Cluster -lif n1_clus2 -source-node n1 -
 destination-node n1 -destination-port e0a
-cluster::*> network interface migrate -vserver Cluster -lif n1_clus3 -source-node n1 –
+cluster::*> network interface migrate -vserver Cluster -lif n1_clus3 -source-node n1 -
 destination-node n1 -destination-port e0d
-cluster::*> network interface migrate -vserver Cluster -lif n2_clus2 -source-node n2 –
+cluster::*> network interface migrate -vserver Cluster -lif n2_clus2 -source-node n2 -
 destination-node n2 -destination-port e0a
-cluster::*> network interface migrate -vserver Cluster -lif n2_clus3 -source-node n2 –
+cluster::*> network interface migrate -vserver Cluster -lif n2_clus3 -source-node n2 -
 destination-node n2 -destination-port e0d
 ----
 ====
