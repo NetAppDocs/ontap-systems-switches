@@ -230,7 +230,7 @@ CL2                          cluster-network   10.10.1.102      NX3132V
 +
 You must prepare the replacement switch at this time. If you need to upgrade the RCF and image, you must follow these steps:
 
- .. On the NetApp Support Site, go to the link:http://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switch^] page.
+ .. On the NetApp Support Site, see link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch/[Cisco Ethernet Switches^].
  .. Note your switch and the required software versions in the table on that page.
  .. Download the appropriate version of the RCF.
  .. Click *CONTINUE* on the *Description* page, accept the license agreement, and then follow the instructions on the *Download* page to download the RCF.
@@ -541,8 +541,8 @@ cluster::*> network interface revert -vserver Cluster -lif n1_clus2
 cluster::*> network interface revert -vserver Cluster -lif n1_clus3
 cluster::*> network interface revert -vserver Cluster -lif n2_clus2
 cluster::*> network interface revert -vserver Cluster -lif n2_clus3
-Cluster::*> network interface revert –vserver Cluster –lif n3_clus2
-Cluster::*> network interface revert –vserver Cluster –lif n4_clus2
+cluster::*> network interface revert -vserver Cluster -lif n3_clus2
+cluster::*> network interface revert -vserver Cluster -lif n4_clus2
 ----
 ====
 
@@ -586,7 +586,7 @@ Cluster
 [%collapsible]
 ====
 ----
-cluster::*> network port show –role cluster
+cluster::*> network port show -role cluster
   (network port show)
 Node: n1
                                                                        Ignore
