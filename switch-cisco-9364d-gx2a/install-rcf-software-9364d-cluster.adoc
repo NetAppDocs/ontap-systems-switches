@@ -99,7 +99,18 @@ The output varies according to your site configuration. Check the port settings 
 
 . Reapply any previous customizations to the switch configuration.
 
-. Save basic configuration details to the write_erase.cfg file on the bootflash.
+[NOTE]
+====================================
+Make sure to configure the following:
+
+* Username and password
+* Management IP address
+* Default gateway
+* Switch name
+====================================
+
+[start=7]
+. [[step7]]Save basic configuration details to the write_erase.cfg file on the bootflash.
 +
 `cs1# show run | i "username admin password" > bootflash:write_erase.cfg`
 +
