@@ -266,9 +266,9 @@ cluster1::*>
 +
 `show running-config`
 
-. Record any custom additions between the current running-config and the RCF file in use.
+. Record any custom additions between the current `running-config` and the RCF file in use.
 
-. Save basic configuration details to the write_erase.cfg file on the bootflash.
+. Save basic configuration details to the `write_erase.cfg` file on the bootflash.
 +
 NOTE: When upgrading or applying a new RCF, you must erase the switch settings and perform basic configuration. You must be connected to the switch serial console port to set up the switch again.
 +
@@ -288,9 +288,9 @@ NOTE: When upgrading or applying a new RCF, you must erase the switch settings a
 +
 `cs2# echo "hardware access-list tcam region qos 256" >> bootflash:write_erase.cfg`
 +
-See the Knowledge Base article https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further details.
+See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further details.
 
-. Verify that the write_erase.cfg file is populated as expected:
+. Verify that the `write_erase.cfg` file is populated as expected:
 +
 `show file bootflash:write_erase.cfg`
 
@@ -306,7 +306,7 @@ See the Knowledge Base article https://kb.netapp.com/on-prem/Switches/Cisco-KBs/
 . Copy the previously saved basic configuration into the startup configuration.
 +
 
-`cs2# *copy write_erase.cfg startup-config*`
+`cs2# *copy bootflash:write_erase.cfg startup-config*`
 
 . Perform a reboot of the switch:
 +
@@ -315,7 +315,7 @@ See the Knowledge Base article https://kb.netapp.com/on-prem/Switches/Cisco-KBs/
 +
 `This command will reboot the system. (y/n)?  [n] *y*`
 
-. Copy the RCF to the bootflash of switch cs2 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-installation-guides-list.html[Cisco Nexus 3000 Series NX-OS Command Reference^] guides.
+. Copy the RCF to the bootflash of switch cs2 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. For more information on Cisco commands, see the appropriate guide in the link:https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-installation-guides-list.html[Cisco Nexus 3000 Series NX-OS Command Reference^] guides.
 +
 .Show example 
 [%collapsible]
@@ -335,7 +335,7 @@ Copy complete, now saving to disk (please wait)...
 
 . Apply the RCF previously downloaded to the bootflash.
 +
-For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-installation-guides-list.html[Cisco Nexus 3000 Series NX-OS Command Reference^] guides.
+For more information on Cisco commands, see the appropriate guide in the link:https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-installation-guides-list.html[Cisco Nexus 3000 Series NX-OS Command Reference^] guides.
 +
 .Show example 
 [%collapsible]
@@ -847,3 +847,4 @@ link:configure-ssh-keys.html[Verify SSH configuration].
 // Updates for AFFFASDOC-222, 2020-JUN-25
 // Updates for AFFFASDOC-368, 2025-AUG-20
 // GH issue #288, 2025-SEPT-08
+// GH issue #291, 2025-SEPT-12
