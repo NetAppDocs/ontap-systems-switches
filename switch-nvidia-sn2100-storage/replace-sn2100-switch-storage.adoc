@@ -22,15 +22,15 @@ The http://hwu.netapp.com[Hardware Universe^] provides full details of supported
 
 The existing network configuration must have the following characteristics:
 
-* Make sure that all troubleshooting steps have been completed to confirm that your switch needs replacing.
-* Management connectivity must exist on both switches.
+* Complete all troubleshooting steps to confirm you need to replace your switch.
+* Ensure management connectivity exists on both switches.
 +
 NOTE: Make sure that all troubleshooting steps have been completed to confirm that your switch needs replacing.
 
 The replacement NVIDIA SN2100 switch must have the following characteristics:
 
 * Management network connectivity is functional.
-* Console access to the replacement switch is in place.
+* You can access the replacement switch using the console.
 * The appropriate RCF and Cumulus operating system image is loaded onto the switch.
 * Initial customization of the switch is complete.
 
@@ -55,7 +55,7 @@ _x_ is the duration of the maintenance window in hours.
 +
 `set -privilege advanced`
 
-. Check on the health status of the storage node ports to make sure that there is connection to storage switch S1:
+. Check the health status of storage node ports to confirm connection to storage switch S1:
 +
 `storage port show -port-type ENET`
 +
@@ -264,4 +264,4 @@ cluster1::*>
 link:../switch-cshm/config-overview.html[Configure switch health monitoring].
 
 // Updates to command output in steps 4 & 10, as per Burt 1555247, 2023-MAY-23
-// Updated as part of AFFFASDOC-216, 271, 20204-JUL-30
+// Updated as part of AFFFASDOC-216, 271, 2024-JUL-30
