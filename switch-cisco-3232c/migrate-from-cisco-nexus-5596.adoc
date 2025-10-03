@@ -22,8 +22,8 @@ The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Serie
 
 For more information, see:
 
-* http://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switch description page^]
-* http://hwu.netapp.com[Hardware Universe^]
+* link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches^]
+* link:http://hwu.netapp.com[Hardware Universe^]
 
 == Migrate the switch
 
@@ -39,7 +39,7 @@ The procedure also uses the following switch and node nomenclature:
 * n1_clus2 is the first cluster LIF connected to cluster switch 2 (CL2 or C2) for node n1.
 * n1_clus3 is the second LIF connected to cluster switch 2 (CL2 or C2) for node n1.
 * n1_clus4 is the second LIF connected to cluster switch 1 (CL1 or C1) for node n1.-
-* The number of 10 GbE and 40/100 GbE ports are defined in the reference configuration files (RCFs) available on the https://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco® Cluster Network Switch Reference Configuration File Download^] page.
+* The number of 10 GbE and 40/100 GbE ports are defined in the reference configuration files (RCFs) available at link:https://mysupport.netapp.com/site/products/all/details/cisco-cluster-storage-switch/downloads-tab[Cisco® Cluster Network Switch Reference Configuration File Download^].
 * The nodes are n1, n2, n3, and n4.
 
 The examples in this procedure use four nodes:
@@ -219,7 +219,7 @@ If you need to upgrade the RCF and image, you must complete the following steps:
 
 .. Go to the _Cisco Ethernet Switches_ page on the NetApp Support Site.
 +
-http://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switches^]
+link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches^]
 
 .. Note your switch and the required software versions in the table on that page.
 .. Download the appropriate version of the RCF.
@@ -363,8 +363,8 @@ Cluster n2_clus3 n2       e0c    10.10.0.7
 Cluster n2_clus4 n2       e0d    10.10.0.8
 Local = 10.10.0.1 10.10.0.2 10.10.0.3 10.10.0.4
 Remote = 10.10.0.5 10.10.0.6 10.10.0.7 10.10.0.8
-Cluster Vserver Id = 4294967293 Ping status:
-....
+Cluster Vserver Id = 4294967293 
+Ping status:....
 Basic connectivity succeeds on 16 path(s)
 Basic connectivity fails on 0 path(s)
 ................
@@ -663,8 +663,8 @@ Cluster n2_clus3 n2       e0c    10.10.0.7
 Cluster n2_clus4 n2       e0d    10.10.0.8
 Local = 10.10.0.1 10.10.0.2 10.10.0.3 10.10.0.4
 Remote = 10.10.0.5 10.10.0.6 10.10.0.7 10.10.0.8
-Cluster Vserver Id = 4294967293 Ping status:
-....
+Cluster Vserver Id = 4294967293 
+Ping status:....
 Basic connectivity succeeds on 16 path(s)
 Basic connectivity fails on 0 path(s)
 ................
@@ -1030,8 +1030,8 @@ Cluster n2_clus3 n2       e0c    10.10.0.7
 Cluster n2_clus4 n2       e0d    10.10.0.8
 Local = 10.10.0.1 10.10.0.2 10.10.0.3 10.10.0.4
 Remote = 10.10.0.5 10.10.0.6 10.10.0.7 10.10.0.8
-Cluster Vserver Id = 4294967293 Ping status:
-....
+Cluster Vserver Id = 4294967293 
+Ping status:....
 Basic connectivity succeeds on 16 path(s)
 Basic connectivity fails on 0 path(s)
 ................
@@ -1268,5 +1268,6 @@ C2                          cluster-network     10.10.1.104      NX3232C
 link:../switch-cshm/config-overview.html[Configure switch health monitoring].
 
 // Format fixes as part of AFFFASDOC-98, 20203-SEPT-19
-// Updated as psrt of AFFFASDOC-216, 217, 2024-JUL-30
+// Updated as part of AFFFASDOC-216, 217, 2024-JUL-30
 // Updates for GH issue #212, 2024-OCT-17
+// GH issue #340 internal repo, 2025-SEPT-18

@@ -118,9 +118,15 @@ When you check the output to verify you have the correct RCF, make sure that the
 +
 The output varies according to your site configuration. Check the port settings and refer to the release notes for any changes specific to the RCF that you have installed.
 
-. Reapply any previous customizations to the switch configuration. Refer to link:cabling-considerations-9336c-fx2.html[Review cabling and configuration considerations] for details of any further changes required. 
+. Record any custom additions between the current `running-config` file and the RCF file in use.
 
-. Save basic configuration details to the write_erase.cfg file on the bootflash.
+. After you verify that the RCF versions and switch settings are correct, copy the `running-config` file to the `startup-config` file.
++
+----
+cs1# copy running-config startup-config [########################################] 100% Copy complete
+----
+
+. Save basic configuration details to the `write_erase.cfg` file on the bootflash.
 +
 `cs1# show run | i "username admin password" > bootflash:write_erase.cfg`
 +
@@ -138,9 +144,9 @@ The output varies according to your site configuration. Check the port settings 
 +
 `cs1# echo "hardware access-list tcam region ing-l2-qos 1280" >> bootflash:write_erase.cfg`
 +
-See the Knowledge Base article https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further details.
+See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further details.
 
-. Verify that the write_erase.cfg file is populated as expected:
+. Verify that the `write_erase.cfg` file is populated as expected:
 +
 `show file bootflash:write_erase.cfg`
 
@@ -162,7 +168,7 @@ See the Knowledge Base article https://kb.netapp.com/on-prem/Switches/Cisco-KBs/
 +
 `This command will reboot the system. (y/n)?  [n] *y*`  
 
-. Repeat steps 1 through 12 on switch cs2.
+. Repeat steps 1 through 13 on switch cs2.
 
 . Connect the cluster ports of all nodes in the ONTAP cluster to switches cs1 and cs2.
 
@@ -386,3 +392,4 @@ link:../switch-cshm/config-overview.html[Configure switch health monitoring].
 
 // Updates for AFFFASDOC-288, 2025-JAN-29
 // Updates for AFFFASDOC-377, 2025-AUG-20
+// AFFFASDOC-387, 2025-SEPT-16
