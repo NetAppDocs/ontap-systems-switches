@@ -482,7 +482,7 @@ node1-04          true    true          false
 
 `show running-config`
 
-.. Record any custom additions between the current running-config and the RCF file in use (such as an SNMP configuration for your organization).  
+.. Record any custom additions between the current `running-config` and the RCF file in use (such as an SNMP configuration for your organization).  
 +
 .. For NX-OS 10.2 and newer use the `show diff running-config` command to compare with the saved RCF file in the bootflash.  Otherwise, use a third part diff/compare tool.
 
@@ -573,7 +573,7 @@ This example shows the RCF file `NX9364D-GX2A-RCF-v10.0-Shared.txt` being instal
 cs1# *copy NX9364D-GX2A-RCF-v10.0-Shared.txt running-config echo-commands*
 ----
 +
-NOTE: Make sure to read thoroughly the *Installation notes*, *Important Notes*, and *banner* sections of your RCF. You must read and follow these instructions to ensure the proper configuration and operation of the switch.
+CAUTION: Make sure to read thoroughly the *Installation notes*, *Important Notes*, and *banner* sections of your RCF. You must read and follow these instructions to ensure the proper configuration and operation of the switch.
 
 . Verify that the RCF file is the correct newer version: 
 +

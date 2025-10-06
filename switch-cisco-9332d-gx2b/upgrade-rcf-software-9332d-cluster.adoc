@@ -481,7 +481,7 @@ node1-04          true    true          false
 
 `show running-config`
 
-.. Record any custom additions between the current running-config and the RCF file in use (such as an SNMP configuration for your organization).  
+.. Record any custom additions between the current `running-config` and the RCF file in use (such as an SNMP configuration for your organization).  
 +
 .. For NX-OS 10.2 and later, use the `show diff running-config` command to compare with the saved RCF file in the bootflash.  Otherwise, use a third part diff/compare tool.
 
@@ -573,9 +573,9 @@ cs1# *copy NX9332D-GX2B-RCF-v10.0-Shared.txt running-config echo-commands*
 ----
 
 +
-[NOTE]
+[CAUTION]
 =======
-Make sure to read thoroughly the *Installation notes*, *Important Notes*, and *banner* sections of your RCF. You must read and follow these instructions to ensure the proper configuration and operation of the switch.
+Make sure to thoroughly read the *Installation notes*, *Important Notes*, and *banner* sections of your RCF. You must read and follow these instructions to ensure the proper configuration and operation of the switch.
 =======
 
 . Verify that the RCF file is the correct newer version: 
@@ -933,7 +933,7 @@ node1-04          true     true          false
 ----
 ====
 
-. Repeat steps 1 to 18 on switch cs2.
+. Repeat steps 4 to 17 on switch cs2.
 
 . Enable auto-revert on the cluster LIFs.
 +
