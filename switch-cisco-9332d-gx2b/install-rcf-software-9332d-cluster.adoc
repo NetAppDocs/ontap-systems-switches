@@ -48,13 +48,13 @@ Copy complete, now saving to disk (please wait)...
 +
 For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
 +
-.Show example 
-[%collapsible]
+
+[subs=+quotes]
 ====
 This example shows the RCF file `NX9332D-GX2B-RCF-v10.0-Shared.txt` being installed on switch cs1:
 
 ----
-cs1# copy NX9332D-GX2B-RCF-v10.0-Shared.txt running-config echo-commands
+cs1# *copy NX9332D-GX2B-RCF-v10.0-Shared.txt running-config echo-commands*
 ----
 ====
 +
@@ -97,6 +97,8 @@ The output varies according to your site configuration. Check the port settings 
 
 . Reapply any previous customizations to the switch configuration.
 
+. Save basic configuration details to the `write_erase.cfg` file on the bootflash.
++
 [NOTE]
 ====================================
 Make sure to configure the following:
@@ -106,9 +108,6 @@ Make sure to configure the following:
 * Default gateway
 * Switch name
 ====================================
-
-[start=7]
-. [[step7]]Save basic configuration details to the write_erase.cfg file on the bootflash.
 +
 `cs1# show run | i "username admin password" > bootflash:write_erase.cfg`
 +
@@ -118,17 +117,17 @@ Make sure to configure the following:
 +
 `cs1# show run | section "switchname" >> bootflash:write_erase.cfg`
 +
-`switch# echo "hardware access-list tcam region ing-racl 1024" >> bootflash:write_erase.cfg`
+`cs1# echo "hardware access-list tcam region ing-racl 1024" >> bootflash:write_erase.cfg`
 +
-`switch# echo "hardware access-list tcam region egr-racl 1024" >> bootflash:write_erase.cfg`
+`cs1# echo "hardware access-list tcam region egr-racl 1024" >> bootflash:write_erase.cfg`
 +
-`switch# echo "hardware access-list tcam region ing-l2-qos 1536" >> bootflash:write_erase.cfg`
+`cs1# echo "hardware access-list tcam region ing-l2-qos 1536" >> bootflash:write_erase.cfg`
 +
 See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further details.
 
-. Verify that the write_erase.cfg file is populated as expected:
+. Verify that the `write_erase.cfg` file is populated as expected:
 +
-`show file bootflash:write_erase.cfg`
+`*show file bootflash:write_erase.cfg*`
 
 . Issue the `write erase` command to erase the current saved configuration:
 +
@@ -140,11 +139,11 @@ See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco
 
 . Copy the previously saved basic configuration into the startup configuration.
 +
-`cs1# *copy write_erase.cfg startup-config*`
+`cs1# *copy bootflash:write_erase.cfg startup-config*`
 
-. Perform a reboot of the switch:
+. Reboot the switch:
 +
-`switch# *reload*`
+`cs1# *reload*`
 +
 `This command will reboot the system. (y/n)?  [n] *y*`
 
@@ -474,6 +473,6 @@ Go to https://docs.netapp.com/us-en/ontap/task_configure_ontap.html[Configure ON
 
 .What's next?
 
-link:configure-ssh-keys.html[Verify SSH configuration].
+After you've installed the RCF, you link:configure-ssh-keys.html[verify the SSH configuration].
 
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-06

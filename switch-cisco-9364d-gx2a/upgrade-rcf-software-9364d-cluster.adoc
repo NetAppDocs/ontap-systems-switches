@@ -486,7 +486,17 @@ node1-04          true    true          false
 +
 .. For NX-OS 10.2 and newer use the `show diff running-config` command to compare with the saved RCF file in the bootflash.  Otherwise, use a third part diff/compare tool.
 
-. Save basic configuration details to the write_erase.cfg file on the bootflash.
+. Save basic configuration details to the `write_erase.cfg` file on the bootflash.
++
+[NOTE]
+====================================
+Make sure to configure the following:
+
+* Username and password
+* Management IP address
+* Default gateway
+* Switch name
+====================================
 +
 `cs1# show run | i "username admin password" > bootflash:write_erase.cfg`
 +
@@ -495,8 +505,6 @@ node1-04          true    true          false
 `cs1# show run | section "interface mgmt0" >> bootflash:write_erase.cfg`
 +
 `cs1# show run | section "switchname" >> bootflash:write_erase.cfg`
-
-. For RCF version 1.12 and later, run the following commands:
 +
 `cs1# echo "hardware access-list tcam region ing-racl 1024" >> bootflash:write_erase.cfg`
 +
@@ -506,9 +514,9 @@ node1-04          true    true          false
 + 
 See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further details.
 
-. Verify that the write_erase.cfg file is populated as expected:
+. Verify that the `write_erase.cfg` file is populated as expected:
 +
-`show file bootflash:write_erase.cfg`
+`*show file bootflash:write_erase.cfg*`
 
 . Issue the `write erase` command to erase the current saved configuration:
 +
@@ -520,9 +528,9 @@ See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco
 
 . Copy the previously saved basic configuration into the startup configuration.
 +
-`cs1# *copy write_erase.cfg startup-config*`
+`cs1# *copy bootflash:write_erase.cfg startup-config*`
 
-. Perform a reboot of the switch:
+. Reboot the switch:
 +
 `cs1# *reload*`
 +
@@ -556,41 +564,16 @@ Copy complete, now saving to disk (please wait)...
 +
 For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
 +
-.Show example 
-[%collapsible]
-====
+
 This example shows the RCF file `NX9364D-GX2A-RCF-v10.0-Shared.txt` being installed on switch cs1:
-
-----
-cs1# copy NX9364D-GX2A-RCF-v10.0-Shared.txt running-config echo-commands
-----
-====
 +
-. Examine the banner output from the `show banner motd` command. You must read and follow these instructions to ensure the proper configuration and operation of the switch.
-+
-.Show example 
-[%collapsible]
-====
-----
-cs1# show banner motd
 
-******************************************************************************
-* NetApp Reference Configuration File (RCF)
-*
-* Switch   : NX9364D-GX2A
-* Filename : NX9364D-GX2A-RCF-v10.0-Shared.txt
-* Date     : 05-09-2025
-* Version  : v10.0
-* Port Usage:
-* Ports  1-62: 100GbE Intra-Cluster/HA/Storage Ports, int e1/{1-62}/1-4
-* Ports 63-64: Intra-Cluster ISL Ports, int e1/63-64
-*
-* IMPORTANT NOTES
-* Interface port-channel999 is reserved to identify the version of this file.
-*
-******************************************************************************
+[subs=+quotes]
 ----
-====
+cs1# *copy NX9364D-GX2A-RCF-v10.0-Shared.txt running-config echo-commands*
+----
++
+NOTE: Make sure to read thoroughly the *Installation notes*, *Important Notes*, and *banner* sections of your RCF. You must read and follow these instructions to ensure the proper configuration and operation of the switch.
 
 . Verify that the RCF file is the correct newer version: 
 +
@@ -948,7 +931,7 @@ node1-04          true     true          false
 ----
 ====
 
-. Repeat steps 1 to 20 on switch cs2.
+. Repeat steps 4 to 16 on switch cs2.
 
 . Enable auto-revert on the cluster LIFs:
 +
@@ -1661,6 +1644,6 @@ RPC status:
 
 .What's next?
 
-link:configure-ssh-keys.html[Verify SSH configuration].
+After you've upgraded your RCF, you link:configure-ssh-keys.html[verify the SSH configuration].
 
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-08
