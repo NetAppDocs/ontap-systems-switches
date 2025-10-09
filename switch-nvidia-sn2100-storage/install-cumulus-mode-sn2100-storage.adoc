@@ -13,7 +13,8 @@ Follow this procedure to install Cumulus Linux (CL) OS when the switch is runnin
 
 NOTE: Cumulus Linux (CL) OS can be installed either when the switch is running Cumulus Linux or ONIE (see link:install-onie-mode-sn2100-storage.html[Install in ONIE mode]).
 
-.What you'll need
+.Before you begin
+Make sure that the following are available:
 
 * Intermediate-level Linux knowledge.
 * Familiarity with basic text editing, UNIX file permissions, and process monitoring. A variety of text editors are pre-installed, including `vi` and `nano`.
@@ -37,13 +38,19 @@ NOTE: Each time Cumulus Linux is installed, the entire file system structure is 
 CAUTION: The default password for the cumulus user account is *cumulus*. The first time you log into Cumulus Linux, you must change this default password. Be sure to update any automation scripts before installing a new image. Cumulus Linux provides command line options to change the default password automatically during the installation process.
 
 .Steps
+
+// start of tabbed content 
+
+[role="tabbed-block"] 
+
+==== 
+
+.Cumulus Linux 4.4.3
+--
 . Log in to the switch. 
 +
 First time log in to the switch requires username/password of *cumulus*/*cumulus* with `sudo` privileges.
 +
-.Show example
-[%collapsible]
-====
 [subs=+quotes]
 ----
 cumulus login: *cumulus*
@@ -54,16 +61,9 @@ Current password: *cumulus*
 New password: *<new_password>*
 Retype new password: *<new_password>*
 ----
-====
 
-
-. Check the Cumulus Linux version:
+. Check the Cumulus Linux version: `net show system`
 +
-`net show system`
-+
-.Show example
-[%collapsible]
-====
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:~$ *net show system*
@@ -84,7 +84,6 @@ ONIE Version..... 2019.11-5.2.0020-115200
 Base MAC Address. 04:3F:72:43:92:80
 Manufacturer..... Mellanox
 ----
-====
 
 . Configure the hostname, IP address, subnet mask, and default gateway. The new hostname only becomes effective after restarting the console/SSH session.
 +
@@ -92,10 +91,6 @@ NOTE: A Cumulus Linux switch provides at least one dedicated Ethernet management
 +
 CAUTION: Do not use an underscore (_), apostrophe ('), or non-ASCII characters in the hostname.
 +
-
-.Show example
-[%collapsible]
-====
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:~$ *net add hostname sw1*
@@ -104,16 +99,11 @@ cumulus@cumulus:mgmt:~$ *net add interface eth0 ip gateway 10.233.204.1*
 cumulus@cumulus:mgmt:~$ *net pending*
 cumulus@cumulus:mgmt:~$ *net commit*
 ----
-====
-
 +
 This command modifies both the `/etc/hostname` and `/etc/hosts` files.
-+
+
 . Confirm that the hostname, IP address, subnet mask, and default gateway have been updated.
 +
-.Show example
-[%collapsible]
-====
 [subs=+quotes]
 ----
 cumulus@sw1:mgmt:~$ *hostname sw1*
@@ -133,20 +123,77 @@ unreachable default metric 4278198272
 10.233.204.0/23 dev eth0 proto kernel scope link src 10.233.204.71
 127.0.0.0/8 dev mgmt proto kernel scope link src 127.0.0.1
 ----
-====
 
+. Set the date, time, time zone, and NTP server on the switch.
 
-. Configure the time zone using NTP interactive mode.
+.. Verify the current time zone:
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *cat /etc/timezone*
+----
 
-.. On a terminal, run the following command:
+.. Update to the new time zone:
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *sudo dpkg-reconfigure --frontend noninteractive tzdata*
+----
+
+.. Verify your current time zone: 
++
+[subs=+quotes]
+----
+cumulus@switch:~$ *date +%Z*
+----
+
+.. To set the time zone using the guided wizard, run the following command:
 +
 [subs=+quotes]
 ----
 cumulus@sw1:~$ *sudo dpkg-reconfigure tzdata*
 ----
-.. Follow the on-screen menu options to select the geographic area and region.
-.. To set the time zone for all services and daemons, reboot the switch.
-.. Verify that the date and time on the switch are correct and update if necessary.
+
+.. Set the software clock according to the configured time zone: 
++
+[subs=+quotes]
+----
+cumulus@switch:~$ *sudo date -s "Tue Oct 28 00:37:13 2023"*
+----
++
+.. Set the current value of the software clock to the hardware clock: 
++
+[subs=+quotes]
+----
+cumulus@switch:~$ *sudo hwclock -w*
+----
+
+.. Add an NTP server if required:
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *net add time ntp server _<cumulus.network.ntp.org>_ iburst*
+cumulus@sw1:~$ *net pending*
+cumulus@sw1:~$ *net commit*
+----
+
+.. Verify that `ntpd` is running on the system:
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *ps -ef | grep ntp*
+ntp       4074     1  0 Jun20 ?        00:00:33 /usr/sbin/ntpd -p /var/run/ntpd.pid -g -u 101:102
+----
+
+.. Specify the NTP source interface. By default, the source interface that NTP uses is `eth0`. You can configure a different NTP source interface as follows:
++
+
+[subs=+quotes]
+----
+cumulus@sw1:~$ *net add time ntp source _<src_int>_*
+cumulus@sw1:~$ *net pending*
+cumulus@sw1:~$ *net commit*
+----
 
 . Install Cumulus Linux 4.4.3:
 +
@@ -161,19 +208,14 @@ The installer starts the download.  Type *y* when prompted.
 ----
 cumulus@sw1:mgmt:~$ *sudo reboot*
 ----
-. The installation starts automatically, and the following GRUB screens appear.  Do *not* make any selections:
+. The installation starts automatically, and the following GRUB screen choices appear.  Do *not* make any selections.
 * Cumulus-Linux GNU/Linux
 * ONIE: Install OS
 * CUMULUS-INSTALL
 * Cumulus-Linux GNU/Linux
 . Repeat steps 1 to 4 to log in.
-. Verify that the Cumulus Linux version is 4.4.3:
+. Verify that the Cumulus Linux version is 4.4.3: `net show version`
 +
-`net show version`
-+
-.Show example
-[%collapsible]
-====
 [subs=+quotes]
 ----
 cumulus@sw1:mgmt:~$ *net show version*
@@ -182,24 +224,19 @@ DISTRIB_ID="Cumulus Linux"
 DISTRIB_RELEASE=*4.4.3*
 DISTRIB_DESCRIPTION=*"Cumulus Linux 4.4.3"*
 ----
-====
-+
 
-. Create a new user and add this user to the `sudo` group.  This user only becomes effective after the console/SSH session is restarted.
+. Create a new user and add this user to the `sudo` group. This user only becomes effective after the console/SSH session is restarted.
 +
 `sudo adduser --ingroup netedit admin`
 +
-.Show example
-[%collapsible]
-====
 [subs=+quotes]
 ----
 cumulus@sw1:mgmt:~$ *sudo adduser --ingroup netedit admin*
 [sudo] password for cumulus:
-Adding user `admin’ ...
-Adding new user `admin’ (1001) with group `netedit' ...
-Creating home directory `/home/admin’ ...
-Copying files from `/etc/skel' ...
+Adding user 'admin' ...
+Adding new user 'admin' (1001) with group `netedit' ...
+Creating home directory '/home/admin' ...
+Copying files from '/etc/skel' ...
 New password:
 Retype new password:
 passwd: password updated successfully
@@ -217,13 +254,13 @@ cumulus@sw1:mgmt:~$ *sudo adduser admin sudo*
 Adding user `admin' to group `sudo' ...
 Adding user admin to group sudo
 Done.
-cumulus@sw1:mgmt:~$ exit
+cumulus@sw1:mgmt:~$ *exit*
 logout
 Connection to 10.233.204.71 closed.
 
 [admin@cycrh6svl01 ~]$ ssh admin@10.233.204.71
 admin@10.233.204.71's password:
-Linux sw1 4.19.0-cl-1-amd64 #1 SMP Cumulus 4.19.206-1+cl4.4.3u1 (2021-09-09) x86_64
+Linux sw1 4.19.0-cl-1-amd64 #1 SMP Cumulus 4.19.206-1+cl4.4.1u1 (2021-09-09) x86_64
 Welcome to NVIDIA Cumulus (R) Linux (R)
 
 For support and online technical documentation, visit
@@ -232,10 +269,463 @@ http://www.cumulusnetworks.com/support
 The registered trademark Linux (R) is used pursuant to a sublicense from LMI, the exclusive licensee of Linus Torvalds, owner of the mark on a world-wide basis.
 admin@sw1:mgmt:~$
 ----
-====
+
+--
+.Cumulus Linux 5.4.0
+--
+. Log in to the switch. 
++
+First time log in to the switch requires username/password of *cumulus*/*cumulus* with `sudo` privileges.
++
+[subs=+quotes]
+----
+cumulus login: *cumulus*
+Password: *cumulus*
+You are required to change your password immediately (administrator enforced)
+Changing password for cumulus.
+Current password: *cumulus*
+New password: *<new_password>*
+Retype new password: *<new_password>*
+----
+
+. Check the Cumulus Linux version: `nv show system`
++
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ *nv show system*
+operational         applied              description
+------------------- -------------------- ---------------------
+hostname            cumulus              cumulus
+build               Cumulus Linux 5.3.0  system build version
+uptime              6 days, 8:37:36      system uptime
+timezone            Etc/UTC              system time zone
+----
+
+. Configure the hostname, IP address, subnet mask, and default gateway. The new hostname only becomes effective after restarting the console/SSH session.
++
+NOTE: A Cumulus Linux switch provides at least one dedicated Ethernet management port called `eth0`. This interface is specifically for out-of-band management use. By default, the management interface uses DHCPv4 for addressing.
++
+CAUTION: Do not use an underscore (_), apostrophe ('), or non-ASCII characters in the hostname.
++
+
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ *nv set system hostname sw1*
+cumulus@cumulus:mgmt:~$ *nv set interface eth0 ip address 10.233.204.71/24* 
+cumulus@cumulus:mgmt:~$ *nv set interface eth0 ip gateway 10.233.204.1* 
+cumulus@cumulus:mgmt:~$ *nv config apply*
+cumulus@cumulus:mgmt:~$ *nv config save*
+----
++
+This command modifies both the `/etc/hostname` and `/etc/hosts` files.
+
+. Confirm that the hostname, IP address, subnet mask, and default gateway have been updated.
++
+[subs=+quotes]
+----
+cumulus@sw1:mgmt:~$ *hostname sw1*
+cumulus@sw1:mgmt:~$ *ifconfig eth0*
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+inet 10.233.204.71  netmask 255.255.254.0  broadcast 10.233.205.255
+inet6 fe80::bace:f6ff:fe19:1df6  prefixlen 64  scopeid 0x20<link>
+ether b8:ce:f6:19:1d:f6  txqueuelen 1000  (Ethernet)
+RX packets 75364  bytes 23013528 (21.9 MiB)
+RX errors 0  dropped 7  overruns 0  frame 0
+TX packets 4053  bytes 827280 (807.8 KiB)
+TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0 device memory 0xdfc00000-dfc1ffff
+
+cumulus@sw1::mgmt:~$ *ip route show vrf mgmt*
+default via 10.233.204.1 dev eth0
+unreachable default metric 4278198272
+10.233.204.0/23 dev eth0 proto kernel scope link src 10.233.204.71
+127.0.0.0/8 dev mgmt proto kernel scope link src 127.0.0.1
+----
+
+. Set the time zone, date, time, and NTP server on the switch.
+
+.. Set the time zone:
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *nv set system timezone US/Eastern*
+cumulus@sw1:~$ *nv config apply*
+----
+
+.. Verify your current time zone: 
++
+[subs=+quotes]
+----
+cumulus@switch:~$ *date +%Z*
+----
+
+.. To set the time zone using the guided wizard, run the following command:
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *sudo dpkg-reconfigure tzdata*
+----
+
+.. Set the software clock according to the configured time zone: 
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *sudo date -s "Tue Oct 28 00:37:13 2023"*
+----
+
+.. Set the current value of the software clock to the hardware clock: 
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *sudo hwclock -w*
+----
+
+.. Add an NTP server if required:
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *nv set service ntp mgmt listen eth0*
+cumulus@sw1:~$ *nv set service ntp mgmt server <server> iburst on*
+cumulus@sw1:~$ *nv config apply*
+cumulus@sw1:~$ *nv config save*
+----
++
+See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Nvidia-KBs/NTP_Server_configuration_is_not_working_with_NVIDIA_SN2100_Switches[NTP server configuration is not working with NVIDIA SN2100 switches^] for further details.
+
+.. Verify that `ntpd` is running on the system:
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *ps -ef | grep ntp*
+ntp       4074     1  0 Jun20 ?        00:00:33 /usr/sbin/ntpd -p /var/run/ntpd.pid -g -u 101:102
+----
+
+.. Specify the NTP source interface. By default, the source interface that NTP uses is `eth0`. You can configure a different NTP source interface as follows:
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *nv set service ntp default listen _<src_int>_*
+cumulus@sw1:~$ *nv config apply*
+----
+
+. Install Cumulus Linux 5.4.0:
++
+[subs=+quotes]
+----
+cumulus@sw1:mgmt:~$ *sudo onie-install -a -i http://_<web-server>/<path>_/cumulus-linux-5.4-mlx-amd64.bin*
+----
+The installer starts the download. Type *y* when prompted.
+
+. Reboot the NVIDIA SN2100 switch:
++
+[subs=+quotes]
+----
+cumulus@sw1:mgmt:~$ *sudo reboot*
+----
+. The installation starts automatically, and the following GRUB screen choices appear. Do *not* make any selections.
+* Cumulus-Linux GNU/Linux
+* ONIE: Install OS
+* CUMULUS-INSTALL
+* Cumulus-Linux GNU/Linux
+. Repeat steps 1 to 4 to log in.
+. Verify that the Cumulus Linux version is 5.4.0: `nv show system`
++
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ *nv show system*
+operational         applied              description
+------------------- -------------------- ---------------------
+hostname            cumulus              cumulus
+build               Cumulus Linux 5.4.0  system build version
+uptime              6 days, 13:37:36     system uptime
+timezone            Etc/UTC              system time zone
+----
+
+. Verify that the nodes each have a connection to each switch:
++
+[subs=+quotes]
+----
+cumulus@sw1:mgmt:~$ *net show lldp*
+
+LocalPort  Speed  Mode        RemoteHost                          RemotePort
+---------  -----  ----------  ----------------------------------  -----------
+eth0       100M   Mgmt        mgmt-sw1                            Eth110/1/29
+swp2s1     25G    Trunk/L2    node1                               e0a
+swp15      100G   BondMember  sw2                                 swp15
+swp16      100G   BondMember  sw2                                 swp16
+----
+
+. Create a new user and add this user to the `sudo` group.  This user only becomes effective after the console/SSH session is restarted.
++
+`sudo adduser --ingroup netedit admin`
++
+[subs=+quotes]
+----
+cumulus@sw1:mgmt:~$ *sudo adduser --ingroup netedit admin*
+[sudo] password for cumulus:
+Adding user 'admin' ...
+Adding new user 'admin' (1001) with group `netedit' ...
+Creating home directory '/home/admin' ...
+Copying files from '/etc/skel' ...
+New password:
+Retype new password:
+passwd: password updated successfully
+Changing the user information for admin
+Enter the new value, or press ENTER for the default
+Full Name []:
+Room Number []:
+Work Phone []:
+Home Phone []:
+Other []:
+Is the information correct? [Y/n] *y*
+
+cumulus@sw1:mgmt:~$ *sudo adduser admin sudo*
+[sudo] password for cumulus:
+Adding user `admin' to group `sudo' ...
+Adding user admin to group sudo
+Done.
+cumulus@sw1:mgmt:~$ *exit*
+logout
+Connection to 10.233.204.71 closed.
+
+[admin@cycrh6svl01 ~]$ ssh admin@10.233.204.71
+admin@10.233.204.71's password:
+Linux sw1 4.19.0-cl-1-amd64 #1 SMP Cumulus 4.19.206-1+cl4.4.1u1 (2021-09-09) x86_64
+Welcome to NVIDIA Cumulus (R) Linux (R)
+
+For support and online technical documentation, visit
+http://www.cumulusnetworks.com/support
+
+The registered trademark Linux (R) is used pursuant to a sublicense from LMI, the exclusive licensee of Linus Torvalds, owner of the mark on a world-wide basis.
+admin@sw1:mgmt:~$
+----
+
+. Add additional user groups for the admin user to access `nv` commands:
++
+[subs=+quotes]
+----
+cumulus@sw1:mgmt:~$ *sudo adduser admin nvshow*
+     [sudo] password for cumulus:
+     Adding user 'admin' to group 'nvshow' ...
+     Adding user admin to group nvshow
+     Done.
+----
++
+See https://docs.nvidia.com/networking-ethernet-software/cumulus-linux-54/System-Configuration/Authentication-Authorization-and-Accounting/User-Accounts/[NVIDIA User Accounts^] for more information.
+
+--
+.Cumulus Linux 5.11.0
+--
+. Log in to the switch. 
++
+When you log in to the switch for the first time, it requires the username/password of *cumulus*/*cumulus* with `sudo` privileges.
++
+[subs=+quotes]
+----
+cumulus login: *cumulus*
+Password: *cumulus*
+You are required to change your password immediately (administrator enforced)
+Changing password for cumulus.
+Current password: *cumulus*
+New password: *<new_password>*
+Retype new password: *<new_password>*
+----
+
+. Check the Cumulus Linux version: `nv show system`
++
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ *nv show system*
+operational         applied              description
+------------------- -------------------- ---------------------
+hostname            cumulus              cumulus
+build               Cumulus Linux 5.4.0  system build version
+uptime              6 days, 8:37:36      system uptime
+timezone            Etc/UTC              system time zone
+----
+
+. Configure the hostname, IP address, subnet mask, and default gateway. The new hostname only becomes effective after restarting the console/SSH session.
++
+NOTE: A Cumulus Linux switch provides at least one dedicated Ethernet management port called `eth0`. This interface is specifically for out-of-band management use. By default, the management interface uses DHCPv4 for addressing.
++
+CAUTION: Do not use an underscore (_), apostrophe ('), or non-ASCII characters in the hostname.
++
+
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ *nv unset interface eth0 ip address dhcp*
+cumulus@cumulus:mgmt:~$ *nv set interface eth0 ip address 10.233.204.71/24* 
+cumulus@cumulus:mgmt:~$ *nv set interface eth0 ip gateway 10.233.204.1* 
+cumulus@cumulus:mgmt:~$ *nv config apply*
+cumulus@cumulus:mgmt:~$ *nv config save*
+----
++
+This command modifies both the `/etc/hostname` and `/etc/hosts` files.
+
+. Confirm that the hostname, IP address, subnet mask, and default gateway have been updated.
++
+[subs=+quotes]
+----
+cumulus@sw1:mgmt:~$ *hostname sw1*
+cumulus@sw1:mgmt:~$ *ifconfig eth0*
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+inet 10.233.204.71  netmask 255.255.254.0  broadcast 10.233.205.255
+inet6 fe80::bace:f6ff:fe19:1df6  prefixlen 64  scopeid 0x20<link>
+ether b8:ce:f6:19:1d:f6  txqueuelen 1000  (Ethernet)
+RX packets 75364  bytes 23013528 (21.9 MiB)
+RX errors 0  dropped 7  overruns 0  frame 0
+TX packets 4053  bytes 827280 (807.8 KiB)
+TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0 device memory 0xdfc00000-dfc1ffff
+
+cumulus@sw1::mgmt:~$ *ip route show vrf mgmt*
+default via 10.233.204.1 dev eth0
+unreachable default metric 4278198272
+10.233.204.0/23 dev eth0 proto kernel scope link src 10.233.204.71
+127.0.0.0/8 dev mgmt proto kernel scope link src 127.0.0.1
+----
+
+. Set the time zone, date, time, and NTP server on the switch.
+
+.. Set the time zone:
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *nv set system timezone US/Eastern*
+cumulus@sw1:~$ *nv config apply*
+----
+
+.. Verify your current time zone: 
++
+[subs=+quotes]
+----
+cumulus@switch:~$ *date +%Z*
+----
+
+.. To set the time zone using the guided wizard, run the following command:
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *sudo dpkg-reconfigure tzdata*
+----
+
+.. Set the software clock according to the configured time zone: 
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *sudo date -s "Tue Oct 28 00:37:13 2023"*
+----
+
+.. Set the current value of the software clock to the hardware clock: 
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *sudo hwclock -w*
+----
+
+.. Add an NTP server if required:
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *nv set service ntp mgmt listen eth0*
+cumulus@sw1:~$ *nv set service ntp mgmt server <server> iburst on*
+cumulus@sw1:~$ *nv config apply*
+cumulus@sw1:~$ *nv config save*
+----
++
+See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Nvidia-KBs/NTP_Server_configuration_is_not_working_with_NVIDIA_SN2100_Switches[NTP server configuration is not working with NVIDIA SN2100 switches^] for further details.
+
+.. Verify that `ntpd` is running on the system:
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *ps -ef | grep ntp*
+ntp       4074     1  0 Jun20 ?        00:00:33 /usr/sbin/ntpd -p /var/run/ntpd.pid -g -u 101:102
+----
+
+.. Specify the NTP source interface. By default, the source interface that NTP uses is `eth0`. You can configure a different NTP source interface as follows:
++
+[subs=+quotes]
+----
+cumulus@sw1:~$ *nv set service ntp default listen _<src_int>_*
+cumulus@sw1:~$ *nv config apply*
+----
+
+. Install Cumulus Linux 5.11.0:
++
+[subs=+quotes]
+----
+cumulus@sw1:mgmt:~$ *sudo onie-install -a -i http://_<web-server>/<path>_/cumulus-linux-5.11.0-mlx-amd64.bin*
+----
+The installer starts the download. Type *y* when prompted.
+
+. Reboot the NVIDIA SN2100 switch:
++
+[subs=+quotes]
+----
+cumulus@sw1:mgmt:~$ *sudo reboot*
+----
+. The installation starts automatically, and the following GRUB screen choices appear. Do *not* make any selections.
+* Cumulus-Linux GNU/Linux
+* ONIE: Install OS
+* CUMULUS-INSTALL
+* Cumulus-Linux GNU/Linux
+. Repeat steps 1 to 4 to log in.
+. Verify that the Cumulus Linux version is 5.11.0: 
++
+`nv show system`
++
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ *nv show system*
+operational         applied                description
+------------------- ---------------------- ---------------------
+build               Cumulus Linux 5.11.0
+uptime              153 days, 2:44:16
+hostname            cumulus                cumulus
+product-name        Cumulus Linux
+product-release     5.11.0
+platform            x86_64-mlnx_x86-r0
+system-memory       2.76 GB used / 2.28 GB free / 7.47 GB total
+swap-memory         0 Bytes used / 0 Bytes free / 0 Bytes total
+health-status       not OK
+date-time           2025-04-23 09:55:24
+status              N/A
+timezone            Etc/UTC
+maintenance
+  mode              disabled
+  ports             enabled
+version
+  kernel            6.1.0-cl-1-amd64
+  build-date        Thu Nov 14 13:06:38 UTC 2024
+  image             5.11.0
+  onie              2019.11-5.2.0020-115200
+----
+
+. Verify that each node has a connection to each switch:
++
+[subs=+quotes]
+----
+cumulus@sw1:mgmt:~$ *nv show interface lldp*
+
+LocalPort  Speed  Mode        RemoteHost                          RemotePort
+---------  -----  ----------  ----------------------------------  -----------
+eth0       100M   eth   mgmt-sw1                                  Eth110/1/14
+swp2s1     25G    Trunk/L2    node1                               e0a
+swp1s1     10G    swp   sw2                                       e0a
+swp9       100G   swp   sw3                                       e4a
+swp10      100G   swp   sw4                                       e4a
+swp15      100G   swp   sw5                                       swp15
+swp16      100G   swp   sw6                                       swp16
+----
+
+See https://docs.nvidia.com/networking-ethernet-software/cumulus-linux-511/System-Configuration/Authentication-Authorization-and-Accounting/User-Accounts/[NVIDIA User Accounts^] for more information.
+--
+==== 
+// end of tabbed content
 
 .What's next?
-link:install-rcf-sn2100-storage.html[Install RCF script].
+link:install-rcf-sn2100-storage.html[Install or upgrade the RCF script].
 
 // GH issue #77 replacing 4.4.2 with 4.4.3, 2023-FEB-22
 // Updated password examples, 2023-MAR-07
+// Updates for AFFFASDOC-370, 2025-JUL-29
+// Updates for AFFFASDOC-381, 2025-AUG-27

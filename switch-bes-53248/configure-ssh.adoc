@@ -40,7 +40,22 @@ SCP server Administrative Mode: ............... Disabled
 ----
 ====
 
-. Generate the SSH keys:
+
+** If SSH is not disabled, disable it as follows:
++
+`no ip ssh server enable`
++
+`no ip scp server enable`
++
+[NOTE]
+================
+* For EFOS 3.12 and later, console access is required as active SSH sessions are lost when SSH is disabled.
+* For EFOS 3.11 and earlier, current SSH sessions are kept open after disabling the SSH server.
+================
++
+WARNING: Make sure that you disable SSH before you modify the keys, otherwise, a warning is reported on the switch.
+
+. In config mode, generate the SSH keys:
 +
 `crypto key generate`
 +
@@ -64,13 +79,48 @@ Do you want to overwrite the existing DSA keys? (y/n): *y*
 (switch) (Config)# *crypto key generate ecdsa 521*
 
 Do you want to overwrite the existing ECDSA keys? (y/n): *y*
+----
+====
 
+. In config mode, set AAA authorization for ONTAP log collection:
++
+`aaa authorization commands "noCmdAuthList" none`
++
+.Show example
+[%collapsible]
+====
+[subs=+quotes]
+----
 (switch) (Config)# *aaa authorization commands "noCmdAuthList" none*
 (switch) (Config)# *exit*
+----
+====
+
+. Re-enable SSH/SCP.
++
+.Show example
+[%collapsible]
+====
+
+[subs=+quotes]
+----
 (switch)# *ip ssh server enable*
 (switch)# *ip scp server enable*
 (switch)# *ip ssh pubkey-auth*
-(switch)# *write mem*
+----
+====
+
+. Save these changes to the startup-config:
++
+`write memory`
++
+.Show example
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+(switch)# *write memory*
 
 This operation may take a few minutes.
 Management interfaces will not be available during this time.
@@ -81,9 +131,6 @@ Config file 'startup-config' created successfully.
 Configuration Saved!
 ----
 ====
-
-+
-WARNING: Make sure that SSH is disabled before modifying the keys otherwise a warning is reported on the switch.
 
 . Encrypt the SSH keys (for *FIPS-mode only*):
 
@@ -122,9 +169,9 @@ Do you want to continue? (y/n): *y*
  
 Config file 'startup-config' created successfully.
  
-(switch) (Config)# end
-(switch)# write memory 
- 
+(switch) (Config)# *end*
+(switch)# *write memory*
+
 This operation may take a few minutes.
 Management interfaces will not be available during this time.
 Are you sure you want to save? (y/n) *y*
@@ -143,10 +190,10 @@ Configuration Saved!
 +
 `show ip ssh`
 +
+
 .Show example
 [%collapsible]
 ====
-
 [subs=+quotes]
 ----
 (switch)# *show ip ssh*
@@ -175,3 +222,6 @@ link:../switch-cshm/config-overview.html[Configure switch health monitoring].
 // Update for GH issue #168, 2024-MAR-19
 // Update for AFFFASDOC-216/217, 2024-JUL-08
 // Update for AFFFASDOC-266, 2024-SEP-17
+// Updates for AFFFASDOC-319, 2025-JUN-25
+// Updates for AFFFASDOC-379, 2025-AUG-27
+// GH issue #290, 2025-SEPT-08

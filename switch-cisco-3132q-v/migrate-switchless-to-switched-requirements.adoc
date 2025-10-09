@@ -17,11 +17,11 @@ The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Serie
 
 For more information, see:
 
-* http://support.netapp.com/NOW/download/software/cm_switches_ntap/[NetApp CN1601 and CN1610 description page^]
+* link:https://mysupport.netapp.com/site/products/all/details/netapp-cluster-switches/docs-tab[NetApp CN1601 and CN1610^]
 
-* http://support.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switch description page^]
+* link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switch^]
 
-* http://hwu.netapp.com[Hardware Universe^]
+* link:http://hwu.netapp.com[Hardware Universe^]
 
 .Port and node connections
 Make sure you understand the port and node connections and cabling requirements when you migrate to a two-node switched cluster with Cisco Nexus 3132Q-V cluster switches.
@@ -46,7 +46,7 @@ You can make four SFP+ ports active instead of a QSFP port for Nexus 3132Q-V by 
 +
 You can break-out the first six ports into 4x10 GbE mode by using the `interface breakout module 1 port 1-6 map 10g-4x` command. Similarly, you can regroup the first six QSFP+ ports from breakout configuration by using the `no interface breakout module 1 port 1-6 map 10g-4x` command.
 
-* The number of 10 GbE and 40 GbE ports are defined in the reference configuration files (RCFs) available on the https://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco ® Cluster Network Switch Reference Configuration File Download^] page.
+* The number of 10 GbE and 40 GbE ports are defined in the reference configuration files (RCFs) available at link:https://mysupport.netapp.com/site/products/all/details/cisco-cluster-storage-switch/downloads-tab[Cisco ® Cluster Network Switch Reference Configuration File Download^].
 
 .Before you begin
 
@@ -59,7 +59,7 @@ You can break-out the first six ports into 4x10 GbE mode by using the `interface
  ** The Nexus 3132 cluster infrastructure that is redundant and fully functional on both switches.
  ** The latest RCF and NX-OS versions on your switches.
 +
-The link:http://mysupport.netapp.com/NOW/download/software/cm_switches/[Cisco Ethernet Switches^] page has information about the ONTAP and NX-OS versions supported in this procedure.
+link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches^] has information about the ONTAP and NX-OS versions supported in this procedure.
 
  ** Management connectivity on both switches.
  ** Console access to both switches.
@@ -87,7 +87,7 @@ This procedure covers the following scenarios:
 * *n1_clus2* is the first cluster LIF to be connected to cluster switch C2 for node *n1*.
 * *n2_clus1* is the first cluster LIF to be connected to cluster switch C1 for node *n2*.
 * *n2_clus2* is the second cluster LIF to be connected to cluster switch C2 for node *n2*.
-* The number of 10 GbE and 40 GbE ports are defined in the reference configuration files (RCFs) available on the https://mysupport.netapp.com/NOW/download/software/sanswitch/fcp/Cisco/netapp_cnmn/download.shtml[Cisco ® Cluster Network Switch Reference Configuration File Download^] page.
+* The number of 10 GbE and 40 GbE ports are defined in the reference configuration files (RCFs) available at link:https://mysupport.netapp.com/site/products/all/details/cisco-cluster-storage-switch/downloads-tab[Cisco ® Cluster Network Switch Reference Configuration File Download^].
 
 [NOTE]
 ====

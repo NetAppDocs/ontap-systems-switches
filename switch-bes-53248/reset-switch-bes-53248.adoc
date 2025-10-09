@@ -1,0 +1,60 @@
+---
+permalink: switch-bes-53248/reset-switch-bes-53248.html
+sidebar: sidebar
+keywords: BES-53248 reset switch to factory defaults, BES-53248 switches configuration, efos
+summary: 'Before configuring your Broadcom BES-53248 switch, review the following information.'
+---
+= Reset the BES-53248 cluster switch to factory defaults
+
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+To reset the BES-53248 cluster switch to factory defaults, you must erase the BES-53248 switch settings.
+
+.About this task
+* You must be connected to the switch using the serial console.
+* This task resets the configuration of the management network.
+
+.Steps
+
+. Change to the elevated command prompt.
++
+[subs=+quotes]
+----
+(cs2)> *enable*
+(cs2)# 
+----
+
+. Erase the startup configuration.
++
+`erase startup-config`
+
++
+[subs=+quotes]
+----
+(cs2)# *erase startup-config*
+
+Are you sure you want to clear the configuration? (y/n) *y*
+----
+
+. Reboot the switch.
++
+[subs=+quotes]
+----
+(cs2)# *reload*
+Are you sure you would like to reset the system? (y/n) *y*
+----
+
+NOTE: If the system asks whether to save the unsaved or changed configuration before reloading the switch, select *No*.
+
+[start=4]
+. [[step4]] Wait for the switch to reload, and then log in to the switch.
++
+The default user is “admin”, and no password is set. A prompt similar to the following is displayed: 
++
+----
+(Routing)>
+----
+
+// New content for AFFFASDOC-323, 2025-JUL-09

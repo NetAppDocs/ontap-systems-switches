@@ -4,16 +4,16 @@ sidebar: sidebar
 keywords: migrate cluster Cisco Nexus 9336C-FX2 cluster switches cn1610
 summary: 'You can migrate nondisruptively NetApp CN1610 cluster switches for an ONTAP cluster to Cisco Nexus 9336C-FX2 cluster network switches.'
 ---
-= Migrate from a NetApp CN1610 cluster switch to a Cisco 9336C-FX2 cluster switch
+= Migrate from NetApp CN1610 cluster switches to Cisco 9336C-FX2 and 9336C-FX2-T cluster switches
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-You can migrate NetApp CN1610 cluster switches for an ONTAP cluster to Cisco 9336C-FX2 cluster switches. This is a nondisruptive procedure.
+You can migrate NetApp CN1610 cluster switches for an ONTAP cluster to Cisco 9336C-FX2 and 9336C-FX2-T cluster switches. This is a nondisruptive procedure.
 
 == Review requirements
 
-You must be aware of certain configuration information, port connections and cabling requirements when you are replacing NetApp CN1610 cluster switches with Cisco 9336C-FX2 cluster switches. Also, verify the switch serial number to ensure that the correct switch is migrated.
+You must be aware of certain configuration information, port connections and cabling requirements when you are replacing NetApp CN1610 cluster switches with Cisco 9336C-FX2 and 9336C-FX2-T cluster switches. You must also verify the switch serial number to ensure that the correct switch is migrated.
 
 .Supported switches
 
@@ -21,6 +21,7 @@ The following cluster switches are supported:
 
 * NetApp CN1610
 * Cisco 9336C-FX2
+* Cisco 9336C-FX2-T
 
 For details of supported ports and their configurations, see the https://hwu.netapp.com/[Hardware Universe^].
 
@@ -29,14 +30,14 @@ Verify that your configuration meets the following requirements:
 
 * The existing cluster is correctly set up and functioning.
 * All cluster ports are in the *up* state to ensure nondisruptive operations.
-* The Cisco 9336C-FX2 cluster switches are configured and operating under the correct version of NX-OS installed with the reference configuration file (RCF) applied.
+* The Cisco 9336C-FX2 and 9336C-FX2-T cluster switches are configured and operating under the correct version of NX-OS installed with the reference configuration file (RCF) applied.
 * The existing cluster network configuration has the following:
 ** A redundant and fully functional NetApp cluster using NetApp CN1610 switches.
 ** Management connectivity and console access to both the NetApp CN1610 switches and the new switches.
 ** All cluster LIFs in the up state with the cluster LIFs are on their home ports.
 //** ISL ports enabled and cabled between the NetApp CN1610 switches and between the new switches.
-* Some of the ports are configured on Cisco 9336C-FX2 switches to run at 40GbE or 100GbE.
-* You have planned, migrated, and documented 40GbE and 100GbE connectivity from nodes to Cisco 9336C-FX2 cluster switches.
+* Some of the ports are configured on Cisco 9336C-FX2 and 9336C-FX2-T switches to run at 40GbE or 100GbE.
+* You have planned, migrated, and documented 40GbE and 100GbE connectivity from nodes to Cisco 9336C-FX2 and 9336C-FX2-T cluster switches.
 
 == Migrate the switches
 
@@ -268,8 +269,7 @@ Cluster node2_clus2 169.254.19.183 node2     e3b
 Local = 169.254.47.194 169.254.19.183
 Remote = 169.254.209.69 169.254.49.125
 Cluster Vserver Id = 4294967293
-Ping status:
-....
+Ping status:....
 Basic connectivity succeeds on 4 path(s)
 Basic connectivity fails on 0 path(s)
 ................
@@ -302,7 +302,7 @@ CAUTION: Do not attempt to manually migrate the cluster LIFs.
 (C2)(Config)# *exit*
 ----
 
-. Move the node cluster ports from the old switch C2 to the new switch cs2, using appropriate cabling supported by Cisco 9336C-FX2.
+. Move the node cluster ports from the old switch C2 to the new switch cs2, using appropriate cabling supported by Cisco 9336C-FX2 and 9336C-FX2-T.
 
 . Display the network port attributes: 
 +
@@ -388,7 +388,7 @@ Cluster
 (C1)(Config)# *exit*
 ----
 
-. Move the node cluster ports from the old switch C1 to the new switch cs1, using appropriate cabling supported by Cisco 9336C-FX2.
+. Move the node cluster ports from the old switch C1 to the new switch cs1, using appropriate cabling supported by Cisco 9336C-FX2 and 9336C-FX2-T.
 
 . Verify the final configuration of the cluster: 
 +
@@ -536,7 +536,7 @@ Cluster
 
 .What's next?
 
-link:../switch-cshm/config-overview.html[Configure switch health monitoring].
+After you've migrated your switches, you link:../switch-cshm/config-overview.html[configure switch health monitoring].
 
 // New procedure for migrating from CN1610 to 93362-FX2 - GH issue #107, 2023-JUN-20
 // Updates for AFFFASDOC-189, 2024-Jan-17
@@ -546,3 +546,5 @@ link:../switch-cshm/config-overview.html[Configure switch health monitoring].
 // Updates for GH issue #210, 2024-OCT-08
 // Updates for GH issue #212, 2024-OCT-17
 // Updates for GH issue #255, 2025-APR-14
+// AFFFASDOC-380, 2025-AUG-28
+// GH issue #340 internal repo, 2025-SEPT-18

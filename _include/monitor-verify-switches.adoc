@@ -11,7 +11,7 @@ The `IS Monitored` field is set to *false* for the reason specified in the `Reas
 
 [NOTE]
 ====
-If a switch is not listed in the command output, ONTAP likely has not discovered it. Confirm that the switch is cabled correctly. If necessary, you can add the switch manually. See link:manage-monitor.html[Manage the monitoring of Ethernet Switches] for further details. 
+If a switch is not listed in the command output, ONTAP likely has not discovered it. Confirm that the switch is cabled correctly. If necessary, you can add the switch manually. See link:monitor-manage.html[Manage the monitoring of Ethernet Switches] for further details.
 ====
 
 == Confirm firmware and RCF versions are up to date
@@ -32,3 +32,5 @@ NOTE: See link:config-snmpv3.html[Optional: Configure SNMPv3] for details on con
 Verify that the switch's management port is connected to the management network.
 
 A correct management port connection is required for ONTAP to perform SNMP queries and log collection.
+
+// This include is used in ontap-metrocluster. See ONTAPDOC-2755.

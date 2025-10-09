@@ -13,7 +13,9 @@ Follow this procedure to install Cumulus Linux (CL) OS when the switch is runnin
 
 NOTE: Cumulus Linux (CL) OS can be installed either when the switch is running Cumulus Linux or ONIE (see link:install-onie-mode-sn2100-cluster.html[Install in ONIE mode]).
 
-.What you'll need
+.Before you begin
+
+Make sure you have the following:
 
 * Intermediate-level Linux knowledge.
 * Familiarity with basic text editing, UNIX file permissions, and process monitoring. A variety of text editors are pre-installed, including `vi` and `nano`.
@@ -94,7 +96,7 @@ CAUTION: Do not use an underscore (_), apostrophe ('), or non-ASCII characters i
 [subs=+quotes]
 ----
 cumulus@cumulus:mgmt:~$ *net add hostname sw1*
-cumulus@cumulus:mgmt:~$ *net add interface eth0 ip address 10.233.204.71*
+cumulus@cumulus:mgmt:~$ *net add interface eth0 ip address 10.233.204.71/24*
 cumulus@cumulus:mgmt:~$ *net add interface eth0 ip gateway 10.233.204.1*
 cumulus@cumulus:mgmt:~$ *net pending*
 cumulus@cumulus:mgmt:~$ *net commit*
@@ -383,10 +385,13 @@ cumulus@sw1:~$ *sudo hwclock -w*
 +
 [subs=+quotes]
 ----
-cumulus@sw1:~$ *nv set service ntp default server _<cumulus.network.ntp.org>_ iburst on*
+cumulus@sw1:~$ *nv set service ntp mgmt listen eth0*
+cumulus@sw1:~$ *nv set service ntp mgmt server <server> iburst on*
 cumulus@sw1:~$ *nv config apply*
 cumulus@sw1:~$ *nv config save*
 ----
++
+See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Nvidia-KBs/NTP_Server_configuration_is_not_working_with_NVIDIA_SN2100_Switches[NTP server configuration is not working with NVIDIA SN2100 switches^] for further details.
 
 .. Verify that `ntpd` is running on the system:
 +
@@ -622,10 +627,13 @@ cumulus@sw1:~$ *sudo hwclock -w*
 +
 [subs=+quotes]
 ----
-cumulus@sw1:~$ *nv set service ntp default server _<cumulus.network.ntp.org>_ iburst on*
+cumulus@sw1:~$ *nv set service ntp mgmt listen eth0*
+cumulus@sw1:~$ *nv set service ntp mgmt server <server> iburst on*
 cumulus@sw1:~$ *nv config apply*
 cumulus@sw1:~$ *nv config save*
 ----
++
+See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Nvidia-KBs/NTP_Server_configuration_is_not_working_with_NVIDIA_SN2100_Switches[NTP server configuration is not working with NVIDIA SN2100 switches^] for further details.
 
 .. Verify that `ntpd` is running on the system:
 +
@@ -783,3 +791,6 @@ link:install-rcf-sn2100-cluster.html[Install the Reference Configuration File (R
 // Updated as per AFFFASDOC-135, 2023-OCT-04
 // Updates for AFFFASDOC-278, 2024-NOV-07
 // Updates for AFFFASDOC-328, 2025-APR-23
+// Updates for AFFFASDOC-250, 2025-JUN-25
+// Updates for AFFFASDOC-306, 2025-JUL-02
+

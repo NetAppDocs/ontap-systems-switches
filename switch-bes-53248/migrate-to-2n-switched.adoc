@@ -75,7 +75,7 @@ NOTE: The AutoSupport message notifies technical support of this maintenance tas
 The following command suppresses automatic case creation for two hours:
 +
 ----
-cluster1::*> system node autosupport invoke -node \* -type all -message MAINT=2h
+cluster1::*> system node autosupport invoke -node * -type all -message MAINT=2h
 ----
 
 . Change the privilege level to advanced, entering *y* when prompted to continue:
@@ -586,8 +586,7 @@ Cluster node2_clus2 169.254.19.183 node2     e0b
 Local = 169.254.47.194 169.254.19.183
 Remote = 169.254.209.69 169.254.49.125
 Cluster Vserver Id = 4294967293
-Ping status:
-....
+Ping status:....
 Basic connectivity succeeds on 4 path(s)
 Basic connectivity fails on 0 path(s)
 ................
@@ -621,7 +620,7 @@ RPC status:
 [%collapsible]
 ====
 ----
-cluster1::*> system node autosupport invoke -node \* -type all -message MAINT=END
+cluster1::*> system node autosupport invoke -node * -type all -message MAINT=END
 ----
 ====
 +
@@ -638,3 +637,5 @@ link:../switch-cshm/config-overview.html[Configure switch health monitoring].
 // Updates for GH issues #161, #163, 2024-MAR-14
 // Updated as part of AFFFASDOC-216/217, 2024-JUL-29
 // Updates for GH issue #212, 2024-OCT-14
+// Updates for GH issue #267, 2025-MAY-27
+// GH issue #340 internal repo, 2025-SEPT-18

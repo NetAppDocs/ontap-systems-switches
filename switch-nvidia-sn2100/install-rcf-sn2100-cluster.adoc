@@ -11,7 +11,7 @@ summary: 'Make sure that the following are available on the switch before instal
 [.lead]
 Follow this procedure to install or upgrade the RCF script.
 
-.What you'll need
+.Before you begin
 Before installing or upgrading the RCF script, make sure that the following are available on the switch:
 
 * Cumulus Linux is installed. See the https://hwu.netapp.com/Switch/Index[Hardware Universe^] for supported versions.
@@ -19,6 +19,19 @@ Before installing or upgrading the RCF script, make sure that the following are 
 * IP address, subnet mask, and default gateway defined via DHCP or manually configured.
 
 NOTE: You must specify a user in the RCF (in addition to the admin user) to be used specifically for log collection. 
+
+.Customer configurations
+The following reference configuration categories are available:
+
+[cols="1,2"]
+|===
+| Cluster | On ports configured for 4x10GbE breakout, one port is configured for 4x25GbE breakout and the other ports are configured for 40/100GbE. Supports shared cluster/HA traffic on ports for nodes that use shared cluster/HA ports. See the platform table in the Knowledge Base article https://kb.netapp.com/on-prem/ontap/OHW/OHW-KBs/What_AFF_ASA_and_FAS_platforms_use_shared_Cluster_and_HA_Ethernet_ports[What AFF, ASA, and FAS platforms use shared Cluster and HA Ethernet ports?^]. All ports can be used as dedicated cluster ports too.
+a|
+Storage
+a|
+All ports configured for 100GbE NVMe storage connections. 
+a|
+|===
 
 .Current RCF script versions
 There are two RCF scripts available for Cluster and Storage applications. Download RCFs from https://mysupport.netapp.com/site/info/nvidia-cluster-switch[NVIDIA SN2100 software download^] page. The procedure for each is the same.
@@ -42,6 +55,32 @@ Example command output uses switch management IP address 10.233.204.71, netmask 
 
 .Cumulus Linux 4.4.3
 --
+
+. Connect the cluster switch to the management network.
+. Use the `ping` command to verify connectivity to the server hosting the Cumulus Linux and the RCF.
+. Display the cluster ports on each node that are connected to the cluster switches:
++
+`network device-discovery show`
+. Check the administrative and operational status of each cluster port.
+.. Verify that all the cluster ports are up with a healthy status:
++
+`network port show -role cluster`
+.. Verify that all the cluster interfaces (LIFs) are on the home port:
++
+`network interface show -role cluster`
+.. Verify that the cluster displays information for both cluster switches:
++
+`system cluster-switch show -is-monitoring-enabled-operational true`
+. Disable auto-revert on the cluster LIFs. The cluster LIFs fail over to the partner cluster switch and remain there as you perform the upgrade procedure on the targeted switch:
++
+`network interface modify -vserver Cluster -lif * -auto-revert false`
++
+[NOTE]
+.Note the following:
+=========================================
+* If you are upgrading your RCF, you must disable auto-revert for this step.
+* If you have just upgraded your Cumulus Linux version, you don't need to disable auto-revert for this step because it's already disabled.
+=========================================
 
 . Display the available interfaces on the SN2100 switch:
 +
@@ -81,7 +120,7 @@ ssologin@10.233.204.71's password:
 MSN2100-RCF-v1._x_-Cluster-HA-Breakout-LLDP         100% 8607   111.2KB/s         00:00
 ----
 +
-NOTE: While `scp` is used in the example, you can use your preferred method of file transfer.
+NOTE: While `scp` is used in the example, you can use your preferred method of file transfer, for example SFTP, HTTPS, or FTP.
 
 . Apply the RCF python script *MSN2100-RCF-v1._x_-Cluster-HA-Breakout-LLDP*.
 +
@@ -267,11 +306,45 @@ sw2                         cluster-network    10.233.205.91    MSN2100-CB2RC
                     Technologies Ltd. MSN2100
     Version Source: LLDP
 ----
+
+. Verify that the cluster is healthy:
++
+`cluster show`
+. Repeat steps 1 to 14 on the second switch.
+. Enable auto-revert on the cluster LIFs.
++
+`network interface modify -vserver Cluster -lif * -auto-revert true`
 --
 
 .Cumulus Linux 5.4.0
 
 --
+. Connect the cluster switch to the management network.
+. Use the `ping` command to verify connectivity to the server hosting the Cumulus Linux and the RCF.
+. Display the cluster ports on each node that are connected to the cluster switches:
++
+`network device-discovery show`
+. Check the administrative and operational status of each cluster port.
+.. Verify that all the cluster ports are up with a healthy status:
++
+`network port show -role cluster`
+.. Verify that all the cluster interfaces (LIFs) are on the home port:
++
+`network interface show -role cluster`
+.. Verify that the cluster displays information for both cluster switches:
++
+`system cluster-switch show -is-monitoring-enabled-operational true`
+. Disable auto-revert on the cluster LIFs. The cluster LIFs fail over to the partner cluster switch and remain there as you perform the upgrade procedure on the targeted switch:
++
+`network interface modify -vserver Cluster -lif * -auto-revert false`
++
+[NOTE]
+.Note the following:
+=========================================
+* If you are upgrading your RCF, you must disable auto-revert for this step.
+* If you have just upgraded your Cumulus Linux version, you don't need to disable auto-revert for this step because it's already disabled.
+=========================================
+
 . Display the available interfaces on the SN2100 switch:
 +
 [subs=+quotes]
@@ -302,7 +375,7 @@ ssologin@10.233.204.71's password:
 MSN2100-RCF-v1.x-Cluster-HA-Breakout-LLDP          100% 8607   111.2KB/s         00:00
 ----
 +
-NOTE: While `scp` is used in the example, you can use your preferred method of file transfer.
+NOTE: While `scp` is used in the example, you can use your preferred method of file transfer, for example SFTP, HTTPS, or FTP.
 
 . Apply the RCF python script *MSN2100-RCF-v1._x_-Cluster-HA-Breakout-LLDP*.
 +
@@ -329,13 +402,13 @@ Step 13: Reboot the switch
 +
 The RCF script completes the steps listed in the example above.
 +
-NOTE: In step 3 *Updating the MOTD file* above, the command `cat /etc/issue` is run. This allows you to verify the RCF filename, RCF version, ports to use, and other important information in the RCF banner. 
+NOTE: In step 3 *Updating the MOTD file* above, the command `cat /etc/issue.net` is run. This allows you to verify the RCF filename, RCF version, ports to use, and other important information in the RCF banner. 
 +
 For example:
 +
 
 ----
-admin@sw1:mgmt:~$ cat /etc/issue
+admin@sw1:mgmt:~$ cat /etc/issue.net
 ******************************************************************************
 *
 * NetApp Reference Configuration File (RCF)
@@ -585,11 +658,45 @@ sw2                         cluster-network    10.233.205.91    MSN2100-CB2RC
                     Technologies Ltd. MSN2100
     Version Source: LLDP
 ----
+
+. Verify that the cluster is healthy:
++
+`cluster show`
+. Repeat steps 1 to 14 on the second switch.
+. Enable auto-revert on the cluster LIFs.
++
+`network interface modify -vserver Cluster -lif * -auto-revert true`
 --
 
 .Cumulus Linux 5.11.0
 
 --
+. Connect the cluster switch to the management network.
+. Use the `ping` command to verify connectivity to the server hosting the Cumulus Linux and the RCF.
+. Display the cluster ports on each node that are connected to the cluster switches:
++
+`network device-discovery show`
+. Check the administrative and operational status of each cluster port.
+.. Verify that all the cluster ports are up with a healthy status:
++
+`network port show -role cluster`
+.. Verify that all the cluster interfaces (LIFs) are on the home port:
++
+`network interface show -role cluster`
+.. Verify that the cluster displays information for both cluster switches:
++
+`system cluster-switch show -is-monitoring-enabled-operational true`
+. Disable auto-revert on the cluster LIFs. The cluster LIFs fail over to the partner cluster switch and remain there as you perform the upgrade procedure on the targeted switch:
++
+`network interface modify -vserver Cluster -lif * -auto-revert false`
++
+[NOTE]
+.Note the following:
+=========================================
+* If you are upgrading your RCF, you must disable auto-revert for this step.
+* If you have just upgraded your Cumulus Linux version, you don't need to disable auto-revert for this step because it's already disabled.
+=========================================
+
 . Display the available interfaces on the SN2100 switch:
 +
 [subs=+quotes]
@@ -620,7 +727,7 @@ ssologin@10.233.204.71's password:
 MSN2100-RCF-v1.x-Cluster-HA-Breakout-LLDP          100% 8607   111.2KB/s         00:00
 ----
 +
-NOTE: Although `scp` is used in the example, you can use your preferred method of file transfer.
+NOTE: Although `scp` is used in the example, you can use your preferred method of file transfer, for example SFTP, HTTPS, or FTP.
 
 . Apply the RCF python script *MSN2100-RCF-v1._x_-Cluster-HA-Breakout-LLDP*.
 +
@@ -647,13 +754,13 @@ Step 13: Reboot the switch
 +
 The RCF script completes the steps listed in the example above.
 +
-NOTE: In step 3 *Updating the MOTD file* above, the command `cat /etc/issue` is run. This allows you to verify the RCF filename, RCF version, ports to use, and other important information in the RCF banner. 
+NOTE: In step 3 *Updating the MOTD file* above, the command `cat /etc/issue.net is run. This allows you to verify the RCF filename, RCF version, ports to use, and other important information in the RCF banner. 
 +
 For example:
 +
 
 ----
-admin@sw1:mgmt:~$ cat /etc/issue
+admin@sw1:mgmt:~$ cat /etc/issue.net
 ******************************************************************************
 *
 * NetApp Reference Configuration File (RCF)
@@ -903,6 +1010,13 @@ sw2                         cluster-network    10.233.205.91    MSN2100-CB2RC
                     Technologies Ltd. MSN2100
     Version Source: LLDP
 ----
+. Verify that the cluster is healthy:
++
+`cluster show`
+. Repeat steps 1 to 14 on the second switch.
+. Enable auto-revert on the cluster LIFs.
++
+`network interface modify -vserver Cluster -lif * -auto-revert true`
 --
 ==== 
 
@@ -910,9 +1024,6 @@ sw2                         cluster-network    10.233.205.91    MSN2100-CB2RC
 
 .What's next?
 link:setup-install-cshm-file.html[Install the CSHM file].
-
-//.What's next?
-//link:../switch-cshm/config-overview.html[Configure switch health monitoring].
 
 // GH issue #77 replacing 4.4.2 with 4.4.3, 2023-FEB-22
 // Updates for the LH 5.4 integrity release, 2023-APR-18
@@ -928,3 +1039,8 @@ link:setup-install-cshm-file.html[Install the CSHM file].
 // Updates for AFFFASDOC-278, 2024-NOV-11
 // Updates for AFFFASDOC-281, 2025-FEB-13
 // Updates for AFFFASDOC-202, 2025-MAR-13
+// Updates for GH issue #260, 2025-MAY-13
+// Updates for AFFFASDOC-250, 2025-AUG-25
+// Updates for AFFFASDOC-307, 2025-JUN-25
+// Updates for AFFFASDOC-275, 2025-AUG-05
+

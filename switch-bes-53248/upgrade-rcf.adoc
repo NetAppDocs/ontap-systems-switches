@@ -11,11 +11,10 @@ summary: 'You can upgrade the Reference Configuration File (RCF) after configuri
 [.lead]
 You can upgrade the Reference Configuration File (RCF) after upgrading the BES-53248 cluster switch EFOS and after applying any new licenses.
 
-//If you are upgrading an RCF from an older version, you must reset the Broadcom switch settings and perform basic configuration to re-apply the RCF. You must perform this operation every time you want to upgrade or downgrade an RCF. See the Knowledge Base article https://kb.netapp.com/onprem/Switches/Broadcom/How_to_clear_configuration_on_a_Broadcom_interconnect_switch_while_retaining_remote_connectivity[How to clear a configuration on a Broadcom interconnect switch while retaining remote connectivity^] for details.
 
-//== Review requirements
+.Before you begin
+Make sure you have the following:
 
-.What you'll need
 * A current backup of the switch configuration.
 * A fully functioning cluster (no errors in the logs or similar issues).
 * The current RCF file, available from the https://mysupport.netapp.com/site/products/all/details/broadcom-cluster-switches/downloads-tab[Broadcom Cluster Switches^] page.
@@ -411,7 +410,7 @@ vlan database
 no vlan 17
 no vlan 18
 exit
-show-running-config
+show running-config
 ----
 
 .. Save the running configuration to the startup configuration:
@@ -466,7 +465,7 @@ This example shows SFTP being used to copy an RCF to the bootflash on switch cs2
 
 [subs=+quotes]
 ----
-(cs2)# *copy sftp://172.19.2.1/BES-53248-RCF-v1.9-Cluster-HA.txt nvram:reference-config.scr*
+(cs2)# *copy sftp://172.19.2.1/BES-53248-RCF-v1.9-Cluster-HA.txt nvram:reference-config*
 Remote Password:**
 Mode........................................... TFTP
 Set Server IP.................................. 172.19.2.1
@@ -675,7 +674,7 @@ Intf      Type   Mode      Mode         Status     Status Trap    Mode   Timeout
 +
 [source,cli]
 ----
-show running config
+show running-config
 ----
 
 . Save the running configuration so that it becomes the startup configuration when you reboot the switch:
@@ -1187,4 +1186,5 @@ system node autosupport invoke -node * -type all -message MAINT=END
 // Updates for GH issue #243, 2025-MAR-05
 // Updates for GH issue #246, 2025-MAR-14
 // Updates for GH issue #249, 2025-MAR-18
-
+// Removed .scr for reference-config, 2025-MAY-14
+// Updates for AFFFASDOC-319, 2025-JUN-25 

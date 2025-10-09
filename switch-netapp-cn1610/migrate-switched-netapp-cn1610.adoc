@@ -13,7 +13,8 @@ If you have an existing two-node switchless cluster environment, you can migrate
 
 == Review requirements
 
-.What you'll need
+.Before you begin
+Make sure you have the following:
 
 For a two-node switchless configuration, ensure that:
 
@@ -29,7 +30,7 @@ For the CN1610 cluster switch configuration:
 * There is console access to the cluster switches.
 * CN1610 node-to-node switch and switch-to-switch connections use twinax or fiber cables.
 +
-The https://hwu.netapp.com/[Hardware Universe^] contains more information about cabling.
+The link:https://hwu.netapp.com/[Hardware Universe^] contains more information about cabling.
 
 * Inter-Switch Link (ISL) cables are connected to ports 13 through 16 on both CN1610 switches.
 * Initial customization of both the CN1610 switches are completed.
@@ -38,10 +39,10 @@ Any previous site customization, such as SMTP, SNMP, and SSH should be copied to
 
 .Related information
 
-* http://hwu.netapp.com[Hardware Universe^]
-* http://support.netapp.com/NOW/download/software/cm_switches_ntap/[NetApp CN1601 and CN1610 description page^]
-* https://library.netapp.com/ecm/ecm_download_file/ECMP1118645[CN1601 and CN1610 Switch Setup and Configuration Guide^]
-* https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Software/ONTAP_OS/How_to_suppress_automatic_case_creation_during_scheduled_maintenance_windows[NetApp KB Article 1010449: How to suppress automatic case creation during scheduled maintenance windows^]
+* link:http://hwu.netapp.com[Hardware Universe^]
+* link:https://mysupport.netapp.com/site/products/all/details/netapp-cluster-switches/docs-tab[NetApp CN1601 and CN1610]
+* link:https://library.netapp.com/ecm/ecm_download_file/ECMP1118645[CN1601 and CN1610 Switch Setup and Configuration^]
+* link:https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Software/ONTAP_OS/How_to_suppress_automatic_case_creation_during_scheduled_maintenance_windows[NetApp KB Article 1010449: How to suppress automatic case creation during scheduled maintenance windows^]
 
 == Migrate the switches
 
@@ -55,7 +56,7 @@ The examples in this procedure use the following cluster switch and node nomencl
 * The `cluster::*>` prompt indicates the name of the cluster.
 * The cluster ports used in this procedure are e1a and e2a.
 +
-The https://hwu.netapp.com/[Hardware Universe^] contains the latest information about the actual cluster ports for your platforms.
+The link:https://hwu.netapp.com/[Hardware Universe^] contains the latest information about the actual cluster ports for your platforms.
 
 === Step 1: Prepare for migration
 
