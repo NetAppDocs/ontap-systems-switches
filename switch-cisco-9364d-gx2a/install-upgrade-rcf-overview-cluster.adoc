@@ -1,0 +1,50 @@
+---
+permalink: switch-cisco-9364d-gx2a/install-upgrade-rcf-overview-cluster.html
+sidebar: sidebar
+keywords: install, upgarde, cluster, switch, cisco 9364d-gx2a
+summary: You can install the RCF after setting up the Nexus 9364d-gx2a switch for the first time. You can also use this procedure to upgrade your RCF.
+---
+= Install or upgrade the Reference Configuration File (RCF) overview
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+You install the Reference Configuration File (RCF) after setting up the Nexus 9364D-GX2A switch for the first time. You upgrade your RCF version when you have an existing version of the RCF file installed on your switch. 
+
+See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further information when installing or upgrading your RCF.
+
+.Available RCF configuration
+
+* *Cluster-HA-Storage* - Supports shared cluster/HA/storage traffic on ports (NX9364D-GX2A-RCF-v10.0-Shared.txt). 
+
+For specific port and VLAN usage details, refer to the banner and important notes section in your RCF.
+
+.Suggested documentation
+* link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches (NSS)^]
++
+Consult the switch compatibility table for the supported ONTAP and RCF versions on the NetApp Support Site. Note that there can be command dependencies between the command syntax in the RCF and the syntax found in specific versions of NX-OS.
+
+* link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/products-installation-guides-list.html[Cisco Nexus 3=9000 Series Switches^]
++
+Refer to the appropriate software and upgrade guides available on the Cisco website for complete documentation on the Cisco switch upgrade and downgrade procedures.
+
+.About the examples
+The examples in this procedure use the following switch and node nomenclature:
+
+* The names of the two Cisco switches are cs1 and cs2.
+* The node names are node1-01, node1-02, node1-03, and node1-04.
+* The cluster LIF names are node1-01_clus1, node1-01_clus2, node1-02_clus1, node1-02_clus2, node1-03_clus1, node1-03_clus2, node1-04_clus1, and node1-04_clus2.
+* The `cluster1::*>` prompt indicates the name of the cluster.
+
+See the https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe^] to verify the correct cluster ports on your platforms.
+
+NOTE: The command outputs might vary depending on different releases of ONTAP.
+
+.Commands used
+The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
+
+.What's next?
+
+After you've reviewed the install RCF or upgrade RCF procedure, you link:install-rcf-software-9364d-cluster.html[install the RCF] or link:upgrade-rcf-software-9364d-cluster.html[upgrade your RCF] as required.
+
+// New content for OAM project, AFFFASDOC-331, 2025-MAY-06

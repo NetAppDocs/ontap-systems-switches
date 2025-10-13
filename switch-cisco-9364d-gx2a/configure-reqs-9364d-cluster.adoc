@@ -1,0 +1,31 @@
+---
+sidebar: sidebar
+permalink: switch-cisco-9364d-gx2a/configure-reqs-9364d-cluster.html
+keywords: shared storage cluster switch
+summary: From ONTAP 9.9.1, you can use Cisco Nexus 9364d-gx2a switches to combine storage and cluster functionality into a shared switch scenario.
+---
+= Network requirements for Cisco Nexus 9364D-GX2A switches
+:hardbreaks:
+:nofooter:
+:icons: font
+:linkattrs:
+:imagesdir: ../media/
+
+[.lead]
+For Cisco Nexus 9364D-GX2A switch installation and maintenance, be sure to review cabling and network requirements.
+
+== Network requirements
+
+You need the following network information for all switch configurations.
+
+* IP subnet for management network traffic
+* Host names and IP addresses for each of the storage system controllers and all applicable switches
+* Most storage system controllers are managed through the e0M interface by connecting to the Ethernet service port (wrench icon).
+* Refer to the https://hwu.netapp.com[Hardware Universe^] for the latest information.
+
+== Cabling requirements
+* You have the appropriate number and type of cables and cable connectors for your switches. See the https://hwu.netapp.com[Hardware Universe^].
+
+* Depending on the type of switch you are initially configuring, you need to connect to the switch console port with the included console cable.
+
+// New content for OAM project, AFFFASDOC-331, 2025-MAY-06

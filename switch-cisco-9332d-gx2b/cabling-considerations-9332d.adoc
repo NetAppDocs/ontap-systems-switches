@@ -1,0 +1,32 @@
+---
+permalink: switch-cisco-9332d-gx2b/cabling-considerations-9332d.html
+sidebar: sidebar
+keywords: 9332d-gx2b cabling setup, 9332d-gx2b switches configuration, nx-os
+summary: 'Before configuring your Cisco 9332D-GX2B switch, review the following information.'
+---
+= Review cabling and configuration considerations
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+Before configuring your Cisco 9332D-GX2B switch, review the following considerations. 
+
+== Support for NVIDIA CX6-DX Ethernet ports
+
+
+If connecting a switch port to an ONTAP controller using NVIDIA ConnectX-6 Dx (CX6-DX) NIC ports (part number X50130B), you must hard-code the switch port speed.
+
+[subs=+quotes]
+----
+(cs1)# *configure*
+(cs1)(config)# *interface Ethernet1/16/?*
+(cs1)(config-if)# *speed 100000*
+(cs1)(config-if)# *no negotiate auto*
+(cs1)(config-if)# *exit*
+(cs1)(config)# *exit*
+(cs1)# *copy running-config startup-config*
+----
+See the https://hwu.netapp.com/Switch/Index[Hardware Universe^] for more information on switch ports.
+
+
+// New content for OAM project, AFFFASDOC-331, 2025-APR-28
