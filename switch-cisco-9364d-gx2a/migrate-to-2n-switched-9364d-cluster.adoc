@@ -1,0 +1,601 @@
+---
+permalink: switch-cisco-9364d-gx2a/migrate-to-2n-switched-9364d-cluster.html
+sidebar: sidebar
+keywords: two-node switchless cluster environments,migrating to a two-node switched 9364d-gx2a cluster environment,switchless cluster environments,9364d-gx2a switches
+summary: 'If you have an existing two-node switchless cluster environment, you can migrate to a two-node switched cluster environment using Cisco Nexus 9364d-gx2a switches to enable you to scale beyond two nodes in the cluster.'
+---
+= Migrate to two-node switched cluster
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+If you have an existing two-node _switchless_ cluster environment, you can migrate to a two-node _switched_ cluster environment using Cisco Nexus 9364D-GX2A switches.
+
+The migration process works for all nodes using optical or Twinax ports, but is not supported on this switch if nodes are using onboard 10Gb BASE-T RJ45 ports for the cluster-network ports.
+
+== Review requirements
+
+.What you'll need
+
+* For the two-node switchless configuration:
+
+** The two-node switchless configuration is properly set up and functioning. 
+** All cluster ports are in the *up* state.
+** All cluster logical interfaces (LIFs) are in the *up* state and on their home ports.
+** See https://hwu.netapp.com[Hardware Universe^] for all supported ONTAP versions.
+// Added in link to HWU as per GH issues #s 49 & 46
+
+* For the Cisco Nexus 9332D-GX2B switch configuration:
+
+** Both switches have management network connectivity.
+** There is console access to the cluster switches.
+** Nexus 9332D-GX2B node-to-node switch and switch-to-switch connections use Twinax or fiber cables.
++
+See https://hwu.netapp.com[Hardware Universe^] for more information about cabling.
+
+* Inter-Switch Link (ISL) cables are connected to ports 1/35 and 1/36 on both 9332D-GX2B switches.
+* Initial customization of both the 9332D-GX2B switches are completed, so that:
+ ** 9332D-GX2B switches are running the latest version of software.
+ ** Reference Configuration Files (RCFs) are applied to the switches.
+Any site customization, such as SMTP, SNMP, and SSH, is configured on the new switches.
+
+.About the examples
+The examples in this procedure use the following cluster switch and node nomenclature:
+
+* The names of the 9332D-GX2B2 switches are cs1 and cs2.
+* The names of the cluster SVMs are node1 and node2.
+* The names of the LIFs are node1_clus1 and node1_clus2 on node 1, and node2_clus1 and node2_clus2 on node 2 respectively.
+* The `cluster1::*>` prompt indicates the name of the cluster.
+* The cluster ports used in this procedure are e0a and e0b.
+
+See https://hwu.netapp.com[Hardware Universe^] for information about the cluster ports for your platforms.
+
+== Migrate the switches
+
+=== Step 1: Prepare for migration
+
+. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: 
++
+`system node autosupport invoke -node * -type all -message MAINT=xh`
++
+where x is the duration of the maintenance window in hours.
++
+NOTE: The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
+
+. Change the privilege level to advanced, entering `y` when prompted to continue: 
++
+`set -privilege advanced`
++
+The advanced prompt (`*>`) appears.
+
+=== Step 2: Configure ports and cabling
+
+. Disable all node-facing ports (not ISL ports) on both the new cluster switches cs1 and cs2.
++
+Do not disable the ISL ports.
++
+.Show example 
+[%collapsible]
+====
+The following example shows that node-facing ports 1 through 34 are disabled on switch cs1:
+
+----
+cs1# config
+Enter configuration commands, one per line. End with CNTL/Z.
+cs1(config)# interface e1/1/1-4, e1/2/1-4, e1/3/1-4, e1/4/1-4, e1/5/1-4, e1/6/1-4, e1/7-34
+cs1(config-if-range)# shutdown
+----
+====
+
+. Verify that the ISL and the physical ports on the ISL between the two 9332D-GX2B switches cs1 and cs2 are up on ports 1/35 and 1/36: 
++
+`show port-channel summary`
++
+.Show example 
+[%collapsible]
+====
+The following example shows that the ISL ports are up on switch cs1:
+
+----
+cs1# show port-channel summary
+
+Flags:  D - Down        P - Up in port-channel (members)
+        I - Individual  H - Hot-standby (LACP only)
+        s - Suspended   r - Module-removed
+        b - BFD Session Wait
+        S - Switched    R - Routed
+        U - Up (port-channel)
+        p - Up in delay-lacp mode (member)
+        M - Not in use. Min-links not met
+--------------------------------------------------------------------------------
+Group Port-       Type     Protocol  Member Ports
+      Channel
+--------------------------------------------------------------------------------
+1     Po1(SU)     Eth      LACP      Eth1/35(P)   Eth1/36(P)
+----
+
+The following example shows that the ISL ports are up on switch cs2:
+
+----
+(cs2)# show port-channel summary
+
+Flags:  D - Down        P - Up in port-channel (members)
+        I - Individual  H - Hot-standby (LACP only)
+        s - Suspended   r - Module-removed
+        b - BFD Session Wait
+        S - Switched    R - Routed
+        U - Up (port-channel)
+        p - Up in delay-lacp mode (member)
+        M - Not in use. Min-links not met
+--------------------------------------------------------------------------------
+Group Port-       Type     Protocol  Member Ports
+      Channel
+--------------------------------------------------------------------------------
+1     Po1(SU)     Eth      LACP      Eth1/35(P)   Eth1/36(P)
+----
+====
+
+. Display the list of neighboring devices: 
++
+`show cdp neighbors`
++
+This command provides information about the devices that are connected to the system.
++
+.Show example 
+[%collapsible]
+====
+The following example lists the neighboring devices on switch cs1:
+
+----
+cs1# show cdp neighbors
+
+Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
+                  S - Switch, H - Host, I - IGMP, r - Repeater,
+                  V - VoIP-Phone, D - Remotely-Managed-Device,
+                  s - Supports-STP-Dispute
+
+Device-ID          Local Intrfce  Hldtme Capability  Platform      Port ID
+cs2                Eth1/35        175    R S I s     N9K-C9336C    Eth1/35
+cs2                Eth1/36        175    R S I s     N9K-C9336C    Eth1/36
+
+Total entries displayed: 2
+----
+
+
+The following example lists the neighboring devices on switch cs2:
+
+----
+cs2# show cdp neighbors
+
+Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
+                  S - Switch, H - Host, I - IGMP, r - Repeater,
+                  V - VoIP-Phone, D - Remotely-Managed-Device,
+                  s - Supports-STP-Dispute
+
+Device-ID          Local Intrfce  Hldtme Capability  Platform      Port ID
+cs1                Eth1/35        177    R S I s     N9K-C9336C    Eth1/35
+cs1                Eth1/36        177    R S I s     N9K-C9336C    Eth1/36
+
+Total entries displayed: 2
+----
+====
+
+. Verify that all cluster ports are up: 
++
+`network port show -ipspace Cluster`
++
+Each port should display up for `Link` and healthy for `Health Status`.
++
+.Show example 
+[%collapsible]
+====
+----
+cluster1::*> network port show -ipspace Cluster
+
+Node: node1
+
+                                                  Speed(Mbps) Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status
+--------- ------------ ---------------- ---- ---- ----------- --------
+e0a       Cluster      Cluster          up   9000  auto/10000 healthy
+e0b       Cluster      Cluster          up   9000  auto/10000 healthy
+
+Node: node2
+
+                                                  Speed(Mbps) Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status
+--------- ------------ ---------------- ---- ---- ----------- --------
+e0a       Cluster      Cluster          up   9000  auto/10000 healthy
+e0b       Cluster      Cluster          up   9000  auto/10000 healthy
+
+4 entries were displayed.
+----
+====
+
+. Verify that all cluster LIFs are up and operational: 
++
+`network interface show -vserver Cluster`
++
+Each cluster LIF should display `true` for `Is Home` and have a `Status Admin/Oper` of up/up.
++
+.Show example 
+[%collapsible]
+====
+----
+cluster1::*> network interface show -vserver Cluster
+
+            Logical    Status     Network            Current       Current Is
+Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
+----------- ---------- ---------- ------------------ ------------- ------- -----
+Cluster
+            node1_clus1  up/up    169.254.209.69/16  node1         e0a     true
+            node1_clus2  up/up    169.254.49.125/16  node1         e0b     true
+            node2_clus1  up/up    169.254.47.194/16  node2         e0a     true
+            node2_clus2  up/up    169.254.19.183/16  node2         e0b     true
+4 entries were displayed.
+----
+====
+
+. Verify that auto-revert is enabled on all cluster LIFs: 
++
+`network interface show -vserver Cluster -fields auto-revert`
++
+.Show example 
+[%collapsible]
+====
+----
+cluster1::*> network interface show -vserver Cluster -fields auto-revert
+
+          Logical
+Vserver   Interface     Auto-revert
+--------- ------------- ------------
+Cluster
+          node1_clus1   true
+          node1_clus2   true
+          node2_clus1   true
+          node2_clus2   true
+
+4 entries were displayed.
+----
+====
+
+. Disconnect the cable from cluster port e0a on node1, and then connect e0a to port 1 on cluster switch cs1, using the appropriate cabling supported by the 9332D-GX2B switches.
++
+The https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches^] contains more information about cabling.
++
+https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches^]
+
+. Disconnect the cable from cluster port e0a on node2, and then connect e0a to port 2 on cluster switch cs1, using the appropriate cabling supported by the 9332D-GX2B switches.
+
+. Enable all node-facing ports on cluster switch cs1.
++
+.Show example 
+[%collapsible]
+====
+The following example shows that ports 1/1 through 1/34 are enabled on switch cs1:
+
+----
+cs1# config
+Enter configuration commands, one per line. End with CNTL/Z.
+cs1(config)# interface e1/1/1-4, e1/2/1-4, e1/3/1-4, e1/4/1-4, e1/5/1-4, e1/6/1-4, e1/7-34
+cs1(config-if-range)# no shutdown
+----
+====
+
+. Verify that all cluster LIFs are up, operational, and display as `true` for `Is Home`: 
++
+`network interface show -vserver Cluster`
++
+.Show example 
+[%collapsible]
+====
+The following example shows that all of the LIFs are up on node1 and node2 and that `Is Home` results are true:
+
+----
+cluster1::*> network interface show -vserver Cluster
+
+         Logical      Status     Network            Current     Current Is
+Vserver  Interface    Admin/Oper Address/Mask       Node        Port    Home
+-------- ------------ ---------- ------------------ ----------- ------- ----
+Cluster
+         node1_clus1  up/up      169.254.209.69/16  node1       e0a     true
+         node1_clus2  up/up      169.254.49.125/16  node1       e0b     true
+         node2_clus1  up/up      169.254.47.194/16  node2       e0a     true
+         node2_clus2  up/up      169.254.19.183/16  node2       e0b     true
+
+4 entries were displayed.
+----
+====
+
+. Display information about the status of the nodes in the cluster: 
++
+`cluster show`
++
+.Show example 
+[%collapsible]
+====
+The following example displays information about the health and eligibility of the nodes in the cluster:
+
+----
+cluster1::*> cluster show
+
+Node                 Health  Eligibility   Epsilon
+-------------------- ------- ------------  ------------
+node1                true    true          false
+node2                true    true          false
+
+2 entries were displayed.
+----
+====
+
+. Disconnect the cable from cluster port e0b on node1, and then connect e0b to port 1 on cluster switch cs2, using the appropriate cabling supported by the 9332D-GX2B switches.
+. Disconnect the cable from cluster port e0b on node2, and then connect e0b to port 2 on cluster switch cs2, using the appropriate cabling supported by the 9332D-GX2B switches.
+. Enable all node-facing ports on cluster switch cs2.
++
+.Show example 
+[%collapsible]
+====
+The following example shows that ports 1/1 through 1/34 are enabled on switch cs2:
+
+----
+cs2# config
+Enter configuration commands, one per line. End with CNTL/Z.
+cs2(config)# interface e1/1/1-4, e1/2/1-4, e1/3/1-4, e1/4/1-4, e1/5/1-4, e1/6/1-4, e1/7-34
+cs2(config-if-range)# no shutdown
+----
+====
+
+. Verify that all cluster ports are up: 
++
+`network port show -ipspace Cluster`
++
+.Show example 
+[%collapsible]
+====
+The following example shows that all of the cluster ports are up on node1 and node2:
+
+----
+cluster1::*> network port show -ipspace Cluster
+
+Node: node1
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+
+Node: node2
+                                                                       Ignore
+                                                  Speed(Mbps) Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
+--------- ------------ ---------------- ---- ---- ----------- -------- ------
+e0a       Cluster      Cluster          up   9000  auto/10000 healthy  false
+e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+
+4 entries were displayed.
+----
+====
+
+=== Step 3: Verify the configuration
+
+. Verify that all interfaces display true for `Is Home`: 
++
+`network interface show -vserver Cluster`
++
+NOTE: This might take several minutes to complete.
++
+.Show example 
+[%collapsible]
+====
+The following example shows that all LIFs are up on node1 and node2 and that `Is Home` results are true:
+
+----
+cluster1::*> network interface show -vserver Cluster
+
+          Logical      Status     Network            Current    Current Is
+Vserver   Interface    Admin/Oper Address/Mask       Node       Port    Home
+--------- ------------ ---------- ------------------ ---------- ------- ----
+Cluster
+          node1_clus1  up/up      169.254.209.69/16  node1      e0a     true
+          node1_clus2  up/up      169.254.49.125/16  node1      e0b     true
+          node2_clus1  up/up      169.254.47.194/16  node2      e0a     true
+          node2_clus2  up/up      169.254.19.183/16  node2      e0b     true
+
+4 entries were displayed.
+----
+====
+
+. Verify that both nodes each have one connection to each switch: 
++
+`show cdp neighbors`
++
+.Show example 
+[%collapsible]
+====
+The following example shows the appropriate results for both switches:
+
+----
+(cs1)# show cdp neighbors
+
+Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
+                  S - Switch, H - Host, I - IGMP, r - Repeater,
+                  V - VoIP-Phone, D - Remotely-Managed-Device,
+                  s - Supports-STP-Dispute
+
+Device-ID          Local Intrfce  Hldtme Capability  Platform      Port ID
+node1              Eth1/1         133    H           FAS2980       e0a
+node2              Eth1/2         133    H           FAS2980       e0a
+cs2                Eth1/35        175    R S I s     N9K-C9336C    Eth1/35
+cs2                Eth1/36        175    R S I s     N9K-C9336C    Eth1/36
+
+Total entries displayed: 4
+
+(cs2)# show cdp neighbors
+
+Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
+                  S - Switch, H - Host, I - IGMP, r - Repeater,
+                  V - VoIP-Phone, D - Remotely-Managed-Device,
+                  s - Supports-STP-Dispute
+
+Device-ID          Local Intrfce  Hldtme Capability  Platform      Port ID
+node1              Eth1/1         133    H           FAS2980       e0b
+node2              Eth1/2         133    H           FAS2980       e0b
+cs1                Eth1/35        175    R S I s     N9K-C9336C    Eth1/35
+cs1                Eth1/36        175    R S I s     N9K-C9336C    Eth1/36
+
+Total entries displayed: 4
+----
+====
+
+. Display information about the discovered network devices in your cluster: 
++
+`network device-discovery show -protocol cdp`
++
+.Show example 
+[%collapsible]
+====
+----
+cluster1::*> network device-discovery show -protocol cdp
+Node/       Local  Discovered
+Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
+----------- ------ ------------------------- ----------------  ----------------
+node2      /cdp
+            e0a    cs1                       0/2               N9K-C9336C
+            e0b    cs2                       0/2               N9K-C9336C
+node1      /cdp
+            e0a    cs1                       0/1               N9K-C9336C
+            e0b    cs2                       0/1               N9K-C9336C
+
+4 entries were displayed.
+----
+====
+
+. Verify that the settings are disabled: 
++
+`network options switchless-cluster show`
++
+NOTE: It might take several minutes for the command to complete. Wait for the '3 minute lifetime to expire' announcement.
++
+
+.Show example 
+[%collapsible]
+====
+The false output in the following example shows that the configuration settings are disabled:
+
+----
+cluster1::*> network options switchless-cluster show
+Enable Switchless Cluster: false
+----
+====
+
+. Verify the status of the node members in the cluster: 
++
+`cluster show`
++
+.Show example 
+[%collapsible]
+====
+The following example shows information about the health and eligibility of the nodes in the cluster:
+
+----
+cluster1::*> cluster show
+
+Node                 Health  Eligibility   Epsilon
+-------------------- ------- ------------  --------
+node1                true    true          false
+node2                true    true          false
+----
+====
+
+. Verify the connectivity of the remote cluster interfaces: 
++
+// start of tabbed content
+
+[role="tabbed-block"]
+
+====
+
+.ONTAP 9.9.1 and later
+
+--
+You can use the `network interface check cluster-connectivity` command to start an accessibility check for cluster connectivity and then display the details: 
+
+`network interface check cluster-connectivity start` and `network interface check cluster-connectivity show`
+
+[subs=+quotes]
+----
+cluster1::*> *network interface check cluster-connectivity start*
+----
+
+*NOTE:* Wait for a number of seconds before running the `show` command to display the details.
+
+
+[subs=+quotes]
+----
+cluster1::*> *network interface check cluster-connectivity show*
+                                  Source           Destination      Packet
+Node   Date                       LIF              LIF              Loss
+------ -------------------------- ---------------- ---------------- -----------
+node1
+       3/5/2022 19:21:18 -06:00   node1_clus2      node2-clus1      none
+       3/5/2022 19:21:20 -06:00   node1_clus2      node2_clus2      none
+node2
+       3/5/2022 19:21:18 -06:00   node2_clus2      node1_clus1      none
+       3/5/2022 19:21:20 -06:00   node2_clus2      node1_clus2      none
+----
+--
+
+.All ONTAP releases
+--
+For all ONTAP releases, you can also use the `cluster ping-cluster -node <name>` command to check the connectivity:
+
+`cluster ping-cluster -node <name>`
+
+
+[subs=+quotes]
+----
+cluster1::*> *cluster ping-cluster -node local*
+Host is node2
+Getting addresses from network interface table...
+Cluster node1_clus1 169.254.209.69 node1 e0a
+Cluster node1_clus2 169.254.49.125 node1 e0b
+Cluster node2_clus1 169.254.47.194 node2 e0a
+Cluster node2_clus2 169.254.19.183 node2 e0b
+Local = 169.254.47.194 169.254.19.183
+Remote = 169.254.209.69 169.254.49.125
+Cluster Vserver Id = 4294967293
+Ping status:
+
+Basic connectivity succeeds on 4 path(s)
+Basic connectivity fails on 0 path(s)
+
+Detected 9000 byte MTU on 4 path(s):
+Local 169.254.47.194 to Remote 169.254.209.69
+Local 169.254.47.194 to Remote 169.254.49.125
+Local 169.254.19.183 to Remote 169.254.209.69
+Local 169.254.19.183 to Remote 169.254.49.125
+Larger than PMTU communication succeeds on 4 path(s)
+RPC status:
+2 paths up, 0 paths down (tcp check)
+2 paths up, 0 paths down (udp check)
+----
+--
+====
+
+// end of tabbed content
+
+[start=7]
+. [[step7]] Change the privilege level back to admin: 
++
+`set -privilege admin`
+
+. If you suppressed automatic case creation, reenable it by invoking an AutoSupport message: 
++
+`system node autosupport invoke -node * -type all -message MAINT=END`
+
+.What's next?
+
+link:../switch-cshm/config-overview.html[Configure switch health monitoring].
+
+// New content for OAM project, AFFFASDOC-331, 2025-MAY-08

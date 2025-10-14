@@ -1,0 +1,73 @@
+---
+permalink: switch-cisco-9364d-gx2a/configure-ssh-keys.html
+sidebar: sidebar
+keywords: ssh, requirement, cluster, switch, health, monitor, cshm, log, collection, feature, cisco 9332d-gx2b
+summary: SSH is a requirement when using the Cluster Switch Health Monitor \(CSHM\) and log collection features. To enable SSH on Cisco 9364d-gx2a cluster switches, you generate the SSH keys first and then enable SSH.
+---
+= Verify your SSH configuration
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+If you are using the Ethernet Switch Health Monitor (CSHM) and log collection features, verify that SSH and SSH keys are enabled on the switches.
+
+.Steps
+
+. Verify that SSH is enabled:
++ 
+
+[subs=+quotes]
+----
+(switch) *show ssh server*
+ssh version 2 is enabled
+----
+
+. Verify that the SSH keys are enabled:
++
+`show ssh key`
++
+.Show example
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+(switch)# *show ssh key*
+
+rsa Keys generated:Thu May 15 15:09:55 2025
+
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDCQJPZk7OGhg0j1t0NWKylnI8R8zDpuMpU6KKAjPOCShTFpibeYQqxOPTCAKACkut8dduZmc3bY9DIOle0cKYQ8PgS2mG9ovQ0RJ56RUNhVNPdJuhXM4ckHoiVJxIAbHkbcw8rzawbkT6cNBUiZY3MrOMh0e0CnMRhh9we
+MOo/vQ==
+
+
+bitcount:1024
+fingerprint:
+SHA256:TMUXFgyRC3EcIZEVbQ/P0elDByBCJizPJ1XKMkIXfPI
+**************************************
+could not retrieve dsa key information
+**************************************
+ecdsa Keys generated:Thu May 15 15:12:09 2025
+
+
+ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1MjEAAACFBADquZcNSDA/eLAaItXyxVZxsSJSE3u4et9B6+RLq162zTe/3A6JTCyBrkfrMhQt9QMQ7XrMqJGxLSinXhyUClBxwQD/ZbkZueZHiFuYg5hKN97wUYvts+EwpG2mSVonxKKp
+atmtgu48BqKfZTc4LZYL5vgdh5uuktJ0Z8mYHt3xKPXsvw==
+
+
+bitcount:521
+fingerprint:
+SHA256:K8LDx6L7sJjLFn8iubUhjt66uk8TYmXwnQKWVD04C1o
+**************************************
+
+(switch)# *show feature | include scpServer*
+scpServer              1          enabled
+(switch)# *show feature | include ssh*
+sshServer              1          enabled
+(switch)#
+----
+====
+
+.What's next?
+
+After you've verified your SSH configuration, you link:../switch-cshm/config-overview.html[configure switch health monitoring].
+
+// New content for OAM project, AFFFASDOC-331, 2025-MAY-06

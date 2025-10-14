@@ -1,0 +1,477 @@
+---
+permalink: switch-cisco-9332d-gx2b/install-rcf-software-9332d-cluster.html
+sidebar: sidebar
+keywords: install rcf, cisco switches
+summary: 'You can install the RCF after setting up the Nexus 9332D-GX2B switch for the first time.'
+---
+= Install the Reference Configuration File (RCF)
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+You install the Reference Configuration File (RCF) after setting up the Nexus 9332D-GX2B switch for the first time.
+
+.Before you begin
+
+Verify the following installations and connections:
+
+* A console connection to the switch. The console connection is optional if you have remote access to the switch.
+* Switch cs1 and switch cs2 are powered up and the initial switch setup is complete (the Management IP address and SSH is setup).
+* The desired NX-OS version has been installed.  
+* ISL connections between switches are connected. 
+
+== Step 1: Install the RCF on the switches
+
+. Login to switch cs1 using SSH or by using a serial console.
+
+. Copy the RCF to the bootflash of switch cs1 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. 
++
+For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
++
+.Show example 
+[%collapsible]
+====
+This example shows TFTP being used to copy an RCF to the bootflash on switch cs1:
+
+[subs=+quotes]
+----
+cs1# *copy tftp: bootflash: vrf management*
+Enter source filename: *NX9332D-GX2B-RCF-v10.0-Shared.txt*
+Enter hostname for the tftp server: *172.22.201.50*
+Trying to connect to tftp server......Connection to Server Established.
+TFTP get operation was successful
+Copy complete, now saving to disk (please wait)...
+----
+====
+
+. Apply the RCF previously downloaded to the bootflash.
++
+For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
++
+
+This example shows the RCF file `NX9332D-GX2B-RCF-v10.0-Shared.txt` being installed on switch cs1:
++
+[subs=+quotes]
+----
+cs1# *copy NX9332D-GX2B-RCF-v10.0-Shared.txt running-config echo-commands*
+----
+
++
+. Examine the banner output from the `show banner motd` command. You must read and follow these instructions to ensure the proper configuration and operation of the switch.
++
+.Show example 
+[%collapsible]
+
+[subs=+quotes]
+====
+----
+cs1# show banner motd
+
+******************************************************************************
+* NetApp Reference Configuration File (RCF)
+*
+* Switch   : NX9332D-GX2B
+* Filename : NX9332D-GX2B-RCF-v10.0-Shared.txt
+* Date     : 05-09-2025
+* Version  : v10.0
+* Port Usage:
+* Ports  1-30: 100GbE Intra-Cluster/HA/Storage Ports, int e1/{1-30}/1-4
+* Ports 31-32: Intra-Cluster ISL Ports, int e1/31-32
+*
+* IMPORTANT NOTES
+* Interface port-channel999 is reserved to identify the version of this file.
+******************************************************************************
+----
+====
+
+. Verify that the RCF file is the correct newer version: 
++
+`show running-config`
++
+When you check the output to verify you have the correct RCF, make sure that the following information is correct:
+
+ ** The RCF banner
+ ** The node and port settings
+ ** Customizations
++
+The output varies according to your site configuration. Check the port settings and refer to the release notes for any changes specific to the RCF that you have installed.
+
+. Save basic configuration details to the `write_erase.cfg` file on the bootflash.
++
+[NOTE]
+====================================
+Make sure to configure the following:
+
+* Username and password
+* Management IP address
+* Default gateway
+* Switch name
+====================================
++
+`cs1# show run | i "username admin password" > bootflash:write_erase.cfg`
++
+`cs1# show run | section "vrf context management" >> bootflash:write_erase.cfg`
++
+`cs1# show run | section "interface mgmt0" >> bootflash:write_erase.cfg`
++
+`cs1# show run | section "switchname" >> bootflash:write_erase.cfg`
++
+`cs1# echo "hardware access-list tcam region ing-racl 1024" >> bootflash:write_erase.cfg`
++
+`cs1# echo "hardware access-list tcam region egr-racl 1024" >> bootflash:write_erase.cfg`
++
+`cs1# echo "hardware access-list tcam region ing-l2-qos 1536" >> bootflash:write_erase.cfg`
++
+See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further details.
+
+. Verify that the `write_erase.cfg` file is populated as expected:
++
+`*show file bootflash:write_erase.cfg*`
+
+. Issue the `write erase` command to erase the current saved configuration:
++
+`cs1# *write erase*`
++
+`Warning: This command will erase the startup-configuration.`
++
+`Do you wish to proceed anyway? (y/n)  [n] *y*`
+
+. Copy the previously saved basic configuration into the startup configuration.
++
+`cs1# *copy bootflash:write_erase.cfg startup-config*`
+
+. Reboot the switch:
++
+`cs1# *reload*`
++
+`This command will reboot the system. (y/n)?  [n] *y*`
+
+. Repeat steps 1 through 10 on switch cs2.
+
+. Connect the ports of all nodes in the ONTAP cluster to switches cs1 and cs2.
+
+== Step 2: Verify the switch connections
+
+. Verify that the switch ports connected to the cluster ports are up:
++
+`show interface brief`
++
+.Show example 
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cs1# *show interface brief | grep up*
+.
+.
+Eth1/9/3        1       eth  trunk  up      none                     100G(D) --
+Eth1/9/4        1       eth  trunk  up      none                     100G(D) --
+Eth1/15/1       1       eth  trunk  up      none                     100G(D) --
+Eth1/15/2       1       eth  trunk  up      none                     100G(D) --
+Eth1/15/3       1       eth  trunk  up      none                     100G(D) --
+Eth1/15/4       1       eth  trunk  up      none                     100G(D) --
+Eth1/16/1       1       eth  trunk  up      none                     100G(D) --
+Eth1/16/2       1       eth  trunk  up      none                     100G(D) --
+Eth1/16/3       1       eth  trunk  up      none                     100G(D) --
+Eth1/16/4       1       eth  trunk  up      none                     100G(D) --
+Eth1/17/1       1       eth  trunk  up      none                     100G(D) --
+Eth1/17/2       1       eth  trunk  up      none                     100G(D) --
+Eth1/17/3       1       eth  trunk  up      none                     100G(D) --
+Eth1/17/4       1       eth  trunk  up      none                     100G(D) --
+.
+.
+----
+====
+
+. Verify that the cluster nodes are in their correct cluster VLANs using the following commands:
++
+`show vlan brief`
++
+`show interface trunk`
++
+.Show example 
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cs1# *show vlan brief*
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Po1, Po999, Eth1/31, Eth1/32
+                                                Eth1/33, Eth1/34, Eth1/1/1
+                                                Eth1/1/2, Eth1/1/3, Eth1/1/4
+                                                Eth1/2/1, Eth1/2/2, Eth1/2/3
+                                                Eth1/2/4, Eth1/3/1, Eth1/3/2
+                                                Eth1/3/3, Eth1/3/4, Eth1/4/1
+                                                Eth1/4/2, Eth1/4/3, Eth1/4/4
+                                                Eth1/5/1, Eth1/5/2, Eth1/5/3
+                                                Eth1/5/4, Eth1/6/1, Eth1/6/2
+                                                Eth1/6/3, Eth1/6/4, Eth1/7/1
+                                                Eth1/7/2, Eth1/7/3, Eth1/7/4
+                                                Eth1/8/1, Eth1/8/2, Eth1/8/3
+                                                Eth1/8/4, Eth1/9/1, Eth1/9/2
+                                                Eth1/9/3, Eth1/9/4, Eth1/10/1
+                                                Eth1/10/2, Eth1/10/3, Eth1/10/4
+                                                Eth1/11/1, Eth1/11/2, Eth1/11/3
+                                                Eth1/11/4, Eth1/12/1, Eth1/12/2
+                                                Eth1/12/3, Eth1/12/4, Eth1/13/1
+                                                Eth1/13/2, Eth1/13/3, Eth1/13/4
+                                                Eth1/14/1, Eth1/14/2, Eth1/14/3
+                                                Eth1/14/4, Eth1/15/1, Eth1/15/2
+                                                Eth1/15/3, Eth1/15/4, Eth1/16/1
+                                                Eth1/16/2, Eth1/16/3, Eth1/16/4
+                                                Eth1/17/1, Eth1/17/2, Eth1/17/3
+                                                Eth1/17/4, Eth1/18/1, Eth1/18/2
+                                                Eth1/18/3, Eth1/18/4, Eth1/19/1
+                                                Eth1/19/2, Eth1/19/3, Eth1/19/4
+                                                Eth1/20/1, Eth1/20/2, Eth1/20/3
+                                                Eth1/20/4, Eth1/21/1, Eth1/21/2
+                                                Eth1/21/3, Eth1/21/4, Eth1/22/1
+                                                Eth1/22/2, Eth1/22/3, Eth1/22/4
+                                                Eth1/23/1, Eth1/23/2, Eth1/23/3
+                                                Eth1/23/4, Eth1/24/1, Eth1/24/2
+                                                Eth1/24/3, Eth1/24/4, Eth1/25/1
+                                                Eth1/25/2, Eth1/25/3, Eth1/25/4
+                                                Eth1/26/1, Eth1/26/2, Eth1/26/3
+                                                Eth1/26/4, Eth1/27/1, Eth1/27/2
+                                                Eth1/27/3, Eth1/27/4, Eth1/28/1
+                                                Eth1/28/2, Eth1/28/3, Eth1/28/4
+                                                Eth1/29/1, Eth1/29/2, Eth1/29/3
+                                                Eth1/29/4, Eth1/30/1, Eth1/30/2
+                                                Eth1/30/3, Eth1/30/4
+17   VLAN0017                         active    Eth1/1/1, Eth1/1/2, Eth1/1/3
+                                                Eth1/1/4, Eth1/2/1, Eth1/2/2
+                                                Eth1/2/3, Eth1/2/4, Eth1/3/1
+                                                Eth1/3/2, Eth1/3/3, Eth1/3/4
+                                                Eth1/4/1, Eth1/4/2, Eth1/4/3
+                                                Eth1/4/4, Eth1/5/1, Eth1/5/2
+                                                Eth1/5/3, Eth1/5/4, Eth1/6/1
+                                                Eth1/6/2, Eth1/6/3, Eth1/6/4
+                                                Eth1/7/1, Eth1/7/2, Eth1/7/3
+                                                Eth1/7/4, Eth1/8/1, Eth1/8/2
+                                                Eth1/8/3, Eth1/8/4, Eth1/9/1
+                                                Eth1/9/2, Eth1/9/3, Eth1/9/4
+                                                Eth1/10/1, Eth1/10/2, Eth1/10/3
+                                                Eth1/10/4, Eth1/11/1, Eth1/11/2
+                                                Eth1/11/3, Eth1/11/4, Eth1/12/1
+                                                Eth1/12/2, Eth1/12/3, Eth1/12/4
+                                                Eth1/13/1, Eth1/13/2, Eth1/13/3
+                                                Eth1/13/4, Eth1/14/1, Eth1/14/2
+                                                Eth1/14/3, Eth1/14/4, Eth1/15/1
+                                                Eth1/15/2, Eth1/15/3, Eth1/15/4
+                                                Eth1/16/1, Eth1/16/2, Eth1/16/3
+                                                Eth1/16/4, Eth1/17/1, Eth1/17/2
+                                                Eth1/17/3, Eth1/17/4, Eth1/18/1
+                                                Eth1/18/2, Eth1/18/3, Eth1/18/4
+                                                Eth1/19/1, Eth1/19/2, Eth1/19/3
+                                                Eth1/19/4, Eth1/20/1, Eth1/20/2
+                                                Eth1/20/3, Eth1/20/4, Eth1/21/1
+                                                Eth1/21/2, Eth1/21/3, Eth1/21/4
+                                                Eth1/22/1, Eth1/22/2, Eth1/22/3
+                                                Eth1/22/4, Eth1/23/1, Eth1/23/2
+                                                Eth1/23/3, Eth1/23/4, Eth1/24/1
+                                                Eth1/24/2, Eth1/24/3, Eth1/24/4
+                                                Eth1/25/1, Eth1/25/2, Eth1/25/3
+                                                Eth1/25/4, Eth1/26/1, Eth1/26/2
+                                                Eth1/26/3, Eth1/26/4, Eth1/27/1
+                                                Eth1/27/2, Eth1/27/3, Eth1/27/4
+                                                Eth1/28/1, Eth1/28/2, Eth1/28/3
+                                                Eth1/28/4, Eth1/29/1, Eth1/29/2
+                                                Eth1/29/3, Eth1/29/4, Eth1/30/1
+                                                Eth1/30/2, Eth1/30/3, Eth1/30/4
+18   VLAN0018                         active    Eth1/1/1, Eth1/1/2, Eth1/1/3
+                                                Eth1/1/4, Eth1/2/1, Eth1/2/2
+                                                Eth1/2/3, Eth1/2/4, Eth1/3/1
+                                                Eth1/3/2, Eth1/3/3, Eth1/3/4
+                                                Eth1/4/1, Eth1/4/2, Eth1/4/3
+                                                Eth1/4/4, Eth1/5/1, Eth1/5/2
+                                                Eth1/5/3, Eth1/5/4, Eth1/6/1
+                                                Eth1/6/2, Eth1/6/3, Eth1/6/4
+                                                Eth1/7/1, Eth1/7/2, Eth1/7/3
+                                                Eth1/7/4, Eth1/8/1, Eth1/8/2
+                                                Eth1/8/3, Eth1/8/4, Eth1/9/1
+                                                Eth1/9/2, Eth1/9/3, Eth1/9/4
+                                                Eth1/10/1, Eth1/10/2, Eth1/10/3
+                                                Eth1/10/4, Eth1/11/1, Eth1/11/2
+                                                Eth1/11/3, Eth1/11/4, Eth1/12/1
+                                                Eth1/12/2, Eth1/12/3, Eth1/12/4
+                                                Eth1/13/1, Eth1/13/2, Eth1/13/3
+                                                Eth1/13/4, Eth1/14/1, Eth1/14/2
+                                                Eth1/14/3, Eth1/14/4, Eth1/15/1
+                                                Eth1/15/2, Eth1/15/3, Eth1/15/4
+                                                Eth1/16/1, Eth1/16/2, Eth1/16/3
+                                                Eth1/16/4, Eth1/17/1, Eth1/17/2
+                                                Eth1/17/3, Eth1/17/4, Eth1/18/1
+                                                Eth1/18/2, Eth1/18/3, Eth1/18/4
+                                                Eth1/19/1, Eth1/19/2, Eth1/19/3
+                                                Eth1/19/4, Eth1/20/1, Eth1/20/2
+                                                Eth1/20/3, Eth1/20/4, Eth1/21/1
+                                                Eth1/21/2, Eth1/21/3, Eth1/21/4
+                                                Eth1/22/1, Eth1/22/2, Eth1/22/3
+                                                Eth1/22/4, Eth1/23/1, Eth1/23/2
+                                                Eth1/23/3, Eth1/23/4, Eth1/24/1
+                                                Eth1/24/2, Eth1/24/3, Eth1/24/4
+                                                Eth1/25/1, Eth1/25/2, Eth1/25/3
+                                                Eth1/25/4, Eth1/26/1, Eth1/26/2
+                                                Eth1/26/3, Eth1/26/4, Eth1/27/1
+                                                Eth1/27/2, Eth1/27/3, Eth1/27/4
+                                                Eth1/28/1, Eth1/28/2, Eth1/28/3
+                                                Eth1/28/4, Eth1/29/1, Eth1/29/2
+                                                Eth1/29/3, Eth1/29/4, Eth1/30/1
+                                                Eth1/30/2, Eth1/30/3, Eth1/30/4
+30   VLAN0030                         active    Eth1/1/1, Eth1/1/2, Eth1/1/3
+                                                Eth1/1/4, Eth1/2/1, Eth1/2/2
+                                                Eth1/2/3, Eth1/2/4, Eth1/3/1
+                                                Eth1/3/2, Eth1/3/3, Eth1/3/4
+                                                Eth1/4/1, Eth1/4/2, Eth1/4/3
+                                                Eth1/4/4, Eth1/5/1, Eth1/5/2
+                                                Eth1/5/3, Eth1/5/4, Eth1/6/1
+                                                Eth1/6/2, Eth1/6/3, Eth1/6/4
+                                                Eth1/7/1, Eth1/7/2, Eth1/7/3
+                                                Eth1/7/4, Eth1/8/1, Eth1/8/2
+                                                Eth1/8/3, Eth1/8/4, Eth1/9/1
+                                                Eth1/9/2, Eth1/9/3, Eth1/9/4
+                                                Eth1/10/1, Eth1/10/2, Eth1/10/3
+                                                Eth1/10/4, Eth1/11/1, Eth1/11/2
+                                                Eth1/11/3, Eth1/11/4, Eth1/12/1
+                                                Eth1/12/2, Eth1/12/3, Eth1/12/4
+                                                Eth1/13/1, Eth1/13/2, Eth1/13/3
+                                                Eth1/13/4, Eth1/14/1, Eth1/14/2
+                                                Eth1/14/3, Eth1/14/4, Eth1/15/1
+                                                Eth1/15/2, Eth1/15/3, Eth1/15/4
+                                                Eth1/16/1, Eth1/16/2, Eth1/16/3
+                                                Eth1/16/4, Eth1/17/1, Eth1/17/2
+                                                Eth1/17/3, Eth1/17/4, Eth1/18/1
+                                                Eth1/18/2, Eth1/18/3, Eth1/18/4
+                                                Eth1/19/1, Eth1/19/2, Eth1/19/3
+                                                Eth1/19/4, Eth1/20/1, Eth1/20/2
+                                                Eth1/20/3, Eth1/20/4, Eth1/21/1
+                                                Eth1/21/2, Eth1/21/3, Eth1/21/4
+                                                Eth1/22/1, Eth1/22/2, Eth1/22/3
+                                                Eth1/22/4, Eth1/23/1, Eth1/23/2
+                                                Eth1/23/3, Eth1/23/4, Eth1/24/1
+                                                Eth1/24/2, Eth1/24/3, Eth1/24/4
+                                                Eth1/25/1, Eth1/25/2, Eth1/25/3
+                                                Eth1/25/4, Eth1/26/1, Eth1/26/2
+                                                Eth1/26/3, Eth1/26/4, Eth1/27/1
+                                                Eth1/27/2, Eth1/27/3, Eth1/27/4
+                                                Eth1/28/1, Eth1/28/2, Eth1/28/3
+                                                Eth1/28/4, Eth1/29/1, Eth1/29/2
+                                                Eth1/29/3, Eth1/29/4, Eth1/30/1
+                                                Eth1/30/2, Eth1/30/3, Eth1/30/4
+40   VLAN0040                         active    Eth1/1/1, Eth1/1/2, Eth1/1/3
+                                                Eth1/1/4, Eth1/2/1, Eth1/2/2
+                                                Eth1/2/3, Eth1/2/4, Eth1/3/1
+                                                Eth1/3/2, Eth1/3/3, Eth1/3/4
+                                                Eth1/4/1, Eth1/4/2, Eth1/4/3
+                                                Eth1/4/4, Eth1/5/1, Eth1/5/2
+                                                Eth1/5/3, Eth1/5/4, Eth1/6/1
+                                                Eth1/6/2, Eth1/6/3, Eth1/6/4
+                                                Eth1/7/1, Eth1/7/2, Eth1/7/3
+                                                Eth1/7/4, Eth1/8/1, Eth1/8/2
+                                                Eth1/8/3, Eth1/8/4, Eth1/9/1
+                                                Eth1/9/2, Eth1/9/3, Eth1/9/4
+                                                Eth1/10/1, Eth1/10/2, Eth1/10/3
+                                                Eth1/10/4, Eth1/11/1, Eth1/11/2
+                                                Eth1/11/3, Eth1/11/4, Eth1/12/1
+                                                Eth1/12/2, Eth1/12/3, Eth1/12/4
+                                                Eth1/13/1, Eth1/13/2, Eth1/13/3
+                                                Eth1/13/4, Eth1/14/1, Eth1/14/2
+                                                Eth1/14/3, Eth1/14/4, Eth1/15/1
+                                                Eth1/15/2, Eth1/15/3, Eth1/15/4
+                                                Eth1/16/1, Eth1/16/2, Eth1/16/3
+                                                Eth1/16/4, Eth1/17/1, Eth1/17/2
+                                                Eth1/17/3, Eth1/17/4, Eth1/18/1
+                                                Eth1/18/2, Eth1/18/3, Eth1/18/4
+                                                Eth1/19/1, Eth1/19/2, Eth1/19/3
+                                                Eth1/19/4, Eth1/20/1, Eth1/20/2
+                                                Eth1/20/3, Eth1/20/4, Eth1/21/1
+                                                Eth1/21/2, Eth1/21/3, Eth1/21/4
+                                                Eth1/22/1, Eth1/22/2, Eth1/22/3
+                                                Eth1/22/4, Eth1/23/1, Eth1/23/2
+                                                Eth1/23/3, Eth1/23/4, Eth1/24/1
+                                                Eth1/24/2, Eth1/24/3, Eth1/24/4
+                                                Eth1/25/1, Eth1/25/2, Eth1/25/3
+                                                Eth1/25/4, Eth1/26/1, Eth1/26/2
+                                                Eth1/26/3, Eth1/26/4, Eth1/27/1
+                                                Eth1/27/2, Eth1/27/3, Eth1/27/4
+                                                Eth1/28/1, Eth1/28/2, Eth1/28/3
+                                                Eth1/28/4, Eth1/29/1, Eth1/29/2
+                                                Eth1/29/3, Eth1/29/4, Eth1/30/1
+                                                Eth1/30/2, Eth1/30/3, Eth1/30/4
+
+cs1# *show interface trunk*
+--------------------------------------------------------------------------------
+Port          Native  Status        Port
+              Vlan                  Channel
+--------------------------------------------------------------------------------
+Eth1/1/1      1       trunking      --
+Eth1/1/2      1       trunking      --
+Eth1/1/3      1       trunking      --
+Eth1/1/4      1       trunking      --
+Eth1/2/1      1       trunking      --
+Eth1/2/2      1       trunking      --
+Eth1/2/3      1       trunking      --
+Eth1/2/4      1       trunking      --
+.
+.
+. 
+Eth1/30/1     none
+Eth1/30/2     none
+Eth1/30/3     none
+Eth1/30/4     none
+Eth1/31       none
+Eth1/32       none
+Po1           1
+----
+====
++
+NOTE: For specific port and VLAN usage details, refer to the banner and important notes section in your RCF.
+
+. Verify that the ISL between cs1 and cs2 is functional:
++
+[source,cli]
+----
+show port-channel summary
+----
++
+.Show example 
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cs1# *show port-channel summary*
+Flags:  D - Down        P - Up in port-channel (members)
+        I - Individual  H - Hot-standby (LACP only)
+        s - Suspended   r - Module-removed
+        b - BFD Session Wait
+        S - Switched    R - Routed
+        U - Up (port-channel)
+        p - Up in delay-lacp mode (member)
+        M - Not in use. Min-links not met
+--------------------------------------------------------------------------------
+Group Port-       Type     Protocol  Member Ports      
+      Channel
+--------------------------------------------------------------------------------
+1     Po1(SU)     Eth      LACP      Eth1/31(P)   Eth1/32(P)      
+999   Po999(SD)   Eth      NONE      --
+cs1#
+----
+====
+
+== Step 3: Set up your ONTAP cluster
+
+NetApp recommends that you use System Manager to set up new clusters. 
+
+System Manager provides a simple and easy workflow for cluster set up and configuration including assigning a node management IP address, initializing the cluster, creating a local tier, configuring protocols and provisioning initial storage.
+
+Go to https://docs.netapp.com/us-en/ontap/task_configure_ontap.html[Configure ONTAP on a new cluster with System Manager] for setup instructions.
+
+.What's next?
+
+After you've installed the RCF, you link:configure-ssh-keys.html[verify the SSH configuration].
+
+// New content for OAM project, AFFFASDOC-331, 2025-MAY-06

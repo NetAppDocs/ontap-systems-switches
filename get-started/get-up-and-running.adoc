@@ -4,12 +4,12 @@ sidebar: sidebar
 keywords:
 summary: Learn about cluster, storage, and shared switches.
 ---
-= Get up and running with Cluster, Storage, and Shared switches
+= Get up and running with AFX systems, Cluster, Storage, and Shared switches
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-To get up and running with cluster, storage, and shared switches, you install hardware components and configure your switch. 
+To get up and running with AFX systems, cluster, storage, and shared switches, you install hardware components and configure your switch. 
 
 Deploying the switch involves the following workflow.
 
@@ -18,9 +18,16 @@ Deploying the switch involves the following workflow.
 [role="quick-margin-para"]
 Install your switches in the rack or cabinet. Access the following instructions for your switch model.
 
-[%rotate, grid="none", frame="none", cols="2,9,9,9",]
+[%rotate, grid="none", frame="none", cols="11,9,9,9",]
 |===
 a|
+
+.AFX systems switches
+
+* link:https://docs.netapp.com/us-en/ontap-afx/install-setup/install-switches.html[Install Cisco Nexus 9332D-GX2B switch^]
+
+* link:https://docs.netapp.com/us-en/ontap-afx/install-setup/install-switches.html[Install Cisco Nexus 9364D-GX2A switch^]
+
 a|
 .Cluster switches
 
@@ -46,10 +53,12 @@ a|
 [role="quick-margin-para"] 
 Install your storage system and storage shelves in the cabinet or rack. Access the install and setup instructions for your platform model.
 
-[%rotate, grid="none", frame="none", cols="4,9,9,9"]
+[%rotate, grid="none", frame="none", cols="2,9,9,9"]
 |===
 a|
 a|
+
+* https://docs.netapp.com/us-en/ontap-afx/index.html[AFX systems^]
 
 * https://docs.netapp.com/us-en/ontap-systems/aff-landing/index.html[AFF systems^]
 
@@ -63,71 +72,56 @@ a|
 a|
 |===
 
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png[Three]Cable the switches to the controllers
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png[Three] Cable the switches to the controllers
 
 [role="quick-margin-para"]
 The ONTAP systems install and setup instructions include instructions for cabling the controller ports to the switch. However, if you need lists of supported cables and transceivers, and detailed information about the host ports for your switch, access the following instructions for your switch model.
 
-[%rotate, grid="none", frame="none", cols="2,9,9,9",]
+[%rotate, grid="none", frame="none", cols="11,9,9,9",]
 |===
 a|
+.AFX systems switches
+
+* link:https://docs.netapp.com/us-en/ontap-afx/install-setup/afx-cable-overview.html[Cable the Cisco Nexus 9332D-GX2B switch^]
+
+* link:https://docs.netapp.com/us-en/ontap-afx/install-setup/afx-cable-overview.html[Cable the Cisco Nexus 9364D-GX2A switch^]
+
 a|
 .Cluster switches
 
-* link:../switch-bes-53248/configure-reqs-bes53248.html#configuration-requirements[Cable BES-53248 switch]
-* link:../switch-cisco-9336c-fx2/setup-worksheet-9336c-cluster.html[Cable Cisco Nexus 9336C-FX2 switch]
-* link:../switch-nvidia-sn2100/cabling-considerations-sn2100-cluster.html[Cable NVIDIA SN2100 switch]
+* link:../switch-bes-53248/configure-reqs-bes53248.html#configuration-requirements[Cable the BES-53248 switch]
+* link:../switch-cisco-9336c-fx2/setup-worksheet-9336c-cluster.html[Cable the Cisco Nexus 9336C-FX2 switch]
+* link:../switch-nvidia-sn2100/cabling-considerations-sn2100-cluster.html[Cable the NVIDIA SN2100 switch]
 
 a|
 .Storage switches
 
-* link:../switch-cisco-9336c-fx2-storage/setup-worksheet-9336c-storage.html[Cable Cisco Nexus 9336C-FX2 switch]
-* link:../switch-nvidia-sn2100-storage/cabling-considerations-sn2100-storage.html[Cable NVIDIA SN2100 switch]
+* link:../switch-cisco-9336c-fx2-storage/setup-worksheet-9336c-storage.html[Cable the Cisco Nexus 9336C-FX2 switch]
+* link:../switch-nvidia-sn2100-storage/cabling-considerations-sn2100-storage.html[Cable the NVIDIA SN2100 switch]
 
 
 a|
 .Shared switches
 
-* link:../switch-cisco-9336c-fx2-shared/cable-9336c-shared.html[Cable Cisco Nexus 9336C-FX2 switch]
+* link:../switch-cisco-9336c-fx2-shared/cable-9336c-shared.html[Cable the Cisco Nexus 9336C-FX2 switch]
 |===
 
 
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png[Four]Configure switch
-
-[role="quick-margin-para"]
-Perform an initial setup of your switches. Access the following instructions for your switch model.
-
-[%rotate, grid="none", frame="none", cols="2,9,9,9",]
-|===
-a|
-a|
-.Cluster switches
-
-* link:../switch-bes-53248/configure-install-initial.html[Configure BES-53248 switch]
-* link:../switch-cisco-9336c-fx2/setup-switch-9336c-cluster.html[Configure Cisco Nexus 9336C-FX2 switch]
-* link:../switch-nvidia-sn2100/configure-sn2100-cluster.html[Configure NVIDIA SN2100 switch]
-
-a|
-.Storage switches
-
-* link:../switch-cisco-9336c-fx2-storage/setup-switch-9336c-storage.html[Configure Cisco Nexus 9336C-FX2 switch]
-* link:../switch-nvidia-sn2100-storage/configure-sn2100-storage.html[Configure NVIDIA SN2100 switch]
-
-
-a|
-.Shared switches
-
-* link:../switch-cisco-9336c-fx2-shared/setup-and-configure-9336c-shared.html[Configure Cisco Nexus 9336C-FX2 switch]
-|===
-
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-5.png[Five] Install switch software
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png[Four] Configure the switch software
 
 [role="quick-margin-para"]
 To install and configure the software on your switch, follow the software install workflow for your switch model.
 
-[%rotate, grid="none", frame="none", cols="2,9,9,9"]
+[%rotate, grid="none", frame="none", cols="11,9,9,9"]
 |===
 a|
+
+.AFX systems switches
+
+* link:../switch-cisco-9332d-gx2b/configure-software-overview-9332d-cluster.html[Install software for Cisco Nexus 9332D-GX2B switch]
+
+* link:../switch-cisco-9364d-gx2a/configure-software-overview-9364d-cluster.html[Install software for Cisco Nexus 9364D-GX2A switch]
+
 a|
 .Cluster switches
 
@@ -148,15 +142,17 @@ a|
 * link:../switch-cisco-9336c-fx2-shared/configure-software-overview-9336c-shared.html[Install software for Cisco Nexus 9336C-FX2 switch]
 |===
 
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-6.png[Six] Complete system setup
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-5.png[Five] Complete system setup
 
 [role="quick-margin-para"]
 After you have configured your switches and installed the required software, access the install and setup instructions for your ONTAP systems platform model to complete your system setup.
 
-[%rotate, grid="none", frame="none", cols="4,9,9,9"]
+[%rotate, grid="none", frame="none", cols="2,9,9,9"]
 |===
 a|
 a|
+
+* https://docs.netapp.com/us-en/ontap-afx/index.html[AFX systems^]
 
 * https://docs.netapp.com/us-en/ontap-systems/aff-landing/index.html[AFF systems^]
 
@@ -170,7 +166,7 @@ a|
 a|
 |===
 
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-7.png[Seven]  Complete ONTAP configuration
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-6.png[Six] Complete ONTAP configuration
 
 [role="quick-margin-para"]
 After you have installed and set up your ONTAP systems controllers and switches, you must complete configuring your storage in ONTAP. Access the following instructions according to your deployment configuration.
@@ -180,5 +176,5 @@ After you have installed and set up your ONTAP systems controllers and switches,
 
 * For ONTAP with MetroCluster deployments, see https://docs.netapp.com/us-en/ontap-metrocluster/[Configure Metrocluster with ONTAP^].
 
-// Updates for AFFFASDOC-311, 2025-MAR-19
-// GH issue #340 internal repo, 2025-SEPT-18
+
+// New content for OAM project, AFFFASDOC-331, 2025-MAY-26

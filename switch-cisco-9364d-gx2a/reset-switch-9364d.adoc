@@ -1,0 +1,50 @@
+---
+sidebar: sidebar
+permalink: switch-cisco-9364d-gx2a/reset-switch-9364d.html
+keywords: reset switch factory defaults
+summary: Reset the 9364D-GX2A switch to its factory defaults.
+---
+= Reset the 9364D-GX2A switch to factory defaults
+:hardbreaks:
+:nofooter:
+:icons: font
+:linkattrs:
+:imagesdir: ../media/
+
+[.lead]
+To reset the 9364D-GX2A switch to factory defaults, you must erase the 9364D-GX2A switch settings.
+
+.About this task
+* You must be connected to the switch using the serial console.
+* This task resets the configuration of the management network.
+
+.Steps
+. Erase the existing configuration:
++
+`write erase`
++
+
+[subs=+quotes]
+----
+(cs2)# *write erase*
+
+Warning: This command will erase the startup-configuration.
+Do you wish to proceed anyway? (y/n) [n] *y*
+----
+
+. Reload the switch software:
++
+`reload`
++
+
+[subs=+quotes]
+----
+(cs2)# *reload*
+
+This command will reboot the system. (y/n)? [n] *y*
+----
+
++
+The system reboots and enters the configuration wizard. During the boot, if you receive the prompt “Abort Auto Provisioning and continue with normal setup? (yes/no)[n]”, you should respond *yes* to proceed.
+
+// New content for OAM project, AFFFASDOC-331, 2025-AUG-18
