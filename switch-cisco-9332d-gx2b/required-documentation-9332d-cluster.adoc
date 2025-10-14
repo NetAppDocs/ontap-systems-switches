@@ -1,0 +1,74 @@
+---
+sidebar: sidebar
+permalink: switch-cisco-9332d-gx2b/required-documentation-9332d-cluster.html
+keywords: shared storage cluster switch
+summary: For Cisco Nexus 9332D-GX2B switch installation and maintenance, be sure to review specific switch and controller documentation to set up your Cisco 9336-FX2 switches and ONTAP cluster.
+---
+= Documentation requirements for Cisco Nexus 9332D-GX2B switches 
+:hardbreaks:
+:nofooter:
+:icons: font
+:linkattrs:
+:imagesdir: ../media/
+
+[.lead]
+For Cisco Nexus 9332D-GX2B switch installation and maintenance, be sure to review specific switch and controller documentation to set up your 9332D-GX2B switches and ONTAP cluster.
+
+== Switch documentation
+To set up the Cisco Nexus 9332D-GX2B switches, you need the following documentation from the link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html[Cisco Nexus 9000 Series Switches Support^] page:
+
+[options="header" cols="1,2"]
+|===
+| Document title| Description
+a|
+link:https://www.cisco.com/c/en/us/td/docs/dcn/hw/nx-os/nexus9000/9332d-gx2b/cisco-nexus-9332d-gx2b-nx-os-mode-switch-hardware-installation-guide/m_installing-the-switch-chassis-new-1ru-rack-mount.html[Cisco Nexus 9332D-GX2B NX-OS Mode Switch Hardware Installation Guide^]
+a|
+Provides detailed information about site requirements, switch hardware details, and installation options.
+a|
+link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/products-installation-and-configuration-guides-list.html[Cisco Nexus 9000 Series Switch Software Configuration Guides^] (choose the guide for the NX-OS release installed on your switches)
+a|
+Provides initial switch configuration information that you need before you can configure the switch for ONTAP operation.
+a|
+link:https://www.cisco.com/c/en/us/td/docs/dcn/nx-os/nexus9000/101x/upgrade/cisco-nexus-9000-nx-os-software-upgrade-downgrade-guide-101x.html[Cisco Nexus 9000 Series NX-OS Software Upgrade and Downgrade Guide^] (choose the guide for the NX-OS release installed on your switches)
+a|
+Provides information on how to downgrade the switch to ONTAP supported switch software, if necessary.
+a|
+link:https://www.cisco.com/c/en/us/td/docs/dcn/nx-os/nexus9000/102x/command-reference/config/b_n9k_config_commands_1021.html[Cisco Nexus 9000 Series NX-OS Command Reference^]
+a|
+Provides links to the various command references provided by Cisco.
+a|
+link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/products-system-message-guides-list.html[Cisco Nexus 9000 Series NX-OS System Message Reference^]
+a|
+Describes the system messages for Cisco Nexus 9000 series switches, those that are informational, and others that might help diagnose problems with links, internal hardware, or the system software.
+a|
+link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/products-release-notes-list.html[Cisco Nexus 9000 Series NX-OS Release Notes^] (choose the notes for the NX-OS release installed on your switches)
+a|
+Describes the features, bugs, and limitations for the Cisco Nexus 9000 Series.
+a|
+link:https://www.cisco.com/c/en/us/td/docs/switches/datacenter/mds9000/hw/regulatory/compliance/RCSI.html?dtid=osscdc000283&linkclickid=srch[Regulatory Compliance and Safety Information for Cisco Nexus 9000 Series^]
+a|
+Provides international agency compliance, safety, and statutory information for the Nexus 9000 series switches.
+|===
+
+== ONTAP systems documentation
+
+To set up an ONTAP system, you need the following documents for your version of the operating system from the https://docs.netapp.com/ontap-9/index.jsp[ONTAP 9 Documentation Center^].
+
+[options="header" cols="1,2"]
+|===
+| Name| Description
+a|
+https://docs.netapp.com/us-en/ontap-afx/index.html[AFX systems documentation^]
+a|
+Describes how to install NetApp hardware.
+a|
+https://docs.netapp.com/us-en/ontap-family/[ONTAP documentation^]
+a|
+Provides detailed information about all aspects of the ONTAP releases.
+a|
+https://hwu.netapp.com[Hardware Universe^]
+a|
+Provides NetApp hardware configuration and compatibility information.
+|===
+
+// New content for OAM project, AFFFASDOC-331, 2025-MAY-08
