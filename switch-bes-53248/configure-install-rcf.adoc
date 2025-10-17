@@ -451,7 +451,7 @@ Are you sure you would like to reset the system? (y/n) *y*
 .EFOS version 3.12.x and later
 --
 [start=8]
-. Copy the RCF to the bootflash of switch cs2 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP.
+. Copy the RCF to the bootflash of switch cs2 using one of the following transfer protocols: HTTP, HTTPS, FTP, TFTP, SFTP, or SCP.
 +
 This example shows SFTP being used to copy an RCF to the bootflash on switch cs2:
 +
@@ -515,7 +515,7 @@ Configuration script 'reference-config.scr' applied.
 .All other EFOS versions
 --
 [start=8]
-. Copy the RCF to the bootflash of switch cs2 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP.
+. Copy the RCF to the bootflash of switch cs2 using one of the following transfer protocols: HTTP, HTTPS, FTP, TFTP, SFTP, or SCP.
 +
 This example shows SFTP being used to copy an RCF to the bootflash on switch cs2:
 +
@@ -1232,3 +1232,4 @@ link:configure-ssh.html[Enable SSH].
 // Updates for GH issue #247, 2025-MAR-14
 // Removed .scr for reference-config, 2025-MAY-14
 // Updates for AFFFASDOC-305, 2025-JUNE-25
+// AFFFASDOC-396, 2025-OCT-16
