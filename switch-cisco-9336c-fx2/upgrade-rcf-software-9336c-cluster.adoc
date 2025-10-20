@@ -61,7 +61,7 @@ cluster1::*>
 
 .. Verify that all the cluster ports are *up* with a healthy status: 
 +
-`network port show –role cluster`
+`network port show -role cluster`
 +
 .Show example 
 [%collapsible]
@@ -176,10 +176,17 @@ cluster1::*>
 
 . On cluster switch cs1, shut down the ports connected to the cluster ports of the nodes.
 +
-
+`cs1> *enable*`
++
+`cs1# *configure*`
++
 `cs1(config)# *interface eth1/1/1-2,eth1/7-8*`
 +
 `cs1(config-if-range)# *shutdown*`
++
+`cs1(config-if-range)# *exit*`
++
+`cs1# *exit*`
 +
 CAUTION: Make sure to shutdown *all* connected cluster ports to avoid any network connection issues.
 See the Knowledge Base article https://kb.netapp.com/on-prem/ontap/OHW/OHW-KBs/Node_out_of_quorum_when_migrating_cluster_lif_during_switch_OS_upgrade[Node out of quorum when migrating cluster LIF during switch OS upgrade^] for further details. 
@@ -245,6 +252,16 @@ cluster1::*>
 
 . Save basic configuration details to the `write_erase.cfg` file on the bootflash.
 +
+[NOTE]
+=================
+Make sure to configure the following:
+
+* Username and password
+* Management IP address
+* Default gateway
+* Switch name
+=================
++
 
 `cs1# show run | i "username admin password" > bootflash:write_erase.cfg`
 +
@@ -266,7 +283,7 @@ See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco
 
 . Verify that the `write_erase.cfg` file is populated as expected:
 +
-`show file bootflash:write_erase.cfg`
+`*show file bootflash:write_erase.cfg*`
 
 . Issue the write erase command to erase the current saved configuration:
 +
@@ -279,7 +296,7 @@ See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco
 
 . Copy the previously saved basic configuration into the startup configuration.
 +
-`cs1# copy bootflash:write_erase.cfg startup-config`
+`cs1# *copy bootflash:write_erase.cfg startup-config*`
 
 . Perform a reboot of the switch:
 +
@@ -296,10 +313,8 @@ You may need to update host file entries related to the SSH keys.
 +
 For more information on Cisco commands, see the appropriate guide in the link:https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
 +
-.Show example 
-[%collapsible]
-====
 This example shows TFTP being used to copy an RCF to the bootflash on switch cs1:
++
 
 [subs=+quotes]
 ----
@@ -310,64 +325,23 @@ Trying to connect to tftp server......Connection to Server Established.
 TFTP get operation was successful
 Copy complete, now saving to disk (please wait)...
 ----
-====
 
 . Apply the RCF previously downloaded to the bootflash.
 +
-For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
+For more information on Cisco commands, see the appropriate guide in the link:https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
 +
-.Show example 
-[%collapsible]
-====
 This example shows the RCF file `Nexus_9336C_RCF_v1.6-Cluster-HA-Breakout.txt` being installed on switch cs1:
-
-----
-cs1# copy Nexus_9336C_RCF_v1.6-Cluster-HA-Breakout.txt running-config echo-commands
-----
-====
 +
-. Examine the banner output from the `show banner motd` command. You must read and follow these instructions to ensure the proper configuration and operation of the switch.
+
+[subs=+quotes]
+----
+cs1# *copy Nexus_9336C_RCF_v1.6-Cluster-HA-Breakout.txt running-config echo-commands*
+----
 +
-.Show example 
-[%collapsible]
-====
-----
-cs1# show banner motd
-
-******************************************************************************
-* NetApp Reference Configuration File (RCF)
-*
-* Switch   : Nexus N9K-C9336C-FX2
-* Filename : Nexus_9336C_RCF_v1.6-Cluster-HA-Breakout.txt
-* Date     : 10-23-2020
-* Version  : v1.6
-*
-* Port Usage:
-* Ports  1- 3: Breakout mode (4x10G) Intra-Cluster Ports, int e1/1/1-4, e1/2/1-4
-, e1/3/1-4
-* Ports  4- 6: Breakout mode (4x25G) Intra-Cluster/HA Ports, int e1/4/1-4, e1/5/
-1-4, e1/6/1-4
-* Ports  7-34: 40/100GbE Intra-Cluster/HA Ports, int e1/7-34
-* Ports 35-36: Intra-Cluster ISL Ports, int e1/35-36
-*
-* Dynamic breakout commands:
-* 10G: interface breakout module 1 port <range> map 10g-4x
-* 25G: interface breakout module 1 port <range> map 25g-4x
-*
-* Undo breakout commands and return interfaces to 40/100G configuration in confi
-g mode:
-* no interface breakout module 1 port <range> map 10g-4x
-* no interface breakout module 1 port <range> map 25g-4x
-* interface Ethernet <interfaces taken out of breakout mode>
-* inherit port-profile 40-100G
-* priority-flow-control mode auto
-* service-policy input HA
-* exit
-*
-******************************************************************************
-----
-====
-
+[NOTE]
+=================
+Make sure to read thoroughly the *Installation notes*, *Important Notes*, and *banner* sections of your RCF. You must read and follow these instructions to ensure the proper configuration and operation of the switch.
+=================
 . Verify that the RCF file is the correct newer version: 
 +
 `show running-config`
@@ -384,7 +358,7 @@ The output varies according to your site configuration. Check the port settings 
 
 . After you verify the RCF versions, custom additions, and switch settings are correct, copy the running-config file to the startup-config file.
 +
-For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
+For more information on Cisco commands, see the appropriate guide in the link:https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
 +
 
 `cs1# copy running-config startup-config` 
@@ -528,7 +502,7 @@ cluster1::*>
 ----
 ====
 
-. Repeat steps 1 to 20 on switch cs2.
+. Repeat steps 1 to 19 on switch cs2.
 
 . Enable auto-revert on the cluster LIFs.
 +
