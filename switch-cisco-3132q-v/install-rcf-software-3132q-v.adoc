@@ -24,8 +24,6 @@ The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Serie
 
 No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To ensure non-disruptive cluster operations, the following procedure migrates all of the cluster LIFs to the operational partner switch while performing the steps on the target switch.
 
-Be sure to complete the procedure in link:prepare-install-cisco-nexus-3132q-v.html[Prepare to install NX-OS and RCF], and then follow the steps below.
-
 == Step 1: Install the RCF on the switches
 . Display the cluster ports on each node that are connected to the cluster switches:
 +
