@@ -16,13 +16,13 @@ Verify the following installations and connections:
 
 * A current backup of the switch configuration.
 * A fully functioning cluster (no errors in the logs or similar issues).
-* The current Reference Configuration File (RCF).
+* The current RCF.
 * A console connection to the switch, required when installing the RCF.
 
 .About this task
 The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 
-No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To ensure non-disruptive cluster operations, the following procedure migrates all of the cluster LIFs to the operational partner switch while performing the steps on the target switch.
+No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To enable non-disruptive cluster operations, the following procedure migrates all of the cluster LIFs to the operational partner switch while performing the steps on the target switch.
 
 == Step 1: Install the RCF on the switches
 . Display the cluster ports on each node that are connected to the cluster switches:
@@ -396,7 +396,7 @@ NetApp recommends that you use System Manager to set up new clusters.
 
 System Manager provides a simple and easy workflow for cluster set up and configuration including assigning a node management IP address, initializing the cluster, creating a local tier, configuring protocols, and provisioning initial storage.
 
-Go to link:https://docs.netapp.com/us-en/ontap/task_configure_ontap.html[Configure ONTAP on a new cluster with System Manager] for setup instructions.
+Refer to link:https://docs.netapp.com/us-en/ontap/task_configure_ontap.html[Configure ONTAP on a new cluster with System Manager] for setup instructions.
 
 .What's next?
 After you've installed the RCF, you link:configure-ssh-keys.html[verify the SSH configuration].
