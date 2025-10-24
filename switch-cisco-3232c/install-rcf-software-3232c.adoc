@@ -1,0 +1,253 @@
+---
+permalink: switch-cisco-3232c/install-rcf-software-3232c.html
+sidebar: sidebar
+keywords: ssh, requirement, cluster, switch, health, monitor, cshm, log, collection, feature, cisco 3232c
+summary: SSH is a requirement when using the Cluster Switch Health Monitor \(CSHM\) and log collection features. To enable SSH on Cisco 3232c cluster switches, you generate the SSH keys first and then enable SSH.
+---
+= Install the Reference Configuration File (RCF)
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+You install the Reference Configuration File (RCF) after setting up the Nexus 3232C switches for the first time.
+
+.Before you begin
+Verify the following installations and connections:
+
+* A current backup of the switch configuration.
+* A fully functioning cluster (no errors in the logs or similar issues).
+* The current RCF.
+* A console connection to the switch, required when installing the RCF.
+
+.About this task
+The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
+
+No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To enable non-disruptive cluster operations, the following procedure migrates all of the cluster LIFs to the operational partner switch while performing the steps on the target switch.
+
+Be sure to complete the procedure in link:prepare-install-cisco-nexus-3232c.html[Prepare to install NX-OS and RCF], and then follow the steps below.
+
+== Step 1: Install the RCF on the switches
+. Login to switch cs2 using SSH or by using a serial console.
+
+. Copy the RCF to the bootflash of switch cs2 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-installation-guides-list.html[Cisco Nexus 3000 Series NX-OS Command Reference^].
++
+.Show example 
+[%collapsible]
+====
+This example shows TFTP being used to copy an RCF to the bootflash on switch cs2:
+[subs=+quotes]
+----
+cs2# *copy tftp: bootflash: vrf management*
+Enter source filename: *Nexus_3232C_RCF_v1.6-Cluster-HA-Breakout.txt*
+Enter hostname for the tftp server: *172.22.201.50*
+Trying to connect to tftp server......Connection to Server Established.
+TFTP get operation was successful
+Copy complete, now saving to disk (please wait)...
+----
+====
+
+. Apply the RCF previously downloaded to the bootflash.
++
+For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-installation-guides-list.html[Cisco Nexus 3000 Series NX-OS Command Reference^].
++
+.Show example 
+[%collapsible]
+====
+This example shows the RCF file `Nexus_3232C_RCF_v1.6-Cluster-HA-Breakout.txt` being installed on switch cs2:
+[subs=+quotes]
+----
+cs2# *copy Nexus_3232C_RCF_v1.6-Cluster-HA-Breakout.txt running-config echo-commands*
+----
+====
++
+[NOTE]
+=================
+Make sure to read thoroughly the *Installation notes*, *Important Notes*, and *banner* sections of your RCF. You must read and follow these instructions to ensure the proper configuration and operation of the switch.
+=================
+
+. Examine the banner output from the `show banner motd` command. You must read and follow the instructions under *Important Notes* to make sure the proper configuration and operation of the switch.
+
+. Verify that the RCF file is the correct newer version:
++
+`show running-config`
++
+When you check the output to verify you have the correct RCF, make sure that the following information is correct:
+
+* The RCF banner
+* The node and port settings
+* Customizations
++
+The output varies according to your site configuration. Check the port settings and refer to the release notes for any changes specific to the RCF that you have installed.
+
+. Reapply any previous customizations to the switch configuration. Refer to link:cabling-considerations-3232c.html[Review cabling and configuration considerations] for details of any further changes required.
+
+. Save basic configuration details to the `write_erase.cfg` file on the bootflash.
+
++
+[NOTE]
+=================
+Make sure to configure the following:
+* Username and password
+* Management IP address
+* Default gateway
+* Switch name
+=================
++
+`cs2# show run | section "switchname" > bootflash:write_erase.cfg`
++
+`cs2# show run | section "hostname" >> bootflash:write_erase.cfg`
++
+`cs2# show run | i "username admin password" >> bootflash:write_erase.cfg`
++
+`cs2# show run | section "vrf context management" >> bootflash:write_erase.cfg`
++
+`cs2# show run | section "interface mgmt0" >> bootflash:write_erase.cfg`
+
+. For RCF version 1.12 and later, run the following commands:
++
+`cs2# echo "hardware access-list tcam region racl-lite 512" >> bootflash:write_erase.cfg`
++
+`cs2# echo "hardware access-list tcam region qos 256" >> bootflash:write_erase.cfg`
++
+See the Knowledge Base article https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further details.
+
+. Verify that the `write_erase.cfg` file is populated as expected:
++
+`show file bootflash:write_erase.cfg`
+
+. Issue the `write erase` command to erase the current saved configuration:
++
+
+`cs2# *write erase*`
++
+`Warning: This command will erase the startup-configuration.`
++
+`Do you wish to proceed anyway? (y/n)  [n] *y*`
+
+. Copy the previously saved basic configuration into the startup configuration.
++
+
+`cs2# *copy bootflash:write_erase.cfg startup-config*`
+
+. Reboot switch cs2:
++
+
+`cs2# *reload*`
++
+`This command will reboot the system. (y/n)?  [n] *y*`
+
+. Repeat Steps 1 to 12 on switch cs1.
+. Connect the cluster ports of all nodes in the ONTAP cluster to switches cs1 and cs2.
+
+== Step: 2: Verify the switch connections
+
+. Verify that the switch ports connected to the cluster ports are *up*.
++
+`show interface brief | grep up`
++
+.Show example 
+[%collapsible]
+====
+[subs=+quotes]
+----
+cs1# *show interface brief | grep up*
+.
+.
+Eth1/1/1      1       eth  access up      none                    10G(D) --
+Eth1/1/2      1       eth  access up      none                    10G(D) --
+Eth1/7        1       eth  trunk  up      none                   100G(D) --
+Eth1/8        1       eth  trunk  up      none                   100G(D) --
+.
+.
+----
+====
+
+. Verify that the ISL between cs1 and cs2 is functional:
++
+`show port-channel summary`
++
+.Show example 
+[%collapsible]
+====
+[subs=+quotes]
+----
+cs1# *show port-channel summary*
+Flags:  D - Down        P - Up in port-channel (members)
+        I - Individual  H - Hot-standby (LACP only)
+        s - Suspended   r - Module-removed
+        b - BFD Session Wait
+        S - Switched    R - Routed
+        U - Up (port-channel)
+        p - Up in delay-lacp mode (member)
+        M - Not in use. Min-links not met
+--------------------------------------------------------------------------------
+Group Port-       Type     Protocol  Member Ports
+      Channel
+--------------------------------------------------------------------------------
+1     Po1(SU)     Eth      LACP      Eth1/31(P)   Eth1/32(P)
+cs1#
+----
+====
+
+. Verify that the cluster LIFs have reverted to their home port:
++
+`network interface show -role cluster`
++
+.Show example 
+[%collapsible]
+====
+[subs=+quotes]
+----
+cluster1::*> *network interface show -role cluster*
+            Logical            Status     Network            Current             Current Is
+Vserver     Interface          Admin/Oper Address/Mask       Node                Port    Home
+----------- ------------------ ---------- ------------------ ------------------- ------- ----
+Cluster
+            cluster1-01_clus1  up/up      169.254.3.4/23     cluster1-01         e0d     true
+            cluster1-01_clus2  up/up      169.254.3.5/23     cluster1-01         e0d     true
+            cluster1-02_clus1  up/up      169.254.3.8/23     cluster1-02         e0d     true
+            cluster1-02_clus2  up/up      169.254.3.9/23     cluster1-02         e0d     true
+            cluster1-03_clus1  up/up      169.254.1.3/23     cluster1-03         e0b     true
+            cluster1-03_clus2  up/up      169.254.1.1/23     cluster1-03         e0b     true
+            cluster1-04_clus1  up/up      169.254.1.6/23     cluster1-04         e0b     true
+            cluster1-04_clus2  up/up      169.254.1.7/23     cluster1-04         e0b     true
+8 entries were displayed.
+cluster1::*>
+----
+====
++
+If any cluster LIFS have not returned to their home ports, revert them manually: 
+`network interface revert -vserver <vserver_name> -lif <lif_name>`
+
+. Verify that the cluster is healthy:
++
+`cluster show`
++
+.Show example 
+[%collapsible]
+====
+[subs=+quotes]
+----
+cluster1::*> *cluster show*
+Node                 Health  Eligibility   Epsilon
+-------------------- ------- ------------- -------
+cluster1-01          true    true          false
+cluster1-02          true    true          false
+cluster1-03          true    true          true
+cluster1-04          true    true          false
+4 entries were displayed.
+cluster1::*>
+----
+====
+
+== Step 3: Setup your ONTAP cluster
+NetApp recommends that you use System Manager to set up new clusters.
+
+System Manager provides a simple and easy workflow for cluster set up and configuration including assigning a node management IP address, initializing the cluster, creating a local tier, configuring protocols, and provisioning initial storage.
+
+Refer to https://docs.netapp.com/us-en/ontap/task_configure_ontap.html[Configure ONTAP on a new cluster with System Manager] for setup instructions.
+
+.What's next?
+After you've installed the RCF, you link:configure-ssh-keys.html[verify the SSH configuration].
+
+// New content for AFFFASDOC-394, 2025-SEPT-30
