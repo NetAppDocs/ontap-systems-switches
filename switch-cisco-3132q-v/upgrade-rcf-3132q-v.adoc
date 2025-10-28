@@ -272,7 +272,7 @@ NOTE: When upgrading or applying a new RCF, you must erase the switch settings a
 +
 `cs2# show run | section "interface mgmt0" >> bootflash:write_erase.cfg`
 
-. For RCF version 1.12 and later, run the following commands:
+. When upgrading to RCF version 1.12 and later, run the following commands:
 +
 `cs2# echo "hardware access-list tcam region vpc-convergence 256" >> bootflash:write_erase.cfg`
 +
@@ -760,3 +760,4 @@ RPC status:
 After you've upgraded your RCF, you link:configure-ssh-keys.html[verify the SSH configuration].
 
 // New content for AFFFASDOC-394, 2025-OCT-01
+// GH issue #301, 2025-OCT-28
