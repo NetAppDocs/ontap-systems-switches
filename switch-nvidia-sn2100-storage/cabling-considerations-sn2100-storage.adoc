@@ -338,31 +338,7 @@ UP     swp16      100G  9216   BondMember  cs01 (swp16)     Master: cl
 // end of tabbed content 
 
 .What's next?
-link:install-cable-shelves-sn2100-storage.html[Cable NS224 shelves as switch-attached storage].
-
-// The below feature will be included in the next Integrity release, so hiding this for now
-//== Support for DAC cables
-//Cumulus Linux version 4.4.3 supports DAC cabling. You enable the reduce link up time algorithm on a per port basis for this feature.
-
-//.Steps
-//. Add the following lines to the `/etc/cumulus/switchd.conf` file.
-//.. `interface.swp1.enable_media_depended_linkup_flow=TRUE`
-//.. `interface.swp1.enable_short_tuning=TRUE`
-//. Run the following command:
-//.. `systemctl reload switchd`
-//.. `systemctl restart switchd`
-
-//NOTE: This procedure applies only to ports that are using DAC.
-
-//.Example
-//The port format is swp[_n_], where _n_ is the applicable port number. The following example shows output for port 1.
-//+
-//[subs=+quotes]
-
-//cumulus@cumulus:mgmt:~$ *cat /etc/cumulus/switchd.conf | grep swp3*
-//interface.swp3.enable_media_depended_linkup_flow=TRUE
-//interface.swp3.enable_short_tuning=TRUE
-//cumulus@cumulus:mgmt:~$
-
+After you've reviewed your cabling and configuration requirements, you link:install-cable-shelves-sn2100-storage.html[cable the NS224 shelves as switch-attached storage].
 
 // Updates for AFFFASDOC-258, 2024-AUG-22
+// AFFFASDOC-411, 2025-OCT-30
