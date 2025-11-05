@@ -140,7 +140,7 @@ Make sure to configure the following:
 +
 `cs1# show run | section "switchname" >> bootflash:write_erase.cfg`
 
-. For RCF version 1.12 and later, run the following commands:
+. When installing RCF version 1.12 and later, run the following commands:
 +
 `cs1# echo "hardware access-list tcam region ing-racl 1024" >> bootflash:write_erase.cfg`
 +
@@ -403,3 +403,4 @@ After you've installed the RCF, you link:configure-ssh-keys.html[verify the SSH 
 // GH issue #290, 2025-SEPT-08
 // AFFFASDOC-387, 2025-SEPT-16
 // AFFFASDOC-394, 2025-OCT-20
+// GH issue #307, 2025-NOV-05
