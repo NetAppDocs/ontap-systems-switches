@@ -1,0 +1,83 @@
+---
+permalink: switch-cisco-9336c-fx2-storage/install-upgrade-rcf-overview-9336c-storage.html
+sidebar: sidebar
+keywords: ssh, requirement, cluster, switch, health, monitor, cshm, log, collection, feature, cisco 9336c-fx2
+summary: 'You can install the RCF after setting up the Nexus 9336C-FX2 switch for the first time. You can also use this procedure to upgrade your RCF version.'
+---
+= Install or upgrade the Reference Configuration File (RCF) overview
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+You install the Reference Configuration File (RCF) after setting up the Nexus 9336C-FX2 storage switch for the first time. You upgrade your RCF version when you have an existing version of the RCF file installed on your switch. 
+
+See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further information when installing or upgrading your RCF.
+
+.Available RCF configurations
+
+The following table describes the RCFs available for different configurations. Choose the RCF applicable to your configuration.
+
+For specific port and VLAN usage details, refer to the banner and important notes section in your RCF.
+
+[options="header" cols="1,2"]
+|===
+| RCF name | Description
+a|
+2-Cluster-HA-Breakout
+a|
+Supports two ONTAP clusters with at least eight nodes, including nodes that use shared Cluster+HA ports.
+a|
+4-Cluster-HA-Breakout
+a|
+Supports four ONTAP clusters with at least four nodes, including nodes that use shared Cluster+HA ports.
+a|
+1-Cluster-HA
+a|
+All ports are configured for 40/100GbE. Supports shared cluster/HA traffic on ports. Required for AFF A320, AFF A250, and FAS500f systems. Additionally, all ports can be used as dedicated cluster ports.
+a|
+1-Cluster-HA-Breakout
+a|
+Ports are configured for 4x10GbE breakout, 4x25GbE breakout (RCF 1.6+ on 100GbE switches), and 40/100GbE. Supports shared cluster/HA traffic on ports for nodes that use shared cluster/HA ports: AFF A320, AFF A250, and FAS500f systems. Additionally, all ports can be used as dedicated cluster ports.
+a|
+Cluster-HA-Storage
+a|
+Ports are configured for 40/100GbE for Cluster+HA, 4x10GbE breakout for Cluster and 4x25GbE breakout for Cluster+HA, and 100GbE for each Storage HA Pair.
+a|
+Cluster
+a|
+Two flavors of RCF with different allocations of 4x10GbE ports (breakout) and 40/100GbE ports. All FAS/AFF nodes are supported, except for AFF A320, AFF A250, and FAS500f systems.
+a|
+Storage
+a|
+All ports are configured for 100GbE NVMe storage connections.
+|===
+
+.Suggested documentation
+* link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches (NSS)^]
++
+Consult the switch compatibility table for the supported ONTAP and RCF versions on the NetApp Support Site. Note that there can be command dependencies between the command syntax in the RCF and the syntax found in specific versions of NX-OS.
+
+* link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html[Cisco Nexus 9000 Series Switches^]
++
+Refer to the appropriate software and upgrade guides available on the Cisco website for complete documentation on the Cisco switch upgrade and downgrade procedures.
+
+.About the examples
+The examples in this procedure use the following switch and node nomenclature:
+
+* The names of the two Cisco switches are cs1 and cs2.
+* The node names are node1-01, node1-02, node1-03, and node1-04.
+* The cluster LIF names are node1-01_clus1, node1-01_clus2, node1-02_clus1, node1-02_clus2, node1-03_clus1, node1-03_clus2, node1-04_clus1, and node1-04_clus2.
+* The `cluster1::*>` prompt indicates the name of the cluster.
+
+See the https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe^] to verify the correct ports on your platform.
+
+NOTE: The command outputs might vary depending on different releases of ONTAP.
+
+.Commands used
+The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
+
+.What's next?
+
+After you've reviewed the install RCF or upgrade RCF procedure, you link:install-rcf-software-9336c-storage.html[install the RCF] or link:upgrade-rcf-software-9336c-storage.html[upgrade your RCF] as required.
+
+// AFFFASDOC-289, 2025-NOV-05
