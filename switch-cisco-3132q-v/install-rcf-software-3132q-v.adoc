@@ -254,7 +254,7 @@ NOTE: When upgrading or applying a new RCF, you must erase the switch settings a
 +
 `cs2# show run | section "interface mgmt0" >> bootflash:write_erase.cfg`
 
-. For RCF version 1.12 and later, run the following commands:
+. When installing RCF version 1.12 and later, run the following commands:
 +
 `cs2# echo "hardware access-list tcam region vpc-convergence 256" >> bootflash:write_erase.cfg`
 +
@@ -402,3 +402,4 @@ Refer to link:https://docs.netapp.com/us-en/ontap/task_configure_ontap.html[Conf
 After you've installed the RCF, you can link:configure-ssh-keys.html[verify the SSH configuration].
 
 // New content for AFFFASDOC-394, 2025-OCT-01
+// GH issue #305, 2025-NOV-05
