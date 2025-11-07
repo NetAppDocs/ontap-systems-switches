@@ -77,7 +77,7 @@ If you are unsure, remove all configuration files for the supported models liste
 +
 [subs=+quotes]
 ----
-cluster1::> *system switch ethernet*
+cluster1::> *system switch ethernet configure-health-monitor*
 ----
 
 . Verify that the command output ends with the following text for your ONTAP version:
@@ -111,11 +111,11 @@ If an error occurs, contact NetApp support.
 [start=6]
 . [[step6]]Wait up to twice the Ethernet switch health monitor polling interval, found by running `system switch ethernet polling-interval show`, before completing the next step.
 
-. Run the command `system switch ethernet show` on the ONTAP system and make sure that the cluster switches are discovered with the monitored field set to *True* and the serial number field not showing *Unknown*.
+. Run the command `system switch ethernet configure-health-monitor show` on the ONTAP system and make sure that the cluster switches are discovered with the monitored field set to *True* and the serial number field not showing *Unknown*.
 +
 [subs=+quotes]
 ----
-cluster1::> *system switch ethernet show*
+cluster1::> *system switch ethernet configure-health-monitor show*
 ----
 
 NOTE: If your model is still showing *OTHER* after applying the configuration file, contact NetApp support.
@@ -124,3 +124,4 @@ See the https://docs.netapp.com/us-en/ontap-cli/system-switch-ethernet-configure
 
 // Updates for AFFFASDOC-341, 2025-MAY-28
 // This include is used in ontap-metrocluster. See ONTAPDOC-2755.
+// AFFFASDOC-412, 2025-NOV-03
