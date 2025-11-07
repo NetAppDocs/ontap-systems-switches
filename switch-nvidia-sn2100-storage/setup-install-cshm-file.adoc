@@ -97,7 +97,7 @@ If you are unsure, remove all configuration files for the supported models liste
 +
 [subs=+quotes]
 ----
-cluster1::> *system cluster-switch configure-health-monitor -node * -package-url http://192.168.2.20/usr/download/_[filename.zip]_*
+cluster1::> *system switch ethernet configure-health-monitor*
 ----
 
 . Verify that the command output ends with the following text for your ONTAP version:
@@ -131,20 +131,21 @@ If an error occurs, contact NetApp support.
 [start=6]
 . [[step6]]Wait up to twice the Ethernet switch health monitor polling interval, found by running `system switch ethernet polling-interval show`, before completing the next step.
 
-. Run the command `system switch ethernet show` on the ONTAP system and make sure that the cluster switches are discovered with the monitored field set to *True* and the serial number field not showing *Unknown*.
+. Run the command `system switch ethernet configure-health-monitor show` on the ONTAP system and make sure that the cluster switches are discovered with the monitored field set to *True* and the serial number field not showing *Unknown*.
 +
 [subs=+quotes]
 ----
-cluster1::> *system switch ethernet show*
+cluster1::> *system switch ethernet configure-health-monitor show*
 ----
 
 //NOTE: If at any time you revert to an earlier version of ONTAP, you will need to install the CSHM configuration file again to enable switch health monitoring of NVIDIA cluster switches.
 
 .What's next?
-After you've installed the CSHM file, you link:../switch-cshm/config-overview.html[configure switch health monitoring].
+After you've installed the CSHM file, you can link:../switch-cshm/config-overview.html[configure switch health monitoring].
 
 // Updates for AFFFASDOC-237, 2024-JUL-02
 // Updates for AFFFASDOC-255, 2024-AUG-07
 // Updates for AFFFASDOC-281, 2025-FEB-19
 // Remove NOD from text, 2025-FEB-21
 // AFFFASDOC-411, 2025-OCT-30
+// AFFFASDOC-412, 2025-NOV-03
