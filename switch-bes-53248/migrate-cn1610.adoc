@@ -635,7 +635,7 @@ cluster::*> system cluster-switch delete -device CL2
 +
 [subs=+quotes]
 ----
-cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert true*
+cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert true
 ----
 
 . On switch cs2, shutdown and restart all cluster ports to trigger an auto-revert of all cluster LIFs that are not on their home ports.

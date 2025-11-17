@@ -396,7 +396,7 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 +
 [subs=+quotes]
 ----
-cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert true*
+cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert true
 ----
 
 . On switch cs2, shutdown and restart all cluster ports to trigger an auto-revert of all cluster LIFs that are not on their home ports.
@@ -523,8 +523,8 @@ The `false` output in the following example shows that the configuration setting
 
 [subs=+quotes]
 ----
-cluster1::*> *network options switchless-cluster show*
-Enable Switchless Cluster: false
+cluster1::*> network options switchless-cluster show
+Enable Switchless Cluster: *false*
 ----
 
 . Verify the status of the node members in the cluster:

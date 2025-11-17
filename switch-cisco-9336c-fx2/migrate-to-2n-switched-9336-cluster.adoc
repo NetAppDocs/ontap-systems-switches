@@ -380,7 +380,7 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 === Step 3: Verify the configuration
 . Enable auto-revert on the cluster LIFs.
 +
-`*network interface modify -vserver Cluster -lif * -auto-revert true*`
+`network interface modify -vserver Cluster -lif * -auto-revert true`
 
 . On switch cs2, shutdown and restart all cluster ports to trigger an auto-revert of all cluster LIFs that are not on their home ports.
 +
@@ -509,17 +509,14 @@ node1      /cdp
 +
 NOTE: It might take several minutes for the command to complete. Wait for the '3 minute lifetime to expire' announcement.
 +
-
-.Show example 
-[%collapsible]
-====
 The false output in the following example shows that the configuration settings are disabled:
++
 
+[subs=+quotes]
 ----
 cluster1::*> network options switchless-cluster show
-Enable Switchless Cluster: false
+Enable Switchless Cluster: *false*
 ----
-====
 
 . Verify the status of the node members in the cluster: 
 +
