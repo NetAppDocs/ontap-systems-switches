@@ -514,27 +514,32 @@ swp16      100G   BondMember  sw1                 swp16
 +
 `cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert true`
 
-. Verify that all cluster network LIFs are back on their home ports: 
+
+. On switch sw2, shutdown and restart all cluster ports to trigger an auto-revert of all cluster LIFs that are not on their home ports.
 +
-`network interface show`
-+
-.Show example
-[%collapsible]
-====
+
 [subs=+quotes]
 ----
-cluster1::*> *network interface show -vserver Cluster*
+cumulus@sw2:mgmt:~$ *nv set interface swp1-14 link state down*
+cumulus@sw2:mgmt:~$ *nv config apply*
+cumulus@sw2:mgmt:~$ *nv show interface*
 
-            Logical    Status     Network            Current       Current Is
-Vserver     Interface  Admin/Oper Address/Mask       Node          Port    Home
------------ ---------- ---------- ------------------ ------------- ------- ----
-Cluster
-            node1_clus1  up/up    169.254.209.69/16  node1         e3a     true
-            node1_clus2  up/up    169.254.49.125/16  node1         e3b     true
-            node2_clus1  up/up    169.254.47.194/16  node2         e3a     true
-            node2_clus2  up/up    169.254.19.183/16  node2         e3b     true
+(Wait for 5-10 seconds before re-enabling the ports)
+
+cumulus@sw2:mgmt:~$ *nv set interface swp1-14 link state up*
+cumulus@sw2:mgmt:~$ *nv config apply*
+cumulus@sw2:mgmt:~$ *nv show interface*
+
+(After executing the link state up command, the nodes detect the change and begin to auto-revert the cluster LIFs to their home ports)
 ----
-====
+
+. Verify that the cluster LIFs have reverted to their home ports (this might take a minute):
++
+`network interface show -vserver Cluster`
++
+If any of the cluster LIFs have not reverted to their home port, manually revert them. You must connect to each node-mgmt LIF or SP/BMC system console of the local node owning LIF: 
++
+`network interface revert -vserver Cluster -lif *`
 
 . Change the privilege level back to admin: 
 +
@@ -555,3 +560,4 @@ After you've migrated your switches, you can link:../switch-cshm/config-overview
 // Updates for GH issue #212, 2024-OCT-23
 // GH issue #340 internal repo, 2025-SEPT-18
 // AFFFASDOC-411, 2025-OCT-30
+// AFFFASDOC-415, 2025-NOV-17
