@@ -638,11 +638,31 @@ cluster::*> system cluster-switch delete -device CL2
 cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert true*
 ----
 
+. On switch cs2, shutdown and restart all cluster ports to trigger an auto-revert of all cluster LIFs that are not on their home ports.
++
+
+[subs=+quotes]
+----
+cs2# *configure*
+cs2(config)# *interface 0/1-0/16*
+cs2(config-if-range)# *shutdown*
+
+(Wait for 5-10 seconds before re-enabling the ports)
+
+cs2(config-if-range)# *no shutdown*
+
+(After executing the no shutdown command, the nodes detect the change and begin to auto-revert the cluster LIFs to their home ports)
+
+cs2(config-if-range)# *exit*
+cs2(config)# *exit*
+cs2#
+----
+
 . Verify that the cluster LIFs have reverted to their home ports (this might take a minute):
 +
 `network interface show -vserver Cluster`
 +
-If the cluster LIFs have not reverted to their home port, manually revert them:
+If any of the cluster LIFs have not reverted to their home port, manually revert them. You must connect to each node-mgmt LIF or SP/BMC system console of the local node owning LIF: 
 +
 `network interface revert -vserver Cluster -lif *`
 
@@ -728,8 +748,8 @@ RPC status:
 
 // end of tabbed content
 
-[start=5]
-. [[step5]]If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
+[start=6]
+. [[step6]]If you suppressed automatic case creation, re-enable it by invoking an AutoSupport message:
 +
 `system node autosupport invoke -node * -type all -message MAINT=END`
 +
@@ -752,3 +772,4 @@ After you've migrated your switches, you can link:../switch-cshm/config-overview
 // Updates for GH issue #266, 2025-MAY-27
 // GH issue #340 internal repo, 2025-SEPT-18
 // AFFFASDOC-411, 2025-OCT-30
+// AFFFASDOC-415, 2025-NOV-17
