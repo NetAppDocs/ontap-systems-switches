@@ -677,6 +677,34 @@ Cluster
 . On switch sw2, shutdown and restart all cluster ports to trigger an auto-revert of all cluster LIFs that are not on their home ports.
 +
 
+// start of tabbed content
+
+[role="tabbed-block"]
+
+====
+
+.Cumulus 4.4.3
+--
+
+[subs=+quotes]
+----
+cumulus@sw2:mgmt:~$ *net add interface swp1-14 link down*
+cumulus@sw2:mgmt:~$ *net pending*
+cumulus@sw2:mgmt:~$ *net commit*
+
+(Wait for 5-10 seconds before re-enabling the ports)
+
+cumulus@sw2:mgmt:~$ *net add interface swp1-14 link up*
+cumulus@sw2:mgmt:~$ *net pending*
+cumulus@sw2:mgmt:~$ *net commit*
+
+(After executing the link state up command, the nodes detect the change and begin to auto-revert the cluster LIFs to their home ports)
+----
+--
+
+.Cumulus 5.x
+--
+
 [subs=+quotes]
 ----
 cumulus@sw2:mgmt:~$ *nv set interface swp1-14 link state down*
@@ -691,8 +719,13 @@ cumulus@sw2:mgmt:~$ *nv show interface*
 
 (After executing the link state up command, the nodes detect the change and begin to auto-revert the cluster LIFs to their home ports)
 ----
+--
+====
 
-. Verify that the cluster LIFs have reverted to their home ports (this might take a minute):
+// end of tabbed block
+
+[start=3]
+. [[step3]]Verify that the cluster LIFs have reverted to their home ports (this might take a minute):
 +
 `network interface show -vserver Cluster`
 +
