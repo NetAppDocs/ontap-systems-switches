@@ -509,6 +509,7 @@ node2      /cdp
 
 [subs=+quotes]
 ----
+cs2> *enable*
 cs2# *configure*
 cs2(config)# *interface eth1/1-1/2*
 cs2(config-if-range)# *shutdown*
@@ -531,7 +532,6 @@ cs2#
 If any of the cluster LIFs have not reverted to their home port, manually revert them. You must connect to each node-mgmt LIF or SP/BMC system console of the local node owning LIF: 
 +
 `network interface revert -vserver Cluster -lif *`
-
 
 . Verify that the cluster is healthy: 
 +
