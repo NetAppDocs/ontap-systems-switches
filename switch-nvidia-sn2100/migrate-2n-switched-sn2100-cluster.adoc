@@ -674,7 +674,7 @@ Cluster
 ----
 ====
 
-. On switch sw2, shutdown and restart all cluster ports to trigger an auto-revert of all cluster LIFs that are not on their home ports.
+. On switch sw2, shut down and restart all cluster ports to trigger an auto-revert of all cluster LIFs that are not on their home ports.
 +
 
 // start of tabbed content
@@ -729,7 +729,7 @@ cumulus@sw2:mgmt:~$ *nv show interface*
 +
 `network interface show -vserver Cluster`
 +
-If any of the cluster LIFs have not reverted to their home port, manually revert them. You must connect to each node-mgmt LIF or SP/BMC system console of the local node owning LIF: 
+If any of the cluster LIFs have not reverted to their home port, manually revert them. You must connect to each node-mgmt LIF or SP/BMC system console of the local node that owns the LIF: 
 +
 `network interface revert -vserver Cluster -lif *`
 

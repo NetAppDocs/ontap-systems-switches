@@ -382,7 +382,7 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 +
 `network interface modify -vserver Cluster -lif * -auto-revert true`
 
-. On switch cs2, shutdown and restart all cluster ports to trigger an auto-revert of all cluster LIFs that are not on their home ports.
+. On switch cs2, shut down and restart all cluster ports to trigger an auto-revert of all cluster LIFs that are not on their home ports.
 +
 
 [subs=+quotes]
@@ -407,7 +407,7 @@ cs2#
 +
 `network interface show -vserver Cluster`
 +
-If any of the cluster LIFs have not reverted to their home port, manually revert them. You must connect to each node-mgmt LIF or SP/BMC system console of the local node owning LIF: 
+If any of the cluster LIFs have not reverted to their home port, manually revert them. You must connect to each node-mgmt LIF or SP/BMC system console of the local node that owns the LIF: 
 +
 `network interface revert -vserver Cluster -lif *`
 
