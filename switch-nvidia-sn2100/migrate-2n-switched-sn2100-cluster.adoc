@@ -674,6 +674,65 @@ Cluster
 ----
 ====
 
+. On switch sw2, shut down and restart all cluster ports to trigger an auto-revert of all cluster LIFs that are not on their home ports.
++
+
+// start of tabbed content
+
+[role="tabbed-block"]
+
+====
+
+.Cumulus 4.4.3
+--
+
+[subs=+quotes]
+----
+cumulus@sw2:mgmt:~$ *net add interface swp1-14 link down*
+cumulus@sw2:mgmt:~$ *net pending*
+cumulus@sw2:mgmt:~$ *net commit*
+
+(Wait for 5-10 seconds before re-enabling the ports)
+
+cumulus@sw2:mgmt:~$ *net add interface swp1-14 link up*
+cumulus@sw2:mgmt:~$ *net pending*
+cumulus@sw2:mgmt:~$ *net commit*
+
+(After executing the link state up command, the nodes detect the change and begin to auto-revert the cluster LIFs to their home ports)
+----
+--
+
+.Cumulus 5.x
+--
+
+[subs=+quotes]
+----
+cumulus@sw2:mgmt:~$ *nv set interface swp1-14 link state down*
+cumulus@sw2:mgmt:~$ *nv config apply*
+cumulus@sw2:mgmt:~$ *nv show interface*
+
+(Wait for 5-10 seconds before re-enabling the ports)
+
+cumulus@sw2:mgmt:~$ *nv set interface swp1-14 link state up*
+cumulus@sw2:mgmt:~$ *nv config apply*
+cumulus@sw2:mgmt:~$ *nv show interface*
+
+(After executing the link state up command, the nodes detect the change and begin to auto-revert the cluster LIFs to their home ports)
+----
+--
+====
+
+// end of tabbed block
+
+[start=3]
+. [[step3]]Verify that the cluster LIFs have reverted to their home ports (this might take a minute):
++
+`network interface show -vserver Cluster`
++
+If any of the cluster LIFs have not reverted to their home port, manually revert them. You must connect to each node-mgmt LIF or SP/BMC system console of the local node that owns the LIF: 
++
+`network interface revert -vserver Cluster -lif *`
+
 . Verify that all interfaces display `true` for `Is Home`: 
 +
 `net interface show -vserver Cluster`
@@ -707,17 +766,15 @@ Cluster
 +
 `network options switchless-cluster show`
 +
-.Show example
-[%collapsible]
-====
+
 The false output in the following example shows that the configuration settings are disabled:
++
 
 [subs=+quotes]
 ----
-cluster1::*> *network options switchless-cluster show*
+cluster1::*> network options switchless-cluster show
 Enable Switchless Cluster: *false*
 ----
-====
 
 . Verify the status of the node members in the cluster: 
 +
@@ -816,9 +873,8 @@ RPC status:
 
 // end of tabbed content
 
-[start=6]
-
-. [[step6]] Change the privilege level back to admin: 
+[start=8]
+. [[step8]]Change the privilege level back to admin: 
 +
 `set -privilege admin`
 
@@ -835,3 +891,4 @@ After you've migrated your switches, you can link:../switch-cshm/config-overview
 // Updates for GH issue #212, 2024-OCT-23
 // Updates for AFFFASDOC-328, 2025-APR-23
 // AFFFASDOC-411, 2025-OCT-30
+// AFFFASDOC-415, 2025-NOV-17
