@@ -567,11 +567,32 @@ Group Port-       Type     Protocol  Member Ports
 +
 `network interface modify -vserver Cluster -lif * -auto-revert true`
 
+. On switch cs2, shut down and restart all cluster ports to trigger an auto-revert of all cluster LIFs that are not on their home ports.
++
+
+[subs=+quotes]
+----
+cs2> *enable*
+cs2# *configure*
+cs2(config)# *interface eth1/1-1/2*
+cs2(config-if-range)# *shutdown*
+
+(Wait for 5-10 seconds before re-enabling the ports)
+
+cs2(config-if-range)# *no shutdown*
+
+(After executing the no shutdown command, the nodes detect the change and begin to auto-revert the cluster LIFs to their home ports)
+
+cs2(config-if-range)# *exit*
+cs2(config)# *exit*
+cs2#
+----
+
 . Verify that the cluster LIFs have reverted to their home ports (this might take a minute):
 +
 `network interface show -vserver Cluster`
 +
-If the cluster LIFs have not reverted to their home port, manually revert them: 
+If any of the cluster LIFs have not reverted to their home port, manually revert them. You must connect to each node-mgmt LIF or SP/BMC system console of the local node that owns the LIF: 
 +
 `network interface revert -vserver Cluster -lif *`
 
@@ -657,8 +678,8 @@ RPC status:
 
 // end of tabbed content
 
-[start=5]
-. [[step5]]If you suppressed automatic case creation, reenable it by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=END`
+[start=6]
+. [[step6]]If you suppressed automatic case creation, reenable it by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=END`
 
 .What's next?
 After you've migrated the switches, you can link:../switch-cshm/config-overview.html[configure switch health monitoring].
@@ -675,3 +696,4 @@ After you've migrated the switches, you can link:../switch-cshm/config-overview.
 // Updates for GH issue #241, 2025-FEB-25
 // AFFFASDOC-380, 2025-AUG-28 
 // GH issue #340 internal repo, 2025-SEPT-18
+// AFFFASDOC-415, 2025-NOV-17

@@ -317,9 +317,9 @@ cluster1::*> *network interface show -vserver Cluster*
 Vserver  Interface    Admin/Oper Address/Mask       Node        Port    Home
 -------- ------------ ---------- ------------------ ----------- ------- ----
 Cluster
-         node1_clus1  up/up      169.254.209.69/16  node1       e0a     false
+         node1_clus1  up/up      169.254.209.69/16  node1       e0a     true
          node1_clus2  up/up      169.254.49.125/16  node1       e0b     true
-         node2_clus1  up/up      169.254.47.194/16  node2       e0a     false
+         node2_clus1  up/up      169.254.47.194/16  node2       e0a     true
          node2_clus2  up/up      169.254.19.183/16  node2       e0b     true
 ----
 ====
@@ -396,14 +396,35 @@ e0b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 +
 [subs=+quotes]
 ----
-cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert true*
+cluster1::*> network interface modify -vserver Cluster -lif * -auto-revert true
+----
+
+. On switch cs2, shut down and restart all cluster ports to trigger an auto-revert of all cluster LIFs that are not on their home ports.
++
+
+[subs=+quotes]
+----
+cs2> *enable*
+cs2# *configure*
+cs2(config)# *interface 0/1-0/16*
+cs2(config-if-range)# *shutdown*
+
+(Wait for 5-10 seconds before re-enabling the ports)
+
+cs2(config-if-range)# *no shutdown*
+
+(After executing the no shutdown command, the nodes detect the change and begin to auto-revert the cluster LIFs to their home ports)
+
+cs2(config-if-range)# *exit*
+cs2(config)# *exit*
+cs2#
 ----
 
 . Verify that the cluster LIFs have reverted to their home ports (this might take a minute):
 +
 `network interface show -vserver Cluster`
 +
-If the cluster LIFs have not reverted to their home port, manually revert them:
+If any of the cluster LIFs have not reverted to their home port, manually revert them. You must connect to each node-mgmt LIF or SP/BMC system console of the local node that owns the LIF: 
 +
 `network interface revert -vserver Cluster -lif *`
 
@@ -503,8 +524,8 @@ The `false` output in the following example shows that the configuration setting
 
 [subs=+quotes]
 ----
-cluster1::*> *network options switchless-cluster show*
-Enable Switchless Cluster: false
+cluster1::*> network options switchless-cluster show
+Enable Switchless Cluster: *false*
 ----
 
 . Verify the status of the node members in the cluster:
@@ -606,9 +627,9 @@ RPC status:
 
 // end of tabbed content
 
-[start=9]
+[start=10]
 
-. [[step9]]Change the privilege level back to admin:
+. [[step10]]Change the privilege level back to admin:
 +
 `set -privilege admin`
 
@@ -637,4 +658,6 @@ After you've migrated your switches, you can link:../switch-cshm/config-overview
 // Updates for GH issue #212, 2024-OCT-14
 // Updates for GH issue #267, 2025-MAY-27
 // GH issue #340 internal repo, 2025-SEPT-18
+// AFFFASDOC-300, 2025-NOV-20
 // AFFFASDOC-411, 2025-OCT-30
+// AFFFASDOC-415, 2025-NOV-17
