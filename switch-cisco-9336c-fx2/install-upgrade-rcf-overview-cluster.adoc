@@ -22,11 +22,11 @@ For specific port and VLAN usage details, refer to the banner and important note
 |===
 | RCF name | Description
 a|
-2-Cluster-HA-Breakout
+Cluster HA Breakout RCF 1._xx_ (2-Cluster-HA-Breakout)
 a|
 Supports two ONTAP clusters with at least eight nodes, including nodes that use shared Cluster+HA ports.
 a|
-4-Cluster-HA-Breakout
+Cluster HA Breakout RCF 1._xx_  (4-Cluster-HA-Breakout)
 a|
 Supports four ONTAP clusters with at least four nodes, including nodes that use shared Cluster+HA ports.
 a|
@@ -38,7 +38,7 @@ a|
 a|
 Ports are configured for 4x10GbE breakout, 4x25GbE breakout (RCF 1.6+ on 100GbE switches), and 40/100GbE. Supports shared cluster/HA traffic on ports for nodes that use shared cluster/HA ports: AFF A320, AFF A250, and FAS500f systems. Additionally, all ports can be used as dedicated cluster ports.
 a|
-Cluster-HA-Storage
+ClusterStorageRCF_1.xx_shared (Cluster-HA-Storage)
 a|
 Ports are configured for 40/100GbE for Cluster+HA, 4x10GbE breakout for Cluster and 4x25GbE breakout for Cluster+HA, and 100GbE for each Storage HA Pair.
 a|
@@ -46,7 +46,7 @@ Cluster
 a|
 Two flavors of RCF with different allocations of 4x10GbE ports (breakout) and 40/100GbE ports. All FAS/AFF nodes are supported, except for AFF A320, AFF A250, and FAS500f systems.
 a|
-Storage
+Storage RCF 1._xx_ (Storage)
 a|
 All ports are configured for 100GbE NVMe storage connections.
 |===
@@ -85,3 +85,4 @@ After you've reviewed the install RCF or upgrade RCF procedure, you can link:ins
 // Updates for GH issues #204 & 207, 2024-SEP-25
 // Updates for AFFFASDOC-318, 2025-APR-08
 // AFFFASDOC-380, 2025-AUG-28
+// AFFFASDOC-372, 2025-NOV-25
