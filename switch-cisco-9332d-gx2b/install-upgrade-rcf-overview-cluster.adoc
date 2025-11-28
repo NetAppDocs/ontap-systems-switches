@@ -15,9 +15,9 @@ See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco
 
 .Available RCF configuration
 
-* *Cluster-HA-Storage* - Supports shared cluster/HA/storage traffic on ports (NX9332D-GX2B-RCF-v10.0-Shared.txt). 
+* *Cluster-HA-Storage AFX* - All ports are configured in 4x100GbE breakout mode that universally supports AFX node clusters, HA, storage ports, and NX224 storage shelf ports. 400GbE ISL between switches. (_Cluster-HA-Storage AFX RCF_vxx.x_). 
 
-For specific port and VLAN usage details, refer to the banner and important notes section in your RCF.
+For specific port and VLAN usage details, refer to the banner and important notes section in your RCF. See link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches^] for more information.
 
 .Suggested documentation
 * link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches (NSS)^]
@@ -48,3 +48,4 @@ The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Serie
 After you've reviewed the install RCF or upgrade RCF procedure, you link:install-rcf-software-9332d-cluster.html[install the RCF] or link:upgrade-rcf-software-9332d-cluster.html[upgrade your RCF] as required.
 
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-06
+// AFFFASDOC-372, 2025-NOV-25

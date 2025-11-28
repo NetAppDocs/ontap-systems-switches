@@ -14,13 +14,13 @@ You install the Reference Configuration File (RCF) after setting up the Nexus 93
 See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further information when installing or upgrading your RCF.
 
 .Available RCF configurations
-The following table describes the RCFs available for different configurations. Choose the RCF applicable to your configuration.
+The following table describes the RCFs available for different configurations. Choose the RCF applicable to your configuration. See link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches^] for more information.
 
 For specific port and VLAN usage details, refer to the banner and important notes section in your RCF.
 
 [options="header" cols="1,2"]
 |===
-| RCF name | Description
+| RCF configuration | Description
 a|
 2-Cluster-HA-Breakout
 a|
@@ -51,12 +51,30 @@ a|
 All ports are configured for 100GbE NVMe storage connections.
 |===
 
+
+.Available RCFs
+
+The following table lists the available RCFs for 9336C-FX2 and 9336C-FX2-T switches. Choose the applicable RCF version for your configuration. See link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches^] for more information.
+
+[options="header" cols="1"]
+|===
+| RCF name
+a|
+Cluster-HA-Breakout RCF 1._xx_
+a|
+Cluster-HA-Storage RCF 1._xx_
+a|
+Storage RCF 1._xx_
+a|
+MultiCluster-HA RCF 1._xx_
+|===
+
 .Suggested documentation
 * link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches (NSS)^]
 +
 Consult the switch compatibility table for the supported ONTAP and RCF versions on the NetApp Support Site. Note that there can be command dependencies between the command syntax in the RCF and the syntax found in specific versions of NX-OS.
 
-* link:https://www.cisco.com/c/en/us/support/switches/nexus-3000-series-switches/products-installation-guides-list.html[Cisco Nexus 3000 Series Switches^]
+* link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/products-installation-guides-list.html[Cisco Nexus 9000 Series Switches^]
 +
 Refer to the appropriate software and upgrade guides available on the Cisco website for complete documentation on the Cisco switch upgrade and downgrade procedures.
 
@@ -85,3 +103,4 @@ After you've reviewed the install RCF or upgrade RCF procedure, you can link:ins
 // Updates for GH issues #204 & 207, 2024-SEP-25
 // Updates for AFFFASDOC-318, 2025-APR-08
 // AFFFASDOC-380, 2025-AUG-28
+// AFFFASDOC-372, 2025-NOV-25
