@@ -730,9 +730,10 @@ RPC status:
 
 // end of tabbed content
 
-. Enable auto-revert on the cluster LIFs.
+[start=16]
+. [[step16]]Enable auto-revert on the cluster LIFs.
 +
-`network interface modify -vserver Cluster -lif * -auto-revert true` 
+`*network interface modify -vserver Cluster -lif * -auto-revert true*` 
 
 . Verify that the cluster LIFs have reverted to their home port: 
 +

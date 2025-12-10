@@ -269,10 +269,10 @@ Cluster
 ====
 [subs=+quotes]
 ----
-cluster1::*> *network interface show -vserver Cluster -fields auto-revert*
+cluster1::*> *network interface show -vserver Cluster -fields -auto-revert false*
 
           Logical
-Vserver   Interface     Auto-revert
+Vserver   Interface     auto-revert
 --------- ------------- ------------
 Cluster
           node1_clus1   false
@@ -375,7 +375,7 @@ cs2(config-if-range)# *no shutdown*
 === Step 3: Verify the configuration
 . Enable auto-revert on the cluster LIFs.
 +
-`network interface modify -vserver Cluster -lif * -auto-revert true`
+`*network interface modify -vserver Cluster -lif * -auto-revert true*`
 
 . Verify that all cluster ports are up:
 +
