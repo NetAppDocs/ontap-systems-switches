@@ -262,14 +262,14 @@ Cluster
 
 . Disable auto-revert on all the cluster LIFs:
 +
-`network interface show -vserver Cluster -fields -auto-revert false`
+`network interface modify -vserver Cluster -lif * -auto-revert false`
 +
 .Show example
 [%collapsible]
 ====
 [subs=+quotes]
 ----
-cluster1::*> *network interface show -vserver Cluster -fields -auto-revert false*
+cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert false*
 
           Logical
 Vserver   Interface     auto-revert
