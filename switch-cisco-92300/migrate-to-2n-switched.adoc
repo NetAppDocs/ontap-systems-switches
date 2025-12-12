@@ -260,25 +260,25 @@ Cluster
 ----
 ====
 
-. Verify that auto-revert is enabled on all cluster LIFs:
+. Disable auto-revert on all of the cluster LIFs:
 +
-`network interface show -vserver Cluster -fields auto-revert`
+`network interface modify -vserver Cluster -lif * -auto-revert false`
 +
 .Show example
 [%collapsible]
 ====
 [subs=+quotes]
 ----
-cluster1::*> *network interface show -vserver Cluster -fields auto-revert*
+cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert false*
 
           Logical
-Vserver   Interface     Auto-revert
+Vserver   Interface     auto-revert
 --------- ------------- ------------
 Cluster
-          node1_clus1   true
-          node1_clus2   true
-          node2_clus1   true
-          node2_clus2   true
+          node1_clus1   false
+          node1_clus2   false
+          node2_clus1   false
+          node2_clus2   false
 
 4 entries were displayed.
 ----
@@ -373,6 +373,9 @@ cs2(config-if-range)# *no shutdown*
 ====
 
 === Step 3: Verify the configuration
+. Enable auto-revert on the cluster LIFs.
++
+`*network interface modify -vserver Cluster -lif * -auto-revert true*`
 
 . Verify that all cluster ports are up:
 +
@@ -648,3 +651,4 @@ link:../switch-cshm/config-overview.html[configure switch health monitoring].
 // Updated as part of AFFFASDOC-216, 217, 2024-JUL-30
 // Updates for GH issue #212, 2024-OCT-23
 // GH issue #340 internal repo, 2025-SEPT-18
+// AFFFASDOC-421, 2025-DEC-10
