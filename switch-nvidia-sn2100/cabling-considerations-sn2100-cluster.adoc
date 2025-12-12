@@ -26,7 +26,7 @@ a| 100GbE Inter-Switch Link (ISL) ports
 	
 |===
 
-See the https://hwu.netapp.com/Switch/Index[Hardware Universe^] for more information on switch ports.
+See the link:https://hwu.netapp.com/Switch/Index[Hardware Universe^] for more information on switch ports.
 	
 == Link-up delays with optical connections
 If you are experiencing link-up delays of more than five seconds, Cumulus Linux 5.4 and later includes support for fast link-up. You can configure the links by using the `nv set` command as follows:
@@ -175,7 +175,7 @@ UP     swp4      100G  9216   Trunk/L2                     Master: bridge(UP)
 
 //. Restart the switchd daemon: `systemctl restart switchd`
 
-See the Knowledge Base article https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Systems/Fabric_Interconnect_and_Management_Switches/NVIDIA_SN2100_switch_fails_to_connect_using_40_100GbE_copper_cable[SN2100 switch fails to connect using 40/100GbE copper cables^] for further details.
+See the Knowledge Base article link:https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Systems/Fabric_Interconnect_and_Management_Switches/NVIDIA_SN2100_switch_fails_to_connect_using_40_100GbE_copper_cable[SN2100 switch fails to connect using 40/100GbE copper cables^] for further details.
 
 //.Show example
 //[%collapsible]
@@ -198,20 +198,20 @@ For example:
 * AFF A800 on ports e0a and e0b
 * AFF A320 on ports e0g and e0h
 
-== QSA adapter
+== QSA module
 
-When a QSA adapter is used to connect to the 10GbE/25GbE cluster ports on a platform, the link might not come up.
+When using QSFP+ (40GbE) to SFP+ (10GbE) adapters or QSFP28 (100GbE) to SFP28 (25GbE) adapters (QSA), insert them in non-breakout 40GbE/100GbE switch ports (swp3-swp14). Do not insert the QSA module in a port that is configured for breakout.
+ 
+When a QSA module is used to connect to the 10GbE/25GbE cluster ports on a platform, the link might not come up.
 
 To resolve this issue, do the following:
 
-* For 10GbE, manually set the swp1s0-3 link speed to 10000 and set auto-negotiation to off.
-* For 25GbE, manually set the swp2s0-3 link speed to 25000 and set auto-negotiation to off.
-
-NOTE: When using 10GbE/25GbE QSA adapters, insert them in non-breakout 40GbE/100GbE ports (swp3-swp14). Do not insert the QSA adapter in a port that is configured for breakout.
+* For 10GbE, manually set the link speed to 10000 and set auto-negotiation to off.
+* For 25GbE, manually set the link speed to 25000 and set auto-negotiation to off.
 
 == Setting interface speed on breakout ports
 
-Depending on the transceiver in the switch port, you might need to set the speed on the switch interface to a fixed speed. If using 10GbE and 25GbE breakout ports, verify that auto-negotiation is off and set the interface speed on the switch. 
+Depending on the transceiver in the switch port, you might need to set the speed on the switch interface to a fixed speed. If using 10GbE and 25GbE breakout ports or QSA module, verify that auto-negotiation is off and set the interface speed on the switch. 
 
 // start of tabbed content 
 
@@ -337,6 +337,8 @@ UP     swp16      100G  9216   BondMember  cs01 (swp16)     Master: cl
 
 // end of tabbed content 
 
+See the link:https://hwu.netapp.com/Switch/Index[Hardware Universe^]and the Knowledge Base article link:https://kb.netapp.com/Support/General_Support/What_additional_information_do_I_need_to_install_my_equipment_that_is_not_in_HWU[What additional information do I need to install my equipment that is not in HWU^] for more information. 
+
 //The below feature will be included in the next Integrity release, so hiding this for now
 //== Support for DAC cables
 //Cumulus Linux version 4.4.3 supports DAC cabling. You enable the reduce link up time algorithm on a per port basis for this feature.
@@ -372,3 +374,4 @@ After you've reviewed your cabling and configuration requirements, you can link:
 // Updates for AFFFASDOC-258, 2024-AUG-22
 // Updates for GH issue #225, 2024-NOV-21
 // AFFFASDOC-411, 2025-OCT-30
+// AFFFASDOC-276, AFFFASDOC-249, 2025-DEC-09

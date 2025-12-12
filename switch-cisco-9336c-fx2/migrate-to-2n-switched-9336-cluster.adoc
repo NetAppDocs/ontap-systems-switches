@@ -48,7 +48,7 @@ The examples in this procedure use the following cluster switch and node nomencl
 * The `cluster1::*>` prompt indicates the name of the cluster.
 * The cluster ports used in this procedure are e0a and e0b.
 
-See https://hwu.netapp.com[Hardware Universe^] for information about the cluster ports for your platforms.
+See https://hwu.netapp.com[Hardware Universe^] for information about the cluster ports for your platforms. See link:https://kb.netapp.com/Support/General_Support/What_additional_information_do_I_need_to_install_my_equipment_that_is_not_in_HWU[What additional information do I need to install my equipment that is not in HWU?^] for more information about switch installation requirements.
 
 == Migrate the switches
 
@@ -236,24 +236,24 @@ Cluster
 ----
 ====
 
-. Verify that auto-revert is enabled on all cluster LIFs: 
+. Disable auto-revert on all of the cluster LIFs: 
 +
-`network interface show -vserver Cluster -fields auto-revert`
+`network interface modify -vserver Cluster -lif * -auto-revert false`
 +
 .Show example 
 [%collapsible]
 ====
 ----
-cluster1::*> network interface show -vserver Cluster -fields auto-revert
+cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert false*
 
           Logical
 Vserver   Interface     Auto-revert
 --------- ------------- ------------
 Cluster
-          node1_clus1   true
-          node1_clus2   true
-          node2_clus1   true
-          node2_clus2   true
+          node1_clus1   false
+          node1_clus2   false
+          node2_clus1   false
+          node2_clus2   false
 
 4 entries were displayed.
 ----
@@ -633,3 +633,4 @@ After you've migrated your switches, you can link:../switch-cshm/config-overview
 // Updates for GH issue #212, 2024-OCT-17
 // AFFFASDOC-380, 2025-AUG-28
 // AFFFASDOC-415, 2025-NOV-17
+// AFFFASDOC-421, 2025-DEC-10
