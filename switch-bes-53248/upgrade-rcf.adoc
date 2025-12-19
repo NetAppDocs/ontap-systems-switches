@@ -443,7 +443,7 @@ Are you sure you would like to reset the system? (y/n) *y*
 .. Log in to the switch again using SSH to complete the RCF installation.
 
 . Note the following: 
-.. If additional port licenses have been installed on the switch, you must modify the RCF to configure the additional licensed ports. See link:configure-licenses.html#activate-newly-licensed-ports[Activate newly licensed ports] for details. 
+.. If additional port licenses have been installed on the switch, you must modify the RCF to configure the additional licensed ports. See link:configure-licenses.html#activate-newly-licensed-ports[Activate newly licensed ports] for details. However, when you upgrade to RCF 1.12 or later, the modifications are no longer needed because all interfaces are now pre-configured. 
 .. Record any customizations that were made in the previous RCF and apply these to the new RCF. For example, setting port speeds or hard-coding FEC mode.
 
 // start of tabbed content 
@@ -1189,3 +1189,4 @@ system node autosupport invoke -node * -type all -message MAINT=END
 // Removed .scr for reference-config, 2025-MAY-14
 // Updates for AFFFASDOC-319, 2025-JUN-25 
 // AFFFASDOC-396, 2025-OCT-16
+// GH issue #315, 2025-DEC-18
