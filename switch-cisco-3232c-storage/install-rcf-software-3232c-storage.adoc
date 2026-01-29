@@ -24,7 +24,7 @@ The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Serie
 
 No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To enable non-disruptive cluster operations, the following procedure migrates all of the cluster LIFs to the operational partner switch while performing the steps on the target switch.
 
-Be sure to complete the procedure in link:prepare-install-cisco-nexus-3232c.html[Prepare to install NX-OS and RCF], and then follow the steps below.
+Be sure to complete the procedure in link:prepare-install-cisco-nexus-3232c-storage.html[Prepare to install NX-OS and RCF], and then follow the steps below.
 
 == Step 1: Install the RCF on the switches
 . Login to switch cs2 using SSH or by using a serial console.
@@ -79,7 +79,7 @@ When you check the output to verify you have the correct RCF, make sure that the
 +
 The output varies according to your site configuration. Check the port settings and refer to the release notes for any changes specific to the RCF that you have installed.
 
-. Reapply any previous customizations to the switch configuration. Refer to link:cabling-considerations-3232c.html[Review cabling and configuration considerations] for details of any further changes required.
+. Reapply any previous customizations to the switch configuration. 
 
 . Save basic configuration details to the `write_erase.cfg` file on the bootflash.
 
