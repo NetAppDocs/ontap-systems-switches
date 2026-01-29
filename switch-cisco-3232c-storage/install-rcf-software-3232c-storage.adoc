@@ -17,14 +17,14 @@ Verify the following installations and connections:
 * A current backup of the switch configuration.
 * A fully functioning cluster (no errors in the logs or similar issues).
 * The current RCF.
-* A console connection to the switch, required when installing the RCF.
+* A console connection to the switch, this is required when installing the RCF.
 
 .About this task
 The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 
 No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To enable non-disruptive cluster operations, the following procedure migrates all of the cluster LIFs to the operational partner switch while performing the steps on the target switch.
 
-Be sure to complete the procedure in link:prepare-install-cisco-nexus-3232c-storage.html[Prepare to install NX-OS and RCF], and then follow the steps below.
+Complete the procedure in link:prepare-install-cisco-nexus-3232c-storage.html[Prepare to install NX-OS and RCF], and then follow the steps below.
 
 == Step 1: Install the RCF on the switches
 . Login to switch cs2 using SSH or by using a serial console.
@@ -62,12 +62,12 @@ cs2# *copy Nexus_3232C_RCF_v1.6-Cluster-HA-Breakout.txt running-config echo-comm
 +
 [NOTE]
 =================
-Make sure to read thoroughly the *Installation notes*, *Important Notes*, and *banner* sections of your RCF. You must read and follow these instructions to ensure the proper configuration and operation of the switch.
+Make sure to read thoroughly the *Installation notes*, *Important Notes*, and *banner* sections of your RCF. You must read and follow these instructions to verify the proper configuration and operation of the switch.
 =================
 
 . Examine the banner output from the `show banner motd` command. You must read and follow the instructions under *Important Notes* to make sure the proper configuration and operation of the switch.
 
-. Verify that the RCF file is the correct newer version:
+. Verify that the RCF is the correct newer version:
 +
 `show running-config`
 +
@@ -240,7 +240,7 @@ cluster1::*>
 ----
 ====
 
-== Step 3: Setup your ONTAP cluster
+== Step 3: Set up your ONTAP cluster
 NetApp recommends that you use System Manager to set up new clusters.
 
 System Manager provides a simple and easy workflow for cluster set up and configuration including assigning a node management IP address, initializing the cluster, creating a local tier, configuring protocols, and provisioning initial storage.
