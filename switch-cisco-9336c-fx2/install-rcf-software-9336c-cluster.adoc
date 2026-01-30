@@ -154,25 +154,7 @@ See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco
 +
 `*show file bootflash:write_erase.cfg*`
 
-. Issue the `write erase` command to erase the current saved configuration:
-+
-`cs1# *write erase*`
-+
-`Warning: This command will erase the startup-configuration.`
-+
-`Do you wish to proceed anyway? (y/n)  [n] *y*`
-
-. Copy the previously saved basic configuration into the startup configuration.
-+
-`cs1# *copy bootflash:write_erase.cfg startup-config*.`
-
-. Reboot switch cs1. 
-+
-`cs1# *reload*`
-+
-`This command will reboot the system. (y/n)?  [n] *y*`  
-
-. Repeat steps 1 through 13 on switch cs2.
+. Repeat steps 1 through 10 on switch cs2.
 
 . Connect the cluster ports of all nodes in the ONTAP cluster to switches cs1 and cs2.
 
@@ -404,3 +386,4 @@ After you've installed the RCF, you can link:configure-ssh-keys.html[verify the 
 // AFFFASDOC-387, 2025-SEPT-16
 // AFFFASDOC-394, 2025-OCT-20
 // GH issue #307, 2025-NOV-05
+// AFFFASDOC-456, 2026-JAN-30
