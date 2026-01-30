@@ -61,7 +61,7 @@ cluster1::*>
 
 .. Verify that all the cluster ports are *up* with a healthy status: 
 +
-`network port show -role cluster`
+`network port show -ipspace cluster`
 +
 .Show example 
 [%collapsible]
@@ -69,7 +69,7 @@ cluster1::*>
 
 [subs=+quotes]
 ----
-cluster1::*> *network port show -role cluster*
+cluster1::*> *network port show -ipspace cluster*
 
 Node: cluster1-01
                                                                        Ignore
@@ -110,7 +110,7 @@ cluster1::*>
 
 .. Verify that all the cluster interfaces (LIFs) are on the home port: 
 +
-`network interface show -role cluster`
+`network interface show -vserver cluster`
 +
 .Show example 
 [%collapsible]
@@ -118,7 +118,7 @@ cluster1::*>
 
 [subs=+quotes]
 ----
-cluster1::*> *network interface show -role cluster*
+cluster1::*> *network interface show -vserver cluster*
             Logical            Status     Network           Current      Current Is
 Vserver     Interface          Admin/Oper Address/Mask      Node         Port    Home
 ----------- ------------------ ---------- ----------------- ------------ ------- ----
@@ -193,7 +193,7 @@ See the Knowledge Base article https://kb.netapp.com/on-prem/ontap/OHW/OHW-KBs/N
 
 . Verify that the cluster LIFs have failed over to the ports hosted on cluster switch cs1. This might take a few seconds.
 +
-`network interface show -role cluster`
+`network interface show -vserver cluster`
 +
 .Show example 
 [%collapsible]
@@ -201,7 +201,7 @@ See the Knowledge Base article https://kb.netapp.com/on-prem/ontap/OHW/OHW-KBs/N
 
 [subs=+quotes]
 ----
-cluster1::*> *network interface show -role cluster*
+cluster1::*> *network interface show -vserver cluster*
             Logical           Status     Network            Current       Current Is
 Vserver     Interface         Admin/Oper Address/Mask       Node          Port    Home
 ----------- ----------------- ---------- ------------------ ------------- ------- ----
@@ -377,7 +377,7 @@ For more information on Cisco commands, see the appropriate guide in the link:ht
 
 .. Verify that cluster ports are up and healthy across all nodes in the cluster: 
 +
-`network port show -role cluster`
+`network port show -ipspace cluster`
 +
 .Show example 
 [%collapsible]
@@ -385,7 +385,7 @@ For more information on Cisco commands, see the appropriate guide in the link:ht
 
 [subs=+quotes]
 ----
-cluster1::*> *network port show -role cluster*
+cluster1::*> *network port show -ipspace cluster*
 
 Node: cluster1-01
                                                                        Ignore
@@ -507,6 +507,13 @@ cluster1::*>
 . Enable auto-revert on the cluster LIFs.
 +
 `cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert True*` 
+
+. Perform a reboot of switch cs2.
++
+
+`cs2# *reload*`
++
+`This command will reboot the system. (y/n)?  [n] *y*`
 
 == Step 3: Verify the cluster network configuration and cluster health
 
@@ -743,7 +750,7 @@ cs1#
 
 . Verify that the cluster LIFs have reverted to their home port: 
 +
-`network interface show -role cluster` 
+`network interface show -vserver cluster` 
 +
 .Show example 
 [%collapsible]
@@ -751,7 +758,7 @@ cs1#
 
 [subs=+quotes]
 ----
-cluster1::*> *network interface show -role cluster*
+cluster1::*> *network interface show -vserver cluster*
             Logical            Status     Network            Current             Current Is
 Vserver     Interface          Admin/Oper Address/Mask       Node                Port    Home
 ----------- ------------------ ---------- ------------------ ------------------- ------- ----
@@ -903,3 +910,4 @@ After you've upgraded your RCF, you can link:configure-ssh-keys.html[verify the 
 // AFFFASDOC-387, 2025-SEPT-16
 // AFFFASDOC-394, 2025-OCT-20
 // GH issue #303, 2025-OCT-28
+// AFFFASDOC-456, 2026-JAN-30
