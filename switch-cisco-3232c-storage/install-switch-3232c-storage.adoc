@@ -1,0 +1,47 @@
+---
+permalink: switch-cisco-3232c-storage/install-switch-3232c-storage.html
+sidebar: sidebar
+keywords: require, configuration, information, documentation, cluster, management, network, switches, set up the switches - cisco nexus 3232c
+summary: Follow this procedure to install the Cisco Nexus 3232C storage switch.
+---
+= Install the 3232C storage switch
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+Follow this procedure to set up and configure the Cisco Nexus 3232C storage switch.
+
+.Before you begin
+Make sure you have the following:
+
+* Access to an HTTP, FTP, or TFTP server at the installation site to download the applicable NX-OS and Reference Configuration File (RCF) releases.
+* Applicable NX-OS version, downloaded from the https://software.cisco.com/download/home[Cisco Software Download^] page. 
+* Applicable licenses, network and configuration information, and cables.
+* Applicable NetApp cluster network and management network RCFs downloaded from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com^]. All Cisco cluster network and management network switches arrive with the standard Cisco factory-default configuration. These switches also have the current version of the NX-OS software but do not have the RCFs loaded.
+* link:required-documentation-3232c-storage.html[Required switch and ONTAP documentation].
+
+
+.Steps
+. Rack the cluster network and management network switches and controllers.
++
+[options="header" cols="1,2"]
+|===
+| If you are installing the...| Then...
+a|
+Cisco Nexus 3232C in a NetApp system cabinet
+a|
+See the _Installing a Cisco Nexus 3232C cluster switch and pass-through panel in a NetApp cabinet_ guide for instructions to install the switch in a NetApp cabinet.
+a|
+Equipment in a Telco rack
+a|
+See the procedures provided in the switch hardware installation guides and the NetApp installation and setup instructions.
+|===
+
+. Cable the cluster network and management network switches to the controllers using the completed cabling worksheets.
+. Power on the cluster network and management network switches and controllers.
+
+.What's next?
+
+After you've installed the 3232C storage switch, you can then link:install-cisco-nexus-3232c-storage.html[install the switch in a NetApp cabinet].
+
+// New content for 3232C storage switches, 2026-JAN-07
