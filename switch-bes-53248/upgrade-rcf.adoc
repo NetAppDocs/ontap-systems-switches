@@ -109,7 +109,7 @@ cluster1::*>
 +
 [source,cli]
 ----
-network port show -role cluster
+network port show -ipspace cluster
 ----
 +
 .Show example
@@ -118,7 +118,7 @@ network port show -role cluster
 
 [subs=+quotes]
 ----
-cluster1::*> *network port show -role cluster*
+cluster1::*> *network port show -ipspace cluster*
 
 Node: cluster1-01
                                                                        Ignore
@@ -161,7 +161,7 @@ cluster1::*>
 +
 [source,cli]
 ----
-network interface show -role cluster
+network interface show -vserver cluster
 ----
 +
 .Show example
@@ -170,7 +170,7 @@ network interface show -role cluster
 
 [subs=+quotes]
 ----
-cluster1::*> *network interface show -role cluster*
+cluster1::*> *network interface show -vserver cluster*
             Logical            Status     Network           Current      Current Is
 Vserver     Interface          Admin/Oper Address/Mask      Node         Port    Home
 ----------- ------------------ ---------- ----------------- ------------ ------- ----
@@ -288,7 +288,7 @@ show isdp neighbor
 +
 [source,cli]
 ----
-network interface show -role cluster
+network interface show -vserver cluster
 ----
 +
 .Show example
@@ -297,7 +297,7 @@ network interface show -role cluster
 
 [subs=+quotes]
 ----
-cluster1::*> *network interface show -role cluster*
+cluster1::*> *network interface show -vserver cluster*
             Logical           Status     Network            Current       Current Is
 Vserver     Interface         Admin/Oper Address/Mask       Node          Port    Home
 ----------- ----------------- ---------- ------------------ ------------- ------- ----
@@ -784,7 +784,7 @@ Port       Name                 State   Mode        Status      Type        Cont
 +
 [source,cli]
 ----
-network port show -role cluster
+network port show -ipspace cluster
 ----
 +
 .Show example
@@ -793,7 +793,7 @@ network port show -role cluster
 
 [subs=+quotes]
 ----
-cluster1::*> *network port show -role cluster*
+cluster1::*> *network port show -ipspace cluster*
 
 Node: cluster1-01
                                                                       Ignore
@@ -945,7 +945,7 @@ network interface modify -vserver Cluster -lif * -auto-revert true
 +
 [source,cli]
 ----
-network interface show -role Cluster
+network interface show -vserver Cluster
 ----
 +
 For further details, see link:https://docs.netapp.com/us-en/ontap/networking/revert_a_lif_to_its_home_port.html[Revert a LIF to its home port].
@@ -1025,7 +1025,7 @@ Ports   Timeout       Speed     Active
 +
 [source,cli]
 ----
-network interface show -role cluster
+network interface show -vserver cluster
 ----
 +
 .Show example
@@ -1034,7 +1034,7 @@ network interface show -role cluster
 
 [subs=+quotes]
 ----
-cluster1::*> network interface show -role cluster
+cluster1::*> network interface show -vserver cluster
             Logical            Status     Network            Current             Current Is
 Vserver     Interface          Admin/Oper Address/Mask       Node                Port    Home
 ----------- ------------------ ---------- ------------------ ------------------- ------- ----
@@ -1190,3 +1190,4 @@ system node autosupport invoke -node * -type all -message MAINT=END
 // Updates for AFFFASDOC-319, 2025-JUN-25 
 // AFFFASDOC-396, 2025-OCT-16
 // GH issue #315, 2025-DEC-18
+// GH issue #321, 2026-JAN-28
