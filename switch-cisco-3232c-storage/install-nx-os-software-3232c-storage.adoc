@@ -11,11 +11,10 @@ summary: "You can use this procedure to install the NX-OS software on the Nexus 
 [.lead]
 You can use this procedure to install the NX-OS software on the Nexus 3232C storage switch.
 
-== Review requirements
-
 .Before you begin
 
 Verify that you have the following:
+
 * A current backup of the switch configuration.
 * A fully functioning cluster (no errors in the logs or similar issues).
 * link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet switch page^]. Consult the switch compatibility table for the supported ONTAP and NX-OS versions.
@@ -97,7 +96,7 @@ Shelf ID Module State        Internal?
 ----
 ====
 
-. Verify that switch health monitoring (CSHM) is enabled for the switches so that they are monitored:
+.. Verify that switch health monitoring (CSHM) is enabled for the switches so that they are monitored:
 `system switch ethernet show`
 +
 .Show example
@@ -458,7 +457,7 @@ IO   FPGA                        0x12
 ----
 ====
 
-. If you are setting up your switch for the first time, skip to step 17. If you are upgrading your switch, proceed to the next step.
+. If you are setting up your switch for the first time, skip to step 15. If you are upgrading your switch, proceed to the next step.
 
 . Verify the health status of each node storage port and storage shelf port.
 
@@ -508,7 +507,7 @@ Shelf ID Module State        Internal?
 ----
 ====
 
-. Verify that switch health monitoring (CSHM) is enabled for the switches so that they are monitored:
+.. Verify that switch health monitoring (CSHM) is enabled for the switches so that they are monitored:
 `system switch ethernet show`
 +
 .Show example
@@ -538,7 +537,7 @@ s2                    cluster-network    1.1.0.0           N3K-C3232C
 ----
 ====
 
-. Repeat steps 6 to 13 and step 17 to install the NX-OS software on switch s1.
+. Repeat steps 5 to 13 to install the NX-OS software on switch s1.
 
 .What's next?
 
