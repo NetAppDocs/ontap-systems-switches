@@ -21,7 +21,7 @@ Make sure you have the following:
 +
 If you need to change the boot configuration to reflect the current boot images, you must do so before reapplying the RCF so that the correct version is instantiated on future reboots.
 
-NOTE: No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To ensure non-disruptive cluster operations, the following procedure migrates all of the cluster LIFs to the operational partner switch while performing the steps on the target switch.
+//NOTE: No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To ensure non-disruptive cluster operations, the following procedure migrates all of the cluster LIFs to the operational partner switch while performing the steps on the target switch.
 
 CAUTION: Before installing a new switch software version and RCFs, you must erase the switch settings and perform basic configuration. You must be connected to the switch using the serial console or have preserved basic configuration information before erasing the switch settings.
 
@@ -56,10 +56,10 @@ cluster1::*> network device-discovery show
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID) Interface       Platform
 ----------- ------ ------------------------ --------------- ---------
-node1-01/cdp 
+cluster1-01/cdp 
             e3a    cs1                       Ethernet1/7     N9K-C9336C
             e3b    cs2                       Ethernet1/7     N9K-C9336C
-node1-02/cdp
+cluster1-02/cdp
             e3a    cs1                       Ethernet1/8     N9K-C9336C
             e3b    cs2                       Ethernet1/8     N9K-C9336C
 .
@@ -68,7 +68,7 @@ node1-02/cdp
 ----
 ====
 
-. Verify that all the storage ports are up with a healthy status: 
+. Verify that all the node storage ports are up with a healthy status: 
 +
 [source,cli]
 ----
@@ -87,12 +87,12 @@ cluster1::*> *storage port show -port-type ENET*
                                       Speed
 Node               Port Type  Mode    (Gb/s) State    Status
 ------------------ ---- ----- ------- ------ -------- -----------
-node1-01
+cluster1-01
                    e3a ENET  -         100   enabled  online
                    e3b ENET  -         100   enabled  online
                    e7a ENET  -         100   enabled  online
                    e7b ENET  -         100   enabled  online
-node1-02
+cluster1-02
                    e3a ENET  -         100   enabled  online
                    e3b ENET  -         100   enabled  online
                    e7a ENET  -         100   enabled  online
@@ -103,82 +103,85 @@ node1-02
 ----
 ====
 
-. Disable auto-revert on the cluster LIFs.
+. Verify that all the storage shelf ports are up with a healthy status: 
 +
-`network interface modify -vserver Cluster -lif * -auto-revert false` 
+[source,cli]
+----
+storage shelf port show
+----
++
+.Show example 
+[%collapsible]
+====
 
-== Step 2: Configure ports
+[subs=+quotes]
+----
+cluster1::> *storage shelf port show*
 
-. On switch cs1, shut down the ports connected to all the ports of the nodes.
+Shelf ID Module State        Internal?
+----- -- ------ ------------ ---------
+1.4
+       0 A      connected    false
+       1 A      connected    false
+       2 B      connected    false
+       3 B      connected    false
+4 entries were displayed.
+----
+====
+
+. Verify that the switches are being monitored.  
++
+[source,cli]
+----
+system switch ethernet show
+----
++
+.Show example 
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cluster1::*> *system switch ethernet show*
+  Switch                      Type               Address          Model
+  --------------------------- ------------------ ---------------- ---------------
+  s1                   cluster-network    1.2.3.4          N9K-C9336C-FX2
+     Serial Number: FFFXXXXXXX1
+      Is Monitored: true
+            Reason: None
+  Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
+                    10.3(4a)
+    Version Source: CDP/ISDP
+s2                   cluster-network    2.3.4.5          N9K-C9336C-FX2
+     Serial Number: FFFXXXXXXX2
+      Is Monitored: true
+            Reason: None
+  Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
+                    10.3(4a)
+    Version Source: CDP/ISDP
+----
+====
+
+== Step 2: Upgrade the RCF
+
+. On switch s1, shut down the ports connected to all the ports of the nodes.
 +
 
 [subs=+quotes]
 ----
-cs1> *enable*
-cs1# *configure*
-cs1(config)# *interface eth1/1/1-2,eth1/7-8*
-cs1(config-if-range)# *shutdown*
-cs1(config-if-range)# *exit*
-cs1(config)# *exit*
+s1> *enable*
+s1# *configure*
+s1(config)# *interface eth1/1/1-12*
+s1(config-if-range)# *shutdown*
+s1(config-if-range)# *exit*
+s1(config)# *exit*
 ----
 +
 CAUTION: Make sure to shutdown *all* connected ports to avoid any network connection issues.
 See the Knowledge Base article https://kb.netapp.com/on-prem/ontap/OHW/OHW-KBs/Node_out_of_quorum_when_migrating_cluster_lif_during_switch_OS_upgrade[Node out of quorum when migrating cluster LIF during switch OS upgrade^] for further details. 
 
-. Verify that the cluster LIFs have failed over to the ports hosted on switch cs1. This might take a few seconds.
-+
-[source,cli]
-----
-network interface show -role cluster
-----
-+
-.Show example 
-[%collapsible]
-====
+. Log in to the switch using SSH or by using a serial console.
 
-[subs=+quotes]
-----
-cluster1::*> *network interface show -role cluster*
-
-            Logical         Status     Network            Current     Current Is
-Vserver     Interface       Admin/Oper Address/Mask       Node        Port    Home
------------ --------------- ---------- ------------------ ----------- ------- ----
-Cluster
-            node1-01_clus1  up/up      169.254.36.44/16   node1-01    e7a     true
-            node1-01_clus2  up/up      169.254.7.5/16     node1-01    e7b     true
-            node1-02_clus1  up/up      169.254.197.206/16 node1-02    e7a     true
-            node1-02_clus2  up/up      169.254.195.186/16 node1-02    e7b     true
-            node1-03_clus1  up/up      169.254.192.49/16  node1-03    e7a     true
-            node1-03_clus2  up/up      169.254.182.76/16  node1-03    e7b     true
-            node1-04_clus1  up/up      169.254.59.49/16   node1-04    e7a     true
-            node1-04_clus2  up/up      169.254.62.244/16  node1-04    e7b     true
-
-8 entries were displayed.
-----
-====
-+
-. Verify that the cluster is healthy: 
-+
-`cluster show`
-+
-.Show example 
-[%collapsible]
-====
-
-[subs=+quotes]
-----
-cluster1::*> *cluster show*
-Node              Health  Eligibility   Epsilon
------------------ ------- ------------  -------
-node1-01          true    true          false
-node1-02          true    true          false
-node1-03          true    true          true
-node1-04          true    true          false
-
-4 entries were displayed.
-----
-====
-+
 . If you have not already done so, save a copy of the current switch configuration by copying the output of the following command to a text file:
 +
 
@@ -242,19 +245,19 @@ See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco
 +
 You might need to update host file entries related to the SSH keys.
 
-. Copy the RCF to the bootflash of switch cs1 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. 
+. Copy the RCF to the bootflash of switch s1 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. 
 +
 For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
 +
 .Show example 
 [%collapsible]
 ====
-This example shows TFTP being used to copy an RCF to the bootflash on switch cs1:
+This example shows TFTP being used to copy an RCF to the bootflash on switch s1:
 
 [subs=+quotes]
 ----
-cs1# *copy tftp: bootflash: vrf management*
-Enter source filename: *Nexus_9336C_RCF_v1.6-Storage.txt*
+s1# *copy tftp: bootflash: vrf management*
+Enter source filename: *NX9336C-FX2-RCF-v1.13-1-Storage.txt*
 Enter hostname for the tftp server: *172.22.201.50*
 Trying to connect to tftp server......Connection to Server Established.
 TFTP get operation was successful
@@ -267,12 +270,12 @@ Copy complete, now saving to disk (please wait)...
 For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
 
 +
-This example shows the RCF file `NX9336C-FX2-RCF-v1.13-1-Storage.txt` being installed on switch cs1:
+This example shows the RCF file `NX9336C-FX2-RCF-v1.13-1-Storage.txt` being installed on switch s1:
 +
 
 [subs=+quotes]
 ----
-cs1# *copy Nexus_9336C_RCF_v1.6-Storage.txt running-config echo-commands*
+s1# *copy NX9336C-FX2-RCF-v1.13-1-Storage.txt running-config echo-commands*
 ----
 
 +
@@ -300,14 +303,14 @@ The output varies according to your site configuration. Check the port settings 
 For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
 +
 
-`cs1# *copy running-config startup-config*` 
+`s1# *copy running-config startup-config*` 
 +
 `[########################################] 100% Copy complete` 
 
-. Reboot switch cs1. You can ignore the "`cluster switch health monitor`" alerts and "`cluster ports down`" events reported on the nodes while the switch reboots.
+. Reboot switch s1. You can ignore the "`cluster switch health monitor`" alerts and "`cluster ports down`" events reported on the nodes while the switch reboots.
 +
 
-`cs1# *reload*` 
+`s1# *reload*` 
 +
 `This command will reboot the system. (y/n)?  [n] *y*` 
 
@@ -346,35 +349,12 @@ node1-02
 ----
 ====
 
-. Verify that the cluster is healthy: 
-+
-`cluster show`
-+
-.Show example 
-[%collapsible]
-====
+. Verify that all the storage shelf ports are up with a healthy status:
+. Verify that the switches are being monitored.
 
-[subs=+quotes]
-----
-cluster1::*> *cluster show*
-Node              Health   Eligibility   Epsilon
------------------ -------- ------------- -------
-node1-01          true     true          false
-node1-02          true     true          false
-node1-03          true     true          true
-node1-04          true     true          false
+. Repeat steps 1 to 19 on switch s2.
 
-4 entries were displayed.
-----
-====
-
-. Repeat steps 4 to 19 on switch cs2.
-
-. Enable auto-revert on the cluster LIFs.
-+
-`network interface modify -vserver Cluster -lif * -auto-revert true` 
-
-== Step 3: Verify the cluster network configuration and cluster health
+== Step 3: Verify the storage network
 
 . Verify that the switch ports connected to the cluster ports are *up*.
 +
@@ -383,14 +363,21 @@ node1-04          true     true          false
 show interface brief
 ----
 
-. Verify that the expected nodes are still connected:
+. Verify that the expected node storage ports are still connected:
 +
 [source,cli]
 ----
 show cdp neighbors
 ----
 
-. Verify that the cluster nodes are in their correct cluster VLANs using the following commands:
+. Verify that the expected storage shelf ports are still connected:
++
+[source,cli]
+----
+show lldp neighbors
+----
+
+. Verify that the node storage ports and storage shelf ports are in their correct VLANs using the following commands:
 +
 [source,cli]
 ----
@@ -402,42 +389,9 @@ show vlan brief
 show interface trunk
 ----
 
-. Verify that the cluster LIFs have reverted to their home port: 
-+
-[source,cli]
-----
-network interface show -role cluster
-----
-+
-If any cluster LIFs have not returned to their home ports, revert them manually from the local node: 
-+
-`network interface revert -vserver vserver_name -lif <lif-name>`
-
-. Verify that the cluster is healthy: 
-+
-[source,cli]
-----
-cluster show
-----
-
-. Verify the connectivity of the remote cluster interfaces: 
-+
-.. You can use the `network interface check cluster-connectivity show` command to display the details of an accessibility check for cluster connectivity: 
-+ 
-[source,cli]
-----
-network interface check cluster-connectivity show
-----
-
-.. Alternatively, you can use the `cluster ping-cluster -node <node-name>` command to check the connectivity:
-+
-[source,cli]
-----
-cluster ping-cluster -node <node-name>
-----
-
 .What's next?
 
 After you've upgraded your RCF, you can link:configure-ssh-keys.html[verify the SSH configuration].
 
 // AFFFASDOC-289, 2025-NOV-05
+// AFFFASDOC-458, 2026-FEB-03

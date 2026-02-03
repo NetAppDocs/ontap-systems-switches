@@ -15,17 +15,17 @@ Before you install the NX-OS software and the Reference Configuration File (RCF)
 .About the examples
 The examples in this procedure use the following switch and node nomenclature:
 
-* The names of the two Cisco switches are cs1 and cs2.
+* The names of the two Cisco switches are s1 and s2.
 * The node names are cluster1-01 and cluster1-02.
-* The cluster LIF names are cluster1-01_clus1 and cluster1-01_clus2 for cluster1-01 and cluster1-02_clus1 and cluster1-02_clus2 for cluster1-02.
-* The `cluster1::*>` prompt indicates the name of the cluster.
+//* The cluster LIF names are cluster1-01_clus1 and cluster1-01_clus2 for cluster1-01 and cluster1-02_clus1 and cluster1-02_clus2 for cluster1-02.
+//* The `cluster1::*>` prompt indicates the name of the cluster.
 
 .About this task
 The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 
 .Steps
 
-. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=x h`
+. If AutoSupport is enabled, suppress automatic case creation by invoking an AutoSupport message: `system node autosupport invoke -node * -type all -message MAINT=x h`
 +
 where x is the duration of the maintenance window in hours.
 +
@@ -59,23 +59,22 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------- --------
 cluster1-02/lldp
-            e0a    cs1                       Eth1/2            N9K-C9336C
-            e0b    cs2                       Eth1/2            N9K-C9336C
+            e0a    s1                        Eth1/2            N9K-C9336C
+            e0b    s2                        Eth1/2            N9K-C9336C
 cluster1-01/lldp
-            e0a    cs1                       Eth1/1            N9K-C9336C
-            e0b    cs2                       Eth1/1            N9K-C9336C
-
+            e0a    s1                        Eth1/1            N9K-C9336C
+            e0b    s2                        Eth1/1            N9K-C9336C
 4 entries were displayed.
 ----
 ====
 
-. Check the administrative or operational status of each cluster interface.
+. Check the administrative or operational status of each node storage port and storage shelf port.
 
-.. Display the network port attributes: 
+.. Display the node storage port attributes: 
 +
 [source,cli]
 ----
-network port show -ipspace Cluster
+storage port show
 ----
 +
 .Show example 
@@ -84,33 +83,26 @@ network port show -ipspace Cluster
 
 [subs=+quotes]
 ----
-cluster1::*> *network port show -ipspace Cluster*
+cluster1::*> *storage port show*
+Speed                     VLAN
+Node           Port Type  Mode    (Gb/s) State    Status      ID
+-------------- ---- ----- ------- ------ -------- --------- ----
+cluster1-01
+               e0a  ENET  storage    100 enabled  online      -
+               e0b  ENET  storage    100 enabled  online      -
+cluster1-02
 
-Node: cluster1-02
-                                                                       Ignore
-                                                  Speed(Mbps)  Health  Health
-Port      IPspace      Broadcast Domain Link MTU  Admin/Oper   Status  Status
---------- ------------ ---------------- ---- ---- ------------ ------- ------
-e0a       Cluster      Cluster          up   9000  auto/100000 healthy false
-e0b       Cluster      Cluster          up   9000  auto/100000 healthy false
-
-Node: cluster1-01
-                                                                       Ignore
-                                                  Speed(Mbps)  Health  Health
-Port      IPspace      Broadcast Domain Link MTU  Admin/Oper   Status  Status
---------- ------------ ---------------- ---- ---- ------------ ------- ------
-e0a       Cluster      Cluster          up   9000  auto/100000 healthy false
-e0b       Cluster      Cluster          up   9000  auto/100000 healthy false
-
+               e0a  ENET  storage    100 enabled  online      -
+               e0b  ENET  storage    100 enabled  online      -
 4 entries were displayed.
 ----
 ====
 
-.. Display information about the LIFs: 
+.. Display the storage shelf port attributes:
 +
 [source,cli]
 ----
-network interface show -vserver Cluster
+storage shelf port show
 ----
 +
 .Show example 
@@ -119,104 +111,24 @@ network interface show -vserver Cluster
 
 [subs=+quotes]
 ----
-cluster1::*> *network interface show -vserver Cluster*
+cluster1::*> *storage shelf port show*
 
-            Logical            Status     Network            Current       Current Is
-Vserver     Interface          Admin/Oper Address/Mask       Node          Port    Home
------------ ------------------ ---------- ------------------ ------------- ------- ----
-Cluster
-            cluster1-01_clus1  up/up      169.254.209.69/16  cluster1-01   e0a     true
-            cluster1-01_clus2  up/up      169.254.49.125/16  cluster1-01   e0b     true
-            cluster1-02_clus1  up/up      169.254.47.194/16  cluster1-02   e0a     true
-            cluster1-02_clus2  up/up      169.254.19.183/16  cluster1-02   e0b     true
-
+Shelf ID Module State        Internal?
+----- -- ------ ------------ ---------
+1.4
+       0 A      connected    false
+       1 A      connected    false
+       2 B      connected    false
+       3 B      connected    false
 4 entries were displayed.
 ----
 ====
 
-. Verify the connectivity of the remote cluster interfaces: 
-+
-// start of tabbed content
-
-[role="tabbed-block"]
-
-====
-
-.ONTAP 9.9.1 and later
-
---
-You can use the `network interface check cluster-connectivity` command to start an accessibility check for cluster connectivity and then display the details: 
-
-`network interface check cluster-connectivity start` and `network interface check cluster-connectivity show`
-
-[subs=+quotes]
-----
-cluster1::*> *network interface check cluster-connectivity start*
-----
-
-*NOTE:* Wait for a number of seconds before running the `show` command to display the details.
-
-
-[subs=+quotes]
-----
-cluster1::*> *network interface check cluster-connectivity show*
-                                  Source               Destination         Packet
-Node   Date                       LIF                  LIF                 Loss
------- -------------------------- -------------------- ------------------- -----------
-node1
-       3/5/2024 19:21:18 -06:00   cluster1-01_clus2    cluster1-02-clus1   none
-       3/5/2024 19:21:20 -06:00   cluster1-01_clus2    cluster1-02_clus2   none
-node2
-       3/5/2024 19:21:18 -06:00   cluster1-02_clus2    cluster1-01_clus1   none
-       3/5/2024 19:21:20 -06:00   cluster1-02_clus2    cluster1-01_clus2   none
-----
---
-
-.All ONTAP releases
---
-For all ONTAP releases, you can also use the `cluster ping-cluster -node <name>` command to check the connectivity:
-
-`cluster ping-cluster -node <name>`
-
-
-[subs=+quotes]
-----
-cluster1::*> *cluster ping-cluster -node local*
-Host is cluster1-02
-Getting addresses from network interface table...
-Cluster cluster1-01_clus1 169.254.209.69 cluster1-01     e0a
-Cluster cluster1-01_clus2 169.254.49.125 cluster1-01     e0b
-Cluster cluster1-02_clus1 169.254.47.194 cluster1-02     e0a
-Cluster cluster1-02_clus2 169.254.19.183 cluster1-02     e0b
-Local = 169.254.47.194 169.254.19.183
-Remote = 169.254.209.69 169.254.49.125
-Cluster Vserver Id = 4294967293
-Ping status:
-
-Basic connectivity succeeds on 4 path(s)
-Basic connectivity fails on 0 path(s)
-
-Detected 9000 byte MTU on 4 path(s):
-    Local 169.254.19.183 to Remote 169.254.209.69
-    Local 169.254.19.183 to Remote 169.254.49.125
-    Local 169.254.47.194 to Remote 169.254.209.69
-    Local 169.254.47.194 to Remote 169.254.49.125
-Larger than PMTU communication succeeds on 4 path(s)
-RPC status:
-2 paths up, 0 paths down (tcp check)
-2 paths up, 0 paths down (udp check)
-----
---
-====
-
-// end of tabbed content
-
-[start=6]
-. [[step6]] Verify that the auto-revert command is enabled on all cluster LIFs: 
+.. Verify that switch health monitoring (CSHM) is enabled for the switch so that the switches are monitored:
 +
 [source,cli]
 ----
-network interface show -vserver Cluster -fields auto-revert
+system switch ethernet show 
 ----
 +
 .Show example 
@@ -225,17 +137,7 @@ network interface show -vserver Cluster -fields auto-revert
 
 [subs=+quotes]
 ----
-cluster1::*> *network interface show -vserver Cluster -fields auto-revert*
 
-          Logical
-Vserver   Interface           Auto-revert
---------- ------------------- ------------
-Cluster
-          cluster1-01_clus1   true
-          cluster1-01_clus2   true
-          cluster1-02_clus1   true
-          cluster1-02_clus2   true
-4 entries were displayed.
 ----
 ====
 
@@ -249,3 +151,4 @@ After you've prepared to install the NX-OS software and RCF, you can link:instal
 // Updates for GH issue #86, 2025-JAN-09
 // Updates for AFFFASDOC-315, 2025-MAR-26
 // AFFFASDOC-380, 2025-SEPT-03
+// AFFFFASDOC-458, 2026-FEB-03
