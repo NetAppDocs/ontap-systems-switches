@@ -66,7 +66,7 @@ s1# copy NX9336C-FX2-RCF-v1.13-1-Storage.txt running-config echo-commands
 [%collapsible]
 ====
 ----
-s1# *show banner motd*
+s1# show banner motd
 
 **********************************************************
 * NetApp Reference Configuration File (RCF)
@@ -103,7 +103,7 @@ The output varies according to your site configuration. Check the port settings 
 . After you verify that the RCF versions and switch settings are correct, copy the `running-config` file to the `startup-config` file.
 +
 ----
-cs1# copy running-config startup-config [########################################] 100% Copy complete
+s1# copy running-config startup-config [########################################] 100% Copy complete
 ----
 
 . Reboot switch s1. 
@@ -128,7 +128,7 @@ cs1# copy running-config startup-config [#######################################
 
 [subs=+quotes]
 ----
-cs1# *show interface brief | grep up*
+s1# *show interface brief | grep up*
 mgmt0  --           up     _<mgmt ip address>_                       1000    1500
 Eth1/11         1       eth  trunk  up      none                     100G(D) --
 Eth1/12         1       eth  trunk  up      none                     100G(D) --
@@ -149,7 +149,7 @@ Eth1/30         1       eth  trunk  up      none                     100G(D) --
 ----
 ====
 
-. . Verify that the node storage ports and storage shelf ports are in their correct VLANs using the following commands:
+. Verify that the node storage ports and storage shelf ports are in their correct VLANs using the following commands:
 +
 `show vlan brief`
 +
@@ -161,7 +161,7 @@ Eth1/30         1       eth  trunk  up      none                     100G(D) --
 
 [subs=+quotes]
 ----
-cs1# *show vlan brief*
+s1# *show vlan brief*
 
 VLAN Name                             Status    Ports
 ---- -------------------------------- --------- -------------------------------
@@ -179,7 +179,7 @@ VLAN Name                             Status    Ports
                                                 Eth1/33, Eth1/34, Eth1/35
                                                 Eth1/36
 
-cs1# *show interface trunk*
+s1# *show interface trunk*
 
 -----------------------------------------------------
 Port          Native  Status        Port
