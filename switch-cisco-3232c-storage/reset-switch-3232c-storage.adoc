@@ -12,10 +12,44 @@ summary: 'Before configuring your Cisco Nexus 3232C switch, review the following
 [.lead]
 To reset the 3232C storage switch to factory defaults, you must erase the 3232C storage switch settings.
 
-include::../_include/reset-switch-factory-defaults.adoc[]
+.About this task
+
+* You must be connected to the switch using the serial console.
+* This task resets the configuration of the management network.
+
+.Steps
+
+. Erase the existing configuration:
++
+`write erase`
+
++
+[subs=+quotes]
+----
+(s2)# *write erase*
+
+Warning: This command will erase the startup-configuration.
+Do you wish to proceed anyway? (y/n) [n] *y*
+----
+
+. Reload the switch software:
++
+`reload`
+
++
+[subs=+quotes]
+----
+(s2)# *reload*
+
+This command will reboot the system. (y/n)? [n] *y*
+----
++
+
+The system reboots and enters the configuration wizard. During the boot, if you receive the prompt “Abort Auto Provisioning and continue with normal setup? (yes/no)[n]”, you should respond *yes* to proceed.
 
 .What's next
 
 After resetting the switch, you can link:configure-software-overview-3232c-storage.html[reconfigure] it according to your requirements.  
 
 // New content for 3232C storage switches, 2026-JAN-13
+// AFFFASDOC-458, 2026-FEB-03
