@@ -52,16 +52,16 @@ network device-discovery show
 
 [subs=+quotes]
 ----
-cluster1::*> network device-discovery show
+cluster1::*> *network device-discovery show*
 Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID) Interface       Platform
 ----------- ------ ------------------------ --------------- ---------
 cluster1-01/cdp 
-            e3a    cs1                       Ethernet1/7     N9K-C9336C
-            e3b    cs2                       Ethernet1/7     N9K-C9336C
+            e3a    s1                       Ethernet1/7     N9K-C9336C
+            e3b    s2                       Ethernet1/7     N9K-C9336C
 cluster1-02/cdp
-            e3a    cs1                       Ethernet1/8     N9K-C9336C
-            e3b    cs2                       Ethernet1/8     N9K-C9336C
+            e3a    s1                       Ethernet1/8     N9K-C9336C
+            e3b    s2                       Ethernet1/8     N9K-C9336C
 .
 .
 .
@@ -88,16 +88,11 @@ cluster1::*> *storage port show -port-type ENET*
 Node               Port Type  Mode    (Gb/s) State    Status
 ------------------ ---- ----- ------- ------ -------- -----------
 cluster1-01
-                   e3a ENET  -         100   enabled  online
-                   e3b ENET  -         100   enabled  online
-                   e7a ENET  -         100   enabled  online
-                   e7b ENET  -         100   enabled  online
+                   e0a ENET  -         100   enabled  online
+                   e0b ENET  -         100   enabled  online
 cluster1-02
-                   e3a ENET  -         100   enabled  online
-                   e3b ENET  -         100   enabled  online
-                   e7a ENET  -         100   enabled  online
-                   e7b ENET  -         100   enabled  online
-.
+                   e0a ENET  -         100   enabled  online
+                   e0b ENET  -         100   enabled  online
 .
 .
 ----
@@ -143,8 +138,8 @@ system switch ethernet show
 [subs=+quotes]
 ----
 cluster1::*> *system switch ethernet show*
-  Switch                      Type               Address          Model
-  --------------------------- ------------------ ---------------- ---------------
+  Switch               Type               Address          Model
+  -------------------- ------------------ ---------------- ---------------
   s1                   cluster-network    1.2.3.4          N9K-C9336C-FX2
      Serial Number: FFFXXXXXXX1
       Is Monitored: true
@@ -153,7 +148,7 @@ cluster1::*> *system switch ethernet show*
                     10.3(4a)
     Version Source: CDP/ISDP
 s2                   cluster-network    2.3.4.5          N9K-C9336C-FX2
-     Serial Number: FFFXXXXXXX2
+     Serial Number: FEEXXXXXXX2
       Is Monitored: true
             Reason: None
   Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
@@ -203,19 +198,19 @@ Make sure to configure the following:
 * Switch name
 ====================================
 +
-`cs1# show run | i "username admin password" > bootflash:write_erase.cfg`
+`s1# show run | i "username admin password" > bootflash:write_erase.cfg`
 +
-`cs1# show run | section "vrf context management" >> bootflash:write_erase.cfg`
+`s1# show run | section "vrf context management" >> bootflash:write_erase.cfg`
 +
-`cs1# show run | section "interface mgmt0" >> bootflash:write_erase.cfg`
+`s1# show run | section "interface mgmt0" >> bootflash:write_erase.cfg`
 +
-`cs1# show run | section "switchname" >> bootflash:write_erase.cfg`
+`s1# show run | section "switchname" >> bootflash:write_erase.cfg`
 . When upgrading to RCF version 1.12 and later, run the following commands:
-`cs1# echo "hardware access-list tcam region ing-racl 1024" >> bootflash:write_erase.cfg`
+`s1# echo "hardware access-list tcam region ing-racl 1024" >> bootflash:write_erase.cfg`
 +
-`cs1# echo "hardware access-list tcam region egr-racl 1024" >> bootflash:write_erase.cfg`
+`s1# echo "hardware access-list tcam region egr-racl 1024" >> bootflash:write_erase.cfg`
 +
-`cs1# echo "hardware access-list tcam region ing-l2-qos 1280 >> bootflash:write_erase.cfg`
+`s1# echo "hardware access-list tcam region ing-l2-qos 1280 >> bootflash:write_erase.cfg`
 + 
 See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further details.
 
@@ -225,7 +220,7 @@ See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco
 
 . Issue the `write erase` command to erase the current saved configuration:
 +
-`cs1# *write erase*`
+`s1# *write erase*`
 +
 `Warning: This command will erase the startup-configuration.`
 +
@@ -233,11 +228,11 @@ See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco
 
 . Copy the previously saved basic configuration into the startup configuration.
 +
-`cs1# *copy bootflash:write_erase.cfg startup-config*`
+`s1# *copy bootflash:write_erase.cfg startup-config*`
 
 . Reboot the switch:
 +
-`cs1# *reload*`
+`s1# *reload*`
 +
 `This command will reboot the system. (y/n)?  [n] *y*`
 
@@ -333,24 +328,75 @@ cluster1::*> *storage port show -port-type ENET*
                                       Speed
 Node               Port Type  Mode    (Gb/s) State    Status
 ------------------ ---- ----- ------- ------ -------- -----------
-node1-01
-                   e3a  ENET  -          100 enabled  online
-                   e3b  ENET  -          100 enabled  online
-                   e7a  ENET  -          100 enabled  online
-                   e7b  ENET  -          100 enabled  online
-node1-02
-                   e3a  ENET  -          100 enabled  online
-                   e3b  ENET  -          100 enabled  online
-                   e7a  ENET  -          100 enabled  online
-                   e7b  ENET  -          100 enabled  online
-.
+cluster1-01
+                   e0a  ENET  -          100 enabled  online
+                   e0b  ENET  -          100 enabled  online
+cluster1-02
+                   e0a  ENET  -          100 enabled  online
+                   e0b  ENET  -          100 enabled  online
 .
 .
 ----
 ====
 
 . Verify that all the storage shelf ports are up with a healthy status:
-. Verify that the switches are being monitored.
++
+[source,cli]
+----
+storage shelf port show 
+----
++
+.Show example 
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cluster1::> *storage shelf port show*
+
+Shelf ID Module State        Internal?
+----- -- ------ ------------ ---------
+1.4
+       0 A      connected    false
+       1 A      connected    false
+       2 B      connected    false
+       3 B      connected    false
+4 entries were displayed.
+----
+====
+
+. Verify that the switches are being monitored:
++
+[source,cli]
+----
+system switch ethernet show
+----
++
+.Show example 
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cluster1::> *system switch ethernet show*
+  Switch              Type               Address          Model
+  ------------------- ------------------ ---------------- ---------------
+s1                    cluster-network    1.2.3.4          N9K-C9336C-FX2
+     Serial Number: FFFXXXXXXX1
+      Is Monitored: true
+            Reason: None
+  Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
+                    10.3(4a)
+    Version Source: CDP/ISDP
+s2                    cluster-network    2.3.4.5          N9K-C9336C-FX2
+     Serial Number: FEEXXXXXXX2
+      Is Monitored: true
+            Reason: None
+  Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
+                    10.3(4a)
+    Version Source: CDP/ISDP
+----
+====
 
 . Repeat steps 1 to 19 on switch s2.
 

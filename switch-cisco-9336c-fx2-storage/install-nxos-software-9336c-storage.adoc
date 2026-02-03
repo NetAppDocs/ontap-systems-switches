@@ -145,24 +145,23 @@ system switch ethernet show
 
 [subs=+quotes]
 ----
-itch                      Type               Address          Model
---------------------------- ------------------ ---------------- --------------
-cs1                         cluster-network    10.233.205.90    N9K-C9336C-FX2
-     Serial Number: FOCXXXXXXGD
+cluster1::> *system switch ethernet show*
+  Switch               Type               Address          Model
+  -------------------- ------------------ ---------------- --------------
+  s1                   cluster-network    1.2.3.4          N9K-C9336C-FX2
+     Serial Number: FFFXXXXXXX1
       Is Monitored: true
             Reason: None
   Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
-                    9.3(5)
-    Version Source: CDP
-
-s2                         cluster-network    10.233.205.91    N9K-C9336C-FX2
-     Serial Number: FOCXXXXXXGS
+                    10.3(4a)
+    Version Source: CDP/ISDP
+s2                     cluster-network    2.3.4.5          N9K-C9336C-FX2
+     Serial Number: FFFXXXXXXX2
       Is Monitored: true
             Reason: None
   Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
-                    9.3(5)
-    Version Source: CDP
-cluster1::*>
+                    10.3(4a)
+    Version Source: CDP/ISDP
 ----
 ====
 
@@ -462,7 +461,7 @@ Module 1 EPLD upgrade is successful.
 ----
 ====
 
-. After the switch reboot, log in again and verify that the new version of EPLD loaded successfully.
+. After the switch reboots, log in again and verify that the new version of EPLD loaded successfully.
 +
 
 .Show example
@@ -485,7 +484,7 @@ GEM  FPGA                        0x2
 ----
 ====
 
-. If you are setting up your switch for the first time, skip to step 15. If you are upgrading your switch, proceed to the next step.
+. If you are setting up your switch for the first time, skip to step 14. If you are upgrading your switch, proceed to the next step.
 
 . Verify the health status of each node storage port and storage shelf port.
 
@@ -543,7 +542,7 @@ Shelf ID Module State        Internal?
 ----
 ====
 
-.. Verify that switch health monitoring (CSHM) is enabled for the switch so that the switches are monitored:
+.. Verify that switch health monitoring (CSHM) is enabled for the switches so that they are monitored:
 +
 [source,cli]
 ----
@@ -560,28 +559,7 @@ system switch ethernet show
 ----
 ====
 
-. Verify that the cluster is healthy: 
-+
-`cluster show`
-+
-.Show example 
-[%collapsible]
-====
-
-[subs=+quotes]
-----
-cluster1::*> *cluster show*
-Node                 Health   Eligibility   Epsilon
--------------------- -------- ------------- -------
-cluster1-01          true     true          false
-cluster1-02          true     true          false
-cluster1-03          true     true          true
-cluster1-04          true     true          false
-4 entries were displayed.
-----
-====
-
-. Repeat steps 5 to 11 and step 15 to install the NX-OS software on switch s1.
+. Repeat steps 5 to 11 and step 14 to install the NX-OS software on switch s1.
 
 .What's next?
 After you've installed or upgraded the NX-OS software, you can link:install-rcf-software-9336c-storage.html[install or upgrade the RCF].
