@@ -260,7 +260,7 @@ Make sure to configure the following:
 
 . Save basic configuration details to the `write_erase.cfg` file on the bootflash.
 +
-NOTE: When upgrading or applying a new RCF, you must erase the switch settings and perform basic configuration. You must be connected to the switch serial console port to set up the switch again.
+NOTE: When upgrading or applying a new RCF, you must erase the switch settings and perform basic configuration.
 +
 `cs2# show run | section "switchname" > bootflash:write_erase.cfg`
 +
@@ -281,8 +281,6 @@ NOTE: When upgrading or applying a new RCF, you must erase the switch settings a
 `cs2# echo "hardware access-list tcam region e-racl 256" >> bootflash:write_erase.cfg`
 +
 `cs2# echo "hardware access-list tcam region qos 256" >> bootflash:write_erase.cfg`
-+
-See the Knowledge Base article https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further details.
 
 . Verify that the `write_erase.cfg` file is populated as expected:
 +
@@ -761,3 +759,4 @@ After you've upgraded your RCF, you link:configure-ssh-keys.html[verify the SSH 
 
 // New content for AFFFASDOC-394, 2025-OCT-01
 // GH issue #301, 2025-OCT-28
+// GH issue #325, 2026-FEB-04

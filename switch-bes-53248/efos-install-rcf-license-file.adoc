@@ -117,7 +117,7 @@ cluster1::*>
 +
 [source,cli]
 ----
-network port show -role cluster
+network port show -ipspace Cluster
 ----
 +
 .Show example
@@ -126,7 +126,7 @@ network port show -role cluster
 
 [subs=+quotes]
 ----
-cluster1::*> *network port show -role cluster*
+cluster1::*> *network port show -ipspace Cluster*
 
 Node: cluster1-01
                                                                        Ignore
@@ -169,7 +169,7 @@ cluster1::*>
 +
 [source,cli]
 ----
-network interface show -role cluster
+network interface show -vserver Cluster
 ----
 +
 .Show example
@@ -178,7 +178,7 @@ network interface show -role cluster
 
 [subs=+quotes]
 ----
-cluster1::*> *network interface show -role cluster*
+cluster1::*> *network interface show -vserver Cluster*
             Logical            Status     Network           Current      Current Is
 Vserver     Interface          Admin/Oper Address/Mask      Node         Port    Home
 ----------- ------------------ ---------- ----------------- ------------ ------- ----
@@ -297,7 +297,7 @@ show isdp neighbor
 +
 [source,cli]
 ----
-network interface show -role cluster
+network interface show -vserver Cluster
 ----
 +
 .Show example
@@ -306,7 +306,7 @@ network interface show -role cluster
 
 [subs=+quotes]
 ----
-cluster1::*> *network interface show -role cluster*
+cluster1::*> *network interface show -vserver Cluster*
             Logical           Status     Network            Current       Current Is
 Vserver     Interface         Admin/Oper Address/Mask       Node          Port    Home
 ----------- ----------------- ---------- ------------------ ------------- ------- ----
@@ -747,7 +747,7 @@ Port       Name                 State   Mode        Status      Type        Cont
 +
 [source,cli]
 ----
-network port show -role cluster
+network port show -ipspace Cluster
 ----
 +
 .Show example
@@ -756,8 +756,7 @@ network port show -role cluster
 
 [subs=+quotes]
 ----
-cluster1::*> *network port show -role cluster*
-
+cluster1::*> *network port show -ipspace Cluster*
 Node: cluster1-01
                                                                       Ignore
                                                   Speed(Mbps) Health  Health
@@ -912,7 +911,7 @@ The following example uses the interface example output:
 +
 [source,cli]
 ----
-network interface show -role cluster
+network interface show -vserver Cluster
 ----
 +
 .Show example
@@ -921,7 +920,7 @@ network interface show -role cluster
 
 [subs=+quotes]
 ----
-cluster1::*> *network interface show -role cluster*
+cluster1::*> *network interface show -vserver Cluster*
             Logical            Status     Network            Current            Current  Is
 Vserver     Interface          Admin/Oper Address/Mask       Node               Port     Home
 ----------- ------------------ ---------- ------------------ ------------------ -------- ----
@@ -1053,7 +1052,7 @@ Ports   Timeout       Speed     Active
 +
 [source,cli]
 ----
-network interface show -role cluster
+network interface show -vserver Cluster
 ----
 +
 .Show example
@@ -1062,7 +1061,7 @@ network interface show -role cluster
 
 [subs=+quotes]
 ----
-cluster1::*> network interface show -role cluster
+cluster1::*> network interface show -vserver Cluster
             Logical            Status     Network            Current             Current Is
 Vserver     Interface          Admin/Oper Address/Mask       Node                Port    Home
 ----------- ------------------ ---------- ------------------ ------------------- ------- ----
@@ -1212,3 +1211,4 @@ After you've installed the RCF and license file, you can link:configure-ssh.html
 // Updates for GH issue #249, 2025-MAR-18
 // GH issue #340 internal repo, 2025-SEPT-18
 // AFFFASDOC-411, 2025-OCT-30
+// AFFFASDOC-457, 2026-FEB-04
