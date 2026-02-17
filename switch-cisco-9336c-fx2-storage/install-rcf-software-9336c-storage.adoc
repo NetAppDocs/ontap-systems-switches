@@ -20,24 +20,24 @@ Verify the following installations and connections:
 * A console connection to the switch. The console connection is optional if you have remote access to the switch.
 * Switch s1 and switch s2 are powered up and the initial switch setup is complete (the Management IP address and SSH is set up).
 * The desired NX-OS version has been installed.  
-* ONTAP node cluster ports are not connected.
+* ONTAP node storage ports and storage shelf ports are not connected.
 
 == Step 1: Install the RCF on the switches
 
-. Log in to switch s1 using SSH or by using a serial console.
+. Log in to switch s2 using SSH or by using a serial console.
 
-. Copy the RCF to the bootflash of switch s1 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. 
+. Copy the RCF to the bootflash of switch s2 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. 
 +
 For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^].
 +
 .Show example 
 [%collapsible]
 ====
-This example shows TFTP being used to copy an RCF to the bootflash on switch s1:
+This example shows TFTP being used to copy an RCF to the bootflash on switch s2:
 
 [subs=+quotes]
 ----
-s1# *copy tftp: bootflash: vrf management*
+s2# *copy tftp: bootflash: vrf management*
 Enter source filename: *NX9336C-FX2-RCF-v1.13-1-Storage.txt*
 Enter hostname for the tftp server: *172.22.201.50*
 Trying to connect to tftp server......Connection to Server Established.
@@ -53,10 +53,10 @@ For more information on Cisco commands, see the appropriate guide in the https:/
 .Show example 
 [%collapsible]
 ====
-This example shows the RCF `NX9336C-FX2-RCF-v1.13-1-Storage.txt` being installed on switch s1:
+This example shows the RCF `NX9336C-FX2-RCF-v1.13-1-Storage.txt` being installed on switch s2:
 
 ----
-s1# copy NX9336C-FX2-RCF-v1.13-1-Storage.txt running-config echo-commands
+s2# copy NX9336C-FX2-RCF-v1.13-1-Storage.txt running-config echo-commands
 ----
 ====
 +
@@ -66,7 +66,7 @@ s1# copy NX9336C-FX2-RCF-v1.13-1-Storage.txt running-config echo-commands
 [%collapsible]
 ====
 ----
-s1# show banner motd
+s2# show banner motd
 
 **********************************************************
 * NetApp Reference Configuration File (RCF)
@@ -103,22 +103,22 @@ The output varies according to your site configuration. Check the port settings 
 . After you verify that the RCF versions and switch settings are correct, copy the `running-config` file to the `startup-config` file.
 +
 ----
-s1# copy running-config startup-config [########################################] 100% Copy complete
+s2# copy running-config startup-config [########################################] 100% Copy complete
 ----
 
-. Reboot switch s1. 
+. Reboot switch s2. 
 +
-`s1# *reload*`
+`s2# *reload*`
 +
 `This command will reboot the system. (y/n)?  [n] *y*`  
 
-. Repeat steps 1 through 8 on switch s2.
+. Repeat steps 1 through 8 on switch s1.
 
-. Connect the node storage ports and storage shelf of all nodes in the ONTAP cluster to switches s1 and s2.
+. Connect the node storage ports and storage shelf ports of all the nodes in the ONTAP cluster to switches s1 and s2.
 
 == Step 2: Verify the switch connections
 
-. Verify that the switch ports connected to the cluster ports are *up*.
+. Verify that the switch ports are *up*.
 +
 `show interface brief`
 +

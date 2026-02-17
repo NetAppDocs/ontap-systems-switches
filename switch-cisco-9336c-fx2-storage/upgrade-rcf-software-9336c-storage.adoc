@@ -21,8 +21,6 @@ Make sure you have the following:
 +
 If you need to change the boot configuration to reflect the current boot images, you must do so before reapplying the RCF so that the correct version is instantiated on future reboots.
 
-//NOTE: No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To ensure non-disruptive cluster operations, the following procedure migrates all of the cluster LIFs to the operational partner switch while performing the steps on the target switch.
-
 CAUTION: Before installing a new switch software version and RCFs, you must erase the switch settings and perform basic configuration. You must be connected to the switch using the serial console or have preserved basic configuration information before erasing the switch settings.
 
 == Step 1: Prepare for the upgrade
@@ -57,10 +55,10 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID) Interface       Platform
 ----------- ------ ------------------------ --------------- ---------
 cluster1-01/cdp 
-            e3a    s1                       Ethernet1/7     N9K-C9336C
+            e5a    s1                       Ethernet1/7     N9K-C9336C
             e3b    s2                       Ethernet1/7     N9K-C9336C
 cluster1-02/cdp
-            e3a    s1                       Ethernet1/8     N9K-C9336C
+            e5a    s1                       Ethernet1/8     N9K-C9336C
             e3b    s2                       Ethernet1/8     N9K-C9336C
 .
 .
@@ -90,11 +88,11 @@ cluster1::*> *storage port show -port-type ENET*
 Node               Port Type  Mode    (Gb/s) State    Status
 ------------------ ---- ----- ------- ------ -------- -----------
 cluster1-01
-                   e0a ENET  -         100   enabled  online
-                   e0b ENET  -         100   enabled  online
+                   e5a ENET  -         100   enabled  online
+                   e3b ENET  -         100   enabled  online
 cluster1-02
-                   e0a ENET  -         100   enabled  online
-                   e0b ENET  -         100   enabled  online
+                   e5a ENET  -         100   enabled  online
+                   e3b ENET  -         100   enabled  online
 .
 .
 ----
@@ -122,7 +120,8 @@ Shelf ID Module State        Internal?
        1 A      connected    false
        2 B      connected    false
        3 B      connected    false
-4 entries were displayed.
+.
+.
 ----
 ====
 
@@ -140,16 +139,16 @@ system switch ethernet show
 [subs=+quotes]
 ----
 cluster1::*> *system switch ethernet show*
-  Switch               Type               Address          Model
-  -------------------- ------------------ ---------------- ---------------
-  s1                   cluster-network    1.2.3.4          N9K-C9336C-FX2
+  Switch            Type               Address          Model
+  ----------------- ------------------ ---------------- ---------------
+  s1                storage-network    1.2.3.4          N9K-C9336C-FX2
      Serial Number: FFFXXXXXXX1
       Is Monitored: true
             Reason: None
   Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
                     10.3(4a)
     Version Source: CDP/ISDP
-s2                   cluster-network    2.3.4.5          N9K-C9336C-FX2
+ s2                 storage-network    2.3.4.5          N9K-C9336C-FX2
      Serial Number: FEEXXXXXXX2
       Is Monitored: true
             Reason: None
@@ -161,23 +160,22 @@ s2                   cluster-network    2.3.4.5          N9K-C9336C-FX2
 
 == Step 2: Upgrade the RCF
 
-. On switch s1, shut down the ports connected to all the ports of the nodes.
+. Log in to the switch s2 using SSH or by using a serial console. 
+. Shut down the ports connected to all the ports of the nodes.
 +
 
 [subs=+quotes]
 ----
-s1> *enable*
-s1# *configure*
-s1(config)# *interface eth1/1/1-12*
-s1(config-if-range)# *shutdown*
-s1(config-if-range)# *exit*
-s1(config)# *exit*
+s2> *enable*
+s2# *configure*
+s2(config)# *interface e1/1-36*
+s2(config-if-range)# *shutdown*
+s2(config-if-range)# *exit*
+s2(config)# *exit*
 ----
 +
 CAUTION: Make sure to shutdown *all* connected ports to avoid any network connection issues.
 See the Knowledge Base article https://kb.netapp.com/on-prem/ontap/OHW/OHW-KBs/Node_out_of_quorum_when_migrating_cluster_lif_during_switch_OS_upgrade[Node out of quorum when migrating cluster LIF during switch OS upgrade^] for further details. 
-
-. Log in to the switch using SSH or by using a serial console.
 
 . If you have not already done so, save a copy of the current switch configuration by copying the output of the following command to a text file:
 +
@@ -200,19 +198,13 @@ Make sure to configure the following:
 * Switch name
 ====================================
 +
-`s1# show run | i "username admin password" > bootflash:write_erase.cfg`
+`s2# show run | i "username admin password" > bootflash:write_erase.cfg`
 +
-`s1# show run | section "vrf context management" >> bootflash:write_erase.cfg`
+`s2# show run | section "vrf context management" >> bootflash:write_erase.cfg`
 +
-`s1# show run | section "interface mgmt0" >> bootflash:write_erase.cfg`
+`s2# show run | section "interface mgmt0" >> bootflash:write_erase.cfg`
 +
-`s1# show run | section "switchname" >> bootflash:write_erase.cfg`
-. When upgrading to RCF version 1.12 and later, run the following commands:
-`s1# echo "hardware access-list tcam region ing-racl 1024" >> bootflash:write_erase.cfg`
-+
-`s1# echo "hardware access-list tcam region egr-racl 1024" >> bootflash:write_erase.cfg`
-+
-`s1# echo "hardware access-list tcam region ing-l2-qos 1280 >> bootflash:write_erase.cfg`
+`s2# show run | section "switchname" >> bootflash:write_erase.cfg`
 + 
 See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further details.
 
@@ -222,7 +214,7 @@ See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco
 
 . Issue the `write erase` command to erase the current saved configuration:
 +
-`s1# *write erase*`
+`s2# *write erase*`
 +
 `Warning: This command will erase the startup-configuration.`
 +
@@ -230,11 +222,11 @@ See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco
 
 . Copy the previously saved basic configuration into the startup configuration.
 +
-`s1# *copy bootflash:write_erase.cfg startup-config*`
+`s2# *copy bootflash:write_erase.cfg startup-config*`
 
 . Reboot the switch:
 +
-`s1# *reload*`
+`s2# *reload*`
 +
 `This command will reboot the system. (y/n)?  [n] *y*`
 
@@ -253,7 +245,7 @@ This example shows TFTP being used to copy an RCF to the bootflash on switch s1:
 
 [subs=+quotes]
 ----
-s1# *copy tftp: bootflash: vrf management*
+s2# *copy tftp: bootflash: vrf management*
 Enter source filename: *NX9336C-FX2-RCF-v1.13-1-Storage.txt*
 Enter hostname for the tftp server: *172.22.201.50*
 Trying to connect to tftp server......Connection to Server Established.
@@ -300,14 +292,14 @@ The output varies according to your site configuration. Check the port settings 
 For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
 +
 
-`s1# *copy running-config startup-config*` 
+`s2# *copy running-config startup-config*` 
 +
 `[########################################] 100% Copy complete` 
 
-. Reboot switch s1. You can ignore the "`cluster switch health monitor`" alerts and "`cluster ports down`" events reported on the nodes while the switch reboots.
+. Reboot switch s2. You can ignore the "`cluster switch health monitor`" alerts and "`cluster ports down`" events reported on the nodes while the switch reboots.
 +
 
-`s1# *reload*` 
+`s2# *reload*` 
 +
 `This command will reboot the system. (y/n)?  [n] *y*` 
 
@@ -332,11 +324,11 @@ cluster1::*> *storage port show -port-type ENET*
 Node               Port Type  Mode    (Gb/s) State    Status
 ------------------ ---- ----- ------- ------ -------- -----------
 cluster1-01
-                   e0a  ENET  -          100 enabled  online
-                   e0b  ENET  -          100 enabled  online
+                   e5a  ENET  -          100 enabled  online
+                   e3b  ENET  -          100 enabled  online
 cluster1-02
-                   e0a  ENET  -          100 enabled  online
-                   e0b  ENET  -          100 enabled  online
+                   e5a  ENET  -          100 enabled  online
+                   e3b  ENET  -          100 enabled  online
 .
 .
 ----
@@ -364,7 +356,8 @@ Shelf ID Module State        Internal?
        1 A      connected    false
        2 B      connected    false
        3 B      connected    false
-4 entries were displayed.
+.
+.
 ----
 ====
 
@@ -382,16 +375,16 @@ system switch ethernet show
 [subs=+quotes]
 ----
 cluster1::> *system switch ethernet show*
-  Switch              Type               Address          Model
-  ------------------- ------------------ ---------------- ---------------
-s1                    cluster-network    1.2.3.4          N9K-C9336C-FX2
+  Switch           Type               Address          Model
+  ---------------- ------------------ ---------------- ---------------
+  s1               storage-network    1.2.3.4          N9K-C9336C-FX2
      Serial Number: FFFXXXXXXX1
       Is Monitored: true
             Reason: None
   Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
                     10.3(4a)
     Version Source: CDP/ISDP
-s2                    cluster-network    2.3.4.5          N9K-C9336C-FX2
+  s2               storage-network    2.3.4.5          N9K-C9336C-FX2
      Serial Number: FEEXXXXXXX2
       Is Monitored: true
             Reason: None
@@ -401,11 +394,12 @@ s2                    cluster-network    2.3.4.5          N9K-C9336C-FX2
 ----
 ====
 
-. Repeat steps 1 to 17 on switch s2.
+. Repeat steps 1 to 16 on switch s1.
 
 == Step 3: Verify the storage network
+Complete the following steps on each storage switch to verify that the storage network is functioning properly after the RCF upgrade.
 
-. Verify that the switch ports connected to the cluster ports are *up*.
+. Verify that the switch ports connected to the node storage ports and storage shelf ports are *up*.
 +
 [source,cli]
 ----
