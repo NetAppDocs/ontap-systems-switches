@@ -46,7 +46,7 @@ On the page, select *Disruptive Upgrade* and select your current release and tar
 The examples in this procedure use the following switch and node nomenclature:
 
 * The names of the two Cisco switches are s1 and s2.
-* The node names are cluster1-01, cluster1-02, cluster1-03, and cluster1-04.
+* The node names are cluster1-01 and cluster1-02.
 
 == Install or upgrade the software
 
@@ -155,7 +155,7 @@ cluster1::> *system switch ethernet show*
   Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
                     10.3(4a)
     Version Source: CDP/ISDP
-s2                  storage-network    2.3.4.5          N9K-C9336C-FX2
+  s2                storage-network    2.3.4.5          N9K-C9336C-FX2
      Serial Number: FFFXXXXXXX2
       Is Monitored: true
             Reason: None
@@ -564,7 +564,7 @@ cluster1::> *system switch ethernet show*
   Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
                     10.3(4a)
     Version Source: CDP/ISDP
-s2                  storage-network    2.3.4.5          N9K-C9336C-FX2
+  s2                storage-network    2.3.4.5          N9K-C9336C-FX2
      Serial Number: FFFXXXXXXX2
       Is Monitored: true
             Reason: None
@@ -574,7 +574,7 @@ s2                  storage-network    2.3.4.5          N9K-C9336C-FX2
 ----
 ====
 
-. Repeat steps 5 to 11 and step 14 to install the NX-OS software on switch s1.
+. Repeat steps 5 to 13 to install the NX-OS software on switch s1.
 
 .What's next?
 After you've installed or upgraded the NX-OS software, you can link:install-rcf-software-9336c-storage.html[install or upgrade the RCF].
