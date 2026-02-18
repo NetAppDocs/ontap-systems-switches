@@ -234,14 +234,14 @@ See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco
 +
 You might need to update host file entries related to the SSH keys.
 
-. Copy the RCF to the bootflash of switch s1 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. 
+. Copy the RCF to the bootflash of switch s2 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. 
 +
 For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
 +
 .Show example 
 [%collapsible]
 ====
-This example shows TFTP being used to copy an RCF to the bootflash on switch s1:
+This example shows TFTP being used to copy an RCF to the bootflash on switch s2:
 
 [subs=+quotes]
 ----
@@ -259,12 +259,12 @@ Copy complete, now saving to disk (please wait)...
 For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
 
 +
-This example shows the RCF file `NX9336C-FX2-RCF-v1.13-1-Storage.txt` being installed on switch s1:
+This example shows the RCF file `NX9336C-FX2-RCF-v1.13-1-Storage.txt` being installed on switch s2:
 +
 
 [subs=+quotes]
 ----
-s1# *copy NX9336C-FX2-RCF-v1.13-1-Storage.txt running-config echo-commands*
+s2# *copy NX9336C-FX2-RCF-v1.13-1-Storage.txt running-config echo-commands*
 ----
 
 +
