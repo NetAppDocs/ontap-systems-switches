@@ -191,7 +191,7 @@ Image Descriptions
 ------------------------------------------------------------------
  unit      active      backup      current-active    next-active
 ------------------------------------------------------------------
-    1      3.7.0.4    3.7.0.4             3.7.0.4       3.10.0.3
+    1      3.7.0.4    3.10.0.3            3.7.0.4       3.10.0.3
 ----
 ====
 
@@ -328,7 +328,7 @@ network interface modify -vserver Cluster -lif * -auto-revert true
 +
 [source,cli]
 ----
-network interface show -role Cluster
+network interface show -vserver Cluster
 ----
 +
 For further details, see link:https://docs.netapp.com/us-en/ontap/networking/revert_a_lif_to_its_home_port.html[Revert a LIF to its home port].
@@ -506,7 +506,7 @@ network interface modify -vserver Cluster -lif * -auto-revert true
 +
 [source,cli]
 ----
-network interface show -role Cluster
+network interface show -vserver Cluster
 ----
 +
 For further details, see link:https://docs.netapp.com/us-en/ontap/networking/revert_a_lif_to_its_home_port.html[Revert a LIF to its home port].
@@ -516,3 +516,5 @@ For further details, see link:https://docs.netapp.com/us-en/ontap/networking/rev
 // Updates for GH issue #222, 2025-JAN-28
 // Updates for GH ISSUE #277, 2025-AUG-05
 // Updates for AFFFASDOC-362, 2025-AUG-01
+// AFFFASDOC-457, 2026-FEB-04
+// GH issue #328, 2026-FEB-10
