@@ -36,7 +36,7 @@ This example shows TFTP being used to copy an RCF to the bootflash on switch s2:
 [subs=+quotes]
 ----
 s2# *copy tftp: bootflash: vrf management*
-Enter source filename: *NX9336C-FX2-RCF-v1.13-1-Storage.txt*
+Enter source filename: *NX3232C-RCF-v1.13-1-Storage.txt*
 Enter hostname for the tftp server: *172.22.201.50*
 Trying to connect to tftp server......Connection to Server Established.
 TFTP get operation was successful
@@ -91,9 +91,9 @@ The output varies according to your site configuration. Check the port settings 
 
 . Repeat Steps 1 to 8 on switch s1.
 
-. Connect the node storage ports and storage shelf of all nodes in the ONTAP cluster to switches s1 and s2.
+. Connect the node storage ports and storage shelf ports of all nodes in the ONTAP cluster to switches s1 and s2.
 
-== Step: 2: Verify the switch connections
+== Step 2: Verify the switch connections
 
 . Verify that the switch ports are *up*.
 +

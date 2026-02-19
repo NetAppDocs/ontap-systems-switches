@@ -165,12 +165,12 @@ storage::*> storage port show -port-type ENET
                                     Speed                     VLAN
 Node             Port Type  Mode    (Gb/s) State    Status      ID
 ---------------- ---- ----- ------- ------ -------- --------- ----
-cluster01-1
+cluster1-01
                  e5a  ENET  storage 100    enabled  online      30
                  e3b  ENET  storage   0    enabled  offline     30
                  e7a  ENET  storage   0    enabled  offline     30
                  e7b  ENET  storage   0    enabled  offline     30
-cluster01-2
+cluster1-02
                  e5a  ENET  storage 100    enabled  online      30
                  e3b  ENET  storage   0    enabled  offline     30
                  e7a  ENET  storage   0    enabled  offline     30
@@ -192,25 +192,25 @@ storage::*> network device-discovery show
 Node/     Local Discovered
 Protocol  Port  Device (LLDP: ChassisID)  Interface	  Platform
 --------  ----  -----------------------   ---------   ---------
-cluster01-1/cdp
+cluster1-01/cdp
           e3a  s1                         Ethernet1/1 NX9336C
-          e4a  cluster01-2                e4a         AFF-A700
-          e4e  cluster01-2                e4e         AFF-A700
+          e4a  cluster1-02                e4a         AFF-A700
+          e4e  cluster1-02                e4e         AFF-A700
           e7b  ns2                       Ethernet1/1 NX9336C
-cluster01-1/lldp
+cluster1-01/lldp
           e3a  s1                         Ethernet1/1 -
-          e4a  cluster01-2                e4a         -
-          e4e  cluster01-2                e4e         -
+          e4a  cluster1-02                e4a         -
+          e4e  cluster1-02                e4e         -
           e7b  ns2                        Ethernet1/1 -
-cluster01-2/cdp
+cluster1-02/cdp
           e3a  s1                         Ethernet1/2 NX9336C
-          e4a  cluster01-1                e4a         AFF-A700
-          e4e  cluster01-1                e4e         AFF-A700
+          e4a  cluster1-01                e4a         AFF-A700
+          e4e  cluster1-01                e4e         AFF-A700
           e7b  ns2                        Ethernet1/2 NX9336C
-cluster01-2/lldp
+cluster1-02/lldp
           e3a  s1                         Ethernet1/2 -
-          e4a  cluster01-1                e4a         -
-          e4e  cluster01-1                e4e         -
+          e4a  cluster1-01                e4a         -
+          e4e  cluster1-01                e4e         -
           e7b  ns2                        Ethernet1/2 -
 .
 .
