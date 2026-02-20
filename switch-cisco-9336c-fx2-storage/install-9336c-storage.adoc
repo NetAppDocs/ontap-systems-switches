@@ -1,8 +1,8 @@
 ---
 permalink: switch-cisco-9336c-fx2-storage/install-9336c-storage.html
 sidebar: sidebar
-keywords: require, configuration, information, documentation, cluster, management, network, switches, set up the switches - cisco nexus 9336c-fx2
-summary: If you do not already have the required configuration information and documentation, you need to gather that information before setting up your cluster and management network switches.
+keywords: require, configuration, information, documentation, storage, management, network, switches, set up the switches - cisco nexus 9336c-fx2
+summary: If you do not already have the required configuration information and documentation, you need to gather that information before setting up your storage and management network switches.
 ---
 = Install the 9336C-FX2 and 9336C-FX2-T storage switches
 :icons: font
@@ -18,11 +18,13 @@ Make sure you have the following:
 * Applicable NX-OS version, downloaded from the https://software.cisco.com/download/home[Cisco Software Download^] page. 
 * Applicable licenses, network and configuration information, and cables.
 * Completed link:setup-worksheet-9336c-storage.html[cabling worksheets].
-* Applicable NetApp cluster network and management network RCFs downloaded from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com^]. All Cisco cluster network and management network switches arrive with the standard Cisco factory-default configuration. These switches also have the current version of the NX-OS software but do not have the RCFs loaded.
+* Applicable NetApp storage network and management network RCFs downloaded from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com^]. 
++
+All Cisco storage network and management network switches arrive with the standard Cisco factory-default configuration. These switches also have the current version of the NX-OS software but do not have the RCFs loaded.
 * Required switch documentation. See link:required-documentation-9336c-storage.html[Required documentation] for more information.
 
 .Steps
-. Rack the cluster network and management network switches and controllers.
+. Rack the network and management network switches and controllers.
 +
 [options="header" cols="1,2"]
 |===
@@ -37,8 +39,8 @@ a|
 See the procedures provided in the switch hardware installation guides and the NetApp installation and setup instructions.
 |===
 
-. Cable the cluster network and management network switches to the controllers using the completed cabling worksheets.
-. Power on the cluster network and management network switches and controllers.
+. Cable the network and management network switches to the controllers using the completed cabling worksheets.
+. Power on the network and management network switches and controllers.
 
 .What's next?
 

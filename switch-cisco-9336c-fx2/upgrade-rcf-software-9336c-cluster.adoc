@@ -26,6 +26,17 @@ NOTE: No operational inter-switch link (ISL) is needed during this procedure. Th
 CAUTION: Before installing a new switch software version and RCFs, you must erase the switch settings and perform basic configuration. You must be connected to the switch using the serial console or have preserved basic configuration information prior to erasing the switch settings.
 
 == Step 1: Prepare for the upgrade
+. If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: 
++
+`system node autosupport invoke -node * -type all -message MAINT=xh`
++
+Where _x_ is the duration of the maintenance window in hours.
+
+. Change the privilege level to advanced, entering *y* when prompted to continue: 
++
+`set -privilege advanced`
++
+The advanced prompt (*>) appears.
 
 . Display the cluster ports on each node that are connected to the cluster switches: 
 +
