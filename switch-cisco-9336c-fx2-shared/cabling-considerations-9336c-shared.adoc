@@ -1,0 +1,59 @@
+---
+permalink: switch-cisco-9336c-fx2-shared/cabling-considerations-9336c-shared.html
+sidebar: sidebar
+keywords: 9336c-fx2 cabling setup, 9336c-fx2 switches configuration, nx-os
+summary: 'Before configuring your Cisco 9336C-FX2 switch, review the following information.'
+---
+= Review cabling and configuration considerations
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+Before configuring your 9336C-FX2 and 9336C-FX2-T switches, review the cabling and configuration requirements. 
+
+== Support for NVIDIA CX6, CX6-DX, and CX7 Ethernet ports
+If you are connecting a switch port to an ONTAP controller using NVIDIA ConnectX-6 (CX6), ConnectX-6 Dx (CX6-DX), or ConnectX-7 (CX7) NIC ports, you must hard-code the switch port speed.
+
+[subs=+quotes]
+----
+(cs1)(config)# interface Ethernet1/19
+*For 100GbE speed:*
+(cs1)(config-if)# *speed 100000*
+*For 40GbE speed:*
+(cs1)(config-if)# *speed 40000*
+(cs1)(config-if)# no negotiate auto
+(cs1)(config-if)# exit
+(cs1)(config)# exit
+*Save the changes:*
+(cs1)# *copy running-config startup-config*
+----
+
+== 25GbE FEC requirements
+
+=== FAS2820 e0a/e0b ports
+FAS2820 e0a and e0b ports require FEC configuration changes to link up with 9336C-FX2 and 9336C-FX2-T switch ports.
+For switch ports e0a and e0b, the `fec` setting is set to `rs-cons16`.
+
+[subs=+quotes]
+----
+(cs1)(config)# interface Ethernet1/8-9
+(cs1)(config-if-range)# *fec rs-cons16*
+(cs1)(config-if-range)# exit
+(cs1)(config)# exit
+*Save the changes:*
+(cs1)# *copy running-config startup-config*
+----
+
+== Ports do not link up due to TCAM resources
+On the 9336C-FX2 and 9336C-FX2-T switches, the Ternary Content Addressable Memory (TCAM) resources configured in the configuration utilized by the switch are exhausted. 
+
+== Related information
+* Refer to https://hwu.netapp.com/Switch/Index[Hardware Universe^] for more information on switch ports. 
+* See https://kb.netapp.com/Support/General_Support/What_additional_information_do_I_need_to_install_my_equipment_that_is_not_in_HWU[What additional information do I need to install my equipment that is not in HWU?^] for more information about switch installation requirements.
+* See the Knowledge Base article https://kb.netapp.com/on-prem/Switches/Cisco-KBs/Ports_do_not_link_up_on_Cisco_Nexus_9336C-FX2_due_to_TCAM_resources[Ports do not link up on Cisco Nexus 9336C-FX2 due to TCAM resources^] for details on how to resolve TCAM issues. 
+
+// New content for AFFFASDOC-193, 2024-MAR-06
+// Updates for AFFFASDOC-229, 2024-JUN-25
+// Updates for AFFFASDOC-242, 2024-AUG-20 - not getting published currently. 
+// Updates for AFFFASDOC-380, 2025-AUG-28
+// AFFFASDOC-458, 2026-FEB-19
