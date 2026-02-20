@@ -13,61 +13,8 @@ You install the Reference Configuration File (RCF) after setting up the Nexus 93
 
 See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further information when installing or upgrading your RCF.
 
-.Available RCF configurations
-
-The following table describes the RCFs available for different configurations. Choose the RCF applicable to your configuration. See link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches^] for more information.
-
-For specific port and VLAN usage details, refer to the banner and important notes section in your RCF.
-
-[options="header" cols="1,2"]
-|===
-| RCF name | Description
-a|
-2-Cluster-HA-Breakout
-a|
-Supports two ONTAP clusters with at least eight nodes, including nodes that use shared Cluster+HA ports.
-a|
-4-Cluster-HA-Breakout
-a|
-Supports four ONTAP clusters with at least four nodes, including nodes that use shared Cluster+HA ports.
-a|
-1-Cluster-HA
-a|
-All ports are configured for 40/100GbE. Supports shared cluster/HA traffic on ports. Required for AFF A320, AFF A250, and FAS500f systems. Additionally, all ports can be used as dedicated cluster ports.
-a|
-1-Cluster-HA-Breakout
-a|
-Ports are configured for 4x10GbE breakout, 4x25GbE breakout (RCF 1.6+ on 100GbE switches), and 40/100GbE. Supports shared cluster/HA traffic on ports for nodes that use shared cluster/HA ports: AFF A320, AFF A250, and FAS500f systems. Additionally, all ports can be used as dedicated cluster ports.
-a|
-Cluster-HA-Storage
-a|
-Ports are configured for 40/100GbE for Cluster+HA, 4x10GbE breakout for Cluster and 4x25GbE breakout for Cluster+HA, and 100GbE for each storage HA pair.
-a|
-Cluster
-a|
-Two flavors of RCF with different allocations of 4x10GbE ports (breakout) and 40/100GbE ports. All FAS and AFF nodes are supported, except for AFF A320, AFF A250, and FAS500f systems.
-a|
-Storage
-a|
-All ports are configured for 100GbE NVMe storage connections.
-|===
-
-.Available RCFs
-
-The following table lists the available RCFs for 9336C-FX2 and 9336C-FX2-T switches. Choose the applicable RCF version for your configuration. See link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches^] for more information.
-
-[options="header" cols="1"]
-|===
-| RCF name
-a|
-Cluster-HA-Breakout RCF 1._xx_
-a|
-Cluster-HA-Storage RCF 1._xx_
-a|
-Storage RCF 1._xx_
-a|
-MultiCluster-HA RCF 1._xx_
-|===
+.Available RCF configuration
+Storage - (Storage RCF 1._xx_) is the available RCF configuration where all ports are configured for 100GbE NVMe storage connections.
 
 .Suggested documentation
 * link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches^]
@@ -81,10 +28,8 @@ Refer to the appropriate software and upgrade guides available on the Cisco webs
 .About the examples
 The examples in this procedure use the following switch and node nomenclature:
 
-* The names of the two Cisco switches are cs1 and cs2.
-* The node names are node1-01, node1-02, node1-03, and node1-04.
-* The cluster LIF names are node1-01_clus1, node1-01_clus2, node1-02_clus1, node1-02_clus2, node1-03_clus1, node1-03_clus2, node1-04_clus1, and node1-04_clus2.
-* The `cluster1::*>` prompt indicates the name of the cluster.
+* The names of the two Cisco switches are s1 and s2.
+* The node names are cluster1-01 and cluster1-02.
 
 See the https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe^] to verify the correct ports on your platform.
 
@@ -98,3 +43,4 @@ The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Serie
 After you've reviewed the install RCF or upgrade RCF procedure, you can link:install-rcf-software-9336c-storage.html[install the RCF] or link:upgrade-rcf-software-9336c-storage.html[upgrade your RCF] as needed.
 
 // AFFFASDOC-289, 2025-NOV-05
+// AFFFASDOC-458, 2026-FEB-03
