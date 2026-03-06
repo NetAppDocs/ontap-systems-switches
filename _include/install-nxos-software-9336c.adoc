@@ -447,7 +447,7 @@ Active Package(s):
 ----
 ====
 
-. Upgrade the EPLD image and reboot the switch.
+. Upgrade the EPLD image and reboot the switch. If you are using NX-OS 10.5(3)F or later, you do not need to perform a separate EPLD image upgrade because the EPLD image is included in the NX-OS image. Skip this step and continue with verifying cluster port health.
 +
 .Show example
 [%collapsible]
@@ -776,3 +776,4 @@ If any cluster LIFs have not returned to their home ports, revert them manually 
 // GH issue #298, 2025-OCT-16
 // GH issue #313, 2025-DEC-10
 // GH issue #327, 2026-FEB-09
+// GH issue #331, 2026-MAR-02
