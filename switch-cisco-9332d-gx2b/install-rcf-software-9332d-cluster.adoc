@@ -26,7 +26,7 @@ Verify the following installations and connections:
 
 . Copy the RCF to the bootflash of switch cs1 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. 
 +
-For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
+For more information on Cisco commands, refer to the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
 +
 .Show example 
 [%collapsible]
@@ -46,7 +46,7 @@ Copy complete, now saving to disk (please wait)...
 
 . Apply the RCF previously downloaded to the bootflash.
 +
-For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
+For more information on Cisco commands, refer to the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
 +
 
 This example shows the RCF file `NX9332D-GX2B-RCF-v10.0-Shared.txt` being installed on switch cs1:
@@ -122,7 +122,7 @@ Make sure to configure the following:
 +
 `cs1# echo "hardware access-list tcam region ing-l2-qos 1536" >> bootflash:write_erase.cfg`
 +
-See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further details.
+Refer to the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further details.
 
 . Verify that the `write_erase.cfg` file is populated as expected:
 +
