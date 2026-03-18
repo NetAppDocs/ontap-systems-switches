@@ -22,7 +22,7 @@ The migration process works for all nodes using optical or Twinax ports, but is 
 ** The two-node switchless configuration is properly set up and functioning. 
 ** All cluster ports are in the *up* state.
 ** All cluster logical interfaces (LIFs) are in the *up* state and on their home ports.
-** See https://hwu.netapp.com[Hardware Universe^] for all supported ONTAP versions.
+** Refer to link:https://hwu.netapp.com[Hardware Universe^] for all supported ONTAP versions.
 // Added in link to HWU as per GH issues #s 49 & 46
 
 * For the Cisco Nexus 9332D-GX2B switch configuration:
@@ -31,7 +31,7 @@ The migration process works for all nodes using optical or Twinax ports, but is 
 ** There is console access to the cluster switches.
 ** Nexus 9332D-GX2B node-to-node switch and switch-to-switch connections use Twinax or fiber cables.
 +
-See https://hwu.netapp.com[Hardware Universe^] for more information about cabling.
+Refer to link:https://hwu.netapp.com[Hardware Universe^] for more information about cabling.
 
 * Inter-Switch Link (ISL) cables are connected to ports 1/35 and 1/36 on both 9332D-GX2B switches.
 * Initial customization of both the 9332D-GX2B switches are completed, so that:
@@ -48,7 +48,7 @@ The examples in this procedure use the following cluster switch and node nomencl
 * The `cluster1::*>` prompt indicates the name of the cluster.
 * The cluster ports used in this procedure are e0a and e0b.
 
-See https://hwu.netapp.com[Hardware Universe^] for information about the cluster ports for your platforms.
+Refer to link:https://hwu.netapp.com[Hardware Universe^] for information about the cluster ports for your platforms.
 
 == Migrate the switches
 
@@ -599,3 +599,4 @@ RPC status:
 link:../switch-cshm/config-overview.html[Configure switch health monitoring].
 
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-08
+// AFFFASDOC-473, 2026-MAR-18

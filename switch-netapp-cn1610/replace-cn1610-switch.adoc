@@ -26,8 +26,8 @@ Before you perform the switch replacement, the following conditions must exist b
 NetApp strongly recommends that you enable console logging on the devices that you are using and take the following actions when replacing your switch:
 
 * Leave AutoSupport enabled during maintenance.
-* Trigger a maintenance AutoSupport before and after maintenance to disable case creation for the duration of the maintenance. See this Knowledge Base article https://kb.netapp.com/Support_Bulletins/Customer_Bulletins/SU92[SU92: How to suppress automatic case creation during scheduled maintenance windows^] for further details.
-* Enable session logging for any CLI sessions. For instructions on how to enable session logging, review the "Logging Session Output" section in this Knowledge Base article https://kb.netapp.com/on-prem/ontap/Ontap_OS/OS-KBs/How_to_configure_PuTTY_for_optimal_connectivity_to_ONTAP_systems[How to configure PuTTY for optimal connectivity to ONTAP systems^].
+* Trigger a maintenance AutoSupport before and after maintenance to disable case creation for the duration of the maintenance. Refer to this Knowledge Base article link:https://kb.netapp.com/Support_Bulletins/Customer_Bulletins/SU92[SU92: How to suppress automatic case creation during scheduled maintenance windows^] for further details.
+* Enable session logging for any CLI sessions. For instructions on how to enable session logging, review the "Logging Session Output" section in this Knowledge Base article link:https://kb.netapp.com/on-prem/ontap/Ontap_OS/OS-KBs/How_to_configure_PuTTY_for_optimal_connectivity_to_ONTAP_systems[How to configure PuTTY for optimal connectivity to ONTAP systems^].
 
 == Replace the switch
 
@@ -89,9 +89,9 @@ NOTE: You can use any file name except `CN1610_CS_RCF_v1.2.scr`. The file name m
 ----
 ====
 
-. Verify that the switch and ONTAP versions match in the compatibility matrix. See the https://mysupport.netapp.com/site/info/netapp-cluster-switch[NetApp CN1601 and CN1610 Switches^] page for details. 
+. Verify that the switch and ONTAP versions match in the compatibility matrix. Refer to link:https://mysupport.netapp.com/site/info/netapp-cluster-switch[NetApp CN1601 and CN1610 Switches^] for details. 
 
-. From the https://mysupport.netapp.com/site/products/all/details/netapp-cluster-switches/downloads-tab[Software Downloads page^] on the NetApp Support Site, select NetApp Cluster Switches to download the appropriate RCF and FASTPATH versions.
+. From the link:https://mysupport.netapp.com/site/products/all/details/netapp-cluster-switches/downloads-tab[Software Downloads page^] on the NetApp Support Site, select NetApp Cluster Switches to download the appropriate RCF and FASTPATH versions.
 
 . Set up a Trivial File Transfer Protocol (TFTP) server with the FASTPATH, RCF, and saved configuration `.scr` file for use with the new switch.
 
@@ -529,3 +529,4 @@ cluster::*> *cluster show*
 
 // Converted this procedure to GitHub, as per GH issue #98, 2023-MAY-23
 // Update for GH issue #220, 2024-NOV-7
+// AFFFASDOC-473, 2026-MAR-18

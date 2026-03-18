@@ -32,7 +32,7 @@ Ensure that:
 * There is console access to the cluster switches.
 * NVIDIA SN2100 node-to-node switch and switch-to-switch connections use Twinax or fiber cables.
 +
-IMPORTANT: See link:cabling-considerations-sn2100-cluster.html[Review cabling and configuration considerations] for caveats and further details. The https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches^] also contains more information about cabling.
+IMPORTANT: Refer to link:cabling-considerations-sn2100-cluster.html[Review cabling and configuration considerations] for caveats and further details. link:https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches^] also contains more information about cabling.
 
 * Inter-Switch Link (ISL) cables are connected to ports swp15 and swp16 on both NVIDIA SN2100 switches.
 * Initial customization of both the SN2100 switches are completed, so that:
@@ -40,7 +40,7 @@ IMPORTANT: See link:cabling-considerations-sn2100-cluster.html[Review cabling an
 ** Reference Configuration Files (RCFs) are applied to the switches
 ** Any site customization, such as SMTP, SNMP, and SSH are configured on the new switches.
 +
-The https://hwu.netapp.com[Hardware Universe^] contains the latest information about the actual cluster ports for your platforms.
+link:https://hwu.netapp.com[Hardware Universe^] contains the latest information about the actual cluster ports for your platforms.
 
 == Migrate the switches
 
@@ -892,3 +892,4 @@ After you've migrated your switches, you can link:../switch-cshm/config-overview
 // Updates for AFFFASDOC-328, 2025-APR-23
 // AFFFASDOC-411, 2025-OCT-30
 // AFFFASDOC-415, 2025-NOV-17
+// AFFFASDOC-473, 2026-MAR-18
