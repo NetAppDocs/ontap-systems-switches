@@ -16,7 +16,7 @@ You can migrate from a switchless cluster with direct-attached storage by adding
 
 The procedure you use depends on whether you have two dedicated cluster-network ports on each controller or a single cluster port on each controller.  The process documented works for all nodes using optical or Twinax ports, but is not supported on this switch if nodes are using onboard 10Gb BASE-T RJ45 ports for the cluster-network ports.
 
-Most systems require two dedicated cluster-network ports on each controller. See https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches] for more information.
+Most systems require two dedicated cluster-network ports on each controller. Refer to link: https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches^] for more information.
 
 If you have an existing two-node switchless cluster environment, you can migrate to a two-node switched cluster environment using Cisco Nexus 9336C-FX2 switches to enable you to scale beyond two nodes in the cluster.
 
@@ -260,7 +260,7 @@ Cluster
 [start=9]
 . [[step9]]Disconnect the cable from cluster port e3a on node1, and then connect e3a to port 1 on cluster switch cs1, using the appropriate cabling supported by the 9336C-FX2 switches.
 +
-The NetApp https://hwu.netapp.com[Hardware Universe] contains more information about cabling. See link:https://kb.netapp.com/Support/General_Support/What_additional_information_do_I_need_to_install_my_equipment_that_is_not_in_HWU[What additional information do I need to install my equipment that is not in HWU?^] for more information about switch installation requirements.
+link:https://hwu.netapp.com[Hardware Universe^] contains more information about cabling. Refer to link:https://kb.netapp.com/Support/General_Support/What_additional_information_do_I_need_to_install_my_equipment_that_is_not_in_HWU[What additional information do I need to install my equipment that is not in HWU?^] for more information about switch installation requirements.
 
 .  Disconnect the cable from cluster port e3a on node2, and then connect e3a to port 2 on cluster switch cs1, using the appropriate cabling supported by the 9336C-FX2 switches.
 . Enable all node-facing ports on cluster switch cs1.
@@ -831,3 +831,4 @@ After you've migrated your switches, you can link:../switch-cshm/config-overview
 // Updates for GH issue #212, 2024-OCT-21
 // GH issue #340 internal repo, 2025-SEPT-18
 // AFFFASDOC-411, 2025-OCT-30
+// AFFFASDOC-473, 2026-MAR-18
