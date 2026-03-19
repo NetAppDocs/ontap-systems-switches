@@ -36,7 +36,7 @@ Ensure that:
 ** Both switches have management network connectivity.
 ** There is console access to the cluster switches.
 ** Nexus 9336C-FX2 node-to-node switch and switch-to-switch connections use Twinax or fiber cables.
-** The NetApp https://hwu.netapp.com[Hardware Universe] contains more information about cabling.
+** The link:https://hwu.netapp.com[Hardware Universe^] contains more information about cabling.
 ** Inter-Switch Link (ISL) cables are connected to ports 1/35 and 1/36 on both 9336C-FX2 switches.
 * Initial customization of the 9336C-FX2 switches are completed. So that the:
 ** 9336C-FX2 switches are running the latest version of software
@@ -53,7 +53,7 @@ The examples in this procedure use the following cluster switch and node nomencl
 * The names of the cluster SVMs are _node1_ and _node2_.
 * The names of the LIFs are _node1_clus1_ and _node1_clus2_ on node 1, and _node2_clus1_ and _node2_clus2_ on node 2 respectively.
 * The cluster1::*> prompt indicates the name of the cluster.
-* The cluster ports used in this procedure are _e3a_ and _e3b_, as per the AFF A400 controller. The https://hwu.netapp.com[Hardware Universe] contains the latest information about the actual cluster ports for your platforms.
+* The cluster ports used in this procedure are _e3a_ and _e3b_, as per the AFF A400 controller. The link:https://hwu.netapp.com[Hardware Universe^] contains the latest information about the actual cluster ports for your platforms.
 
 === Step 1: Migrate from a switchless cluster with direct-attached
 
@@ -260,7 +260,7 @@ Cluster
 [start=9]
 . [[step9]]Disconnect the cable from cluster port e3a on node1, and then connect e3a to port 1 on cluster switch cs1, using the appropriate cabling supported by the 9336C-FX2 switches.
 +
-link:https://hwu.netapp.com[Hardware Universe^] contains more information about cabling. Refer to link:https://kb.netapp.com/Support/General_Support/What_additional_information_do_I_need_to_install_my_equipment_that_is_not_in_HWU[What additional information do I need to install my equipment that is not in HWU?^] for more information about switch installation requirements.
+The link:https://hwu.netapp.com[Hardware Universe^] contains more information about cabling. Refer to link:https://kb.netapp.com/Support/General_Support/What_additional_information_do_I_need_to_install_my_equipment_that_is_not_in_HWU[What additional information do I need to install my equipment that is not in HWU?^] for more information about switch installation requirements.
 
 .  Disconnect the cable from cluster port e3a on node2, and then connect e3a to port 2 on cluster switch cs1, using the appropriate cabling supported by the 9336C-FX2 switches.
 . Enable all node-facing ports on cluster switch cs1.
