@@ -4,12 +4,12 @@ sidebar: sidebar
 keywords: install rcf, cisco switches
 summary: 'You can install the RCF after setting up the Nexus 9364d-gx2a switch for the first time.'
 ---
-= Install the Reference Configuration File (RCF)
+= Install the RCF
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-You install the Reference Configuration File (RCF) after setting up the Nexus 9364D-GX2A switch for the first time.
+You install the RCF after setting up the Nexus 9364D-GX2A switch for the first time.
 
 .Before you begin
 
@@ -27,7 +27,7 @@ Verify the following installations and connections:
 
 . Copy the RCF to the bootflash of switch cs1 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. 
 +
-For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
+For more information on Cisco commands, refer to the appropriate guide in the link:https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^].
 +
 .Show example 
 [%collapsible]
@@ -47,7 +47,7 @@ Copy complete, now saving to disk (please wait)...
 
 . Apply the RCF previously downloaded to the bootflash.
 +
-For more information on Cisco commands, see the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
+For more information on Cisco commands, refer to the appropriate guide in the link:https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^].
 +
 .Show example 
 [%collapsible]
@@ -123,7 +123,7 @@ Make sure to configure the following:
 +
 `cs1# echo "hardware access-list tcam region ing-l2-qos 1536" >> bootflash:write_erase.cfg`
 + 
-See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further details.
+Refer to the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further details.
 
 . Verify that the `write_erase.cfg` file is populated as expected:
 +
@@ -692,3 +692,4 @@ Go to https://docs.netapp.com/us-en/ontap/task_configure_ontap.html[Configure ON
 After you've installed the RCF, you link:configure-ssh-keys.html[verify the SSH configuration].
 
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-06
+// AFFFASDOC-473, 2026-MAR-18

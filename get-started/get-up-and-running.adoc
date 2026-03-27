@@ -4,7 +4,7 @@ sidebar: sidebar
 keywords:
 summary: Learn about cluster, storage, and shared switches.
 ---
-= Get up and running with AFX systems, Cluster, Storage, and Shared switches
+= Get up and running with AFX systems, cluster, storage, and shared switches
 :icons: font
 :imagesdir: ../media/
 
@@ -23,30 +23,39 @@ Install your switches in the rack or cabinet. Access the following instructions 
 a|
 
 .AFX systems switches
-
+[%collapsible]
+====
 * link:https://docs.netapp.com/us-en/ontap-afx/install-setup/install-switches.html[Install Cisco Nexus 9332D-GX2B switch^]
 
 * link:https://docs.netapp.com/us-en/ontap-afx/install-setup/install-switches.html[Install Cisco Nexus 9364D-GX2A switch^]
+====
 
 a|
 .Cluster switches
-
-* link:../switch-bes-53248/install-hardware-bes53248.html[Install BES-53248 switch]
-* link:../switch-cisco-9336c-fx2/install-switch-9336c-cluster.html[Install Cisco Nexus 9336C-FX2 switch]
-* link:../switch-nvidia-sn2100/install-hardware-sn2100-cluster.html[Install NVIDIA SN2100 switch]
+[%collapsible]
+====
+* link:../switch-bes-53248/install-hardware-bes53248.html[Install BES-53248 switch^]
+* link:../switch-cisco-9336c-fx2/install-switch-9336c-cluster.html[Install Cisco Nexus 9336C-FX2 switch^]
+* link:../switch-nvidia-sn2100/install-hardware-sn2100-cluster.html[Install NVIDIA SN2100 switch^]
+====
 
 a|
 .Storage switches
-
-* link:../switch-cisco-9336c-fx2-storage/install-9336c-storage.html[Install Cisco Nexus 9336C-FX2 switch]
-* link:../switch-nvidia-sn2100-storage/install-hardware-sn2100-storage.html[Install NVIDIA SN2100 switch]
+[%collapsible]
+====
+* link:../switch-cisco-9336c-fx2-storage/install-9336c-storage.html[Install Cisco Nexus 9336C-FX2 switch^]
+* link:../switch-nvidia-sn2100-storage/install-hardware-sn2100-storage.html[Install NVIDIA SN2100 switch^]
+====
 
 
 a|
 .Shared switches
-
-* link:../switch-cisco-9336c-fx2-shared/install-9336c-shared.html[Install Cisco Nexus 9336C-FX2 switch]
+[%collapsible]
+====
+* link:../switch-cisco-9336c-fx2-shared/install-9336c-shared.html[Install Cisco Nexus 9336C-FX2 switch^]
+====
 |===
+
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png[Two] Install the storage system and storage shelves
 
@@ -72,6 +81,7 @@ a|
 a|
 |===
 
+
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png[Three] Cable the switches to the controllers
 
 [role="quick-margin-para"]
@@ -81,31 +91,38 @@ The ONTAP systems install and setup instructions include instructions for cablin
 |===
 a|
 .AFX systems switches
-
+[%collapsible]
+====
 * link:https://docs.netapp.com/us-en/ontap-afx/install-setup/afx-cable-overview.html[Cable the Cisco Nexus 9332D-GX2B switch^]
 
 * link:https://docs.netapp.com/us-en/ontap-afx/install-setup/afx-cable-overview.html[Cable the Cisco Nexus 9364D-GX2A switch^]
+====
 
 a|
 .Cluster switches
-
-* link:../switch-bes-53248/configure-reqs-bes53248.html#configuration-requirements[Cable the BES-53248 switch]
-* link:../switch-cisco-9336c-fx2/setup-worksheet-9336c-cluster.html[Cable the Cisco Nexus 9336C-FX2 switch]
-* link:../switch-nvidia-sn2100/cabling-considerations-sn2100-cluster.html[Cable the NVIDIA SN2100 switch]
+[%collapsible]
+====
+* link:../switch-bes-53248/configure-reqs-bes53248.html#configuration-requirements[Cable the BES-53248 switch^]
+* link:../switch-cisco-9336c-fx2/setup-worksheet-9336c-cluster.html[Cable the Cisco Nexus 9336C-FX2 switch^]
+* link:../switch-nvidia-sn2100/cabling-considerations-sn2100-cluster.html[Cable the NVIDIA SN2100 switch^]
+====
 
 a|
 .Storage switches
-
-* link:../switch-cisco-9336c-fx2-storage/setup-worksheet-9336c-storage.html[Cable the Cisco Nexus 9336C-FX2 switch]
-* link:../switch-nvidia-sn2100-storage/cabling-considerations-sn2100-storage.html[Cable the NVIDIA SN2100 switch]
+[%collapsible]
+====
+* link:../switch-cisco-9336c-fx2-storage/setup-worksheet-9336c-storage.html[Cable the Cisco Nexus 9336C-FX2 switch^]
+* link:../switch-nvidia-sn2100-storage/cabling-considerations-sn2100-storage.html[Cable the NVIDIA SN2100 switch^]
+====
 
 
 a|
 .Shared switches
-
-* link:../switch-cisco-9336c-fx2-shared/cable-9336c-shared.html[Cable the Cisco Nexus 9336C-FX2 switch]
+[%collapsible]
+====
+* link:../switch-cisco-9336c-fx2-shared/cable-9336c-shared.html[Cable the Cisco Nexus 9336C-FX2 switch^]
+====
 |===
-
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png[Four] Configure the switch software
 
@@ -117,29 +134,37 @@ To install and configure the software on your switch, follow the software instal
 a|
 
 .AFX systems switches
+[%collapsible]
+====
+* link:../switch-cisco-9332d-gx2b/configure-software-overview-9332d-cluster.html[Install software for Cisco Nexus 9332D-GX2B switch^]
 
-* link:../switch-cisco-9332d-gx2b/configure-software-overview-9332d-cluster.html[Install software for Cisco Nexus 9332D-GX2B switch]
-
-* link:../switch-cisco-9364d-gx2a/configure-software-overview-9364d-cluster.html[Install software for Cisco Nexus 9364D-GX2A switch]
+* link:../switch-cisco-9364d-gx2a/configure-software-overview-9364d-cluster.html[Install software for Cisco Nexus 9364D-GX2A switch^]
+====
 
 a|
 .Cluster switches
-
-* link:../switch-bes-53248/configure-software-overview-bes53248.html[Install software for BES-53248 switches]
-* link:../switch-cisco-9336c-fx2/configure-software-overview-9336c-cluster.html[Install software for Cisco Nexus 9336C-FX2 switch]
-* link:../switch-nvidia-sn2100/configure-software-overview-sn2100-cluster.html[Install software for NVIDIA SN2100 switch]
+[%collapsible]
+====
+* link:../switch-bes-53248/configure-software-overview-bes53248.html[Install software for BES-53248 switches^]
+* link:../switch-cisco-9336c-fx2/configure-software-overview-9336c-cluster.html[Install software for Cisco Nexus 9336C-FX2 switch^]
+* link:../switch-nvidia-sn2100/configure-software-overview-sn2100-cluster.html[Install software for NVIDIA SN2100 switch^]
+====
 
 a|
 .Storage switches
-
-* link:../switch-cisco-9336c-fx2-storage/configure-software-overview-9336c-storage.html[Install software for Cisco Nexus 9336C-FX2 switch]
-* link:../switch-nvidia-sn2100-storage/configure-software-sn2100-storage.html[Install software for NVIDIA SN2100 switch]
+[%collapsible]
+====
+* link:../switch-cisco-9336c-fx2-storage/configure-software-overview-9336c-storage.html[Install software for Cisco Nexus 9336C-FX2 switch^]
+* link:../switch-nvidia-sn2100-storage/configure-software-sn2100-storage.html[Install software for NVIDIA SN2100 switch^]
+====
 
 
 a|
 .Shared switches
-
-* link:../switch-cisco-9336c-fx2-shared/configure-software-overview-9336c-shared.html[Install software for Cisco Nexus 9336C-FX2 switch]
+[%collapsible]
+====
+* link:../switch-cisco-9336c-fx2-shared/configure-software-overview-9336c-shared.html[Install software for Cisco Nexus 9336C-FX2 switch^]
+====
 |===
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-5.png[Five] Complete system setup
@@ -166,6 +191,7 @@ a|
 a|
 |===
 
+
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-6.png[Six] Complete ONTAP configuration
 
 [role="quick-margin-para"]
@@ -178,3 +204,4 @@ After you have installed and set up your ONTAP systems controllers and switches,
 
 
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-26
+// AFFFASDOC-473, 2026-MAR-16

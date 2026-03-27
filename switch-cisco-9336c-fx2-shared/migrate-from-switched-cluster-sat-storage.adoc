@@ -86,7 +86,7 @@ node2
 ====
 
 [start=6]
-. [[step6]]Replace the storage RCF on shared switch A with the shared RCF file. See link:install-nxos-rcf-9336c-shared.html[Install the RCF on a Cisco Nexus 9336C-FX2 shared switch] for further details.
+. [[step6]]Replace the storage RCF on shared switch A with the shared RCF file. Refer to link:install-nxos-rcf-9336c-shared.html[Install the RCF on a Cisco Nexus 9336C-FX2 shared switch] for further details.
 . Verify the storage attached to HA pair 1, storage switch A is healthy:
 +
 `system health alert show -instance`
@@ -120,7 +120,7 @@ There are no entries matching your query.
 ====
 
 [start=12]
-. [[step12]]Replace the storage RCF file on shared switch B with the shared RCF file. See link:install-nxos-rcf-9336c-shared.html[Install the RCF on a Cisco Nexus 9336C-FX2 shared switch] for further details.
+. [[step12]]Replace the storage RCF file on shared switch B with the shared RCF file. Refer to link:install-nxos-rcf-9336c-shared.html[Install the RCF on a Cisco Nexus 9336C-FX2 shared switch] for further details.
 
 . Verify the storage attached to HA pair 1, storage switch B is healthy:
 +
@@ -221,7 +221,7 @@ sh1 (config)# *exit*
 ====
 
 [start=16]
-. [[step16]]Migrate the cluster networking from the existing cluster switches to the shared switches using the switch replacement procedure and the shared RCF. The new shared switch A is "cs1". The new shared switch B is "cs2". See link:replace-9336c-fx2-shared.html[Replace a Cisco Nexus 9336C-FX2 shared switch] and link:install-nxos-rcf-9336c-shared.html[Install the RCF on a Cisco Nexus 9336C-FX2 shared switch] for further details.
+. [[step16]]Migrate the cluster networking from the existing cluster switches to the shared switches using the switch replacement procedure and the shared RCF. The new shared switch A is "cs1". The new shared switch B is "cs2". Refer to link:replace-9336c-fx2-shared.html[Replace a Cisco Nexus 9336C-FX2 shared switch] and link:install-nxos-rcf-9336c-shared.html[Install the RCF on a Cisco Nexus 9336C-FX2 shared switch] for further details.
 . Verify that the switched networking config is valid:
 +
 `network port show`
@@ -235,3 +235,4 @@ sh1 (config)# *exit*
 After you've migrated your switches, you can link:../switch-cshm/config-overview.html[configure switch health monitoring].
 
 // AFFFASDOC-411, 2025-OCT-30
+// AFFFASDOC-473, 2026-MAR-18
