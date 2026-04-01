@@ -2,14 +2,14 @@
 permalink: switch-cisco-9332d-gx2b/replace-9332d-cluster.html
 sidebar: sidebar
 keywords: replacing, replace, defective, nexus, switch, cluster, network, nondisruptive, procedure, ndu, replace a cisco nexus 9332d-gx2b cluster switch - cisco nexus 9332d-gx2b
-summary: Replacing a defective Nexus 9332D-GX2B switch in a cluster network is a nondisruptive procedure \(NDU\).
+summary: Replace a Cisco Nexus 9332D-GX2B switch when it is defective. The replacement procedure is nondisruptive (NDU). It involves reviewing the procedure requirements, preparing the storage system and hardware, replacing the switch, configuring the cables and ports on the replacement switch, and then verifying the configuration.
 ---
 = Replace a Cisco Nexus 9332D-GX2B switch
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-Follow these steps to replace a defective Nexus 9332D-GX2B switch in a shared network. This is a nondisruptive procedure (NDU).
+Replace a Cisco Nexus 9332D-GX2B switch when it is defective. The replacement procedure is nondisruptive (NDU). It involves reviewing the procedure requirements, preparing the storage system and hardware, replacing the switch, configuring the cables and ports on the replacement switch, and then verifying the configuration.
 
 .About this task
 * NetApp recommends that you enable console logging on your storage system to capture the output of the console during this procedure. This can be helpful for troubleshooting if you encounter any issues.
@@ -180,14 +180,15 @@ Before performing the switch replacement, make sure that:
  ** All cluster logical interfaces (LIFs) are up and on their home ports.
  ** The ONTAP `cluster ping-cluster -node <node-name>` command must indicate that basic connectivity and larger than PMTU communication are successful on all paths.
 * On the Nexus 9332D-GX2B replacement switch:
- ** Management network connectivity on the replacement switch is functional.
- ** Console access to the replacement switch is in place.
+ ** Management network connectivity and console access to the replacement switch is in place.
  ** The node connections are ports 1/1 through 1/30.
  ** All Inter-Switch Link (ISL) ports is disabled on ports 1/31 and 1/32.
- ** The desired reference configuration file (RCF) and NX-OS operating system image switch is loaded onto the switch.
+ ** The appropriate reference configuration file (RCF) and NX-OS operating system image switch is loaded onto the switch.
 ** Initial customization of the switch is complete, as detailed in link:setup-switch-9332d-cluster.html[Configure the 9332D-GX2B cluster switch].
 +
 Any previous site customizations, such as STP, SNMP, and SSH, are copied to the new switch.
+
+* If you are replacing the physical switch chassis, complete the unrack/rack tasks in install hardware before reconnecting data cables in this procedure.
 
 * You have executed the command for migrating a cluster LIF from the node where the cluster LIF is hosted.
 
@@ -201,9 +202,9 @@ where x is the duration of the maintenance window in hours.
 +
 NOTE: The AutoSupport message notifies technical support of this maintenance task so that automatic case creation is suppressed during the maintenance window.
 
-. Install the appropriate RCF and image on the switch, newcs2, and make any necessary site preparations.
+. If you have not already done so, install the appropriate RCF and image on the switch, newcs2, and make any necessary site preparations.
 +
-If necessary, verify, download, and install the appropriate versions of the RCF and NX-OS software for the new switch. If you have verified that the new switch is correctly set up and does not need updates to the RCF and NX-OS software, continue to step 2.
+If necessary, verify, download, and install the appropriate versions of the RCF and NX-OS software for the new switch. However, if you have verified that the new switch is correctly set up and does not need updates to the RCF and NX-OS software, continue to step 3.
 
  .. Go to the _NetApp Cluster and Management Network Switches Reference Configuration File Description Page_ on the NetApp Support Site.
  .. Click the link for the _Cluster Network and Management Network Compatibility Matrix_, and then note the required switch software version.
