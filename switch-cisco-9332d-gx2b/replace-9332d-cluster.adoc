@@ -205,12 +205,18 @@ NOTE: The AutoSupport message notifies technical support of this maintenance tas
 . If you have not already done so, install the appropriate RCF and image on the switch, newcs2, and make any necessary site preparations.
 +
 If necessary, verify, download, and install the appropriate versions of the RCF and NX-OS software for the new switch. However, if you have verified that the new switch is correctly set up and does not need updates to the RCF and NX-OS software, continue to step 3.
++
+Otherwise:
 
- .. Go to the _NetApp Cluster and Management Network Switches Reference Configuration File Description Page_ on the NetApp Support Site.
- .. Click the link for the _Cluster Network and Management Network Compatibility Matrix_, and then note the required switch software version.
- .. Click your browser's back arrow to return to the Description page, click *CONTINUE*, accept the license agreement, and then go to the Download page.
- .. Follow the steps on the Download page to download the correct RCF and NX-OS files for the version of ONTAP software you are installing.
-
+  .. Go to link:https://mysupport.netapp.com/site/products/all/details/cisco-cluster-storage-switch/downloads-tab[Cisco switches^] on the NetApp Support Site.
+ .. Select link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Switch compatibility matrix^] to determine your required RCF version.
+ .. From the *Downloads* dropdown list, select the applicable RCF version and select *Go*. 
+ .. Accept the caution/must read and the end user license agreement, and select *Accept & Continue*.
+ .. Select the RCF and/or accompanying release notes to download. 
+ .. Follow the steps at link:https://www.cisco.com/c/en/us/support/switches/nexus-9332d-gx2b-switch/model.html[Cisco Nexus 9332D-GX2B Switch^] to download the correct NX-OS files for the version of ONTAP software you are installing.
++
+NOTE: NX-OS 10.4.2 is the only currently supported version for Cisco Nexus 9332D-GX2B switches in an ONTAP cluster.
++
 . On the new switch, log in as admin and shut down all of the ports that will be connected to the node cluster interfaces (ports 1/1 to 1/30).
 +
 If the switch that you are replacing is not functional and is powered down, go to Step 4. The LIFs on the cluster nodes should have already failed over to the other cluster port for each node.
