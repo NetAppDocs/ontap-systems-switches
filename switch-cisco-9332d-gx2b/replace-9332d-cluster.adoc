@@ -11,49 +11,21 @@ summary: Replacing a defective Nexus 9332D-GX2B switch in a cluster network is a
 [.lead]
 Follow these steps to replace a defective Nexus 9332D-GX2B switch in a shared network. This is a nondisruptive procedure (NDU).
 
-== Review requirements
-
-Before performing the switch replacement, make sure that: 
-
-* You have verified the switch serial number to ensure that the correct switch is replaced. 
-* On the existing cluster and network infrastructure:
- ** The existing cluster is verified as completely functional, with at least one fully connected cluster switch.
- ** All cluster ports are up.
- ** All cluster logical interfaces (LIFs) are up and on their home ports.
- ** The ONTAP `cluster ping-cluster -node <node-name>` command must indicate that basic connectivity and larger than PMTU communication are successful on all paths.
-* On the Nexus 9332D-GX2B replacement switch:
- ** Management network connectivity on the replacement switch is functional.
- ** Console access to the replacement switch is in place.
- ** The node connections are ports 1/1 through 1/30.
- ** All Inter-Switch Link (ISL) ports is disabled on ports 1/31 and 1/32.
- ** The desired reference configuration file (RCF) and NX-OS operating system image switch is loaded onto the switch.
-** Initial customization of the switch is complete, as detailed in link:setup-switch-9332d-cluster.html[Configure the 9332D-GX2B cluster switch].
-+
-Any previous site customizations, such as STP, SNMP, and SSH, are copied to the new switch.
-
-* You have executed the command for migrating a cluster LIF from the node where the cluster LIF is hosted.
-
-== Enable console logging
-NetApp strongly recommends that you enable console logging on the devices that you are using and take the following actions when replacing your switch:
-
-* Leave AutoSupport enabled during maintenance.
-* Trigger a maintenance AutoSupport before and after maintenance to disable case creation for the duration of the maintenance. See this Knowledge Base article https://kb.netapp.com/Support_Bulletins/Customer_Bulletins/SU92[SU92: How to suppress automatic case creation during scheduled maintenance windows^] for further details.
-* Enable session logging for any CLI sessions. For instructions on how to enable session logging, review the "Logging Session Output" section in this Knowledge Base article https://kb.netapp.com/on-prem/ontap/Ontap_OS/OS-KBs/How_to_configure_PuTTY_for_optimal_connectivity_to_ONTAP_systems[How to configure PuTTY for optimal connectivity to ONTAP systems^].
-
-== Replace the switch
-
-.About the examples
-The examples in this procedure use the following switch and node nomenclature:
-
-* The names of the existing Nexus 9332D-GX2B switches are cs1 and cs2.
-* The name of the new Nexus 9332D-GX2B switch is newcs2.
-* The node names are node1-01, node1-02, node1-03, and node1-04.
-* The cluster LIF names are node1-01_clus1 and node1-01_clus2 for node1-01, node1-02_clus1 and node1-02_clus2 for node1-02, node1-03_clus1 and node1-03_clus2 for node1-03, and node1-04_clus1 and node1-04_clus2 for node1-04.
-* The prompt for changes to all cluster nodes is cluster1::*>
-
 .About this task
-The following procedure is based on the following cluster network topology:
+* NetApp recommends that you enable console logging on your storage system to capture the output of the console during this procedure. This can be helpful for troubleshooting if you encounter any issues.
++
+For instructions on how to enable session logging, review the "Logging Session Output" section in this Knowledge Base article https://kb.netapp.com/on-prem/ontap/Ontap_OS/OS-KBs/How_to_configure_PuTTY_for_optimal_connectivity_to_ONTAP_systems[How to configure PuTTY for optimal connectivity to ONTAP systems^].
 
+* The examples in this procedure use the following switch and node nomenclature:
+
+** The names of the existing Nexus 9332D-GX2B switches are cs1 and cs2.
+** The name of the new Nexus 9332D-GX2B switch is newcs2.
+** The node names are node1-01, node1-02, node1-03, and node1-04.
+** The cluster LIF names are node1-01_clus1 and node1-01_clus2 for node1-01, node1-02_clus1 and node1-02_clus2 for node1-02, node1-03_clus1 and node1-03_clus2 for node1-03, and node1-04_clus1 and node1-04_clus2 for node1-04.
+** The prompt for changes to all cluster nodes is cluster1::*>
+
+* This procedure is based on the following cluster network topology:
++
 .Show example 
 [%collapsible]
 ====
@@ -196,7 +168,30 @@ Total entries displayed: 18
 ----
 ====
 
-=== Step 1: Prepare for replacement
+
+== Step 1: Review requirements
+
+Before performing the switch replacement, make sure that: 
+
+* You have verified the switch serial number to ensure that the correct switch is replaced. 
+* On the existing cluster and network infrastructure:
+ ** The existing cluster is verified as completely functional, with at least one fully connected cluster switch.
+ ** All cluster ports are up.
+ ** All cluster logical interfaces (LIFs) are up and on their home ports.
+ ** The ONTAP `cluster ping-cluster -node <node-name>` command must indicate that basic connectivity and larger than PMTU communication are successful on all paths.
+* On the Nexus 9332D-GX2B replacement switch:
+ ** Management network connectivity on the replacement switch is functional.
+ ** Console access to the replacement switch is in place.
+ ** The node connections are ports 1/1 through 1/30.
+ ** All Inter-Switch Link (ISL) ports is disabled on ports 1/31 and 1/32.
+ ** The desired reference configuration file (RCF) and NX-OS operating system image switch is loaded onto the switch.
+** Initial customization of the switch is complete, as detailed in link:setup-switch-9332d-cluster.html[Configure the 9332D-GX2B cluster switch].
++
+Any previous site customizations, such as STP, SNMP, and SSH, are copied to the new switch.
+
+* You have executed the command for migrating a cluster LIF from the node where the cluster LIF is hosted.
+
+== Step 2: Prepare for replacement
 
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: 
 +
@@ -335,7 +330,7 @@ RPC status:
 ----
 ====
 
-=== Step 2: Configure cables and ports
+== Step 3: Configure cables and ports
 . Shut down the ISL ports Eth1/31 and Eth1/32 on the Nexus 9332D-GX2B switch cs1.
 +
 
@@ -596,11 +591,10 @@ RPC status:
 ----
 ====
 
-=== Step 3: Verify the configuration
+== Step 4: Verify the configuration
+Verify the health of all the ports on the storage system (cluster, HA, storage, and storage shelf) and re-enable automatic case creation as needed.
 
-. Verify the health of all the ports on the cluster.
-.. *Cluster ports*
-... Verify that cluster ports are up and healthy across all nodes in the cluster:
+. Verify that cluster ports are up and healthy across all nodes in the cluster:
 +
 [source,cli]
 ----
@@ -765,9 +759,7 @@ Total entries displayed: 18
 ----
 ====
 
-.. *HA ports*
-
-... Verify that all the HA ports are up with a healthy status: 
+. Verify that all the HA ports are up with a healthy status: 
 +
 `ha interconnect status show -node <node-name>`
 +
@@ -830,9 +822,7 @@ Interconnect Port 1 :
 ----
 ====
 
-.. *Storage ports*
-
-... Verify that all the storage ports are up with a healthy status: 
+. Verify that all the storage ports are up with a healthy status: 
 +
 [source,cli]
 ----
@@ -874,9 +864,9 @@ node1-04
 ----
 ====
 
-.. *Storage shelf ports*
+. Verify the health status and connection status of all the storage shelf ports.
 
-... Verify that all the storage shelf ports are up with a healthy status: 
+.. Verify that all the storage shelf ports are up with a healthy status: 
 +
 [source,cli]
 ----
@@ -915,7 +905,7 @@ Shelf ID Module State        Internal?
 ----
 ====
 
-... Verify the connection status of all the storage shelf ports: 
+.. Verify the connection status of all the storage shelf ports: 
 +
 [source,cli]
 ----
@@ -959,6 +949,6 @@ shelf id connector-state remote-port    remote-device
 
 .What's next?
 
-After you've replaced your switches, you link:../switch-cshm/config-overview.html[configure switch health monitoring].
+After you've replaced the switch, you link:../switch-cshm/config-overview.html[configure switch health monitoring].
 
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-08
