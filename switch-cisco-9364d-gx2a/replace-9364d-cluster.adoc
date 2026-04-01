@@ -394,9 +394,11 @@ Group Port-        Type     Protocol  Member Ports
 ====
 
 . Bring up all of the ports on the newcs2 switch.
++
 .Show example 
 [%collapsible]
 ====
+
 [subs=+quotes]
 ----
 newcs2# *config*
@@ -413,7 +415,7 @@ newcs2(config-if-range)# *no shutdown*
 newcs2(config)# *interface e1/41/1-4,e1/42/1-4,e1/43/1-4,e1/44/1-4,e1/45/1-4,e1/46/1-4,e1/47/1-4,e1/48/1-4*
 newcs2(config-if-range)# *no shutdown*
 newcs2(config)# *interface e1/49/1-4,e1/50/1-4,e1/51/1-4,e1/52/1-4,e1/53/1-4,e1/54/1-4,e1/55/1-4,e1/56/1-4*
-newcs2(config-if-range)# *no shutdown*\
+newcs2(config-if-range)# *no shutdown*
 newcs2(config)# *interface e1/57/1-4,e1/58/1-4,e1/59/1-4,e1/60/1-4,e1/61/1-4,e1/62/1-4*
 newcs2(config-if-range)# *no shutdown*
 newcs2(config-if-range)# *exit*
