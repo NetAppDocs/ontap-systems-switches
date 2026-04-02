@@ -193,6 +193,7 @@ Any previous site customizations, such as STP, SNMP, and SSH, are copied to the 
 * You have executed the command for migrating a cluster LIF from the node where the cluster LIF is hosted.
 
 == Step 2: Prepare for replacement
+Prepare the storage system so that it is safe to replace the switch without causing disruption to client workloads.
 
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: 
 +
@@ -601,7 +602,7 @@ RPC status:
 == Step 4: Verify the configuration
 Verify the health of all the ports on the storage system (cluster, HA, storage, and storage shelf) and re-enable automatic case creation as needed.
 
-. Verify that cluster ports are up and healthy across all nodes in the cluster:
+. Verify that cluster ports are up and healthy across all nodes in the cluster by using the following commands in the order shown:
 +
 [source,cli]
 ----
