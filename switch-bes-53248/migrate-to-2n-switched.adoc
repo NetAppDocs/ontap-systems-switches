@@ -34,7 +34,7 @@ Review the following requirements for the cluster environment.
 ** There is console access to the cluster switches.
 ** BES-53248 node-to-node switch and switch-to-switch connections are using Twinax or fiber cables.
 +
-The link:https://hwu.netapp.com/Home/Index[_NetApp Hardware Universe_^] contains information about ONTAP compatibility, supported EFOS firmware, and cabling to BES-53248 switches. See link:https://kb.netapp.com/Support/General_Support/What_additional_information_do_I_need_to_install_my_equipment_that_is_not_in_HWU[What additional information do I need to install my equipment that is not in HWU?^] for more information about switch installation requirements.
+The link:https://hwu.netapp.com/Home/Index[Hardware Universe^] contains information about ONTAP compatibility, supported EFOS firmware, and cabling to BES-53248 switches. Refer to link:https://kb.netapp.com/Support/General_Support/What_additional_information_do_I_need_to_install_my_equipment_that_is_not_in_HWU[What additional information do I need to install my equipment that is not in HWU?^] for more information about switch installation requirements.
 
 * Inter-Switch Link (ISL) cables are connected to ports 0/55 and 0/56 on both BES-53248 switches.
 
@@ -61,7 +61,7 @@ The examples in this procedure use the following cluster switch and node nomencl
 * The `cluster1::*>` prompt indicates the name of the cluster.
 * The cluster ports used in this procedure are `e0a` and `e0b`.
 +
-The https://hwu.netapp.com/Home/Index[_NetApp Hardware Universe_^] contains the latest information about the actual cluster ports for your platforms.
+The link:https://hwu.netapp.com/Home/Index[Hardware Universe^] contains the latest information about the actual cluster ports for your platforms.
 
 === Step 1: Prepare for migration
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
@@ -255,7 +255,7 @@ cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert fals
 
 . Disconnect the cable from cluster port e0a on node1, and then connect e0a to port 1 on cluster switch cs1, using the appropriate cabling supported by the BES-53248 switches.
 +
-The https://hwu.netapp.com/Home/Index[_NetApp Hardware Universe_^] contains more information about cabling.
+The link:https://hwu.netapp.com/Home/Index[Hardware Universe^] contains more information about cabling.
 
 . Disconnect the cable from cluster port e0a on node2, and then connect e0a to port 2 on cluster switch cs1, using the appropriate cabling supported by the BES-53248 switches.
 . Enable all node-facing ports on cluster switch cs1.
@@ -661,3 +661,4 @@ After you've migrated your switches, you can link:../switch-cshm/config-overview
 // AFFFASDOC-300, 2025-NOV-20
 // AFFFASDOC-411, 2025-OCT-30
 // AFFFASDOC-415, 2025-NOV-17
+// AFFFASDOC-473, 2026-MAR-16

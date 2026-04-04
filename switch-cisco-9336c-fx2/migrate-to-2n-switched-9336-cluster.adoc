@@ -22,7 +22,7 @@ The migration process works for all nodes using optical or Twinax ports, but is 
 ** The two-node switchless configuration is properly set up and functioning. 
 ** All cluster ports are in the *up* state.
 ** All cluster logical interfaces (LIFs) are in the *up* state and on their home ports.
-** See https://hwu.netapp.com[Hardware Universe^] for all supported ONTAP versions.
+** Refer to the link:https://hwu.netapp.com[Hardware Universe^] for all supported ONTAP versions.
 // Added in link to HWU as per GH issues #s 49 & 46
 
 * For the Cisco Nexus 9336C-FX2 switch configuration:
@@ -31,7 +31,7 @@ The migration process works for all nodes using optical or Twinax ports, but is 
 ** There is console access to the cluster switches.
 ** Nexus 9336C-FX2 node-to-node switch and switch-to-switch connections use Twinax or fiber cables.
 +
-See https://hwu.netapp.com[Hardware Universe^] for more information about cabling.
+Refer to the link:https://hwu.netapp.com[Hardware Universe^] for more information about cabling.
 
 * Inter-Switch Link (ISL) cables are connected to ports 1/35 and 1/36 on both 9336C-FX2 switches.
 * Initial customization of both the 9336C-FX2 switches are completed, so that:
@@ -48,7 +48,7 @@ The examples in this procedure use the following cluster switch and node nomencl
 * The `cluster1::*>` prompt indicates the name of the cluster.
 * The cluster ports used in this procedure are e0a and e0b.
 
-See https://hwu.netapp.com[Hardware Universe^] for information about the cluster ports for your platforms. See link:https://kb.netapp.com/Support/General_Support/What_additional_information_do_I_need_to_install_my_equipment_that_is_not_in_HWU[What additional information do I need to install my equipment that is not in HWU?^] for more information about switch installation requirements.
+Refer to the link:https://hwu.netapp.com[Hardware Universe^] for information about the cluster ports for your platforms. Refer to link:https://kb.netapp.com/Support/General_Support/What_additional_information_do_I_need_to_install_my_equipment_that_is_not_in_HWU[What additional information do I need to install my equipment that is not in HWU?^] for more information about switch installation requirements.
 
 == Migrate the switches
 
@@ -262,8 +262,6 @@ Cluster
 . Disconnect the cable from cluster port e0a on node1, and then connect e0a to port 1 on cluster switch cs1, using the appropriate cabling supported by the 9336C-FX2 switches.
 +
 The https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches^] contains more information about cabling.
-+
-https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches^]
 
 . Disconnect the cable from cluster port e0a on node2, and then connect e0a to port 2 on cluster switch cs1, using the appropriate cabling supported by the 9336C-FX2 switches.
 
@@ -635,3 +633,4 @@ After you've migrated your switches, you can link:../switch-cshm/config-overview
 // AFFFASDOC-415, 2025-NOV-17
 // AFFFASDOC-421, 2025-DEC-10
 // AFFFASDOC-426, 2026-JAN-20
+// AFFFASDOC-473, 2026-MAR-18

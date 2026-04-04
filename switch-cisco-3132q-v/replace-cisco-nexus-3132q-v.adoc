@@ -38,7 +38,7 @@ link:https://mysupport.netapp.com/site/products/all/details/cisco-cluster-storag
 NetApp strongly recommends that you enable console logging on the devices that you are using and take the following actions when replacing your switch:
 
 * Leave AutoSupport enabled during maintenance.
-* Trigger a maintenance AutoSupport before and after maintenance to disable case creation for the duration of the maintenance. See this Knowledge Base article link:https://kb.netapp.com/Support_Bulletins/Customer_Bulletins/SU92[SU92: How to suppress automatic case creation during scheduled maintenance windows^] for further details.
+* Trigger a maintenance AutoSupport before and after maintenance to disable case creation for the duration of the maintenance. Refer to this Knowledge Base article link:https://kb.netapp.com/Support_Bulletins/Customer_Bulletins/SU92[SU92: How to suppress automatic case creation during scheduled maintenance windows^] for further details.
 * Enable session logging for any CLI sessions. For instructions on how to enable session logging, review the "Logging Session Output" section in this Knowledge Base article link:https://kb.netapp.com/on-prem/ontap/Ontap_OS/OS-KBs/How_to_configure_PuTTY_for_optimal_connectivity_to_ONTAP_systems[How to configure PuTTY for optimal connectivity to ONTAP systems^].
 
 == Replace the switch
@@ -54,7 +54,7 @@ The examples in this procedure use the following switch and node nomenclature:
 * The number of 10 GbE and 40 GbE ports are defined in the reference configuration files (RCFs) available at link:https://mysupport.netapp.com/site/products/all/details/cisco-cluster-storage-switch/downloads-tab[Cisco® Cluster Network Switch Reference Configuration File Download^].
 * The nodes are n1, n2, n3, and n4.
 -
-The examples in this procedure use four nodes: Two nodes use four 10 GB cluster interconnect ports: e0a, e0b, e0c, and e0d. The other two nodes use two 40 GB cluster interconnect ports: e4a and e4e. See the link:https://hwu.netapp.com/[Hardware Universe^] for the actual cluster ports on your platforms.
+The examples in this procedure use four nodes: Two nodes use four 10 GB cluster interconnect ports: e0a, e0b, e0c, and e0d. The other two nodes use two 40 GB cluster interconnect ports: e4a and e4e. Refer to the link:https://hwu.netapp.com/[Hardware Universe^] for the actual cluster ports on your platforms.
 
 .About this task
 This procedure covers the following scenario:
@@ -230,7 +230,7 @@ CL2                          cluster-network   10.10.1.102      NX3132V
 +
 You must prepare the replacement switch at this time. If you need to upgrade the RCF and image, you must follow these steps:
 
- .. On the NetApp Support Site, see link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch/[Cisco Ethernet Switches^].
+ .. On the NetApp Support Site, refer to link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch/[Cisco Ethernet Switches^].
  .. Note your switch and the required software versions in the table on that page.
  .. Download the appropriate version of the RCF.
  .. Click *CONTINUE* on the *Description* page, accept the license agreement, and then follow the instructions on the *Download* page to download the RCF.
@@ -930,4 +930,4 @@ link:../switch-cshm/config-overview.html[configure switch health monitoring].
 // Updates for internal GH issue #228, 2024-JUN-26
 // Updates for GH issue #212, 2024-OCT-21
 // Updates for GH issue #227, 2024-DEC-02
-
+// AFFFASDOC-473, 2026-MAR-16

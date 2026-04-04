@@ -13,7 +13,7 @@ You can migrate Cisco cluster switches for an ONTAP cluster to NVIDIA SN2100 clu
 
 == Review requirements
 
-You must be aware of certain configuration information, port connections and cabling requirements when you are replacing some older Cisco cluster switches with NVIDIA SN2100 cluster switches. See link:configure-overview-sn2100-cluster.html[Overview of installation and configuration for NVIDIA SN2100 switches].
+You must be aware of certain configuration information, port connections and cabling requirements when you are replacing some older Cisco cluster switches with NVIDIA SN2100 cluster switches. Refer to link:configure-overview-sn2100-cluster.html[Overview of installation and configuration for NVIDIA SN2100 switches].
 
 .Supported switches
 
@@ -25,7 +25,7 @@ The following Cisco cluster switches are supported:
 * Nexus 3232C
 * Nexus 3132Q-V
 
-For details of supported ports and their configurations, see the https://hwu.netapp.com/[Hardware Universe^] .
+For details of supported ports and their configurations, refer to the link:https://hwu.netapp.com/[Hardware Universe^] .
 
 .What you'll need
 Ensure that:
@@ -36,12 +36,12 @@ Ensure that:
 * The existing cluster network configuration have the following:
 ** A redundant and fully functional NetApp cluster using both older Cisco switches.
 ** Management connectivity and console access to both the older Cisco switches and the new switches.
-** All cluster LIFs in the up state with the cluster LIfs are on their home ports.
+** All cluster LIFs in the up state with the cluster LIFs are on their home ports.
 ** ISL ports enabled and cabled between the older Cisco switches and between the new switches.
 * Some of the ports are configured on NVIDIA SN2100 switches to run at 40 GbE or 100 GbE.
 * You have planned, migrated, and documented 40 GbE and 100 GbE connectivity from nodes to NVIDIA SN2100 cluster switches.
 
-NOTE: If you are changing the port speed of the e0a and e1a cluster ports on AFF A800 or AFF C800 systems, you might observe malformed packets being received after the speed conversion. See https://mysupport.netapp.com/site/bugs-online/product/ONTAP/BURT/1570339[Bug 1570339^] and the Knowledge Base article https://kb.netapp.com/onprem/ontap/hardware/CRC_errors_on_T6_ports_after_converting_from_40GbE_to_100GbE[CRC errors on T6 ports after converting from 40GbE to 100GbE^] for guidance.
+NOTE: If you are changing the port speed of the e0a and e1a cluster ports on AFF A800 or AFF C800 systems, you might observe malformed packets being received after the speed conversion. Refer to link:https://mysupport.netapp.com/site/bugs-online/product/ONTAP/BURT/1570339[Bug 1570339^] and the Knowledge Base article link:https://kb.netapp.com/onprem/ontap/hardware/CRC_errors_on_T6_ports_after_converting_from_40GbE_to_100GbE[CRC errors on T6 ports after converting from 40GbE to 100GbE^] for guidance.
 
 == Migrate the switches
 
@@ -593,3 +593,4 @@ After you've migrated your switches, you can link:../switch-cshm/config-overview
 // GH issue #340 internal repo, 2025-SEPT-18
 // AFFFASDOC-411, 2025-OCT-30
 // AFFFASDOC-415, 2025-NOV-17
+// AFFFASDOC-473, 2026-MAR-18

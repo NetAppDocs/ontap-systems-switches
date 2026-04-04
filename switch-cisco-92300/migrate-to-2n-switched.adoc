@@ -15,7 +15,7 @@ The procedure you use depends on whether you have two dedicated cluster-network 
 
 Most systems require two dedicated cluster-network ports on each controller.
 
-NOTE: After your migration completes, you might need to install the required configuration file to support the Cluster Switch Health Monitor (CSHM) for 92300YC cluster switches. See
+NOTE: After your migration completes, you might need to install the required configuration file to support the Cluster Switch Health Monitor (CSHM) for 92300YC cluster switches. Refer to
 link:../switch-cshm/cshm-overview.html[Switch Health Monitoring (CSHM)].
 
 == Review requirements
@@ -36,7 +36,7 @@ For the Cisco Nexus 92300YC switch configuration:
 * There is console access to the cluster switches.
 * Nexus 92300YC node-to-node switch and switch-to-switch connections use twinax or fiber cables.
 +
-https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches^] contains more information about cabling.
+The link:https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches^] contains more information about cabling.
 
 * Inter-Switch Link (ISL) cables are connected to ports 1/65 and 1/66 on both 92300YC switches.
 * Initial customization of both the 92300YC switches are completed. So that the:
@@ -55,7 +55,7 @@ The examples in this procedure use the following cluster switch and node nomencl
 * The `cluster1::*>` prompt indicates the name of the cluster.
 * The cluster ports used in this procedure are e0a and e0b.
 +
-https://hwu.netapp.com[Hardware Universe^] contains the latest information about the actual cluster ports for your platforms.
+The link:https://hwu.netapp.com[Hardware Universe^] contains the latest information about the actual cluster ports for your platforms.
 
 === Step 1: Prepare for migration
 
@@ -286,7 +286,7 @@ Cluster
 
 . Disconnect the cable from cluster port e0a on node1, and then connect e0a to port 1 on cluster switch cs1, using the appropriate cabling supported by the 92300YC switches.
 +
-The https://hwu.netapp.com/SWITCH/INDEX[_Hardware Universe - Switches_^] contains more information about cabling.
+The link:https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe - Switches^] contains more information about cabling.
 
 . Disconnect the cable from cluster port e0a on node2, and then connect e0a to port 2 on cluster switch cs1, using the appropriate cabling supported by the 92300YC switches.
 

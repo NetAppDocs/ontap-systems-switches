@@ -11,7 +11,7 @@ summary: SSH is a requirement when using the Cluster Switch Health Monitor \(CSH
 [.lead]
 You install the Reference Configuration File (RCF) after setting up the Nexus 3132Q-V switches for the first time. You upgrade your RCF version when you have an existing version of the RCF file installed on your switch.
 
-See the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further information when installing or upgrading your RCF.
+Refer to the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further information when installing or upgrading your RCF.
 
 .Available RCF configurations
 The following table describes the RCFs available for different configurations. Choose the RCF applicable to your configuration.
@@ -53,7 +53,7 @@ All ports are configured for 100GbE NVMe storage connections.
 
 .Available RCFs
 
-The following table lists the available RCFs for 3132Q-V switches. Choose the applicable RCF version for your configuration. See link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches^] for more information.
+The following table lists the available RCFs for 3132Q-V switches. Choose the applicable RCF version for your configuration. Refer to link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches^] for more information.
 
 [options="header" cols="1"]
 |===
@@ -83,11 +83,11 @@ The examples in this procedure use the following switch and node nomenclature:
 * The cluster LIF names are *cluster1-01_clus1*, *cluster1-01_clus2*, *cluster1-02_clus1*, *cluster1-02_clus2*, *cluster1-03_clus1*, *cluster1-03_clus2*, *cluster1-04_clus1*, and *cluster1-04_clus2*.
 * The `cluster1::*>` prompt indicates the name of the cluster.
 
-The examples in this procedure use four nodes. These nodes use two 10GbE cluster interconnect ports *e0a* and *e0b*. See the https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe^] to verify the correct cluster ports on your platforms.
+The examples in this procedure use four nodes. These nodes use two 10GbE cluster interconnect ports *e0a* and *e0b*. Refer to the link:https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe^] to verify the correct cluster ports on your platforms.
 
 NOTE: The command outputs might vary depending on different releases of ONTAP.
 
-For details of the available RCF configurations, see link:configure-software-overview-3132q-v-cluster.html[Software install workflow].
+For details of the available RCF configurations, refer to link:configure-software-overview-3132q-v-cluster.html[Software install workflow].
 
 .Commands used
 The procedure requires the use of both ONTAP commands and Cisco Nexus 3000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
@@ -98,3 +98,4 @@ After you've reviewed the install RCF or upgrade RCF procedure, you link:install
 
 // New content for AFFFASDOC-394, 2025-OCT-01
 // AFFFASDOC-372, 2025-NOV-25
+// AFFFASDOC-473, 2026-MAR-16
