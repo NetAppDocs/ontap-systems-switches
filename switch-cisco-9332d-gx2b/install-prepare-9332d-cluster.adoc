@@ -1,0 +1,77 @@
+---
+sidebar: sidebar
+permalink: switch-cisco-9332d-gx2b/install-prepare-9332d-cluster.html
+keywords: shared storage cluster switch
+summary: For Cisco Nexus 9332D-GX2B switch installation and setup part of a new AFX storage system or maintenance of existing switches, review the applicable Cisco switch documentation and ONTAP systems documentation.
+---
+= Prepare to install the Cisco Nexus 9332D-GX2B switches 
+:hardbreaks:
+:nofooter:
+:icons: font
+:linkattrs:
+:imagesdir: ../media/
+
+[.lead]
+For Cisco Nexus 9332D-GX2B switch installation and setup part of a new AFX storage system, be sure to understand aspects of the switch and its installation by reviewing the applicable Cisco switch documentation and ONTAP systems documentation. Additionally, you should understand the switch ports usage.
+
+.About this task
+All of the Cisco documents are available on the link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html[Cisco Nexus 9000 Series Switches Support^] page. 
+
+=== Step 1: Review the Cisco switch documentation
+
+.Steps
+
+. Review the following Cisco install and setup documents so you are familiar with the switch release notes, safety information, installation options, initial software configuration, and command references.
+.. link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/products-release-notes-list.html[Cisco Nexus 9000 Series NX-OS Release Notes^] (choose the notes for the NX-OS release installed on your switches)
+
+.. link:https://www.cisco.com/c/en/us/td/docs/switches/datacenter/mds9000/hw/regulatory/compliance/RCSI.html?dtid=osscdc000283&linkclickid=srch[Regulatory Compliance and Safety Information for Cisco Nexus 9000 Series^]
+
+.. link:https://www.cisco.com/c/en/us/td/docs/dcn/hw/nx-os/nexus9000/9332d-gx2b/cisco-nexus-9332d-gx2b-nx-os-mode-switch-hardware-installation-guide/m_installing-the-switch-chassis-new-1ru-rack-mount.html[Cisco Nexus 9332D-GX2B NX-OS Mode Switch Hardware Installation Guide^]
+
+.. link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/products-installation-and-configuration-guides-list.html[Cisco Nexus 9000 Series Switch Software Configuration Guides^] (choose the guide for the NX-OS release installed on your switches)
+
+.. link:https://www.cisco.com/c/en/us/td/docs/dcn/nx-os/nexus9000/102x/command-reference/config/b_n9k_config_commands_1021.html[Cisco Nexus 9000 Series NX-OS Command Reference^]
+Provides links to the various command references provided by Cisco.
+
+=== Step 2: Review the ONTAP systems documentation
+
+.About this task
+To install and set up an AFX storage system with your Cisco Nexus 9332D-GX2B switches, you can reference the following documentation and resources.
+
+However, for step-by-step instructions, start with the link:configure-switch-overview-9332d-cluster.html[Installation and setup workflow for Cisco Nexus 9332D-GX2B switches^].
+
+.Steps
+. Review the following Cisco install and setup documents so you are familiar with the switch release notes, safety information, installation options, initial software configuration, and command references.
+
+.. link:https://docs.netapp.com/us-en/ontap-afx/index.html[AFX systems documentation^] Describes how to install NetApp hardware.
+
+.. link:https://docs.netapp.com/us-en/ontap-family/[ONTAP documentation^] Provides detailed information about all aspects of the ONTAP releases.
+
+.. link:https://hwu.netapp.com[Hardware Universe^]
+Provides NetApp hardware configuration and compatibility information.
+
+.. link:https://kb.netapp.com/Support/General_Support/What_additional_information_do_I_need_to_install_my_equipment_that_is_not_in_HWU[What additional information do I need to install my equipment that is not in HWU?^]
+Provides more information about storage system installation requirements.
+
+=== Step 3: Understand the switch port usage
+
+. When preparing to cable the switches, understand the switch port usage in an AFX storage system. 
+
+NOTE: Refer to https://hwu.netapp.com[Hardware Universe^] for more information about switch ports. 
+
+[options="header" cols="1,2"]
+|===
+| Switch ports | Description
+a|
+Ethernet1/1/1-4 to Ethernet1/30/1-4
+a|
+4x100GbE mode for cluster, HA, and storage connections 
+a|
+Ethernet1/31, Ethernet1/32
+a|
+400GbE ISL
+a|
+|===
+
+// New content for OAM project, AFFFASDOC-331, 2025-MAY-08
+// AFFFASDOC-473, 2026-MAR-18
