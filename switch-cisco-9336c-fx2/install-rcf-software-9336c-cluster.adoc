@@ -25,22 +25,22 @@ Verify the following installations and connections:
 
 . Login to switch cs1 using SSH or by using a serial console.
 
-. Copy the RCF to the bootflash of switch cs1 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. 
+. Copy the RCF to the bootflash of switch cs1 using one of the following transfer protocols: FTP, SFTP, or SCP. 
 +
 For more information on Cisco commands, refer to the appropriate guide in the link:https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^].
 +
 .Show example 
 [%collapsible]
 ====
-This example shows TFTP being used to copy an RCF to the bootflash on switch cs1:
+This example shows SFTP being used to copy an RCF to the bootflash on switch cs1:
 
 [subs=+quotes]
 ----
-cs1# *copy tftp: bootflash: vrf management*
+cs1# *copy sftp: bootflash: vrf management*
 Enter source filename: *Nexus_9336C_RCF_v1.6-Cluster-HA-Breakout.txt*
-Enter hostname for the tftp server: *172.22.201.50*
-Trying to connect to tftp server......Connection to Server Established.
-TFTP get operation was successful
+Enter hostname for the sftp server: *172.22.201.50*
+Trying to connect to sftp server......Connection to Server Established.
+SFTP get operation was successful
 Copy complete, now saving to disk (please wait)...
 ----
 ====
@@ -388,3 +388,4 @@ After you've installed the RCF, you can link:configure-ssh-keys.html[verify the 
 // GH issue #307, 2025-NOV-05
 // AFFFASDOC-456, 2026-JAN-30
 // AFFFASDOC-473, 2026-MAR-18
+// AFFFASDOC-479, 2026-APR-13
