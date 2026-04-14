@@ -18,44 +18,41 @@ For Cisco Nexus 9332D-GX2B switch installation and setup for a new AFX storage s
 All of the Cisco documents are available on the link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html[Cisco Nexus 9000 Series Switches Support^] page. 
 
 === Step 1: Review the Cisco switch documentation
+Review the following Cisco install and setup documents so you are familiar with the switch release notes, safety information, installation options, initial software configuration, and command references.
 
-.Steps
+* link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/products-release-notes-list.html[Cisco Nexus 9000 Series NX-OS Release Notes^] (choose the notes for the NX-OS release installed on your switches)
 
-. Review the following Cisco install and setup documents so you are familiar with the switch release notes, safety information, installation options, initial software configuration, and command references.
-.. link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/products-release-notes-list.html[Cisco Nexus 9000 Series NX-OS Release Notes^] (choose the notes for the NX-OS release installed on your switches)
+* link:https://www.cisco.com/c/en/us/td/docs/switches/datacenter/mds9000/hw/regulatory/compliance/RCSI.html?dtid=osscdc000283&linkclickid=srch[Regulatory Compliance and Safety Information for Cisco Nexus 9000 Series^]
 
-.. link:https://www.cisco.com/c/en/us/td/docs/switches/datacenter/mds9000/hw/regulatory/compliance/RCSI.html?dtid=osscdc000283&linkclickid=srch[Regulatory Compliance and Safety Information for Cisco Nexus 9000 Series^]
+* link:https://www.cisco.com/c/en/us/td/docs/dcn/hw/nx-os/nexus9000/9332d-gx2b/cisco-nexus-9332d-gx2b-nx-os-mode-switch-hardware-installation-guide/m_installing-the-switch-chassis-new-1ru-rack-mount.html[Cisco Nexus 9332D-GX2B NX-OS Mode Switch Hardware Installation Guide^]
 
-.. link:https://www.cisco.com/c/en/us/td/docs/dcn/hw/nx-os/nexus9000/9332d-gx2b/cisco-nexus-9332d-gx2b-nx-os-mode-switch-hardware-installation-guide/m_installing-the-switch-chassis-new-1ru-rack-mount.html[Cisco Nexus 9332D-GX2B NX-OS Mode Switch Hardware Installation Guide^]
+* link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/products-installation-and-configuration-guides-list.html[Cisco Nexus 9000 Series Switch Software Configuration Guides^] (choose the guide for the NX-OS release installed on your switches)
 
-.. link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/products-installation-and-configuration-guides-list.html[Cisco Nexus 9000 Series Switch Software Configuration Guides^] (choose the guide for the NX-OS release installed on your switches)
-
-.. link:https://www.cisco.com/c/en/us/td/docs/dcn/nx-os/nexus9000/102x/command-reference/config/b_n9k_config_commands_1021.html[Cisco Nexus 9000 Series NX-OS Command Reference^]
+* link:https://www.cisco.com/c/en/us/td/docs/dcn/nx-os/nexus9000/102x/command-reference/config/b_n9k_config_commands_1021.html[Cisco Nexus 9000 Series NX-OS Command Reference^]
 Provides links to the various command references provided by Cisco.
 
-=== Step 2: Review the ONTAP systems documentation
+=== Step 2: Review the NetApp systems documentation
+Review the following NetApp systems documentation so you are familiar with the AFX system installation, ONTAP release information, and hardware configuration and compatibility requirements.
 
-.About this task
-To install and set up an AFX storage system with your Cisco Nexus 9332D-GX2B switches, you can reference the following documentation and resources.
+====
+NOTE: 
+To install and set up an AFX storage system with your Cisco Nexus 9332D-GX2B switches, you can reference the following documentation and resources....or you are directed to these documents as needed?
 
 However, for step-by-step instructions, start with the link:configure-switch-overview-9332d-cluster.html[Installation and setup workflow for Cisco Nexus 9332D-GX2B switches^].
+====
 
-.Steps
-. Review the following Cisco install and setup documents so you are familiar with the switch release notes, safety information, installation options, initial software configuration, and command references.
+* link:https://docs.netapp.com/us-en/ontap-afx/index.html[AFX systems documentation^] Describes how to install NetApp hardware.
 
-.. link:https://docs.netapp.com/us-en/ontap-afx/index.html[AFX systems documentation^] Describes how to install NetApp hardware.
+* link:https://docs.netapp.com/us-en/ontap-family/[ONTAP documentation^] Provides detailed information about all aspects of the ONTAP releases.
 
-.. link:https://docs.netapp.com/us-en/ontap-family/[ONTAP documentation^] Provides detailed information about all aspects of the ONTAP releases.
-
-.. link:https://hwu.netapp.com[Hardware Universe^]
+* link:https://hwu.netapp.com[Hardware Universe^]
 Provides NetApp hardware configuration and compatibility information.
 
-.. link:https://kb.netapp.com/Support/General_Support/What_additional_information_do_I_need_to_install_my_equipment_that_is_not_in_HWU[What additional information do I need to install my equipment that is not in HWU?^]
+* link:https://kb.netapp.com/Support/General_Support/What_additional_information_do_I_need_to_install_my_equipment_that_is_not_in_HWU[What additional information do I need to install my equipment that is not in HWU?^]
 Provides more information about storage system installation requirements.
 
 === Step 3: Understand the switch port usage
-
-. When preparing to cable the switches, understand the switch port usage in an AFX storage system. 
+When preparing to cable the switches, understand the switch port usage in an AFX storage system so that you can properly configure the network connections? But why am I telling users this info now?
 
 NOTE: Refer to https://hwu.netapp.com[Hardware Universe^] for more information about switch ports. 
 
@@ -74,11 +71,13 @@ a|
 |===
 
 === Step 4: Consider using Smart Call Home
-Smart Call Home is not required to operate the switches, but it can provide proactive support and help you quickly resolve any issues that might arise with the switches.
+Consider using the CiscoSmart Call Home capability. Smart Call Home is not required to operate the switches, but it can provide proactive support and help you quickly resolve any issues that might arise with the switches.
+
+.Steps
 
 . Familiarize yourself with Smart Call Home and the requirements for using it by reviewing the link:smart-call-9332d-cluster.html[configure Smart Call Home] documentation.
 
-. If you decide to use Smart Call Home, you are instructed to configure it in the link:configure-switch-overview-9332d-cluster.html[Install and setup workflow].
+. If you decide to use Smart Call Home, you are instructed to configure it later in the link:configure-switch-overview-9332d-cluster.html[Install and setup workflow].
 
 NOTE: You can configure Smart Call Home at any time after you have installed and setup your switches as part of the AFX storage system installation.
 
