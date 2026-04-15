@@ -281,7 +281,7 @@ show isdp neighbor
 (cs2)(Interface 0/1-0/16)# *shutdown*
 (cs2)(Interface 0/1-0/16)# *exit*
 (cs2)(Config)# *exit*
-(cs2)
+(cs2)#
 ----
 
 . Verify that the cluster LIFs have migrated to the ports hosted on cluster switch cs1. This might take a few seconds.
@@ -457,7 +457,7 @@ Are you sure you would like to reset the system? (y/n) *y*
 CAUTION: The filename must be named `reference-config.scr` when uploading and applying the RCF file or the script apply step will fail.
 
 [start=8]
-. Copy the RCF to the bootflash of switch cs2 using one of the following transfer protocols: HTTP, HTTPS, FTP, SFTP, or SCP.
+. Copy the RCF to the switch cs2 using one of the following transfer protocols: HTTP, HTTPS, FTP, SFTP, or SCP.
 +
 This example shows SFTP being used to copy an RCF to the bootflash on switch cs2:
 +
@@ -521,7 +521,7 @@ Configuration script 'reference-config.scr' applied.
 .All other EFOS versions
 --
 [start=8]
-. Copy the RCF to the bootflash of switch cs2 using one of the following transfer protocols: HTTP, HTTPS, FTP, SFTP, or SCP.
+. Copy the RCF to the switch cs2 using one of the following transfer protocols: HTTP, HTTPS, FTP, SFTP, or SCP.
 +
 This example shows SFTP being used to copy an RCF to the bootflash on switch cs2:
 +

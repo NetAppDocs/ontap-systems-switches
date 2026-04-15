@@ -121,7 +121,7 @@ cluster1::*>
 
 .. Verify that all the cluster interfaces (LIFs) are on the home port: 
 +
-`network interface show -vserver cluster`
+`network interface show -vserver Cluster`
 +
 .Show example 
 [%collapsible]
@@ -129,7 +129,7 @@ cluster1::*>
 
 [subs=+quotes]
 ----
-cluster1::*> *network interface show -vserver cluster*
+cluster1::*> *network interface show -vserver Cluster*
             Logical            Status     Network           Current      Current Is
 Vserver     Interface          Admin/Oper Address/Mask      Node         Port    Home
 ----------- ------------------ ---------- ----------------- ------------ ------- ----
@@ -320,7 +320,7 @@ Refer to the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/
 +
 You may need to update host file entries related to the SSH keys.
 
-. Copy the RCF to the bootflash of switch cs1 using one of the following transfer protocols: FTP, SFTP, or SCP. 
+. Copy the RCF to the switch cs1 using one of the following transfer protocols: FTP, SFTP, or SCP. 
 +
 For more information on Cisco commands, refer to the appropriate guide in the link:https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^].
 +
@@ -330,6 +330,8 @@ This example shows SFTP being used to copy an RCF to the bootflash on switch cs1
 [subs=+quotes]
 ----
 cs1# *copy sftp: bootflash: vrf management*
+Enter username: *admin*
+admin@172.22.201.50's password:
 Enter source filename: *Nexus_9336C_RCF_v1.6-Cluster-HA-Breakout.txt*
 Enter hostname for the sftp server: *172.22.201.50*
 Trying to connect to sftp server......Connection to Server Established.
@@ -763,7 +765,7 @@ cs1#
 
 . Verify that the cluster LIFs have reverted to their home port: 
 +
-`network interface show -vserver cluster` 
+`network interface show -vserver Cluster` 
 +
 .Show example 
 [%collapsible]
@@ -771,7 +773,7 @@ cs1#
 
 [subs=+quotes]
 ----
-cluster1::*> *network interface show -vserver cluster*
+cluster1::*> *network interface show -vserver Cluster*
             Logical            Status     Network            Current             Current Is
 Vserver     Interface          Admin/Oper Address/Mask       Node                Port    Home
 ----------- ------------------ ---------- ------------------ ------------------- ------- ----
