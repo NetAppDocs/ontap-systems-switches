@@ -2,38 +2,40 @@
 permalink: switch-cisco-9332d-gx2b/setup-switch-9332d-cluster.html
 sidebar: sidebar
 keywords: require, configuration, information, documentation, cluster, management, network, switches, set up the switches - cisco nexus 9332d-gx2b
-summary: Follow this procedure to configure the Cisco Nexus 9332D-GX2B switch.
+summary: After you install Cisco Nexus 9332D-GX2B switches as part of your AFX system installation or a switch replacement, you need to configure the switch(es).
 ---
 = Configure the 9332D-GX2B switch
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-Follow this procedure to configure the Cisco Nexus 9332D-GX2B switch.
+After you install Cisco Nexus 9332D-GX2B switches as part of your AFX system installation or a switch replacement, you need to configure the switch(es).
 
 .Before you begin
 
-Make sure you have:
+* Make sure you have the applicable licenses, network and configuration information, and cables.
+* Make sure you have access to link:required-documentation-9332d-cluster.html[Required switch and ONTAP documentation].
+//* The switch(es) must be powered on...
+//* You must have access to an HTTP, FTP, or TFTP server at the installation site to download the applicable NX-OS and Reference Configuration File (RCF) releases.
+//* Applicable NX-OS version, downloaded from the https://software.cisco.com/download/home[Cisco software download^] page. 
 
-* Powered on your switches.
-* Access to an HTTP, FTP, or TFTP server at the installation site to download the applicable NX-OS and Reference Configuration File (RCF) releases.
-* Applicable NX-OS version, downloaded from the https://software.cisco.com/download/home[Cisco software download^] page. 
+//[IMPORTANT]
+//================
+//* NX-OS 10.4.2 is the only supported version for Cisco Nexus 9332D-GX2B switches in an ONTAP cluster.
+//* Do not upgrade or downgrade your NX-OS version to an unsupported version; only 10.4.2 is currently supported.
+//================
 
-[IMPORTANT]
-================
-* NX-OS 10.4.2 is the only supported version for Cisco Nexus 9332D-GX2B switches in an ONTAP cluster.
-* Do not upgrade or downgrade your NX-OS version to an unsupported version; only 10.4.2 is currently supported.
-================
-
-* Applicable licenses, network and configuration information, and cables.
-* Applicable NetApp shared network and management network RCFs downloaded from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com^]. All Cisco shared network and management network switches arrive with the standard Cisco factory-default configuration. These switches also have the current version of the NX-OS software but do not have the RCFs loaded.
-* link:required-documentation-9332d-cluster.html[Required switch and ONTAP documentation].
+//* Applicable NetApp shared network and management network RCFs downloaded from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com^]. All Cisco shared network and management network switches arrive with the standard Cisco factory-default configuration. These switches also have the current version of the NX-OS software but do not have the RCFs loaded.
 
 
 .Steps
-. Perform an initial configuration of the shared network switches.
+. Power on the switch(es).
 +
-Provide applicable responses to the following initial setup questions when you first boot the switch. Your site's security policy defines the responses and services to enable.
+They begin to boot.
+
+. Perform the initial (startup) configuration of the switch(es) by providing responses to the following startup questions.
++
+NOTE: Your site's security policy defines the responses and services to enable.
 +
 [options="header" cols="1,2"]
 |===
@@ -129,8 +131,9 @@ NOTE: If you do not save the configuration at this stage, none of the changes wi
 |===
 
 . Verify the configuration choices you made in the display that appears at the end of the setup, and make sure that you save the configuration.
-. Check the version on the shared network switches, and if necessary, download the 
-NetApp-supported version of the software to the switches from the https://software.cisco.com/download/home[Cisco software download^] page.
+
+//. Check the version of software on the switch(es), and if necessary, download the 
+//NetApp-supported version of the software to the switches from the https://software.cisco.com/download/home[Cisco software download^] page.
 
 .What's next?
 
