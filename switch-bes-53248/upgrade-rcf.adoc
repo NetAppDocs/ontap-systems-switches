@@ -454,7 +454,7 @@ Are you sure you would like to reset the system? (y/n) *y*
 .EFOS version 3.12.x and later
 --
 
-CAUTION: The filename must be named `reference-config.scr` when you upload and apply the RCF file, otherwise the script apply step will fail.
+CAUTION: The file must be named `reference-config.scr` when you upload and apply the RCF file, otherwise the script apply step will fail.
 
 [start=8]
 . Copy the RCF to the switch cs2 using one of the following transfer protocols: HTTP, HTTPS, FTP, SFTP, or SCP.
@@ -467,7 +467,7 @@ This example shows SFTP being used to copy an RCF to the bootflash on switch cs2
 
 [subs=+quotes]
 ----
-(cs2)# *copy sftp://172.19.2.1/BES-53248-RCF-v1.9-Cluster-HA.txt nvram:reference-config.scr*
+(cs2)# *copy sftp://172.19.2.1/BES-53248_RCF_v1.9-Cluster-HA.txt nvram:reference-config.scr*
 Remote Password:**
 Mode........................................... SFTP
 Set Server IP.................................. 172.19.2.1
