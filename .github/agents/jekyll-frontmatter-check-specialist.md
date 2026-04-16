@@ -8,7 +8,10 @@ user-invocable: true
 
 ## Task
 
-Read a CSV file (column 6: event detail, column 7: file path), identify and fix unsupported characters or AsciiDoc notation in Jekyll front matter fields (`title`, `keywords`, `summary`). Process in batches of 10, maintain checkpoint state, report results. Follow the workflow exactly as written.
+Accept a **CQP CSV report** to identify and fix unsupported characters or AsciiDoc notation in Jekyll front matter fields (`title`, `keywords`, `summary`). Process in batches of 10, maintain checkpoint state, report results. Follow the workflow exactly as written.
+
+**Input format:**
+- CSV: column 6 (event detail), column 7 (file path)
 
 ## Character & Markup Rules
 
@@ -76,13 +79,13 @@ Read a CSV file (column 6: event detail, column 7: file path), identify and fix 
 
 ## Workflow
 
-### 1. Extract files from CSV
+### 1. Extract files from source
 
 1. Ask user for CSV path if not provided
 2. Read CSV, skip header row if present, handle quoted fields
 3. Extract column 6 (event detail) and column 7 (file path)
 4. Build unique `.adoc` file list, exclude: `_*` files, duplicates, non-.adoc
-5. Initialize JSON array with fileName + eventDetail per file
+5. Initialize checkpoint with fileName + eventDetail per file
 6. Write checkpoint
 
 Display: `Found X .adoc files from CSV. Starting inspection in batches of 10.`
