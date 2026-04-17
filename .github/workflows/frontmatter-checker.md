@@ -31,7 +31,7 @@ steps:
       echo "" >> /tmp/frontmatter-results.md
       
       # Character validation rules
-      DISALLOWED='!@#$%&*()+=[]{}|\\:;,<>?/'
+      DISALLOWED='!@#$%&*()+=[]{}|\:;,<>?/'
       
       # Find all .adoc files (excluding includes and redirects)
       echo "Scanning .adoc files for frontmatter issues..."
@@ -62,10 +62,10 @@ steps:
           continue
         fi
         
-        # Extract fields
-        TITLE=$(echo "$FM" | grep "^title:" | sed 's/^title: *//' | tr -d '"')
-        KEYWORDS=$(echo "$FM" | grep "^keywords:" | sed 's/^keywords: *//')
-        SUMMARY=$(echo "$FM" | grep "^summary:" | sed 's/^summary: *//' | tr -d '"')
+        # Extract fields (strip surrounding quotes which are YAML syntax)
+        TITLE=$(echo "$FM" | grep "^title:" | sed 's/^title: *//' | sed 's/^"\(.*\)"$/\1/' | sed "s/^'\(.*\)'$/\1/")
+        KEYWORDS=$(echo "$FM" | grep "^keywords:" | sed 's/^keywords: *//' | sed 's/^"\(.*\)"$/\1/' | sed "s/^'\(.*\)'$/\1/")
+        SUMMARY=$(echo "$FM" | grep "^summary:" | sed 's/^summary: *//' | sed 's/^"\(.*\)"$/\1/' | sed "s/^'\(.*\)'$/\1/")
         
         FILE_ISSUES=""
         
@@ -97,10 +97,10 @@ steps:
             FILE_ISSUES="$FILE_ISSUES\n  - summary: contains '&' (replace with 'and')"
           fi
           
-          # Check for other disallowed (except quotes, commas, forward slash)
+          # Check for other disallowed (except commas and forward slash)
           for ((i=0; i<${#DISALLOWED}; i++)); do
             char="${DISALLOWED:$i:1}"
-            [[ "$char" =~ [,/\'\"] ]] && continue  # These allowed in summary
+            [[ "$char" =~ [,/] ]] && continue  # Comma and forward slash allowed in summary
             [[ "$char" == "&" ]] && continue  # Already checked
             if [[ "$SUMMARY" == *"$char"* ]]; then
               FILE_ISSUES="$FILE_ISSUES\n  - summary: disallowed char '$char'"
@@ -110,6 +110,8 @@ steps:
           # Check for AsciiDoc markup
           if [[ "$SUMMARY" =~ \*\*[^*]+\*\* ]]; then
             FILE_ISSUES="$FILE_ISSUES\n  - summary: contains bold markup (**text**)"
+          elif [[ "$SUMMARY" =~ \*[^*]+\* ]]; then
+            FILE_ISSUES="$FILE_ISSUES\n  - summary: contains bold markup (*text*)"
           fi
           if [[ "$SUMMARY" =~ \`[^\`]+\` ]]; then
             FILE_ISSUES="$FILE_ISSUES\n  - summary: contains monospace markup (\`text\`)"
