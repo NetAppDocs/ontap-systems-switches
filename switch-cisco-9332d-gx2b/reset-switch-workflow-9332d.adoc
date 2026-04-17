@@ -9,15 +9,15 @@ summary: 'Overview of software configuration for Cisco 9332D-GX2B switches'
 :imagesdir: ../media/
 
 [.lead]
-To reset a Cisco 9332D-GX2B switch to its factory default settings.
+To reset a Cisco 9332D-GX2B switch to its factory default settings you must first reset the switch to its factory default settings, configure the switch?, prepare to install the NX-OS software and RCF, install the NX-OS software, install the RCF, verify SSH is enabled, configure switch health monitoring, and then configure Smart Call Home (optional).
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png[One]link:reset-switch-9332d.html[Reset the Cisco 9332D-GX2B switch to factory default settings]
 [role="quick-margin-para"]
-Reset the Cisco 9332D-GX2B switch to factory default settings.
+Reset the switch to factory default settings.
 
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png[Two]link:setup-switch-9332d-cluster.html[Configure the 9332D-GX2B switch]
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png[Two]link:setup-switch-9332d-cluster.html[Configure the switch]
 [role="quick-margin-para"]
-Configure the Cisco 9332D-GX2B switch.
+Configure the switch.
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png[Three]link:install-nxos-overview-9332d-cluster.html[Prepare to install the NX-OS software and RCF] 
 [role="quick-margin-para"]
@@ -25,20 +25,24 @@ Install the Cisco NX-OS software and reference configuration files (RCFs) on the
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png[Four]link:install-nxos-software-9332d-cluster.html[Install or upgrade the NX-OS software]
 [role="quick-margin-para"]
-Download and install or upgrade the NX-OS software on the Cisco 9332D-GX2B switch.
+Download and install or upgrade the NX-OS software on the Cisco 9332D-GX2B switch. (Lisa, should download and install steps be kept together???)
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-5.png[Five]link:install-upgrade-rcf-overview-cluster.html[Install or upgrade the RCF] 
 [role="quick-margin-para"]
-Install or upgrade the RCF after setting up the Cisco 9332D-GX2B switch for the first time. You can also use this procedure to upgrade your RCF version.
+Install the RCF after setting up the Cisco 9332D-GX2B switch for the first time. You can also use this procedure to upgrade your RCF version.
 
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-6.png[Six]link:configure-ssh-keys.html[Verify SSH is enabled on the Cisco 9332D-GX2B switches] 
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-6.png[Six]link:configure-ssh-keys.html[Verify SSH is enabled] 
 [role="quick-margin-para"]
-Verify that SSH is enabled on the Cisco 9332D-GX2B switch for use with the Ethernet Switch Health Monitor (CSHM) and log collection features.
+If you are using Ethernet switch health monitoring (CSHM) and log collection features, you must verify that SSH and SSH keys are enabled. If you are not using these features, you can skip this step.
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-7.png[Seven]link:../switch-cshm/cshm-overview.html[Configure switch health monitoring] 
 [role="quick-margin-para"]
 Configure switch health monitoring.
 
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-8.png[Eight]link:smart-call-9332d-cluster.html[Configure Smart Call Home on the Cisco 9332D-GX2B switches] 
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-8.png[Eight]link:smart-call-9332d-cluster.html[Configure Smart Call Home] 
 [role="quick-margin-para"]
-Configure Smart Call Home.
+When you want the hardware and software components of your network monitored so that you receive alerts about potential issues, you can configure Smart Call Home on the switch. Smart Call Home is a proactive monitoring and alerting service that helps you identify and resolve issues before they impact your network. You can configure Smart Call Home as part of this workflow, or you can configure it later.
+
+//You can use Smart Call Home to monitor the hardware and software components of your network and receive alerts about potential issues. Smart Call Home is a proactive monitoring and alerting service that helps you identify and resolve issues before they impact your network. You can configure Smart Call Home to send alerts to your email or to a third-party monitoring system. 
+
+
