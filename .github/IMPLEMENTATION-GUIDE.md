@@ -6,43 +6,25 @@ This guide explains how to implement and use the frontmatter quality checking to
 
 ✅ **Agentic Workflow** - `.github/workflows/frontmatter-checker.md` (primary)
 ✅ **Standalone Agent** - `.github/agents/jekyll-frontmatter-check-specialist.md` (backup)
-✅ **Local Test Script** - `test-frontmatter-detection.sh` (for local testing)
+✅ **Workflow Validation Path** - Manual run in GitHub Actions
 ✅ **Documentation** - Complete guides in `.github/`
 
 ## Testing the Implementation
 
-### 1. Test Detection Locally
-
-```bash
-# Run the detection script
-./test-frontmatter-detection.sh
-
-# This will scan all .adoc files and report issues found
-```
-
-The test script uses the same detection logic as the agentic workflow and will show you which files have frontmatter issues.
-
-### 2. Test the Agentic Workflow
+### 1. Test the Agentic Workflow
 
 Once you push the workflow file to GitHub:
 
-**Option A: Manual trigger via GitHub UI**
+**Manual trigger via GitHub UI**
 ```
 1. Go to repository → Actions tab
-2. Select "Frontmatter Quality Checker"
+2. Select the `frontmatter-checker` workflow
 3. Click "Run workflow"
 4. Select branch and optionally add file filter
 5. Workflow runs and creates PR if issues found
 ```
 
-**Option B: Test with act locally** (requires act installation)
-```bash
-# Install act first (see README for instructions)
-# Then test the workflow
-act workflow_dispatch -W .github/workflows/frontmatter-checker.md
-```
-
-### 3. Test the Standalone Agent
+### 2. Test the Standalone Agent
 
 For reactive fixes from CQP reports:
 
@@ -53,12 +35,11 @@ You: C:\Users\jsnyder\Downloads\cqp_report_12345.csv
 Agent: [scans files, applies fixes, creates PR]
 ```
 
-### 4. Enable the Agentic Workflow
+### 3. Enable the Agentic Workflow
 
 **Push the workflow file:**
 ```bash
 git add .github/workflows/frontmatter-checker.md
-git add test-frontmatter-detection.sh
 git commit -m "Add frontmatter quality checking workflow"
 git push
 ```
@@ -94,7 +75,7 @@ The workflow will now run:
 
 ```
 1. Go to Actions tab in GitHub
-2. Select "Frontmatter Quality Checker"
+2. Select the `frontmatter-checker` workflow
 3. Click "Run workflow"
 4. Optionally filter to specific files
 5. Review PR created by agent
@@ -112,24 +93,21 @@ The workflow will now run:
 5. Agent processes and creates PR
 ```
 
-### Scenario 4: Local Testing Before Commit
+### Scenario 4: Pre-merge Validation
 
-**When:** Writer wants to check their changes locally
+**When:** Writer wants to validate behavior before merge
 
-```bash
-# Run local detection script
-./test-frontmatter-detection.sh
-
-# If issues found, either:
-# - Fix manually based on output
-# - Use standalone agent with a CSV
-# - Wait for automated workflow to catch it
+```
+1. Run the workflow manually from the Actions tab
+2. Select the branch being validated
+3. Optionally set a file filter for targeted validation
+4. Review the PR created by the agent
 ```
 
 ## Rollout Strategy
 
-### Phase 1: Local Testing (1 week)
-- Run `./test-frontmatter-detection.sh` to see issues
+### Phase 1: Manual Workflow Validation (1 week)
+- Run the workflow manually to see issues
 - Review the types of issues found
 - Validate the character rules make sense
 - Test standalone agent with a small CSV if desired
@@ -222,10 +200,10 @@ After agent creates PRs:
 
 ### Update Rules
 If you find edge cases or false positives:
-1. Test locally with `./test-frontmatter-detection.sh`
+1. Run the workflow manually in Actions
 2. Update detection logic in workflow file
 3. Update agent instructions in same file
-4. Test again locally before pushing
+4. Run the workflow manually again to validate changes
 5. Document the change in commit message
 
 ## Troubleshooting
@@ -248,16 +226,15 @@ If you find edge cases or false positives:
 - Verify "Allow GitHub Actions to create and approve pull requests" is checked
 - Ensure workflow has `contents: write` and `pull-requests: write` in YAML
 
-### Local test script fails
-- Ensure script is executable: `chmod +x test-frontmatter-detection.sh`
-- Run from workspace root directory
-- Check that .adoc files exist in expected locations
-- Verify bash is available (Git Bash on Windows)
+### Manual run does not start
+- Verify the workflow file is present at `.github/workflows/frontmatter-checker.md`
+- Confirm repository Actions permissions are enabled
+- Check repository and organization Actions policy settings
 
 ## Next Steps
 
 1. ✅ Review the agentic workflow file
-2. ⏳ Test locally with `./test-frontmatter-detection.sh`
+2. ⏳ Run workflow manually in Actions
 3. ⏳ Push workflow to GitHub
 4. ⏳ Configure Actions permissions
 5. ⏳ Run workflow manually first
@@ -277,13 +254,13 @@ A: Yes! Use agentic workflow for proactive automated checks, and standalone agen
 A: The agent processes in batches using cache memory. You can review the PR and either merge all fixes or cherry-pick specific files. The workflow will continue finding new issues on subsequent runs.
 
 **Q: How do we test changes to the workflow?**  
-A: Use the local test script (`./test-frontmatter-detection.sh`) first. Then push to a test branch and run the workflow manually on that branch before merging to main.
+A: Push to a test branch and run the workflow manually on that branch before merging to main.
 
 **Q: What if we want different rules per repository?**  
 A: Copy the workflow file to each repository and customize the detection logic and agent instructions independently. The agentic pattern makes this easy since everything is in one file.
 
 **Q: Can writers run this on their feature branches?**  
-A: Currently the workflow runs on the default branch only. Writers can use the local test script or the standalone agent for branch-specific checks.
+A: Yes. Writers can run the workflow manually and select their feature branch in the Actions UI.
 
 **Q: How do we update the character rules?**  
-A: Edit the `DISALLOWED` variable in the bash script section of `.github/workflows/frontmatter-checker.md`. Test locally, then push the change.
+A: Edit the `DISALLOWED` variable in the bash script section of `.github/workflows/frontmatter-checker.md`. Then run the workflow manually to validate and push the change.

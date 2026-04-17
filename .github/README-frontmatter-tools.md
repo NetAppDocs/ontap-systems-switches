@@ -42,10 +42,6 @@ Following the [GitHub agentics pattern](https://github.com/githubnext/agentics),
 
 Writer receives a CQP report and uses the standalone agent to fix their files.
 
-### 🔄 Reactive (Writer-Initiated)
-
-Writer receives a CQP report and uses the standalone agent to fix their files.
-
 **Steps:**
 1. Receive CQP CSV report identifying frontmatter issues
 2. Run standalone agent: `@jekyll-frontmatter-check-agent`
@@ -102,7 +98,7 @@ Single file containing:
   - Create PR with fixes
 
 **Trigger manually:**
-- Go to `Actions` tab → `Frontmatter Quality Checker` → `Run workflow`
+- Go to `Actions` tab → select the `frontmatter-checker` workflow → `Run workflow`
 
 **Benefits:**
 - ✅ Self-contained (one file)
@@ -143,7 +139,7 @@ Then provide the path to your CQP CSV file when prompted.
 
 **Manual trigger:**
 1. Go to `Actions` tab in GitHub
-2. Select "Frontmatter Quality Checker" 
+2. Select the `frontmatter-checker` workflow
 3. Click "Run workflow"
 4. Agent creates PR if fixes were applied
 
@@ -214,31 +210,14 @@ No special permissions needed—runs in your local VS Code with your GitHub cred
 
 ## Testing the Agentic Workflow
 
-### Test Locally with act
+### Test in GitHub Actions
 
-Install [act](https://github.com/nektos/act) to test GitHub Actions workflows locally:
+Test the workflow using the repository Actions UI:
 
-```bash
-# Install act (one time)
-# Windows: choco install act-cli
-# Mac: brew install act
-# Linux: curl https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash
-
-# Test the workflow
-act workflow_dispatch -W .github/workflows/frontmatter-checker.md
-```
-
-### Test the Detection Logic
-
-Extract and run the bash script from the workflow file:
-
-```bash
-# View the workflow
-cat .github/workflows/frontmatter-checker.md
-
-# Copy the bash script from the "Scan frontmatter" step
-# Run it in your terminal to test detection logic
-```
+1. Go to `Actions`.
+2. Select the `frontmatter-checker` workflow.
+3. Click `Run workflow`.
+4. Review logs and artifacts for `/tmp/frontmatter-results.md` output.
 
 ### Test the Agent Instructions
 
@@ -250,8 +229,6 @@ Once the workflow creates a PR:
 
 ## Future Enhancements
 
-- [x] ~~Automated workflow with agent fixes~~ ✅ Implemented via agentic workflow
-- [x] ~~Direct PR creation from workflow~~ ✅ Agent creates PRs automatically
 - [ ] Slack/email notifications when PRs created
 - [ ] Integration with CQP API to auto-download reports
 - [ ] Pre-commit hook for local validation

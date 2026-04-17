@@ -181,7 +181,7 @@ Writers can still use `@jekyll-frontmatter-check-agent` with CQP CSV reports for
 ## Next Steps
 
 1. ✅ **Review** the new `frontmatter-checker.md` file
-2. ⏳ **Test locally** if desired (using act)
+2. ⏳ **Run manually in GitHub Actions** to validate behavior
 3. ⏳ **Push to GitHub** and configure permissions
 4. ⏳ **Trigger manually** to validate first run
 5. ⏳ **Review first PR** created by agent

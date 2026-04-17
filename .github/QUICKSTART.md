@@ -46,7 +46,7 @@ You review and merge PR
 
 ```
 1. Go to Actions tab
-2. Select "Frontmatter Quality Checker"
+2. Select the frontmatter-checker workflow
 3. Click "Run workflow"
 4. Wait ~2-5 minutes
 5. PR appears automatically
@@ -60,7 +60,7 @@ You review and merge PR
 
 ### Setup
 
-No setup needed—just invoke the agent in VS Code.
+No setup needed. Invoke the standalone agent in VS Code.
 
 ### How It Works
 
@@ -71,7 +71,7 @@ Download CSV report
       ↓
 Open VS Code in repo
       ↓
-@jekyll-frontmatter-check-agent
+@jekyll-frontmatter-check-agent (standalone specialist)
       ↓
 Provide CSV path
       ↓
@@ -101,7 +101,7 @@ Agent: Created PR #456: Fix frontmatter quality issues in documentation
 | Feature | Agentic Workflow | Standalone Agent |
 |---------|-----------------|------------------|
 | **Trigger** | Automated schedule | Manual invocation |
-| **Input** | Auto-scans repo | CSV or JSON file |
+| **Input** | Auto-scans repo | CSV file |
 | **Detection** | Bash script (inline) | Python script or CSV |
 | **Fixing** | Agent (automated) | Agent (manual) |
 | **PR creation** | Automatic | On user confirmation |
