@@ -12,12 +12,12 @@ summary: Reset a switch to its factory defaults.
 :imagesdir: ../media/
 
 [.lead]
-To reset the Cisco Nexus 9332D-GX2B switch to factory default settings, you must erase the switch settings (startup configuration), reload the startup configuration, and then configure the switch.
+To reset the Cisco Nexus 9332D-GX2B switch to factory default settings, you must erase the switch settings (startup configuration), reload the startup configuration, and then configure the switch and...
 
 .About this task
 * You must be connected to the switch using the serial console.
 * This task resets the configuration of the management network.
-* The reload command used in this procedure reboots the switch, which interrupts all network traffic passing through it. (You should perform this procedure during a maintenance window when the switch is not in use.)
+* The `reload` command used in this procedure reboots the switch, which interrupts all network traffic passing through it. (You should perform this procedure during a maintenance window when the switch is not in use.)
 * The switch will lose all configuration settings and return to factory defaults.
 * The switch boots up and enters the configuration wizard. During the boot, if you receive the prompt “Abort Auto Provisioning and continue with normal setup? (yes/no)[n]”, you should respond *yes* to proceed.
 * The switch boots up with the saved (stored) startup configuration, but if you did not save the configuration before reloading, (the switch will boot up with the default factory settings) or my text, you need to configure the switch.
@@ -36,7 +36,7 @@ Warning: This command will erase the startup-configuration.
 Do you wish to proceed anyway? (y/n) [n] *y*
 ----
 
-. Restart the switch software:
+. Reload the NX-OS software:
 +
 `reload`
 +
@@ -50,8 +50,20 @@ This command will reboot the system. (y/n)? [n] *y*
 
 +
 The system reboots and enters the configuration wizard. 
++
+NOTE: During the reboot, if you receive the prompt “Abort Auto Provisioning and continue with normal setup? (yes/no)[n]”, respond *yes* to proceed.
++
+. link:../switch-cisco-9332d-gx2b/setup-switch-9332d-cluster.html[Configure the switch.]
 
-NOTE: During the boot, if you receive the prompt “Abort Auto Provisioning and continue with normal setup? (yes/no)[n]”, you should respond *yes* to proceed.
+. link:../switch-cisco-9332d-gx2b/install-nxos-overview-9332d-cluster.html[Prepare to install the NX-OS software.]
+
+. link:../switch-cisco-9332d-gx2b/install-nxos-software-9332d-cluster.html[Install the NX-OS software.]
+
+. link:../switch-cisco-9332d-gx2b/install-upgrade-rcf-overview-cluster.html[Install the RCF.]
+
+. link:../switch-cisco-9332d-gx2b/configure-ssh-keys.html[Verify SSH is enabled.]
+
+. link:../switch-cshm/cshm-overview.html[Configure switch health monitoring.]
 
 .What's next?
 
