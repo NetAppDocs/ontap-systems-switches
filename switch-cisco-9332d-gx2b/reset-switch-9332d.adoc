@@ -12,7 +12,7 @@ summary: Reset a switch to its factory defaults.
 :imagesdir: ../media/
 
 [.lead]
-To reset the Cisco Nexus 9332D-GX2B switch to factory default settings, you must erase the switch settings (startup configuration), reload the startup configuration, and then configure the switch and...
+When a switch fails and cannot be recovered you can reset the switch to its original factory default settings. To reset the Cisco Nexus 9332D-GX2B switch to factory default settings, you must erase the switch settings (startup configuration), reload the startup configuration, and then configure the switch and...
 
 .About this task
 * You must be connected to the switch using the serial console.
@@ -53,7 +53,9 @@ The system reboots and enters the configuration wizard.
 +
 NOTE: During the reboot, if you receive the prompt “Abort Auto Provisioning and continue with normal setup? (yes/no)[n]”, respond *yes* to proceed.
 +
-. link:../switch-cisco-9332d-gx2b/setup-switch-9332d-cluster.html[Configure the switch.]
+. Use the configuration wizard to configure the switch.
+//+
+//link:../switch-cisco-9332d-gx2b/setup-switch-9332d-cluster.html[Configure the switch.]
 
 . link:../switch-cisco-9332d-gx2b/install-nxos-overview-9332d-cluster.html[Prepare to install the NX-OS software.]
 
