@@ -10,7 +10,7 @@ summary: To install and set up your Cisco Nexus 9332D-GX2B switches as part of y
 :imagesdir: ../media/
 
 [.lead]
-To install and set up your Cisco Nexus 9332D-GX2B switches as part of your new AFX storage system, you must review the reference documentation, prepare your site, install and cable the hardware components, configure the switch software and RCF, configure switch health monitoring, and optionally, configure Smart Call Home.
+To install and set up your Cisco Nexus 9332D-GX2B switches as part of your new AFX storage system, you must prepare for the installation, install the switches, configure the switches, prepare to install the NX-OS software and RCF, Install the NX-OS software and RCF, configure switch health monitoring, and optionally, configure Smart Call Home.
 
 Cisco Nexus 9332D-GX2B switches allow you to build ONTAP clusters with more than two nodes. 
 
@@ -28,20 +28,35 @@ Prepare to install and setup the switches by reviewing the Cisco and ONTAP syste
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png[Two]link:install-hardware.html[Install the hardware]
 [role="quick-margin-para"]
-Install the switch hardware and the AFX storage system and shelves as applicable. 
+You are directed to the AFX system installation and setup instructions to install the switches (along with the AFX storage system), and then you power on the switches. You are then directed back to this workflow to complete your switch setup.
 
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png[Three]link:configure-software-overview-9332d-cluster.html[Configure the software and RCF]
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png[Three]link:setup-switch-9332d-cluster.html[Configure the switches]
 [role="quick-margin-para"]
-Configure the switch software and RCF.
+Configure the switches. After you power on the switches, they begin to boot and enters the configuration wizard. You are prompted to provide answers to a series of questions to perform the initial (startup) configuration of the switches.
 
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png[Four]link:../switch-cshm/cshm-overview.html[Configure switch health monitoring]
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png[Four]link:install-nxos-overview-9332d-cluster.html[Prepare to install the software and RCF]
+[role="quick-margin-para"]
+Prepare to install the NX-OS software and RCF on the switches.
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-5.png[Five]link:configure-software-overview-9332d-cluster.html[Install the software and RCF]
+[role="quick-margin-para"]
+Install the NX-OS software on the switches.
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-6.png[Six]link:configure-software-overview-9332d-cluster.html[Install the software and RCF]
+[role="quick-margin-para"]
+Install the RCF on the switches.
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-7.png[Seven]link:../switch-cshm/cshm-overview.html[Configure switch health monitoring]
 [role="quick-margin-para"]
 Configure the switch health monitoring (CSHM) to ensure the operational health of your switches and for the collection of switch logs for debugging and troubleshooting.
 
-
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-5.png[Five]link:smart-call-9332d-cluster.html[Configure Smart Call Home (optional)]
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-8.png[Eight]link:smart-call-9332d-cluster.html[Configure Smart Call Home (optional)]
 [role="quick-margin-para"]
-Configuring Smart Call Home is optional. It is used to monitor the hardware and software components on your network. 
+Configuring Smart Call Home on your switches is optional. It is used to monitor the hardware and software components on your network. 
+
+.What's next?
+
+After you've installed and set up your switches as part of your AFX system installation, you complete the set up of your AFX system by link:/ontap-afx/install-setup/power-on-hardware.html[powering on your AFX 1K storage system].
 
 
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-06
