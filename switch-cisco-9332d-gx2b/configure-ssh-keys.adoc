@@ -11,6 +11,20 @@ summary: SSH is a requirement when using the Cluster Switch Health Monitor \(CSH
 [.lead]
 If you are using the Ethernet Switch Health Monitor (CSHM) and log collection features, verify that SSH and SSH keys are enabled on the switches.
 
+If you are setting up switches as part of a new AFX system installation, a switch replacement, or a reset to factory default settings, and you want to use the Ethernet Switch Health Monitor (CSHM) and log collection features, you must verify that SSH and SSH keys are enabled on the switches.
+
+//After you complete the initial Cisco Nexus 9332D-GX2B switch setup as part of a new AFX system installation, a switch replacement, or reset to its factory default settings, you are prompted to complete the initial setup for the switch(es) using configuration wizard. You can reference the following configuration wizard questions and recommended responses to help you complete the initial setup of the switch(es).
+
+//After you power on Cisco Nexus 9332D-GX2B switch(es) as part of a new AFX system installation or a switch replacement, or after you reset a switch to its factory default settings, you are prompted to complete the initial setup for the switch(es) using configuration wizard. You can reference the following configuration wizard questions and recommended responses to help you complete the initial setup of the switch(es).
+
+.Before you begin
+
+* If you are setting up switches as part of a new AFX system installation and setup, make sure you have completed the link:configure-software-overview-9332d-cluster.html [Install or upgrade NX-OS software or RCF] procedure for each switch in your AFX system.
+
+* If you are replacing a switch in an existing AFX system, make sure you have completed the https://docs.netapp.com/us-en/ontap-afx/install-setup/replace-switch.html[Replace a switch] procedure.
+
+* If you are resetting a switch to its factory default settings, make sure you have completed the https://docs.netapp.com/us-en/ontap-afx/install-setup/reset-switch-factory-default.html[Reset a switch to factory default settings] procedure.
+
 .About this task
 When you completed the initial switch setup, you should have responded with `yes` to confirm SSH was enabled (the default) and entered the type of SSH keys you wanted to generate.
 
