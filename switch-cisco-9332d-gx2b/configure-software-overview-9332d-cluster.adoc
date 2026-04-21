@@ -9,42 +9,36 @@ summary: You need to configure the Cisco 9332D-GX2B switch software and RCF when
 :imagesdir: ../media/
 
 [.lead]
-//You need to configure the Cisco 9332D-GX2B switch software and RCF when you install the switches as part of a new AFX system installation or when you upgrade the switch software or RCF on an existing switch. Use the applicable workflow to complete the necessary steps for your situation.
+You install the NX-OS software and RCF on the Cisco 9332D-GX2B switches as part of a new AFX system installation, a switch replacement, or a reset to factory default settings. You can also upgrade the NX-OS software and/or RCF on an existing switch when you need a current version of both or either.
 
-//You need to configure the Cisco 9332D-GX2B switch software and RCF when you install the switches as part of a new AFX system installation. When you are upgrading the switch software or RCF on an existing switch, use the applicable workflow to complete the necessary steps for your situation.
+.Before you begin
+If you are installing the NX-OS software and RCF on switches as part of a new AFX system installation, a switch replacement, or a reset of the factory default settings, you must have link:setup-switch-9332d-cluster.html[completed the initial switch setup].
 
-Use the applicable workflow to complete the necessary steps for your situation. The workflows include instructions for configuring the switch software and RCF when you are installing the switches as part of a new AFX system installation or when you are upgrading the switch software or RCF on an existing switch.
 
 //open collapsible list 1
 .New switch install and setup workflow
 [%collapsible]
 
+
 ====
 
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png[One]link:setup-switch-9332d-cluster.html[Configure the 9332D-GX2B switch]
-[role="quick-margin-para"]
-Configure the Cisco 9332D-GX2B switch.
+.About this task
+You install the NX-OS software and RCF on the Cisco 9332D-GX2B switches as part of a new AFX system installation, a switch replacement, or a reset to factory default settings. You can also use upgrade the NX-OS software and/or RCF on an existing switch when you need a current version.
 
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png[Two]link:install-nxos-overview-9332d-cluster.html[Prepare to install the NX-OS software and RCF] 
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png[One]link:install-nxos-overview-9332d-cluster.html[Prepare to install the NX-OS software and RCF] 
 [role="quick-margin-para"]
-Install the Cisco NX-OS software and reference configuration files (RCFs) on the Cisco 9332D-GX2B switches.
+Prepare to install the NX-OS software and RCF by gathering the necessary information and resources, such as the NX-OS software image, RCF version, and switch information. You also need to determine the installation method you want to use for the NX-OS software and RCF.
 
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png[Three]link:install-nxos-software-9332d-cluster.html[Install or upgrade the NX-OS software]
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png[Two]link:install-nxos-software-9332d-cluster.html[Install or upgrade the NX-OS software]
 [role="quick-margin-para"]
-Download and install or upgrade the NX-OS software on the Cisco 9332D-GX2B switch.
+If this is part of an install, then install the NX-OS software on the switch(es). If this is part of an upgrade, install the NX-OS software if needed.
 
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png[Four]link:install-upgrade-rcf-overview-cluster.html[Install or upgrade the RCF] 
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png[Three]link:install-upgrade-rcf-overview-cluster.html[Install or upgrade the RCF] 
 [role="quick-margin-para"]
+If this is part of an install, then install the RCF on the switch(es). If this is part of an upgrade, install the RCF if needed.
+
 Install or upgrade the RCF after setting up the Cisco 9332D-GX2B switch for the first time. You can also use this procedure to upgrade your RCF version.
 
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-5.png[Five]link:configure-ssh-keys.html[Verify SSH is enabled on the Cisco 9332D-GX2B switches] 
-[role="quick-margin-para"]
-Verify that SSH is enabled on the Cisco 9332D-GX2B switch for use with the Ethernet Switch Health Monitor (CSHM) and log collection features.
-
-Once you have finished configuring your switches, go to link:https://docs.netapp.com/us-en/ontap-afx/install-setup/power-on-hardware.html[Power on your AFX 1K storage system^].
-
-// New content for OAM project, AFFFASDOC-331, 2025-MAY-06
-// AFFFASDOC-473, 2026-MAR-16
 
 ====
 //close collapsible list 1
@@ -56,6 +50,11 @@ Once you have finished configuring your switches, go to link:https://docs.netapp
 [%collapsible]
 
 ====
+.About this task
+* You upgrade the NX-OS software and/or RCF on existing Cisco 9332D-GX2B switches when you need a current version of both or either.
+
+* The NX-OS software and RCF are independent of each other. you can upgrade one or the other as needed, or both.
+
 hhh
 ====
 
@@ -72,3 +71,14 @@ hhh
 //====
 
 //close collapsible list 3
+
+.What's next?
+
+* If you installed the NX-OS software and RCF as part of a new AFX system installation, a switch replacement, or a reset to factory default settings, you link:configure-ssh-keys.html[verify SSH is enabled].
+* If you updated the NX-OS software and/or RCF on an existing switch, you link:configure-ssh-keys.html[verify SSH is enabled].
+
+//* After you have installed or updated the NX-OS software and/or RCF, you link:configure-ssh-keys.html[verify SSH is enabled].
+
+// New content for OAM project, AFFFASDOC-331, 2025-MAY-06
+// AFFFASDOC-473, 2026-MAR-16
+// Refactored content project, GH#423 2026-APR-MAY
