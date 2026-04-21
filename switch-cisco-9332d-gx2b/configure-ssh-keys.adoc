@@ -11,6 +11,11 @@ summary: SSH is a requirement when using the Cluster Switch Health Monitor \(CSH
 [.lead]
 If you are using the Ethernet Switch Health Monitor (CSHM) and log collection features, verify that SSH and SSH keys are enabled on the switches.
 
+.About this task
+When you completed the initial switch setup, you should have responded with `yes` to confirm SSH was enabled (the default) and entered the type of SSH keys you wanted to generate.
+
+//SSH key default is rsa. You can add more keys for additional layers of security. For example, you can add ecdsa keys, which are more secure than rsa keys. If you want to add ecdsa keys, you can use the `ssh key generate ecdsa` command.
+
 .Steps
 
 . Verify that SSH is enabled:
