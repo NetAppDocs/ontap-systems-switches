@@ -2,28 +2,23 @@
 permalink: switch-cisco-9332d-gx2b/configure-software-overview-9332d-cluster.html
 sidebar: sidebar
 keywords: switches, initial installation, configure switch-cisco-9332d-gx2b switch
-summary: You need to configure the Cisco 9332D-GX2B switch software and RCF when you are installing the switches as part of a new AFX system installation or when you are upgrading the switch software or RCF on an existing switch. Use the applicable workflow to complete the necessary steps for your situation.
+summary: You install the NX-OS software and RCF on the Cisco 9332D-GX2B switches as part of a new AFX system installation, a switch replacement, or a reset to factory default settings. You can also upgrade the NX-OS software and/or RCF on an existing switch when you need a current version of either or both.
 ---
 = Install or update NX-OS software and RCF workflows - Cisco Nexus 9332D-GX2B
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-You install the NX-OS software and RCF on the Cisco 9332D-GX2B switches as part of a new AFX system installation, a switch replacement, or a reset to factory default settings. You can also upgrade the NX-OS software and/or RCF on an existing switch when you need a current version of both or either.
+You install the NX-OS software and RCF on the Cisco 9332D-GX2B switches as part of a new AFX system installation, a switch replacement, or a reset to factory default settings. You can also upgrade the NX-OS software and/or RCF on an existing switch when you need a current version of either or both.
 
 .Before you begin
 If you are installing the NX-OS software and RCF on switches as part of a new AFX system installation, a switch replacement, or a reset of the factory default settings, you must have link:setup-switch-9332d-cluster.html[completed the initial switch setup].
 
-
-//open collapsible list 1
-.New switch install and setup workflow
-[%collapsible]
-
-
-====
-
 .About this task
-You install the NX-OS software and RCF on the Cisco 9332D-GX2B switches as part of a new AFX system installation, a switch replacement, or a reset to factory default settings. You can also use upgrade the NX-OS software and/or RCF on an existing switch when you need a current version.
+* The difference between install and upgrade of the NX-OS software and RCF is that for an install, you need to install both the NX-OS software and RCF, whereas for an upgrade, you only install the NX-OS software and/or RCF as needed.
+
+* You can install or upgrade the NX-OS software and RCF on the switch(es) in the AFX system one at a time, or on both switches  at the same time. (Is this true? Does the procedure reflect this?)
+
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png[One]link:install-nxos-overview-9332d-cluster.html[Prepare to install the NX-OS software and RCF] 
 [role="quick-margin-para"]
@@ -37,47 +32,14 @@ If this is part of an install, then install the NX-OS software on the switch(es)
 [role="quick-margin-para"]
 If this is part of an install, then install the RCF on the switch(es). If this is part of an upgrade, install the RCF if needed.
 
-Install or upgrade the RCF after setting up the Cisco 9332D-GX2B switch for the first time. You can also use this procedure to upgrade your RCF version.
-
-
-====
-//close collapsible list 1
-
-    
-//open collapsible list 2
-
-.Upgrade software and RCF workflow
-[%collapsible]
-
-====
-.About this task
-* You upgrade the NX-OS software and/or RCF on existing Cisco 9332D-GX2B switches when you need a current version of both or either.
-
-* The NX-OS software and RCF are independent of each other. you can upgrade one or the other as needed, or both.
-
-hhh
-====
-
-//close collapsible list 2
-
-
-//open collapsible list 3
-
-//.Reset a switch to factory default settings workflow
-//[%collapsible]
-
-//====
-//hhh
-//====
-
-//close collapsible list 3
 
 .What's next?
 
-* If you installed the NX-OS software and RCF as part of a new AFX system installation, a switch replacement, or a reset to factory default settings, you link:configure-ssh-keys.html[verify SSH is enabled].
-* If you updated the NX-OS software and/or RCF on an existing switch, you link:configure-ssh-keys.html[verify SSH is enabled].
+After you have installed or updated the NX-OS software and/or RCF, you link:configure-ssh-keys.html[verify SSH is enabled].
 
-//* After you have installed or updated the NX-OS software and/or RCF, you link:configure-ssh-keys.html[verify SSH is enabled].
+//* If you installed the NX-OS software and RCF as part of a new AFX system installation, a switch replacement, or a reset to factory default settings, you link:configure-ssh-keys.html[verify SSH is enabled].
+//* If you updated the NX-OS software and/or RCF on an existing switch, you link:configure-ssh-keys.html[verify SSH is enabled]. Or are you done?
+
 
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-06
 // AFFFASDOC-473, 2026-MAR-16
