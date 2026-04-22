@@ -9,7 +9,9 @@ summary: You install the NX-OS on the Cisco 9332D-GX2B switches as part of a new
 :imagesdir: ../media/
 
 [.lead]
-You install the NX-OS on the Cisco 9332D-GX2B switches as part of a new AFX system installation, a switch replacement, or a reset to factory default settings. 
+You upgrade the NX-OS on the Cisco 9332D-GX2B switches as part of a new AFX system installation, a switch replacement, or a reset to factory default settings. 
+
+Hey, if only NX-OS 10.4.2 is supported, why does there need to be an upgrade procedure if you can only run ONE version???????
 
 .Before you begin
 
@@ -20,8 +22,8 @@ You install the NX-OS on the Cisco 9332D-GX2B switches as part of a new AFX syst
 .About this task
 
 * NX-OS 10.4.2 is the only supported version for Cisco Nexus 9332D-GX2B switches in an ONTAP cluster.
-
-// This bullet only applies to the upgrade NX-OS version of this topic. Do not upgrade or downgrade your NX-OS version to an unsupported version; only 10.4.2 is currently supported.
++
+NOTE: Do not upgrade or downgrade your NX-OS version to an unsupported version.
 
 * The procedure requires the use of ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 
@@ -59,11 +61,11 @@ based on your current and target releases.
 On the page, select *Disruptive Upgrade* and select your current release and target release from the dropdown list. 
 
 
-== Step 2: Prepare to install the NX-OS
+== Step 2: Prepare to upgrade the NX-OS
 
-Prepare to install the NX-OS. 
+Prepare to upgrade the NX-OS. 
 
-Hey, Lisa, I think a lot of the prepare stuff here is the same stuff in the Prepare to install NX-OS and RCF topic. Do a line-by-line comparison.
+Hey, Lisa, I think a lot of the prepare stuff here is the same stuff in the Prepare to install NX-OS and RCF topic. Do a line-by-line comparison. Whatever you settle on is used in this upgrade topic and the install NX-OS topic.
 
 //include::../_include/g_dimm_replace.adoc[]
 
@@ -457,9 +459,9 @@ shelf id connector-state remote-port    remote-device
 network interface modify -vserver Cluster -lif * -auto-revert false
 ----
 
-== Step 3: Install the NX-OS
+== Step 3: Upgrade the NX-OS
 
-You install the NX-OS on one of the switches and then you repeat these steps to install NX-OS on the second switch.
+You upgrade the NX-OS on one of the switches and then you repeat these steps to upgrade NX-OS on the second switch.
 
 //include::../_include/g_dimm_replace.adoc[]
 
@@ -1132,9 +1134,9 @@ node1-04             true    true          true
 //An EPLD (Electronic Programmable Logic Device) on a Cisco Nexus 9000 switch is a type of firmware (often FPGA or CPLD) that controls hardware functionality, such as power management and interface mapping, on modules or the supervisor. It enables upgrading hardware features via software without physical hardware replacement. Upgrading the EPLD can provide bug fixes, performance improvements, and new features to the switch's hardware components.
 
 
-== Step 4: Complete the NX-OS installation
+== Step 4: Complete the NX-OS upgrade
 
-Complete the NX-OS installation on both switches by verifying that the cluster LIFs have reverted to their home ports and then enable auto-revert on the cluster LIFs.
+Complete the NX-OS upgrade on both switches by verifying that the cluster LIFs have reverted to their home ports and then enable auto-revert on the cluster LIFs.
 
 //include::../_include/g_dimm_replace.adoc[]
 

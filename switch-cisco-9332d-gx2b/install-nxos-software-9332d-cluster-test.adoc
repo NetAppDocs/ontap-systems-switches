@@ -21,8 +21,6 @@ You install the NX-OS on the Cisco 9332D-GX2B switches as part of a new AFX syst
 
 * NX-OS 10.4.2 is the only supported version for Cisco Nexus 9332D-GX2B switches in an ONTAP cluster.
 
-// This bullet only applies to the upgrade NX-OS version of this topic. Do not upgrade or downgrade your NX-OS version to an unsupported version; only 10.4.2 is currently supported.
-
 * The procedure requires the use of ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 
 * The examples in this procedure use the following switch and node nomenclature:
@@ -41,29 +39,13 @@ Consult the switch compatibility table for the supported ONTAP and NX-OS version
 link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet switch page^] 
 
 //include::../_include/cisco-nxos-install-suggested-documents.adoc[]
-
-
-//Lisa these below ONLY apply to the upgrade NX-OS topic. Need an include for these: cisco-nxos-upgrade.adoc or something like that.To be reused for all Cisco NX-OS upgrade topics...I think.
-
-//include::../_include/cisco-nxos-upgrade-suggested-documents.adoc[]
-
-* link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/products-installation-guides-list.html[Software Upgrade and downgrade guides^] 
-+
-Refer to the appropriate software and upgrade guides available on the Cisco website for complete documentation on the Cisco switch upgrade and downgrade procedures.
-
-* link:https://www.cisco.com/c/dam/en/us/td/docs/dcn/tools/nexus-9k3k-issu-matrix/index.html[Cisco Nexus 9000 and 3000 Upgrade and ISSU Matrix^]
-+
-Provides information on Disruptive Upgrade/Downgrade for Cisco NX-OS software on Nexus 9000 Series Switches 
-based on your current and target releases.
-+
-On the page, select *Disruptive Upgrade* and select your current release and target release from the dropdown list. 
-
+ 
 
 == Step 2: Prepare to install the NX-OS
 
 Prepare to install the NX-OS. 
 
-Hey, Lisa, I think a lot of the prepare stuff here is the same stuff in the Prepare to install NX-OS and RCF topic. Do a line-by-line comparison.
+Hey, Lisa, I think a lot of the prepare stuff here is the same stuff in the Prepare to install NX-OS and RCF topic. Do a line-by-line comparison. Whatever you settle on is used in this upgrade topic and the install NX-OS topic.
 
 //include::../_include/g_dimm_replace.adoc[]
 
