@@ -1,0 +1,31 @@
+---
+permalink: switch-cisco-9332d-gx2b/maintain-overview-9332d-cluster.html
+sidebar: sidebar
+keywords: ssh, requirement, cluster, switch, health, monitor, cshm, log, collection, feature, cisco 9332d-gx2b
+summary: 'You can install the RCF after setting up the Nexus 9332D-GX2B switch for the first time. You can also use this procedure to upgrade your RCF version.'
+---
+= Maintain overview - Cisco Nexus 9332D-GX2B
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+//You need to also create similar topic for 9808.
+Maintain the hardware of your Cisco Nexus 9332D-GX2B switch to ensure long-term reliability and optimal performance. Perform regular maintenance tasks such as replacing faulty components, as this helps prevent downtime and data loss.
+
+The maintenance procedures assume that the switch has already been deployed as part of an AFX system.
+
+(You also need a lead specific to 9808(for that 9808 topic). Be mindful of referrences to "AFX" (generic). Probably for all 9332 and 9363 AFX 100g switches, for 2k release, must change AFX to "AFX 1K or AFX 2K systems".)
+
+
+You can perform the following maintenance tasks on your switch:
+* link:replace-frus-9332d-cluster.html[Replace FRUs]
+* link:replace-switch-9332d-cluster.html[Replace a switch.]
+
+(Note that for 9808, you don't replace a switch, that procedure needs to be renamed to "Replace a supervisor module" (Hey, NTAP ships with just one, but customers can order with 2 -max- so title should be "a", not "the"?))
+
+.What's next?
+
+After you've reviewed the install RCF or upgrade RCF procedure, you link:install-rcf-software-9332d-cluster.html[install the RCF] or link:upgrade-rcf-software-9332d-cluster.html[upgrade your RCF] as required.
+
+// New content for 9808 project, AFFFASDOC-xxx, 2026-JUL-xx
+// Refactored content project, GH#423 2026-APR-MAY
