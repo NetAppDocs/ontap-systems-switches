@@ -1,0 +1,36 @@
+---
+permalink: switch-cisco-9332d-gx2b/change-port-personality-9332d-cluster.html
+sidebar: sidebar
+keywords: install rcf, cisco switches
+summary: 'You can install the RCF after setting up the Nexus 9332D-GX2B switch for the first time.'
+---
+= Change Port Personality - Cisco Nexus 9332D-GX2B
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+You can change the switch port personalities when you need to <what>?
+
+NOTE Lisa: per APr 23 mtg with S & A: A suggested a new topic to move the following KB content into for changing port personality. It has to do with updating the RCF too.
+
+I think the use case is using the older AFX switches with 2K so have to change port personalities frm breakout to 400g.However, the KB says it only applies to 9336 (not 9364):
+https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_modify_RCF_1.X_Breakout_on_Cisco_9336C-FX2_cluster_switch_for_specific_customer_needs[How to modify RCF 1.X Breakout on Cisco 9336C-FX2 cluster switch for specific customer needs^]
+
+NOTE: Lisa, because of the KB to change port personality from breakout to 400g when installing RCF or upgrading it (in that larger use case I guess install is for new 2k system and upgrade is ???) I might need to bring RCF install or upgrade back together instead of separate topics and in separate sections of the sidebar. 
+
+.Before you begin
+
+.About this task
+
+== Step 1: TBD
+
+== Step 2: TBD
+
+
+
+.What's next?
+
+After you've changed the port personalities, you update the RCF (to 10.1 to support 400GbE. (Or did that happen as part of this change personality procedure already. See what the KB says to do), you link:configure-ssh-keys.html[verify the SSH configuration].
+
+// New topic for 2k project, AFFFASDOC-xxx, 2026-JULY-xx
+// Refactored content project, GH#423 2026-APR-MAY
