@@ -52,9 +52,19 @@ Provides NetApp hardware configuration and compatibility information.
 Provides more information about storage system installation requirements.
 
 === Step 3: Understand the switch port usage
-When preparing to cable the switches, understand the switch port usage in an AFX storage system so that you can properly configure the network connections? But why am I telling users this info now?
+Understand the pre-set mix of switch port speeds so that you can determine if you need to adjust the port speed mix to accommodate connectivity of your AFX system configuration.
 
-NOTE: Refer to https://hwu.netapp.com[Hardware Universe^] for more information about switch ports. 
+The following table shows switch ports 1-30 can be used for cluster, HA and storage connections. These are breakout 100GbE ports. Ports 31 and 32 are 400GbE ISL ports. 
+
+NOTE: If you need to change the port speed mix, you do that as part of the switch setup later in the installation and setup process (where?). 
+
+Hey:
+Lisa: This KB says it's only for switch 9336, (not 9332). Does this KB really also apply to 9332? Or does there need to be a different KB for 9332?
+
+Also, I assume the correct timing for changing port speeds is after switch is powered on and initial switch configuration is completed...and after NX-OS is installed? Andris/Sunil said changing the port speeds is part of the RCF upgrade? OR do I keep  the new topic Changing port personalities at the end of the switch setup section (point to KB, as needed, or rewrite the KB in the topic - if have time.)
+
+
+NOTE: Refer to https://hwu.netapp.com[Hardware Universe^] for more information about switch ports. Really?
 
 [options="header" cols="1,2"]
 |===
