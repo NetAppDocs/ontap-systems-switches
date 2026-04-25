@@ -52,13 +52,14 @@ Provides NetApp hardware configuration and compatibility information.
 Provides more information about storage system installation requirements.
 
 === Step 3: Understand the switch port usage
-Understand the pre-set mix of switch port speeds (breakout ports 100GbE and 400GbE ISL) so that you can determine if you need to adjust the port speed mix to accommodate connectivity of your AFX system configuration.
+Understand the pre-set mix of switch port speeds (breakout ports 100GbE and non-breakout ports) so that you can determine if you need to adjust the port speed mix to accommodate connectivity of your AFX system configuration.
 
 //Lisa, note: for 9808, you can change 400GbE ports to 100GbE- breakout ports or the other way around...there's also 2 ISL ports...right?)
 
-The following table shows switch ports 1-30 can be used for cluster, HA and storage connections. These are breakout 100GbE ports. Ports 31 and 32 are 400GbE ISL ports. 
+The following table shows switch ports 1-30 are 100GbE breakout ports that can be used for cluster, HA and storage connections. Ports 31 and 32 are 400GbE ports use for ISL. 
+// An Inter-Switch Link (ISL) port, or E_Port (Expansion Port), connects two network switches to enable communication and traffic flow between them, forming a larger fabric.
 
-NOTE: If you need to change the port speed mix, you do that as part of the switch setup later in the installation and setup process (where?). 
+NOTE: If you need to change the port speed mix, you modify the RCF (using a KB article). You do this as part of the switch setup later in the installation and setup process (google say you have to have the current RCF on the switch first). 
 
 Hey:
 Lisa: This KB says it's only for switch 9336, (not 9332). Does this KB really also apply to 9332? Or does there need to be a different KB for 9332?

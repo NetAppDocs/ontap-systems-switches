@@ -16,15 +16,29 @@ NOTE Lisa: per APr 23 mtg with S & A: A suggested a new topic to move the follow
 I think the use case is using the older AFX switches with 2K so have to change port personalities frm breakout to 400g.However, the KB says it only applies to 9336 (not 9364):
 https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_modify_RCF_1.X_Breakout_on_Cisco_9336C-FX2_cluster_switch_for_specific_customer_needs[How to modify RCF 1.X Breakout on Cisco 9336C-FX2 cluster switch for specific customer needs^]
 
+Maybe no. Changing port speed was always possible. It's just that IE never mentioned this or even pointed to the KB. So now we need to correct this oversight. 
+
 NOTE: Lisa, because of the KB to change port personality from breakout to 400g when installing RCF or upgrading it (in that larger use case I guess install is for new 2k system and upgrade is ???) I might need to bring RCF install or upgrade back together instead of separate topics and in separate sections of the sidebar. 
 
 .Before you begin
 
 .About this task
 
-== Step 1: TBD
 
-== Step 2: TBD
+.Steps
+Google had these steps, which I think mimic the KB. If these steps are correct, it's a great structure for sequence. How's this tie into install sequence for new systems? And is new system install still the only use case?
+
+Steps for Modifying RCFs:
+
+. Backup the current switch configuration.
+. Download the appropriate RCF file for your specific switch model.
++
+NOTE: Lisa: If modifying the RCF has to happen after you already have the curent RDF on the switches, that means (as part of a new install) that you came back to the switch repo from the AFX repo , meaning that your switch is cabled and powered on. Now you are going through the switch setup: complete initial setup, install NX-OS, install RCF, but now you can modify RCF...before verify SSH, config CSHM, and complete AFX system setup. I think that's the correct sequence.
++
+. Modify the RCF file to meet your specific port speed needs, following NetApp KB guidelines.
+. Transfer the modified RCF to the switch.
+. Apply the new RCF using the copy <rcf_file> running-config command.
+. Verify the configuration, specifically checking port-channel summaries and VLANs.
 
 
 
