@@ -11,6 +11,22 @@ summary: 'You can use this procedure to upgrade your RCF version.'
 [.lead]
 You upgrade the RCF version when you have an existing version of the RCF file installed on your operational switches. 
 
+Note: Apr 25 Lisa: I believe I also need the option tab/some way to talk about the two different version of RCF like in the install RCF topic: If you're using 9223/9364 on 1K system, you use RCF version xxx (like today). If using these switches on 2K, you use the new RCF version xxx.
+
+//Use cases for upgrading RCF: 
+
+//Upgrading the Reference Configuration File (RCF) on NetApp Cisco switches ensures compatibility when introducing new hardware (e.g., AFF A320/A250), upgrading to a new ONTAP version that requires a different RCF, or enabling enhanced features like new breakout ports. It is primarily done to maintain cluster stability and support updated switch hardware configurations. 
+
+//Key Reasons to Upgrade RCF Version:
+
+//* New Hardware Support: You are adding new storage controllers (nodes) or storage shelves that require different port configurations.
+    
+// *ONTAP Upgrades: The target NetApp ONTAP version requires an updated RCF to properly manage switch networking.
+    
+// *NX-OS Updates: While a routine NX-OS upgrade doesn't always require an RCF change, a significant update may require an updated RCF for optimal performance.
+
+// *Switch Migration/Expansion: Migrating from older switches (like the CN1610) to new ones or changing from a 2-node to a larger switch-based cluster.
+
 .Before you begin
 Make sure you have the following:
 

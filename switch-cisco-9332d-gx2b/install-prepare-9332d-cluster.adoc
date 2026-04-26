@@ -52,9 +52,15 @@ Provides NetApp hardware configuration and compatibility information.
 Provides more information about storage system installation requirements.
 
 === Step 3: Understand the switch port usage
-Understand the pre-set mix of switch port speeds (breakout ports 100GbE and non-breakout ports) so that you can determine if you need to adjust the port speed mix to accommodate connectivity of your AFX system configuration.
+Understand the pre-set mix of switch port speeds (breakout ports 100GbE and non-breakout ports) so that you can determine if you need to adjust the port speed mix to accommodate connectivity of your AFX system configuration. (Lisa does this apply to 9223 and 9364 and/or 9808?)
 
-//Lisa, note: for 9808, you can change 400GbE ports to 100GbE- breakout ports or the other way around...there's also 2 ISL ports...right?)
+//Lisa, note: for 9808, you can change 400GbE ports to 100GbE- breakout ports or the other way around...there's also 2 ISL ports.
+
+//Lisa: but for current 9332 and 9364, even though they are 400GbE switches (with capability of 100GbE support), NetApp has preset all but two ports as 100GbE breakout ports (the other 2 are 400GbE ISL).
+
+//Apr 25 Lisa: You need content for the two existing switches used with 1K to change pre-set port speeds (see that KB for 9336 - but does that apply to 9332 and 9464?) Wait do I?
+
+//Apr 25 Lisa: definitely need content/topic for 9080 change port speed. And users do it if needed based on their config needs.And would do this after installing RCF or updating RCF.
 
 The following table shows switch ports 1-30 are 100GbE breakout ports that can be used for cluster, HA and storage connections. Ports 31 and 32 are 400GbE ports use for ISL. 
 // An Inter-Switch Link (ISL) port, or E_Port (Expansion Port), connects two network switches to enable communication and traffic flow between them, forming a larger fabric.
@@ -62,9 +68,9 @@ The following table shows switch ports 1-30 are 100GbE breakout ports that can b
 NOTE: If you need to change the port speed mix, you modify the RCF (using a KB article). You do this as part of the switch setup later in the installation and setup process (google say you have to have the current RCF on the switch first). 
 
 Hey:
-Lisa: This KB says it's only for switch 9336, (not 9332). Does this KB really also apply to 9332? Or does there need to be a different KB for 9332?
+Apr 24 Lisa: This KB says it's only for switch 9336, (not 9332 or 9364). Does this KB really also apply to 9332? Or does there need to be a different KB for 9332?
 
-Also, I assume the correct timing for changing port speeds is after switch is powered on and initial switch configuration is completed...and after NX-OS is installed? Andris/Sunil said changing the port speeds is part of the RCF upgrade? OR do I keep  the new topic Changing port personalities at the end of the switch setup section (point to KB, as needed, or rewrite the KB in the topic - if have time.)
+Apr 24 Lisa: Also, I assume the correct timing for changing port speeds is after switch is powered on and initial switch configuration is completed...and after NX-OS is installed? Andris/Sunil said changing the port speeds is part of the RCF upgrade? OR do I keep  the new topic Changing port personalities at the end of the switch setup section (point to KB, as needed, or rewrite the KB in the topic - if have time.)
 
 
 NOTE: Refer to https://hwu.netapp.com[Hardware Universe^] for more information about switch ports. Really?
