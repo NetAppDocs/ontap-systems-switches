@@ -9,22 +9,26 @@ summary: 'You can install the RCF after setting up the Nexus 9332D-GX2B switch f
 :imagesdir: ../media/
 
 [.lead]
-You can install or upgrade the reference configuration file (RCF) on your Nexus 9332D-GX2B switches as needed depending on your situation. 
+You can install or upgrade the reference configuration file (RCF) on your Nexus 9332D-GX2B switches depending on your situation. 
 
 You install the RCF on the switches as part of a new AFX system installation, a switch replacement, or a reset to factory default settings.
 
-You update the RCF on the switches to support new features or changes in the network environment.
+You update the RCF on the switches to support a different RCF configuration, if available. For example, if you have RCF version 10.0, which only supports breakout mode (4x100GbE), and you want to change a number of port speeds to support 400GbE, you would need to update to RCF version 10.1. But you also need to have an AFX A2K system to use RCF version 10.1.
 
-You update the RCF on the switches to support new hardware, a new ONTAP version, or to align with a new NX-OS version.
+Lisa: You can't have any EMR content in here when your hotfix branch is published because it will be before EMR content goes live Jul. Maybe make a 2nd file with "EMR" so you can swap them out in folder and sidebar.yml for EMR July RTS? 
 
-You can install or upgrade the RCF independently of the NS-OS.
+RCF installation or upgrade is independent of NS-OS installation or upgrade.
+
+//You update the RCF on the switches to support new features or changes in the network environment.
+
+//You update the RCF on the switches to support new hardware, a new ONTAP version, or to align with a new NX-OS version.
 
 //Lisa: you need to make another version of this topic specific to 9364. Today they are exactly the same content - double check that - but just have diff file names and lead stated the specific switch model. Really should make include file for this topic content. 
 
 
 .Available RCF configurations
 
-Depending on your system type, AFX A2K or AFX A1K, you use the following RCF version:
+Depending on your system type, AFX A2K or AFX A1K, you use the applicable RCF version:
 
 * AFX A2K (with 9332 switches)
 
@@ -52,11 +56,23 @@ Ports   63-64: Intra-Cluster ISL Ports, int e1/63-64
 
 * AFX A2K with 9332 switches
 
-*Cluster-HA-Storage AFX?* - All ports are configured in 4x100GbE breakout mode that universally supports AFX node clusters, HA, storage ports, and NX224 storage shelf ports. 400GbE ISL between switches. (_Cluster-HA-Storage AFX RCF_vxx.x_).
+*Cluster-HA-Storage AFX* - All ports are configured in 4x100GbE breakout mode that universally supports AFX node clusters, HA, storage ports, and NX224 storage shelf ports. 400GbE ISL between switches. (_Cluster-HA-Storage AFX RCF_vxx.x_).
 
 How come the RCF version isn't here? 10.0
 
 For specific port and VLAN usage details, refer to the banner and important notes section in your RCF. Refer to link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches^] for more information.
+
+//FYI:
+//NetApp Reference Configuration File (RCF)
+
+//* Switch   : NX9808
+//* Filename : RCF-v10.1-NX9808-CL1-ST1.txt
+//* Date     : 04-15-2026
+//* Version  : v10.1
+//* Port Usage:
+//* Ports   1-18 (LC1-LC8) : 400GbE Cluster/Storage/HA ports.
+//* Ports   19-35 (LC1-LC8): 4 * 100 GbE Storage shelf ports, int e1-e8/{19-35}/1-4
+//* Port    36 (LC1-LC8)   : Intra-Cluster ISL Ports, int e1-e8/36
 
 .Suggested documentation
 * link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches (NSS)^]
@@ -88,7 +104,7 @@ NOTE: The command outputs might vary depending on different releases of ONTAP.
 
 .What's next?
 
-After you've reviewed the install RCF or upgrade RCF overview, you link:install-rcf-software-9332d-cluster.html[install the RCF] or link:upgrade-rcf-software-9332d-cluster.html[upgrade your RCF] as required.
+After you've reviewed the install or upgrade RCF overview, you link:install-rcf-software-9332d-cluster.html[install the RCF] or link:upgrade-rcf-software-9332d-cluster.html[upgrade your RCF] as required.
 
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-06
 // AFFFASDOC-372, 2025-NOV-25
