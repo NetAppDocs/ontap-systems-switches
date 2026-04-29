@@ -9,19 +9,27 @@ summary: 'You can install the RCF after setting up the Nexus 9332D-GX2B switch f
 :imagesdir: ../media/
 
 [.lead]
-You can install or upgrade the reference configuration file (RCF) on your Nexus 9332D-GX2B switches depending on your situation. 
+You can install or upgrade the reference configuration file (RCF) on your Nexus 9332D-GX2B switches depending on the needs of the switches and your AFX A1K or AFX A2K system.
 
-You install the RCF on the switches as part of a new AFX system installation, a switch replacement, or a reset to factory default settings.
+two use cases: 
+* 1K  uses RCF 10.0 with only 100GbE ports
+* 2K and uses RCF 10.1 with both 100GbE and 400GbE ports. They are pre-set BUT you can change if needed (see the change topic).
 
-You update the RCF on the switches to support a different RCF configuration, if available. For example, if you have RCF version 10.0, which only supports breakout mode (4x100GbE), and you want to change a number of port speeds to support 400GbE, you would need to update to RCF version 10.1. But you also need to have an AFX A2K system to use RCF version 10.1.
+You install the RCF on the switches as part of a new AFX A1K or AFX A2K system installation, a switch replacement, or a reset to factory default settings. 
+
+You upgrade the RCF on the switches to support new features or changes in the network environment. (Are users actually upgrading 10.0 to 10.1 at initial RTS? NO! But later they will.)
+
+You can upgrade the RCF on the switches to support a different RCF configuration if your AFX system supports it. For example, if you have an AFX A1K system, RCF 10.0 is the only supported version, which only supports breakout mode (4x100GbE). If you have an AFX A2K system, RCF 10.1 is the only supported version, which supports both breakout mode (4x100GbE) and 400GbE mode. 
+
+AFX A1K systems support RCF 10.0, AFX A2K systems support RCF 10.1.
 
 Lisa: You can't have any EMR content in here when your hotfix branch is published because it will be before EMR content goes live Jul. Maybe make a 2nd file with "EMR" so you can swap them out in folder and sidebar.yml for EMR July RTS? 
 
 RCF installation or upgrade is independent of NS-OS installation or upgrade.
 
-//You update the RCF on the switches to support new features or changes in the network environment.
+//You upgrade the RCF on the switches to support new features or changes in the network environment.
 
-//You update the RCF on the switches to support new hardware, a new ONTAP version, or to align with a new NX-OS version.
+//You upgrade the RCF on the switches to support new hardware, a new ONTAP version, or to align with a new NX-OS version.
 
 //Lisa: you need to make another version of this topic specific to 9364. Today they are exactly the same content - double check that - but just have diff file names and lead stated the specific switch model. Really should make include file for this topic content. 
 
@@ -30,7 +38,7 @@ RCF installation or upgrade is independent of NS-OS installation or upgrade.
 
 Depending on your system type, AFX A2K or AFX A1K, you use the applicable RCF version:
 
-* AFX A2K (with 9332 switches)
+* AFX A2K (with 9332 switches) use RCF 10.1, which supports both breakout mode (4x100GbE) and 400GbE mode. The ports are pre-set for a specific number of breakout mode (4x100GbE) and 400GbE mode, but you can change the port-speed configuration if needed. For more information about changing the port-speed configuration, refer to the link:change-port-speed-9332d-cluster.html[Change port speed (breakout) configuration - Cisco Nexus 9332D-GX2B^] topic.
 
 Switch   : NX9332D-GX2B
 Filename : RCF-v10.1-NX9332D-GX2B-CL1-V1.txt
