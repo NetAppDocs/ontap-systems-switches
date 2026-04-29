@@ -1,8 +1,8 @@
 ---
-permalink: switch-cisco-9332d-gx2b/change-port-personality-upgrade-rcf-9332d-cluster.html
+permalink: switch-cisco-9332d-gx2b/change-port-speed-9332d-cluster.html
 sidebar: sidebar
 keywords: install rcf, cisco switches
-summary: 'You can install the RCF after setting up the Nexus 9332D-GX2B switch for the first time.'
+summary: For Cisco Nexus 9332D-GX2B switches running RCF version 10.1 in an AFX A2K system, you can change the number of switch ports in breakout mode (4x100GbE) and 400GbE mode when you need to accommodate different network configurations for your system.
 ---
 = Change port speed (breakout) configuration - Cisco Nexus 9332D-GX2B
 :icons: font
@@ -13,13 +13,25 @@ For Cisco Nexus 9332D-GX2B switches running RCF version 10.1 in an AFX A2K syste
 
 NOTE Lisa: per APr 23 mtg with S & A: A suggested a new topic to move the following KB content into for changing port speed. It has to do with updating the RCF too.
 
-I think the use case is using the older AFX switches with 2K so have to change port speeds from breakout to 400g.However, the KB says it only applies to 9336 (not 9364):
+The use case is using the older AFX switches with 2K so can change port speeds from breakout to 400g.However, the KB says it only applies to 9336 (not 9364):
 https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_modify_RCF_1.X_Breakout_on_Cisco_9336C-FX2_cluster_switch_for_specific_customer_needs[How to modify RCF 1.X Breakout on Cisco 9336C-FX2 cluster switch for specific customer needs^]
 
 NOTE: Lisa, because of the KB to change port speed from breakout to 400g when installing RCF or upgrading it to 10.1 (in that larger use case I guess install is for new 2k system and upgrade is ???) I might need to bring RCF install or upgrade back together instead of separate topics and in separate sections of the sidebar.
 
 .Before you begin
-* Your switches must be running RCF version 10.1. If you are running RCF version 10.0, you must upgrade to RCF version 10.1 using the link:upgrade-rcf-software-9332d-cluster.html[upgrade the RCF] procedure.
+* If you are installing RCF 10.1for the first time, determine if the pre-set port speed configuration is what you need or not:
+
+(Lisa this is for 9332. for your topic version of 9364, you need to pull that from the MER teams chat from Sunil.)
+
+** Ports    1-14: 100GbE Intra-Cluster/HA/Storage Ports
+** Ports   15-30: 400GbE Intra-Cluster/HA/Storage Ports
+** Ports   31-32: Intra-Cluster ISL Ports
+
+* You must have an AFX A2K system running ONTAP 9.19.1GA or later.
+
+* Your switches must be running NX-OS xx.x or later. If you are running an older version of NX-OS, you must upgrade to the required version using the link:upgrade-nxos-software-9332d-cluster-test.html[upgrade NX-OS] procedure (or should point to the overview topic).
+
+* Your switches must be running RCF version 10.1. If you are running RCF version 10.0, you must upgrade to RCF version 10.1 using the link:upgrade-rcf-software-9332d-cluster.html[upgrade the RCF] procedure. (or should point to the overview topic)
 +
 The version of RCF you have on your switch determines the port speed options available to you. For example, if you have RCF version 10.0, the ports are pre-set for breakout mode (4x100GbE) and cannot be changed. If you have RCF version 10.1, you can change the number of ports that are in breakout mode (4x100GbE) and 400GbE mode.
 
