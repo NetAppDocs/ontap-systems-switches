@@ -2,7 +2,7 @@
 sidebar: sidebar
 permalink: switch-cisco-9332d-gx2b/install-prepare-9332d-cluster.html
 keywords: shared storage cluster switch
-summary: For Cisco Nexus 9332D-GX2B switch installation and setup part of a new AFX storage system or maintenance of existing switches, review the applicable Cisco switch documentation and ONTAP systems documentation.
+summary: For Cisco Nexus 9332D-GX2B switch installation and setup for a new AFX storage system, be sure to understand aspects of the switch and its installation by reviewing the applicable Cisco switch documentation and ONTAP systems documentation. Additionally, you should understand the switch port configuration and consider using Smart Call Home.
 ---
 = Prepare to install the switches - Cisco Nexus 9332D-GX2B
 :hardbreaks:
@@ -12,13 +12,12 @@ summary: For Cisco Nexus 9332D-GX2B switch installation and setup part of a new 
 :imagesdir: ../media/
 
 [.lead]
-For Cisco Nexus 9332D-GX2B switch installation and setup for a new AFX storage system, be sure to understand aspects of the switch and its installation by reviewing the applicable Cisco switch documentation and ONTAP systems documentation. Additionally, you should understand the switch ports usage.
-
-.About this task
-All of the Cisco documents are available on the link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html[Cisco Nexus 9000 Series Switches Support^] page. 
+Before installing Cisco Nexus 9332D-GX2B switches as part of a new AFX system installation, you need to understand aspects of the switch and its installation by reviewing the applicable Cisco switch documentation and ONTAP systems documentation, understanding the switch port configuration for your RCF version, and considering the use of Smart Call Home.
 
 === Step 1: Review the Cisco switch documentation
 Review the following Cisco install and setup documents so you are familiar with the switch release notes, safety information, installation options, initial software configuration, and command references.
+
+All of the Cisco documents are available on the link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html[Cisco Nexus 9000 Series Switches Support^] page.
 
 * link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/products-release-notes-list.html[Cisco Nexus 9000 Series NX-OS Release Notes^] (choose the notes for the NX-OS release installed on your switches)
 
@@ -34,13 +33,6 @@ Provides links to the various command references provided by Cisco.
 === Step 2: Review the NetApp systems documentation
 Review the following NetApp systems documentation so you are familiar with the AFX system installation, ONTAP release information, and hardware configuration and compatibility requirements.
 
-====
-NOTE: 
-To install and set up an AFX storage system with your Cisco Nexus 9332D-GX2B switches, you can reference the following documentation and resources....or you are directed to these documents as needed?
-
-However, for step-by-step instructions, start with the link:configure-switch-overview-9332d-cluster.html[Installation and setup workflow for Cisco Nexus 9332D-GX2B switches^].
-====
-
 * link:https://docs.netapp.com/us-en/ontap-afx/index.html[AFX systems documentation^] Describes how to install NetApp hardware.
 
 * link:https://docs.netapp.com/us-en/ontap-family/[ONTAP documentation^] Provides detailed information about all aspects of the ONTAP releases.
@@ -51,33 +43,23 @@ Provides NetApp hardware configuration and compatibility information.
 * link:https://kb.netapp.com/Support/General_Support/What_additional_information_do_I_need_to_install_my_equipment_that_is_not_in_HWU[What additional information do I need to install my equipment that is not in HWU?^]
 Provides more information about storage system installation requirements.
 
-=== Step 3: Understand the switch port usage
-Understand the pre-set mix of switch port speeds (breakout ports 100GbE and non-breakout ports) so that you can determine if you need to adjust the port speed mix to accommodate connectivity of your AFX system configuration. (Lisa does this apply to 9223 and 9364 and/or 9808?)
+=== Step 3: Understand the switch port configuration
+Understand the configuration of switch ports (breakout ports and non-breakout ports) so that you can determine connectivity for your AFX system.
 
-//Lisa, note: for 9808, you can change 400GbE ports to 100GbE- breakout ports or the other way around...there's also 2 ISL ports.
+//For ELMR (need to add ELMR):
+//ELMR: Understand the preset configuration of switch port speeds (breakout ports 100GbE and non-breakout ports) so that you can determine if you need to change the port speed mix to accommodate a different port speed configuration for your ELMR system.
 
-//Lisa: but for current 9332 and 9364, even though they are 400GbE switches (with capability of 100GbE support), NetApp has preset all but two ports as 100GbE breakout ports (the other 2 are 400GbE ISL).
+The following table shows the preset groupings of the switch's ports, their port speeds, and usage based on RCF version 10.0. (This is the only supported version of RCF.)
 
-//Apr 25 Lisa: You need content for the two existing switches used with 1K to change pre-set port speeds (see that KB for 9336 - but does that apply to 9332 and 9464?) Wait do I?
+//ELMR: The following table shows the preset groupings of the switch's ports, their port speeds, and usage based on RCF version 10.1, which is only supported on switches in ELMR systems. (need to add a new table). Note, you can change the mix of breakout and non-breakout ports when your system configuration requires it. You can do this as part of your switch setup later in the installation and setup process (after installing RCF).
 
-//Apr 25 Lisa: definitely need content/topic for 9080 change port speed. And users do it if needed based on their config needs.And would do this after installing RCF or updating RCF.
+//Use for note text instead?: Note, You can change the number of switch ports in breakout mode (4x100GbE) and 400GbE mode when you need to accommodate a different port speed configuration for your system. (This text came form change port speed topic...which needs to be hidden when I PR my hotfix branch).
 
-The following table shows switch ports 1-30 are 100GbE breakout ports that can be used for cluster, HA and storage connections. Ports 31 and 32 are 400GbE ports use for ISL. 
-// An Inter-Switch Link (ISL) port, or E_Port (Expansion Port), connects two network switches to enable communication and traffic flow between them, forming a larger fabric.
-
-NOTE: If you need to change the port speed mix, you modify the RCF (using a KB article). You do this as part of the switch setup later in the installation and setup process (google say you have to have the current RCF on the switch first). 
-
-Hey:
-Apr 24 Lisa: This KB says it's only for switch 9336, (not 9332 or 9364). Does this KB really also apply to 9332? Or does there need to be a different KB for 9332?
-
-Apr 24 Lisa: Also, I assume the correct timing for changing port speeds is after switch is powered on and initial switch configuration is completed...and after NX-OS is installed? Andris/Sunil said changing the port speeds is part of the RCF upgrade? OR do I keep  the new topic Changing port personalities at the end of the switch setup section (point to KB, as needed, or rewrite the KB in the topic - if have time.)
-
-
-NOTE: Refer to https://hwu.netapp.com[Hardware Universe^] for more information about switch ports. Really?
+Switch port information can also be found in the https://hwu.netapp.com[NetApp Hardware Universe^].
 
 [options="header" cols="1,2"]
 |===
-| Switch ports | Description
+| Switch port groups | Port speeds and usage
 a|
 Ethernet1/1/1-4 to Ethernet1/30/1-4
 a|
@@ -90,7 +72,7 @@ a|
 |===
 
 === Step 4: Consider using Smart Call Home
-Consider using the CiscoSmart Call Home capability. Smart Call Home is not required to operate the switches, but it can provide proactive support and help you quickly resolve any issues that might arise with the switches.
+Cisco Smart Call Home is an option to provide proactive support and help you resolve any issues that might arise with the switches. However, the switch installation and setup instructions have you configure switch health monitoring (CSHM), which provides the same level of support. 
 
 .Steps
 
@@ -98,7 +80,7 @@ Consider using the CiscoSmart Call Home capability. Smart Call Home is not requi
 
 . If you decide to use Smart Call Home, you are instructed to configure it later in the link:configure-switch-overview-9332d-cluster.html[Install and setup workflow].
 
-NOTE: You can configure Smart Call Home at any time after you have installed and setup your switches as part of the AFX storage system installation.
+NOTE: Smart Call Home can be configured at any time after you have installed and setup your switches as part of the AFX storage system installation.
 
 .What's next?
 
