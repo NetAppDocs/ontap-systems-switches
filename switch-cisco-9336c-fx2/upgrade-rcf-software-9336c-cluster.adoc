@@ -121,7 +121,7 @@ cluster1::*>
 
 .. Verify that all the cluster interfaces (LIFs) are on the home port: 
 +
-`network interface show -vserver cluster`
+`network interface show -vserver Cluster`
 +
 .Show example 
 [%collapsible]
@@ -129,7 +129,7 @@ cluster1::*>
 
 [subs=+quotes]
 ----
-cluster1::*> *network interface show -vserver cluster*
+cluster1::*> *network interface show -vserver Cluster*
             Logical            Status     Network           Current      Current Is
 Vserver     Interface          Admin/Oper Address/Mask      Node         Port    Home
 ----------- ------------------ ---------- ----------------- ------------ ------- ----
@@ -204,7 +204,7 @@ Refer to the Knowledge Base article link:https://kb.netapp.com/on-prem/ontap/OHW
 
 . Verify that the cluster LIFs have failed over to the ports hosted on cluster switch cs1. This might take a few seconds.
 +
-`network interface show -vserver cluster`
+`network interface show -vserver Cluster`
 +
 .Show example 
 [%collapsible]
@@ -212,7 +212,7 @@ Refer to the Knowledge Base article link:https://kb.netapp.com/on-prem/ontap/OHW
 
 [subs=+quotes]
 ----
-cluster1::*> *network interface show -vserver cluster*
+cluster1::*> *network interface show -vserver Cluster*
             Logical           Status     Network            Current       Current Is
 Vserver     Interface         Admin/Oper Address/Mask       Node          Port    Home
 ----------- ----------------- ---------- ------------------ ------------- ------- ----
@@ -320,20 +320,21 @@ Refer to the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/
 +
 You may need to update host file entries related to the SSH keys.
 
-. Copy the RCF to the bootflash of switch cs1 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. 
+. Copy the RCF to the bootflash on switch cs1 using one of the following transfer protocols: FTP, SFTP, or SCP. 
 +
 For more information on Cisco commands, refer to the appropriate guide in the link:https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^].
 +
-This example shows TFTP being used to copy an RCF to the bootflash on switch cs1:
+This example shows SFTP being used to copy an RCF to the bootflash on switch cs1:
 +
 
 [subs=+quotes]
 ----
-cs1# *copy tftp: bootflash: vrf management*
+cs1# *copy sftp: bootflash: vrf management*
 Enter source filename: *Nexus_9336C_RCF_v1.6-Cluster-HA-Breakout.txt*
-Enter hostname for the tftp server: *172.22.201.50*
-Trying to connect to tftp server......Connection to Server Established.
-TFTP get operation was successful
+Enter hostname for the sftp server: *172.22.201.50*
+Enter username: *user1*
+Trying to connect to sftp server......Connection to Server Established.
+SFTP get operation was successful
 Copy complete, now saving to disk (please wait)...
 ----
 
@@ -525,6 +526,8 @@ cluster1::*>
 `cs2# *reload*`
 +
 `This command will reboot the system. (y/n)?  [n] *y*`
+
+CAUTION: If your 9336C-FX2 switch fails to boot after your RCF upgrade, refer to the NetApp Knowledge Base article link:https://kb.netapp.com/on-prem/ontap/OHW/OHW-KBs/Cisco_9336C-FX2_Switch_Fails_to_Boot_After_RCF_Install_%E2%80%93_Boot_Variable_Cleared[Cisco 9336C-FX2 Switch Fails to Boot After RCF Install – Boot Variable Cleared^] for next steps.
 
 == Step 3: Verify the cluster network configuration and cluster health
 
@@ -761,7 +764,7 @@ cs1#
 
 . Verify that the cluster LIFs have reverted to their home port: 
 +
-`network interface show -vserver cluster` 
+`network interface show -vserver Cluster` 
 +
 .Show example 
 [%collapsible]
@@ -769,7 +772,7 @@ cs1#
 
 [subs=+quotes]
 ----
-cluster1::*> *network interface show -vserver cluster*
+cluster1::*> *network interface show -vserver Cluster*
             Logical            Status     Network            Current             Current Is
 Vserver     Interface          Admin/Oper Address/Mask       Node                Port    Home
 ----------- ------------------ ---------- ------------------ ------------------- ------- ----
@@ -923,3 +926,4 @@ After you've upgraded your RCF, you can link:configure-ssh-keys.html[verify the 
 // GH issue #303, 2025-OCT-28
 // AFFFASDOC-456, 2026-JAN-30
 // AFFFASDOC-473, 2026-MAR-18
+// AFFFASDOC-479, 2026-APR-13
