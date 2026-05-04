@@ -14,15 +14,15 @@ summary: When a Cisco Nexus 9332D-GX2B switch fails and cannot be recovered, you
 [.lead]
 When a Cisco Nexus 9332D-GX2B switch fails and cannot be recovered, you reset the switch to its original factory default settings so that you can reconfigure it manually. 
 
-You reset the switch to factory default settings by erasing the switch settings (startup configuration) and rebooting the switch, which brings up the configuration wizard so you can reconfigure the switch.
+You reset the switch to factory default settings by erasing the switch settings (startup configuration) and rebooting the switch, which brings up the configuration wizard so you can complete the initial switch setup, and then you complete the switch configuration.
+
+.Before you begin
+You must be connected to the switch using the serial console.
 
 .About this task
-* You must be connected to the switch using the serial console.
 * This task resets the configuration of the management network.
 * The `reload` command used in this procedure reboots the switch, which interrupts all network traffic passing through it. (You should perform this procedure during a maintenance window when the switch is not in use.)
-* The switch will lose all configuration settings and return to factory defaults.
-//* The switch boots up and enters the configuration wizard. During the boot, if you receive the prompt “Abort Auto Provisioning and continue with normal setup? (yes/no)[n]”, you should respond *yes* to proceed.
-//* The switch boots up with the saved (stored) startup configuration, but if you did not save the configuration before reloading, (the switch will boot up with the default factory settings) or my text, you need to configure the switch.
+//* The switch will lose all configuration settings and return to factory defaults.
 
 .Steps
 . Erase the existing startup configuration:
@@ -59,25 +59,15 @@ NOTE: During the reboot, if you receive the prompt “Abort Auto Provisioning an
 +
 If needed, you can reference the configuration wizard questions and recommended responses in the link:setup-switch-9332d-cluster.html[Complete initial switch setup] procedure.
 
-. Prepare to install the Cisco NX-OS software and reference configuration files (RCFs) on the Cisco 9332D-GX2B switches.
-+
-link:../switch-cisco-9332d-gx2b/install-nxos-overview-9332d-cluster.html[Prepare to install NX-OS and RCF].
+. link:../switch-cisco-9332d-gx2b/install-nxos-overview-9332d-cluster.html[Prepare to install the NX-OS and reference configuration file (RCF)] on the switch.
 
-. Install the NX-OS software on the Cisco 9332D-GX2B switch.
-+
-link:../switch-cisco-9332d-gx2b/install-nxos-software-9332d-cluster.html[Install the NX-OS].
+. link:../switch-cisco-9332d-gx2b/install-nxos-software-9332d-cluster.html[Install the NX-OS] on the switch.
 
-. Install the RCF after setting up the Cisco 9332D-GX2B switch for the first time.
-+
-link:../switch-cisco-9332d-gx2b/install-upgrade-rcf-overview-cluster.html[Install the RCF].
+. link:../switch-cisco-9332d-gx2b/install-upgrade-rcf-overview-cluster.html[Install the RCF] on the switch.
 
-. Verify that SSH and SSH keys are enabled so that you can configure switch health monitoring (CSHM).
-+
-link:../switch-cisco-9332d-gx2b/configure-ssh-keys.html[Verify SSH is enabled].
+. link:../switch-cisco-9332d-gx2b/configure-ssh-keys.html[Verify SSH is enabled] so that you can configure switch health monitoring (CSHM).
 
-. Configure switch health monitoring (CSHM) to ensure the operational health of network switches and collect switch logs for debugging purposes.
-+
-link:../switch-cshm/cshm-overview.html[Configure switch health monitoring].
+. link:../switch-cshm/cshm-overview.html[Configure switch health monitoring (CSHM)] to ensure the operational health of network switches and collect switch logs for debugging purposes.
 
 .What's next?
 
