@@ -9,7 +9,7 @@ summary: 'You can use this procedure to upgrade your RCF version.'
 :imagesdir: ../media/
 
 [.lead]
-You upgrade the RCF version when a version is available that supports new hardware, a new ONTAP version, or new features that you want to use.
+You upgrade the RCF version on your switches when a version is available that supports new hardware, a new ONTAP version, or new features that you want to use.
 
 Note: Apr 25 Lisa: I believe I also need the option tab/some way to talk about the two different version of RCF like in the install RCF topic: If you're using 9223/9364 on 1K system, you use RCF version 10.0 (like today). If using these switches on 2K, you use the new RCF version 10.1.
 
@@ -42,6 +42,9 @@ If you need to change the boot configuration to reflect the current boot images,
 NOTE: No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To ensure non-disruptive cluster operations, the following procedure migrates all of the cluster LIFs to the operational partner switch while performing the steps on the target switch.
 
 CAUTION: Before installing a new switch software version and RCFs, you must erase the switch settings and perform basic configuration. You must be connected to the switch using the serial console or have preserved basic configuration information prior to erasing the switch settings.
+
+.About this task
+You must upgrade the RCF on both of the switches. This procedure has you upgrade the RCF on the first switch (cs1) and then has you repeat the steps for the second switch (cs2).
 
 == Step 1: Prepare for the upgrade
 
@@ -1465,7 +1468,9 @@ RPC status:
 
 .What's next?
 
-After you've upgraded your RCF, you link:configure-ssh-keys.html[verify the SSH configuration].
+After you've upgraded the RCF on your switches, you link:configure-ssh-keys.html[Verify SSH and SSH keys are enabled].
+
+However, if your switches are in an AFX-A2K system, and they have RCF version 10.1, you can link:change-port-speed.html[change the default port speed configuration] if needed, and then link:configure-ssh-keys.html[verify SSH and SSH keys are enabled].
 
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-08
 // AFFFASDOC-394, 2025-OCT-20
