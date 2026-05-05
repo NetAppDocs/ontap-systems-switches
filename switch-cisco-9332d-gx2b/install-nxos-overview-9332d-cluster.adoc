@@ -4,24 +4,22 @@ sidebar: sidebar
 keywords: cisco, nx-os, software, reference, configuration, file, rcf, install, fx2, cluster, switch, install nx-os software and rcfs on cisco nexus 9336-fx2 cluster switches - cisco nexus 9336x-fx2
 summary: The Cisco NX-OS software and reference configuration files (RCFs) must be installed on Cisco Nexus 9332D-GX2B cluster switches.
 ---
-= Prepare to install NX-OS software and RCF - Cisco Nexus 9332D-GX2B
+= Prepare to install NX-OS and RCF - Cisco Nexus 9332D-GX2B
 
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-If you installed new Cisco Nexus 9332D-GX2B switch(es) as part of a new AFX system installation, a switch replacement, or you have an existing switch on which you reset settings to the factory defaults, you must prepare your switch(es) and AFX system before you install the NX-OS and RCF on the switch(es).
+If you are installing new Cisco Nexus 9332D-GX2B switches as part of a new AFX system installation, replacing a faulty switch, or resetting a switch to the factory defaults settings, you must prepare your switch(es) and AFX system before installing NX-OS and Reference Configuration File (RCF) on the switch(es).
 
-//If you are installing a new switch as part of a new AFX system installation, a switch replacement, or you have an existing switch on which you need to reset the settings to factory defaults, you must prepare your switches and AFX system before you install the NX-OS software and RCF on the Cisco Nexus 9332D-GX2B switch(es).
+Preparing your switches and AFX system includes downloading the current version of NX-OS, downloading the supported RCF, suppressing automatic case creation, checking the status of each port, verifying the connectivity of the remote cluster interfaces, and verifying that the auto-revert command is enabled on all cluster LIFs.
 
-Preparing your switches and AFX system includes downloading the current/supported version of software if needed, downloading the RCF releases, suppressing automatic case creation, checking the status of each port, verifying the connectivity of the remote cluster interfaces, and verifying that the auto-revert command is enabled on all cluster LIFs.
-
-//Before you install the NX-OS software and the Reference Configuration File (RCF) on the Cisco Nexus 9332D-GX2B switch(es), you prepare by downloading the current/supported version of software if needed, downloading the RCF releases, suppressing automatic case creation, checking the status of each port, verifying the connectivity of the remote cluster interfaces, and verifying that the auto-revert command is enabled on all cluster LIFs.
+//Before you install the NX-OS and Reference Configuration File (RCF) on Cisco Nexus 9332D-GX2B switches, you prepare by downloading the current version of NX-OS if needed, downloading the supported RCF version, suppressing automatic case creation, checking the status of each port, verifying the connectivity of the remote cluster interfaces, and verifying that the auto-revert command is enabled on all cluster LIFs.
 
 .Before you begin
-* The switches must be powered on and you completed the switch configuration (as needed) by following the procedure in link:setup-switch-9332d-cluster.html[Configure the 9332D-GX2B switch].
+* The switches must be powered on and you must have completed the link:setup-switch-9332d-cluster.html[initial switch setup] procedure.
 
-* You must have access to an HTTP, FTP, or TFTP server. Access to one of these servers allows you to download the NX-OS software (if needed) and Reference Configuration File (RCF) releases as instructed later in this procedure
+* You must have access to an HTTP, FTP, or TFTP server. Access to one of these servers allows you to download the current NX-OS and supportedRCF as instructed later in this procedure.
 
 //* Verify that the version of software on your switch(es) is the current/10.4.2 version.
 //+
@@ -32,6 +30,14 @@ Preparing your switches and AFX system includes downloading the current/supporte
 //Hey,I think I meant for this to be a step along with step to download the RCF. And if only sw 10.4.2 is supported, then how come there's any text anywhere saying to have the current version?
 
 .About this task
+* The type of AFX system your switches are in determines the supported versions of NX-OS and RCF for your switches.
+
+** For switches in an AFX-A1K system, NX-OS 10.4.2 and RCF 10.0 are the only supported versions.
+
+** For switches in an AFX-A2K system, NX-OS 10.4.X and RCF 10.1 are the only supported versions at initial release.
+
+NOTE: Do not upgrade or downgrade your NX-OS or RCF version to an unsupported version.
+
 * This procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 
 * The examples in this procedure use the following switch and node nomenclature:
@@ -43,24 +49,23 @@ Preparing your switches and AFX system includes downloading the current/supporte
 *** node1-03_clus1 and node1-03_clus2 for node1-03
 *** node1-04_clus1 and node1-04_clus2 for node1-04
 ** The `cluster1::*>` prompt indicates the name of the cluster.
+* Understand that NX-OS should always be installed or upgraded before the RCF.
 
 .Steps
 
-.  Verify that the version of software on your switch(es) is the supported 10.4.2 version.
-+
-If it is not, download the NetApp-supported version of the software to the switches from the https://software.cisco.com/download/home[Cisco software download^] page.
+//. Verify the supported versions of NX-OS and RCF for your AFX system.
 //+
-//NOTE: New switches should ship with the 10.4.2 version of the NX-OS software.
+//AFX-A1K systems, at initial release, support NX-OS 10.4.2 and RCF 10.0. 
+//+
+//AFX-A2K systems, at initial release, support NX-OS 10.4.X and RCF 10.1.
+//+
+.  Verify that the version of NX-OS on your switch(es) is the current NetApp-supported version.
 +
-====
-NOTE: 
-
-NX-OS 10.4.2 is the only supported version for Cisco Nexus 9332D-GX2B switches in an AFX system.
-
-Do not upgrade or downgrade your NX-OS version to an unsupported version.
-====
+If it is not, download the correct version of NX-OS to the switches from the https://software.cisco.com/download/home[Cisco software download^] page.
 +
-. Download the applicable NetApp shared network and management network RCFs from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com^]. 
+NOTE: New switches should ship with the current NetApp-supported version of NX-OS.
+
+. Download the RCF supported for your type of AFX system from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com^]. 
 +
 NOTE: New switches do not ship with the RCFs installed. You must install the RCFs on the switches.
 
@@ -517,7 +522,9 @@ Cluster node1-04_clus2     true
 
 .What's next?
 
-After you've prepared to install the NX-OS software and RCF, you link:install-nxos-software-9332d-cluster.html[install or upgrade the NX-OS software].
+After you've prepared to install NX-OS and RCF, you link:install-nxos-software-9332d-cluster.html[install NX-OS] using the Install or upgrade the NX-OS and RCF procedure.
+
+//Understand that NX-OS should always be installed or upgraded before RCF.
 
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-06
 // Refactored content project, GH#423 2026-APR-MAY
