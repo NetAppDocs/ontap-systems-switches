@@ -4,12 +4,12 @@ sidebar: sidebar
 keywords: procedure, install, nx-os, software, nexus, cluster, switch, install the nx-os software - cisco nexus 9332d-gc2b
 summary: You install the NX-OS on the Cisco 9332D-GX2B switches as part of a new AFX system installation, a switch replacement, or a reset to factory default settings.
 ---
-= Install the NX-OS software - Cisco Nexus 9332D-GX2B
+= Install or upgrade NX-OS - Cisco Nexus 9332D-GX2B
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-You install the NX-OS on the Cisco 9332D-GX2B switches as part of a new AFX system installation, a switch replacement, or a reset to factory default settings. 
+You install NX-OS on the Cisco 9332D-GX2B switches as part of a new AFX system installation, a switch replacement, or a reset to factory default settings. 
 
 .Before you begin
 
@@ -19,9 +19,13 @@ You install the NX-OS on the Cisco 9332D-GX2B switches as part of a new AFX syst
 
 .About this task
 
-* For switches in an AFX-A1K system, NX-OS 10.4.2 is the only supported version.
+* The type of AFX system your switches are in determines the supported versions of NX-OS for your switches.
 
-* For switches in an AFX-A2K system, NX-OS 10.4.X is the only supported version.
+** For switches in an AFX-A1K system, NX-OS 10.4.2 is the only supported version.
+
+** For switches in an AFX-A2K system, NX-OS 10.4.X is the only supported version at initial release.
+
+NOTE: Do not upgrade or downgrade your NX-OS version to an unsupported version.
 
 * The procedure requires the use of ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 
@@ -441,13 +445,13 @@ shelf id connector-state remote-port    remote-device
 network interface modify -vserver Cluster -lif * -auto-revert false
 ----
 
-== Step 3: Install the NX-OS
+== Step 3: Install NX-OS
 
-You install the NX-OS on one of the switches and then you repeat these steps to install NX-OS on the second switch.
+You install NX-OS on one of the switches (cs1) and then you repeat these steps to install NX-OS on the second switch (cs2).
 
 //include::../_include/g_dimm_replace.adoc[]
 
-. Copy the NX-OS software and EPLD images to the Nexus 9332D-GX2B switch.
+. Copy NX-OS and EPLD images to a switch.
 +
 .Show example
 [%collapsible]
@@ -489,7 +493,7 @@ Copy complete.
 ----
 ====
 
-. Verify the running version of the NX-OS software:
+. Verify the running version of NX-OS:
 +
 `show version`
 +
@@ -562,6 +566,7 @@ cs2#
 +
 Installing the image file causes it to be loaded every time the switch is rebooted.
 +
+The switch reboots after the NX-OS image is installed?
 .Show example
 [%collapsible]
 ====
@@ -630,7 +635,7 @@ Finishing the upgrade, switch will reboot in 10 seconds.
 ----
 ====
 
-. Verify the new version of NX-OS software after the switch has rebooted: 
+. Verify the new version of NX-OS after the switch has rebooted: 
 +
 `show version`
 +
@@ -753,7 +758,7 @@ Module 1 EPLD upgrade is successful.
 ----
 ====
 
-. After the switch reboot, log in again and verify that the new version of EPLD loaded successfully.
+. After the switch reboot, log in and verify that the new version of EPLD loaded successfully.
 +
 
 .Show example
@@ -1112,7 +1117,7 @@ node1-04             true    true          true
 ----
 ====
 
-. Repeat these steps to install the NX-OS software and EPLD images on switch cs1.
+. Repeat these steps to install NX-OS and EPLD images on switch cs2.
 //An EPLD (Electronic Programmable Logic Device) on a Cisco Nexus 9000 switch is a type of firmware (often FPGA or CPLD) that controls hardware functionality, such as power management and interface mapping, on modules or the supervisor. It enables upgrading hardware features via software without physical hardware replacement. Upgrading the EPLD can provide bug fixes, performance improvements, and new features to the switch's hardware components.
 
 
@@ -1123,7 +1128,7 @@ Complete the NX-OS installation on both switches by verifying that the cluster L
 //include::../_include/g_dimm_replace.adoc[]
 
 
-. Enable auto-revert on the cluster LIFs.
+. Re-enable auto-revert on the cluster LIFs.
 +
 `network interface modify -vserver Cluster -lif * -auto-revert true`
 
@@ -1161,9 +1166,10 @@ If any cluster LIFs have not returned to their home ports, revert them manually 
 +
 `network interface revert -vserver Cluster -lif <lif-name>`
 
+
 .What's next?
 
-After you've installed NX-OS on your switches, you link:install-upgrade-rcf-overview-cluster.html[install or upgrade the Reference Configuration File (RCF)].
+After you've installed NX-OS on your switches, you install RCF starting with the link:install-upgrade-rcf-overview-cluster.html[Install or upgrade the RCF overview].
 
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-06
 // AFFFASDOC-394, 2025-OCT-20
