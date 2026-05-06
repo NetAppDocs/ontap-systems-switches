@@ -11,10 +11,6 @@ summary: 'You can install the RCF after setting up the Nexus 9332D-GX2B switch f
 [.lead]
 You install the RCF on new Cisco Nexus 9332D-GX2B switch(es) as part of a new AFX system installation and setup, replacing a failed switch, or resetting a switch to factory defaults.
 
-Lisa: This topic needs to address all 3 use cases, but it's only written for a new switch install part of a new AFX system (as explicit in step 12). Needs to address replace and reset...but only replace would also need recabling.
-
-Note: Apr 25 Lisa: Since 9332 and 9364 can be used on 1K and 2K and since each platform needs a different RCF version on the switches, you might need a tabbed option to specify that if the switch is being installed/use in a 1K system, then use XXX RCF version. And if the switch is being installed/used in a 2K system, then use XXX RCF version. (the content you use for the 2K system you also need to use in the 9808 install RCF topic...or just update 9332/9364 topic and copy for 9808 and remove the 1K content. Also, would RCF upgrade topic be affected?
-
 NOTE: Apr 24 Lisa, because of the KB to change port personality from breakout to 400g when installing RCF or upgrading it (in that larger use case I guess install is for new 2k system and upgrade is ???) I might need to bring RCF install or upgrade back together instead of separate topics and in separate sections of the sidebar. 
 
 .Before you begin
@@ -22,11 +18,23 @@ NOTE: Apr 24 Lisa, because of the KB to change port personality from breakout to
 * The following must be completed for each switch:
 ** Each switch must be cabled to the system and each other (by ISL connections), and powered on using the link:install-hardware.html[Install Hardware] procedure. 
 ** The initial switch setup must be completed using the link:setup-switch-9332d-cluster.html[Setup Switches] procedure. 
-** The desired NX-OS version is installed using the link:install-nxos-software-9332d-cluster.html[Install NX-OS] procedure.
+** The desired NX-OS version must be installed using the link:install-nxos-software-9332d-cluster.html[Install NX-OS] procedure.
+** You must have completed the link:install-nxos-overview-9332d-cluster.html[prepare to install NX-OS and RCF] procedure.
+//** The RCF file must be obtained from NetApp. For more information, see the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page. Hey: this is being handled in the prepare to install nxos and rcf topic...
 * Each switch must be connected to a console or you must have remote access to each switch.
 
 .About this task
-If you have installed two switches as part of a new system installation, you install the RCF on one switch at a time. This procedure has you install the RCF on the first switch (cs1) and then has you repeat the steps for the second switch (cs2).
+* The type of AFX system your switches are in determines the supported versions of RCF for your switches.
+
+** For switches in an AFX A1K system, running any supported version of ONTAP, RCF 10.0 is the only supported version.
+
+** For switches in an AFX A2K system, running ONTAP 9.19.1GA or later, RCF 10.1 is the only supported version at the initial release of ONTAP 9.19.1GA.
++
+For the current list of supported RCF versions, see the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page.
+
+NOTE: Do not upgrade or downgrade your RCF version to an unsupported version.
+
+* If you have installed switches as part of a new AFX system installation, you install the RCF on one switch at a time. This procedure has you install the RCF on the first switch (cs1) and then has you repeat the steps for the second switch (cs2).
  
 
 == Step 1: Install the RCF on the switches

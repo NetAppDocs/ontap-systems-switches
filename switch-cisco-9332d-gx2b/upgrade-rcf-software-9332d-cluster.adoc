@@ -2,22 +2,20 @@
 permalink: switch-cisco-9332d-gx2b/upgrade-rcf-software-9332d-cluster.html
 sidebar: sidebar
 keywords: install rcf, cisco switches
-summary: 'You can use this procedure to upgrade your RCF version.'
+summary: You upgrade the Reference Configuration File (RCF) version on your Cisco Nexus 9332D-GX2B switches to support new hardware, a new ONTAP version, or to align with a new NX-OS version in your AFX A1K or AFX A2K system configuration.
 ---
 = Upgrade the RCF version - Cisco Nexus 9332D-GX2B
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-You upgrade the RCF version on your switches when a version is available that supports new hardware, a new ONTAP version, or new features that you want to use.
+You upgrade the Reference Configuration File (RCF) version on your Cisco Nexus 9332D-GX2B switches to support new hardware, a new ONTAP version, or to align with a new NX-OS version in your AFX A1K or AFX A2K system configuration.
 
-Note: Apr 25 Lisa: I believe I also need the option tab/some way to talk about the two different version of RCF like in the install RCF topic: If you're using 9223/9364 on 1K system, you use RCF version 10.0 (like today). If using these switches on 2K, you use the new RCF version 10.1.
-
-NO!!! 1K with 10.0 was the only version! There was nothing to upgrade to. That was one of my questions I wanted to ask - how come you have an RCF upgrade topic  but there's no other version of RCF??? Was it the same for the NX-OS - just one version?
+//You upgrade the Reference Configuration File (RCF) version on your Cisco Nexus 9332D-GX2B switches when a version is available that supports new hardware, a new ONTAP version, or new features that you want to use in your AFX system.
 
 //Use cases for upgrading RCF: 
 
-//Upgrading the Reference Configuration File (RCF) on NetApp Cisco switches ensures compatibility when introducing new hardware (e.g., AFF A320/A250), upgrading to a new ONTAP version that requires a different RCF, or enabling enhanced features like new breakout ports. It is primarily done to maintain cluster stability and support updated switch hardware configurations. 
+//Upgrading the Reference Configuration File (RCF) on NetApp Cisco switches ensures compatibility when introducing new hardware, upgrading to a new ONTAP version that requires a different RCF, or enabling enhanced features like new breakout ports. It is primarily done to maintain cluster stability and support updated switch hardware configurations. 
 
 //Key Reasons to Upgrade RCF Version:
 
@@ -39,12 +37,23 @@ Make sure you have the following:
 +
 If you need to change the boot configuration to reflect the current boot images, you must do so before reapplying the RCF so that the correct version is instantiated on future reboots.
 
-NOTE: No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To ensure non-disruptive cluster operations, the following procedure migrates all of the cluster LIFs to the operational partner switch while performing the steps on the target switch.
-
 CAUTION: Before installing a new switch software version and RCFs, you must erase the switch settings and perform basic configuration. You must be connected to the switch using the serial console or have preserved basic configuration information prior to erasing the switch settings.
 
 .About this task
-You must upgrade the RCF on both of the switches. This procedure has you upgrade the RCF on the first switch (cs1) and then has you repeat the steps for the second switch (cs2).
+* The type of AFX system your switches are in determines the supported versions of RCF for your switches.
+
+** For switches in an AFX A1K system, running any supported version of ONTAP, RCF 10.0 is the only supported version.
+
+** For switches in an AFX A2K system, running ONTAP 9.19.1GA or later, RCF 10.1 is the only supported version at the initial release of ONTAP 9.19.1GA.
++
+For the current list of supported RCF versions, see the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page.
+
+NOTE: Do not upgrade or downgrade your RCF version to an unsupported version.
+
+* Upgrading the RCF on both of the switches is a nondisruptive procedure. 
+** No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To ensure non-disruptive cluster operations, this procedure has you migrate all of the cluster LIFs to the operational partner switch while performing the steps on the target switch.
+
+** This procedure has you upgrade the RCF on the first switch (cs1) and then has you repeat the steps for the second switch (cs2).
 
 == Step 1: Prepare for the upgrade
 
@@ -1468,9 +1477,9 @@ RPC status:
 
 .What's next?
 
-After you've upgraded the RCF on your switches, you link:configure-ssh-keys.html[Verify SSH and SSH keys are enabled].
+After you've upgraded the RCF on your switches, you link:configure-ssh-keys.html[verify SSH and SSH keys are enabled].
 
-However, if your switches are running RCF 10.1 (only supported in an AFX-A2K system), you can link:change-port-speed.html[change the default port speed configuration] if needed, and then you link:configure-ssh-keys.html[verify SSH and SSH keys are enabled].
+However, if your switches are running RCF 10.1 (only supported in an AFX A2K system), you can link:change-port-speed.html[change the default port speed configuration] if needed, and then you link:configure-ssh-keys.html[verify SSH and SSH keys are enabled].
 
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-08
 // AFFFASDOC-394, 2025-OCT-20
