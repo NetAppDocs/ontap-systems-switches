@@ -28,16 +28,23 @@ You upgrade the Reference Configuration File (RCF) version on your Cisco Nexus 9
 // *Switch Migration/Expansion: Migrating from older switches (like the CN1610) to new ones or changing from a 2-node to a larger switch-based cluster.
 
 .Before you begin
-Make sure you have the following:
 
-* A current backup of the switch configuration.
-* A fully functioning cluster (no errors in the logs or similar issues).
-* The current RCF.
+* You must be connected to the switches using the serial console or have preserved basic configuration information. This is because the RCF upgrade procedure requires you to erase the switch settings and perform basic configuration. 
+
+* Save a copy of the current switch configuration.
+//see step 2: step 4 and 5: save a copy of the current switch configuration. But isn't the bullet above saying this too?
+
+* You must have a fully functioning AXF system (no errors in the logs or similar issues).
+
+* You must have the current RCF.
+//You mean should have downloaded a copy of the current RCF version from the NetApp support site before starting the upgrade? 
+
 * If you are updating your RCF version, you need a boot configuration in the RCF that reflects the desired boot images. 
+//What's this mean? That first bit is not needed since THIS IS the upgrade RCF topic.
 +
 If you need to change the boot configuration to reflect the current boot images, you must do so before reapplying the RCF so that the correct version is instantiated on future reboots.
+//What's this mean?
 
-CAUTION: Before installing a new switch software version and RCFs, you must erase the switch settings and perform basic configuration. You must be connected to the switch using the serial console or have preserved basic configuration information prior to erasing the switch settings.
 
 .About this task
 * The type of AFX system your switches are in determines the supported versions of RCF for your switches.
