@@ -21,11 +21,13 @@ You install NX-OS on the Cisco 9332D-GX2B switches as part of a new AFX system i
 
 * The type of AFX system your switches are in determines the supported versions of NX-OS for your switches.
 
-** For switches in an AFX-A1K system, NX-OS 10.4.2 is the only supported version.
+** For switches in an AFX A1K system, NX-OS 10.4.2 is the only supported version.
 
-** For switches in an AFX-A2K system, NX-OS 10.4.X is the only supported version at initial release.
+** For switches in an AFX A2K system, NX-OS 10.4.X is the only supported version at initial release.
 
 NOTE: Do not upgrade or downgrade your NX-OS version to an unsupported version.
+
+* NX-OS installation or upgrade is independent of RCF installation or upgrade. However, if you are installing or upgrading both the NX-OS and RCF, it is recommended to install or upgrade the NX-OS first, then the RCF. This is because the RCF version is often tied to a specific NX-OS version, and installing or upgrading the NX-OS first ensures that you have the correct environment for the RCF installation or upgrade.
 
 * The procedure requires the use of ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 

@@ -2,45 +2,46 @@
 permalink: switch-cisco-9332d-gx2b/install-upgrade-rcf-overview-cluster.html
 sidebar: sidebar
 keywords: ssh, requirement, cluster, switch, health, monitor, cshm, log, collection, feature, cisco 9332d-gx2b
-summary: 'You can install the RCF after setting up the Nexus 9332D-GX2B switch for the first time. You can also use this procedure to upgrade your RCF version.'
+summary: You can install or upgrade the reference configuration file (RCF) on your Nexus 9332D-GX2B switches depending on the available supported RCF versions for the switches in your AFX A1K or AFX A2K system.
 ---
 = Install or upgrade the RCF overview - Cisco Nexus 9332D-GX2B
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-You can install or upgrade the reference configuration file (RCF) on your Nexus 9332D-GX2B switches depending on the needs of the switches and your AFX A1K or AFX A2K system.
+You can install or upgrade the reference configuration file (RCF) on your Nexus 9332D-GX2B switches depending on the available supported RCF versions for the switches in your AFX A1K or AFX A2K system.
 
-two use cases: 
-* 1K  uses RCF 10.0 with only 100GbE ports
-* 2K and uses RCF 10.1 with both 100GbE and 400GbE ports. They are pre-set BUT you can change if needed (see the change topic).
+You install a supported version of RCF on the switches as part of a new AFX A1K or AFX A2K system installation, a switch replacement, or a reset to factory default settings.
 
-You install the RCF on the switches as part of a new AFX A1K or AFX A2K system installation, a switch replacement, or a reset to factory default settings. 
+You upgrade to a supported version of RCF on the switches to support new hardware, a new ONTAP version, or to align with a new NX-OS version in your AFX A1K or AFX A2K system configuration.
 
-You upgrade the RCF on the switches to support new features or changes in the network environment. (Are users actually upgrading 10.0 to 10.1 at initial RTS? NO! But later they will.)
+//You upgrade to a supported version of RCF on the switches to support new features or changes in your AFX A1K or AFX A2K system network environment. 
 
-You can upgrade the RCF on the switches to support a different RCF configuration if your AFX system supports it. For example, if you have an AFX A1K system, RCF 10.0 is the only supported version, which only supports breakout mode (4x100GbE). If you have an AFX A2K system, RCF 10.1 is the only supported version, which supports both breakout mode (4x100GbE) and 400GbE mode. 
+Hey: Are users actually upgrading 10.0 to 10.1 at initial RTS? NO! But later, if A1K migration and mixed configs are supported, they will need to upgrade from 10.0 to 10.1 to connect to A2K.
 
-AFX A1K systems support RCF 10.0, AFX A2K systems support RCF 10.1.
+Hey: Two use cases at initial release: 
+* 1K uses RCF 10.0. Ports 1-30 are pre-set and only support breakout mode (4x100GbE). Ports 31 and 32 are ISL ports.
+* 2K uses RCF 10.1. Ports 1-14 are pre-set breakout mode (4x100GbE). Ports 15-30 are pre-set 400GbE ports. Ports 31 and 32 are ISL ports. However, you can change the port configuration(mix of breakout and non-breakout) if needed.See the change port speed topic.
 
-Lisa: You can't have any EMR content in here when your hotfix branch is published because it will be before EMR content goes live Jul. Maybe make a 2nd file with "EMR" so you can swap them out in folder and sidebar.yml for EMR July RTS? 
+Lisa: You can't have any EMR content in here when your hotfix branch is published because it will be before EMR content goes live Jul. Maybe make a 2nd file with "EMR" so you can swap them out in folder and sidebar.yml for EMR July RTS? May 5: NOPE. Having J approve merge of my hotfix into new dev-switch-emr, so that- hopefully by May 12 - I can do a PR to have her pull my completed 9332 refactor with EMR content into dev-switch-emr, and then Y and I can pull our branches to do rest of EMR work.
 
-RCF installation or upgrade is independent of NS-OS installation or upgrade.
+Hey: you need to make another version of this topic specific to 9364. Today they are exactly the same content - double check that - but just have diff file names and lead stated the specific switch model. Really should make include file for this topic content? 
 
-//You upgrade the RCF on the switches to support new features or changes in the network environment.
-
-//You upgrade the RCF on the switches to support new hardware, a new ONTAP version, or to align with a new NX-OS version.
-
-//Lisa: you need to make another version of this topic specific to 9364. Today they are exactly the same content - double check that - but just have diff file names and lead stated the specific switch model. Really should make include file for this topic content. 
 
 .About
 * The type of AFX system your switches are in determines the supported versions of RCF for your switches.
 
-** For switches in an AFX-A1K system, RCF 10.0 is the only supported version.
+** For switches in an AFX A1K system, RCF 10.0 is the only supported version.
 
-** For switches in an AFX-A2K system, RCF 10.1 is the only supported version at initial release.
+** For switches in an AFX A2K system, RCF 10.1 is the only supported version at initial release.
++
+For the current list of supported RCF versions, see the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page.
 
 NOTE: Do not upgrade or downgrade your RCF version to an unsupported version.
+
+
+* RCF installation or upgrade is independent of NS-OS installation or upgrade. However, if you are installing or upgrading both the NX-OS and RCF, it is recommended to install or upgrade the NX-OS first, then the RCF. This is because the RCF version is often tied to a specific NX-OS version, and installing or upgrading the NX-OS first ensures that you have the correct environment for the RCF installation or upgrade.
+
 
 .Available RCF configurations
 
