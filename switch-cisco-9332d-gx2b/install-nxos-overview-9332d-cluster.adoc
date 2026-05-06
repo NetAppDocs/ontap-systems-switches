@@ -19,7 +19,7 @@ Preparing your switches and AFX system includes downloading the current version 
 .Before you begin
 * The switches must be powered on and you must have completed the link:setup-switch-9332d-cluster.html[initial switch setup] procedure.
 
-* You must have access to an HTTP, FTP, or TFTP server. Access to one of these servers allows you to download the current NX-OS and supportedRCF as instructed later in this procedure.
+* You must have access to an HTTP, FTP, or TFTP server. Access to one of these servers allows you to download the supported NX-OS and RCF as instructed later in this procedure.
 
 //* Verify that the version of software on your switch(es) is the current/10.4.2 version.
 //+
@@ -32,9 +32,11 @@ Preparing your switches and AFX system includes downloading the current version 
 .About this task
 * The type of AFX system your switches are in determines the supported versions of NX-OS and RCF for your switches.
 
-** For switches in an AFX-A1K system, NX-OS 10.4.2 and RCF 10.0 are the only supported versions.
+** For switches in an AFX A1K system, running any supported version of ONTAP, NX-OS 10.4.2 and RCF 10.0 are the only supported versions.
 
-** For switches in an AFX-A2K system, NX-OS 10.4.X and RCF 10.1 are the only supported versions at initial release.
+** For switches in an AFX A2K system, running ONTAP 9.19.1GA or later, NX-OS 10.6 and RCF 10.1 are the only supported versions at the initial release of ONTAP 9.19.1GA.
++
+For the current list of supported NX-OS versions, see the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page.
 
 NOTE: Do not upgrade or downgrade your NX-OS or RCF version to an unsupported version.
 
@@ -49,7 +51,7 @@ NOTE: Do not upgrade or downgrade your NX-OS or RCF version to an unsupported ve
 *** node1-03_clus1 and node1-03_clus2 for node1-03
 *** node1-04_clus1 and node1-04_clus2 for node1-04
 ** The `cluster1::*>` prompt indicates the name of the cluster.
-* Understand that NX-OS should always be installed or upgraded before the RCF.
+* NX-OS installation or upgrade is independent of RCF installation or upgrade. However, if you are installing or upgrading both the NX-OS and RCF, it is recommended to install or upgrade the NX-OS first, then the RCF. This is because the RCF version is often tied to a specific NX-OS version, and installing or upgrading the NX-OS first ensures that you have the correct environment for the RCF installation or upgrade.
 
 .Steps
 

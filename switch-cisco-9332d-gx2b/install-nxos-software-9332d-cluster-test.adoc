@@ -21,9 +21,9 @@ You install NX-OS on the Cisco 9332D-GX2B switches as part of a new AFX system i
 
 * The type of AFX system your switches are in determines the supported versions of NX-OS for your switches.
 
-** For switches in an AFX A1K system, NX-OS 10.4.2 is the only supported version.
+** For switches in an AFX A1K system, running any supported version of ONTAP, NX-OS 10.4.2 is the only supported version.
 
-** For switches in an AFX A2K system, NX-OS 10.6 is the only supported version at initial release.
+** For switches in an AFX A2K system, running ONTAP 9.19.1GA or later, NX-OS 10.6 is the only supported version at the initial release of ONTAP 9.19.1GA.
 +
 For the current list of supported NX-OS versions, see the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page.
 
@@ -39,19 +39,9 @@ NOTE: Do not upgrade or downgrade your NX-OS version to an unsupported version.
 ** The node names are node1-01, node1-02, node1-03, and node1-04.
 ** The cluster LIF names are node1-01_clus1, node1-01_clus2, node1-02_clus1, node1-02_clus2, node1-03_clus1, node1-03_clus2, node1-04_clus1, and node1-04_clus2.
 ** The `cluster1::*>` prompt indicates the name of the cluster.
-
-== Step 1: Review suggested documentation
-
-Consult the switch compatibility table for the supported ONTAP and NX-OS versions. 
-
-(But if only 10.4.2 is supported, why am I shopping for an NX-OS version? And would this section really be "Verify version you need". And then is such a section needed at all?)
-
-link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet switch page^] 
-
-//include::../_include/cisco-nxos-install-suggested-documents.adoc[]
  
 
-== Step 2: Prepare to install the NX-OS
+== Step 1: Prepare to install the NX-OS
 
 Prepare to install the NX-OS. 
 
@@ -449,7 +439,7 @@ shelf id connector-state remote-port    remote-device
 network interface modify -vserver Cluster -lif * -auto-revert false
 ----
 
-== Step 3: Install NX-OS
+== Step 2: Install NX-OS
 
 You install NX-OS on one of the switches (cs1) and then you repeat these steps to install NX-OS on the second switch (cs2).
 
@@ -571,6 +561,7 @@ cs2#
 Installing the image file causes it to be loaded every time the switch is rebooted.
 +
 The switch reboots after the NX-OS image is installed?
++
 .Show example
 [%collapsible]
 ====
@@ -1125,7 +1116,7 @@ node1-04             true    true          true
 //An EPLD (Electronic Programmable Logic Device) on a Cisco Nexus 9000 switch is a type of firmware (often FPGA or CPLD) that controls hardware functionality, such as power management and interface mapping, on modules or the supervisor. It enables upgrading hardware features via software without physical hardware replacement. Upgrading the EPLD can provide bug fixes, performance improvements, and new features to the switch's hardware components.
 
 
-== Step 4: Complete the NX-OS installation
+== Step 3: Complete the NX-OS installation
 
 Complete the NX-OS installation on both switches by verifying that the cluster LIFs have reverted to their home ports and then enable auto-revert on the cluster LIFs.
 
