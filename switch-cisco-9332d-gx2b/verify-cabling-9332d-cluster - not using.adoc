@@ -11,6 +11,8 @@ summary: 'You can install the RCF after setting up the Nexus 9332D-GX2B switch f
 [.lead]
 After you completed installing, cabling, and powering on your switches as part of your new AFX system installation, you need to verify the switch connections.
 
+Hey: This can only happen after the AFX nodes are powered on (and shelves I suspect) so this topic has to go AFTER Complete AFX system setup OR add these steps to that topic. I think it makes more sense to add these steps to the Complete AFX system setup topic since this is really part of the final verification before you can call the system ready for use.
+
 //Lisa: This content was Step 2: of the Install RCF topic. Does it only apply to new installs since cabling is completely new...and for a switch replacement you'll have labeled the cables and recabled to same switch ports. Do we need to check cabling in this case? I assume no. But if yes, then need to move this topic after Complete initial switch setup in the sidebar.
 
 //This would be the lead if topic applies to both use cases: After you completed installing, cabling, and powering on your switch(es) as part of a new system installation or switch replacement, you need to verify the switch connections.
@@ -18,13 +20,15 @@ After you completed installing, cabling, and powering on your switches as part o
 .Before you begin
 
 * The following must be completed for each switch:
-** Each switch must be cabled to the system and each other (by ISL connections), and powered on using the link:install-hardware.html[Install Hardware] procedure. 
+** Each switch must be cabled to the AFX system and each other (by ISL connections), and powered on using the link:install-hardware.html[Install Hardware] procedure. 
 ** The initial switch setup must be completed using the link:setup-switch-9332d-cluster.html[Setup Switches] procedure. 
 //** The desired NX-OS version is installed using the link:install-nxos-software-9332d-cluster.html[Install NX-OS] procedure.
 * Each switch must be connected to a console or you must have remote access to each switch.
 
 .About this task
-Do these steps for verifying the switch connections need to be in the https://docs.netapp.com/us-en/ontap-afx/install-setup/power-on-configure-switch.html[AFX doc: Power on and configure switches^] after step 3 or step 4?
+The examples shown in this procedure are for AFX A1K systems with switches running NX-OS 10.4.2 and RCF 10.0. If you have an AFX A2K system, the output will vary.
+
+Hey: Do these steps for verifying the switch connections need to be in the https://docs.netapp.com/us-en/ontap-afx/install-setup/power-on-configure-switch.html[AFX doc: Power on and configure switches^] after step 3 or step 4?
 
 .Steps
 
