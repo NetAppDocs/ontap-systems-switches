@@ -9,80 +9,71 @@ summary: For Cisco Nexus 9332D-GX2B switches running RCF version 10.1 in an AFX 
 :imagesdir: ../media/
 
 [.lead]
-Lisa:  topic only supports EMR/release of RCF 10.1; therefore, complete this topic for 9332 and for 9364 (in that folder) and and HIDE them until the EMR release. At that time will also need to add the topic to the sidebar.yml files...but where?
+For Cisco Nexus 9332D-GX2B switches running RCF version 10.1 in an AFX A2K system, you can change the number of switch ports in breakout mode (4x100GbE) and 400GbE mode when you need to accommodate a different port speed configuration for your AFX A2K system.
 
-For Cisco Nexus 9332D-GX2B switches running RCF version 10.1 in an AFX A2K system, you can change the number of switch ports in breakout mode (4x100GbE) and 400GbE mode when you need to accommodate a different port speed configuration for your system. (Is this only if changing number of shelves and/or nodes?)
+To change the RCF 10.1 port speed configuration, you save a backup of the current switch configuration, change your port configuration, apply the modified RCF 10.1 copy to the switches and verify the configuration.
 
-NOTE Lisa: per APr 23 mtg with S & A: A suggested a new topic to move the following KB content into for changing port speed. It has to do with updating the RCF too.
-
-Note: Lisa per A, changing port speeds can only happen after installing RCF or updating RCF. So this topic needs to address both the install and upgrade use cases.
-
-The use case is using the older AFX switches with 2K so can change port speeds from breakout to 400g. However, the KB says it only applies to 9336 (not 9364):
+//The use case is using the older AFX switches with 2K so can change port speeds from breakout to 400g. However, the KB says it only applies to 9336 (not 9364). That's because 9336 had breakout and non that could be changed, so just reuse it:
 https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_modify_RCF_1.X_Breakout_on_Cisco_9336C-FX2_cluster_switch_for_specific_customer_needs[How to modify RCF 1.X Breakout on Cisco 9336C-FX2 cluster switch for specific customer needs^]
-
-NOTE: Lisa, because of the KB to change port speed from breakout to 400g when installing RCF or upgrading it to 10.1 (in that larger use case I guess install is for new 2k system and upgrade is ???) I might need to bring RCF install or upgrade back together instead of separate topics and in separate sections of the sidebar.
 
 .Before you begin
 
-* You should have read the link:install-upgrade-rcf-overview-cluster.html[install or upgrade RCF overview] document.
-
-Hey, do I need this here...because I am putting a link to the Change ports topic in the Install prepare topic in the port grouping tables section.
-
 * You must have an AFX A2K system running ONTAP 9.19.1GA or later.
 
-* Your switches must be running NX-OS xx.x or later. If you are running an older version of NX-OS, you must upgrade to the required version using the link:upgrade-nxos-software-9332d-cluster-test.html[upgrade NX-OS] procedure (or should point to the overview topic).
+* Your switches must be running NX-OS 10.6 or later. If you are running an older version of NX-OS, you must upgrade to the required version using the link:upgrade-nxos-software-9332d-cluster-test.html[upgrade NX-OS] procedure (or should point to the overview topic).
 
-* Your switches must be running RCF version 10.1. If you are running RCF version 10.0, you must upgrade to RCF version 10.1 using the link:upgrade-rcf-software-9332d-cluster.html[upgrade the RCF] procedure. (or should point to the overview topic)
+* Your switches must be running RCF version 10.1 or later. If you are running RCF version 10.0, you must upgrade to RCF version 10.1 using the link:upgrade-rcf-software-9332d-cluster.html[upgrade the RCF] procedure. (or should point to the overview topic)
 +
 The version of RCF you have on your switches determines the port speed options available to you. For example, if you have RCF version 10.0, the ports are preset for breakout mode (4x100GbE) and cannot be changed. If you have RCF version 10.1, you can change the number of preset ports that are in breakout mode (4x100GbE) and 400GbE mode.
-+
-Although you can change the port speed configuration before or after you install the RCF on the switches, this procedure assumes that you already installed RCF 10.1 on your switches.
+//per AnD, changing port speeds can only happen after installing RCF or updating RCF. So this topic needs to address both the install and upgrade use cases.
 
-* Determine the port speed configuration you need for your AFX A2K system.
+* Determine the port speed configuration you need for your AFX A2K system connectivity. RCF 10.1 has the following preset port speed configuration:
 +
-RCF 10.1 has the following preset port speed configuration:
-+
-(Lisa this is for 9332. For your topic version of 9364, you need to pull that from the EMR teams chat from Sunil.)
-+
-** Ports    1-14: 100GbE Intra-Cluster/HA/Storage Ports
-** Ports   15-30: 400GbE Intra-Cluster/HA/Storage Ports
-** Ports   31-32: Intra-Cluster ISL Ports
-+
-* Save your changes by copying the running configuration to the startup configuration. 
+[options="header" cols="1,2"]
+|===
+| Switch port groups | Port speeds and usage
+a|
+Ethernet1/1/1-4 to Ethernet1/14/1-4
+a|
+4x100GbE mode for Intra-cluster, HA, and storage connections 
+a|
+Ethernet1/15 to Ethernet1/30
+a|
+400GbE mode for Intra-cluster, HA, and storage connections 
+a|
+Ethernet1/31, Ethernet1/32
+a|
+400GbE Intra-cluster ISL connections
+a|
+|===
 
-* Save a backup of the current switch configuration. This is highly recommended in case you need to revert to the previous configuration.
-+
-You can use the copy running-config startup-config command to save the running configuration to the startup configuration, and then use a secure copy method to back up the configuration file to a safe location.
 
 .About this task
-
-* (I think it makes more sense in Before you begin as I have it) You can change the port speed configuration before or after you install the RCF on the switches. 
-+
-This procedure assumes that you already installed RCF 10.1 on your switches and are now changing the port speed configuration.
-
+Is this procedure being done on one switch at a time - do the procedure then repeat?
 
 .Steps
-Google had these steps, which I think mimic the KB. If these steps are correct, it's a great structure for sequence. How's this tie into install sequence for new systems? New system install is one use case, but you can add more storage or nodes to your system and that will affect switch port usage...probably later when can upgrade from 1k to 2k or mix both...best keep the lead generic and position the topic outside of install and setup for new systems...but needs to be in the workflow for new system install!
+Google had these steps, which I think mimic the KB. If these steps are correct, it's a great structure for sequence. 
 
 Steps for Modifying RCFs:
 
-. Backup the current switch configuration. (here or keep in Before you begin?)
-. Download the appropriate RCF file for your specific switch model.
+. Save a backup of the current switch configuration. This is highly recommended in case you need to revert to the previous configuration.
 +
-NOTE: Lisa: If modifying the RCF has to happen after you already have the current RCF on the switches, that means (as part of a new install) that you came back to the switch repo from the AFX repo , meaning that your switch is cabled and powered on. Now you are going through the switch setup: complete initial setup, install NX-OS, install RCF, but now you can modify RCF...before verify SSH, config CSHM, and complete AFX system setup. I think that's the correct sequence.
+You can use the `copy running-config startup-config` command to save the running configuration to the startup configuration, and then use a secure copy method to back up the configuration file to a safe location.
+(here or keep in Before you begin? I think here is better.)
 +
 . Modify the RCF file to meet your specific port speed needs, following NetApp KB guidelines.
+
 . Transfer the modified RCF to the switch.
-.. Huh, this doesn't make sense based on step 2 (dnld).
+
 . Apply the new RCF using the copy <rcf_file> running-config command.
-.. Huh, this doesn't make sense based on step 2 (dnld).
+
 . Verify the configuration, specifically checking port-channel summaries and VLANs.
 
 
 
 .What's next?
 
-After you've changed the port personalities, you update the RCF (to 10.1 to support 400GbE. (Or did that happen as part of this change personality procedure already. See what the KB says to do), you link:configure-ssh-keys.html[verify the SSH configuration].
+After you've changed the RCF 10.1 port speed configuration, and if this procedure was done as part of a new AFX A2K system installation and setup, you link:configure-ssh-keys.html[verify the SSH configuration]. Otherwise, if you were changing the port speed configuration for an existing AFX A2K system, you are done; no additional action is needed.
 
 // New topic for 2k project, AFFFASDOC-xxx, 2026-JULY-xx
 // Refactored content project, GH#423 2026-APR-MAY
