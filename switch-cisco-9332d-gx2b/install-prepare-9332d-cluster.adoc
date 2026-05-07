@@ -43,18 +43,13 @@ Provides NetApp hardware configuration and compatibility information.
 * link:https://kb.netapp.com/Support/General_Support/What_additional_information_do_I_need_to_install_my_equipment_that_is_not_in_HWU[What additional information do I need to install my equipment that is not in HWU?^]
 Provides more information about storage system installation requirements.
 
-=== Step 3: Understand the switch port configuration
-Understand the configuration of switch ports (breakout ports and non-breakout ports) so that you can determine connectivity for your AFX system.
+=== Step 3: Understand the preset switch port configuration
+Understand the preset configuration of switch ports for your AFX system based on the supported RCF versions so that you can determine switch port connectivity for your AFX system.
 
-//For ELMR (need to add ELMR):
-//ELMR: Understand the preset configuration of switch port speeds (breakout ports 100GbE and non-breakout ports) so that you can determine if you need to change the port speed mix to accommodate a different port speed configuration for your ELMR system.
-
-The following table shows the preset groupings of the switch's ports, their port speeds, and usage based on RCF version 10.0. (This is the only supported version of RCF.)
-
-//ELMR: The following table shows the preset groupings of the switch's ports, their port speeds, and usage based on RCF version 10.1, which is only supported on switches in ELMR systems. (need to add a new table). Note, you can change the mix of breakout and non-breakout ports when your system configuration requires it. You can do this as part of your switch setup later in the installation and setup process (after installing RCF).
-
-//Use for note text instead?: Note, You can change the number of switch ports in breakout mode (4x100GbE) and 400GbE mode when you need to accommodate a different port speed configuration for your system. (This text came form change port speed topic...which needs to be hidden when I PR my hotfix branch).
-
+* If you have an AFX A1K system:
++
+The following table shows the preset groupings of the switch ports, their port speeds, and usage based on RCF version 10.0. (This is the only supported version of RCF.)
++
 Switch port information can also be found in the https://hwu.netapp.com[NetApp Hardware Universe^].
 
 [options="header" cols="1,2"]
@@ -70,6 +65,43 @@ a|
 400GbE ISL
 a|
 |===
+
+* If you have an AFX A2K system:
++
+//Understand the preset configuration of switch port speeds (breakout ports 100GbE and non-breakout ports) so that you can determine if you need to change the port speed mix to accommodate a different port speed configuration for your AFX A2K system.
++
+The following table shows the preset groups of the switch ports, their port speeds, and usage based on RCF version 10.1. (This is the only supported version of RCF at initial release of ONTAP 9.19.1GA.)
++
+Current switch port information be found in the https://hwu.netapp.com[NetApp Hardware Universe^].
+
+
+[options="header" cols="1,2"]
+|===
+| Switch port groups | Port speeds and usage
+a|
+Ethernet1/1/1-4 to Ethernet1/14/1-4
+a|
+4x100GbE mode for Intra-cluster, HA, and storage connections 
+a|
+Ethernet1/15 to Ethernet1/30
+a|
+400GbE mode for Intra-cluster, HA, and storage connections 
+a|
+Ethernet1/31, Ethernet1/32
+a|
+400GbE Intra-cluster ISL connections
+a|
+|===
+
+[NOTE]
+====
+You can change the preset groups to adjust the number of switch ports in breakout mode (4x100GbE) and 400GbE mode when you need to accommodate a different port speed configuration for your AFX A2K system.
+//This above text came from change port speed topic.
+
+You can do this later as part of your switch setup process, after you install the RCF on your switches by using the link: change-port-speed-9332d-cluster.html[Change port speed configuration] procedure.
+====
+
+//NOTE: You can change the mix of breakout and non-breakout ports when your system configuration requires it. You can do this as part of your switch setup later in the installation and setup process (after installing RCF).
 
 === Step 4: Consider using Smart Call Home
 Cisco Smart Call Home is an option to provide proactive support and help you resolve any issues that might arise with the switches. However, the switch installation and setup instructions have you configure switch health monitoring (CSHM), which provides the same level of support. 
