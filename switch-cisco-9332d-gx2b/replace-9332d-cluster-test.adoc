@@ -979,28 +979,29 @@ shelf id connector-state remote-port    remote-device
 `system node autosupport invoke -node * -type all -message MAINT=END`
 
 
-. Lisa does it make sense to add all the topics that need to happen (just like in reset topic)? It's ard to tell if any of the below happened above.
+. Lisa does it make sense to add all the topics that need to happen (just like in reset topic)? It's hard to tell if any of the below happened above.
 
-. Use the configuration wizard to complete the initial switch setup. (I assume this popped up when the new switch got powered on.)
+. Use the configuration wizard to complete the initial switch setup. 
+//assume this popped up when the new switch got powered on.
 +
 If needed, you can reference the configuration wizard questions and recommended responses in the link:setup-switch-9332d-cluster.html[Complete initial switch setup] procedure.
 
-. link:../switch-cisco-9332d-gx2b/install-nxos-overview-9332d-cluster.html[Prepare to install NX-OS and RCF].
+. link:../switch-cisco-9332d-gx2b/install-nxos-overview-9332d-cluster.html[Prepare to install the NX-OS and RCF] on the switch.
 
-. link:../switch-cisco-9332d-gx2b/install-nxos-software-9332d-cluster.html[Install the NX-OS].
+. link:../switch-cisco-9332d-gx2b/install-nxos-software-9332d-cluster.html[Install the NX-OS] on the switch.
 
-. link:../switch-cisco-9332d-gx2b/install-upgrade-rcf-overview-cluster.html[Install the RCF].
+. link:../switch-cisco-9332d-gx2b/install-upgrade-rcf-overview-cluster.html[Install the RCF] on the switch.
 
-. link:../switch-cisco-9332d-gx2b/configure-ssh-keys.html[Verify SSH is enabled].
+. link:../switch-cisco-9332d-gx2b/configure-ssh-keys.html[Verify SSH is enabled] so that you can configure switch health monitoring (CSHM).
 
-. link:../switch-cshm/cshm-overview.html[Configure switch health monitoring].
+. link:../switch-cshm/cshm-overview.html[Configure switch health monitoring (CSHM)] to ensure the operational health of network switches and collect switch logs for debugging purposes.
 
 
 .What's next?
 
 After you've replaced the switch, you link:../switch-cshm/config-overview.html[configure switch health monitoring].
 
-Lisa the above text assumes everything else in the switch setup was already done...only CSHM is left to do. Read through to see if it was...if not, accommodate as needed. Maybe I don't need any of these last steps I added Apr 30 #7-12.
+Lisa the above text assumes everything else in the switch setup was already done...only CSHM is left to do. Read through to see if it was...if not, keep the sw setup steps as shown (repeated from what's used in reset topic). May 8.
 
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-08
 // AFFFASDOC-476, 2026-MAR-30

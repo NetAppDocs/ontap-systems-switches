@@ -68,36 +68,31 @@ a|
 
 
 .About this task
-Is this procedure being done on one switch at a time - do the procedure then repeat?
+* Is this procedure being done on one switch at a time - do the procedure then repeat? No matter if doing it BEFORE or AFTER?
 
-.Steps
-Google had these steps, which I think mimic the KB. If these steps are correct, it's a great structure for sequence. 
-
-Steps for Modifying RCFs:
-
-. Save a backup of the current switch configuration. This is highly recommended in case you need to revert to the previous configuration.
-+
-You can use the `copy running-config startup-config` command to save the running configuration to the startup configuration, and then use a secure copy method to back up the configuration file to a safe location.
+* You can use the `copy running-config startup-config` command to save the running configuration to the startup configuration, and then use a secure copy method to back up the configuration file to a safe location.
 (here or keep in Before you begin? I think here is better.)
 +
 Hey
-NOTE: Save your changes by copying the running configuration to the startup configuration. A backup of the config is highly recommended, as well.
+NOTE: Save your changes by copying the running configuration to the startup configuration.
 +
 Hey, does the note above from KB mean that you can modify the RCF file then save it (your changes) by copying the running config (your modified file/where your modified file is) to the startup config? Then you install/apply the modified file to the switches?
-
-. Modify the RCF file to meet your specific port speed needs, following NetApp KB guidelines.
-
-. Transfer the modified RCF to the switch.
-
-. Apply the new RCF using the copy <rcf_file> running-config command.
-
-. Verify the configuration, specifically checking port-channel summaries and VLANs.
++
+Google:
+On a Cisco Nexus 9000 switch within a NetApp system, the running-configuration is the active, temporary configuration stored in RAM, while the startup-configuration is the permanent configuration saved in non-volatile memory (NVRAM). Changes to the running-config take effect immediately, but must be saved to the startup-config to persist after a reboot.
 
 .Steps
-KB has these steps:
-//https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_modify_RCF_1.X_Breakout_on_Cisco_9336C-FX2_cluster_switch_for_specific_customer_needs[How to modify RCF 1.X Breakout on Cisco 9336C-FX2 cluster switch for specific customer needs^]
+Google had these steps to modify RFCs. The two substeps for step 2 are the only steps in the KB. 
 
-. Modify port speeds and breakout modes, as needed by the cluster:
+. Save a backup of the current switch configuration. This is highly recommended in case you need to revert to the previous configuration.
+
+. Modify the RCF file to meet your specific port speed needs: 
+//The following steps are the 2 from the KB.
+//https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_modify_RCF_1.X_Breakout_on_Cisco_9336C-FX2_cluster_switch_for_specific_customer_needs[How to modify RCF 1.X Breakout on Cisco 9336C-FX2 cluster switch for specific customer needs^]
++
+KB has this note at the beginning: RCF files are not upgraded, once an RCF is applied. You re-apply a new RCF to a reinitialized switch.
++
+.. Modify port speeds and breakout modes, as needed by the cluster:
 +
 interface breakout module 1 port 1-3 map 10g-4x
 interface breakout module 1 port 4-6 map 25g-4x
@@ -112,7 +107,7 @@ Previously:
 +
 interface breakout module 1 port 4-6 map 25g-4x
 +
-. Modify the port list with the new ports that need to use the port profile for the desired port speed:
+.. Modify the port list with the new ports that need to use the port profile for the desired port speed:
 +
 interface e1/1/1-4, e1/2/1-4, e1/3/1-4, e1/33-34
 inherit port-profile 10G
@@ -138,11 +133,34 @@ interface e1/4/1-4, e1/5/1-4, e1/6/1-4
 inherit port-profile 25G
 priority-flow-control mode auto
 service-policy input HA
-exit
+exit 
+
+. Save your changes by copying the running configuration to the startup configuration (so that your changes will persist after any reboot in the future):
++
+`copy running-config startup-config`
++
+//The running-configuration is the active, temporary configuration stored in RAM, while the startup-configuration is the permanent configuration saved in non-volatile memory (NVRAM). Changes to the running-config take effect immediately, but must be saved to the startup-config to persist after a reboot.
++
+//. Use a secure copy method to back up the configuration file to a safe location.
+//+
+//. Transfer (install?) the modified RCF to the switch. (I think this is in the above step?)
+
+//. Apply the modified RCF (to the active running configuration of the switch):
+//+
+//`copy <rcf_file> running-config`
+//+
+//The copy <rcf_file> running-config command is used on Cisco Nexus (NX-OS) switches to apply an RCF to the active, running state of the switch. It's the same as step 3? Step 3 was in the KB. I thing this step is from Google.
+//+
+//. Verify the configuration, specifically checking port-channel summaries and VLANs. (Came from Google. Not sure it applies)
+
 
 .What's next?
 
-After you've changed the RCF 10.1 port speed configuration, and if this procedure was done as part of a new AFX A2K system installation and setup, you link:configure-ssh-keys.html[verify the SSH configuration]. Otherwise, if you were changing the port speed configuration for an existing AFX A2K system, you are done; no additional action is needed.
+After you've changed the RCF 10.1 port speed configuration, and if this procedure was done as part of a new AFX A2K system installation and setup (not yet operational), you link:configure-ssh-keys.html[verify the SSH configuration]. 
+
+Otherwise, if you were changing the port speed configuration for an existing (operational) AFX A2K system, you are done; no additional action is needed...
+
+Um, I think you have to do the same setup steps because in this cases -if KB is right - you had to reset the switches before you modified the RCF.
 
 // New topic for 2k project, AFFFASDOC-xxx, 2026-JULY-xx
 // Refactored content project, GH#423 2026-APR-MAY
