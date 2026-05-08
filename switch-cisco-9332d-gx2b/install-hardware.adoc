@@ -11,6 +11,10 @@ summary: 'Details on how to install and setup the switch hardware and controller
 [.lead]
 Installing the Cisco Nexus 9332D-GX2B switches into a rack or cabinet is part of the overall installation and setup of a new AFX system. You use the AFX system install and setup workflow to install and cable the system hardware, then you power on the switches. You are directed back to this workflow to complete the switch setup, which includes performing the initial switch setup, installing the NX-OS software and RCF, verifying SSH is enabled, configuring health monitoring and optionally, configuring Smart Call Home.
 
+May 7: Hey Lisa, I hate this lead. "Install" is the physical install, cable and pwr on. So you need to be clear about that. And since you split install and setup apart, this lead need sto only be about install. 
+
+May 7: Also, since install includes cabling your switches (over in the AFX repo) users NEED to know the switch port details (RCF-based port configuration). Hey, bew switches DON'T come with RCF...so they have to install RCF (after power on switches)...then should cable? 
+
 //The workflow includes instructions for installing the switches, controllers, and storage shelf in a NetApp cabinet or telco rack, as well as instructions for cabling your system.
 
 .Before you begin
@@ -41,7 +45,7 @@ After you've installed, cabled, and powered on your switches as part of the AFX 
 
 Or should it now be: 
 
-After you've installed, cabled, and powered on your switches as part of the AFX system installation, you set up the switches using the  link:configure-switch-overview-9332d-cluster.html[setup switches workflow].
+After you've installed, cabled, and powered on your switches as part of the AFX system installation, you set up the switches using the  link:configure-switch-overview-9332d-cluster.html[setup switches workflow]. I think it needs to be this text.
 
 //After you've installed and cabled your switches and system hardware, and powered on the switches, the AFX system installation and setup documentation directs back to this switch documentation to complete the switch setup, which includes initial switch setup, installing the NX-OS software and RCF, verifying SSH is enabled, configuring health monitoring and optionally, configuring Smart Call Home. link:setup-switch-9332d-cluster.html[complete the initial switch setup].(Lisa: You want to link to configure switch - like I have above - or back to switch install workflow?)
 
