@@ -9,20 +9,22 @@ summary: 'Details on how to install and setup the switch hardware and controller
 :imagesdir: ../media/
 
 [.lead]
-Your Cisco Nexus 9332D-GX2B switch has field replaceable units (FRUs) that you can replace when they fail.
+Your Cisco Nexus 9332D-GX2B switch has field replaceable units (FRUs) that you can replace when they are faulty.
 
 //Need to create a 9808 version of this topic. See other commented out content that's specific to 9808. And need to populate this 9332 version of the topic with info specific to that topic nd then create a 9336 version for that AFX switch too.
-
-//Lead: Your Cisco Nexus 9808 switch has field replaceable units (FRUs) that you can replace when they fail.
 
 .Before you begin
 N/A?
 
 .About this task
-The Cisco Nexus 9332D-GX2B switch has the following FRUs that you can replace when they fail:
+The Cisco Nexus 9332D-GX2B switch has the following FRUs:
 
-(Need to look at Cisco site and list them. Look at this topic in VS Code to see all notes for creating similar topic for 9808.)
+* Fan module (6 total)
+* Power supply module (2 total)
+* OSFP/QSFP transceiver modules (32 fixed 400GbE QSFP-DD ports and 2 fixed 1/10GbE SFP+ ports.)
 
+
+//For 9808:
 // About this task: The Cisco Nexus 9808 switch has the following FRUs that you can replace when they fail:
 // * Chassis door foam air filters: <include definition from Cisco site>
 //* Supervisor module: <include how many (NetApp ships one on each switch, but customers can order more, so need to accommodate that scenario too anywhere in 9808 docs as needed) and maybe borrow definition from Cisco site>
@@ -34,19 +36,16 @@ The Cisco Nexus 9332D-GX2B switch has the following FRUs that you can replace wh
 
 .Steps
 
-. Use the applicable Cisco FRU replacement procedure on the Cisco site:
+. Go to the Cisco site for the https://www.cisco.com/c/en/us/td/docs/dcn/hw/nx-os/nexus9000/9332d-gx2b/cisco-nexus-9332d-gx2b-nx-os-mode-switch-hardware-installation-guide.html?dtid=osscdc000283&linkclickid=srch&scid=srch-9332d-gx2b-hw-guide#id_111902[Cisco Nexus 9332D-GX2B NX-OS Mode Switch Hardware Installation Guide^].
 
-//following step is specific to 9808.
-//.. Go to the link:https://www.cisco.com/c/en/us/td/docs/switches/datacenter/nexus9000/hw/9800/9808/nx-os/cisco-nexus-9808-nx-os-mode-switch-hardware-installation-guide/m-8000-replace-chassis-components.html#id_111902[Replace Chassis Components^] chapter of the Cisco Nexus 9808 NX-OS Mode Switch Hardware Installation Guide.
+. Navigate to the Replacing components section to see the FRU procedures.
 
-.. Click on the applicable FRU procedure.
-
-.. Follow the instructions to replace the FRU.
+. Follow the applicable procedure to replace your faulty FRU.
 
 
 .What's next?
 
-After you've completed the applicable FRU procedure on the Cisco site, you link:setup-switch-9332d-cluster.html[have to do something back on the switch repo or are you done and can continue normal operations? Lisa, you need to read through the Cisco procedures to see what they cover].
+After you've completed the applicable FRU procedure on the Cisco site, you can resume normal operations.
 
 
 // New topic for 2K project, AFFFASDOC-xxx, 2026-July
