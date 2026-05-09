@@ -11,13 +11,15 @@ summary: For Cisco Nexus 9332D-GX2B switches running RCF version 10.1 in an AFX 
 [.lead]
 For Cisco Nexus 9332D-GX2B switches running RCF version 10.1 in an AFX A2K system, you can change the number of switch ports in breakout mode (4x100GbE) and 400GbE mode when you need to accommodate a different port speed configuration for your system.
 
-You can modify the RCF file before or after installation of the RCF file on a switch: 
+You perform this customization as part of your link:install-rcf-software-9332d-cluster.html[RCF installation] or link:upgrade-rcf-software-9332d-cluster.html[RCF upgrade] procedures, which have you make customizations after the RCF file is installed or updated.
 
-* If you are installing switches as part of a new AFX system installation and setup or switch replacement (the switches are not yet operational in the system), you download and modify the RCF file, and then install it on each switch.
+//You can modify the RCF file before or after installation of the RCF file on a switch: 
 
-* If you have switches already installed and setup (operational) in your AFX system, you have to reset each switch back to factory default settings, download and modify the RCF file, and then install it on each switch.
-+
-Because these switches are operational in your system, you perform this procedure one switch at a time, which requires you to offload LIFs from the target switch, reset the switch to factory default settings, modify the RCF file, apply the modified RCF file to the target switch, and then verify the configuration before moving on to the next switch.
+//* If you are installing switches as part of a new AFX system installation and setup or switch replacement (the switches are not yet operational in the system), you download and modify the RCF file, and then install it on each switch.
+
+//* If you have switches already installed and setup (operational) in your AFX system, you have to reset each switch back to factory default settings, download and modify the RCF file, and then install it on each switch.
+//+
+//Because these switches are operational in your system, you perform this procedure one switch at a time, which requires you to offload LIFs from the target switch, reset the switch to factory default settings, modify the RCF file, apply the modified RCF file to the target switch, and then verify the configuration before moving on to the next switch.
 
 //per AnD, changing port speeds can only happen after installing RCF or updating RCF. So this topic needs to address both the install and upgrade use cases. May 7: okay this is opposite of KB, which makes it sound like you can modify RCF before or after it's installed.
 
@@ -33,6 +35,9 @@ You can do this later as part of your switch setup process, after you install th
 Hey, this last paragraph of note -based on sequence Andris said - isn't what KB says. It says can modify RCF file before it's installed on a switch. IF KB is correct, then reword to: You can do this later as part of your switch setup process, BEFORE you install the RCF on your switches by using the link: change-port-speed-9332d-cluster.html[Change port speed configuration] procedure." Ohh, then if RCF modification can be done before installing RCF, then this topic can't be under the RCF section.Needs to be outside of it.
 
 .Before you begin
+
+* You perform this customization as part of your link:install-rcf-software-9332d-cluster.html[RCF installation] or link:upgrade-rcf-software-9332d-cluster.html[RCF upgrade] procedures, which have you make customizations after the RCF file is installed or updated.+
+Do not perform this procedure outside of the RCF installation or upgrade procedures.
 
 * You must have an AFX A2K system running ONTAP 9.19.1GA or later.
 
@@ -68,6 +73,8 @@ a|
 
 
 .About this task
+* You perform this procedure as part of your RCF installation or RCF Upgrade.
+
 * Is this procedure being done on one switch at a time - do the procedure then repeat? No matter if doing it BEFORE or AFTER?
 
 * You can use the `copy running-config startup-config` command to save the running configuration to the startup configuration, and then use a secure copy method to back up the configuration file to a safe location.
