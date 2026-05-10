@@ -11,9 +11,6 @@ summary: You can install or upgrade the reference configuration file (RCF) on yo
 [.lead]
 You can install or upgrade the reference configuration file (RCF) on your Nexus 9332D-GX2B switches depending on the available supported RCF versions for the switches in your AFX A1K or AFX A2K system.
 
-RCF installation or upgrade is independent of NS-OS installation or upgrade. However, if you are installing or upgrading both the NX-OS and RCF, it is recommended to install or upgrade the NX-OS first. 
-//This is because the RCF version is often tied to a specific NX-OS version, and installing or upgrading the NX-OS first ensures that you have the correct environment for the RCF installation or upgrade.
-
 You install a supported version of RCF on the switches as part of a new AFX A1K or AFX A2K system installation, a switch replacement, or a reset to factory default settings.
 
 You upgrade to a supported version of RCF on the switches to support new hardware, a new ONTAP version, or to align with a new NX-OS version in your AFX A1K or AFX A2K system configuration.
@@ -22,10 +19,14 @@ You upgrade to a supported version of RCF on the switches to support new hardwar
 
 //Are users actually upgrading 10.0 to 10.1 at initial RTS? NO! But later, if A1K migration and mixed configs are supported, they will need to upgrade from 10.0 to 10.1 to connect to A2K.
 
-Hey: Two use cases at initial release: 
-* 1K uses RCF 10.0. Ports 1-30 are pre-set and only support breakout mode (4x100GbE). Ports 31 and 32 are ISL ports.
-* 2K uses RCF 10.1. Ports 1-14 are pre-set breakout mode (4x100GbE). Ports 15-30 are pre-set 400GbE ports. Ports 31 and 32 are ISL ports. However, you can change the port configuration(mix of breakout and non-breakout) if needed.See the change port speed topic. 
+.Before you begin
 
+* Refer to the NetApp Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further information when installing or upgrading your RCF.
+
+* Refer to the https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe^] to verify the correct ports on your platform.
+
+* RCF installation or upgrade is independent of NS-OS installation or upgrade. If you are installing or upgrading both the NX-OS and RCF, it is recommended to install or upgrade the NX-OS first. 
+//This is because the RCF version is often tied to a specific NX-OS version, and installing or upgrading the NX-OS first ensures that you have the correct environment for the RCF installation or upgrade.
 
 .Supported versions of RCF
 * The type of AFX system your switches are in determines the supported versions of RCF for your switches.
@@ -39,12 +40,19 @@ For the current list of supported RCF versions, see the link:https://mysupport.n
 NOTE: Do not upgrade or downgrade your RCF version to an unsupported version.
 
 
-
 .Available RCF configurations
 
-Depending on your system type, AFX A2K or AFX A1K, you use the applicable RCF version:
+*Cluster-HA-Storage AFX* - All ports are configured in 4x100GbE breakout mode that universally supports AFX A1K node clusters, HA, storage ports, and NX224 storage shelf ports. 400GbE ISL between switches. (_Cluster-HA-Storage AFX RCF_vxx.x_).
 
-* AFX A2K (with 9332 switches) use RCF 10.1, which supports both breakout mode (4x100GbE) and 400GbE mode. The ports are pre-set for a specific number of breakout mode (4x100GbE) and 400GbE mode, but you can change the port-speed configuration if needed. For more information about changing the port-speed configuration, refer to the link:change-port-speed-9332d-cluster.html[Change port speed (breakout) configuration - Cisco Nexus 9332D-GX2B^] topic.
+
+
+Depending on your system type, AFX A2K or AFX A1K, you use the applicable RCF version.
+
+NOTE: For specific port and VLAN usage details, refer to the banner and important notes section in your RCF. Refer to link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches^] for more information.
+
+* AFX A2K with 9332 switches use RCF 10.1, which supports both breakout mode (4x100GbE) and 400GbE mode. The ports are pre-set for a specific number of breakout mode (4x100GbE) and 400GbE mode, but you can change the port-speed configuration if needed. For more information about changing the port-speed configuration, refer to the link:change-port-speed-9332d-cluster.html[Change port speed (breakout) configuration - Cisco Nexus 9332D-GX2B^] topic.
+
+* 2K uses RCF 10.1. Ports 1-14 are pre-set breakout mode (4x100GbE). Ports 15-30 are pre-set 400GbE ports. Ports 31 and 32 are ISL ports. 
 
 Switch   : NX9332D-GX2B
 
@@ -62,7 +70,7 @@ Ports   15-30: 400GbE Intra-Cluster/HA/Storage Ports, int e1/{15-30}
 
 Ports   31-32: Intra-Cluster ISL Ports, int e1/31-32
 
-* AFX A1K with 9332 switches use RCF 10.0, which supports only breakout mode (4x100GbE).
+* AFX A1K with 9332 switches use RCF 10.0, which supports breakout mode (4x100GbE). Ports 1-30 support breakout mode (4x100GbE). Ports 31 and 32 are ISL ports.
 
 //AFX A2K (with 9364 switches): Replace above in the rebranded 9364 topic with below 9364 content, but be midful of formatting you finalized for content above.
 
@@ -81,14 +89,6 @@ Ports   31-32: Intra-Cluster ISL Ports, int e1/31-32
 //Ports   14-62: 400GbE Intra-Cluster/HA/Storage Ports, int e1/{14-62}
 
 //Ports   63-64: Intra-Cluster ISL Ports, int e1/63-64
-
-
-
-*Cluster-HA-Storage AFX* - All ports are configured in 4x100GbE breakout mode that universally supports AFX node clusters, HA, storage ports, and NX224 storage shelf ports. 400GbE ISL between switches. (_Cluster-HA-Storage AFX RCF_vxx.x_).
-
-How come the RCF version isn't here? 10.0
-
-For specific port and VLAN usage details, refer to the banner and important notes section in your RCF. Refer to link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches^] for more information.
 
 //FYI:
 //NetApp Reference Configuration File (RCF)
@@ -120,15 +120,9 @@ Refer to the appropriate software and upgrade guides available on the Cisco webs
 ** The `cluster1::*>` prompt indicates the name of the cluster.
 
 * The procedures require the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
-
-.Prepare for the installation or upgrade
-Before you begin the installation or upgrade, ensure that you do the following:
-
-. Refer to the https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe^] to verify the correct ports on your platform.
 +
-NOTE: The command outputs might vary depending on different releases of ONTAP.
+The command outputs might vary depending on different releases of ONTAP.
 
-. Refer to the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further information when installing or upgrading your RCF.
 
 .What's next?
 
