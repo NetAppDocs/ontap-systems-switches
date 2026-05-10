@@ -31,9 +31,9 @@ You upgrade to a supported version of RCF on the switches to support new hardwar
 .Supported versions of RCF
 * The type of AFX system your switches are in determines the supported versions of RCF for your switches.
 
-** For switches in an AFX A1K system, running any supported version of ONTAP, RCF 10.0 is the only supported version.
+** For switches in an AFX A1K system, running any supported version of ONTAP, RCF 10.0 is the only supported version. RCF 10.0 supports cluster, HA, and storage connections.
 
-** For switches in an AFX A2K system, running ONTAP 9.19.1GA or later, RCF 10.1 is the only supported version at the initial release of ONTAP 9.19.1GA.
+** For switches in an AFX A2K system, running ONTAP 9.19.1GA or later, RCF 10.1 is the only supported version at the initial release of ONTAP 9.19.1GA. RCF 10.1 supports cluster, HA, and storage connections.
 +
 For the current list of supported RCF versions, see the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page.
 
@@ -42,17 +42,15 @@ NOTE: Do not upgrade or downgrade your RCF version to an unsupported version.
 
 .Available RCF configurations
 
-*Cluster-HA-Storage AFX* - All ports are configured in 4x100GbE breakout mode that universally supports AFX A1K node clusters, HA, storage ports, and NX224 storage shelf ports. 400GbE ISL between switches. (_Cluster-HA-Storage AFX RCF_vxx.x_).
-
-
-
 Depending on your system type, AFX A2K or AFX A1K, you use the applicable RCF version.
 
 NOTE: For specific port and VLAN usage details, refer to the banner and important notes section in your RCF. Refer to link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches^] for more information.
 
-* AFX A2K with 9332 switches use RCF 10.1, which supports both breakout mode (4x100GbE) and 400GbE mode. The ports are pre-set for a specific number of breakout mode (4x100GbE) and 400GbE mode, but you can change the port-speed configuration if needed. For more information about changing the port-speed configuration, refer to the link:change-port-speed-9332d-cluster.html[Change port speed (breakout) configuration - Cisco Nexus 9332D-GX2B^] topic.
+* AFX A2K
 
-* 2K uses RCF 10.1. Ports 1-14 are pre-set breakout mode (4x100GbE). Ports 15-30 are pre-set 400GbE ports. Ports 31 and 32 are ISL ports. 
+** Switches in an AFX A2K system use RCF 10.1, which supports both breakout mode (4x100GbE) and 400GbE mode. The ports are pre-set for a specific number of breakout mode (4x100GbE) and 400GbE mode, but you can change the port-speed configuration if needed. For more information about changing the port-speed configuration, refer to the link:change-port-speed-9332d-cluster.html[Change port speed (breakout) configuration - Cisco Nexus 9332D-GX2B^] topic.
+
+** 2K uses RCF 10.1. Ports 1-14 are pre-set breakout mode (4x100GbE). Ports 15-30 are pre-set 400GbE ports. Ports 31 and 32 are ISL ports. 
 
 Switch   : NX9332D-GX2B
 
@@ -70,7 +68,11 @@ Ports   15-30: 400GbE Intra-Cluster/HA/Storage Ports, int e1/{15-30}
 
 Ports   31-32: Intra-Cluster ISL Ports, int e1/31-32
 
-* AFX A1K with 9332 switches use RCF 10.0, which supports breakout mode (4x100GbE). Ports 1-30 support breakout mode (4x100GbE). Ports 31 and 32 are ISL ports.
+* AFX A1K
+
+** Switches in an AFX A1K system use RCF 10.0, which supports breakout mode (4x100GbE). Ports 1-30 support breakout mode (4x100GbE). Ports 31 and 32 are ISL ports.
+
+*Cluster-HA-Storage AFX* - All ports are configured in 4x100GbE breakout mode that universally supports AFX A1K node clusters, HA, storage ports, and NX224 storage shelf ports. 400GbE ISL between switches. (_Cluster-HA-Storage AFX RCF_vxx.x_).
 
 //AFX A2K (with 9364 switches): Replace above in the rebranded 9364 topic with below 9364 content, but be midful of formatting you finalized for content above.
 
