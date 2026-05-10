@@ -2,7 +2,7 @@
 permalink: switch-cisco-9332d-gx2b/change-port-speed-9332d-cluster.html
 sidebar: sidebar
 keywords: install rcf, cisco switches
-summary: For Cisco Nexus 9332D-GX2B switches running RCF version 10.1 in an AFX A2K system, you can change the number of switch ports in breakout mode (4x100GbE) and 400GbE mode when you need to accommodate different network configurations for your system.
+summary: For Cisco Nexus 9332D-GX2B switches running RCF version 10.1 in an AFX A2K system, you can change the number of switch ports in breakout mode (4x100GbE) and 400GbE mode when you need to accommodate a different port speed configuration for your system.
 ---
 = Change the port speed configuration - Cisco Nexus 9332D-GX2B
 :icons: font
@@ -11,33 +11,16 @@ summary: For Cisco Nexus 9332D-GX2B switches running RCF version 10.1 in an AFX 
 [.lead]
 For Cisco Nexus 9332D-GX2B switches running RCF version 10.1 in an AFX A2K system, you can change the number of switch ports in breakout mode (4x100GbE) and 400GbE mode when you need to accommodate a different port speed configuration for your system.
 
-You perform this customization as part of your link:install-rcf-software-9332d-cluster.html[RCF installation] or link:upgrade-rcf-software-9332d-cluster.html[RCF upgrade] procedures, which have you make customizations after the RCF file is installed or updated.
+You perform this change as part of your link:install-rcf-software-9332d-cluster.html[RCF installation] or link:upgrade-rcf-software-9332d-cluster.html[RCF upgrade] procedures, which have you make customizations after the RCF file is installed or updated.
 
-//You can modify the RCF file before or after installation of the RCF file on a switch: 
+//Hey, this was a sub-lead, but maybe not totally correct since there are 2 use cases!. To change the RCF 10.1 port speed configuration, you save a backup of the current switch configuration, change your port configuration, apply the modified RCF 10.1 copy to one of the switches, repeat for the second switch, and then verify the configuration. 
 
-//* If you are installing switches as part of a new AFX system installation and setup or switch replacement (the switches are not yet operational in the system), you download and modify the RCF file, and then install it on each switch.
-
-//* If you have switches already installed and setup (operational) in your AFX system, you have to reset each switch back to factory default settings, download and modify the RCF file, and then install it on each switch.
-//+
-//Because these switches are operational in your system, you perform this procedure one switch at a time, which requires you to offload LIFs from the target switch, reset the switch to factory default settings, modify the RCF file, apply the modified RCF file to the target switch, and then verify the configuration before moving on to the next switch.
-
-//per AnD, changing port speeds can only happen after installing RCF or updating RCF. So this topic needs to address both the install and upgrade use cases. May 7: okay this is opposite of KB, which makes it sound like you can modify RCF before or after it's installed.
-
-Hey, this was a sub-lead, but maybe not totally correct since there are 2 use cases!. To change the RCF 10.1 port speed configuration, you save a backup of the current switch configuration, change your port configuration, apply the modified RCF 10.1 copy to one of the switches, repeat for the second switch, and then verify the configuration. 
-
-Hey: this below is a 2 paragraph note in prepare to install topic:
-
-You can change the preset groups to adjust the number of switch ports in breakout mode (4x100GbE) and 400GbE mode when you need to accommodate a different port speed configuration for your AFX A2K system.
-//This above text came from change port speed topic.
-
-You can do this later as part of your switch setup process, after you install the RCF on your switches by using the link: change-port-speed-9332d-cluster.html[Change port speed configuration] procedure.
-
-Hey, this last paragraph of note -based on sequence Andris said - isn't what KB says. It says can modify RCF file before it's installed on a switch. IF KB is correct, then reword to: You can do this later as part of your switch setup process, BEFORE you install the RCF on your switches by using the link: change-port-speed-9332d-cluster.html[Change port speed configuration] procedure." Ohh, then if RCF modification can be done before installing RCF, then this topic can't be under the RCF section.Needs to be outside of it.
 
 .Before you begin
 
-* You perform this customization as part of your link:install-rcf-software-9332d-cluster.html[RCF installation] or link:upgrade-rcf-software-9332d-cluster.html[RCF upgrade] procedures, which have you make customizations after the RCF file is installed or updated.+
-Do not perform this procedure outside of the RCF installation or upgrade procedures.
+* You perform this change as part of your link:install-rcf-software-9332d-cluster.html[RCF installation] or link:upgrade-rcf-software-9332d-cluster.html[RCF upgrade] procedures, which have you make customizations after the RCF file is installed or updated.
++
+NOTE: Do not perform this procedure outside of the RCF installation or upgrade procedures.
 
 * You must have an AFX A2K system running ONTAP 9.19.1GA or later.
 
@@ -73,7 +56,7 @@ a|
 
 
 .About this task
-* You perform this procedure as part of your RCF installation or RCF Upgrade.
+* You perform this procedure as part of your RCF installation or RCF upgrade procedure.
 
 * Is this procedure being done on one switch at a time - do the procedure then repeat? No matter if doing it BEFORE or AFTER?
 
@@ -163,11 +146,8 @@ exit
 
 .What's next?
 
-After you've changed the RCF 10.1 port speed configuration, and if this procedure was done as part of a new AFX A2K system installation and setup (not yet operational), you link:configure-ssh-keys.html[verify the SSH configuration]. 
+After you've changed the RCF 10.1 port speed configuration, you link:configure-ssh-keys.html[verify the SSH configuration]. 
 
-Otherwise, if you were changing the port speed configuration for an existing (operational) AFX A2K system, you are done; no additional action is needed...
-
-Um, I think you have to do the same setup steps because in this cases -if KB is right - you had to reset the switches before you modified the RCF.
 
 // New topic for 2k project, AFFFASDOC-xxx, 2026-JULY-xx
 // Refactored content project, GH#423 2026-APR-MAY
