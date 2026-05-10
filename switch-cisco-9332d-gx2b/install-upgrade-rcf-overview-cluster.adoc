@@ -19,60 +19,165 @@ You upgrade to a supported version of RCF on the switches to support new hardwar
 
 //Are users actually upgrading 10.0 to 10.1 at initial RTS? NO! But later, if A1K migration and mixed configs are supported, they will need to upgrade from 10.0 to 10.1 to connect to A2K.
 
-.Before you begin
+
+NOTE: RCF installation or upgrade is independent of NS-OS installation or upgrade. If you are installing or upgrading both the NX-OS and RCF, it is recommended to install or upgrade the NX-OS first. 
+//This is because the RCF version is often tied to a specific NX-OS version, and installing or upgrading the NX-OS first ensures that you have the correct environment for the RCF installation or upgrade.
+
+//.Supported versions of RCF
+//* The type of AFX system your switches are in determines the supported versions of RCF for your switches.
+
+//** For switches in an AFX A1K system, running any supported version of ONTAP, RCF 10.0 is the only supported version. RCF 10.0 supports cluster, HA, and storage connections.
+
+//** For switches in an AFX A2K system, running ONTAP 9.19.1GA or later, RCF 10.1 is the only supported version at the initial release of ONTAP 9.19.1GA. RCF 10.1 supports cluster, HA, and storage connections.
+//+
+//For the current list of supported RCF versions, see the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page.
+
+//NOTE: Do not upgrade or downgrade your RCF version to an unsupported version.
+
+//NOTE: For specific port and VLAN usage details, refer to the banner and important notes section in your RCF. Refer to link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches^] for more information.
+
+
+=== Understand the RCF versions supported for AFX systems
+
+The type of system (AFX A1K or AFX A2K) your switches are in determines the supported version of RCF. Understand the preset configuration of switch ports for the version of RCF supported by your AFX system.
+
+NOTE: For the current list of supported RCF versions, see the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page.
+
+NOTE: For specific port and VLAN usage details, refer to the banner and important notes section in your RCF. Refer to link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches^] for more information.
+
+* If you have an AFX A1K system, RCF 10.0 is supported:
++
+The following table shows the preset groupings of the switch ports, their port speeds, and usage based on RCF version 10.0. (This is the only supported version of RCF.)
++
+Switch port information can also be found in the https://hwu.netapp.com[NetApp Hardware Universe^].
++
+[options="header" cols="1,2"]
+|===
+| Switch port groups | Port speeds and usage
+a|
+Ethernet1/1/1-4 to Ethernet1/30/1-4
+a|
+4x100GbE mode for cluster, HA, and storage connections 
+a|
+Ethernet1/31, Ethernet1/32
+a|
+400GbE ISL
+a|
+|===
++
+* If you have an AFX A2K system, RCF 10.1 is supported:
++
+//Understand the preset configuration of switch port speeds (breakout ports 100GbE and non-breakout ports) so that you can determine if you need to change the port speed mix to accommodate a different port speed configuration for your AFX A2K system.
++
+The following table shows the preset groups of the switch ports, their port speeds, and usage based on RCF version 10.1. (This is the only supported version of RCF at initial release of ONTAP 9.19.1GA.)
++
+Current switch port information be found in the https://hwu.netapp.com[NetApp Hardware Universe^].
++
+//Filename : RCF-v10.1-NX9332D-GX2B-CL1-V1.txt
++
+[options="header" cols="1,2"]
+|===
+| Switch port groups | Port speeds and usage
+a|
+Ethernet1/1/1-4 to Ethernet1/14/1-4
+a|
+4x100GbE mode for Intra-cluster, HA, and storage connections 
+a|
+Ethernet1/15 to Ethernet1/30
+a|
+400GbE mode for Intra-cluster, HA, and storage connections 
+a|
+Ethernet1/31, Ethernet1/32
+a|
+400GbE Intra-cluster ISL connections
+a|
+|===
++
+[NOTE]
+====
+You can change the preset groups to adjust the number of switch ports in breakout mode (4x100GbE) and 400GbE mode when you need to accommodate a different port speed configuration for your AFX A2K system.
+//This above text came from change port speed topic.
+
+You do this later, as part of the RCF installation procedure.
+
+//You do this later as part of your switch setup process, after you install the RCF on your switches by using the link:change-port-speed-9332d-cluster.html[Change port speed configuration] procedure.
+====
+
+=== Suggested documentation
+Before you install or upgrade the RCF on your switches, it is recommended you review the following documentation:
 
 * Refer to the NetApp Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further information when installing or upgrading your RCF.
 
 * Refer to the https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe^] to verify the correct ports on your platform.
 
-* RCF installation or upgrade is independent of NS-OS installation or upgrade. If you are installing or upgrading both the NX-OS and RCF, it is recommended to install or upgrade the NX-OS first. 
-//This is because the RCF version is often tied to a specific NX-OS version, and installing or upgrading the NX-OS first ensures that you have the correct environment for the RCF installation or upgrade.
-
-.Supported versions of RCF
-* The type of AFX system your switches are in determines the supported versions of RCF for your switches.
-
-** For switches in an AFX A1K system, running any supported version of ONTAP, RCF 10.0 is the only supported version. RCF 10.0 supports cluster, HA, and storage connections.
-
-** For switches in an AFX A2K system, running ONTAP 9.19.1GA or later, RCF 10.1 is the only supported version at the initial release of ONTAP 9.19.1GA. RCF 10.1 supports cluster, HA, and storage connections.
+* link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches (NSS)^]
 +
-For the current list of supported RCF versions, see the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page.
+Consult the switch compatibility table for the supported ONTAP and RCF versions on the NetApp Support Site. Note that there can be command dependencies between the command syntax in the RCF and the syntax found in specific versions of NX-OS.
 
-NOTE: Do not upgrade or downgrade your RCF version to an unsupported version.
+* link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html[Cisco Nexus 9000 Series Switches^]
++
+Refer to the appropriate software and upgrade guides available on the Cisco website for complete documentation on the Cisco switch upgrade and downgrade procedures.
+
+=== About the procedures
+The following information applies to the install or upgrade the RCF procedures:
+
+* The examples in these procedures use the following switch and node nomenclature:
+
+** The names of the two Cisco switches are cs1 and cs2.
+** The node names are node1-01, node1-02, node1-03, and node1-04.
+** The cluster LIF names are node1-01_clus1, node1-01_clus2, node1-02_clus1, node1-02_clus2, node1-03_clus1, node1-03_clus2, node1-04_clus1, and node1-04_clus2.
+** The `cluster1::*>` prompt indicates the name of the cluster.
+
+* The procedures require the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
++
+The command outputs might vary depending on different releases of ONTAP.
 
 
-.Available RCF configurations
+.What's next?
 
-Depending on your system type, AFX A2K or AFX A1K, you use the applicable RCF version.
+After you've reviewed the install or upgrade RCF overview, you link:install-rcf-software-9332d-cluster.html[install the RCF] or link:upgrade-rcf-software-9332d-cluster.html[upgrade your RCF] as needed.
 
-NOTE: For specific port and VLAN usage details, refer to the banner and important notes section in your RCF. Refer to link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches^] for more information.
 
-* AFX A2K
+// New content for OAM project, AFFFASDOC-331, 2025-MAY-06
+// AFFFASDOC-372, 2025-NOV-25
+// AFFFASDOC-473, 2026-MAR-16
+// Refactored content project, GH#423 2026-APR-MAY
 
-** Switches in an AFX A2K system use RCF 10.1, which supports both breakout mode (4x100GbE) and 400GbE mode. The ports are pre-set for a specific number of breakout mode (4x100GbE) and 400GbE mode, but you can change the port-speed configuration if needed. For more information about changing the port-speed configuration, refer to the link:change-port-speed-9332d-cluster.html[Change port speed (breakout) configuration - Cisco Nexus 9332D-GX2B^] topic.
 
-** 2K uses RCF 10.1. Ports 1-14 are pre-set breakout mode (4x100GbE). Ports 15-30 are pre-set 400GbE ports. Ports 31 and 32 are ISL ports. 
 
-Switch   : NX9332D-GX2B
 
-Filename : RCF-v10.1-NX9332D-GX2B-CL1-V1.txt
 
-Date     : 04-21-2026
+//.Available RCF configurations
 
-Version  : v10.1
+//Depending on your system type, AFX A2K or AFX A1K, you use the applicable RCF version.
 
-Port Usage:
+//* AFX A2K
 
-Ports    1-14: 100GbE Intra-Cluster/HA/Storage Ports, int e1/{1-14}/1-4
+//** Switches in an AFX A2K system use RCF 10.1, which supports both breakout mode (4x100GbE) and 400GbE mode. The ports are pre-set for a specific number of breakout mode (4x100GbE) and 400GbE mode, but you can change the port-speed configuration if needed. For more information about changing the port-speed configuration, refer to the link:change-port-speed-9332d-cluster.html[Change port speed (breakout) configuration - Cisco Nexus 9332D-GX2B^] topic.
 
-Ports   15-30: 400GbE Intra-Cluster/HA/Storage Ports, int e1/{15-30}
+//** 2K uses RCF 10.1. Ports 1-14 are pre-set breakout mode (4x100GbE). Ports 15-30 are pre-set 400GbE ports. Ports 31 and 32 are ISL ports. 
 
-Ports   31-32: Intra-Cluster ISL Ports, int e1/31-32
+//Switch   : NX9332D-GX2B
 
-* AFX A1K
+//Filename : RCF-v10.1-NX9332D-GX2B-CL1-V1.txt
 
-** Switches in an AFX A1K system use RCF 10.0, which supports breakout mode (4x100GbE). Ports 1-30 support breakout mode (4x100GbE). Ports 31 and 32 are ISL ports.
+//Date     : 04-21-2026
 
-*Cluster-HA-Storage AFX* - All ports are configured in 4x100GbE breakout mode that universally supports AFX A1K node clusters, HA, storage ports, and NX224 storage shelf ports. 400GbE ISL between switches. (_Cluster-HA-Storage AFX RCF_vxx.x_).
+//Version  : v10.1
+
+//Port Usage:
+
+//Ports    1-14: 100GbE Intra-Cluster/HA/Storage Ports, int e1/{1-14}/1-4
+
+//Ports   15-30: 400GbE Intra-Cluster/HA/Storage Ports, int e1/{15-30}
+
+//Ports   31-32: Intra-Cluster ISL Ports, int e1/31-32
+
+//* AFX A1K
+
+//** Switches in an AFX A1K system use RCF 10.0, which supports breakout mode (4x100GbE). Ports 1-30 support breakout mode (4x100GbE). Ports 31 and 32 are ISL ports.
+
+//*Cluster-HA-Storage AFX* - All ports are configured in 4x100GbE breakout mode that universally supports AFX A1K node clusters, HA, storage ports, and NX224 storage shelf ports. 400GbE ISL between switches. (_Cluster-HA-Storage AFX RCF_vxx.x_).
 
 //AFX A2K (with 9364 switches): Replace above in the rebranded 9364 topic with below 9364 content, but be midful of formatting you finalized for content above.
 
@@ -104,34 +209,3 @@ Ports   31-32: Intra-Cluster ISL Ports, int e1/31-32
 //* Ports   19-35 (LC1-LC8): 4 * 100 GbE Storage shelf ports, int e1-e8/{19-35}/1-4
 //* Port    36 (LC1-LC8)   : Intra-Cluster ISL Ports, int e1-e8/36
 
-.Suggested documentation
-* link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches (NSS)^]
-+
-Consult the switch compatibility table for the supported ONTAP and RCF versions on the NetApp Support Site. Note that there can be command dependencies between the command syntax in the RCF and the syntax found in specific versions of NX-OS.
-
-* link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html[Cisco Nexus 9000 Series Switches^]
-+
-Refer to the appropriate software and upgrade guides available on the Cisco website for complete documentation on the Cisco switch upgrade and downgrade procedures.
-
-.About the procedures
-* The examples in these procedures use the following switch and node nomenclature:
-
-** The names of the two Cisco switches are cs1 and cs2.
-** The node names are node1-01, node1-02, node1-03, and node1-04.
-** The cluster LIF names are node1-01_clus1, node1-01_clus2, node1-02_clus1, node1-02_clus2, node1-03_clus1, node1-03_clus2, node1-04_clus1, and node1-04_clus2.
-** The `cluster1::*>` prompt indicates the name of the cluster.
-
-* The procedures require the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
-+
-The command outputs might vary depending on different releases of ONTAP.
-
-
-.What's next?
-
-After you've reviewed the install or upgrade RCF overview, you link:install-rcf-software-9332d-cluster.html[install the RCF] or link:upgrade-rcf-software-9332d-cluster.html[upgrade your RCF] as needed.
-
-
-// New content for OAM project, AFFFASDOC-331, 2025-MAY-06
-// AFFFASDOC-372, 2025-NOV-25
-// AFFFASDOC-473, 2026-MAR-16
-// Refactored content project, GH#423 2026-APR-MAY
