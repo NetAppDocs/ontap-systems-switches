@@ -17,15 +17,11 @@ You upgrade to a supported version of RCF on the switches to support new hardwar
 
 //You upgrade to a supported version of RCF on the switches to support new features or changes in your AFX A1K or AFX A2K system network environment. 
 
-Hey: Are users actually upgrading 10.0 to 10.1 at initial RTS? NO! But later, if A1K migration and mixed configs are supported, they will need to upgrade from 10.0 to 10.1 to connect to A2K.
+//Are users actually upgrading 10.0 to 10.1 at initial RTS? NO! But later, if A1K migration and mixed configs are supported, they will need to upgrade from 10.0 to 10.1 to connect to A2K.
 
 Hey: Two use cases at initial release: 
 * 1K uses RCF 10.0. Ports 1-30 are pre-set and only support breakout mode (4x100GbE). Ports 31 and 32 are ISL ports.
-* 2K uses RCF 10.1. Ports 1-14 are pre-set breakout mode (4x100GbE). Ports 15-30 are pre-set 400GbE ports. Ports 31 and 32 are ISL ports. However, you can change the port configuration(mix of breakout and non-breakout) if needed.See the change port speed topic.
-
-Lisa: You can't have any EMR content in here when your hotfix branch is published because it will be before EMR content goes live Jul. Maybe make a 2nd file with "EMR" so you can swap them out in folder and sidebar.yml for EMR July RTS? May 5: NOPE. Having J approve merge of my hotfix into new dev-switch-emr, so that- hopefully by May 12 - I can do a PR to have her pull my completed 9332 refactor with EMR content into dev-switch-emr, and then Y and I can pull our branches to do rest of EMR work.
-
-Hey: you need to make another version of this topic specific to 9364. Today they are exactly the same content - double check that - but just have diff file names and lead stated the specific switch model. Really should make include file for this topic content? 
+* 2K uses RCF 10.1. Ports 1-14 are pre-set breakout mode (4x100GbE). Ports 15-30 are pre-set 400GbE ports. Ports 31 and 32 are ISL ports. However, you can change the port configuration(mix of breakout and non-breakout) if needed.See the change port speed topic. 
 
 
 .About
@@ -39,7 +35,8 @@ For the current list of supported RCF versions, see the link:https://mysupport.n
 
 NOTE: Do not upgrade or downgrade your RCF version to an unsupported version.
 
-* RCF installation or upgrade is independent of NS-OS installation or upgrade. However, if you are installing or upgrading both the NX-OS and RCF, it is recommended to install or upgrade the NX-OS first, then the RCF. This is because the RCF version is often tied to a specific NX-OS version, and installing or upgrading the NX-OS first ensures that you have the correct environment for the RCF installation or upgrade.
+* RCF installation or upgrade is independent of NS-OS installation or upgrade. However, if you are installing or upgrading both the NX-OS and RCF, it is recommended to install or upgrade the NX-OS first. 
+//This is because the RCF version is often tied to a specific NX-OS version, and installing or upgrading the NX-OS first ensures that you have the correct environment for the RCF installation or upgrade.
 
 
 .Available RCF configurations
