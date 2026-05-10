@@ -12,10 +12,10 @@ summary: Before installing Cisco Nexus 9332D-GX2B switches as part of a new AFX 
 :imagesdir: ../media/
 
 [.lead]
-Before installing Cisco Nexus 9332D-GX2B switches as part of a new AFX system installation, you need to understand aspects of the switch and its installation by reviewing the applicable Cisco switch documentation and ONTAP systems documentation, understanding the switch port configuration for your RCF version, and considering the use of Smart Call Home.
+Before installing Cisco Nexus 9332D-GX2B switches as part of a new AFX system installation, you should understand aspects of the switch and its installation by reviewing the applicable Cisco switch documentation and ONTAP systems documentation, understand the RCF versions supported for AFX systems, and consider using Smart Call Home.
 
 === Step 1: Review the Cisco switch documentation
-Review the following Cisco install and setup documents so you are familiar with the switch release notes, safety information, installation options, initial software configuration, and command references.
+You should review the following Cisco install and setup documents so you are familiar with the switch release notes, safety information, installation options, initial software configuration, and command references.
 
 All of the Cisco documents are available on the link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html[Cisco Nexus 9000 Series Switches Support^] page.
 
@@ -31,7 +31,7 @@ All of the Cisco documents are available on the link:https://www.cisco.com/c/en/
 Provides links to the various command references provided by Cisco.
 
 === Step 2: Review the NetApp systems documentation
-Review the following NetApp systems documentation so you are familiar with the AFX system installation, ONTAP release information, and hardware configuration and compatibility requirements.
+You should review the following NetApp systems documentation so you are familiar with the AFX system installation, ONTAP release information, and hardware configuration and compatibility requirements.
 
 * link:https://docs.netapp.com/us-en/ontap-afx/index.html[AFX systems documentation^] Describes how to install NetApp hardware.
 
@@ -43,33 +43,37 @@ Provides NetApp hardware configuration and compatibility information.
 * link:https://kb.netapp.com/Support/General_Support/What_additional_information_do_I_need_to_install_my_equipment_that_is_not_in_HWU[What additional information do I need to install my equipment that is not in HWU?^]
 Provides more information about storage system installation requirements.
 
-=== Step 3: Determine your port speed configuration needs
-Determine the port speed configuration you need for your AFX A2K system connectivity. RCF 10.1 (supported at initial release of ONTAP 9.19.1GA) has the following preset port speed configuration:
+//=== Step 3: Determine your port speed configuration needs for AFX A2K systems
 
-For the current list of supported RCF versions, see the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page.
+//If your switches are in an AFX A2K system, RCF 10.1 is supported, which has a mix of breakout (4x100GbE) mode ports and 400GbE mode ports. The following table shows the preset port speeds configuration.
 
-[options="header" cols="1,2"]
-|===
-| Switch port groups | Port speeds and usage
-a|
-Ethernet1/1/1-4 to Ethernet1/14/1-4
-a|
-4x100GbE mode for Intra-cluster, HA, and storage connections 
-a|
-Ethernet1/15 to Ethernet1/30
-a|
-400GbE mode for Intra-cluster, HA, and storage connections 
-a|
-Ethernet1/31, Ethernet1/32
-a|
-400GbE Intra-cluster ISL connections
-a|
-|===
+//Determine the port speed configuration you need for your AFX A2K system connectivity based on RCF 10.1, the supported version of RCF on switches in AFX A2K systems at the initial release of ONTAP 9.19.1GA.
+
+//RCF 10.1(supported at initial release of ONTAP 9.19.1GA on switches in AFX A2K systems) has the following preset port speed configuration.
+
+//For the current list of supported RCF versions, see the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page.
+
+//[options="header" cols="1,2"]
+//|===
+//| Switch port groups | Port speeds and usage
+//a|
+//Ethernet1/1/1-4 to Ethernet1/14/1-4
+//a|
+//4x100GbE mode for Intra-cluster, HA, and storage connections 
+//a|
+//Ethernet1/15 to Ethernet1/30
+//a|
+//400GbE mode for Intra-cluster, HA, and storage connections 
+//a|
+//Ethernet1/31, Ethernet1/32
+//a|
+//400GbE Intra-cluster ISL connections
+//a|
+//|===
 
 
-
-=== Step 3: Understand the preset switch port configuration
-Understand the preset configuration of switch ports for your AFX system based on the supported RCF versions so that you can determine switch port connectivity for your AFX system.
+=== Step 3: Understand the RCF versions supported for AFX systems
+The type of system (AFX A1K or AFX A2K) your switches are in determines the supported version of RCF. Understand the preset configuration of switch ports for the version of RCF supported by your AFX system.
 
 * If you have an AFX A1K system:
 +
@@ -122,9 +126,9 @@ a|
 You can change the preset groups to adjust the number of switch ports in breakout mode (4x100GbE) and 400GbE mode when you need to accommodate a different port speed configuration for your AFX A2K system.
 //This above text came from change port speed topic.
 
-You can do this later as part of your switch setup process, after you install the RCF on your switches by using the link:change-port-speed-9332d-cluster.html[Change port speed configuration] procedure.
+You do this later as part of the RCF installation procedure.
 
-Hey, this last paragraph -based on sequence Andris said - isn't what KB says. It says can modify RCF file before it's installed on a switch. IF KB is correct, then reword to: You can do this later as part of your switch setup process, BEFORE you install the RCF on your switches by using the link: change-port-speed-9332d-cluster.html[Change port speed configuration] procedure." Ohh, then if RCF modification can be done before installing RCF, then this topic can't be under the RCF section.Needs to be outside of it.
+//You do this later as part of your switch setup process, after you install the RCF on your switches by using the link:change-port-speed-9332d-cluster.html[Change port speed configuration] procedure.
 ====
 
 //NOTE: You can change the mix of breakout and non-breakout ports when your system configuration requires it. You can do this as part of your switch setup later in the installation and setup process (after installing RCF).
