@@ -2,52 +2,50 @@
 permalink: switch-cisco-9332d-gx2b/install-hardware.html
 sidebar: sidebar
 keywords: switches, hardware installation, Cisco Nexus, 9332D-GX2B switches
-summary: Installing the Cisco Nexus 9332D-GX2B switches into a rack or cabinet is part of the overall installation and setup of a new AFX system. You use the AFX system install and setup workflow to install and cable the system hardware, then you power on the switches. You are directed back to this workflow to complete the switch setup, which includes performing the initial switch setup, installing the NX-OS software and RCF, verifying SSH is enabled, configuring health monitoring and optionally, configuring Smart Call Home.
+summary: Installing the Cisco Nexus 9332D-GX2B switches as part of a new AFX A1K or AFX A2K system installation includes installing the switches into a rack or cabinet, cabling them to the system controllers and shelves, and then powering them on.
 ---
 = Install the switches - Cisco Nexus 9332D-GX2B
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-Installing the Cisco Nexus 9332D-GX2B switches into a rack or cabinet is part of the overall installation and setup of a new AFX system. You use the AFX system install and setup workflow to install and cable the system hardware, then you power on the switches. You are directed back to this workflow to complete the switch setup, which includes performing the initial switch setup, installing the NX-OS software and RCF, verifying SSH is enabled, configuring health monitoring and optionally, configuring Smart Call Home.
-
-May 7: Hey Lisa, I hate this lead. "Install" is the physical install, cable and pwr on. So you need to be clear about that. And since you split install and setup apart, this lead need sto only be about install. 
-
-May 7: Also, since install includes cabling your switches (over in the AFX repo) users NEED to know the switch port details (RCF-based port configuration). Hey, bew switches DON'T come with RCF...so they have to install RCF (after power on switches)...then should cable? 
-
-//The workflow includes instructions for installing the switches, controllers, and storage shelf in a NetApp cabinet or telco rack, as well as instructions for cabling your system.
+Installing the Cisco Nexus 9332D-GX2B switches as part of a new AFX A1K or AFX A2K system installation includes installing the switches into a rack or cabinet, cabling them to the system controllers and shelves, and then powering them on.
 
 .Before you begin
 You must have completed the switch preparation steps in link:install-prepare-9332d-cluster.html[Prepare to install the switches^].
 
 .About this task
-The AFX install and setup workflow includes instructions such as:
+
+You use the applicable AFX A1K or AFX A2K system install and setup workflow on the AFX system documentation site to install and cable the system hardware, and then power on the switches. 
+
+The system install and setup workflow includes instructions such as:
 
 * Instructions for getting the site ready, unpacking the boxes and comparing the contents of the boxes to the packing slip, and registering the system to access support benefits.
 
-* Instructions for installing the switches, controllers, and storage shelf in a NetApp cabinet or telco rack.
+* Instructions for installing the switches, controllers, and storage shelves in a NetApp cabinet or telco rack.
 
-* Instructions for cabling your system, including cabling the controller storage to switch connections and cabling the shelf to switch connections.
+* Instructions for cabling your system, including cabling the controller storage to switch connections and cabling the shelves to switch connections.
+
+//* After you have installed the switches, the AFX install and setup workflow instructions redirect you back to this switch documentation to complete the switch setup, which includes completing the initial switch setup, installing the NX-OS software and RCF, verifying SSH is enabled, configuring health monitoring and optionally, configuring Smart Call Home.
 
 .Steps
 
-. Install the switches as part of the AFX system installation and setup procedure:
-
-.. Go to the link:https://docs.netapp.com/us-en/ontap-afx/install-setup/install-setup-workflow.html[AFX install and setup workflow^].
-
-.. Follow the instructions in the workflow to install the switches, controllers, and storage shelves in a NetApp cabinet or telco rack, cable the system (including the switches), and then power on the switches.
+. Install the switches as part of your AFX A1K or AFX A2K system installation and setup procedure.
 +
-NOTE: The AFX install and setup workflow instructions redirect you to this switch documentation to complete the switch setup, which includes performing the initial switch setup, installing the NX-OS software and RCF, verifying SSH is enabled, configuring health monitoring and optionally, configuring Smart Call Home.
+Follow the instructions in the applicable workflow to install the switches, controllers, and storage shelves in a NetApp cabinet or telco rack, cable the system (including the switches), and then power on the switches.
+
+* For an AFX A1K system, go to the link:https://docs.netapp.com/us-en/ontap-afx/install-setup/install-setup-workflow.html[AFX A1K install and setup workflow^].
+
+* For an AFX A2K system, go to the link:https://docs.netapp.com/us-en/ontap-afx/install-setup/install-setup-workflow.html[AFX A2K install and setup workflow^]. NEED to confirm the link for A2K!!!!
+
+NOTE: After you have installed the switches, the AFX install and setup workflow instructions redirect you back to this switch documentation to setup the switches, which includes completing the initial switch setup, installing the NX-OS software and RCF, verifying SSH is enabled, configuring health monitoring and optionally, configuring Smart Call Home.
 
 .What's next?
 
-After you've installed, cabled, and powered on your switches as part of the AFX system installation and setup procedure, you link:setup-switch-9332d-cluster.html[complete the initial switch setup].
+After you've installed, cabled, and powered on your switches as part of your AFX A1K or AFX A2K system installation, you set up your switches using the  link:configure-switch-overview-9332d-cluster.html[setup switches workflow].
 
-Or should it now be: 
+//Not using: After you've installed, cabled, and powered on your switches as part of your AFX A1K or AFX A2K system installation and setup procedure, you link:setup-switch-9332d-cluster.html[complete the initial switch setup].
 
-After you've installed, cabled, and powered on your switches as part of the AFX system installation, you set up the switches using the  link:configure-switch-overview-9332d-cluster.html[setup switches workflow]. I think it needs to be this text.
-
-//After you've installed and cabled your switches and system hardware, and powered on the switches, the AFX system installation and setup documentation directs back to this switch documentation to complete the switch setup, which includes initial switch setup, installing the NX-OS software and RCF, verifying SSH is enabled, configuring health monitoring and optionally, configuring Smart Call Home. link:setup-switch-9332d-cluster.html[complete the initial switch setup].(Lisa: You want to link to configure switch - like I have above - or back to switch install workflow?)
 
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-06
 // Refactored content project, GH#423 2026-APR-MAY

@@ -9,13 +9,17 @@ summary: After you power on Cisco Nexus 9332D-GX2B switch(es) as part of a new A
 :imagesdir: ../media/
 
 [.lead]
-After you power on Cisco Nexus 9332D-GX2B switch(es) as part of a new AFX system installation or a switch replacement, or after you reset a switch to its factory default settings, you are prompted to complete the initial setup for the switch(es) using configuration wizard. You can reference the following configuration wizard questions and recommended responses to help you complete the initial setup of the switch(es).
+After you power on Cisco Nexus 9332D-GX2B switch(es) as part of a new AFX A1K or AFX A2K system installation or a switch replacement, or after you reset a switch to its factory default settings, you are prompted to complete the initial setup for the switch(es) using configuration wizard. You can reference the following configuration wizard questions and recommended responses to help you complete the initial setup of the switch(es).
 
 .Before you begin
 
-* If you are installing switches as part of a new AFX system installation, make sure you have completed the https://docs.netapp.com/us-en/ontap-afx/install-setup/power-on-configure-switch.html[Power on and configure the switch^] procedure for each switch in your AFX system.
+* If you are installing switches as part of a new AFX A1K or AFX A2K system installation, make sure you have powered on the switches using the applicable AFX system document:
+
+** For an AFX A1K system, you use the https://docs.netapp.com/us-en/ontap-afx/install-setup/power-on-configure-switch.html[Power on and configure the switch^] procedure.
+
+** For an AFX A2K system, you use the https://docs.netapp.com/us-en/ontap-afx/install-setup/power-on-hardware.html[Power on your AFX 2K storage system^] procedure. NEED to confirm the link!!!!
 +
-Lisa: note that the above topic in the AFX repo links back to my Configure sw and RCF workflow topic, which has users complete switch config, sw, RCF, SSH, health monitor and SCH, THEN links back to AFX repo to pwr on the system. Hey, in what switch topic does it link back to the AFX repo? BUT must change the AFX doc link to go to my switch setup topic instead.
+Lisa: note that the above A1K topic in the AFX A1K repo links back to my Configure sw and RCF workflow topic, which has users complete switch config, sw, RCF, SSH, health monitor and SCH, THEN links back to AFX repo to pwr on the system. Hey, in what switch topic does it link back to the AFX repo? BUT must change the AFX doc link to go to my switch setup topic instead.
 
 * If you are replacing a switch in an existing AFX system, make sure you have completed the link:replace-9332d-cluster-test.html[Replace a switch] procedure.
 
