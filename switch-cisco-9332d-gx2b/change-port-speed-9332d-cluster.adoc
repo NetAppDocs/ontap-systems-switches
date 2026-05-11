@@ -11,22 +11,22 @@ summary: For Cisco Nexus 9332D-GX2B switches running RCF version 10.1 in an AFX 
 [.lead]
 For Cisco Nexus 9332D-GX2B switches running RCF version 10.1 in an AFX A2K system, you can change the number of switch ports in breakout mode (4x100GbE) and 400GbE mode when you need to accommodate a different port speed configuration for your system.
 
+You perform this change as part of the link:install-rcf-software-9332d-cluster.html[RCF installation] or link:upgrade-rcf-software-9332d-cluster.html[RCF upgrade] procedures, which have you make customizations after the RCF file is installed or updated.
+
+NOTE: Do not perform this procedure outside of the RCF installation or upgrade procedures.
+
 //Hey, this was a sub-lead, but maybe not totally correct since there are 2 use cases!. To change the RCF 10.1 port speed configuration, you save a backup of the current switch configuration, change your port configuration, apply the modified RCF 10.1 copy to one of the switches, repeat for the second switch, and then verify the configuration. 
 
 
 .Before you begin
 
-* You perform this change as part of your link:install-rcf-software-9332d-cluster.html[RCF installation] or link:upgrade-rcf-software-9332d-cluster.html[RCF upgrade] procedures, which have you make customizations after the RCF file is installed or updated.
-+
-NOTE: Do not perform this procedure outside of the RCF installation or upgrade procedures.
-
 * You must have an AFX A2K system running ONTAP 9.19.1GA or later.
 
 * Your switches must be running NX-OS 10.6 or later. If you are running an older version of NX-OS, you must upgrade to the required version using the link:install-nxos-software-9332d-cluster-test.html[install or upgrade NX-OS] procedure.
 
-* Your switches must be running RCF version 10.1 or later. If you are running RCF version 10.0, you must upgrade to RCF version 10.1 using the link:upgrade-rcf-software-9332d-cluster.html[upgrade the RCF] procedure. (or should point to the overview topic)
+* Your switches must be running RCF version 10.1 or later. If you are running RCF version 10.0, you must upgrade to RCF version 10.1 using the link:upgrade-rcf-software-9332d-cluster.html[upgrade the RCF] procedure.
 +
-The version of RCF you have on your switches determines the port speed options available to you. For example, if you have RCF version 10.0, the ports are preset for breakout mode (4x100GbE) and cannot be changed. If you have RCF version 10.1, you can change the number of preset ports that are in breakout mode (4x100GbE) and 400GbE mode.
+The version of RCF you have on your switches determines the port speed options available to you. For example, if you have RCF version 10.0, the ports are preset for breakout mode (4x100GbE) and cannot be changed. If you have RCF version 10.1, you can change the number of ports that are in breakout mode (4x100GbE) and 400GbE mode.
 
 * Determine the port speed configuration you need for your AFX A2K system connectivity. RCF 10.1 has the following preset port speed configuration:
 +
@@ -53,7 +53,6 @@ a|
 
 
 .About this task
-* You perform this procedure as part of your RCF installation or RCF upgrade procedure.
 
 * Is this procedure being done on one switch at a time - do the procedure then repeat? No matter if doing it BEFORE or AFTER?
 
@@ -143,7 +142,9 @@ exit
 
 .What's next?
 
-After you've changed the RCF 10.1 port speed configuration, you link:configure-ssh-keys.html[verify the SSH configuration]. 
+After you've changed the port speed configuration, you complete the applicable link:install-rcf-software-9332d-cluster.html[RCF installation] or link:upgrade-rcf-software-9332d-cluster.html[RCF upgrade] procedure.
+
+//After you've changed the RCF 10.1 port speed configuration, you link:configure-ssh-keys.html[verify the SSH configuration]. 
 
 
 // New topic for 2k project, AFFFASDOC-xxx, 2026-JULY-xx
