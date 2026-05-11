@@ -38,10 +38,13 @@ Warning: This command will erase the startup-configuration.
 Do you wish to proceed anyway? (y/n) [n] *y*
 ----
 
-. Reload the NX-OS software:
+. Reload the NX-OS:
 +
 `reload`
 +
+//The reload command restarts the switch operating system (NX-OS). It initiates a power-cycle of the hardware, which terminates all network traffic through the device and forces a system reboot. Does it actually reload the sw? 
+
+//You only need to apply the RCF if you have explicitly performed a write erase (factory default). YES, you need to have users install the RCF.
 
 [subs=+quotes]
 ----
