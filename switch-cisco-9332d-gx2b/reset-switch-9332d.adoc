@@ -37,15 +37,16 @@ You must be connected to the switch using the serial console.
 Warning: This command will erase the startup-configuration.
 Do you wish to proceed anyway? (y/n) [n] *y*
 ----
+//Wipes Configuration: It removes the stored configuration file, allowing for a clean installation of a new Reference Configuration File (RCF) or to reconfigure the switch from scratch. Follow-up Action: A reload command is necessary to apply the empty configuration, as write erase does not affect the currently running configuration
 
 . Reload the NX-OS:
 +
 `reload`
 +
 //The reload command restarts the switch operating system (NX-OS). It initiates a power-cycle of the hardware, which terminates all network traffic through the device and forces a system reboot. Does it actually reload the sw? 
-
++
 //You only need to apply the RCF if you have explicitly performed a write erase (factory default). YES, you need to have users install the RCF.
-
++
 [subs=+quotes]
 ----
 (cs2)# *reload*
