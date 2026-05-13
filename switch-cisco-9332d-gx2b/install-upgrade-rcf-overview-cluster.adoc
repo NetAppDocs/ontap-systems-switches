@@ -90,16 +90,31 @@ Ethernet1/31, Ethernet1/32
 a|
 400GbE Intra-cluster ISL connections
 |===
+
+=== Change port speed configuration for AFX A2K systems
+
+You can change the port speed configuration to adjust the number of switch ports in breakout mode (4x100GbE) and 400GbE mode when you need to accommodate a different port speed configuration for your AFX A2K system with RCF 10.1.
+
+You perform this change as part of the RCF installation or RCF upgrade procedure. The procedures have steps for making configuration changes and link you to this page.
+
+.Steps
+
+. Modify port speeds and breakout modes on the switches:
+* To designate breakout ports, use the `interface breakout module` command. 
 +
-[NOTE]
-====
-You can change the preset groups to adjust the number of switch ports in breakout mode (4x100GbE) and 400GbE mode when you need to accommodate a different port speed configuration for your AFX A2K system.
-//This above text came from change port speed topic.
+For example, to designate 400GbE mode ports 15-19 as breakout (4x100GbE) ports, use the following: `interface breakout module 1 port 15-19 map 100g-4x`
++
+//* To change breakout ports back to non-breakout ports, use the `no interface breakout` command. 
+//+
+//For example, to change breakout ports 15-19 back to non-breakout ports (400GbE ports), you use the following: `no interface breakout module 1 port 15-19 map 100g-4x`.
 
-You do this later, as part of the RCF installation procedure.
+. Modify the port list with the new ports that need to use the port profile for the desired port speed.
++
+For example, to modify configuration ports 15-19 for the 100G speed port profile, use the following: 
++
+`interface e1/1/1-4, e1/2/1-4, e1/3/1-4, e1/4/1-4, e1/5/1-4, e1/6/1-4, e1/7/1-4, e1/8/1-4, e1/9/1-4, e1/10/1-4, e1/11/1-4, e1/12/1-4, e1/13/1-4, e1/14/1-4, e1/15/1-4, e1/16/1-4, e1/17/1-4, e1/18/1-4, e1/19/1-4 inherit port-profile 100G exit`
 
-//You do this later as part of your switch setup process, after you install the RCF on your switches by using the link:change-port-speed-9332d-cluster.html[Change port speed configuration] procedure.
-====
+
 
 === Suggested documentation
 Before you install or upgrade the RCF on your switches, it is recommended you review the following documentation:
@@ -129,6 +144,7 @@ The following information applies to the install or upgrade the RCF procedures:
 * The procedures require the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 +
 The command outputs might vary depending on different releases of ONTAP.
+
 
 
 .What's next?
