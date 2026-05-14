@@ -41,11 +41,15 @@ You upgrade the Reference Configuration File (RCF) version on your Cisco Nexus 9
 * You must have the current RCF version.
 //You mean should have downloaded a copy of the current RCF version from the NetApp support site before starting the upgrade? 
 
-* If you are upgrading your RCF version, you need a boot configuration in the RCF that reflects the desired boot images. 
+* You need a boot configuration in the RCF that reflects the desired boot images. 
 //What's this mean? That first bit is not needed since THIS IS the upgrade RCF topic.
 +
 If you need to change the boot configuration to reflect the current boot images, you must do so before reapplying the RCF so that the correct version is instantiated on future reboots.
 //What's this mean?
+
+* Before installing a new switch software version and RCFs, you must erase the switch settings and perform basic configuration. You must be connected to the switch using the serial console or have preserved basic configuration information prior to erasing the switch settings.
++
+HEY, the above bullet is in today's 9332 Update RCF topic. The way it's worded sounds like it only applies to installing NX-OS and installing RCF. Is this "requireemnt" needed in this upgrade RCF topic or elsewhere?
 
 
 .About this task

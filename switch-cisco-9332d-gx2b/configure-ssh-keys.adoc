@@ -2,31 +2,32 @@
 permalink: switch-cisco-9332d-gx2b/configure-ssh-keys.html
 sidebar: sidebar
 keywords: ssh, requirement, cluster, switch, health, monitor, cshm, log, collection, feature, cisco 9332d-gx2b
-summary: If you are setting up switches as part of a new AFX A1K or AFX A2K system installation, a switch replacement, or a reset to factory default settings, and you want to use the Cluster Switch Health Monitor (CSHM) and log collection features, you must verify that SSH and SSH keys are enabled on the switches.
+summary: If you are configuring your switches as part of a new AFX A1K or AFX A2K system installation, a switch replacement, or a reset to factory default settings, and you want to use the Cluster Switch Health Monitor (CSHM) and log collection features, you must verify that SSH and SSH keys are enabled on the switches.
 ---
 = Verify SSH and SSH keys are enabled - Cisco Nexus 9332D-GX2B
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-If you are setting up switches as part of a new AFX A1K or AFX A2K system installation, a switch replacement, or a reset to factory default settings, and you want to use the Cluster Switch Health Monitor (CSHM) and log collection features, you must verify that SSH and SSH keys are enabled on the switches.
+If you are configuring your switches as part of a new AFX A1K or AFX A2K system installation, a switch replacement, or a reset to factory default settings, and you want to use the Cluster Switch Health Monitor (CSHM) and log collection features, you must verify that SSH and SSH keys are enabled on the switches.
 
 //After you complete the initial Cisco Nexus 9332D-GX2B switch setup as part of a new AFX system installation, a switch replacement, or reset to its factory default settings, you are prompted to complete the initial setup for the switch(es) using configuration wizard. You can reference the following configuration wizard questions and recommended responses to help you complete the initial setup of the switch(es).
 
 //After you power on Cisco Nexus 9332D-GX2B switch(es) as part of a new AFX system installation or a switch replacement, or after you reset a switch to its factory default settings, you are prompted to complete the initial setup for the switch(es) using configuration wizard. You can reference the following configuration wizard questions and recommended responses to help you complete the initial setup of the switch(es).
 
 .Before you begin
+You must be connected to the switch using the serial console.
 
-* Hey, do you really need the following 3 bullets? If you're not doing the same for the other related topics, then don't do it here. Is What's next and Leads enough?
+//* Hey, do you really need the following 3 bullets? If you're not doing the same for the other related topics, then don't do it here. Is What's next and Leads enough?
 
-* If you are setting up switches as part of a new AFX A1K or AFX A2K system installation and setup, make sure you have completed the link:install-nxos-software-9332d-cluster-test.html[Install or upgrade NX-OS] procedure for each switch in your system.
+//* If you are setting up switches as part of a new AFX A1K or AFX A2K system installation and setup, make sure you have completed the link:install-nxos-software-9332d-cluster-test.html[Install or upgrade NX-OS] procedure for each switch in your system.
 
-* If you are replacing a switch in an existing AFX A1K or AFX A2K system, make sure you have completed the link:replace-9332d-cluster-test.html[Replace a switch] procedure.
+//* If you are replacing a switch in an existing AFX A1K or AFX A2K system, make sure you have completed the link:replace-9332d-cluster-test.html[Replace a switch] procedure.
 
-* If you are resetting a switch to its factory default settings, make sure you have completed the link:reset-switch-9332d.html[Reset a switch to factory default settings] procedure.
+//* If you are resetting a switch to its factory default settings, make sure you have completed the link:reset-switch-9332d.html[Reset a switch to factory default settings] procedure.
 
-.About this task
-When you completed the initial switch setup, you should have responded with `yes` to confirm SSH was enabled (the default) and entered the type of SSH keys you wanted to generate.
+//.About this task
+//When you completed the initial switch setup, you should have responded with `yes` to confirm SSH was enabled (the default) and entered the type of SSH keys you wanted to generate.
 
 //SSH key default is rsa. You can add more keys for additional layers of security. For example, you can add ecdsa keys, which are more secure than rsa keys. If you want to add ecdsa keys, you can use the `ssh key generate ecdsa` command.
 
@@ -90,7 +91,7 @@ sshServer              1          enabled
 
 .What's next?
 
-After you've verified SSH and SSH keys are enabled, you link:../switch-cshm/config-overview.html[configure cluster switch health monitoring].
+After you've verified SSH and SSH keys are enabled, you link:../switch-cshm/cshm-overview.html[configure cluster switch health monitoring].
 
 Additionally, if you configured your switch as part of a new AFX A1K or AFX A2K system installation, you must then link:complete-cluster-setup.html[complete the AFX system setup].
 
