@@ -12,23 +12,11 @@ summary: After you power on Cisco Nexus 9332D-GX2B switch(es) as part of a new A
 After you power on Cisco Nexus 9332D-GX2B switch(es) as part of a new AFX A1K or AFX A2K system installation or a switch replacement, or after you reset a switch to its factory default settings, you are prompted to complete the initial setup for the switch(es) using configuration wizard. You can reference the following configuration wizard questions and recommended responses to help you complete the initial setup of the switch(es).
 
 .Before you begin
+Make sure you have the following network information for each switch to complete the initial switch setup:
 
-* If you are installing switches as part of a new AFX A1K or AFX A2K system installation, make sure you have powered on the switches using the applicable AFX system document:
-
-** For an AFX A1K system, you use the https://docs.netapp.com/us-en/ontap-afx/install-setup/power-on-configure-switch.html[Power on and configure the switch^] procedure.
-
-** For an AFX A2K system, you use the https://docs.netapp.com/us-en/ontap-afx/install-setup/power-on-hardware.html[Power on your AFX 2K storage system - link needed^] procedure.
-+
-Lisa: note that the above A1K topic in the AFX A1K repo links back to my Configure sw and RCF workflow topic, which has users complete switch config, sw, RCF, SSH, health monitor and SCH, THEN links back to AFX repo to pwr on the system. Hey, in what switch topic does it link back to the AFX repo? BUT must change the AFX doc link to go to my switch setup topic instead.
-
-* If you are replacing a switch in an existing AFX system, make sure you have completed the link:replace-9332d-cluster-test.html[Replace a switch] procedure.
-
-* If you are resetting a switch to its factory default settings, make sure you have completed the link:reset-switch-9332d.html[Reset a switch to factory default settings] procedure.
-
-* Make sure you have the following network information for each switch to complete the initial switch setup:
-** The switch name.
-** The IP address for Out-of-band (mgmt0) management configuration.
-** The default gateway to enable remote management from a different network/VLAN than the management interface (mgmt0).
+* The switch name.
+* The IP address for Out-of-band (mgmt0) management configuration.
+* The default gateway to enable remote management from a different network/VLAN than the management interface (mgmt0).
 //for the switch management interface (mgmt0). 
 
 ** The number of key bits from 1014 to 2048 for SSH key generation.
@@ -37,9 +25,7 @@ Lisa: note that the above A1K topic in the AFX A1K repo links back to my Configu
 
 
 .About this task
-* When you power on the switch(es), they begin to boot and you are prompted to provide answers to the following series of questions to complete the initial switch startup.
-+
-You must complete the initial setup on each switch.
+* You must complete the initial setup on each switch.
 
 * If needed, you can access the applicable link:required-documentation-9332d-cluster.html[Cisco switch and ONTAP reference documentation]. 
 
