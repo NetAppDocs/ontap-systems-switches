@@ -10,7 +10,7 @@ summary: To install and configure your Cisco Nexus 9332D-GX2B switches as part o
 :imagesdir: ../media/
 
 [.lead]
-To install and configure your Cisco Nexus 9332D-GX2B switches as part of your new AFX A1K or AFX A2K system, you use a combination of documentation from this switch site and the AFX system site. The documentation directs you with links as needed.
+To install and configure your Cisco Nexus 9332D-GX2B switches as part of your new AFX A1K or AFX A2K system, you use a combination of documentation from this switch site and the AFX systems site. The documentation provides links that direct you as needed.
 
 //.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png[One]link:configure-setup-ports-9332d.html[Review the switch port details]
 //[role="quick-margin-para"]
@@ -21,15 +21,15 @@ To install and configure your Cisco Nexus 9332D-GX2B switches as part of your ne
 //Review specific Cisco switch documentation and ONTAP systems documentation prepare for the install and setup of your Cisco Nexus 9332D-GX2B switches and AFX storage system.
 
 === Install switches
-To install your switches, you must prepare for the installation and then install the switches (along with the AFX system hardware), which includes powering on and cabling the switches.
+To install your switches, you must prepare for the installation and then install the switches (along with the AFX system hardware), which includes cabling and powering on the switches.
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png[One]link:install-prepare-9332d-cluster.html[Prepare for install]
 [role="quick-margin-para"]
-Prepare to install and setup the switches by reviewing the Cisco and ONTAP systems documentation, preparing your site, and understanding the switch port usage.
+Prepare to install and setup the switches by reviewing the Cisco and ONTAP systems documentation, preparing your site, and understanding the preset configuration of switch ports for the version of RCF supported by your AFX system.
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png[Two]link:install-hardware.html[Install the switches]
 [role="quick-margin-para"]
-You are directed to the AFX A1K or AFX A2K system installation and setup instructions to install the switches (along with the AFX system hardware), cabling the switches, and then power on the switches. You are then directed back to this workflow to configure your switches.
+You are directed to the AFX A1K or AFX A2K system installation and setup workflow to install the switches (along with the AFX system hardware), cable the switches, and then power on the switches. You are then directed back to this workflow to configure the switches.
 
 === Configure switches
 To configure your switches, you complete the initial setup, prepare to install NX-OS and RCF, install NX-OS, install RCF, verify SSH is enabled, configure cluster switch health monitoring (CSHM), and configure Smart Call Home (optional).
@@ -42,7 +42,7 @@ After you power on the switches, they begin to boot and enter the configuration 
 [role="quick-margin-para"]
 Prepare to install NX-OS and RCF on the switches.
 
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png[Three]link:install-nxos-software-9332d-cluster-test.html[Install or upgrade the NX-OS]
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png[Three]link:install-nxos-software-9332d-cluster-test.html[Install or upgrade NX-OS]
 [role="quick-margin-para"]
 Install the current version of NX-OS on the switches that supports your AFX A1K or AFX A2K system.
 
@@ -67,15 +67,17 @@ Configure the cluster switch health monitoring (CSHM) to ensure the operational 
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-7.png[Seven]link:smart-call-9332d-cluster.html[Configure Smart Call Home (optional)]
 [role="quick-margin-para"]
-Configuring Smart Call Home on your switches is optional. It is used to monitor the hardware and software components on your network. However, using cluster switch health monitoring (CSHM) is recommended instead.
+Configuring Cisco's Smart Call Home on your switches is optional. It is used to monitor the hardware and software components on your network. However, using cluster switch health monitoring (CSHM) is recommended instead.
 
 
 === Complete AFX system setup
-To complete the AFX system setup, you complete the power up of AFX system components and system setup procedures, and then verify switch connectivity.
+To complete your AFX A1K or AFX A2K system setup, you complete the power up of AFX system components and system setup procedures, and then verify switch connectivity.
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png[One]link:complete-cluster-setup.html[Complete the AFX system setup]
 [role="quick-margin-para"]
-After you've completed the configuration of your switches, you complete the setup of your AFX A1K or AFX A2K system by powering on the storage shelves and controllers, completing the AFX A1K or AFX A2K system setup procedures, and then verifying the switches are properly connected to each other and to your AFX system.
+You are directed to the AFX systems documentation to complete the setup of your AFX A1K or AFX A2K system by powering on the storage shelves and controllers, and then completing the system setup procedures. 
+
+After you complete the system setup, return to this topic to verify your switch connectivity to each other and to your AFX system. 
 
 //I think it's cleaner to have a topic for Complete AFX system setup instead of putting it in What's next. I think the handshakes between the two repos needs to be called out and not hidden in What's next.
 
