@@ -2,28 +2,28 @@
 permalink: switch-cisco-9332d-gx2b/install-nxos-overview-9332d-cluster.html
 sidebar: sidebar
 keywords: cisco, nx-os, software, reference, configuration, file, rcf, install, fx2, cluster, switch, install nx-os software and rcfs on cisco nexus 9336-fx2 cluster switches - cisco nexus 9336x-fx2
-summary: If you are installing new Cisco Nexus 9332D-GX2B switches as part of a new AFX A1K or AFX A2K system installation, replacing a faulty switch, or resetting a switch to the factory defaults settings, you must prepare your switch(es) and AFX system before installing NX-OS and Reference Configuration File (RCF) on the switch(es).
+summary: If you are installing new Cisco Nexus 9332D-GX2B switches as part of a new AFX A1K or AFX A2K system installation, replacing a faulty switch, or resetting a switch to the factory defaults settings, you must prepare your switch(es) and AFX system before installing the NX-OS and the Reference Configuration File (RCF) on the switch(es).
 ---
-= Prepare to install NX-OS and RCF - Cisco Nexus 9332D-GX2B
+= Prepare to install the NX-OS and RCF - Cisco Nexus 9332D-GX2B
 
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-If you are installing new Cisco Nexus 9332D-GX2B switches as part of a new AFX A1K or AFX A2K system installation, replacing a faulty switch, or resetting a switch to the factory defaults settings, you must prepare your switch(es) and AFX system before installing NX-OS and the Reference Configuration File (RCF) on the switch(es).
+If you are installing new Cisco Nexus 9332D-GX2B switches as part of a new AFX A1K or AFX A2K system installation, replacing a faulty switch, or resetting a switch to the factory defaults settings, you must prepare your switch(es) and AFX system before installing the NX-OS and the Reference Configuration File (RCF) on the switch(es).
 
-Preparing your switches and AFX system includes downloading the current version of NX-OS, downloading the supported version of RCF, suppressing automatic case creation, checking the status of each port, verifying the connectivity of the remote cluster interfaces, and verifying that the auto-revert command is enabled on all cluster LIFs.
+Preparing your switches and AFX system includes downloading the current version of the NX-OS, downloading the supported version of the RCF, suppressing automatic case creation, checking the status of each port, verifying the connectivity of the remote cluster interfaces, and verifying that the auto-revert command is enabled on all cluster LIFs.
 
 //Before you install the NX-OS and Reference Configuration File (RCF) on Cisco Nexus 9332D-GX2B switches, you prepare by downloading the current version of NX-OS if needed, downloading the supported RCF version, suppressing automatic case creation, checking the status of each port, verifying the connectivity of the remote cluster interfaces, and verifying that the auto-revert command is enabled on all cluster LIFs.
 
 .Before you begin
 * The switches must be powered on and you must have completed the link:setup-switch-9332d-cluster.html[Complete initial switch setup] procedure.
 
-* You must have access to an HTTP, FTP, or TFTP server. Access to one of these servers allows you to download the supported NX-OS and RCF as instructed later in this procedure.
+* You must have access to an HTTP, FTP, or TFTP server. Access to one of these servers allows you to download a supported version of NX-OS and RCF as instructed later in this procedure.
 
-* Hey: the following is from the RCF upgrade Before you begin and suggests that this content applies to installing NX-OS and installing RCF too. Need to check with Andris and Sunil.
+* Hey: the following is from the RCF upgrade Before you begin and suggests that this content applies to installing NX-OS and installing RCF too.
 +
-Before installing a new switch software version and RCFs, you must erase the switch settings and perform basic configuration. You must be connected to the switch using the serial console or have preserved basic configuration information prior to erasing the switch settings.
+Before installing a new version of the NX-OS and RCF, you must erase the switch settings and perform basic configuration. You must be connected to the switch using the serial console or have preserved basic configuration information prior to erasing the switch settings.
 
 //* Verify that the version of software on your switch(es) is the current/10.4.2 version.
 //+
@@ -95,7 +95,7 @@ The advanced prompt (`*>`) appears.
 
 .. *Cluster ports*
 
-... Display how many cluster interconnect interfaces are configured in each node for each  switch: 
+... Display how many cluster interconnect interfaces are configured in each node for each switch: 
 +
 [source,cli]
 ----
@@ -529,9 +529,9 @@ Cluster node1-04_clus2     true
 
 .What's next?
 
-After you've prepared to install NX-OS and RCF on your switches, you install NX-OS using the link:install-nxos-software-9332d-cluster-test.html[Install or upgrade NX-OS] procedure.
+After you've prepared to install the NX-OS and RCF on your switches, you install the NX-OS using the link:install-nxos-software-9332d-cluster-test.html[Install or upgrade the NX-OS] procedure.
 
-//Understand that NX-OS should always be installed or upgraded before RCF.
+//Understand that the NX-OS should always be installed or upgraded before the RCF.
 
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-06
 // Refactor content project phase 1 with A2K content, GH#423 2026-JUN
