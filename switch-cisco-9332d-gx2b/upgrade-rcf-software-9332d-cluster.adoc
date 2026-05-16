@@ -47,9 +47,9 @@ You upgrade the Reference Configuration File (RCF) version on your Cisco Nexus 9
 If you need to change the boot configuration to reflect the current boot images, you must do so before reapplying the RCF so that the correct version is instantiated on future reboots.
 //What's this mean?
 
-* Before installing a new switch software version and RCFs, you must erase the switch settings and perform basic configuration. You must be connected to the switch using the serial console or have preserved basic configuration information prior to erasing the switch settings.
+* Before installing a new NX-OS version and RCF version, you must erase the switch settings and perform basic configuration. You must be connected to the switch using the serial console or have preserved basic configuration information prior to erasing the switch settings.
 +
-HEY, the above bullet is in today's 9332 Update RCF topic. The way it's worded sounds like it only applies to installing NX-OS and installing RCF. Is this "requireemnt" needed in this upgrade RCF topic or elsewhere?
+HEY, the above bullet is in today's 9332 Update RCF topic. The way it's worded sounds like it ONLY applies to installing NX-OS and installing RCF. Is this "requirement" needed in this upgrade RCF topic and/or in installing NX-OS and installing RCF?
 
 
 .About this task
@@ -528,7 +528,8 @@ node1-04          true    true          false
 
 .. Record any custom additions between the current `running-config` and the RCF file in use (such as an SNMP configuration for your organization).  
 +
-.. For NX-OS 10.2 and later, use the `show diff running-config` command to compare with the saved RCF file in the bootflash.  Otherwise, use a third part diff/compare tool.
+.. For NX-OS 10.2 and later, use the `show diff running-config` command to compare with the saved RCF file in the bootflash. Otherwise, use a third part diff/compare tool.
+//Need to keep 10.2 reference for A1K users running an earlier version?
 
 . Save basic configuration details to the `write_erase.cfg` file on the bootflash.
 +
