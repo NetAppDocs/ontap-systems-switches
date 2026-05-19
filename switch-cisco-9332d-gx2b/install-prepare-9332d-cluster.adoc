@@ -2,7 +2,7 @@
 sidebar: sidebar
 permalink: switch-cisco-9332d-gx2b/install-prepare-9332d-cluster.html
 keywords: shared storage cluster switch
-summary: Before installing Cisco Nexus 9332D-GX2B switches as part of a new AFX A1K or AFX A2K system installation, you should understand aspects of the switch and its installation by reviewing the applicable Cisco switch documentation and ONTAP systems documentation, understand the RCF versions supported for AFX systems, and consider using Smart Call Home.
+summary: Before installing Cisco Nexus 9332D-GX2B switches as part of a new AFX 1K or AFX 2K system installation, you should understand aspects of the switch and its installation by reviewing the applicable Cisco switch documentation and ONTAP systems documentation, understand the RCF versions supported for AFX systems, and consider using Smart Call Home.
 ---
 = Prepare to install the switches - Cisco Nexus 9332D-GX2B
 :hardbreaks:
@@ -12,7 +12,7 @@ summary: Before installing Cisco Nexus 9332D-GX2B switches as part of a new AFX 
 :imagesdir: ../media/
 
 [.lead]
-Before installing Cisco Nexus 9332D-GX2B switches as part of a new AFX A1K or AFX A2K system installation, you should understand aspects of the switch and its installation by reviewing the applicable Cisco switch documentation and ONTAP systems documentation, understand the RCF versions supported for AFX systems, and consider using Smart Call Home.
+Before installing Cisco Nexus 9332D-GX2B switches as part of a new AFX 1K or AFX 2K system installation, you should understand aspects of the switch and its installation by reviewing the applicable Cisco switch documentation and ONTAP systems documentation, understand the RCF versions supported for AFX systems, and consider using Smart Call Home.
 
 === Step 1: Review the Cisco switch documentation
 You should review the following Cisco install and setup documents so you are familiar with the switch release notes, safety information, installation options, initial software configuration, and command references.
@@ -43,13 +43,13 @@ Provides NetApp hardware configuration and compatibility information.
 * link:https://kb.netapp.com/Support/General_Support/What_additional_information_do_I_need_to_install_my_equipment_that_is_not_in_HWU[What additional information do I need to install my equipment that is not in HWU?^]
 Provides more information about storage system installation requirements.
 
-//=== Step 3: Determine your port speed configuration needs for AFX A2K systems
+//=== Step 3: Determine your port speed configuration needs for AFX 2K systems
 
-//If your switches are in an AFX A2K system, RCF 10.1 is supported, which has a mix of breakout (4x100GbE) mode ports and 400GbE mode ports. The following table shows the preset port speeds configuration.
+//If your switches are in an AFX 2K system, RCF 10.1 is supported, which has a mix of breakout (4x100GbE) mode ports and 400GbE mode ports. The following table shows the preset port speeds configuration.
 
-//Determine the port speed configuration you need for your AFX A2K system connectivity based on RCF 10.1, the supported version of RCF on switches in AFX A2K systems at the initial release of ONTAP 9.19.1GA.
+//Determine the port speed configuration you need for your AFX 2K system connectivity based on RCF 10.1, the supported version of RCF on switches in AFX 2K systems at the initial release of ONTAP 9.19.1GA.
 
-//RCF 10.1(supported at initial release of ONTAP 9.19.1GA on switches in AFX A2K systems) has the following preset port speed configuration.
+//RCF 10.1(supported at initial release of ONTAP 9.19.1GA on switches in AFX 2K systems) has the following preset port speed configuration.
 
 //For the current list of supported RCF versions, see the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page.
 
@@ -73,9 +73,9 @@ Provides more information about storage system installation requirements.
 
 
 === Step 3: Understand RCF versions supported for AFX systems
-The type of system (AFX A1K or AFX A2K) your switches are in determines the supported version of RCF. Understand the preset configuration of switch ports for the version of RCF supported by your AFX system.
+The type of system (AFX 1K or AFX 2K) your switches are in determines the supported version of RCF. Understand the preset configuration of switch ports for the version of RCF supported by your AFX system.
 
-* If you have an AFX A1K system, RCF 10.0 is supported:
+* If you have an AFX 1K system, RCF 10.0 is supported:
 +
 The following table shows the preset groupings of the switch ports, their port speeds, and usage based on RCF version 10.0. (This is the only supported version of RCF.)
 +
@@ -94,9 +94,9 @@ a|
 400GbE ISL
 |===
 +
-* If you have an AFX A2K system, RCF 10.1 is supported:
+* If you have an AFX 2K system, RCF 10.1 is supported:
 +
-//Understand the preset configuration of switch port speeds (breakout ports 100GbE and non-breakout ports) so that you can determine if you need to change the port speed mix to accommodate a different port speed configuration for your AFX A2K system.
+//Understand the preset configuration of switch port speeds (breakout ports 100GbE and non-breakout ports) so that you can determine if you need to change the port speed mix to accommodate a different port speed configuration for your AFX 2K system.
 +
 The following table shows the preset groups of the switch ports, their port speeds, and usage based on RCF version 10.1. (This is the only supported version of RCF at initial release of ONTAP 9.19.1GA.)
 +
@@ -121,7 +121,7 @@ a|
 +
 [NOTE]
 ====
-You can change the preset groups to adjust the number of switch ports in breakout mode (4x100GbE) and 400GbE mode when you need to accommodate a different port speed configuration for your AFX A2K system.
+You can change the preset groups to adjust the number of switch ports in breakout mode (4x100GbE) and 400GbE mode when you need to accommodate a different port speed configuration for your AFX 2K system.
 //This above text came from change port speed topic.
 
 You do this later, as part of the RCF installation procedure.
@@ -144,4 +144,4 @@ After you've prepared to install your switches, you link:install-hardware.html[i
 
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-08
 // AFFFASDOC-473, 2026-MAR-18
-// Refactor content project phase 1 with A2K content, GH#423 2026-JUN
+// Refactor content project phase 1 with 2K content, GH#423 2026-JUN

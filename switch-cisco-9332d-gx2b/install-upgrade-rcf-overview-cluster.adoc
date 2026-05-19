@@ -2,20 +2,20 @@
 permalink: switch-cisco-9332d-gx2b/install-upgrade-rcf-overview-cluster.html
 sidebar: sidebar
 keywords: ssh, requirement, cluster, switch, health, monitor, cshm, log, collection, feature, cisco 9332d-gx2b
-summary: You can install or upgrade the reference configuration file (RCF) on your Nexus 9332D-GX2B switches depending on the available supported RCF versions for the switches in your AFX A1K or AFX A2K system.
+summary: You can install or upgrade the reference configuration file (RCF) on your Nexus 9332D-GX2B switches depending on the available supported RCF versions for the switches in your AFX 1K or AFX 2K system.
 ---
 = Install or upgrade the RCF overview - Cisco Nexus 9332D-GX2B
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-You can install or upgrade the reference configuration file (RCF) on your Nexus 9332D-GX2B switches depending on the available supported RCF versions for the switches in your AFX A1K or AFX A2K system.
+You can install or upgrade the reference configuration file (RCF) on your Nexus 9332D-GX2B switches depending on the available supported RCF versions for the switches in your AFX 1K or AFX 2K system.
 
-You install a supported version of the RCF on the switches as part of a new AFX A1K or AFX A2K system installation, a switch replacement, or a reset to factory default settings.
+You install a supported version of the RCF on the switches as part of a new AFX 1K or AFX 2K system installation, a switch replacement, or a reset to factory default settings.
 
-You upgrade to a supported version of the RCF on the switches to support new hardware, a new ONTAP version, or to align with a new NX-OS version in your AFX A1K or AFX A2K system configuration.
+You upgrade to a supported version of the RCF on the switches to support new hardware, a new ONTAP version, or to align with a new NX-OS version in your AFX 1K or AFX 2K system configuration.
 
-//You upgrade to a supported version of RCF on the switches to support new features or changes in your AFX A1K or AFX A2K system network environment. 
+//You upgrade to a supported version of RCF on the switches to support new features or changes in your AFX 1K or AFX 2K system network environment.
 
 //Are users actually upgrading 10.0 to 10.1 at initial RTS? NO! But later, if A1K migration and mixed configs are supported, they will need to upgrade from 10.0 to 10.1 to connect to A2K.
 
@@ -40,13 +40,13 @@ NOTE: RCF installation or upgrade is independent of NS-OS installation or upgrad
 
 === Understand RCF versions supported for AFX systems
 
-The type of system (AFX A1K or AFX A2K) your switches are in determines the supported version of the RCF. Understand the preset configuration of switch ports for the version of RCF supported by your AFX system.
+The type of system (AFX 1K or AFX 2K) your switches are in determines the supported version of the RCF. Understand the preset configuration of switch ports for the version of RCF supported by your AFX system.
 
 NOTE: For the current list of supported RCF versions, see the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page.
 
 NOTE: For specific port and VLAN usage details, refer to the banner and important notes section in your RCF. Refer to link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page for more information.
 
-* If you have an AFX A1K system, RCF 10.0 is supported:
+* If you have an AFX 1K system, RCF 10.0 is supported:
 +
 The following table shows the preset groupings of the switch ports, their port speeds, and usage based on RCF version 10.0. (This is the only supported version of RCF.)
 +
@@ -65,9 +65,9 @@ a|
 400GbE ISL
 |===
 +
-* If you have an AFX A2K system, RCF 10.1 is supported:
+* If you have an AFX 2K system, RCF 10.1 is supported:
 +
-//Understand the preset configuration of switch port speeds (breakout ports 100GbE and non-breakout ports) so that you can determine if you need to change the port speed mix to accommodate a different port speed configuration for your AFX A2K system.
+//Understand the preset configuration of switch port speeds (breakout ports 100GbE and non-breakout ports) so that you can determine if you need to change the port speed mix to accommodate a different port speed configuration for your AFX 2K system.
 +
 The following table shows the preset groups of the switch ports, their port speeds, and usage based on RCF version 10.1. (This is the only supported version of RCF at initial release of ONTAP 9.19.1GA.)
 +
@@ -92,9 +92,9 @@ a|
 400GbE Intra-cluster ISL connections
 |===
 
-=== Change port speed configuration for AFX A2K systems
+=== Change port speed configuration for AFX 2K systems
 
-You can change the port speed configuration to adjust the number of switch ports in breakout mode (4x100GbE) and 400GbE mode when you need to accommodate a different port speed configuration for your AFX A2K system with RCF 10.1.
+You can change the port speed configuration to adjust the number of switch ports in breakout mode (4x100GbE) and 400GbE mode when you need to accommodate a different port speed configuration for your AFX 2K system with RCF 10.1.
 
 You perform this change as part of the RCF installation or RCF upgrade procedure. The procedures have steps for making configuration changes and link you to this page.
 
@@ -156,7 +156,7 @@ After you've reviewed the install or upgrade RCF overview, you link:install-rcf-
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-06
 // AFFFASDOC-372, 2025-NOV-25
 // AFFFASDOC-473, 2026-MAR-16
-// Refactor content project phase 1 with A2K content, GH#423 2026-JUN
+// Refactor content project phase 1 with 2K content, GH#423 2026-JUN
 
 
 
@@ -164,11 +164,11 @@ After you've reviewed the install or upgrade RCF overview, you link:install-rcf-
 
 //.Available RCF configurations
 
-//Depending on your system type, AFX A2K or AFX A1K, you use the applicable RCF version.
+//Depending on your system type, AFX 2K or AFX 1K, you use the applicable RCF version.
 
-//* AFX A2K
+//* AFX 2K
 
-//** Switches in an AFX A2K system use RCF 10.1, which supports both breakout mode (4x100GbE) and 400GbE mode. The ports are pre-set for a specific number of breakout mode (4x100GbE) and 400GbE mode, but you can change the port-speed configuration if needed. For more information about changing the port-speed configuration, refer to the link:change-port-speed-9332d-cluster.html[Change port speed (breakout) configuration - Cisco Nexus 9332D-GX2B^] topic.
+//** Switches in an AFX 2K system use RCF 10.1, which supports both breakout mode (4x100GbE) and 400GbE mode. The ports are pre-set for a specific number of breakout mode (4x100GbE) and 400GbE mode, but you can change the port-speed configuration if needed. For more information about changing the port-speed configuration, refer to the link:change-port-speed-9332d-cluster.html[Change port speed (breakout) configuration - Cisco Nexus 9332D-GX2B^] topic.
 
 //** 2K uses RCF 10.1. Ports 1-14 are pre-set breakout mode (4x100GbE). Ports 15-30 are pre-set 400GbE ports. Ports 31 and 32 are ISL ports. 
 
@@ -190,11 +190,11 @@ After you've reviewed the install or upgrade RCF overview, you link:install-rcf-
 
 //* AFX A1K
 
-//** Switches in an AFX A1K system use RCF 10.0, which supports breakout mode (4x100GbE). Ports 1-30 support breakout mode (4x100GbE). Ports 31 and 32 are ISL ports.
+//** Switches in an AFX 1K system use RCF 10.0, which supports breakout mode (4x100GbE). Ports 1-30 support breakout mode (4x100GbE). Ports 31 and 32 are ISL ports.
 
-//*Cluster-HA-Storage AFX* - All ports are configured in 4x100GbE breakout mode that universally supports AFX A1K node clusters, HA, storage ports, and NX224 storage shelf ports. 400GbE ISL between switches. (_Cluster-HA-Storage AFX RCF_vxx.x_).
+//*Cluster-HA-Storage AFX* - All ports are configured in 4x100GbE breakout mode that universally supports AFX 1K node clusters, HA, storage ports, and NX224 storage shelf ports. 400GbE ISL between switches. (_Cluster-HA-Storage AFX RCF_vxx.x_).
 
-//AFX A2K (with 9364 switches): Replace above in the rebranded 9364 topic with below 9364 content, but be midful of formatting you finalized for content above.
+//AFX 2K (with 9364 switches): Replace above in the rebranded 9364 topic with below 9364 content, but be midful of formatting you finalized for content above.
 
 //Switch   : NX9364D-GX2A
 

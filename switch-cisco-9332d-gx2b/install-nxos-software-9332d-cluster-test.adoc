@@ -2,18 +2,18 @@
 permalink: switch-cisco-9332d-gx2b/install-nxos-software-9332d-cluster-test.html
 sidebar: sidebar
 keywords: procedure, install, nx-os, software, nexus, cluster, switch, install the nx-os software - cisco nexus 9332d-gc2b
-summary: You can install or upgrade the NX-OS on your Nexus 9332D-GX2B switches depending on the available supported NX-OS versions for the switches in your AFX A1K or AFX A2K system.
+summary: You can install or upgrade the NX-OS on your Nexus 9332D-GX2B switches depending on the available supported NX-OS versions for the switches in your AFX 1K or AFX 2K system.
 ---
 = Install or upgrade the NX-OS - Cisco Nexus 9332D-GX2B
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-You can install or upgrade the NX-OS on your Nexus 9332D-GX2B switches depending on the available supported NX-OS versions for the switches in your AFX A1K or AFX A2K system.
+You can install or upgrade the NX-OS on your Nexus 9332D-GX2B switches depending on the available supported NX-OS versions for the switches in your AFX 1K or AFX 2K system.
 
-You install a supported version of NX-OS on the switches as part of a new AFX A1K or AFX A2K system installation, a switch replacement, or a reset to factory default settings.
+You install a supported version of NX-OS on the switches as part of a new AFX 1K or AFX 2K system installation, a switch replacement, or a reset to factory default settings.
 
-You upgrade to a supported version of NX-OS on the switches to support new hardware or a new ONTAP version in your AFX A1K or AFX A2K system.
+You upgrade to a supported version of NX-OS on the switches to support new hardware or a new ONTAP version in your AFX 1K or AFX 2K system.
 
 NOTE: NX-OS installation or upgrade is independent of RCF installation or upgrade. If you are installing or upgrading both the NX-OS and RCF, it is recommended you install or upgrade NX-OS first.
 
@@ -28,10 +28,10 @@ NOTE: NX-OS installation or upgrade is independent of RCF installation or upgrad
 
 * The type of AFX system your switches are in determines the supported versions of NX-OS for your switches.
 
-** For switches in an AFX A1K system, running any supported version of ONTAP, NX-OS 10.4.2 is the only supported version.
+** For switches in an AFX 1K system, running any supported version of ONTAP, NX-OS 10.4.2 is the only supported version.
 
-** For switches in an AFX A2K system, running ONTAP 9.19.1GA or later, NX-OS 10.6 is the only supported version at the initial release of ONTAP 9.19.1GA.
-+
+** For switches in an AFX 2K system, running ONTAP 9.19.1GA or later, NX-OS 10.6 is the only supported version at the initial release of ONTAP 9.19.1GA.
+
 For the current list of supported NX-OS versions, see the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page.
 
 NOTE: Do not upgrade or downgrade your NX-OS version to an unsupported version.
@@ -48,7 +48,7 @@ NOTE: Do not upgrade or downgrade your NX-OS version to an unsupported version.
 ** The cluster LIF names are node1-01_clus1, node1-01_clus2, node1-02_clus1, node1-02_clus2, node1-03_clus1, node1-03_clus2, node1-04_clus1, and node1-04_clus2.
 ** The `cluster1::*>` prompt indicates the name of the cluster.
 
-* The examples shown in this procedure are for AFX A1K systems with switches running NX-OS 10.4.2 and RCF 10.0. If you have an AFX A2K system, the output will vary.
+* The examples shown in this procedure are for AFX 1K systems with switches running NX-OS 10.4.2 and RCF 10.0. If you have an AFX 2K system, the input and output can vary.
  
 
 == Step 1: Prepare to install the NX-OS
@@ -1178,4 +1178,4 @@ After you've installed NX-OS on your switches, you install RCF starting with the
 
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-06
 // AFFFASDOC-394, 2025-OCT-20
-// Refactor content project phase 1 with A2K content, GH#423 2026-JUN
+// Refactor content project phase 1 with 2K content, GH#423 2026-JUN

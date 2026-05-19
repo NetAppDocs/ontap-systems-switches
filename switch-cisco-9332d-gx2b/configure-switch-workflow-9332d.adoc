@@ -11,7 +11,7 @@ summary: You configure Cisco 9332D-GX2B switches as part of a new AFX system ins
 [.lead]
 You configure Cisco 9332D-GX2B switches as part of a new AFX system installation, a switch replacement, or a reset to factory default settings. 
 
-You might be directed to this workflow or to individual topics in this workflow as needed by your specific procedure for link:install-configure-switches-in-afx-workflow-9332d.html[Installing and setting up a new AFX A1K or AFX A2K system], link:replace-9332d-cluster-test.html[Replacing a switch], or link:reset-switch-9332d.html[Resetting a switch to factory default settings].
+You might be directed to this workflow or to individual topics in this workflow as needed by your specific procedure for link:install-configure-switches-in-afx-workflow-9332d.html[Installing and setting up a new AFX 1K or AFX 2K system], link:replace-9332d-cluster-test.html[Replacing a switch], or link:reset-switch-9332d.html[Resetting a switch to factory default settings].
 
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png[One]link:setup-switch-9332d-cluster.html[Complete the initial switch setup]
@@ -24,16 +24,16 @@ Prepare to install NX-OS and RCF on the switches.
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png[Three]link:install-nxos-software-9332d-cluster-test.html[Install or upgrade NX-OS]
 [role="quick-margin-para"]
-Install the current version of NX-OS on the switches that supports your AFX A1K or AFX A2K system.
+Install the current version of NX-OS on the switches that supports your AFX 1K or AFX 2K system.
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png[Four]link:install-upgrade-rcf-overview-cluster.html[Install RCF]
 [role="quick-margin-para"]
-Install the version of RCF on the switches that supports your AFX A1K or AFX A2K system.
+Install the version of RCF on the switches that supports your AFX 1K or AFX 2K system.
 
 //This step is embedded in install and upgrade RCF procedures:
 //.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-5.png[Five]link:change-port-speed-9332d-cluster.html[Change port speed configuration (optional)]
 //[role="quick-margin-para"]
-//For AFX A2K systems with switches running RCF 10.1 or later, you can change the number of switch ports in breakout mode (4x100GbE) and 400GbE mode when you need to accommodate a different port speed configuration for your system.
+//For AFX 2K systems with switches running RCF 10.1 or later, you can change the number of switch ports in breakout mode (4x100GbE) and 400GbE mode when you need to accommodate a different port speed configuration for your system.
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-5.png[Five]link:configure-ssh-keys.html[Verify SSH and SSH keys are enabled]
 [role="quick-margin-para"]
@@ -57,4 +57,4 @@ Configuring Smart Call Home on your switches is optional. It is used to monitor 
 
 
 // AFFFASDOC-473, 2026-MAR-16
-// Refactor content project phase 1 with A2K content, GH#423 2026-JUN
+// Refactor content project phase 1 with 2K content, GH#423 2026-JUN

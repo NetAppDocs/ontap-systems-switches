@@ -2,14 +2,14 @@
 permalink: switch-cisco-9332d-gx2b/upgrade-rcf-software-9332d-cluster.html
 sidebar: sidebar
 keywords: install rcf, cisco switches
-summary: You upgrade the Reference Configuration File (RCF) version on your Cisco Nexus 9332D-GX2B switches to support new hardware, a new ONTAP version, or to align with a new NX-OS version in your AFX A1K or AFX A2K system configuration.
+summary: You upgrade the Reference Configuration File (RCF) version on your Cisco Nexus 9332D-GX2B switches to support new hardware, a new ONTAP version, or to align with a new NX-OS version in your AFX 1K or AFX 2K system configuration.
 ---
 = Upgrade the RCF version - Cisco Nexus 9332D-GX2B
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-You upgrade the Reference Configuration File (RCF) version on your Cisco Nexus 9332D-GX2B switches to support new hardware, a new ONTAP version, or to align with a new NX-OS version in your AFX A1K or AFX A2K system configuration.
+You upgrade the Reference Configuration File (RCF) version on your Cisco Nexus 9332D-GX2B switches to support new hardware, a new ONTAP version, or to align with a new NX-OS version in your AFX 1K or AFX 2K system configuration.
 
 //You upgrade the Reference Configuration File (RCF) version on your Cisco Nexus 9332D-GX2B switches when a version is available that supports new hardware, a new ONTAP version, or new features that you want to use in your AFX system.
 
@@ -55,9 +55,9 @@ HEY, the above bullet is in today's 9332 Update RCF topic. The way it's worded s
 .About this task
 * The type of AFX system your switches are in determines the supported versions of RCF for your switches.
 
-** For switches in an AFX A1K system, running any supported version of ONTAP, RCF 10.0 is the only supported version.
+** For switches in an AFX 1K system, running any supported version of ONTAP, RCF 10.0 is the only supported version.
 
-** For switches in an AFX A2K system, running ONTAP 9.19.1GA or later, RCF 10.1 is the only supported version at the initial release of ONTAP 9.19.1GA.
+** For switches in an AFX 2K system, running ONTAP 9.19.1GA or later, RCF 10.1 is the only supported version at the initial release of ONTAP 9.19.1GA.
 +
 For the current list of supported RCF versions, see the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page.
 
@@ -68,7 +68,7 @@ NOTE: Do not upgrade or downgrade your RCF version to an unsupported version.
 
 ** This procedure has you upgrade the RCF on the first switch (cs1) and then has you repeat the steps for the second switch (cs2).
 
-* The examples shown in this procedure are for AFX A1K systems with switches running NX-OS 10.4.2 and RCF 10.0. If you have an AFX A2K system, the output will vary.
+* The examples shown in this procedure are for AFX 1K systems with switches running NX-OS 10.4.2 and RCF 10.0. If you have an AFX 2K system, the input and output will vary.
 
 == Step 1: Prepare for the upgrade
 
@@ -529,7 +529,7 @@ node1-04          true    true          false
 .. Record any custom additions between the current `running-config` and the RCF file in use (such as an SNMP configuration for your organization).  
 +
 .. For NX-OS 10.2 and later, use the `show diff running-config` command to compare with the saved RCF file in the bootflash. Otherwise, use a third part diff/compare tool.
-//Need to keep 10.2 reference for A1K users running an earlier version?
+//Need to keep 10.2 reference for 1K users running an earlier version?
 
 . Save basic configuration details to the `write_erase.cfg` file on the bootflash.
 +
@@ -652,7 +652,7 @@ The output varies according to your site configuration. Check the port settings 
 . Reapply any previous customizations to the switch configuration.
 //This step already existed in original 9332 topic...which is weird since a similar step is in the install rcf.
 +
-If you have an AFX A2K system (which supports RCF 10.1 and later), you can link:https://review.docs.netapp.com/us-en/ontap-systems-switches_hotfix-refactor-phase1/switch-cisco-9332d-gx2b/install-upgrade-rcf-overview-cluster.html#change-port-speed-configuration-for-afx-a2k-systems[change the port speed configuration] for RCF 10.1 as needed.
+If you have an AFX 2K system (which supports RCF 10.1 and later), you can link:https://review.docs.netapp.com/us-en/ontap-systems-switches_hotfix-refactor-phase1/switch-cisco-9332d-gx2b/install-upgrade-rcf-overview-cluster.html#change-port-speed-configuration-for-afx-a2k-systems[change the port speed configuration] for RCF 10.1 as needed.
 
 . After you verify the RCF versions, custom additions, and switch settings are correct, copy the `running-config` file to the `startup-config` file.
 +
@@ -1511,9 +1511,9 @@ RPC status:
 
 After you've upgraded the RCF on your switches, you link:configure-ssh-keys.html[verify SSH and SSH keys are enabled].
 
-//However, if your switches are running RCF 10.1 (only supported in an AFX A2K system), you can link:change-port-speed.html[change the default port speed configuration] if needed, and then you link:configure-ssh-keys.html[verify SSH and SSH keys are enabled].
+//However, if your switches are running RCF 10.1 (only supported in an AFX 2K system), you can link:change-port-speed.html[change the default port speed configuration] if needed, and then you link:configure-ssh-keys.html[verify SSH and SSH keys are enabled].
 
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-08
 // AFFFASDOC-394, 2025-OCT-20
 // AFFFASDOC-473, 2026-MAR-16
-// Refactor content project phase 1 with A2K content, GH#423 2026-JUN
+// Refactor content project phase 1 with 2K content, GH#423 2026-JUN

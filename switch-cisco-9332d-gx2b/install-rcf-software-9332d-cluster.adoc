@@ -2,14 +2,14 @@
 permalink: switch-cisco-9332d-gx2b/install-rcf-software-9332d-cluster.html
 sidebar: sidebar
 keywords: install rcf, cisco switches
-summary: You install the RCF on new Cisco Nexus 9332D-GX2B switch(es) as part of a new AFX A1K or AFX A2K system installation and setup, replacing a failed switch, or resetting a switch to factory defaults.
+summary: You install the RCF on new Cisco Nexus 9332D-GX2B switch(es) as part of a new AFX 1K or AFX 2K system installation and setup, replacing a faulty switch, or resetting a switch to factory default settings.
 ---
 = Install the RCF - Cisco Nexus 9332D-GX2B
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-You install the RCF on new Cisco Nexus 9332D-GX2B switch(es) as part of a new AFX A1K or AFX A2K system installation and setup, replacing a faulty switch, or resetting a switch to factory default settings.
+You install the RCF on new Cisco Nexus 9332D-GX2B switch(es) as part of a new AFX 1K or AFX 2K system installation and setup, replacing a faulty switch, or resetting a switch to factory default settings.
 
 .Before you begin
 
@@ -22,18 +22,18 @@ You install the RCF on new Cisco Nexus 9332D-GX2B switch(es) as part of a new AF
 .About this task
 * The type of AFX system your switches are in determines the supported versions of RCF for your switches.
 
-** For switches in an AFX A1K system, running any supported version of ONTAP, RCF 10.0 is the only supported version.
+** For switches in an AFX 1K system, running any supported version of ONTAP, RCF 10.0 is the only supported version.
 
-** For switches in an AFX A2K system, running ONTAP 9.19.1GA or later, RCF 10.1 is the only supported version at the initial release of ONTAP 9.19.1GA.
-+
+** For switches in an AFX 2K system, running ONTAP 9.19.1GA or later, RCF 10.1 is the only supported version at the initial release of ONTAP 9.19.1GA.
+
 For the current list of supported RCF versions, see the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page.
 
 NOTE: Do not upgrade or downgrade your RCF version to an unsupported version.
 
-* If you have installed switches as part of a new AFX A1K or AFX A2K system installation, you install the RCF on one switch at a time. This procedure has you install the RCF on the first switch (cs1) and then has you repeat the steps for the second switch (cs2).
+* If you have installed switches as part of a new AFX 1K or AFX 2K system installation, you install the RCF on one switch at a time. This procedure has you install the RCF on the first switch (cs1) and then has you repeat the steps for the second switch (cs2).
 
-* The examples shown in this procedure are for AFX A1K systems with switches running NX-OS 10.4.2 and RCF 10.0. If you have an AFX A2K system, the output will vary.
- 
+* The examples shown in this procedure are for AFX 1K systems with switches running NX-OS 10.4.2 and RCF 10.0. If you have an AFX 2K system, the output will vary.
+
 
 .Steps
 
@@ -113,7 +113,7 @@ When you check the output to verify you have the correct RCF, make sure that the
 +
 The output varies according to your site configuration. Check the port settings and refer to the release notes for any changes specific to the RCF that you have installed.
 
-. If you have an AFX A2K system (which supports RCF 10.1 and later), complete the following substeps as needed:
+. If you have an AFX 2K system (which supports RCF 10.1 and later), complete the following substeps as needed:
 //This step 6 a and b are copied steps from 9336 install RCF, since that supports changing port speeds. And, like in 9336 procedure, these steps come after the Verify that the RCF file... step).I believe that 9336 should point to the KB, whereas, here I point to the 10.1 RCF created version of that KB.
 
 .. Record any custom additions between the current `running-config` file and the RCF file in use.
@@ -206,4 +206,4 @@ After you've installed the RCF, you link:configure-ssh-keys.html[Verify SSH and 
 
 
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-06
-// Refactor content project phase 1 with A2K content, GH#423 2026-JUN
+// Refactor content project phase 1 with 2K content, GH#423 2026-JUN

@@ -2,14 +2,14 @@
 permalink: switch-cisco-9332d-gx2b/complete-cluster-setup.html
 sidebar: sidebar
 keywords: switches, complete system setup, Cisco Nexus, 9332D-GX2B switches, AFX
-summary: After you complete the switch configuration procedures, you need to power on the storage shelves and controllers in your AFX A1K or AFX A2K system, complete the system setup, and then verify the switch connectivity.
+summary: After you complete the switch configuration procedures, you need to power on the storage shelves and controllers in your AFX 1K or AFX 2K system, complete the system setup, and then verify the switch connectivity.
 ---
 = Complete the AFX system setup - Cisco Nexus 9332D-GX2B
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-After you complete the switch configuration procedures, you need to power on the storage shelves and controllers in your AFX A1K or AFX A2K system, complete the system setup, and then verify the switch connectivity.
+After you complete the switch configuration procedures, you need to power on the storage shelves and controllers in your AFX 1K or AFX 2K system, complete the system setup, and then verify the switch connectivity.
 
 .Before you begin
 * You must have completed the switch configuration procedures in the link:configure-switch-workflow-9332d.html[configure switch workflow]. 
@@ -17,19 +17,21 @@ After you complete the switch configuration procedures, you need to power on the
 * Each switch must be connected to a console or you must have remote access to each switch.
 
 .About this task
-The examples shown in this procedure are for AFX A1K systems with switches running NX-OS 10.4.2 and RCF 10.0. If you have an AFX A2K system, the output will vary.
+The examples shown in this procedure are for AFX 1K systems with switches running NX-OS 10.4.2 and RCF 10.0. If you have an AFX 2K system, the input and output can vary.
 
 //Hey: Do these steps for verifying the switch connections need to be in the https://docs.netapp.com/us-en/ontap-afx/install-setup/power-on-configure-switch.html[AFX doc: Power on and configure switches^] after step 3 or step 4? I'd rather not have more dependencies between the two repos, so keep it here.
 
 .Steps
 
-. Complete the power on and setup steps for your AFX A1K or AFX A2K system:
+. Complete the power on and setup steps for your AFX 1K or AFX 2K system:
 
-* For an AFX A1K system, go to the link:https://docs.netapp.com/us-en/ontap-afx/install-setup/power-on-hardware.html[Power on your AFX 1K storage system^] procedure.
+* For an AFX 1K system, go to the link:https://docs.netapp.com/us-en/ontap-afx/install-setup/power-on-hardware.html[Power on your AFX 1K storage system^] procedure.
 
-* For an AFX A2K system, go to the link:https://docs.netapp.com/us-en/ontap-afx/install-afx-2k/power-on-hardware.html[Power on your AFX 2K storage system^] procedure. 
+* For an AFX 2K system, go to the link:https://review.docs.netapp.com/us-en/ontap-afx_working-afx-emr-dr/install-afx-2k/power-on-hardware.html[Power on your AFX 2K storage system^] procedure.
+
+* For an AFX 2K system, go to the link:https://docs.netapp.com/us-en/ontap-afx/install-afx-2k/power-on-hardware.html[Power on your AFX 2K storage system^] procedure.
 +
-Lisa: the above A2K link won't work until A2K site goes live. For now, can link to the AFX site preview draft of the topic: 
+Lisa: the above 2K link won't work until 2K site goes live. For now, can link to the AFX site preview draft of the topic: 
 +
 https://review.docs.netapp.com/us-en/ontap-afx_working-afx-emr-dr/install-afx-2k/power-on-hardware.html
 +
@@ -350,6 +352,6 @@ cs1#
 
 .What's next?
 
-After you've completed the AFX A1K or AFX A2K system setup and verified the switch connectivity, you are ready to use your AFX system.
+After you've completed the AFX 1K or AFX 2K system setup and verified the switch connectivity, you are ready to use your AFX system.
 
-// Refactor content project phase 1 with A2K content, GH#423 2026-JUN
+// Refactor content project phase 1 with 2K content, GH#423 2026-JUN
