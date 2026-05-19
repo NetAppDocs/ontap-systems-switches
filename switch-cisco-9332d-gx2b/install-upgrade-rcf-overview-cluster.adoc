@@ -97,6 +97,17 @@ You can change the port speed configuration to adjust the number of switch ports
 
 You perform this change as part of the RCF installation or RCF upgrade procedure. The procedures have steps for making configuration changes and link you to this page.
 
+Lisa: Andris, are you saying that changing port speed should not be specific to 2K systems? Should be generic "AFX systems"? (Per your comment for install-prepare). 
+
+//[NOTE]
+//====
+//You can change the preset groups to adjust the number of switch ports in breakout mode (4x100GbE) and 400GbE mode when you need to accommodate a different port speed configuration for your AFX system.
+
+//You do this later, as part of the RCF installation procedure.
+//====
+
+//Above: note from install-prepare: understand ports. AD had me change "for your AFX 2K system" to "for your AFX system". I think he's anticipating future support, but that means all my port changing content can't be 2k specific...like this section.
+
 .Steps
 
 . Modify port speeds and breakout modes on the switches:

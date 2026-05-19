@@ -122,18 +122,17 @@ a|
 +
 [NOTE]
 ====
-You can change the preset groups to adjust the number of switch ports in breakout mode (4x100GbE) and 400GbE mode when you need to accommodate a different port speed configuration for your AFX 2K system.
-//This above text came from change port speed topic.
+You can change the preset groups to adjust the number of switch ports in breakout mode (4x100GbE) and 400GbE mode when you need to accommodate a different port speed configuration for your AFX system.
 
 You do this later, as part of the RCF installation procedure.
-
-//You do this later as part of your switch setup process, after you install the RCF on your switches by using the link:change-port-speed-9332d-cluster.html[Change port speed configuration] procedure.
 ====
 
-//NOTE: You can change the mix of breakout and non-breakout ports when your system configuration requires it. You can do this as part of your switch setup later in the installation and setup process (after installing RCF).
+//Above: AD had me change "for your AFX 2K system" to "for your AXF system". I think he's anticipating future support, but that means all my port changing content can;t be 2k specific...
 
 === Step 4: Consider using Smart Call Home
-Cisco's Smart Call Home is an option to provide proactive support and help you resolve any issues that might arise with the switches. However, NetApp recommends using cluster switch health monitoring (CSHM), which provides the same level of support.
+ONTAP supports Ethernet switch health monitoring (CSHM) to monitor the AFX cluster switches, as well as the ability to collect switch diagnostic logs.
+
+Cisco's Smart Call Home is an option to provide proactive support and help you resolve any issues that might arise with the switches.
 
 More information about Smart Call Home can be found in the link:smart-call-9332d-cluster.html[Configure Smart Call Home] documentation. 
 
