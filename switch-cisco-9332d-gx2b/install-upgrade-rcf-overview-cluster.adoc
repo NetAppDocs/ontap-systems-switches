@@ -112,19 +112,30 @@ Lisa: Andris, are you saying that changing port speed should not be specific to 
 .Steps
 
 . Modify port speeds and breakout modes on the switches:
-* To designate breakout ports, use the `interface breakout module` command. 
++
+To designate breakout ports, use the `interface breakout module` command. 
 +
 For example, to designate 400GbE mode ports 15-19 as breakout (4x100GbE) ports, use the following: `interface breakout module 1 port 15-19 map 100g-4x`
-+
-//* To change breakout ports back to non-breakout ports, use the `no interface breakout` command. 
-//+
-//For example, to change breakout ports 15-19 back to non-breakout ports (400GbE ports), you use the following: `no interface breakout module 1 port 15-19 map 100g-4x`.
 
 . Modify the port list with the new ports that need to use the port profile for the desired port speed.
 +
 For example, to modify configuration ports 15-19 for the 100G speed port profile, use the following: 
 +
-`interface e1/15/1-4, e1/16/1-4, e1/17/1-4, e1/18/1-4, e1/19/1-4 inherit port-profile 100G
+`interface e1/15/1-4, e1/16/1-4, e1/17/1-4, e1/18/1-4, e1/19/1-4 inherit port-profile 100G`
+
+//To remove breakout on ports:
+//Undo breakout commands and return interfaces to 400G configuration in
+//config mode:
+//`no interface breakout module 1 port 10 map 100g-4x`
+[NOTE]
+====
+To return breakout ports to non-breakout ports, use the `no interface breakout` command in config mode. 
+
+For example, to return ports 15-19 to 400GbE mode, use the following: `no interface breakout module 1 port 15-19 map 100g-4x`
+====
+//* To change breakout ports back to non-breakout ports, use the `no interface breakout` command. 
+//+
+//For example, to change breakout ports 15-19 back to non-breakout ports (400GbE ports), you use the following: `no interface breakout module 1 port 15-19 map 100g-4x`.
 
 
 
