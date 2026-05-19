@@ -81,6 +81,7 @@ a|
 Ethernet1/1/1-4 to Ethernet1/14/1-4
 a|
 4x100GbE mode for Intra-cluster, HA, and storage shelf connections 
+//The term "shelf" can only be listed when this table is applicable to 2K only. Does not apply to 1K.
 a|
 Ethernet1/15 to Ethernet1/30
 a|
@@ -123,7 +124,7 @@ For example, to designate 400GbE mode ports 15-19 as breakout (4x100GbE) ports, 
 +
 For example, to modify configuration ports 15-19 for the 100G speed port profile, use the following: 
 +
-`interface e1/1/1-4, e1/2/1-4, e1/3/1-4, e1/4/1-4, e1/5/1-4, e1/6/1-4, e1/7/1-4, e1/8/1-4, e1/9/1-4, e1/10/1-4, e1/11/1-4, e1/12/1-4, e1/13/1-4, e1/14/1-4, e1/15/1-4, e1/16/1-4, e1/17/1-4, e1/18/1-4, e1/19/1-4 inherit port-profile 100G exit`
+`interface e1/15/1-4, e1/16/1-4, e1/17/1-4, e1/18/1-4, e1/19/1-4 inherit port-profile 100G
 
 
 
