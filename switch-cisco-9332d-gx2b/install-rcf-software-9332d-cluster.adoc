@@ -32,7 +32,7 @@ NOTE: Do not upgrade or downgrade your RCF version to an unsupported version.
 
 * If you have installed switches as part of a new AFX 1K or AFX 2K system installation, you install the RCF on one switch at a time. This procedure has you install the RCF on the first switch (cs1) and then has you repeat the steps for the second switch (cs2).
 
-* The examples shown in this procedure are for AFX 1K systems with switches running NX-OS 10.4.2 and RCF 10.0. If you have an AFX 2K system, the output will vary.
+* The examples shown in this procedure are for AFX 1K systems with switches running NX-OS 10.4.2 and RCF 10.0. If you have an AFX 2K system, the input and output can vary.
 
 
 .Steps
@@ -72,6 +72,8 @@ This example shows the RCF file `NX9332D-GX2B-RCF-v10.0-Shared.txt` being instal
 ----
 cs1# *copy NX9332D-GX2B-RCF-v10.0-Shared.txt running-config echo-commands*
 ----
++
+NOTE: For AFX 2K systems using RCF 10.1, the file name is `RCF-v10.1-NX9332D-GX2B-CL1.txt`.
 
 +
 . Examine the banner output from the `show banner motd` command. You must read and follow these instructions to ensure the proper configuration and operation of the switch.
