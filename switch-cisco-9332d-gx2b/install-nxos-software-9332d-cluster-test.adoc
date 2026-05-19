@@ -26,14 +26,16 @@ NOTE: NX-OS installation or upgrade is independent of RCF installation or upgrad
 
 .About this task
 
+* If needed, you can refer to the link:https://www.cisco.com/c/en/us/td/docs/dcn/nx-os/nexus9000/101x/upgrade/cisco-nexus-9000-nx-os-software-upgrade-downgrade-guide-101x.html[Cisco Nexus 9000 Series NX-OS Software Upgrade and Downgrade Guide^] for more information.
+
 * The type of AFX system your switches are in determines the supported versions of NX-OS for your switches.
 
-** For switches in an AFX 1K system, running any supported version of ONTAP, NX-OS 10.4.2 is the only supported version.
+** For switches in an AFX 1K system, running any supported version of ONTAP, NX-OS 10.4.2 and later is supported.
 
-** For switches in an AFX 2K system, running ONTAP 9.19.1GA or later, NX-OS 10.6 is the only supported version at the initial release of ONTAP 9.19.1GA.
-
+** For switches in an AFX 2K system, running ONTAP 9.19.1GA or later, NX-OS 10.6 and later is supported.
++
 For the current list of supported NX-OS versions, see the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page.
-
++
 NOTE: Do not upgrade or downgrade your NX-OS version to an unsupported version.
 
 * NX-OS installation or upgrade is independent of RCF installation or upgrade. However, if you are installing or upgrading both the NX-OS and RCF, it is recommended to install or upgrade the NX-OS first, then the RCF. 
