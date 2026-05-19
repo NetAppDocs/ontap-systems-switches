@@ -9,7 +9,7 @@ summary: You can install or upgrade the reference configuration file (RCF) on yo
 :imagesdir: ../media/
 
 [.lead]
-You can install or upgrade the reference configuration file (RCF) on your Nexus 9332D-GX2B switches depending on the available supported RCF versions for the switches in your AFX 1K or AFX 2K system.
+You can install or upgrade the reference configuration file (RCF) on your Nexus 9332D-GX2B switches depending on the supported RCF versions for the switches in your AFX 1K or AFX 2K system.
 
 You install a supported version of the RCF on the switches as part of a new AFX 1K or AFX 2K system installation, a switch replacement, or a reset to factory default settings.
 
@@ -40,17 +40,20 @@ NOTE: RCF installation or upgrade is independent of NS-OS installation or upgrad
 
 === Understand RCF versions supported for AFX systems
 
-The type of system (AFX 1K or AFX 2K) your switches are in determines the supported version of the RCF. Understand the preset configuration of switch ports for the version of RCF supported by your AFX system.
+The type of system (AFX 1K or AFX 2K) your switches are in determines the supported RCF versions. Understand the preset configuration of switch ports for the RCF version you are installing or upgrading to.
 
-NOTE: For the current list of supported RCF versions, see the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page.
+[NOTE]
+====
+For the current list of supported RCF versions, see the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page.
+
+Switch port information can also be found in the https://hwu.netapp.com[NetApp Hardware Universe^].
+====
 
 NOTE: For specific port and VLAN usage details, refer to the banner and important notes section in your RCF. Refer to link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page for more information.
 
-* If you have an AFX 1K system, RCF 10.0 is supported:
+* If you have an AFX 1K system, RCF 10.0 and later is supported:
 +
-The following table shows the preset groupings of the switch ports, their port speeds, and usage based on RCF version 10.0. (This is the only supported version of RCF.)
-+
-Switch port information can also be found in the https://hwu.netapp.com[NetApp Hardware Universe^].
+For example, the following table shows the preset groupings of the switch ports, their port speeds, and usage based on RCF version 10.0.
 +
 [options="header" cols="1,2"]
 |===
@@ -65,13 +68,9 @@ a|
 400GbE ISL
 |===
 +
-* If you have an AFX 2K system, RCF 10.1 is supported:
+* If you have an AFX 2K system, RCF 10.1 and later is supported:
 +
-//Understand the preset configuration of switch port speeds (breakout ports 100GbE and non-breakout ports) so that you can determine if you need to change the port speed mix to accommodate a different port speed configuration for your AFX 2K system.
-+
-The following table shows the preset groups of the switch ports, their port speeds, and usage based on RCF version 10.1. (This is the only supported version of RCF at initial release of ONTAP 9.19.1GA.)
-+
-Current switch port information be found in the https://hwu.netapp.com[NetApp Hardware Universe^].
+For example, the following table shows the preset groups of the switch ports, their port speeds, and usage based on RCF version 10.1.
 +
 //Filename : RCF-v10.1-NX9332D-GX2B-CL1-V1.txt
 +
@@ -81,7 +80,7 @@ Current switch port information be found in the https://hwu.netapp.com[NetApp Ha
 a|
 Ethernet1/1/1-4 to Ethernet1/14/1-4
 a|
-4x100GbE mode for Intra-cluster, HA, and storage connections 
+4x100GbE mode for Intra-cluster, HA, and storage shelf connections 
 a|
 Ethernet1/15 to Ethernet1/30
 a|
@@ -94,7 +93,7 @@ a|
 
 === Change port speed configuration for AFX 2K systems
 
-You can change the port speed configuration to adjust the number of switch ports in breakout mode (4x100GbE) and 400GbE mode when you need to accommodate a different port speed configuration for your AFX 2K system with RCF 10.1.
+You can change the port speed configuration to adjust the number of switch ports in breakout mode (4x100GbE) and 400GbE mode when you need to accommodate a different port speed configuration for your AFX 2K system with RCF 10.1 and later.
 
 You perform this change as part of the RCF installation or RCF upgrade procedure. The procedures have steps for making configuration changes and link you to this page.
 

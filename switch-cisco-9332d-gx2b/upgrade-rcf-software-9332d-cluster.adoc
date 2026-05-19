@@ -55,9 +55,9 @@ HEY, the above bullet is in today's 9332 Update RCF topic. The way it's worded s
 .About this task
 * The type of AFX system your switches are in determines the supported versions of RCF for your switches.
 
-** For switches in an AFX 1K system, running any supported version of ONTAP, RCF 10.0 is the only supported version.
+** For switches in an AFX 1K system, running any supported version of ONTAP, RCF 10.0 and later is supported.
 
-** For switches in an AFX 2K system, running ONTAP 9.19.1GA or later, RCF 10.1 is the only supported version at the initial release of ONTAP 9.19.1GA.
+** For switches in an AFX 2K system, running ONTAP 9.19.1GA or later, RCF 10.1 and later is supported.
 +
 For the current list of supported RCF versions, see the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page.
 
@@ -68,7 +68,7 @@ NOTE: Do not upgrade or downgrade your RCF version to an unsupported version.
 
 ** This procedure has you upgrade the RCF on the first switch (cs1) and then has you repeat the steps for the second switch (cs2).
 
-* The examples shown in this procedure are for AFX 1K systems with switches running NX-OS 10.4.2 and RCF 10.0. If you have an AFX 2K system, the input and output will vary.
+* The examples shown in this procedure are for AFX 1K systems with switches running NX-OS 10.4.2 and RCF 10.0. If you have an AFX 2K system, the input and output can vary.
 
 == Step 1: Prepare for the upgrade
 
@@ -530,6 +530,10 @@ node1-04          true    true          false
 +
 .. For NX-OS 10.2 and later, use the `show diff running-config` command to compare with the saved RCF file in the bootflash. Otherwise, use a third part diff/compare tool.
 //Need to keep 10.2 reference for 1K users running an earlier version?
+
+//May 18: AD says to kill 4a and reword 4b: Use the show diff running-config command to compare with the saved RCF file in the bootflash. Otherwise, use a third party diff/compare tool.
+//+
+//However, what's the "otherwise" statement referring to?
 
 . Save basic configuration details to the `write_erase.cfg` file on the bootflash.
 +
