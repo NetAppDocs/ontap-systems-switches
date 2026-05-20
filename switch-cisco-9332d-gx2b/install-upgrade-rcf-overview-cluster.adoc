@@ -2,7 +2,7 @@
 permalink: switch-cisco-9332d-gx2b/install-upgrade-rcf-overview-cluster.html
 sidebar: sidebar
 keywords: ssh, requirement, cluster, switch, health, monitor, cshm, log, collection, feature, cisco 9332d-gx2b
-summary: You can install or upgrade the reference configuration file (RCF) on your Nexus 9332D-GX2B switches depending on the available supported RCF versions for the switches in your AFX 1K or AFX 2K system.
+summary: You can install or upgrade the reference configuration file (RCF) on your Nexus 9332D-GX2B switches. You install a supported version of the RCF on the switches as part of a new AFX 1K or AFX 2K system installation, a switch replacement, or a reset to factory default settings. You upgrade to a supported version of the RCF on the switches to support new hardware, a new ONTAP version, or to align with a new NX-OS version in your AFX 1K or AFX 2K system configuration.
 ---
 = Install or upgrade the RCF overview - Cisco Nexus 9332D-GX2B
 :icons: font
@@ -89,15 +89,13 @@ a|
 
 === Change port speed configuration
 
-For switches with RCF 10.1 and later, you can change the port speed configuration to adjust the number of switch ports in breakout mode (4x100GbE) and 400GbE mode when you need to accommodate a different port speed configuration for your AFX system.
-
-//You can change the port speed configuration to adjust the number of switch ports in breakout mode (4x100GbE) and 400GbE mode when you need to accommodate a different port speed configuration for your AFX 2K system with RCF 10.1 and later.
+For switches with RCF 10.1 and later, you can change the port speed configuration to adjust the number of switch ports in breakout mode (4x100GbE) and non-breakout mode (400GbE) when you need to accommodate a different port speed configuration for your AFX system.
 
 You perform this change as part of the RCF installation or RCF upgrade procedure. The procedures have steps that link you to this page.
 
 [options="header" cols="1,2"]
 |===
-| Modify port speeds | Steps
+| Change port speeds | Steps
 a|
 Change non-breakout ports to breakout ports
 a|
@@ -129,32 +127,6 @@ For example, to modify the port list with the new ports,  15-19, for the 400G sp
 +
 `interface e1/15-19 inherit port-profile 400G` 
 |===
-
-.Steps
-
-. Modify port speeds and breakout modes on the switches:
-+
-To designate breakout ports, use the `interface breakout module` command. 
-+
-For example, to designate 400GbE mode ports 15-19 as breakout (4x100GbE) ports, use the following: `interface breakout module 1 port 15-19 map 100g-4x`
-
-. Modify the port list with the new ports that need to use the port profile for the desired port speed.
-+
-For example, to modify configuration ports 15-19 for the 100G speed port profile, use the following: 
-+
-`interface e1/15/1-4, e1/16/1-4, e1/17/1-4, e1/18/1-4, e1/19/1-4 inherit port-profile 100G`
-
-[NOTE]
-====
-To return breakout ports to non-breakout ports, use the `no interface breakout` command in config mode. 
-
-For example, to return ports 15-19 to 400GbE mode, use the following: `no interface breakout module 1 port 15-19`
-====
-//* To change breakout ports back to non-breakout ports, use the `no interface breakout` command. 
-//+
-//For example, to change breakout ports 15-19 back to non-breakout ports (400GbE ports), you use the following: `no interface breakout module 1 port 15-19 map 100g-4x`.
-
-
 
 === Suggested documentation
 Before you install or upgrade the RCF on your switches, it is recommended you review the following documentation:
