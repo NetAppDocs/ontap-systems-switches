@@ -29,8 +29,6 @@ You install the RCF on new Cisco Nexus 9332D-GX2B switch(es) as part of a new AF
 .Steps
 
 . Login to switch cs1 using SSH or by using a serial console.
-+
-//May 3: SSH was supposedly enabled in the initial switch setup (config wizard), but in this topics What's next, it pints to the Verify SSH is enable topic, which is the correct new sys install workflow). Seems like mentioning SSH here is a bit confusing. Just leave it.
 
 . Copy the RCF to the bootflash of switch cs1 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. 
 +
@@ -53,10 +51,10 @@ Copy complete, now saving to disk (please wait)...
 ====
 
 . Apply the RCF previously copied to the bootflash.
+//This steps is where installation of the RCF happens.
 +
 For more information on Cisco commands, refer to the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
 +
-
 This example shows the RCF file `NX9332D-GX2B-RCF-v10.0-Shared.txt` being installed on switch cs1:
 +
 [subs=+quotes]
@@ -64,7 +62,7 @@ This example shows the RCF file `NX9332D-GX2B-RCF-v10.0-Shared.txt` being instal
 cs1# *copy NX9332D-GX2B-RCF-v10.0-Shared.txt running-config echo-commands*
 ----
 +
-NOTE: For AFX 2K systems using RCF 10.1, the file name is `RCF-v10.1-NX9332D-GX2B-CL1.txt`.
+NOTE: For RCF 10.1 and later, the file name format is different: `RCF-v10.1-NX9332D-GX2B-CL1.txt`.
 
 +
 . Examine the banner output from the `show banner motd` command. You must read and follow these instructions to ensure the proper configuration and operation of the switch.
@@ -106,8 +104,7 @@ When you check the output to verify you have the correct RCF, make sure that the
 +
 The output varies according to your site configuration. Check the port settings and refer to the release notes for any changes specific to the RCF that you have installed.
 
-. If you have an AFX 2K system (which supports RCF 10.1 and later), complete the following substeps as needed:
-//This step 6 a and b are copied steps from 9336 install RCF, since that supports changing port speeds. And, like in 9336 procedure, these steps come after the Verify that the RCF file... step).I believe that 9336 should point to the KB, whereas, here I point to the 10.1 RCF created version of that KB.
+. If your switches have RCF 10.1 or later installed, complete the following substeps if needed:
 
 .. Record any custom additions between the current `running-config` file and the RCF file in use.
 +
@@ -194,7 +191,7 @@ Refer to the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/
 
 .What's next?
 
-After you've installed the RCF, you link:configure-ssh-keys.html[Verify SSH and SSH keys are enabled].
+After you've installed the RCF, you link:configure-ssh-keys.html[verify SSH for log collection].
 
 
 

@@ -30,25 +30,18 @@ Install the current version of NX-OS on the switches that supports your AFX 1K o
 [role="quick-margin-para"]
 Install the version of RCF on the switches that supports your AFX 1K or AFX 2K system.
 
-//This step is embedded in install and upgrade RCF procedures:
-//.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-5.png[Five]link:change-port-speed-9332d-cluster.html[Change port speed configuration (optional)]
-//[role="quick-margin-para"]
-//For AFX 2K systems with switches running RCF 10.1 or later, you can change the number of switch ports in breakout mode (4x100GbE) and 400GbE mode when you need to accommodate a different port speed configuration for your system.
-
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-5.png[Five]link:configure-ssh-keys.html[Verify SSH and SSH keys are enabled]
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-5.png[Five]link:configure-ssh-keys.html[Verify SSH for log collection]
 [role="quick-margin-para"]
-Verify SSH and SSH keys are enabled. SSH is required for the Cluster Switch Health Monitor (CSHM) and log collection features to operate.
+Verify SSH is enabled. SSH is required for the  log collection feature to operate.
 
-//SSH enablement is part of the switch initial setup in Configuration Wizard, so it should be enabled.
-
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-6.png[Six]link:../switch-cshm/cshm-overview.html[Configure cluster switch health monitoring]
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-6.png[Six]link:../switch-cshm/cshm-overview.html[Configure Ethernet switch health monitoring]
 [role="quick-margin-para"]
-Configure the cluster switch health monitoring (CSHM) to ensure the operational health of your switches and for the collection of switch logs for debugging and troubleshooting.
+Configure the Ethernet switch health monitoring (CSHM) to ensure the operational health of your switches and for the collection of switch logs for debugging and troubleshooting.
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-7.png[Seven]link:smart-call-9332d-cluster.html[Configure Smart Call Home (optional)]
 [role="quick-margin-para"]
 ONTAP supports Ethernet switch health monitoring (CSHM) to monitor the AFX cluster switches, as well as the ability to collect switch diagnostic logs. Cisco's Smart Call Home is an option to provide proactive support and help you resolve any issues that might arise with the switches.
-//Configuring Smart Call Home on your switches is optional. It is used to monitor the hardware and software components on your network. However, using cluster switch health monitoring (CSHM) is recommended instead.
+
 
 .What's next?
 
