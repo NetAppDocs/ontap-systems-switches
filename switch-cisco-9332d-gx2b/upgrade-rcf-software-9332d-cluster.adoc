@@ -11,22 +11,6 @@ summary: You upgrade the Reference Configuration File (RCF) version on your Cisc
 [.lead]
 You upgrade the Reference Configuration File (RCF) version on your Cisco Nexus 9332D-GX2B switches to support new hardware, a new ONTAP version, or to align with a new NX-OS version in your AFX 1K or AFX 2K system configuration.
 
-//You upgrade the Reference Configuration File (RCF) version on your Cisco Nexus 9332D-GX2B switches when a version is available that supports new hardware, a new ONTAP version, or new features that you want to use in your AFX system.
-
-//Use cases for upgrading RCF: 
-
-//Upgrading the Reference Configuration File (RCF) on NetApp Cisco switches ensures compatibility when introducing new hardware, upgrading to a new ONTAP version that requires a different RCF, or enabling enhanced features like new breakout ports. It is primarily done to maintain cluster stability and support updated switch hardware configurations. 
-
-//Key Reasons to Upgrade RCF Version:
-
-//* New Hardware Support: You are adding new storage controllers (nodes) or storage shelves that require different port configurations.
-    
-// *ONTAP Upgrades: The target NetApp ONTAP version requires an updated RCF to properly manage switch networking.
-    
-// *NX-OS Updates: While a routine NX-OS upgrade doesn't always require an RCF change, a significant update may require an updated RCF for optimal performance.
-
-// *Switch Migration/Expansion: Migrating from older switches (like the CN1610) to new ones or changing from a 2-node to a larger switch-based cluster.
-
 .Before you begin
 
 * You must have read the     link:install-upgrade-rcf-overview-cluster.html[Install or upgrade RCF overview] page.
@@ -34,34 +18,17 @@ You upgrade the Reference Configuration File (RCF) version on your Cisco Nexus 9
 * You must be connected to the switches using the serial console or have preserved basic configuration information. This is because the RCF upgrade procedure requires you to erase the switch settings and perform basic configuration. 
 
 * Save a copy of the current switch configuration.
-//see step 2: step 4 and 5: save a copy of the current switch configuration. But isn't the bullet above saying this too?
 
 * You must have a fully functioning AXF system (no errors in the logs or similar issues).
 
 * You must have the current RCF version.
-//You mean should have downloaded a copy of the current RCF version from the NetApp support site before starting the upgrade? 
 
 * You need a boot configuration in the RCF that reflects the desired boot images. 
-//What's this mean? That first bit is not needed since THIS IS the upgrade RCF topic.
 +
 If you need to change the boot configuration to reflect the current boot images, you must do so before reapplying the RCF so that the correct version is instantiated on future reboots.
-//What's this mean?
-
-* Before installing a new NX-OS version and RCF version, you must erase the switch settings and perform basic configuration. You must be connected to the switch using the serial console or have preserved basic configuration information prior to erasing the switch settings.
-+
-HEY, the above bullet is in today's 9332 Update RCF topic. The way it's worded sounds like it ONLY applies to installing NX-OS and installing RCF. Is this "requirement" needed in this upgrade RCF topic and/or in installing NX-OS and installing RCF?
 
 
 .About this task
-* The type of AFX system your switches are in determines the supported versions of RCF for your switches.
-
-** For switches in an AFX 1K system, running any supported version of ONTAP, RCF 10.0 and later is supported.
-
-** For switches in an AFX 2K system, running ONTAP 9.19.1GA or later, RCF 10.1 and later is supported.
-+
-For the current list of supported RCF versions, see the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page.
-
-NOTE: Do not upgrade or downgrade your RCF version to an unsupported version.
 
 * Upgrading the RCF on both of the switches is a nondisruptive procedure. 
 ** No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To ensure non-disruptive cluster operations, this procedure has you migrate all of the cluster LIFs to the operational partner switch while performing the steps on the target switch.
@@ -632,23 +599,9 @@ When you check the output to verify you have the correct RCF, make sure that the
 +
 The output varies according to your site configuration. Check the port settings and refer to the release notes for any changes specific to the RCF that you have installed.
 +
-//This is from install RCF (it's all new, wasn't there in original 9332 topic):
-// . If you have an AFX A2K system (which supports RCF 10.1 and later), complete the following substeps as needed:
-+
-//.. Record any custom additions between the current `running-config` file and the RCF file in use.
-//+
-//You can link:change-port-speed-9332d-cluster.html[change the port speed configuration] for RCF 10.1 as needed.
-+
-//.. After you verify that the RCF versions and switch settings are correct, copy the `running-config` file to the `startup-config` file.
-//+
-//----
-//cs1# copy running-config startup-config [########################################] 100% Copy complete
-//----
-+
 . Reapply any previous customizations to the switch configuration.
-//This step already existed in original 9332 topic...which is weird since a similar step is in the install rcf.
 +
-If you have an AFX 2K system (which supports RCF 10.1 and later), you can link:https://review.docs.netapp.com/us-en/ontap-systems-switches_hotfix-refactor-phase1/switch-cisco-9332d-gx2b/install-upgrade-rcf-overview-cluster.html#change-port-speed-configuration-for-afx-a2k-systems[change the port speed configuration] for RCF 10.1 as needed.
+If your switches have RCF 10.1 or later installed, you can link:https://review.docs.netapp.com/us-en/ontap-systems-switches_hotfix-refactor-phase1/switch-cisco-9332d-gx2b/install-upgrade-rcf-overview-cluster.html#change-port-speed-configuration-for-afx-a2k-systems[change the port speed configuration] if needed.
 
 . After you verify the RCF versions, custom additions, and switch settings are correct, copy the `running-config` file to the `startup-config` file.
 +

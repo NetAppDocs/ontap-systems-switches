@@ -11,25 +11,9 @@ summary: You can install or upgrade the reference configuration file (RCF) on yo
 [.lead]
 You can install or upgrade the reference configuration file (RCF) on your Nexus 9332D-GX2B switches. You install a supported version of the RCF on the switches as part of a new AFX 1K or AFX 2K system installation, a switch replacement, or a reset to factory default settings. You upgrade to a supported version of the RCF on the switches to support new hardware, a new ONTAP version, or to align with a new NX-OS version in your AFX 1K or AFX 2K system configuration.
 
-//depending on the supported RCF versions for the switches in your AFX 1K or AFX 2K system.
-
-
 NOTE: RCF installation or upgrade is independent of NS-OS installation or upgrade. If you are installing or upgrading both the NX-OS and RCF, it is recommended you install or upgrade NX-OS first. 
 
-//This is because the RCF version is often tied to a specific NX-OS version, and installing or upgrading the NX-OS first ensures that you have the correct environment for the RCF installation or upgrade.
-
-//.Supported versions of RCF
-//* The type of AFX system your switches are in determines the supported versions of RCF for your switches.
-
-//** For switches in an AFX A1K system, running any supported version of ONTAP, RCF 10.0 is the only supported version. RCF 10.0 supports cluster, HA, and storage connections.
-
-//** For switches in an AFX A2K system, running ONTAP 9.19.1GA or later, RCF 10.1 is the only supported version at the initial release of ONTAP 9.19.1GA. RCF 10.1 supports cluster, HA, and storage connections.
-//+
-//For the current list of supported RCF versions, see the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page.
-
-//NOTE: Do not upgrade or downgrade your RCF version to an unsupported version.
-
-//NOTE: For specific port and VLAN usage details, refer to the banner and important notes section in your RCF. Refer to link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches^] for more information.
+NOTE: Do not upgrade or downgrade your RCF version to an unsupported version.
 
 
 === Understand RCF versions supported for AFX systems
