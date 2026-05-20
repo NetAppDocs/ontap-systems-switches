@@ -73,7 +73,9 @@ Provides more information about storage system installation requirements.
 
 
 === Step 3: Understand RCF versions supported for AFX systems
-The type of system (AFX 1K or AFX 2K) your switches are in determines the supported RCF versions. Understand the preset configuration of switch ports for the RCF version you are installing.
+The version of ONTAP running on your AFX system and version of NX-OS on your switches determines the supported versions of RCF for your switches. RCF versions have preset port speed configurations that determine how many switch ports are in breakout mode (4x100GbE) and non-breakout mode.
+
+// The type of system (AFX 1K or AFX 2K) your switches are in determines the supported RCF versions. Understand the preset configuration of switch ports for the RCF version you are installing.
 
 [NOTE]
 ====
@@ -123,7 +125,7 @@ a|
 +
 [NOTE]
 ====
-You can change the preset groups to adjust the number of switch ports in breakout mode (4x100GbE) and 400GbE mode when you need to accommodate a different port speed configuration for your AFX 2K system.
+You can change the preset groups to adjust the number of switch ports in breakout mode (4x100GbE) and 400GbE mode when you need to accommodate a different port speed configuration for your AFX system.
 
 You do this later, as part of the RCF installation procedure.
 ====
