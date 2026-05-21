@@ -14,23 +14,22 @@ Before configuring your Cisco Nexus 9332D-GX2B switches, review the following co
 
 == Hard-code the speed on breakout ports
 
-You must hard-code the speed on all breakout (4x100GbE) ports on the switches because the switches do not support auto-negotiation on breakout ports. If you do not hard-code the speed, the ports will not come up and will be in an error-disabled state.
+You must hard-code switch breakout (4x100GbE) ports to 100GbE speed before cabling them. If you do not hard-code the speed, the ports will not come up and will be in an error-disabled state.
 
-For example, to hard-code breakout ports 1-14 on switches running RCF 10.1 and later, do the following:
+For example, to hard-code breakout ports 1-14 to 100GbE speed on the first switch (cs1)(on switches running RCF 10.1 and later), do the following:
+
+Repeat this step for the second switch.
 
 [subs=+quotes]
 ----
 (cs1)(config)# interface Ethernet1/1-14
-*For 100GbE speed:*
 (cs1)(config-if)# *speed 100000*
-*For 40GbE speed:*
-(cs1)(config-if)# *speed 40000*
-(cs1)(config-if)# no negotiate auto
 (cs1)(config-if)# exit
 (cs1)(config)# exit
-*Save the changes:*
 (cs1)# *copy running-config startup-config*
 ----
+
+NOTE: For more information about hard-coding switch port speeds, refer to the link:<link needed>[Public report^] 
 
 //== Support for NVIDIA CX6, CX6-DX, and CX7 Ethernet ports
 //If connecting a switch port to an ONTAP controller using NVIDIA ConnectX-6 (CX6), ConnectX-6 Dx (CX6-DX), or ConnectX-7 (CX7) NIC ports, you must hard-code the switch port speed.
