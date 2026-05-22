@@ -18,18 +18,21 @@ If you are installing new Cisco Nexus 9332D-GX2B switches as part of a new AFX 1
 
 == Hard-code the speed on breakout ports
 
-You must hard-code switch breakout (4x100GbE) ports to 100GbE speed before cabling them. If you do not hard-code the speed, the ports will not come up and will be in an error-disabled state.
+You must hard-code switch breakout (4x100GbE) ports to 100GbE speed before cabling them...powering them on? When? 
 
-For example, to hard-code breakout ports 1-14 to 100GbE speed on the first switch (cs1)(on switches running RCF 10.1 and later), do the following:
+If you do not hard-code the speed, the ports will not come up and will be in an error-disabled state.
+
+For example, to hard-code breakout ports 1-14 to 100GbE speed on the first switch (cs1), do the following in config-if mode:
 
 Repeat this step for the second switch.
 
 [subs=+quotes]
 ----
-(cs1)(config)# interface Ethernet1/1-14
+(cs1)(config)# *interface range ethernet 1/1 - 14*
 (cs1)(config-if)# *speed 100000*
-(cs1)(config-if)# exit
-(cs1)(config)# exit
+(cs1)(config-if)# *no negotiate auto*
+(cs1)(config-if)# *exit*
+(cs1)(config)# *exit*
 (cs1)# *copy running-config startup-config*
 ----
 
