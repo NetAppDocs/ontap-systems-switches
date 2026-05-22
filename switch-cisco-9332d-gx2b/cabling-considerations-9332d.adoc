@@ -18,7 +18,11 @@ If you are installing new Cisco Nexus 9332D-GX2B switches as part of a new AFX 1
 
 == Hard-code the speed on breakout ports
 
-You must hard-code switch breakout (4x100GbE) ports to 100GbE speed before cabling them...powering them on? When? 
+You must hard-code switch breakout (4x100GbE) ports to 100GbE speed after the switches are cabled and powered on.
+
+Lisa: it makes sense that switches have to be powered on to issue CMDs. OR is this being done through the management port connections...but they aren't powered on yet! 
+
+It makes sense for this item to be in Configure switches section.
 
 If you do not hard-code the speed, the ports will not come up and will be in an error-disabled state.
 
@@ -57,8 +61,14 @@ NOTE: For more information about hard-coding switch port speeds, refer to the li
 
 //Refer to the link:https://hwu.netapp.com/Switch/Index[Hardware Universe^] for more information on switch ports. Refer to link:https://kb.netapp.com/Support/General_Support/What_additional_information_do_I_need_to_install_my_equipment_that_is_not_in_HWU[What additional information do I need to install my equipment that is not in HWU?^] for more information about switch installation requirements.
 
-== Use of mixed connection types is not supported for NVIDIA CX6-DX and CX7 (100G) NICs
-The mixed usage of copper and optical breakout connections is not supported by NVIDIA C6X-DX and CX7 (100G)  NIC adapters. You should use either copper or optical connections exclusively and avoid combining different connection types. Mixing types can lead to link saturation after extended use.
+== Use of mixed connection types is not supported for NVIDIA CX6-DX and CX7 (100GbE) NICs
+The mixed usage of copper and optical breakout connections is not supported by NVIDIA C6X-DX and CX7 (100GbE) NIC adapters. You should use either copper or optical connections exclusively and avoid combining different connection types. Mixing types can lead to link saturation after extended use.
+
+Lisa: users need to have the correct cables prior to cabling the switches. This affects new installs only, since replace and reset already have the cables in place. 
+
+It makes sense for this item to be part of the prepare for install topic.
+
+The timing when users need to know this differs!!
 
  
 
