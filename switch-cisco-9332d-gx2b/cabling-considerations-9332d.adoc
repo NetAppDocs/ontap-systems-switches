@@ -2,14 +2,14 @@
 permalink: switch-cisco-9332d-gx2b/cabling-considerations-9332d.html
 sidebar: sidebar
 keywords: 9332d-gx2b cabling setup, 9332d-gx2b switches configuration, nx-os
-summary: If you are installing new Cisco Nexus 9332D-GX2B switches as part of a new AFX 1K or AFX 2K system installation, replacing a faulty switch, or resetting a switch to the factory defaults settings, you must review the following cabling and configuration requirements and considerations for your switches.
+summary: If you are installing new Cisco Nexus 9332D-GX2B switches as part of a new AFX 1K or AFX 2K system installation, replacing a faulty switch, or resetting a switch to the factory defaults settings, you must review the following cabling and configuration requirements and considerations.
 ---
 = Review cabling and configuration requirements and considerations
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-If you are installing new Cisco Nexus 9332D-GX2B switches as part of a new AFX 1K or AFX 2K system installation, replacing a faulty switch, or resetting a switch to the factory defaults settings, you must review the following cabling and configuration requirements and considerations for your switches.
+If you are installing new Cisco Nexus 9332D-GX2B switches as part of a new AFX 1K or AFX 2K system installation, replacing a faulty switch, or resetting a switch to the factory defaults settings, you must review the following cabling and configuration requirements and considerations.
 
 // Was: Before configuring your Cisco Nexus 9332D-GX2B switches, review the following requirements and considerations.
 
@@ -18,14 +18,15 @@ If you are installing new Cisco Nexus 9332D-GX2B switches as part of a new AFX 1
 
 == Hard-code the speed on breakout ports
 
-You must hard-code switch breakout (4x100GbE) ports to 100GbE speed as part of your switch configuration (after the switches are cabled and powered on). If you do not hard-code the speed, the ports will not come up and will be in an error-disabled state.
+You must hard-code switch breakout (4x100GbE) ports for 100GbE as part of your switch configuration (after the switches are cabled and powered on). If you do not hard-code the speed, the ports will not come up and will be in an error-disabled state.
 
 //Lisa: it makes sense that switches have to be powered on to issue CMDs. OR is this being done through the management port connections...but they aren't powered on yet! 
 
 //It makes sense for this item to be in Configure switches section.
 
-For example, to hard-code the 100GbE speed on breakout ports 1-14 on the first switch (cs1), do the following in config-if mode, and then repeat this step for the second switch.
+//For example, to hard-code the 100GbE speed on breakout ports 1-14 on the first switch (cs1), do the following in config-if mode, and then repeat this step for the second switch.
 
+For example, to hard-code 100GbE on breakout ports 1-14, do the following in config-if mode. The example shows commands being applied to the first switch (cs1). You repeat these commands for the second switch.
 
 [subs=+quotes]
 ----
