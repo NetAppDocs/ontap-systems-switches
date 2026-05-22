@@ -4,7 +4,7 @@ sidebar: sidebar
 keywords: 9332d-gx2b cabling setup, 9332d-gx2b switches configuration, nx-os
 summary: If you are installing new Cisco Nexus 9332D-GX2B switches as part of a new AFX 1K or AFX 2K system installation, replacing a faulty switch, or resetting a switch to the factory defaults settings, you must review the following cabling requirements and considerations for your switches.
 ---
-= Review cabling requirements and considerations
+= Review cabling and configuration requirements and considerations
 :icons: font
 :imagesdir: ../media/
 
@@ -32,7 +32,7 @@ Repeat this step for the second switch.
 
 [subs=+quotes]
 ----
-(cs1)(config)# *interface range ethernet 1/1 - 14*
+(cs1)(config)# *interface range ethernet 1/1-14*
 (cs1)(config-if)# *speed 100000*
 (cs1)(config-if)# *no negotiate auto*
 (cs1)(config-if)# *exit*
@@ -40,7 +40,6 @@ Repeat this step for the second switch.
 (cs1)# *copy running-config startup-config*
 ----
 
-NOTE: For more information about hard-coding switch port speeds, refer to the link:<link needed>[Public report^] 
 
 //== Support for NVIDIA CX6, CX6-DX, and CX7 Ethernet ports
 //If connecting a switch port to an ONTAP controller using NVIDIA ConnectX-6 (CX6), ConnectX-6 Dx (CX6-DX), or ConnectX-7 (CX7) NIC ports, you must hard-code the switch port speed.
@@ -64,12 +63,20 @@ NOTE: For more information about hard-coding switch port speeds, refer to the li
 == Use of mixed connection types is not supported for NVIDIA CX6-DX and CX7 (100GbE) NICs
 The mixed usage of copper and optical breakout connections is not supported by NVIDIA C6X-DX and CX7 (100GbE) NIC adapters. You should use either copper or optical connections exclusively and avoid combining different connection types. Mixing types can lead to link saturation after extended use.
 
-Lisa: users need to have the correct cables prior to cabling the switches. This affects new installs only, since replace and reset already have the cables in place. 
+NOTE: For more information about hard-coding switch port speeds, refer to the link:<link needed>[Public report^] 
+
+//Gist of report: There's an issue if you mix technologies on the two ports on the cluster-node side.
+
+//Also, really applies to NICs, but there's no NIC guide, so putting in switch docs.
+
+Lisa: users need to have the correct cables prior to cabling the switches. This affects new installs only, since replace and reset already have the cables in place. UNLESS there's another use case where users are swapping out copper for optical or vice versa.
 
 It makes sense for this item to be part of the prepare for install topic.
 
-The timing when users need to know this differs!!
+The timing when users need to know these two items differs!! But remember, this topic could grow, and then affect placement in sequence and sidebar.
 
- 
+ .What's next?
+ After you meet the requirements and considerations, you <do what?>
+
 
 // New topic and refactor content project phase 1 with 2K/RCF 10.1 content, GH#423 2026-JUN
