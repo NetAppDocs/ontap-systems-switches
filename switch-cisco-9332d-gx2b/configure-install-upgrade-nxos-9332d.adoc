@@ -74,6 +74,8 @@ Hey, Lisa, I think a lot of the prepare stuff here is the same stuff in the Prep
 .Steps
 
 . Connect the switch to the management network.
++
+Lisa: If you are installing or upgrading the NX-OS on switches as part of a new AFX system installation, the connection to the management network should have been done over on the AFX system doc side.
 
 . Use the ping command to verify connectivity to the server hosting the NX-OS software and the RCF.
 //In a NetApp system, there is no proprietary NetApp server used for this purpose. The server hosting the NX-OS software and the RCF (Reference Configuration File) is simply an external SFTP, SCP, FTP, or TFTP server (e.g., a local admin workstation or a management server) running on your local network.
@@ -92,6 +94,17 @@ Pinging 172.19.2.1 with 0 bytes of data:
 Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 ----
 ====
+
+. Lisa these two steps that follow are the first 2 steps from the P, Prepare to install NXOS and RCF topic, steps section. How do these apply to the 3 use cases?:
+.  Verify that the version of NX-OS on your switch(es) is the current NetApp-supported version.
++
+If it is not, download the correct version of NX-OS to the switches from the https://software.cisco.com/download/home[Cisco software download^] page.
++
+NOTE: New switches should ship with the current NetApp-supported version of NX-OS.
+
+. Download the RCF supported for your type of AFX system from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com^]. 
++
+NOTE: New switches do not ship with the RCF installed. You must install the RCF on the switches.
 
 . Display the cluster ports on each node that are connected to the cluster switches: 
 +
