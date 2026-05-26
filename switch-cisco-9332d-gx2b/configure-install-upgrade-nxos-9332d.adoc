@@ -2,14 +2,14 @@
 permalink: switch-cisco-9332d-gx2b/configure-install-upgrade-nxos-9332d.html
 sidebar: sidebar
 keywords: procedure, install, nx-os, software, nexus, cluster, switch, install the nx-os software - cisco nexus 9332d-gc2b
-summary: You can install or upgrade the NX-OS on your Nexus 9332D-GX2B switches depending on the available supported NX-OS versions for the switches in your AFX 1K or AFX 2K system. You install a supported version of NX-OS on the switches as part of a new AFX 1K or AFX 2K system installation, a switch replacement, or a reset to factory default settings. You upgrade to a supported version of NX-OS on the switches to support new hardware or a new ONTAP version in your AFX 1K or AFX 2K system.
+summary: You can install or upgrade the NX-OS on your Nexus 9332D-GX2B switches depending on the available supported NX-OS versions for the switches in your AFX 1K or AFX 2K system. You install a supported version of NX-OS on the switches as part of a new AFX system installation, a switch replacement, or a switch reset to factory default settings. You upgrade to a supported version of NX-OS on the switches to support new hardware or a new ONTAP version in your AFX system.
 ---
 = Install or upgrade the NX-OS - Cisco Nexus 9332D-GX2B
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-You can install or upgrade the NX-OS on your Nexus 9332D-GX2B switches depending on the available supported NX-OS versions for the switches in your AFX 1K or AFX 2K system. You install a supported version of NX-OS on the switches as part of a new AFX 1K or AFX 2K system installation, a switch replacement, or a reset to factory default settings. You upgrade to a supported version of NX-OS on the switches to support new hardware or a new ONTAP version in your AFX 1K or AFX 2K system.
+You can install or upgrade the NX-OS on your Nexus 9332D-GX2B switches depending on the available supported NX-OS versions for the switches in your AFX 1K or AFX 2K system. You install a supported version of NX-OS on the switches as part of a new AFX system installation, a switch replacement, or a switch reset to factory default settings. You upgrade to a supported version of NX-OS on the switches to support new hardware or a new ONTAP version in your AFX system.
 
 NOTE: NX-OS installation or upgrade is independent of RCF installation or upgrade. If you are installing or upgrading both the NX-OS and RCF, it is recommended you install or upgrade NX-OS first.
 
@@ -32,14 +32,11 @@ NOTE: New switches should ship with the current NetApp-supported version of NX-O
 +
 If you are installing the NX-OS as part of a new AFX system installation, you can skip this requirement because at this point your AFX system is not up and running.
 
-* Lisa: There 3 bullets are from Prep install NX-OS and RCF topic Before section. Do they belong in this topic?
+* Lisa: These 2 bullets are from Prep install NX-OS and RCF topic Before section. Do they belong in this topic?
 ** The switches must be powered on and you must have completed the link:configure-complete-initial-setup-9332d.html[Complete initial switch setup] procedure.
 
 ** You must have access to an HTTP, FTP, or TFTP server. Access to one of these servers allows you to download a supported version of NX-OS and RCF as instructed later in this procedure.
 
-** Hey: the following is from the RCF upgrade Before you begin and suggests that this content applies to installing NX-OS and installing RCF too.
-+
-Before installing a new version of the NX-OS and RCF, you must erase the switch settings and perform basic configuration. You must be connected to the switch using the serial console or have preserved basic configuration information prior to erasing the switch settings.
 
 .About this task
 
@@ -109,20 +106,9 @@ Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 
 . Download the correct version of NX-OS to the switch(es) from the https://software.cisco.com/download/home[Cisco software download^] page.
 
-
-. If you are installing the NX-OS on switch(es) as part of a new AFX system installation or switch replacement, verify that the version of NX-OS on your switch(es) is the current NetApp-supported version.
+. Lisa: this step only belongs in install RCF...and Upgrade? 
 +
-If it is not, go to the next step to download the NX-OS; otherwise, Go where?.
-+
-NOTE: New switches should ship with the current NetApp-supported version of NX-OS.
-
-. If your switch(es) have the current version of the NX-OS installed, go to the next step; otherwise
-+
-If it is not, download the correct version of NX-OS to the switches from the https://software.cisco.com/download/home[Cisco software download^] page.
-+
-NOTE: New switches should ship with the current NetApp-supported version of NX-OS.
-
-. Download the RCF supported for your type of AFX system from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com^]. 
+Download the RCF supported for your type of AFX system from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com^]. 
 +
 NOTE: New switches do not ship with the RCF installed. You must install the RCF on the switches.
 
