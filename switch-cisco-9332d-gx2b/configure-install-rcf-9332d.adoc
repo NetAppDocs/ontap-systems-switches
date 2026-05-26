@@ -16,7 +16,10 @@ You install the RCF on new Cisco Nexus 9332D-GX2B switch(es) as part of a new AF
 * You must have completed the link:configure-prepare-install-nxos-rcf-9332d.html[prepare to install NX-OS and RCF] procedure.
 * You must have installed the desired NX-OS version using the link:configure-install-upgrade-nxos-9332d.html[Install or upgrade NX-OS] procedure.
 * You must have read the link:configure-install-upgrade-rcf-overview-9332d.html[Install or upgrade RCF overview] page.
+
+* Lisa: The last bullet is from Upgrade RCF, but applies here too because the `write erase` command is also used to Install RCF. What's throwing me off is the bullet below, "...or you must have remote access to each switch." Seems there only needs to be one bullet...but what's the wording?
 * Each switch must be connected to a console or you must have remote access to each switch.
+* You must be connected to the switches using the serial console or have preserved basic configuration information. This is because the RCF upgrade procedure requires you to erase the switch settings and perform basic configuration.
 
 
 .About this task
