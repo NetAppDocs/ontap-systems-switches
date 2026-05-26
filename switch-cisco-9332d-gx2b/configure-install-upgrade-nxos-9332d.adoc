@@ -16,12 +16,30 @@ NOTE: NX-OS installation or upgrade is independent of RCF installation or upgrad
 
 .Before you begin
 
+* If you are installing the NX-OS on switch(es) as part of a new AFX system installation or switch replacement, verify that the version of NX-OS on your switch(es) is the current NetApp-supported version.
++
+NOTE: New switches should ship with the current NetApp-supported version of NX-OS.
++
+** If your switch(es) have the current NetApp-supported version, you do not need to install the NX-OS. You need to install the RCF. Start with the link:configure-install-upgrade-rcf-overview-9332d.html[Install or upgrade the RCF overview].
++
+** If your switch(es) do not have the current NetApp-supported version, continue with this procedure to install the NX-OS.
+
 * You must have completed the link:configure-prepare-install-nxos-rcf-9332d.html[Prepare to install the NX-OS and RCF] procedure.
+
 * Make sure you have a current backup of the switch configuration.
 
-* If you are installing or upgrading the NX-OS on a switch part of a switch replacement or resetting a switch to factory default settings (in an AFX system that is up and running), verify that your cluster is fully functional, meaning that there are no errors in the logs or similar issues.
+* If you are installing or upgrading the NX-OS on a switch part of a switch replacement or a switch reset to factory default settings, verify that your cluster is fully functional, meaning that there are no errors in the logs or similar issues.
 +
-If you are installing or upgrading the NX-OS as part of a new AFX system installation, you can skip this requirement.
+If you are installing the NX-OS as part of a new AFX system installation, you can skip this requirement because at this point your AFX system is not up and running.
+
+* Lisa: There 3 bullets are from Prep install NX-OS and RCF topic Before section. Do they belong in this topic?
+** The switches must be powered on and you must have completed the link:configure-complete-initial-setup-9332d.html[Complete initial switch setup] procedure.
+
+** You must have access to an HTTP, FTP, or TFTP server. Access to one of these servers allows you to download a supported version of NX-OS and RCF as instructed later in this procedure.
+
+** Hey: the following is from the RCF upgrade Before you begin and suggests that this content applies to installing NX-OS and installing RCF too.
++
+Before installing a new version of the NX-OS and RCF, you must erase the switch settings and perform basic configuration. You must be connected to the switch using the serial console or have preserved basic configuration information prior to erasing the switch settings.
 
 .About this task
 
@@ -50,14 +68,6 @@ NOTE: Do not upgrade or downgrade your NX-OS version to an unsupported version.
 *** node1-04_clus1 and node1-04_clus2 for node1-04
 ** The `cluster1::*>` prompt indicates the name of the cluster.
 
-* Lisa: There 3 bullets are from Prep install NX-OS and RCF topic Before section. Do they belong in this topic?
-** The switches must be powered on and you must have completed the link:configure-complete-initial-setup-9332d.html[Complete initial switch setup] procedure.
-
-** You must have access to an HTTP, FTP, or TFTP server. Access to one of these servers allows you to download a supported version of NX-OS and RCF as instructed later in this procedure.
-
-** Hey: the following is from the RCF upgrade Before you begin and suggests that this content applies to installing NX-OS and installing RCF too.
-+
-Before installing a new version of the NX-OS and RCF, you must erase the switch settings and perform basic configuration. You must be connected to the switch using the serial console or have preserved basic configuration information prior to erasing the switch settings.
 
 * The examples shown in this procedure are for AFX 1K systems with switches running NX-OS 10.4.2 and RCF 10.0. If you have an AFX 2K system, the input and output can vary.
  
@@ -95,8 +105,18 @@ Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 ----
 ====
 
-. Lisa these two steps that follow are the first 2 steps from the P, Prepare to install NXOS and RCF topic, steps section. How do these apply to the 3 use cases?:
-.  Verify that the version of NX-OS on your switch(es) is the current NetApp-supported version.
+. Lisa these two steps that follow are the first 2 steps from the P, Prepare to install NX-OS and RCF topic, steps section. How do these apply to the 3 use cases?:
+
+. Download the correct version of NX-OS to the switch(es) from the https://software.cisco.com/download/home[Cisco software download^] page.
+
+
+. If you are installing the NX-OS on switch(es) as part of a new AFX system installation or switch replacement, verify that the version of NX-OS on your switch(es) is the current NetApp-supported version.
++
+If it is not, go to the next step to download the NX-OS; otherwise, Go where?.
++
+NOTE: New switches should ship with the current NetApp-supported version of NX-OS.
+
+. If your switch(es) have the current version of the NX-OS installed, go to the next step; otherwise
 +
 If it is not, download the correct version of NX-OS to the switches from the https://software.cisco.com/download/home[Cisco software download^] page.
 +
@@ -476,7 +496,7 @@ network interface modify -vserver Cluster -lif * -auto-revert false
 
 == Step 2: Install NX-OS
 
-You install NX-OS on one of the switches (cs1) and then you repeat these steps to install NX-OS on the second switch (cs2).
+You install NX-OS on the first switches (cs1) and then you repeat these steps to install NX-OS on the second switch (cs2).
 
 //include::../_include/g_dimm_replace.adoc[]
 
@@ -1151,11 +1171,15 @@ node1-04             true    true          true
 //An EPLD (Electronic Programmable Logic Device) on a Cisco Nexus 9000 switch is a type of firmware (often FPGA or CPLD) that controls hardware functionality, such as power management and interface mapping, on modules or the supervisor. It enables upgrading hardware features via software without physical hardware replacement. Upgrading the EPLD can provide bug fixes, performance improvements, and new features to the switch's hardware components.
 
 
-== Step 3: Complete the NX-OS installation
+== Step 3: Complete the NX-OS installation or upgrade
 
-Complete the NX-OS installation on both switches by verifying that the cluster LIFs have reverted to their home ports and then enable auto-revert on the cluster LIFs.
+If you are installing or upgrading the NX-OS on a switch as part of a switch replacement or switch reset to factory default settings, re-enable auto-revert on the cluster LIFs and verify the cluster LIFs reverted to their home ports.
 
-//include::../_include/g_dimm_replace.adoc[]
+If you are installing the NX-OS on the switches as part of a new AFX system installation, skip this step and go to the "What's next?" section below.
+
+//This Step 3 section is only applicable if your existing AFX system is up and running, which a new AFX system install and setup is not at this point.
+
+// old lead: Complete the NX-OS installation on both switches by re-enabling auto-revert on the cluster LIFs and then verifying that the cluster LIFs have reverted to their home ports. 
 
 
 . Re-enable auto-revert on the cluster LIFs.
@@ -1199,7 +1223,7 @@ If any cluster LIFs have not returned to their home ports, revert them manually 
 
 .What's next?
 
-After you've installed NX-OS on your switches, you install RCF starting with the link:configure-install-upgrade-rcf-overview-9332d.html[Install or upgrade the RCF overview].
+After you've installed or upgraded the NX-OS on your switch(es), you install RCF starting with the link:configure-install-upgrade-rcf-overview-9332d.html[Install or upgrade the RCF overview].
 
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-06
 // AFFFASDOC-394, 2025-OCT-20

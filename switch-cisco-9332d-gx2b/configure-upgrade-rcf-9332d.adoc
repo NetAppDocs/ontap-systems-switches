@@ -407,7 +407,7 @@ shelf id connector-state remote-port    remote-device
 ----
 ====
 
-. Disable auto-revert on the cluster LIFs.
+. Disable auto-revert on the cluster LIFs. The cluster LIFs fail over to the partner cluster switch and remain there as you perform this procedure on the targeted switch:
 +
 `network interface modify -vserver Cluster -lif * -auto-revert false` 
 
