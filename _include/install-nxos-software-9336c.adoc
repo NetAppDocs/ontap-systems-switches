@@ -320,7 +320,7 @@ The EPLD image is not automatically updated when you upgrade to NX-OS 10.5(3) or
 * When you have upgraded to NX-OS 10.5(3) or later, both images are updated at the same time.
 
 
-The following step shows an upgrade from NX-OS 10.3(4a) to 10.5(4). The first pass performs the NX-OS upgrade and the second pass performs the EPLD upgrade.
+The following step shows an upgrade from NX-OS 10.3(4a) to 10.5(4). The first pass performs the NX-OS upgrade and the second pass performs the EPLD image upgrade.
 =======
 
 [start=8]
@@ -334,7 +334,7 @@ Installing the image file causes it to be loaded every time the switch is reboot
 
 [subs=+quotes]
 ----
-cs2# *install all nxos bootflash:nxos64-cs.10.5.4.M.bin*
+cs2# *install all nxos bootflash:nxos64-cs.10.5.4.M.bin*   <---- 1st pass updates NX-OS only
 
 Installer will perform compatibility check first. Please wait.
 Installer is forced disruptive
@@ -361,15 +361,14 @@ Notifying services about system upgrade.
 Compatibility check is done:
 Module  Bootable  Impact          Install-type  Reason
 ------  --------  --------------- ------------  ---------
-  1     yes       Disruptive      Reset         Default upgrade is not hitless
+1       yes       Disruptive      Reset         Default upgrade is not hitless
 
 
 Images will be upgraded according to following table:
 
 Module   Image    Running-Version(pri:alt)                 New-Version         Upg-Required
 ------- --------- ---------------------------------------- ------------------- ------------ 
-1        nxos     10.3(4a)                                 10.5(4)           
-yes
+1        nxos     10.3(4a)                                 10.5(4)          yes
 1        bios     v05.47(04/28/2022):v05.47(04/28/2022)    v05.53(01/22/2025)     yes
 
 Switch will be reloaded for disruptive upgrade.
@@ -395,7 +394,7 @@ Warning: please do not remove or power off the module at this time.
 Finishing the upgrade, switch will reboot in 10 seconds.
 
 
-cs2# *install all nxos bootflash:nxos64-cs.10.5.4.M.bin*
+cs2# *install all nxos bootflash:nxos64-cs.10.5.4.M.bin*   <---- 2nd pass updates EPLD image only
  
 Installer will perform compatibility check first. Please wait. 
 Installer is forced disruptive
@@ -430,7 +429,7 @@ Module  bootable  Impact          Install-type  Reason
  
  
 Images will be upgraded according to following table:
-Module    Image                  Running-Version(pri:alt)              New-Version  Upg-Required
+Module    Image                  Running-Version(pri:alt)              New-Version         Upg-Required
 --------  ---------------------  ---------------------------------------- -----------  ------------
 27        nxos                   10.5(4)                               10.5(4)                no
 27        bios                   v05.53(01/22/2025):v05.47(04/28/2022) v05.53(01/22/2025)     no
@@ -440,7 +439,7 @@ FPGA microcode will be upgraded according to following table:
 Module  Type  EPLD               Running-Version  Flashed-Version*   New-Version  Upg-Required
 ------  ----  -----------------  ---------------  ----------------   -----------  ------------
 27      SUP   MI FPGA            0x5              0x5                0x5          No
-27      SUP   IO FPGA            0x17             0x17               0x18          Yes
+27      SUP   IO FPGA            0x17             0x17               0x18         Yes
 
 If Running-Version and Flashed-Version are different it implies that the system has not yet been reloaded for the new version to take effect.
  
@@ -546,10 +545,11 @@ Active Package(s):
 ====
 
 . Upgrade the EPLD image and reboot the switch. 
++
 
 NOTE: If you are using NX-OS 10.5(3)F or later, you do not need to perform a separate EPLD image upgrade because the EPLD image is included in the NX-OS image. Skip this step and continue with verifying cluster port health.
 
-
++
 .Show example
 [%collapsible]
 ====
