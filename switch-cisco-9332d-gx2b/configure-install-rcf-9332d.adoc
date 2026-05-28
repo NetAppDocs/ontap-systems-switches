@@ -9,16 +9,20 @@ summary: You install the RCF on new Cisco Nexus 9332D-GX2B switch(es) as part of
 :imagesdir: ../media/
 
 [.lead]
-You install the RCF on new Cisco Nexus 9332D-GX2B switch(es) as part of a new AFX 1K or AFX 2K system installation and setup, replacing a faulty switch, or resetting a switch to factory default settings.
+You install the RCF on new Cisco Nexus 9332D-GX2B switch(es) as part of a new AFX 1K or AFX 2K system installation, replacing a switch, or a switch reset to factory default settings.
 
 .Before you begin
 
-* You must have completed the link:configure-prepare-install-nxos-rcf-9332d.html[prepare to install NX-OS and RCF] procedure.
-* You must have installed the desired NX-OS version using the link:configure-install-upgrade-nxos-9332d.html[Install or upgrade NX-OS] procedure.
+* The switch(es) must be powered on and you must have completed the link:configure-complete-initial-setup-9332d.html[Complete initial switch setup] procedure.
+
+* You must have installed the desired NX-OS version using the link:configure-install-nxos-9332d.html[Install the NX-OS] procedure.
+
 * You must have read the link:configure-install-upgrade-rcf-overview-9332d.html[Install or upgrade RCF overview] page.
 
-* Lisa: The last bullet is from Upgrade RCF, but applies here too because the `write erase` command is also used to Install RCF. What's throwing me off is the bullet below, "...or you must have remote access to each switch." Seems there only needs to be one bullet...but what's the wording?
 * Each switch must be connected to a console or you must have remote access to each switch.
+
+* Hey: The bullet below is from Upgrade RCF, but applies here too because the `write erase` command is also used to Install RCF (step 9). It seems similar to the bullet above. Should we combine them? Or is it better to keep them separate because of the different contexts (install vs upgrade)?
+
 * You must be connected to the switches using the serial console or have preserved basic configuration information. This is because the RCF upgrade procedure requires you to erase the switch settings and perform basic configuration.
 
 
@@ -27,6 +31,11 @@ You install the RCF on new Cisco Nexus 9332D-GX2B switch(es) as part of a new AF
 * If you have installed switches as part of a new AFX 1K or AFX 2K system installation, you install the RCF on one switch at a time. This procedure has you install the RCF on the first switch (cs1) and then has you repeat the steps for the second switch (cs2).
 
 * The examples shown in this procedure are for AFX 1K systems with switches running RCF 10.0. If you have an AFX 2K system, the input and output can vary.
+
+//* Lisa: this step only belongs in install RCF...and Upgrade? Seems to be covered in steps 1 and 2. 
+//Download the RCF supported for your type of AFX system from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com^]. 
+//+
+//NOTE: New switches do not ship with the RCF installed. You must install the RCF on the switches.
 
 
 .Steps
@@ -169,7 +178,7 @@ Refer to the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/
 +
 `This command will reboot the system. (y/n)?  [n] *y*`
 
-. Repeat steps 1 through 10 on switch cs2.
+. Repeat steps 1 through 11 on switch cs2.
 
 //. Connect the ports of all nodes in the ONTAP cluster to switches cs1 and cs2.
 //+ 
