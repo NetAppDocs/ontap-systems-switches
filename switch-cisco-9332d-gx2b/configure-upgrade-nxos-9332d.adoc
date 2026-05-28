@@ -26,8 +26,6 @@ NOTE: New switches should ship with the current NetApp-supported version of NX-O
 +
 ** If your switch(es) do not have the current NetApp-supported version, continue with this procedure to install the NX-OS.
 
-* You must have completed the link:configure-prepare-install-nxos-rcf-9332d.html[Prepare to install the NX-OS and RCF] procedure.
-
 * Make sure you have a current backup of the switch configuration.
 
 * If you are installing or upgrading the NX-OS on a switch part of a switch replacement or a switch reset to factory default settings, verify that your cluster is fully functional, meaning that there are no errors in the logs or similar issues.
@@ -1161,14 +1159,7 @@ node1-04             true    true          true
 
 == Step 3: Complete the NX-OS upgrade
 
-If you are upgrading the NX-OS on a switch as part of a switch replacement or switch reset to factory default settings, complete the NX-OS upgrade on both switches by re-enabling auto-revert on the cluster LIFs and verifying the cluster LIFs reverted to their home ports.
-
-If you are installing the NX-OS on the switches as part of a new AFX system installation, skip this step and go to the "What's next?" section below.
-
-//This Step 3 section is only applicable if your existing AFX system is up and running, which a new AFX system install and setup is not at this point.
-
-// old lead: Complete the NX-OS installation on both switches by re-enabling auto-revert on the cluster LIFs and then verifying that the cluster LIFs have reverted to their home ports. 
-
+Complete the NX-OS upgrade by re-enabling auto-revert on the cluster LIFs and verifying the cluster LIFs reverted to their home ports. 
 
 . Re-enable auto-revert on the cluster LIFs.
 +
