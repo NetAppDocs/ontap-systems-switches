@@ -201,7 +201,6 @@ cluster1::*>
 ----
 ====
 
-
 . Disable auto-revert on the cluster LIFs. The cluster LIFs fail over to the partner cluster switch and remain there as you perform the upgrade procedure on the targeted switch:
 +
 `network interface modify -vserver Cluster -lif * -auto-revert false`
@@ -313,9 +312,22 @@ cs2#
 ----
 ====
 
-. Install the NX-OS image.
-+
+[NOTE]
+=======
+The EPLD is not updated when you upgrade to NX-OS 10.5(3) or later. 
+After your upgrade completes and the switch reboots, you must run the same upgrade again.
+
+* The second upgrade pass verifies, but skips the NX-OS upgrade; only the EPLD is updated.
+* When you have upgraded to NX-OS 10.5(3) or later, both images are updated at the same time.
+
+
+The following step shows an upgrade from NX-OS 10.3(4a) to 10.5(4). The first pass performs the NX-OS upgrade and the second pass performs the EPLD upgrade.
+=======
+
+[start=8]
+. [[step8]] Install the NX-OS image.
 Installing the image file causes it to be loaded every time the switch is rebooted.
+
 +
 .Show example
 [%collapsible]
@@ -323,21 +335,21 @@ Installing the image file causes it to be loaded every time the switch is reboot
 
 [subs=+quotes]
 ----
-cs2# *install all nxos bootflash:nxos.9.3.5.bin*
+cs2# *install all nxos bootflash:nxos64-cs.10.5.4.M.bin*
 
 Installer will perform compatibility check first. Please wait.
 Installer is forced disruptive
 
-Verifying image bootflash:/nxos.9.3.5.bin for boot variable "nxos".
+Verifying image bootflash:/nxos64-cs.10.5.4.M.bin for boot variable "nxos".
 [####################] 100% -- SUCCESS
 
 Verifying image type.
 [####################] 100% -- SUCCESS
 
-Preparing "nxos" version info using image bootflash:/nxos.9.3.5.bin.
+Preparing "nxos" version info using image bootflash:/nxos64-cs.10.5.4.M.bin.
 [####################] 100% -- SUCCESS
 
-Preparing "bios" version info using image bootflash:/nxos.9.3.5.bin.
+Preparing "bios" version info using image bootflash:/nxos64-cs.10.5.4.M.bin.
 [####################] 100% -- SUCCESS
 
 Performing module support checks.
@@ -347,20 +359,18 @@ Notifying services about system upgrade.
 [####################] 100% -- SUCCESS
 
 
-
 Compatibility check is done:
 Module  Bootable  Impact          Install-type  Reason
 ------  --------  --------------- ------------  ---------
   1     yes       Disruptive      Reset         Default upgrade is not hitless
 
 
-
 Images will be upgraded according to following table:
 
 Module   Image    Running-Version(pri:alt)                 New-Version         Upg-Required
-------- --------- ---------------------------------------- ------------------- ------------
-  1      nxos     9.3(4)                                   9.3(5)                  yes
-  1      bios     v08.37(01/28/2020):v08.23(09/23/2015)    v08.38(05/29/2020)      yes
+------- --------- ---------------------------------------- ------------------- ------------ 
+1        nxos     10.3(4a)              10.5(4)           yes
+1        bios     v05.47(04/28/2022):v05.47(04/28/2022)    v05.53(01/22/2025)           yes
 
 
 Switch will be reloaded for disruptive upgrade.
@@ -381,8 +391,97 @@ Performing configuration copy.
 Module 1: Refreshing compact flash and upgrading bios/loader/bootrom.
 Warning: please do not remove or power off the module at this time.
 [####################] 100% -- SUCCESS
+[####################] 100% -- SUCCESS
 
 Finishing the upgrade, switch will reboot in 10 seconds.
+
+
+cs2# *install all nxos bootflash:nxos64-cs.10.5.4.M.bin*
+ 
+Installer will perform compatibility check first. Please wait. 
+Installer is forced disruptive
+ 
+Verifying image bootflash:/nxos64-cs.10.5.4.M.bin for boot variable "nxos".
+[####################] 100% -- SUCCESS
+ 
+Verifying EPLD/FPGA image //bootflash/nxos64-cs.10.5.4.M.bin.
+[####################] 100% -- SUCCESS
+ 
+Verifying image type.
+[####################] 100% -- SUCCESS
+ 
+Preparing "nxos" version info using image bootflash:/nxos64-cs.10.5.4.M.bin.
+[####################] 100% -- SUCCESS
+ 
+Preparing "bios" version info using image bootflash:/nxos64-cs.10.5.4.M.bin.
+[####################] 100% -- SUCCESS
+
+Performing module support checks.
+[####################] 100% -- SUCCESS
+ 
+Notifying services about system upgrade.
+[####################] 100% -- SUCCESS
+ 
+
+Compatibility check is done:
+Module  bootable          Impact  Install-type  Reason
+------  --------  --------------  ------------  ------
+1       yes      disruptive         reset       default upgrade is not hitless
+27      yes      disruptive         none        default upgrade is not hitless
+ 
+ 
+Images will be upgraded according to following table:
+Module    Image                  Running-Version(pri:alt)           New-Version  Upg-Required
+------  ----------  ----------------------------------------  --------------------  ------------
+27        nxos                   10.5(4)               10.5(4)            no
+27        bios     v05.53(01/22/2025):v05.47(04/28/2022)    v05.53(01/22/2025)            no
+ 
+ 
+FPGA microcode will be upgraded according to following table:
+Module  Type  EPLD               Running-Version  Flashed-Version*   New-Version  Upg-Required
+------  ----  -------------      ---------------  ----------------   -----------  ------------
+27      SUP   MI FPGA            0x5               0x5            0x5                   No
+27      SUP  IO FPGA            0x17           0x17       0x18                 Yes
+
+If Running-Version and Flashed-Version are different it implies that the system has not yet been reloaded for the new version to take effect
+ 
+EPLD Upgrade may result in multiple modules going offline.
+ 
+ 
+Switch will be reloaded for disruptive upgrade.
+ 
+Do you want to continue with the installation (y/n)?  [n] *y*
+ 
+Install is in progress, please wait.
+
+Setting boot variables.
+[####################] 100% -- SUCCESS
+ 
+Performing configuration copy.
+[####################] 100% -- SUCCESS
+Performing configuration copy.
+[####################] 100% -- SUCCESS
+ 
+Module 1: Refreshing compact flash and upgrading bios/loader/bootrom.
+Warning: please do not remove or power off the module at this time.
+
+Module 1: Refreshing compact flash and upgrading bios/loader/bootrom.
+Warning: please do not remove or power off the module at this time.
+[####################] 100% -- SUCCESS
+ 
+Module 27: Refreshing compact flash and upgrading bios/loader/bootrom.
+Warning: please do not remove or power off the module at this time.
+
+Module 27: Refreshing compact flash and upgrading bios/loader/bootrom.
+Warning: please do not remove or power off the module at this time.
+[####################] 100% -- SUCCESS
+ 
+EPLD/FPGA upgrade can take upto  4  mins.
+
+Performing EPLD/FPGA upgrade.
+[####################] 100% -- SUCCESS
+ 
+Install has been successful.
 ----
 ====
 
@@ -419,11 +518,11 @@ http://www.opensource.org/licenses/lgpl-2.1.php and
 http://www.gnu.org/licenses/old-licenses/library.txt.
 
 Software
-  BIOS: version 05.33
-  NXOS: version 9.3(5)
-  BIOS compile time:  09/08/2018
-  NXOS image file is: bootflash:///nxos.9.3.5.bin
-  NXOS compile time:  11/4/2018 21:00:00 [11/05/2018 06:11:06]
+  BIOS: version 05.53
+  NXOS: version 10.5(4)
+  BIOS compile time:  09/08/2025
+  NXOS image file is: bootflash:///nxos64-cs.10.5.4.M.bin
+  NXOS compile time:  11/4/2025 21:00:00 [11/05/2025 06:11:06]
 
 
 Hardware
@@ -435,9 +534,9 @@ Hardware
   bootflash:   53298520 kB
 Kernel uptime is 0 day(s), 0 hour(s), 3 minute(s), 42 second(s)
 
-Last reset at 277524 usecs after Mon Nov  2 22:45:12 2020
+Last reset at 277524 usecs after Mon Nov  2 22:45:12 2025
   Reason: Reset due to upgrade
-  System version: 9.3(4)
+  System version: 10.5(4)
   Service:
 
 plugin
@@ -446,6 +545,8 @@ plugin
 Active Package(s):
 ----
 ====
+
+NOTE: The following step is only required if you are running an earlier version of the NX-OS. You must perform the EPLD image upgrade as a separate step after the NX-OS upgrade and reboot.
 
 . Upgrade the EPLD image and reboot the switch. If you are using NX-OS 10.5(3)F or later, you do not need to perform a separate EPLD image upgrade because the EPLD image is included in the NX-OS image. Skip this step and continue with verifying cluster port health.
 +
