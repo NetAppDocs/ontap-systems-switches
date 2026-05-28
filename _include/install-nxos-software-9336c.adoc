@@ -214,7 +214,7 @@ cluster1::*>
 [subs=+quotes]
 ----
 cs2# *copy sftp: bootflash: vrf management*
-Enter source filename: */code/nxos.9.3.5.bin*
+Enter source filename: */code/nxos64-cs.10.5.4.M.bin*
 Enter hostname for the sftp server: *172.19.2.1*
 Enter username: *user1*
 
@@ -223,8 +223,8 @@ Inbound-ReKey for 172.19.2.1:22
 user1@172.19.2.1's password:
 sftp> progress
 Progress meter enabled
-sftp> get   /code/nxos.9.3.5.bin  /bootflash/nxos.9.3.5.bin
-/code/nxos.9.3.5.bin  100% 1261MB   9.3MB/s   02:15
+sftp> get   /code/nxos64-cs.10.5.4.M.bin  /bootflash/nxos64-cs.10.5.4.M.bin
+/code/nxos64-cs.10.5.4.M.bin  100% 1261MB   9.3MB/s   02:15
 sftp> exit
 Copy complete, now saving to disk (please wait)...
 Copy complete.
@@ -280,11 +280,11 @@ http://www.opensource.org/licenses/lgpl-2.1.php and
 http://www.gnu.org/licenses/old-licenses/library.txt.
 
 Software
-  BIOS: version 08.38
-  NXOS: version 9.3(4)
-  BIOS compile time:  05/29/2020
-  NXOS image file is: bootflash:///nxos.9.3.4.bin
-  NXOS compile time:  4/28/2020 21:00:00 [04/29/2020 02:28:31]
+  BIOS: version 05.47
+  NXOS: version 10.3(4a)
+  BIOS compile time:  05/29/2025
+  NXOS image file is: bootflash:///nxos64-cs.10.5.4.M.bin
+  NXOS compile time:  4/28/2025 21:00:00 [04/29/2025 02:28:31]
 
 
 Hardware
@@ -314,10 +314,9 @@ cs2#
 
 [NOTE]
 =======
-The EPLD is not updated when you upgrade to NX-OS 10.5(3) or later. 
-After your upgrade completes and the switch reboots, you must run the same upgrade again.
+The EPLD image is not automatically updated when you upgrade to NX-OS 10.5(3) or later. After your upgrade completes and the switch reboots, you must run the same upgrade `install all` command again.
 
-* The second upgrade pass verifies, but skips the NX-OS upgrade; only the EPLD is updated.
+* The second upgrade pass verifies, but skips the NX-OS upgrade; only the EPLD image is updated.
 * When you have upgraded to NX-OS 10.5(3) or later, both images are updated at the same time.
 
 
@@ -369,9 +368,9 @@ Images will be upgraded according to following table:
 
 Module   Image    Running-Version(pri:alt)                 New-Version         Upg-Required
 ------- --------- ---------------------------------------- ------------------- ------------ 
-1        nxos     10.3(4a)              10.5(4)           yes
-1        bios     v05.47(04/28/2022):v05.47(04/28/2022)    v05.53(01/22/2025)           yes
-
+1        nxos     10.3(4a)                                 10.5(4)           
+yes
+1        bios     v05.47(04/28/2022):v05.47(04/28/2022)    v05.53(01/22/2025)     yes
 
 Switch will be reloaded for disruptive upgrade.
 
@@ -424,26 +423,26 @@ Notifying services about system upgrade.
  
 
 Compatibility check is done:
-Module  bootable          Impact  Install-type  Reason
+Module  bootable  Impact          Install-type  Reason
 ------  --------  --------------  ------------  ------
-1       yes      disruptive         reset       default upgrade is not hitless
-27      yes      disruptive         none        default upgrade is not hitless
+1       yes       disruptive      reset         default upgrade is not hitless
+27      yes       disruptive      none          default upgrade is not hitless
  
  
 Images will be upgraded according to following table:
-Module    Image                  Running-Version(pri:alt)           New-Version  Upg-Required
-------  ----------  ----------------------------------------  --------------------  ------------
-27        nxos                   10.5(4)               10.5(4)            no
-27        bios     v05.53(01/22/2025):v05.47(04/28/2022)    v05.53(01/22/2025)            no
+Module    Image                  Running-Version(pri:alt)              New-Version  Upg-Required
+--------  ---------------------  ---------------------------------------- -----------  ------------
+27        nxos                   10.5(4)                               10.5(4)                no
+27        bios                   v05.53(01/22/2025):v05.47(04/28/2022) v05.53(01/22/2025)     no
  
  
 FPGA microcode will be upgraded according to following table:
 Module  Type  EPLD               Running-Version  Flashed-Version*   New-Version  Upg-Required
-------  ----  -------------      ---------------  ----------------   -----------  ------------
-27      SUP   MI FPGA            0x5               0x5            0x5                   No
-27      SUP  IO FPGA            0x17           0x17       0x18                 Yes
+------  ----  -----------------  ---------------  ----------------   -----------  ------------
+27      SUP   MI FPGA            0x5              0x5                0x5          No
+27      SUP   IO FPGA            0x17             0x17               0x18          Yes
 
-If Running-Version and Flashed-Version are different it implies that the system has not yet been reloaded for the new version to take effect
+If Running-Version and Flashed-Version are different it implies that the system has not yet been reloaded for the new version to take effect.
  
 EPLD Upgrade may result in multiple modules going offline.
  
@@ -546,10 +545,11 @@ Active Package(s):
 ----
 ====
 
-NOTE: The following step is only required if you are running an earlier version of the NX-OS. You must perform the EPLD image upgrade as a separate step after the NX-OS upgrade and reboot.
+. Upgrade the EPLD image and reboot the switch. 
 
-. Upgrade the EPLD image and reboot the switch. If you are using NX-OS 10.5(3)F or later, you do not need to perform a separate EPLD image upgrade because the EPLD image is included in the NX-OS image. Skip this step and continue with verifying cluster port health.
-+
+NOTE: If you are using NX-OS 10.5(3)F or later, you do not need to perform a separate EPLD image upgrade because the EPLD image is included in the NX-OS image. Skip this step and continue with verifying cluster port health.
+
+
 .Show example
 [%collapsible]
 ====
@@ -601,7 +601,8 @@ Module 1 EPLD upgrade is successful.
 ----
 ====
 
-. After the switch reboot, log in again and verify that the new version of EPLD loaded successfully.
+[start=11]
+. [[step11]] After the switch reboot, log in again and verify that the new version of EPLD loaded successfully.
 +
 
 .Show example
@@ -878,3 +879,4 @@ If any cluster LIFs have not returned to their home ports, revert them manually 
 // GH issue #313, 2025-DEC-10
 // GH issue #327, 2026-FEB-09
 // GH issue #331, 2026-MAR-02
+// AFFFFASDOC-497, 2026-MAY-28
