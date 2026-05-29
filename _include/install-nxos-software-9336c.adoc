@@ -318,10 +318,9 @@ The EPLD image is not automatically updated when you upgrade to NX-OS 10.5(3) or
 
 * The second upgrade pass verifies, but skips the NX-OS upgrade; only the EPLD image is updated.
 * When you have upgraded to NX-OS 10.5(3) or later, both images are updated at the same time.
-
+=======
 
 The following step shows an upgrade from NX-OS 10.3(4a) to 10.5(4). The first pass performs the NX-OS upgrade and the second pass performs the EPLD image upgrade.
-=======
 
 [start=8]
 . [[step8]] Install the NX-OS image.
@@ -368,7 +367,7 @@ Images will be upgraded according to following table:
 
 Module   Image    Running-Version(pri:alt)                 New-Version         Upg-Required
 ------- --------- ---------------------------------------- ------------------- ------------ 
-1        nxos     10.3(4a)                                 10.5(4)          yes
+1        nxos     10.3(4a)                                 10.5(4)             yes
 1        bios     v05.47(04/28/2022):v05.47(04/28/2022)    v05.53(01/22/2025)     yes
 
 Switch will be reloaded for disruptive upgrade.
@@ -430,7 +429,7 @@ Module  bootable  Impact          Install-type  Reason
  
 Images will be upgraded according to following table:
 Module    Image                  Running-Version(pri:alt)              New-Version         Upg-Required
---------  ---------------------  ---------------------------------------- -----------  ------------
+--------  ---------------------  ------------------------------------- --------------  ------------
 27        nxos                   10.5(4)                               10.5(4)                no
 27        bios                   v05.53(01/22/2025):v05.47(04/28/2022) v05.53(01/22/2025)     no
  
