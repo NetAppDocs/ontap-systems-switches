@@ -316,6 +316,10 @@ cs2#
 ----
 ====
 
+. Install the NX-OS image.
+Installing the image file causes it to be loaded every time the switch is rebooted.
++
+
 [NOTE]
 =======
 The EPLD image is not automatically updated when you upgrade to NX-OS 10.5(3) or later. After your upgrade completes and the switch reboots, you must run the same upgrade `install all` command again.
@@ -323,12 +327,9 @@ The EPLD image is not automatically updated when you upgrade to NX-OS 10.5(3) or
 * The second upgrade pass verifies, but skips the NX-OS upgrade; only the EPLD image is updated.
 * When you have already upgraded to NX-OS 10.5(3) or later, both images are updated at the same time.
 =======
++
 
 The following step shows an upgrade from NX-OS 10.3(4a) to 10.5(4). The first pass performs the NX-OS upgrade and the second pass performs the EPLD image upgrade.
-
-[start=8]
-. [[step8]] Install the NX-OS image.
-Installing the image file causes it to be loaded every time the switch is rebooted.
 
 +
 .Show example
@@ -486,7 +487,8 @@ Install has been successful.
 ----
 ====
 
-. Verify the new version of NX-OS software after the switch has rebooted: 
+[start=9]
+. [[step9]] Verify the new version of NX-OS software after the switch has rebooted: 
 +
 `show version`
 +
