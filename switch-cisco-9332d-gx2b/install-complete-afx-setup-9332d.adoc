@@ -38,6 +38,8 @@ https://review.docs.netapp.com/us-en/ontap-afx_working-afx-emr-dr/install-afx-2k
 
 .. Follow the instructions to complete the system setup based on your deployment option.
 
+Lisa: It doesn't make sense for these 3 steps (below) at this point in time because the AFX controllers are not powered on yet. Andris suggested moving them to the AFX power on system/controllers topic after step 4 (secure power cords). However, step 2 doesn;t make sense after powering on the AFX system becasue VLANs have not been created yet (they are created in AFX Complete cluster setup topic). Maybe we slip these steps up.Asking Andris.
+
 . Verify that the switch ports connected to the cluster ports are up:
 +
 `show interface brief`
