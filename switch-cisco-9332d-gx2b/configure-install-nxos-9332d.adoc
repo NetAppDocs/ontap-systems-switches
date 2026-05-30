@@ -16,19 +16,18 @@ You install the NX-OS on your Cisco Nexus 9332D-GX2B switch(es) as part of a new
 
 * The switch(es) must be powered on and you must have completed the link:configure-complete-initial-setup-9332d.html[Complete initial switch setup] procedure.
 
-* You must have access to an HTTP, FTP, or TFTP server. Access to one of these servers allows you to download a supported version of the NX-OS as instructed later in this procedure??????? 
-
-//Above bullet was in original/pre-refactored topic Configure the 9332 switch (config wizard topic) and so applicable to new installs...I think.
-
 * If you are installing the NX-OS on switch(es) as part of a new AFX system installation or switch replacement, verify that the version of NX-OS on your switch(es) is the current NetApp-supported version.
 +
 NOTE: New switches should ship with the current NetApp-supported version of NX-OS.
+
+// New switches ship with the standard Cisco factory-default configuration and should have the current NetApp-supported version of NX-OS.
 +
 ** If your switch(es) have the current NetApp-supported version, you do not need to install the NX-OS. You need to install the RCF. Start with the link:configure-install-upgrade-rcf-overview-9332d.html[Install or upgrade the RCF overview].
 +
 ** If your switch(es) do not have the current NetApp-supported version, continue with this procedure to install the NX-OS.
 
-//* Make sure you have a current backup of the switch configuration. Hey, would apply for upgrade. But for a new install, this is not applicable, right?
+* You must have access to an HTTP, FTP, or TFTP server. Access to one of these servers allows you to download a supported version of the NX-OS as instructed later in this procedure. 
+//Above bullet was in original/pre-refactored topic Configure the 9332 switch (config wizard topic) and so applicable to new installs...I think.
 
 * If you are installing the NX-OS on a switch as part of a switch replacement or a switch reset to factory default settings, verify that your cluster is fully functional, meaning that there are no errors in the logs or similar issues.
 +
@@ -44,8 +43,6 @@ If you are installing the NX-OS as part of a new AFX system installation, you ca
 ** For switches in an AFX 2K system, running ONTAP 9.19.1GA or later, NX-OS 10.6 and later is supported.
 +
 For the current list of supported NX-OS versions, see the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page.
-
-* New switches ship with the standard Cisco factory-default configuration and should have the current NetApp-supported version of NX-OS.
 
 * This procedure requires the use of ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 
@@ -66,19 +63,17 @@ For the current list of supported NX-OS versions, see the link:https://mysupport
 
 == Step 1: Prepare to install the NX-OS
 
-Prepare to install the NX-OS. 
-
-Hey, Lisa, I think a lot of the prepare stuff here is the same stuff in the Prepare to install NX-OS and RCF topic. Do a line-by-line comparison. Whatever you settle on is used in this upgrade topic and the install NX-OS topic.
-
-
+Prepare to install the NX-OS on the switch(es) by downloading the NX-OS...
 
 .Steps
 
+Hey, the first two steps below are from the current live topic: Install or upgrade NX-OS. Do these apply to installing and/or upgrading NX-OS?
+
 . Connect the switch to the management network.
 +
-Lisa: If you are installing or upgrading the NX-OS on switches as part of a new AFX system installation, the connection to the management network should have been done over on the AFX system doc side.
-
-. Use the ping command to verify connectivity to the server hosting the NX-OS software and the RCF.
+//FYI: If you are installing or upgrading the NX-OS on switches as part of a new AFX system installation, the connection to the management network should have been done over on the AFX system doc side.
++
+. Use the ping command to verify connectivity to the server hosting the NX-OS.
 //In a NetApp system, there is no proprietary NetApp server used for this purpose. The server hosting the NX-OS software and the RCF (Reference Configuration File) is simply an external SFTP, SCP, FTP, or TFTP server (e.g., a local admin workstation or a management server) running on your local network.
 +
 .Show example
@@ -96,9 +91,9 @@ Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 ----
 ====
 
-. Lisa these two steps that follow are the first 2 steps from the P, Prepare to install NX-OS and RCF topic, steps section. How do these apply to the 3 use cases?:
-
 . Download the correct version of NX-OS to the switch(es) from the https://software.cisco.com/download/home[Cisco software download^] page.
++
+Hey, is the above step correct or are the steps in the following section correct...or both?
 
 
 == Step 2: Install NX-OS
