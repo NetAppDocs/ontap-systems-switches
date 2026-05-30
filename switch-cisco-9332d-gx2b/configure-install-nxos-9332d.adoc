@@ -11,8 +11,6 @@ summary: You install the NX-OS on your Cisco Nexus 9332D-GX2B switch(es) as part
 [.lead]
 You install the NX-OS on your Cisco Nexus 9332D-GX2B switch(es) as part of a new AFX 1K or AFX 2K system installation, a switch replacement, or a switch reset to factory default settings.
 
-NOTE: NX-OS installation is independent of RCF installation. If you are installing the NX-OS and RCF, it is recommended you install the NX-OS first.
-
 
 .Before you begin
 
@@ -39,8 +37,6 @@ If you are installing the NX-OS as part of a new AFX system installation, you ca
 
 .About this task
 
-* If needed, you can refer to the link:https://www.cisco.com/c/en/us/td/docs/dcn/nx-os/nexus9000/101x/upgrade/cisco-nexus-9000-nx-os-software-upgrade-downgrade-guide-101x.html[Cisco Nexus 9000 Series NX-OS Software Upgrade and Downgrade Guide^] for more information.
-
 * The version of ONTAP running on your AFX system determines the supported versions of NX-OS for your switches.
 
 ** For switches in an AFX 1K system, running any supported version of ONTAP, NX-OS 10.4.2 and later is supported.
@@ -48,6 +44,8 @@ If you are installing the NX-OS as part of a new AFX system installation, you ca
 ** For switches in an AFX 2K system, running ONTAP 9.19.1GA or later, NX-OS 10.6 and later is supported.
 +
 For the current list of supported NX-OS versions, see the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page.
+
+* New switches ship with the standard Cisco factory-default configuration and should have the current NetApp-supported version of NX-OS.
 
 * This procedure requires the use of ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 
