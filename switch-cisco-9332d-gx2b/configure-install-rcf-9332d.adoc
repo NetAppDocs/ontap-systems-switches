@@ -19,6 +19,13 @@ You install the RCF on new Cisco Nexus 9332D-GX2B switch(es) as part of a new AF
 
 * You must have read the link:configure-install-upgrade-rcf-overview-9332d.html[Install or upgrade RCF overview] page.
 
+* If you are installing the RCF on a switch as part of a switch replacement or a switch reset to factory default settings, verify that your cluster is fully functional, meaning that there are no errors in the logs or similar issues.
++
+If you are installing the RCF as part of a new AFX system installation, you can skip this requirement because your AFX system is not yet up and running.
+
+* You must have access to an HTTP, FTP, or TFTP server. Access to one of these servers allows you to download a supported version of the RCF as instructed later in this procedure????????
+//Above bullet was in original/pre-refactored topic Configure the 9332 switch (config wizard topic) and so applicable to new installs...I think.
+
 * Each switch must be connected to a console or you must have remote access to each switch.
 
 * Hey: The bullet below is from Upgrade RCF, but applies here too because the `write erase` command is also used to Install RCF (step 9). It seems similar to the bullet above. Should we combine them? Or is it better to keep them separate because of the different contexts (install vs upgrade)?

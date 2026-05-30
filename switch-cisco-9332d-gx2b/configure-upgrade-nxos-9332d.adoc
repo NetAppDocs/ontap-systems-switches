@@ -13,8 +13,6 @@ You upgrade the NX-OS on your Cisco Nexus 9332D-GX2B switches to support new har
 
 NOTE: NX-OS upgrades are done on switches in AFX systems that are up and running.
 
-NOTE: NX-OS upgrade is independent of RCF upgrade. If you are upgrading both the NX-OS and RCF, it is recommended you upgrade NX-OS first.
-
 
 .Before you begin
 
@@ -28,14 +26,7 @@ NOTE: New switches should ship with the current NetApp-supported version of NX-O
 
 * Make sure you have a current backup of the switch configuration.
 
-* If you are installing or upgrading the NX-OS on a switch part of a switch replacement or a switch reset to factory default settings, verify that your cluster is fully functional, meaning that there are no errors in the logs or similar issues.
-+
-If you are installing the NX-OS as part of a new AFX system installation, you can skip this requirement because at this point your AFX system is not up and running.
-
-* Lisa: These 2 bullets are from Prep install NX-OS and RCF topic Before section. Do they belong in this topic?
-** The switches must be powered on and you must have completed the link:configure-complete-initial-setup-9332d.html[Complete initial switch setup] procedure.
-
-** You must have access to an HTTP, FTP, or TFTP server. Access to one of these servers allows you to download a supported version of NX-OS and RCF as instructed later in this procedure.
+* Verify that your cluster is fully functional, meaning that there are no errors in the logs or similar issues.
 
 
 .About this task
