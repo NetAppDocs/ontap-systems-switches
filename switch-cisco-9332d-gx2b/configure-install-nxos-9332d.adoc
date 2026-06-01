@@ -26,9 +26,6 @@ NOTE: New switches should ship with the current NetApp-supported version of NX-O
 +
 ** If your switch(es) do not have the current NetApp-supported version, continue with this procedure to install the NX-OS.
 
-* You must have access to an HTTP, FTP, or TFTP server. Access to one of these servers allows you to download a supported version of the NX-OS as instructed later in this procedure. 
-//Above bullet was in original/pre-refactored topic Configure the 9332 switch (config wizard topic) and so applicable to new installs...I think.
-
 // Below content: Replace switch topic covers this. But reset does not. Keep in for now.
 * If you are installing the NX-OS on a switch as part of a switch replacement or a switch reset to factory default settings, verify that your cluster is fully functional, meaning that there are no errors in the logs or similar issues.
 +
@@ -64,17 +61,21 @@ For the current list of supported NX-OS versions, see the link:https://mysupport
 
 == Step 1: Prepare to install the NX-OS
 
-Prepare to install the NX-OS on the switch(es) by downloading the NX-OS...
+Prepare to install the NX-OS on the switch(es) by making sure you have the necessary connections to download the NX-OS.
 
 .Steps
 
-Hey, the first two steps below are from the current live topic: Install or upgrade NX-OS. Do these apply to installing and/or upgrading NX-OS?
-
-. Connect the switch to the management network.
+. You must have access to an HTTP, FTP, or TFTP server. Access to one of these servers allows you to download a supported version of the NX-OS. 
++
+//Above bullet was in original/pre-refactored topic Configure the 9332 switch (config wizard topic) and so applicable to new installs...I think.
++
+//Hey, the following two steps below are from the current live topic: Install or upgrade NX-OS. Do these apply to installing and/or upgrading NX-OS?
++
+. Connect the switch to the management network (for the file transfer).
 +
 //FYI: If you are installing or upgrading the NX-OS on switches as part of a new AFX system installation, the connection to the management network should have been done over on the AFX system doc side.
 +
-. Use the ping command to verify connectivity to the server hosting the NX-OS.
+. Verify connectivity to the server hosting the NX-OS using the ping command.
 //In a NetApp system, there is no proprietary NetApp server used for this purpose. The server hosting the NX-OS software and the RCF (Reference Configuration File) is simply an external SFTP, SCP, FTP, or TFTP server (e.g., a local admin workstation or a management server) running on your local network.
 +
 .Show example
@@ -85,7 +86,7 @@ This example verifies that the switch can reach the server at IP address 172.19.
 
 [subs=+quotes]
 ----
-cs2# *ping 172.19.2.1*
+cs1# *ping 172.19.2.1*
 Pinging 172.19.2.1 with 0 bytes of data:
 
 Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
@@ -93,15 +94,13 @@ Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 ====
 
 . Download the correct version of NX-OS to the switch(es) from the https://software.cisco.com/download/home[Cisco software download^] page.
-+
-Hey, is the above step correct or are the steps in the following section correct...or both?
 
 
 == Step 2: Install NX-OS
 
 You install NX-OS on the first switches (cs1) and then you repeat these steps to install NX-OS on the second switch (cs2).
 
-. Copy NX-OS and EPLD images to a switch.
+. Copy NX-OS and EPLD images to the first switch.
 +
 .Show example
 [%collapsible]
@@ -109,7 +108,7 @@ You install NX-OS on the first switches (cs1) and then you repeat these steps to
 
 [subs=+quotes]
 ----
-cs2# *copy sftp: bootflash: vrf management*
+cs1# *copy sftp: bootflash: vrf management*
 Enter source filename: */code/nxos.10.4.2.bin*
 Enter hostname for the sftp server: *172.19.2.1*
 Enter username: *root*
@@ -125,7 +124,7 @@ sftp> exit
 Copy complete, now saving to disk (please wait)...
 Copy complete.
 
-cs2# *copy sftp: bootflash: vrf management*
+cs1# *copy sftp: bootflash: vrf management*
 Enter source filename: */code/n9000-epld.10.4.2.F.img*
 Enter hostname for the sftp server: *172.19.2.1*
 Enter username: *user1*
@@ -153,7 +152,7 @@ Copy complete.
 
 [subs=+quotes]
 ----
-cs2# *show version*
+cs1# *show version*
 Cisco Nexus Operating System (NX-OS) Software
 TAC support: http://www.cisco.com/tac
 Copyright (C) 2002-2025, Cisco and/or its affiliates.
@@ -208,7 +207,7 @@ plugin
 
 Active Package(s):
 
-cs2#
+cs1#
 ----
 ====
 
@@ -216,15 +215,13 @@ cs2#
 +
 Installing the image file causes it to be loaded every time the switch is rebooted.
 +
-The switch reboots after the NX-OS image is installed?
-+
 .Show example
 [%collapsible]
 ====
 
 [subs=+quotes]
 ----
-cs2# *install all nxos bootflash:nxos.10.4.2.bin*
+cs1# *install all nxos bootflash:nxos.10.4.2.bin*
 
 Installer will perform compatibility check first. Please wait.
 Installer is forced disruptive
@@ -296,7 +293,7 @@ Finishing the upgrade, switch will reboot in 10 seconds.
 
 [subs=+quotes]
 ----
-cs2# *show version*
+cs1# *show version*
 Cisco Nexus Operating System (NX-OS) Software
 TAC support: http://www.cisco.com/tac
 Copyright (C) 2002-2025, Cisco and/or its affiliates.
@@ -332,7 +329,7 @@ Hardware
   cisco Nexus9000 C9332D-GX2B Chassis
   Intel(R) Xeon(R) CPU D-1633N @ 2.50GHz with 32802156 kB of memory.
   Processor Board ID FLMXXXXXXXX
-  Device name: cs2
+  Device name: cs1
   bootflash:  115802886 kB
 
 
@@ -351,7 +348,7 @@ plugin
 
 Active Package(s):
 
-cs2#
+cs1#
 ----
 ====
 
@@ -364,7 +361,7 @@ cs2#
 
 [subs=+quotes]
 ----
-cs2# *show version module 1 epld*
+cs1# *show version module 1 epld*
 
 EPLD Device                     Version
 ---------------------------------------
@@ -376,7 +373,7 @@ GEM  FPGA                        0x2
 GEM  FPGA                        0x2
 GEM  FPGA                        0x2
 
-cs2# *install epld bootflash:n9000-epld.10.4.2.F.img module all*
+cs1# *install epld bootflash:n9000-epld.10.4.2.F.img module all*
 Compatibility check:
 Module        Type         Upgradable        Impact    Reason
 ------  ------------------ ----------------- --------- -----------
@@ -418,7 +415,7 @@ Module 1 EPLD upgrade is successful.
 
 [subs=+quotes]
 ----
-cs2# *show version module 1 epld*
+cs1# *show version module 1 epld*
 
 EPLD Device                     Version
 ---------------------------------------
