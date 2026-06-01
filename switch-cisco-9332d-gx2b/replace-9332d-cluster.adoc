@@ -190,7 +190,8 @@ Before performing the switch replacement, make sure that:
 +
 Any previous site customizations, such as STP, SNMP, and SSH, are copied to the new switch.
 
-* If you are replacing the physical switch chassis, complete the unrack/rack tasks in install hardware before reconnecting data cables in this procedure.
+//Doesn't make sense here. we want users to swap out hw after new switch is configured - to minimize downtime for the faulty switch that could still be operating. And first part of bullet is redundant...this is a topic about replacing the physical switch.
+//* If you are replacing the physical switch chassis, complete the unrack/rack tasks in install hardware before reconnecting data cables in this procedure.
 
 * You have executed the command for migrating a cluster LIF from the node where the cluster LIF is hosted.
 
