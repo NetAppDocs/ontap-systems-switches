@@ -31,7 +31,7 @@ If you are installing the RCF as part of a new AFX system installation, you can 
 
 * The examples shown in this procedure are for AFX 1K systems with switches running RCF 10.0. If you have an AFX 2K system, the input and output can vary.
 
-//* Lisa: this step only belongs in install RCF...and Upgrade? Seems to be covered in steps 1 and 2. 
+//* Hey: this step only belongs in install RCF...and Upgrade? Seems to be covered in steps 1 and 2. 
 //Download the RCF supported for your type of AFX system from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com^]. 
 //+
 //NOTE: New switches do not ship with the RCF installed. You must install the RCF on the switches.
@@ -42,28 +42,38 @@ Prepare to install the RCF on the switch(es) by making sure you have the necessa
 
 .Steps
 
-. You must have access to an HTTP, FTP, or TFTP server. Access to one of these servers allows you to download a supported version of the RCF as instructed later in this procedure.
-//Above bullet was in original/pre-refactored topic Configure the 9332 switch (config wizard topic) and so applicable to new installs...I think.
+. You must have access to an HTTP, FTP, or TFTP server. Access to one of these servers allows you to download a supported version of the RCF.
 
-. Verify connectivity to the server hosting the RCF using the ping command.
-//In a NetApp system, there is no proprietary NetApp server used for this purpose. The server hosting the NX-OS software and the RCF (Reference Configuration File) is simply an external SFTP, SCP, FTP, or TFTP server (e.g., a local admin workstation or a management server) running on your local network.
+. Download the RCF supported for your type of AFX system from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com^]. 
 +
-.Show example
-[%collapsible]
-====
-
-This example verifies that the switch can reach the server at IP address 172.19.2.1:
-
-[subs=+quotes]
-----
-cs1# *ping 172.19.2.1*
-Pinging 172.19.2.1 with 0 bytes of data:
-
-Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
-----
-====
-
+NOTE: New switches do not ship with the RCF installed. You must install the RCF on the switches.
++
+// Above 2 steps (HTTP and dnld) were in this order in original/pre-refactored topic Configure the 9332 switch (config wizard topic) and so applicable to new installs...I think.
++
 . Each switch must be connected to a console or you must have remote access to each switch.
++
+//. Connect the switch to the management network (for the file transfer).
+//+
+//Above is for install NXOS. But doesn't exist in today's install RCF.
+//+
+//The following ping step is for install NXOS. But doesn't exist in today's install RCF.
+//. Verify connectivity to the server hosting the RCF using the ping command.
+//+
+//.Show example
+//[%collapsible]
+//====
+//+
+//This example verifies that the switch can reach the server at IP address 172.19.2.1:
+//+
+//[subs=+quotes]
+//----
+//cs1# *ping 172.19.2.1*
+//Pinging 172.19.2.1 with 0 bytes of data:
+//+
+//Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
+//----
+//====
+//+
 
 . You must be connected to the switches using the serial console or have preserved basic configuration information. This is because the RCF upgrade procedure requires you to erase the switch settings and perform basic configuration.
 +
@@ -71,17 +81,9 @@ Hey, this step 4 is from Upgrade RCF, but does it apply here too because the `wr
 
 +
 //Hey, the following two steps below are from the current live topic: Install or upgrade NX-OS. Do these apply to installing and/or upgrading NX-OS?
-+
-. Connect the switch to the management network (for the file transfer).
-+
-//FYI: If you are installing or upgrading the NX-OS on switches as part of a new AFX system installation, the connection to the management network should have been done over on the AFX system doc side.
-+
 
-. Download the RCF supported for your type of AFX system from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com^]. 
-+
-NOTE: New switches do not ship with the RCF installed. You must install the RCF on the switches.
-+
-//The download step is from the current public Configure switches (config wizard) topic that had download sw and rcf bullets in before you begin, so moved the dnld content to the respective install RCF and install NX-OS topics.
+
+
 
 == Step 2: Install the RCF
 You install the RCF on the first switch (cs1) by copying and applying the RCF to the bootflash, examining the banner output, verifying the RCF version is correct, recording any custom additions, saving basic configuration details, verifying that the write_erase.cfg file is populated, erasing the current saved configuration, copying the previously saved basic configuration into the startup configuration, and then rebooting the switch. You repeat these steps on the second switch (cs2) if you are installing the RCF as part of a new AFX system installation.
