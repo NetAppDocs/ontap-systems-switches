@@ -27,7 +27,7 @@ If you are installing the RCF as part of a new AFX system installation, you can 
 
 .About this task
 
-* If you have installed switches as part of a new AFX 1K or AFX 2K system installation, you install the RCF on one switch at a time. This procedure has you install the RCF on the first switch (cs1) and then has you repeat the steps for the second switch (cs2).
+* If you have installed switches as part of a new AFX 1K or AFX 2K system installation, this procedure has you install the RCF on the first switch (cs1) and then has you repeat the steps for the second switch (cs2).
 
 * The examples shown in this procedure are for AFX 1K systems with switches running RCF 10.0. If you have an AFX 2K system, the input and output can vary.
 
@@ -84,7 +84,9 @@ NOTE: New switches do not ship with the RCF installed. You must install the RCF 
 //The download step is from the current public Configure switches (config wizard) topic that had download sw and rcf bullets in before you begin, so moved the dnld content to the respective install RCF and install NX-OS topics.
 
 == Step 2: Install the RCF
-You install the RCF on the first switches (cs1) and then you repeat these steps to install the RCF on the second switch (cs2).
+You install the RCF on the first switch (cs1) by copying and applying the RCF to the bootflash, examining the banner output, verifying the RCF version is correct, recording any custom additions, saving basic configuration details, verifying that the write_erase.cfg file is populated, erasing the current saved configuration, copying the previously saved basic configuration into the startup configuration, and then rebooting the switch. You repeat these steps on the second switch (cs2) if you are installing the RCF as part of a new AFX system installation.
+
+// You install the RCF on the first switches (cs1) and then you repeat these steps to install the RCF on the second switch (cs2).
 
 . Login to switch cs1 using SSH or by using a serial console.
 
