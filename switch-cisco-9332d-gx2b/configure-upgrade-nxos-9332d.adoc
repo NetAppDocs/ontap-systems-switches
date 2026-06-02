@@ -54,12 +54,12 @@ NOTE: Do not upgrade or downgrade your NX-OS version to an unsupported version.
 
 == Step 1: Prepare to install the NX-OS
 
-Prepare to install the NX-OS by making sure you have a management network connection, downloading the NX-OS version, checking port status on the cluster, and disabling auto-revert on the cluster LIFs. 
+Prepare to install the NX-OS by making sure you have a management network connection to each switch, downloading the NX-OS version, checking port status on the cluster, and disabling auto-revert on the cluster LIFs. 
 
 
 .Steps
 
-. Connect the switch to the management network.
+. Connect each switch to the management network.
 
 . Use the ping command to verify connectivity to the server hosting the NX-OS.
 //In a NetApp system, there is no proprietary NetApp server used for this purpose. The server hosting the NX-OS software and the RCF (Reference Configuration File) is simply an external SFTP, SCP, FTP, or TFTP server (e.g., a local admin workstation or a management server) running on your local network.
@@ -79,7 +79,7 @@ Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 ----
 ====
 
-. Download the correct version of NX-OS to the switch(es) from the https://software.cisco.com/download/home[Cisco software download^] page.
+. Download the correct version of NX-OS to the switches from the https://software.cisco.com/download/home[Cisco software download^] page.
 
 . Display the cluster ports on each node that are connected to the cluster switches: 
 +
