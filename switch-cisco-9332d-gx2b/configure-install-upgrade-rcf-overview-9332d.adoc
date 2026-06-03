@@ -92,12 +92,6 @@ For example, to designate 400GbE mode ports 15-19 as breakout (4x100GbE) ports, 
 +
 `interface breakout module 1 port 15-19 map 100g-4x`
 
-. Modify the port list with the new ports that need to use the port profile for the desired port speed.
-+ 
-For example, to modify the port list with the new ports,  15-19, for the 100G speed port profile, use the following: 
-+
-`interface e1/15/1-4, e1/16/1-4, e1/17/1-4, e1/18/1-4, e1/19/1-4`
-
 . You must hard-code the switch breakout (4x100GbE) ports for 100GbE. If you do not hard-code the speed, the ports will not come up and will be in an error-disabled state.
 +
 For example, to hard-code 100GbE on breakout ports 15-19, do the following. The example shows commands being applied to the first switch (cs1). You repeat these commands for the second switch.
@@ -105,6 +99,12 @@ For example, to hard-code 100GbE on breakout ports 15-19, do the following. The 
 `speed 100000`
 +
 `no negotiate auto`
+
+. Modify the port list with the new ports that need to use the port profile for the desired port speed.
++ 
+For example, to modify the port list with the new ports,  15-19, for the 100G speed port profile, use the following: 
++
+`interface e1/15/1-4, e1/16/1-4, e1/17/1-4, e1/18/1-4, e1/19/1-4`
 
 a|
 Return breakout ports to non-breakout ports
