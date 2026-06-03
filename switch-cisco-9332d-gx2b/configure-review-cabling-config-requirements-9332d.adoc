@@ -11,28 +11,16 @@ summary: If you are installing new Cisco Nexus 9332D-GX2B switches as part of a 
 [.lead]
 If you are installing Cisco Nexus 9332D-GX2B switches as part of a new AFX 1K or AFX 2K system installation, replacing a switch, or resetting a switch to the factory defaults settings, you must review the following cabling and configuration requirements.
 
-// Was: Before configuring your Cisco Nexus 9332D-GX2B switches, review the following requirements and considerations.
-
-// Should happen before cabling...as part of the switch configuration. AD says users need this infor when installing a new system and when...replacing a switch...and resetting a switch - right? Makes sense.
-
 
 == Hard-code the speed on breakout ports
 
 You must hard-code the switch breakout (4x100GbE) ports for 100GbE. If you do not hard-code the speed, the ports will not come up and will be in an error-disabled state. 
 
-//You hard-code the breakout ports as part of your switch configuration (after the switches are cabled and powered on). 
-
-//Lisa: it makes sense that switches have to be powered on to issue CMDs. OR is this being done through the management port connections...but they aren't powered on yet! 
-
-//It makes sense for this item to be in Configure switches section.
-
-//For example, to hard-code the 100GbE speed on breakout ports 1-14 on the first switch (cs1), do the following in config-if mode, and then repeat this step for the second switch.
-
-For example, to hard-code 100GbE on breakout ports 1-14, do the following in config-if mode. The example shows commands being applied to the first switch (cs1). You repeat these commands for the second switch.
+For example, to hard-code 100GbE on breakout ports 1-14, do the following in config mode. The example shows commands being applied to the first switch (cs1). You repeat these commands for the second switch.
 
 [subs=+quotes]
 ----
-(cs1)(config)# *interface range ethernet 1/1-14*
+(cs1)(config)# *interface ethernet1/1-14*
 (cs1)(config-if)# *speed 100000*
 (cs1)(config-if)# *no negotiate auto*
 (cs1)(config-if)# *exit*
@@ -60,22 +48,17 @@ For example, to hard-code 100GbE on breakout ports 1-14, do the following in con
 
 //Refer to the link:https://hwu.netapp.com/Switch/Index[Hardware Universe^] for more information on switch ports. Refer to link:https://kb.netapp.com/Support/General_Support/What_additional_information_do_I_need_to_install_my_equipment_that_is_not_in_HWU[What additional information do I need to install my equipment that is not in HWU?^] for more information about switch installation requirements.
 
-== Mixing connection types is not supported for NVIDIA CX6-DX and CX7 (100GbE) NICs
-The mixed usage of copper and optical breakout connections (cables) is not supported by NVIDIA C6X-DX and CX7 (100GbE) NIC adapters. You should use either copper or optical connections exclusively and avoid combining different connection types. Mixing types can lead to link saturation after extended use.
+//June 2, 2026 Below: decided makes sense to move this to AFX Cable HW topic for 1K and 2K.
+//== Mixing connection types is not supported for NVIDIA CX6-DX and CX7 (100GbE) NICs
+//The mixed usage of copper and optical breakout connections (cables) is not supported by NVIDIA C6X-DX and CX7 (100GbE) NIC adapters. You should use either copper or optical connections exclusively and avoid combining different connection types. Mixing types can lead to link saturation after extended use.
 
-Make sure you have the correct cables for your connection type before cabling the switches.
+//Make sure you have the correct cables for your connection type before cabling the switches.
 
-NOTE: For more information about mixing connection types, refer to the link:<link needed>[Public report^] 
+//NOTE: For more information about mixing connection types, refer to the link:<link needed>[Public report^] 
 
 //Gist of report: There's an issue if you mix technologies on the two ports on the cluster-node side.
 
 //Also, really applies to NICs, but there's no NIC guide, so putting in switch docs.
-
-//Lisa: users need to have the correct cables prior to cabling the switches. This affects new installs only, since replace and reset already have the cables in place. UNLESS there's another use case where users are swapping out copper for optical or vice versa.
-
-//It makes sense for this item to be part of the prepare for install topic.
-
-//The timing when users need to know these two items differs!! But remember, this topic could grow, and then affect placement in sequence and sidebar.
 
 
 .What's next?
