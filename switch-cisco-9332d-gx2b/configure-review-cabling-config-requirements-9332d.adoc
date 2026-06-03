@@ -20,14 +20,13 @@ For example, to hard-code 100GbE on breakout ports 1-14, do the following in con
 
 [subs=+quotes]
 ----
-(cs1)(config)# *interface ethernet1/1-14*
+(cs1)(config)# *interface e1/1/1-4, e1/2/1-4, e1/3/1-4, e1/4/1-4, e1/5/1-4, e1/6/1-4, e1/7/1-4, e1/8/1-4, e1/9/1-4, e1/10/1-4, e1/11/1-4, e1/12/1-4, e1/13/1-4, e1/14/1-4*
 (cs1)(config-if)# *speed 100000*
 (cs1)(config-if)# *no negotiate auto*
 (cs1)(config-if)# *exit*
 (cs1)(config)# *exit*
 (cs1)# *copy running-config startup-config*
 ----
-
 
 //== Support for NVIDIA CX6, CX6-DX, and CX7 Ethernet ports
 //If connecting a switch port to an ONTAP controller using NVIDIA ConnectX-6 (CX6), ConnectX-6 Dx (CX6-DX), or ConnectX-7 (CX7) NIC ports, you must hard-code the switch port speed.
