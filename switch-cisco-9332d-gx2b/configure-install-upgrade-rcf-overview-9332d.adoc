@@ -77,6 +77,8 @@ For switches with RCF 10.1 and later, you can change the port speed configuratio
 
 You perform this change as part of the RCF installation or RCF upgrade procedure. The procedures have steps that link you to this page.
 
+You enter the commands on both switches.
+
 [options="header" cols="1,2"]
 |===
 | Change port speeds | Steps
@@ -92,10 +94,7 @@ For example, to designate 400GbE mode ports 15-19 as breakout (4x100GbE) ports, 
 +
 `interface breakout module 1 port 15-19 map 100g-4x`
 
-. Hey, for new step below, seems since no ports are called out in these 2 cmds, that these are part of step above...seems like it based on format of hard-code cmds in that topic.
-. You must hard-code the switch breakout (4x100GbE) ports for 100GbE. If you do not hard-code the speed, the ports will not come up and will be in an error-disabled state.
-+
-For example, to hard-code 100GbE on breakout ports 15-19, do the following. You must enter these commands for both switches.
+. Hard-code the switch breakout (4x100GbE) ports for 100GbE. If you do not hard-code the speed on the ports you designated as breakout ports, the ports will not come up and will be in an error-disabled state.
 +
 `speed 100000`
 +
