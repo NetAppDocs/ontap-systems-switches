@@ -49,7 +49,7 @@ From the switch CLI, verify that the switch ports connected to the cluster ports
 +
 You can use `| grep up` to filter the output to only show the ports that are up.
 +
-.Show example (applicable to all supported Cisco Nexus switches)
+.Show example for Cisco Nexus 9332D-GX2B and 9364D-GX2A switches
 [%collapsible]
 ====
 
@@ -76,6 +76,121 @@ Eth1/17/4       1       eth  trunk  up      none                     100G(D) --
 .
 ----
 ====
++
+.Show example for Cisco Nexus 9808 switches
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cs1# show interface brief | grep up
+
+--------------------------------------------------------------------------------
+Port   VRF          Status IP Address                              Speed    MTU
+--------------------------------------------------------------------------------
+mgmt0  --           up     10.232.206.36                           1000    1500    
+--------------------------------------------------------------------------------
+Ethernet        VLAN    Type Mode   Status  Reason Speed     Port
+Interface                                                                    Ch #
+--------------------------------------------------------------------------------
+Eth1/1          1       eth  trunk  up      none                     400G(D) --
+Eth1/2          1       eth  trunk  up      none                     400G(D) --
+Eth1/3          1       eth  trunk  up      none                     400G(D) --
+Eth1/4          1       eth  trunk  up      none                     400G(D) --
+Eth1/5          1       eth  trunk  up      none                     400G(D) --
+Eth1/6          1       eth  trunk  up      none                     400G(D) --
+Eth1/7          1       eth  trunk  up      none                     400G(D) --
+Eth1/8          1       eth  trunk  up      none                     400G(D) --
+Eth1/9          1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/10         1       eth  trunk  up      none                     400G(D) --
+Eth1/11         1       eth  trunk  up      none                     400G(D) --
+Eth1/12         1       eth  trunk  up      none                     400G(D) --
+Eth1/13         1       eth  trunk  up      none                     400G(D) --
+Eth1/14         1       eth  trunk  up      none                     400G(D) --
+Eth1/15         1       eth  trunk  up      none                     400G(D) --
+Eth1/16         1       eth  trunk  up      none                     400G(D) --
+Eth1/17         1       eth  trunk  up      none                     400G(D) --
+Eth1/18         1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/19/1       1       eth  trunk  up      none                     100G(D) --
+Eth1/19/2       1       eth  trunk  up      none                     100G(D) --
+Eth1/19/3       1       eth  trunk  up      none                     100G(D) --
+Eth1/19/4       1       eth  trunk  up      none                     100G(D) --
+Eth1/20/1       1       eth  trunk  up      none                     100G(D) --
+Eth1/20/2       1       eth  trunk  up      none                     100G(D) --
+Eth1/20/3       1       eth  trunk  up      none                     100G(D) --
+Eth1/20/4       1       eth  trunk  up      none                     100G(D) --
+Eth1/21/1       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/21/2       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/21/3       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/21/4       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/22/1       1       eth  trunk  up      none                     100G(D) --
+Eth1/22/2       1       eth  trunk  up      none                     100G(D) --
+Eth1/22/3       1       eth  trunk  up      none                     100G(D) --
+Eth1/22/4       1       eth  trunk  up      none                     100G(D) --
+Eth1/23/1       1       eth  trunk  up      none                     100G(D) --
+Eth1/23/2       1       eth  trunk  up      none                     100G(D) --
+Eth1/23/3       1       eth  trunk  up      none                     100G(D) --
+Eth1/23/4       1       eth  trunk  up      none                     100G(D) --
+Eth1/24/1       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/24/2       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/24/3       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/24/4       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/25/1       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/25/2       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/25/3       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/25/4       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/26/1       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/26/2       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/26/3       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/26/4       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/27/1       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/27/2       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/27/3       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/27/4       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/28/1       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/28/2       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/28/3       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/28/4       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/29/1       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/29/2       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/29/3       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/29/4       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/30/1       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/30/2       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/30/3       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/30/4       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/31/1       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/31/2       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/31/3       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/31/4       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/32/1       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/32/2       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/32/3       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/32/4       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/33/1       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/33/2       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/33/3       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/33/4       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/34/1       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/34/2       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/34/3       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/34/4       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/35/1       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/35/2       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/35/3       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/35/4       1       eth  trunk  down    XCVR not inserted        auto(D) --
+Eth1/36         1       eth  trunk  down    XCVR not inserted        auto(D) 1
+
+------------------------------------------------------------------------------------------
+Port-channel VLAN    Type Mode   Status  Reason                              Speed   Protocol
+Interface                                                                            
+------------------------------------------------------------------------------------------
+Po1          1       eth  trunk  down    No operational members                auto(D)  lacp
+Po998        1       eth  access down    Administratively down                 auto(I)  none
+Po999        1       eth  access down    Administratively down                 auto(I)  none
+cs1#
+----
+====
 
 . Verify that the cluster nodes are in their correct cluster VLANs using the following commands:
 +
@@ -95,37 +210,37 @@ VLAN Name                             Status    Ports
 1    default                          active    Po1, Po999, Eth1/31, Eth1/32
                                                 Eth1/33, Eth1/34, Eth1/1/1
                                                 Eth1/1/2, Eth1/1/3, Eth1/1/4
-                                                .
-                                                .
-                                                .
+.
+.
+.
                                                 Eth1/29/4, Eth1/30/1, Eth1/30/2
                                                 Eth1/30/3, Eth1/30/4
 17   VLAN0017                         active    Eth1/1/1, Eth1/1/2, Eth1/1/3
                                                 Eth1/1/4, Eth1/2/1, Eth1/2/2
-                                                .
-                                                .
-                                                .
+.
+.
+.
                                                 Eth1/29/3, Eth1/29/4, Eth1/30/1
                                                 Eth1/30/2, Eth1/30/3, Eth1/30/4
 18   VLAN0018                         active    Eth1/1/1, Eth1/1/2, Eth1/1/3
                                                 Eth1/1/4, Eth1/2/1, Eth1/2/2
-                                                .
-                                                .
-                                                .
+.
+.
+.
                                                 Eth1/29/3, Eth1/29/4, Eth1/30/1
                                                 Eth1/30/2, Eth1/30/3, Eth1/30/4
 30   VLAN0030                         active    Eth1/1/1, Eth1/1/2, Eth1/1/3
                                                 Eth1/1/4, Eth1/2/1, Eth1/2/2
-                                                .
-                                                .
-                                                .
+.
+.
+.
                                                 Eth1/29/3, Eth1/29/4, Eth1/30/1
                                                 Eth1/30/2, Eth1/30/3, Eth1/30/4
 40   VLAN0040                         active    Eth1/1/1, Eth1/1/2, Eth1/1/3
                                                 Eth1/1/4, Eth1/2/1, Eth1/2/2
-                                                .
-                                                .
-                                                .
+.
+.
+.
                                                 Eth1/29/3, Eth1/29/4, Eth1/30/1
                                                 Eth1/30/2, Eth1/30/3, Eth1/30/4
 
@@ -168,37 +283,37 @@ VLAN Name                             Status    Ports
 1    default                          active    Po1, Po999, Eth1/63, Eth1/64
                                                 Eth1/65, Eth1/66, Eth1/1/1
                                                 Eth1/1/2, Eth1/1/3, Eth1/1/4
-                                                .
-                                                .
-                                                .
+.
+.
+.
                                                 Eth1/62/1, Eth1/62/2, Eth1/62/3
                                                 Eth1/62/4
 17   VLAN0017                         active    Eth1/1/1, Eth1/1/2, Eth1/1/3
                                                 Eth1/1/4, Eth1/2/1, Eth1/2/2
-                                                .
-                                                .
-                                                .
+.
+.
+.
                                                 Eth1/61/4, Eth1/62/1, Eth1/62/2
                                                 Eth1/62/3, Eth1/62/4
 18   VLAN0018                         active    Eth1/1/1, Eth1/1/2, Eth1/1/3
                                                 Eth1/1/4, Eth1/2/1, Eth1/2/2
-                                                .
-                                                .
-                                                .
+.
+.
+.
                                                 Eth1/61/4, Eth1/62/1, Eth1/62/2
                                                 Eth1/62/3, Eth1/62/4
 30   VLAN0030                         active    Eth1/1/1, Eth1/1/2, Eth1/1/3
                                                 Eth1/1/4, Eth1/2/1, Eth1/2/2
-                                                .
-                                                .
-                                                .
+.
+.
+.
                                                 Eth1/61/4, Eth1/62/1, Eth1/62/2
                                                 Eth1/62/3, Eth1/62/4
 40   VLAN0040                         active    Eth1/1/1, Eth1/1/2, Eth1/1/3
                                                 Eth1/1/4, Eth1/2/1, Eth1/2/2
-                                                .
-                                                .
-                                                .
+.
+.
+.
                                                 Eth1/61/4, Eth1/62/1, Eth1/62/2
                                                 Eth1/62/3, Eth1/62/4
 
@@ -231,7 +346,163 @@ Po1           1
 .Show example for Cisco Nexus 9808 switches
 [%collapsible]
 ====
+[subs=+quotes]
+----
+cs1# *show vlan brief*
 
+VLAN Name                     Status    Ports
+---- ----------------------- ---------- -------- -----------------------------
+1    default                          active    Po1, Po998, Po999, Eth1/1
+                                                Eth1/2, Eth1/3, Eth1/4, Eth1/5
+                                                Eth1/6, Eth1/7, Eth1/8, Eth1/9
+.
+.
+.
+                                                Eth1/34/3, Eth1/34/4, Eth1/35/1
+                                                Eth1/35/2, Eth1/35/3, Eth1/35/4
+17   VLAN0017                         active    Eth1/1, Eth1/2, Eth1/3, Eth1/4
+                                                Eth1/5, Eth1/6, Eth1/7, Eth1/8
+.
+.
+.
+                                                Eth1/34/3, Eth1/34/4, Eth1/35/1
+                                                Eth1/35/2, Eth1/35/3, Eth1/35/4
+18   VLAN0018                         active    Eth1/1, Eth1/2, Eth1/3, Eth1/4
+                                                Eth1/5, Eth1/6, Eth1/7, Eth1/8
+.
+.
+.
+                                                Eth1/34/3, Eth1/34/4, Eth1/35/1
+                                                Eth1/35/2, Eth1/35/3, Eth1/35/4
+30   VLAN0030                         active    Eth1/1, Eth1/2, Eth1/3, Eth1/4
+                                                Eth1/5, Eth1/6, Eth1/7, Eth1/8
+.
+.
+.
+                                                Eth1/34/3, Eth1/34/4, Eth1/35/1
+                                                Eth1/35/2, Eth1/35/3, Eth1/35/4
+40   VLAN0040                         active    Po1, Eth1/1, Eth1/2, Eth1/3
+                                                Eth1/4, Eth1/5, Eth1/6, Eth1/7
+                                                Eth1/8, Eth1/9, Eth1/10, Eth1/11
+.
+.
+.
+                                                Eth1/35/1, Eth1/35/2, Eth1/35/3
+                                                Eth1/35/4
+
+cs1# 
+
+  
+cs1# *show interface trunk*
+
+--------------------------------------------------------------------------------
+Port          Native  Status        Port
+              Vlan                  Channel
+--------------------------------------------------------------------------------
+Eth1/1        1       trunking      --
+Eth1/2        1       trunking      --
+.
+.
+.
+Eth1/17       1       trunking      --
+Eth1/18       1       trunking      --
+Eth1/19/1     1       trunking      --
+Eth1/19/2     1       trunking      --
+.
+.
+.
+Eth1/35/4     1       trunking      --
+Eth1/36       1       trnk-bndl     Po1
+Po1           1       trunking      --
+
+--------------------------------------------------------------------------------
+Port          Vlans Allowed on Trunk
+--------------------------------------------------------------------------------
+Eth1/1        1,17-18,30,40
+Eth1/2        1,17-18,30,40
+.
+.
+.
+Eth1/17       1,17-18,30,40
+Eth1/18       1,17-18,30,40
+Eth1/19/1     1,17-18,30,40
+Eth1/19/2     1,17-18,30,40
+.
+.
+.
+Eth1/35/3     1,17-18,30,40
+Eth1/35/4     1,17-18,30,40
+Eth1/36       1,40
+Po1           1,40
+
+--------------------------------------------------------------------------------
+Port          Vlans Err-disabled on Trunk
+--------------------------------------------------------------------------------
+Eth1/1        none
+Eth1/2        none
+.
+.
+.
+Eth1/17       none
+Eth1/18       none
+Eth1/19/1     none
+Eth1/19/2     none
+.
+.
+.
+Eth1/35/4     none
+Eth1/36       none
+Po1           none
+
+--------------------------------------------------------------------------------
+Port          STP Forwarding
+--------------------------------------------------------------------------------
+Eth1/1        1,17-18,30,40
+Eth1/2        1,17-18,30,40
+.
+.
+.
+Eth1/17       1,17-18,30,40
+Eth1/18       none
+Eth1/19/1     1,17-18,30,40
+Eth1/19/2     1,17-18,30,40
+.
+.
+.
+Eth1/35/4     none
+Eth1/36       none
+Po1           none
+
+--------------------------------------------------------------------------------
+Port          Vlans in spanning tree forwarding state and not pruned
+--------------------------------------------------------------------------------
+Eth1/1        Feature VTP is not enabled
+1,17-18,30,40
+Eth1/2        Feature VTP is not enabled
+1,17-18,30,40
+.
+.
+.
+Eth1/23/3     Feature VTP is not enabled
+1,17-18,30,40
+Eth1/23/4     Feature VTP is not enabled
+1,17-18,30,40
+Eth1/24/1     Feature VTP is not enabled
+none
+Eth1/24/2     Feature VTP is not enabled
+none
+.
+.
+.
+Eth1/35/4     Feature VTP is not enabled
+none
+Eth1/36       Feature VTP is not enabled
+none
+Po1           Feature VTP is not enabled
+none
+cs1#
+
+----
 ====
 +
 NOTE: For specific port and VLAN usage details, refer to the banner and important notes section in your RCF.
@@ -246,7 +517,6 @@ show port-channel summary
 .Show example for Cisco Nexus 9332D-GX2B switches
 [%collapsible]
 ====
-
 [subs=+quotes]
 ----
 cs1# *show port-channel summary*
@@ -296,7 +566,29 @@ cs1#
 .Show example for Cisco Nexus 9808 switches
 [%collapsible]
 ====
-
+//+
+//Jun 4: SL says right now, our n9808 is a single switch and ISL is disconnected so you won't see the peers.
+//+
+[subs=+quotes]
+----
+cs1# *show port-channel summary*
+Flags:  D - Down        P - Up in port-channel (members)
+        I - Individual  H - Hot-standby (LACP only)
+        s - Suspended   r - Module-removed
+        b - BFD Session Wait
+        S - Switched    R - Routed
+        U - Up (port-channel)
+        p - Up in delay-lacp mode (member)
+        M - Not in use. Min-links not met
+--------------------------------------------------------------------------------
+Group Port-       Type     Protocol  Member Ports
+      Channel
+--------------------------------------------------------------------------------
+1     Po1(SD)     Eth      LACP      Eth1/36(D)   
+998   Po998(SD)   Eth      NONE      --
+999   Po999(SD)   Eth      NONE      --
+cs1#
+----
 ====
 
 .What's next?
