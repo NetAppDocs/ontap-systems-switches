@@ -47,7 +47,7 @@ From the switch CLI, verify that the switch ports connected to the cluster ports
 +
 `show interface brief`
 +
-.Show example for Cisco Nexus 9332D-GX2B switches
+.Show example (applicable to supported Cisco Nexus switches)
 [%collapsible]
 ====
 
@@ -73,40 +73,6 @@ Eth1/17/4       1       eth  trunk  up      none                     100G(D) --
 .
 .
 ----
-====
-+
-.Show example for Cisco Nexus 9364C-GX2B switches
-[%collapsible]
-====
-
-[subs=+quotes]
-----
-cs1# *show interface brief | grep up*
-.
-.
-Eth1/9/3        1       eth  trunk  up      none                     100G(D) --
-Eth1/9/4        1       eth  trunk  up      none                     100G(D) --
-Eth1/15/1       1       eth  trunk  up      none                     100G(D) --
-Eth1/15/2       1       eth  trunk  up      none                     100G(D) --
-Eth1/15/3       1       eth  trunk  up      none                     100G(D) --
-Eth1/15/4       1       eth  trunk  up      none                     100G(D) --
-Eth1/16/1       1       eth  trunk  up      none                     100G(D) --
-Eth1/16/2       1       eth  trunk  up      none                     100G(D) --
-Eth1/16/3       1       eth  trunk  up      none                     100G(D) --
-Eth1/16/4       1       eth  trunk  up      none                     100G(D) --
-Eth1/17/1       1       eth  trunk  up      none                     100G(D) --
-Eth1/17/2       1       eth  trunk  up      none                     100G(D) --
-Eth1/17/3       1       eth  trunk  up      none                     100G(D) --
-Eth1/17/4       1       eth  trunk  up      none                     100G(D) --
-.
-.
-----
-====
-+
-.Show example for Cisco Nexus 9808 switches
-[%collapsible]
-====
-
 ====
 
 . Verify that the cluster nodes are in their correct cluster VLANs using the following commands:
@@ -353,7 +319,7 @@ Po1           1
 ----
 ====
 +
-.Show example for Cisco Nexus 9364C-GX2B switches 
+.Show example for Cisco Nexus 9364D-GX2A switches 
 [%collapsible]
 ====
 
@@ -847,7 +813,7 @@ cs1#
 ----
 ====
 +
-.Show example for Cisco Nexus 9364C-GX2B switches
+.Show example for Cisco Nexus 9364D-GX2A switches
 [%collapsible]
 ====
 
