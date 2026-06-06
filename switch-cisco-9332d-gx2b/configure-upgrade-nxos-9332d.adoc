@@ -33,7 +33,7 @@ For the current list of supported NX-OS versions, see the link:https://mysupport
 +
 NOTE: Do not upgrade or downgrade your NX-OS version to an unsupported version.
 
-* This procedure requires the use of ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
+* Because this procedure requires the use of ONTAP commands and Cisco Nexus 9000 Series Switches commands, the steps indicate which CLI you are using to issue commands.
 
 * The examples in this procedure use the following switch and node nomenclature:
 
@@ -50,16 +50,18 @@ NOTE: Do not upgrade or downgrade your NX-OS version to an unsupported version.
 * The examples shown in this procedure are for AFX 1K systems with switches running RCF 10.0. If you have an AFX 2K system, the input and output can vary.
  
 
-== Step 1: Prepare to install the NX-OS
+== Step 1: Prepare to upgrade the NX-OS
 
-Prepare to install the NX-OS by making sure you have a management network connection to each switch, downloading the NX-OS version, checking port status on the cluster, and disabling auto-revert on the cluster LIFs. 
+Prepare to upgrade the NX-OS by making sure you have a management network connection to each switch, downloading the NX-OS version, checking port status on the cluster, and disabling auto-revert on the cluster LIFs. 
 
 
 .Steps
 
 . Connect each switch to the management network.
 
-. Use the ping command to verify connectivity to the server hosting the NX-OS.
+. Using the switch CLI, verify connectivity to the server hosting the NX-OS.
++
+`ping <IP address>`
 +
 .Show example
 [%collapsible]
@@ -78,7 +80,7 @@ Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 
 . Download the correct version of NX-OS to the switches from the https://software.cisco.com/download/home[Cisco software download^] page.
 
-. Display the cluster ports on each node that are connected to the cluster switches: 
+. Using the ONTAP CLI, display the cluster ports on each node that are connected to the cluster switches: 
 +
 [source,cli]
 ----
@@ -127,7 +129,7 @@ node1-01/lldp
 ----
 ====
 
-. Check the administrative and operational status of each port.
+. Using the ONTAP CLI, check the administrative and operational status of each port:
 
 .. *Cluster ports*
 
@@ -439,7 +441,7 @@ shelf id connector-state remote-port    remote-device
 ----
 ====
 
-. Disable auto-revert on the cluster LIFs. The cluster LIFs fail over to the partner cluster switch and remain there as you perform this procedure on the targeted switch:
+. Using the ONTAP CLI, disable auto-revert on the cluster LIFs. The cluster LIFs fail over to the partner cluster switch and remain there as you perform this procedure on the targeted switch:
 +
 [source,cli]
 ----
@@ -450,7 +452,7 @@ network interface modify -vserver Cluster -lif * -auto-revert false
 
 You install NX-OS on the first switch (cs1) by installing and verifying the new versions of the NX-OS and EPLD, verifying the health of all ports on the cluster, and then repeating these steps on the second switch (cs2).
 
-. Copy NX-OS and EPLD images to a switch.
+. Using the switch CLI, copy NX-OS and EPLD images to a switch.
 +
 .Show example
 [%collapsible]
@@ -492,7 +494,7 @@ Copy complete.
 ----
 ====
 
-. Verify the running version of NX-OS:
+. Using the switch CLI, verify the running version of NX-OS:
 +
 `show version`
 +
@@ -561,7 +563,7 @@ cs1#
 ----
 ====
 
-. Install the NX-OS image.
+. Using the switch CLI, install the NX-OS image.
 +
 Installing the image file causes it to be loaded every time the switch is rebooted.
 +
@@ -635,7 +637,7 @@ Finishing the upgrade, switch will reboot in 10 seconds.
 ----
 ====
 
-. Verify the new version of NX-OS after the switch has rebooted: 
+. Using the switch CLI, verify the new version of NX-OS after the switch has rebooted: 
 +
 `show version`
 +
@@ -704,7 +706,7 @@ cs1#
 ----
 ====
 
-. Upgrade the EPLD image and reboot the switch.
+. Using the switch CLI, upgrade the EPLD image and reboot the switch.
 
 +
 .Show example
@@ -758,7 +760,7 @@ Module 1 EPLD upgrade is successful.
 ----
 ====
 
-. After the switch reboot, log in and verify that the new version of EPLD loaded successfully.
+. After the switch reboot, use the switch CLI to log in and verify that the new version of EPLD loaded successfully.
 +
 
 .Show example
@@ -781,7 +783,7 @@ GEM  FPGA                        0x2
 ----
 ====
 
-. Verify the health of all the ports on the cluster.
+. Using the ONTAP CLI, verify the health of all the ports on the cluster.
 
 .. *Cluster ports*
 
@@ -1093,7 +1095,7 @@ shelf id connector-state remote-port    remote-device
 ----
 ====
 
-. Verify that the cluster is healthy: 
+. Using the ONTAP CLI, verify that the cluster is healthy: 
 +
 `cluster show`
 +
@@ -1123,7 +1125,7 @@ node1-04             true    true          true
 
 == Step 3: Complete the NX-OS upgrade
 
-Complete the NX-OS upgrade by re-enabling auto-revert on the cluster LIFs and verifying the cluster LIFs reverted to their home ports. 
+Using the ONTAP CLI, complete the NX-OS upgrade by re-enabling auto-revert on the cluster LIFs and verifying the cluster LIFs reverted to their home ports. 
 
 . Re-enable auto-revert on the cluster LIFs.
 +
