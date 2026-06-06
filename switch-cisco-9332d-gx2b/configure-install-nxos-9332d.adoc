@@ -18,18 +18,14 @@ You install the NX-OS on your Cisco Nexus 9332D-GX2B switch(es) as part of a new
 
 * If you are installing the NX-OS on switch(es) as part of a new AFX system installation or switch replacement, verify that the version of NX-OS on your switch(es) is the current NetApp-supported version.
 +
-NOTE: New switches should ship with the current NetApp-supported version of NX-OS.
-+
-// New switches ship with the standard Cisco factory-default configuration and should have the current NetApp-supported version of NX-OS.
-+
 ** If your switch(es) have the current NetApp-supported version, you do not need to install the NX-OS. You need to install the RCF. Start with the link:configure-install-upgrade-rcf-overview-9332d.html[Install or upgrade the RCF overview].
 +
 ** If your switch(es) do not have the current NetApp-supported version, continue with this procedure to install the NX-OS.
 
 // Below content: Replace switch topic covers this. But reset does not. Keep in for now.
 * If you are installing the NX-OS on a switch as part of a switch replacement or a switch reset to factory default settings, verify that your cluster is fully functional, meaning that there are no errors in the logs or similar issues.
-+
-If you are installing the NX-OS as part of a new AFX system installation, you can skip this requirement because the controllers in your AFX system are not powered on at this point in your AFX system installation and setup.
+
+* If you are installing the NX-OS as part of a new AFX system installation, you can skip this requirement because the controllers in your AFX system are not powered on at this point in your AFX system installation and setup.
 
 
 .About this task
@@ -42,18 +38,9 @@ If you are installing the NX-OS as part of a new AFX system installation, you ca
 +
 For the current list of supported NX-OS versions, see the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page.
 
-* This procedure requires the use of ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
+* This procedure requires the use of Cisco Nexus 9000 Series Switches commands.
 
-* The examples in this procedure use the following switch and node nomenclature:
-
-** The names of the two Cisco switches are cs1 and cs2.
-** The node names are node1-01, node1-02, node1-03, and node1-04.
-** The cluster LIF names are:
-*** node1-01_clus1 and node1-01_clus2 for node1-01
-*** node1-02_clus1 and node1-02_clus2 for node1-02
-*** node1-03_clus1 and node1-03_clus2 for node1-03
-*** node1-04_clus1 and node1-04_clus2 for node1-04
-** The `cluster1::*>` prompt indicates the name of the cluster.
+* The examples in this procedure refer to the first switch as cs1 and the second switch as cs2.
 
 * If you have installed switches as part of a new AFX 1K or AFX 2K system installation, this procedure has you install the NX-OS on the first switch (cs1) and then has you repeat the steps for the second switch (cs2).
 
@@ -104,6 +91,13 @@ You install the NX-OS on the first switch (cs1) by installing and verifying the 
 
 . Copy NX-OS and EPLD images to the first switch.
 +
+You use this command two times: the first time is to copy the NX-OS version and the second time is to copy the EPLD version.
++
+`copy <protocol>: bootflash: vrf management`
++
+The example uses sftp.
++
+
 .Show example
 [%collapsible]
 ====
@@ -217,6 +211,11 @@ cs1#
 +
 Installing the image file causes it to be loaded every time the switch is rebooted.
 +
+`install all nxos bootflash:nxos.<version number>.bin`
++
+The example uses NX-OS version 10.4.2.
++
+
 .Show example
 [%collapsible]
 ====
@@ -354,8 +353,15 @@ cs1#
 ----
 ====
 
-. Upgrade the EPLD image and reboot the switch.
-
+. Upgrade the EPLD image using the following commands.
++
+`show version module 1 epld`
++
+`install epld bootflash:n9000-epld.<version>.img module all`
++
+After the last command is executed, the switch reboots.
++
+The example uses EPLD version 10.4.2.F
 +
 .Show example
 [%collapsible]
@@ -409,6 +415,8 @@ Module 1 EPLD upgrade is successful.
 ====
 
 . After the switch reboot, log in and verify that the new version of EPLD loaded successfully.
++
+`show version module 1 epld`
 +
 
 .Show example
