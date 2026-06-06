@@ -33,7 +33,7 @@ For the current list of supported NX-OS versions, see the link:https://mysupport
 +
 NOTE: Do not upgrade or downgrade your NX-OS version to an unsupported version.
 
-* Because this procedure requires the use of ONTAP commands and Cisco Nexus 9000 Series Switches commands, the steps indicate which CLI you are using to issue commands.
+* Because this procedure requires the use of ONTAP commands and Cisco Nexus 9000 Series Switches commands, the steps indicate which CLI you are using to enter commands.
 
 * The examples in this procedure use the following switch and node nomenclature:
 
@@ -454,6 +454,10 @@ You install NX-OS on the first switch (cs1) by installing and verifying the new 
 
 . Using the switch CLI, copy NX-OS and EPLD images to a switch.
 +
+You use this command two times: the first time is to copy the NX-OS version and the second time is to copy the EPLD version.
++
+`copy <protocol>: bootflash: vrf management`
++
 .Show example
 [%collapsible]
 ====
@@ -567,11 +571,14 @@ cs1#
 +
 Installing the image file causes it to be loaded every time the switch is rebooted.
 +
-The switch reboots after the NX-OS image is installed?
+`install all nxos bootflash:nxos.<version number>.bin`
 +
+
 .Show example
 [%collapsible]
 ====
+
+The example uses NX-OS version 10.4.2.
 
 [subs=+quotes]
 ----
