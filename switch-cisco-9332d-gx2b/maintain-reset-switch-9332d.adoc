@@ -37,16 +37,12 @@ You must be connected to the switch using the serial console.
 Warning: This command will erase the startup-configuration.
 Do you wish to proceed anyway? (y/n) [n] *y*
 ----
-//Wipes Configuration: It removes the stored configuration file, allowing for a clean installation of a new Reference Configuration File (RCF) or to reconfigure the switch from scratch. Follow-up Action: A reload command is necessary to apply the empty configuration, as write erase does not affect the currently running configuration
 
 . Reload the NX-OS:
 +
 `reload`
 +
-//The reload command restarts the switch operating system (NX-OS). It initiates a power-cycle of the hardware, which terminates all network traffic through the device and forces a system reboot. Does it actually reload the sw? 
-+
-//You only need to apply the RCF if you have explicitly performed a write erase (factory default). YES, you need to have users install the RCF.
-+
+
 [subs=+quotes]
 ----
 (cs2)# *reload*
@@ -55,22 +51,12 @@ This command will reboot the system. (y/n)? [n] *y*
 ----
 
 +
-The system reboots and enters the configuration wizard. 
+The system reboots and enters the configuration wizard. If needed, you can reference the configuration wizard questions and recommended responses in the link:configure-complete-initial-setup-9332d.html[Complete initial switch setup] procedure.
 +
 NOTE: During the reboot, if you receive the prompt “Abort Auto Provisioning and continue with normal setup? (yes/no)[n]”, respond *yes* to proceed.
 +
-. Use the configuration wizard to complete the initial switch setup.
-//assumed that it popped up.
-+
-If needed, you can reference the configuration wizard questions and recommended responses in the link:configure-complete-initial-setup-9332d.html[Complete initial switch setup] procedure.
+. After you complete the initial switch setup, use the link:configure-switch-workflow-9332d.html[configure switch workflow] to complete the switch configuration.
 
-. link:../switch-cisco-9332d-gx2b/configure-install-nxos-9332d.html[Install the NX-OS] on the switch.
-
-. Install the RCF on the switch starting with the link:configure-install-upgrade-rcf-overview-9332d.html[Install or upgrade RCF overview].
-
-. link:../switch-cisco-9332d-gx2b/configure-verify-ssh-9332d.html[Verify SSH for log collection] so that you can use the Ethernet switch health monitor (CSHM) log collection feature.
-
-. link:../switch-cshm/cshm-overview.html[Configure Ethernet switch health monitoring (CSHM)] to ensure the operational health of network switches and collect switch logs for debugging purposes.
 
 .What's next?
 
