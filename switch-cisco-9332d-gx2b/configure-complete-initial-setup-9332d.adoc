@@ -1,39 +1,37 @@
 ---
-permalink: switch-cisco-9332d-gx2b/setup-switch-9332d-cluster.html
+permalink: switch-cisco-9332d-gx2b/configure-complete-initial-setup-9332d.html
 sidebar: sidebar
 keywords: require, configuration, information, documentation, cluster, management, network, switches, set up the switches - cisco nexus 9332d-gx2b
-summary: Follow this procedure to configure the Cisco Nexus 9332D-GX2B switch.
+summary: After you power on Cisco Nexus 9332D-GX2B switch(es) as part of a new AFX 1K or AFX 2K system installation or a switch replacement, or after you reset a switch to its factory default settings, you are prompted to complete the initial setup for the switch(es) using configuration wizard. You can reference the following configuration wizard questions and recommended responses to help you complete the initial setup of the switch(es).
 ---
-= Configure the 9332D-GX2B switch
+= Complete initial switch setup - Cisco Nexus 9332D-GX2B
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-Follow this procedure to configure the Cisco Nexus 9332D-GX2B switch.
+After you power on Cisco Nexus 9332D-GX2B switch(es) as part of a new AFX 1K or AFX 2K system installation or a switch replacement, or after you reset a switch to its factory default settings, you are prompted to complete the initial setup for the switch(es) using configuration wizard. You can reference the following configuration wizard questions and recommended responses to help you complete the initial setup of the switch(es).
 
 .Before you begin
+Make sure you have the network and configuration information for each switch and the applicable licenses.
 
-Make sure you have:
+.About this task
+* You must complete the initial setup on each switch.
 
-* Powered on your switches.
-* Access to an HTTP, FTP, or TFTP server at the installation site to download the applicable NX-OS and Reference Configuration File (RCF) releases.
-* Applicable NX-OS version, downloaded from the https://software.cisco.com/download/home[Cisco software download^] page. 
+* If needed, you can refer to the information for setting up the switches in the "Using the Cisco NX-OS Setup Utility" chapter of the link:reference-documentation-9332d.html[Cisco Nexus 9000 Series NX-OS Fundamentals Configuration Guide, Release 10.6(x)]. 
+// FYI: there's also the link to Cisco's "Configuring Terminal Settings and Sessions" chapter in the same guide as above. but not sure it's needed since the steps cover it/same as covered in AFX power on/console port connection content: https://www.cisco.com/c/en/us/td/docs/dcn/nx-os/nexus9000/103x/configuration/fundamentals/cisco-nexus-9000-nx-os-fundamentals-configuration-guide-103x/m-configuring-terninal-settings.html
 
-[IMPORTANT]
-================
-* NX-OS 10.4.2 is the only supported version for Cisco Nexus 9332D-GX2B switches in an ONTAP cluster.
-* Do not upgrade or downgrade your NX-OS version to an unsupported version; only 10.4.2 is currently supported.
-================
-
-* Applicable licenses, network and configuration information, and cables.
-* Applicable NetApp shared network and management network RCFs downloaded from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com^]. All Cisco shared network and management network switches arrive with the standard Cisco factory-default configuration. These switches also have the current version of the NX-OS software but do not have the RCFs loaded.
-* link:required-documentation-9332d-cluster.html[Required switch and ONTAP documentation].
-
+//To configure basic management of the Cisco NX-OS device using the setup utility. Setting up the Cisco switch.
 
 .Steps
-. Perform an initial configuration of the shared network switches.
+
+. Connect your laptop to the switches' serial console port.
+.. Set the serial console port on the laptop to 9,600 baud with N-8-1.
+//Same as: Configure your terminal emulator with 9,600 baud, 8 data bits (the 8), 1 stop bit (the 1), and no parity (the N).
+//This 9,600 baud rate applies to 9364 and 9808 too. AD said it is nice to tell users this is it. AD said rest of the AFX power on steps: See your laptop's online help for instructions on how to configure the serial console port.;Connect the console cable to the laptop, and connect the serial console port on the controller using the console cable that came with your storage system.;Connect the laptop to the switch on the management subnet. Are overkill.
+. Set the password for the admin user, as prompted.
+. Complete the initial switch setup by providing responses to the following questions.
 +
-Provide applicable responses to the following initial setup questions when you first boot the switch. Your site's security policy defines the responses and services to enable.
+NOTE: Your site's security policy defines the responses and services to enable.
 +
 [options="header" cols="1,2"]
 |===
@@ -129,11 +127,12 @@ NOTE: If you do not save the configuration at this stage, none of the changes wi
 |===
 
 . Verify the configuration choices you made in the display that appears at the end of the setup, and make sure that you save the configuration.
-. Check the version on the shared network switches, and if necessary, download the 
-NetApp-supported version of the software to the switches from the https://software.cisco.com/download/home[Cisco software download^] page.
+
 
 .What's next?
 
-After you've configured your switches, you link:install-nxos-overview-9332d-cluster.html[prepare to install the NX-OS software and RCF].
+After you've completed the initial switch setup, you link:configure-review-cabling-config-requirements-9332d.html[review the cabling and configuration requirements].
+
 
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-08
+// Refactor content project phase 1 with 2K/RCF 10.1 content, GH#423 2026-JUN

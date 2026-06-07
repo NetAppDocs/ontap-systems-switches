@@ -1,41 +1,76 @@
 ---
-permalink: switch-cisco-9332d-gx2b/upgrade-rcf-software-9332d-cluster.html
+permalink: switch-cisco-9332d-gx2b/configure-upgrade-rcf-9332d.html
 sidebar: sidebar
 keywords: install rcf, cisco switches
-summary: 'You can use this procedure to upgrade your RCF version.'
+summary: You upgrade the Reference Configuration File (RCF) version on your Cisco Nexus 9332D-GX2B switches to support new hardware, a new ONTAP version, or to align with a new NX-OS version in your AFX 1K or AFX 2K system configuration.
 ---
-= Upgrade your RCF version
+= Upgrade the RCF version - Cisco Nexus 9332D-GX2B
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-You upgrade your RCF version when you have an existing version of the RCF file installed on your operational switches. 
+You upgrade the Reference Configuration File (RCF) version on your Cisco Nexus 9332D-GX2B switches to support new hardware, a new ONTAP version, or to align with a new NX-OS version in your AFX 1K or AFX 2K system configuration.
+
+NOTE: Do not upgrade or downgrade your RCF version to an unsupported version.
 
 .Before you begin
-Make sure you have the following:
 
-* A current backup of the switch configuration.
-* A fully functioning cluster (no errors in the logs or similar issues).
-* The current RCF.
-* If you are updating your RCF version, you need a boot configuration in the RCF that reflects the desired boot images. 
+* You must have read the     link:configure-install-upgrade-rcf-overview-9332d.html[Install or upgrade RCF overview] page.
+
+* You must be connected to the switches using the serial console or have preserved basic configuration information. This is because the RCF upgrade procedure requires you to erase the switch settings and perform basic configuration. 
+
+* Make sure you have a current backup of the switch configuration.
+
+* Verify that your cluster is fully functional, meaning that there are no errors in the logs or similar issues.
+
+* You must have the current RCF version.
+
+* You need a boot configuration in the RCF that reflects the desired boot images. 
 +
 If you need to change the boot configuration to reflect the current boot images, you must do so before reapplying the RCF so that the correct version is instantiated on future reboots.
 
-NOTE: No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To ensure non-disruptive cluster operations, the following procedure migrates all of the cluster LIFs to the operational partner switch while performing the steps on the target switch.
 
-CAUTION: Before installing a new switch software version and RCFs, you must erase the switch settings and perform basic configuration. You must be connected to the switch using the serial console or have preserved basic configuration information prior to erasing the switch settings.
+.About this task
+
+* Upgrading the RCF on both of the switches is a nondisruptive procedure. 
+** No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To ensure non-disruptive cluster operations, this procedure has you migrate all of the cluster LIFs to the operational partner switch while performing the steps on the target switch.
+
+** This procedure has you upgrade the RCF on the first switch (cs1) and then has you repeat the steps for the second switch (cs2).
+
+* Because this procedure requires the use of ONTAP commands and Cisco Nexus 9000 Series Switches commands, the steps indicate which CLI you are using to enter commands.
+
+* The examples in this procedure use the following switch and node nomenclature:
+
+** The names of the two Cisco switches are cs1 and cs2.
+** The node names are node1-01, node1-02, node1-03, and node1-04.
+** The cluster LIF names are:
+*** node1-01_clus1 and node1-01_clus2 for node1-01
+*** node1-02_clus1 and node1-02_clus2 for node1-02
+*** node1-03_clus1 and node1-03_clus2 for node1-03
+*** node1-04_clus1 and node1-04_clus2 for node1-04
+** The `cluster1::*>` prompt indicates the name of the cluster.
+
+* The examples shown in this procedure are for AFX 1K systems with switches running RCF 10.0. If you have an AFX 2K system, the input and output can vary.
 
 == Step 1: Prepare for the upgrade
 
+You enter the commands for the following steps from the ONTAP CLI.
+
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: 
 +
-`system node autosupport invoke -node * -type all -message MAINT=xh`
+[source,cli]
+----
+system node autosupport invoke -node * -type all -message MAINT=xh
+----
 +
 where _x_ is the duration of the maintenance window in hours.
 
 . Change the privilege level to advanced, entering *y* when prompted to continue: 
 +
-`set -privilege advanced`
+[source,cli]
+----
+set -privilege advanced
+----
 +
 The advanced prompt (*>) appears.
 
@@ -211,7 +246,10 @@ cs2(FLMXXXXXXXX)            cluster-network    10.228.137.234   N9K-C9332D-GX2B
 
 ... Verify that all the HA ports are up with a healthy status: 
 +
-`ha interconnect status show -node <node-name>`
+[source,cli]
+----
+ha interconnect status show -node <node-name>
+----
 +
 .Show example 
 [%collapsible]
@@ -395,13 +433,16 @@ shelf id connector-state remote-port    remote-device
 ----
 ====
 
-. Disable auto-revert on the cluster LIFs.
+. Disable auto-revert on the cluster LIFs. The cluster LIFs fail over to the partner cluster switch and remain there as you perform this procedure on the targeted switch:
 +
-`network interface modify -vserver Cluster -lif * -auto-revert false` 
+[source,cli]
+----
+network interface modify -vserver Cluster -lif * -auto-revert false
+----
 
 == Step 2: Configure ports
 
-. On switch cs1, shut down the ports connected to all the ports of the nodes.
+. Using the switch CLI, on switch cs1, shut down the ports connected to all the ports of the nodes.
 +
 
 [subs=+quotes]
@@ -411,9 +452,9 @@ cs1(config)# *interface e1/1/1-4,e1/2/1-4,e1/3/1-4,e1/4/1-4,e1/5/1-4,e1/6/1-4,e1
 cs1(config-if-range)# *shutdown*
 cs1(config)# *interface e1/9/1-4,e1/10/1-4,e1/11/1-4,e1/12/1-4,e1/13/1-4,e1/14/1-4,e1/15/1-4,e1/16/1-4*
 cs1(config-if-range)# *shutdown*
-cs1(config)# *interface e1/17/1-4,e1/18/1-4,e1/19/1-4,e1/20/1-4,e1/21/1-4,e1/22/1-44,e1/23/1-4*
+cs1(config)# *interface e1/17/1-4,e1/18/1-4,e1/19/1-4,e1/20/1-4,e1/21/1-4,e1/22/1-4,e1/23/1-4*
 cs1(config-if-range)# *shutdown*
-cs1(config)# *interface e1/24/1-,e1/25/1-4,e1/26/1-4,e1/27/1-4,e1/28/1-4,e1/29/1-4,e1/30/1-44*
+cs1(config)# *interface e1/24/1-4,e1/25/1-4,e1/26/1-4,e1/27/1-4,e1/28/1-4,e1/29/1-4,e1/30/1-4*
 cs1(config-if-range)# *shutdown*
 cs1(config-if-range)# *exit*
 cs1(config)# *exit*
@@ -422,7 +463,7 @@ cs1(config)# *exit*
 CAUTION: Make sure to shutdown *all* connected ports to avoid any network connection issues.
 Refer to the Knowledge Base article https://kb.netapp.com/on-prem/ontap/OHW/OHW-KBs/Node_out_of_quorum_when_migrating_cluster_lif_during_switch_OS_upgrade[Node out of quorum when migrating cluster LIF during switch OS upgrade^] for further details. 
 
-. Verify that the cluster LIFs have failed over to the ports hosted on switch cs1. This might take a few seconds.
+. Using the ONTAP CLI, verify that the cluster LIFs have failed over to the ports hosted on switch cs1. This might take a few seconds.
 +
 [source,cli]
 ----
@@ -454,9 +495,12 @@ Cluster
 ----
 ====
 +
-. Verify that the cluster is healthy: 
+. Using the ONTAP CLI, verify that the cluster is healthy: 
 +
-`cluster show`
+[source,cli]
+----
+cluster show
+----
 +
 .Show example 
 [%collapsible]
@@ -476,15 +520,12 @@ node1-04          true    true          false
 ----
 ====
 +
-. If you have not already done so, save a copy of the current switch configuration by copying the output of the following command to a text file:
+. If you have not already done so, using the switch CLI, save a copy of the current switch configuration by copying the output of the following command to a text file:
 +
-
 `show running-config`
-
-.. Record any custom additions between the current `running-config` and the RCF file in use (such as an SNMP configuration for your organization).  
 +
-.. For NX-OS 10.2 and later, use the `show diff running-config` command to compare with the saved RCF file in the bootflash.  Otherwise, use a third part diff/compare tool.
-
+.. Use the `show diff running-config` command to compare with the saved RCF file in the bootflash. Otherwise, use a third-party diff/compare tool.
++
 . Save basic configuration details to the `write_erase.cfg` file on the bootflash.
 +
 [NOTE]
@@ -513,11 +554,11 @@ Make sure to configure the following:
 + 
 Refer to the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further details.
 
-. Verify that the `write_erase.cfg` file is populated as expected:
+. Using the switch CLI, verify that the `write_erase.cfg` file is populated as expected:
 +
 `*show file bootflash:write_erase.cfg*`
 
-. Issue the `write erase` command to erase the current saved configuration:
+. Using the switch CLI, issue the `write erase` command to erase the current saved configuration:
 +
 `cs1# *write erase*`
 +
@@ -525,11 +566,11 @@ Refer to the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/
 +
 `Do you wish to proceed anyway? (y/n)  [n] *y*`
 
-. Copy the previously saved basic configuration into the startup configuration.
+. Using the switch CLI, copy the previously saved basic configuration into the startup configuration.
 +
 `cs1# *copy bootflash:write_erase.cfg startup-config*`
 
-. Reboot the switch:
+. Using the switch CLI, reboot the switch:
 +
 `cs1# *reload*`
 +
@@ -539,9 +580,11 @@ Refer to the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/
 +
 You may need to update host file entries related to the SSH keys.
 
-. Copy the RCF to the bootflash of switch cs1 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. 
+. Using the switch CLI, copy the RCF to the bootflash of switch cs1 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. 
 +
 For more information on Cisco commands, refer to the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
++
+`copy <protocol>: bootflash: vrf management`
 +
 .Show example 
 [%collapsible]
@@ -559,7 +602,7 @@ Copy complete, now saving to disk (please wait)...
 ----
 ====
 
-. Apply the RCF previously downloaded to the bootflash.
+. Using the switch CLI, apply the RCF previously downloaded to the bootflash.
 +
 For more information on Cisco commands, refer to the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
 
@@ -578,7 +621,7 @@ cs1# *copy NX9332D-GX2B-RCF-v10.0-Shared.txt running-config echo-commands*
 Make sure to thoroughly read the *Installation notes*, *Important Notes*, and *banner* sections of your RCF. You must read and follow these instructions to ensure the proper configuration and operation of the switch.
 =======
 
-. Verify that the RCF file is the correct newer version: 
+. Using the switch CLI, verify that the RCF file is the correct newer version: 
 +
 `show running-config`
 +
@@ -589,10 +632,12 @@ When you check the output to verify you have the correct RCF, make sure that the
  ** Customizations
 +
 The output varies according to your site configuration. Check the port settings and refer to the release notes for any changes specific to the RCF that you have installed.
-
++
 . Reapply any previous customizations to the switch configuration.
++
+If your switches are running RCF 10.1 or later, you can link:configure-install-upgrade-rcf-overview-9332d.html#change-port-speed-configuration[change the port speed configuration] if needed.
 
-. After you verify the RCF versions, custom additions, and switch settings are correct, copy the `running-config` file to the `startup-config` file.
+. Using the switch CLI, after you verify the RCF versions, custom additions, and switch settings are correct, copy the `running-config` file to the `startup-config` file.
 +
 For more information on Cisco commands, refer to the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
 +
@@ -601,7 +646,7 @@ For more information on Cisco commands, refer to the appropriate guide in the ht
 +
 `[########################################] 100% Copy complete` 
 
-. Reboot switch cs1. You can ignore the "`cluster switch health monitor`" alerts and "`cluster ports down`" events reported on the nodes while the switch reboots.
+. Using the switch CLI, reboot switch cs1. You can ignore the "`cluster switch health monitor`" alerts and "`cluster ports down`" events reported on the nodes while the switch reboots.
 +
 
 `cs1# *reload*` 
@@ -609,7 +654,7 @@ For more information on Cisco commands, refer to the appropriate guide in the ht
 `This command will reboot the system. (y/n)?  [n] *y*` 
 
 +
-. Verify the health of all the ports on the cluster.
+. Using the ONTAP CLI, verify the health of all the ports on the cluster.
 
 .. *Cluster ports*
 ... Verify that cluster ports are up and healthy across all nodes in the cluster: 
@@ -727,7 +772,10 @@ cs1(FLMXXXXXXXX)            cluster-network    10.228.137.234   N9K-C9332D-GX2B
 
 ... Verify that all the HA ports are up with a healthy status: 
 +
-`ha interconnect status show -node <node-name>`
+[source,cli]
+----
+ha interconnect status show -node <node-name>
+----
 +
 .Show example 
 [%collapsible]
@@ -911,9 +959,12 @@ shelf id connector-state remote-port    remote-device
 ----
 ====
 
-. Verify that the cluster is healthy: 
+. Using the ONTAP CLI, verify that the cluster is healthy: 
 +
-`cluster show`
+[source,cli]
+----
+cluster show
+----
 +
 .Show example 
 [%collapsible]
@@ -935,13 +986,16 @@ node1-04          true     true          false
 
 . Repeat steps 4 to 18 on switch cs2.
 
-. Enable auto-revert on the cluster LIFs.
+. Using the ONTAP CLI, enable auto-revert on the cluster LIFs.
 +
-`network interface modify -vserver Cluster -lif * -auto-revert true` 
+[source,cli]
+----
+network interface modify -vserver Cluster -lif * -auto-revert true 
+----
 
 == Step 3: Verify the cluster network configuration and cluster health
 
-. Verify that the switch ports connected to the cluster ports are *up*.
+. Using the switch CLI, verify that the switch ports connected to the cluster ports are *up*.
 +
 [source,cli]
 ----
@@ -977,7 +1031,7 @@ Eth1/17/4       1       eth  trunk  up      none                     100G(D) --
 ----
 ====
 
-. Verify that the expected nodes are still connected:
+. Using the switch CLI, verify that the expected nodes are still connected:
 +
 [source,cli]
 ----
@@ -1020,7 +1074,7 @@ Total entries displayed: 18
 ----
 ====
 
-. Verify that the cluster nodes are in their correct cluster VLANs using the following commands:
+. Using the switch CLI, verify that the cluster nodes are in their correct cluster VLANs using the following commands:
 +
 [source,cli]
 ----
@@ -1045,203 +1099,42 @@ VLAN Name                             Status    Ports
 1    default                          active    Po1, Po999, Eth1/31, Eth1/32
                                                 Eth1/33, Eth1/34, Eth1/1/1
                                                 Eth1/1/2, Eth1/1/3, Eth1/1/4
-                                                Eth1/2/1, Eth1/2/2, Eth1/2/3
-                                                Eth1/2/4, Eth1/3/1, Eth1/3/2
-                                                Eth1/3/3, Eth1/3/4, Eth1/4/1
-                                                Eth1/4/2, Eth1/4/3, Eth1/4/4
-                                                Eth1/5/1, Eth1/5/2, Eth1/5/3
-                                                Eth1/5/4, Eth1/6/1, Eth1/6/2
-                                                Eth1/6/3, Eth1/6/4, Eth1/7/1
-                                                Eth1/7/2, Eth1/7/3, Eth1/7/4
-                                                Eth1/8/1, Eth1/8/2, Eth1/8/3
-                                                Eth1/8/4, Eth1/9/1, Eth1/9/2
-                                                Eth1/9/3, Eth1/9/4, Eth1/10/1
-                                                Eth1/10/2, Eth1/10/3, Eth1/10/4
-                                                Eth1/11/1, Eth1/11/2, Eth1/11/3
-                                                Eth1/11/4, Eth1/12/1, Eth1/12/2
-                                                Eth1/12/3, Eth1/12/4, Eth1/13/1
-                                                Eth1/13/2, Eth1/13/3, Eth1/13/4
-                                                Eth1/14/1, Eth1/14/2, Eth1/14/3
-                                                Eth1/14/4, Eth1/15/1, Eth1/15/2
-                                                Eth1/15/3, Eth1/15/4, Eth1/16/1
-                                                Eth1/16/2, Eth1/16/3, Eth1/16/4
-                                                Eth1/17/1, Eth1/17/2, Eth1/17/3
-                                                Eth1/17/4, Eth1/18/1, Eth1/18/2
-                                                Eth1/18/3, Eth1/18/4, Eth1/19/1
-                                                Eth1/19/2, Eth1/19/3, Eth1/19/4
-                                                Eth1/20/1, Eth1/20/2, Eth1/20/3
-                                                Eth1/20/4, Eth1/21/1, Eth1/21/2
-                                                Eth1/21/3, Eth1/21/4, Eth1/22/1
-                                                Eth1/22/2, Eth1/22/3, Eth1/22/4
-                                                Eth1/23/1, Eth1/23/2, Eth1/23/3
-                                                Eth1/23/4, Eth1/24/1, Eth1/24/2
-                                                Eth1/24/3, Eth1/24/4, Eth1/25/1
-                                                Eth1/25/2, Eth1/25/3, Eth1/25/4
-                                                Eth1/26/1, Eth1/26/2, Eth1/26/3
-                                                Eth1/26/4, Eth1/27/1, Eth1/27/2
-                                                Eth1/27/3, Eth1/27/4, Eth1/28/1
-                                                Eth1/28/2, Eth1/28/3, Eth1/28/4
+.
+.
+.
                                                 Eth1/29/1, Eth1/29/2, Eth1/29/3
                                                 Eth1/29/4, Eth1/30/1, Eth1/30/2
                                                 Eth1/30/3, Eth1/30/4
 17   VLAN0017                         active    Eth1/1/1, Eth1/1/2, Eth1/1/3
                                                 Eth1/1/4, Eth1/2/1, Eth1/2/2
                                                 Eth1/2/3, Eth1/2/4, Eth1/3/1
-                                                Eth1/3/2, Eth1/3/3, Eth1/3/4
-                                                Eth1/4/1, Eth1/4/2, Eth1/4/3
-                                                Eth1/4/4, Eth1/5/1, Eth1/5/2
-                                                Eth1/5/3, Eth1/5/4, Eth1/6/1
-                                                Eth1/6/2, Eth1/6/3, Eth1/6/4
-                                                Eth1/7/1, Eth1/7/2, Eth1/7/3
-                                                Eth1/7/4, Eth1/8/1, Eth1/8/2
-                                                Eth1/8/3, Eth1/8/4, Eth1/9/1
-                                                Eth1/9/2, Eth1/9/3, Eth1/9/4
-                                                Eth1/10/1, Eth1/10/2, Eth1/10/3
-                                                Eth1/10/4, Eth1/11/1, Eth1/11/2
-                                                Eth1/11/3, Eth1/11/4, Eth1/12/1
-                                                Eth1/12/2, Eth1/12/3, Eth1/12/4
-                                                Eth1/13/1, Eth1/13/2, Eth1/13/3
-                                                Eth1/13/4, Eth1/14/1, Eth1/14/2
-                                                Eth1/14/3, Eth1/14/4, Eth1/15/1
-                                                Eth1/15/2, Eth1/15/3, Eth1/15/4
-                                                Eth1/16/1, Eth1/16/2, Eth1/16/3
-                                                Eth1/16/4, Eth1/17/1, Eth1/17/2
-                                                Eth1/17/3, Eth1/17/4, Eth1/18/1
-                                                Eth1/18/2, Eth1/18/3, Eth1/18/4
-                                                Eth1/19/1, Eth1/19/2, Eth1/19/3
-                                                Eth1/19/4, Eth1/20/1, Eth1/20/2
-                                                Eth1/20/3, Eth1/20/4, Eth1/21/1
-                                                Eth1/21/2, Eth1/21/3, Eth1/21/4
-                                                Eth1/22/1, Eth1/22/2, Eth1/22/3
-                                                Eth1/22/4, Eth1/23/1, Eth1/23/2
-                                                Eth1/23/3, Eth1/23/4, Eth1/24/1
-                                                Eth1/24/2, Eth1/24/3, Eth1/24/4
-                                                Eth1/25/1, Eth1/25/2, Eth1/25/3
-                                                Eth1/25/4, Eth1/26/1, Eth1/26/2
-                                                Eth1/26/3, Eth1/26/4, Eth1/27/1
-                                                Eth1/27/2, Eth1/27/3, Eth1/27/4
-                                                Eth1/28/1, Eth1/28/2, Eth1/28/3
-                                                Eth1/28/4, Eth1/29/1, Eth1/29/2
+.
+.
+.
                                                 Eth1/29/3, Eth1/29/4, Eth1/30/1
                                                 Eth1/30/2, Eth1/30/3, Eth1/30/4
 18   VLAN0018                         active    Eth1/1/1, Eth1/1/2, Eth1/1/3
                                                 Eth1/1/4, Eth1/2/1, Eth1/2/2
                                                 Eth1/2/3, Eth1/2/4, Eth1/3/1
-                                                Eth1/3/2, Eth1/3/3, Eth1/3/4
-                                                Eth1/4/1, Eth1/4/2, Eth1/4/3
-                                                Eth1/4/4, Eth1/5/1, Eth1/5/2
-                                                Eth1/5/3, Eth1/5/4, Eth1/6/1
-                                                Eth1/6/2, Eth1/6/3, Eth1/6/4
-                                                Eth1/7/1, Eth1/7/2, Eth1/7/3
-                                                Eth1/7/4, Eth1/8/1, Eth1/8/2
-                                                Eth1/8/3, Eth1/8/4, Eth1/9/1
-                                                Eth1/9/2, Eth1/9/3, Eth1/9/4
-                                                Eth1/10/1, Eth1/10/2, Eth1/10/3
-                                                Eth1/10/4, Eth1/11/1, Eth1/11/2
-                                                Eth1/11/3, Eth1/11/4, Eth1/12/1
-                                                Eth1/12/2, Eth1/12/3, Eth1/12/4
-                                                Eth1/13/1, Eth1/13/2, Eth1/13/3
-                                                Eth1/13/4, Eth1/14/1, Eth1/14/2
-                                                Eth1/14/3, Eth1/14/4, Eth1/15/1
-                                                Eth1/15/2, Eth1/15/3, Eth1/15/4
-                                                Eth1/16/1, Eth1/16/2, Eth1/16/3
-                                                Eth1/16/4, Eth1/17/1, Eth1/17/2
-                                                Eth1/17/3, Eth1/17/4, Eth1/18/1
-                                                Eth1/18/2, Eth1/18/3, Eth1/18/4
-                                                Eth1/19/1, Eth1/19/2, Eth1/19/3
-                                                Eth1/19/4, Eth1/20/1, Eth1/20/2
-                                                Eth1/20/3, Eth1/20/4, Eth1/21/1
-                                                Eth1/21/2, Eth1/21/3, Eth1/21/4
-                                                Eth1/22/1, Eth1/22/2, Eth1/22/3
-                                                Eth1/22/4, Eth1/23/1, Eth1/23/2
-                                                Eth1/23/3, Eth1/23/4, Eth1/24/1
-                                                Eth1/24/2, Eth1/24/3, Eth1/24/4
-                                                Eth1/25/1, Eth1/25/2, Eth1/25/3
-                                                Eth1/25/4, Eth1/26/1, Eth1/26/2
-                                                Eth1/26/3, Eth1/26/4, Eth1/27/1
-                                                Eth1/27/2, Eth1/27/3, Eth1/27/4
-                                                Eth1/28/1, Eth1/28/2, Eth1/28/3
-                                                Eth1/28/4, Eth1/29/1, Eth1/29/2
+.
+.
+.
                                                 Eth1/29/3, Eth1/29/4, Eth1/30/1
                                                 Eth1/30/2, Eth1/30/3, Eth1/30/4
 30   VLAN0030                         active    Eth1/1/1, Eth1/1/2, Eth1/1/3
                                                 Eth1/1/4, Eth1/2/1, Eth1/2/2
                                                 Eth1/2/3, Eth1/2/4, Eth1/3/1
-                                                Eth1/3/2, Eth1/3/3, Eth1/3/4
-                                                Eth1/4/1, Eth1/4/2, Eth1/4/3
-                                                Eth1/4/4, Eth1/5/1, Eth1/5/2
-                                                Eth1/5/3, Eth1/5/4, Eth1/6/1
-                                                Eth1/6/2, Eth1/6/3, Eth1/6/4
-                                                Eth1/7/1, Eth1/7/2, Eth1/7/3
-                                                Eth1/7/4, Eth1/8/1, Eth1/8/2
-                                                Eth1/8/3, Eth1/8/4, Eth1/9/1
-                                                Eth1/9/2, Eth1/9/3, Eth1/9/4
-                                                Eth1/10/1, Eth1/10/2, Eth1/10/3
-                                                Eth1/10/4, Eth1/11/1, Eth1/11/2
-                                                Eth1/11/3, Eth1/11/4, Eth1/12/1
-                                                Eth1/12/2, Eth1/12/3, Eth1/12/4
-                                                Eth1/13/1, Eth1/13/2, Eth1/13/3
-                                                Eth1/13/4, Eth1/14/1, Eth1/14/2
-                                                Eth1/14/3, Eth1/14/4, Eth1/15/1
-                                                Eth1/15/2, Eth1/15/3, Eth1/15/4
-                                                Eth1/16/1, Eth1/16/2, Eth1/16/3
-                                                Eth1/16/4, Eth1/17/1, Eth1/17/2
-                                                Eth1/17/3, Eth1/17/4, Eth1/18/1
-                                                Eth1/18/2, Eth1/18/3, Eth1/18/4
-                                                Eth1/19/1, Eth1/19/2, Eth1/19/3
-                                                Eth1/19/4, Eth1/20/1, Eth1/20/2
-                                                Eth1/20/3, Eth1/20/4, Eth1/21/1
-                                                Eth1/21/2, Eth1/21/3, Eth1/21/4
-                                                Eth1/22/1, Eth1/22/2, Eth1/22/3
-                                                Eth1/22/4, Eth1/23/1, Eth1/23/2
-                                                Eth1/23/3, Eth1/23/4, Eth1/24/1
-                                                Eth1/24/2, Eth1/24/3, Eth1/24/4
-                                                Eth1/25/1, Eth1/25/2, Eth1/25/3
-                                                Eth1/25/4, Eth1/26/1, Eth1/26/2
-                                                Eth1/26/3, Eth1/26/4, Eth1/27/1
-                                                Eth1/27/2, Eth1/27/3, Eth1/27/4
-                                                Eth1/28/1, Eth1/28/2, Eth1/28/3
-                                                Eth1/28/4, Eth1/29/1, Eth1/29/2
+.
+.
+.
                                                 Eth1/29/3, Eth1/29/4, Eth1/30/1
                                                 Eth1/30/2, Eth1/30/3, Eth1/30/4
 40   VLAN0040                         active    Eth1/1/1, Eth1/1/2, Eth1/1/3
                                                 Eth1/1/4, Eth1/2/1, Eth1/2/2
                                                 Eth1/2/3, Eth1/2/4, Eth1/3/1
-                                                Eth1/3/2, Eth1/3/3, Eth1/3/4
-                                                Eth1/4/1, Eth1/4/2, Eth1/4/3
-                                                Eth1/4/4, Eth1/5/1, Eth1/5/2
-                                                Eth1/5/3, Eth1/5/4, Eth1/6/1
-                                                Eth1/6/2, Eth1/6/3, Eth1/6/4
-                                                Eth1/7/1, Eth1/7/2, Eth1/7/3
-                                                Eth1/7/4, Eth1/8/1, Eth1/8/2
-                                                Eth1/8/3, Eth1/8/4, Eth1/9/1
-                                                Eth1/9/2, Eth1/9/3, Eth1/9/4
-                                                Eth1/10/1, Eth1/10/2, Eth1/10/3
-                                                Eth1/10/4, Eth1/11/1, Eth1/11/2
-                                                Eth1/11/3, Eth1/11/4, Eth1/12/1
-                                                Eth1/12/2, Eth1/12/3, Eth1/12/4
-                                                Eth1/13/1, Eth1/13/2, Eth1/13/3
-                                                Eth1/13/4, Eth1/14/1, Eth1/14/2
-                                                Eth1/14/3, Eth1/14/4, Eth1/15/1
-                                                Eth1/15/2, Eth1/15/3, Eth1/15/4
-                                                Eth1/16/1, Eth1/16/2, Eth1/16/3
-                                                Eth1/16/4, Eth1/17/1, Eth1/17/2
-                                                Eth1/17/3, Eth1/17/4, Eth1/18/1
-                                                Eth1/18/2, Eth1/18/3, Eth1/18/4
-                                                Eth1/19/1, Eth1/19/2, Eth1/19/3
-                                                Eth1/19/4, Eth1/20/1, Eth1/20/2
-                                                Eth1/20/3, Eth1/20/4, Eth1/21/1
-                                                Eth1/21/2, Eth1/21/3, Eth1/21/4
-                                                Eth1/22/1, Eth1/22/2, Eth1/22/3
-                                                Eth1/22/4, Eth1/23/1, Eth1/23/2
-                                                Eth1/23/3, Eth1/23/4, Eth1/24/1
-                                                Eth1/24/2, Eth1/24/3, Eth1/24/4
-                                                Eth1/25/1, Eth1/25/2, Eth1/25/3
-                                                Eth1/25/4, Eth1/26/1, Eth1/26/2
-                                                Eth1/26/3, Eth1/26/4, Eth1/27/1
-                                                Eth1/27/2, Eth1/27/3, Eth1/27/4
-                                                Eth1/28/1, Eth1/28/2, Eth1/28/3
-                                                Eth1/28/4, Eth1/29/1, Eth1/29/2
+.
+.
+.
                                                 Eth1/29/3, Eth1/29/4, Eth1/30/1
                                                 Eth1/30/2, Eth1/30/3, Eth1/30/4
 
@@ -1274,7 +1167,7 @@ Po1           1
 +
 NOTE: For specific port and VLAN usage details, refer to the banner and important notes section in your RCF.
 
-. Verify that the ISL between cs1 and cs2 is functional:
+. Using the switch CLI, verify that the ISL between cs1 and cs2 is functional:
 +
 [source,cli]
 ----
@@ -1306,7 +1199,7 @@ cs1#
 ----
 ====
 
-. Verify that the cluster LIFs have reverted to their home port: 
+. Using the ONTAP CLI, verify that the cluster LIFs have reverted to their home port: 
 +
 [source,cli]
 ----
@@ -1342,9 +1235,12 @@ If any cluster LIFs have not returned to their home ports, revert them manually 
 +
 `network interface revert -vserver vserver_name -lif <lif-name>`
 
-. Verify that the cluster is healthy: 
+. Using the ONTAP CLI, verify that the cluster is healthy: 
 +
-`cluster show`
+[source,cli]
+----
+cluster show
+----
 +
 .Show example 
 [%collapsible]
@@ -1364,7 +1260,7 @@ node1-04          true    true          false
 ----
 ====
 
-. Verify the connectivity of the remote cluster interfaces: 
+. Using the ONTAP CLI, verify the connectivity of the remote cluster interfaces: 
 +
 .. You can use the `network interface check cluster-connectivity show` command to display the details of an accessibility check for cluster connectivity: 
 + 
@@ -1399,7 +1295,10 @@ node1-02
 
 .. Alternatively, you can use the `cluster ping-cluster -node <node-name>` command to check the connectivity:
 +
-`cluster ping-cluster -node <node-name>`
+[source,cli]
+----
+cluster ping-cluster -node <node-name>
+----
 +
 .Show example 
 [%collapsible]
@@ -1447,8 +1346,10 @@ RPC status:
 
 .What's next?
 
-After you've upgraded your RCF, you link:configure-ssh-keys.html[verify the SSH configuration].
+After you've upgraded the RCF on your switches, you link:configure-verify-ssh-9332d.html[verify SSH for log collection].
+
 
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-08
 // AFFFASDOC-394, 2025-OCT-20
 // AFFFASDOC-473, 2026-MAR-16
+// Refactor content project phase 1 with 2K/RCF 10.1 content, GH#423 2026-JUN

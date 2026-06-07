@@ -2,7 +2,7 @@
 permalink: switch-cisco-9332d-gx2b/replace-9332d-cluster.html
 sidebar: sidebar
 keywords: replacing, replace, defective, nexus, switch, cluster, network, nondisruptive, procedure, ndu, replace a cisco nexus 9332d-gx2b cluster switch - cisco nexus 9332d-gx2b
-summary: Replacing a defective Nexus 9332D-GX2B switch in a cluster network is a nondisruptive procedure (NDU).
+summary: "Replacing a defective Nexus 9332D-GX2B switch in a cluster network is a nondisruptive procedure."
 ---
 = Replace a Cisco Nexus 9332D-GX2B switch
 :icons: font
@@ -27,7 +27,7 @@ Before performing the switch replacement, make sure that:
  ** The node connections are ports 1/1 through 1/30.
  ** All Inter-Switch Link (ISL) ports is disabled on ports 1/31 and 1/32.
  ** The desired reference configuration file (RCF) and NX-OS operating system image switch is loaded onto the switch.
-** Initial customization of the switch is complete, as detailed in link:setup-switch-9332d-cluster.html[Configure the 9332D-GX2B cluster switch].
+** Initial customization of the switch is complete, as detailed in link:configure-complete-initial-setup-9332d.html[Complete initial switch setup].
 +
 Any previous site customizations, such as STP, SNMP, and SSH, are copied to the new switch.
 
@@ -984,3 +984,4 @@ After you've replaced your switches, you link:../switch-cshm/config-overview.htm
 
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-08
 // AFFFASDOC-476, 2026-MAR-30
+// Not part of refactor content project phase 1 with 2K/RCF 10.1 content, GH#423 2026-JUN. Ran out of time.

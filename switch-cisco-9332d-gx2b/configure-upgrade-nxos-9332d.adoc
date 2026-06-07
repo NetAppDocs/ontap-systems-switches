@@ -1,67 +1,66 @@
 ---
-permalink: switch-cisco-9332d-gx2b/install-nxos-software-9332d-cluster.html
+permalink: switch-cisco-9332d-gx2b/configure-upgrade-nxos-9332d.html
 sidebar: sidebar
 keywords: procedure, install, nx-os, software, nexus, cluster, switch, install the nx-os software - cisco nexus 9332d-gc2b
-summary: You can use this procedure to install or upgrade the NX-OS software on the Nexus 9332D-GX2B cluster switch.
+summary: You upgrade the NX-OS on your Cisco Nexus 9332D-GX2B switches to support new hardware or a new ONTAP version on your AFX 1K or AFX 2K system.
 ---
-= Install or upgrade the NX-OS software
+= Upgrade the NX-OS - Cisco Nexus 9332D-GX2B
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-Follow this procedure to install or upgrade the NX-OS software on the Nexus 9332D-GX2B switch.
+You upgrade the NX-OS on your Cisco Nexus 9332D-GX2B switches to support new hardware or a new ONTAP version on your AFX 1K or AFX 2K system.
 
-== Review requirements
 
 .Before you begin
 
-Verify the following:
+* Make sure you have a current backup of the switch configuration.
 
-* Complete the procedure in link:install-nxos-overview-9332d-cluster.html[Prepare to install NX-OS and RCF].
-* A current backup of the switch configuration.
-* A fully functioning cluster (no errors in the logs or similar issues).
+* Verify that your cluster is fully functional, meaning that there are no errors in the logs or similar issues.
 
-.Suggested documentation
 
-* link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet switch page^] 
+.About this task
+
+* If needed, you can refer to the link:https://www.cisco.com/c/en/us/td/docs/dcn/nx-os/nexus9000/101x/upgrade/cisco-nexus-9000-nx-os-software-upgrade-downgrade-guide-101x.html[Cisco Nexus 9000 Series NX-OS Software Upgrade and Downgrade Guide^] for more information.
+
+* The version of ONTAP running on your AFX system determines the supported versions of NX-OS for your switches.
+
+** For switches in an AFX 1K system, running any supported version of ONTAP, NX-OS 10.4.2 and later is supported.
+
+** For switches in an AFX 2K system, running ONTAP 9.19.1GA or later, NX-OS 10.6 and later is supported.
 +
-Consult the switch compatibility table for the supported ONTAP and NX-OS versions.
-
-* link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/products-installation-guides-list.html[Software Upgrade and downgrade guides^] 
+For the current list of supported NX-OS versions, see the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page.
 +
-Refer to the appropriate software and upgrade guides available on the Cisco website for complete documentation on the Cisco switch upgrade and downgrade procedures.
+NOTE: Do not upgrade or downgrade your NX-OS version to an unsupported version.
 
-* link:https://www.cisco.com/c/dam/en/us/td/docs/dcn/tools/nexus-9k3k-issu-matrix/index.html[Cisco Nexus 9000 and 3000 Upgrade and ISSU Matrix^]
-+
-Provides information on Disruptive Upgrade/Downgrade for Cisco NX-OS software on Nexus 9000 Series Switches 
-based on your current and target releases.
-+
-On the page, select *Disruptive Upgrade* and select your current release and target release from the dropdown list. 
+* Because this procedure requires the use of ONTAP commands and Cisco Nexus 9000 Series Switches commands, the steps indicate which CLI you are using to enter commands.
 
+* The examples in this procedure use the following switch and node nomenclature:
 
-.About the examples
-The examples in this procedure use the following switch and node nomenclature:
+** The names of the two Cisco switches are cs1 and cs2.
+** The node names are node1-01, node1-02, node1-03, and node1-04.
+** The cluster LIF names are:
+*** node1-01_clus1 and node1-01_clus2 for node1-01
+*** node1-02_clus1 and node1-02_clus2 for node1-02
+*** node1-03_clus1 and node1-03_clus2 for node1-03
+*** node1-04_clus1 and node1-04_clus2 for node1-04
+** The `cluster1::*>` prompt indicates the name of the cluster.
 
-* The names of the two Cisco switches are cs1 and cs2.
-* The node names are node1-01, node1-02, node1-03, and node1-04.
-* The cluster LIF names are node1-01_clus1, node1-01_clus2, node1-02_clus1, node1-02_clus2, node1-03_clus1, node1-03_clus2, node1-04_clus1, and node1-04_clus2.
-* The `cluster1::*>` prompt indicates the name of the cluster.
+* The examples shown in this procedure are for AFX 1K systems with switches running RCF 10.0. If you have an AFX 2K system, the input and output can vary.
+ 
 
-== Install the software
+== Step 1: Prepare to upgrade the NX-OS
 
-The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
+Prepare to upgrade the NX-OS by making sure you have a management network connection to each switch, downloading the NX-OS version, checking port status on the cluster, and disabling auto-revert on the cluster LIFs. 
 
-[IMPORTANT]
-================
-* NX-OS 10.4.2 is the only supported version for Cisco Nexus 9332D-GX2B switches in an ONTAP cluster.
-* Do not upgrade or downgrade your NX-OS version to an unsupported version; only 10.4.2 is currently supported.
-================
 
 .Steps
 
-. Connect the switch to the management network.
+. Connect each switch to the management network.
 
-. Use the ping command to verify connectivity to the server hosting the NX-OS software and the RCF.
+. Using the switch CLI, verify connectivity to the server hosting the NX-OS.
++
+`ping <IP address>`
 +
 .Show example
 [%collapsible]
@@ -71,14 +70,16 @@ This example verifies that the switch can reach the server at IP address 172.19.
 
 [subs=+quotes]
 ----
-cs2# *ping 172.19.2.1*
+cs1# *ping 172.19.2.1*
 Pinging 172.19.2.1 with 0 bytes of data:
 
 Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 ----
 ====
 
-. Display the cluster ports on each node that are connected to the cluster switches: 
+. Download the correct version of NX-OS to the switches from the https://software.cisco.com/download/home[Cisco software download^] page.
+
+. Using the ONTAP CLI, display the cluster ports on each node that are connected to the cluster switches: 
 +
 [source,cli]
 ----
@@ -127,7 +128,7 @@ node1-01/lldp
 ----
 ====
 
-. Check the administrative and operational status of each port.
+. Using the ONTAP CLI, check the administrative and operational status of each port:
 
 .. *Cluster ports*
 
@@ -255,7 +256,10 @@ cs1(FLMXXXXXXXX)             cluster-network   10.228.137.253   N9K-C9332D-GX2B
 
 ... Verify that all the HA ports are up with a healthy status: 
 +
-`ha interconnect status show -node <node-name>`
+[source,cli]
+----
+ha interconnect status show -node <node-name>
+----
 +
 .Show example 
 [%collapsible]
@@ -439,22 +443,32 @@ shelf id connector-state remote-port    remote-device
 ----
 ====
 
-. Disable auto-revert on the cluster LIFs. The cluster LIFs fail over to the partner cluster switch and remain there as you perform the upgrade procedure on the targeted switch:
+. Using the ONTAP CLI, disable auto-revert on the cluster LIFs. The cluster LIFs fail over to the partner cluster switch and remain there as you perform this procedure on the targeted switch:
 +
 [source,cli]
 ----
 network interface modify -vserver Cluster -lif * -auto-revert false
 ----
 
-. Copy the NX-OS software and EPLD images to the Nexus 9332D-GX2B switch.
+== Step 2: Install the NX-OS
+
+You install the NX-OS on the first switch (cs1) by installing and verifying the new versions of the NX-OS and EPLD, verifying the health of all ports on the cluster, and then repeating these steps on the second switch (cs2).
+
+. Using the switch CLI, copy NX-OS and EPLD images to a switch.
++
+You use this command two times: the first time is to copy the NX-OS version and the second time is to copy the EPLD version.
++
+`copy <protocol>: bootflash: vrf management`
 +
 .Show example
 [%collapsible]
 ====
 
+The example uses sftp.
+
 [subs=+quotes]
 ----
-cs2# *copy sftp: bootflash: vrf management*
+cs1# *copy sftp: bootflash: vrf management*
 Enter source filename: */code/nxos.10.4.2.bin*
 Enter hostname for the sftp server: *172.19.2.1*
 Enter username: *root*
@@ -470,7 +484,7 @@ sftp> exit
 Copy complete, now saving to disk (please wait)...
 Copy complete.
 
-cs2# *copy sftp: bootflash: vrf management*
+cs1# *copy sftp: bootflash: vrf management*
 Enter source filename: */code/n9000-epld.10.4.2.F.img*
 Enter hostname for the sftp server: *172.19.2.1*
 Enter username: *user1*
@@ -488,7 +502,7 @@ Copy complete.
 ----
 ====
 
-. Verify the running version of the NX-OS software:
+. Using the switch CLI, verify the running version of NX-OS:
 +
 `show version`
 +
@@ -498,7 +512,7 @@ Copy complete.
 
 [subs=+quotes]
 ----
-cs2# *show version*
+cs1# *show version*
 Cisco Nexus Operating System (NX-OS) Software
 TAC support: http://www.cisco.com/tac
 Copyright (C) 2002-2025, Cisco and/or its affiliates.
@@ -553,21 +567,26 @@ plugin
 
 Active Package(s):
 
-cs2#
+cs1#
 ----
 ====
 
-. Install the NX-OS image.
+. Using the switch CLI, install the NX-OS image.
 +
 Installing the image file causes it to be loaded every time the switch is rebooted.
 +
+`install all nxos bootflash:nxos.<version number>.bin`
++
+
 .Show example
 [%collapsible]
 ====
 
+The example uses NX-OS version 10.4.2.
+
 [subs=+quotes]
 ----
-cs2# *install all nxos bootflash:nxos.10.4.2.bin*
+cs1# *install all nxos bootflash:nxos.10.4.2.bin*
 
 Installer will perform compatibility check first. Please wait.
 Installer is forced disruptive
@@ -629,7 +648,7 @@ Finishing the upgrade, switch will reboot in 10 seconds.
 ----
 ====
 
-. Verify the new version of NX-OS software after the switch has rebooted: 
+. Using the switch CLI, verify the new version of NX-OS after the switch has rebooted: 
 +
 `show version`
 +
@@ -639,7 +658,7 @@ Finishing the upgrade, switch will reboot in 10 seconds.
 
 [subs=+quotes]
 ----
-cs2# *show version*
+cs1# *show version*
 Cisco Nexus Operating System (NX-OS) Software
 TAC support: http://www.cisco.com/tac
 Copyright (C) 2002-2025, Cisco and/or its affiliates.
@@ -694,20 +713,27 @@ plugin
 
 Active Package(s):
 
-cs2#
+cs1#
 ----
 ====
 
-. Upgrade the EPLD image and reboot the switch.
-
+. Using the switch CLI, upgrade the EPLD image using the following commands:
++
+`show version module 1 epld`
++
+`install epld bootflash:n9000-epld.<version>.img module all`
++
+After the last command is executed, the switch reboots.
 +
 .Show example
 [%collapsible]
 ====
 
+The example uses EPLD version 10.4.2.F
+
 [subs=+quotes]
 ----
-cs2# *show version module 1 epld*
+cs1# *show version module 1 epld*
 
 EPLD Device                     Version
 ---------------------------------------
@@ -719,7 +745,7 @@ GEM  FPGA                        0x2
 GEM  FPGA                        0x2
 GEM  FPGA                        0x2
 
-cs2# *install epld bootflash:n9000-epld.10.4.2.F.img module all*
+cs1# *install epld bootflash:n9000-epld.10.4.2.F.img module all*
 Compatibility check:
 Module        Type         Upgradable        Impact    Reason
 ------  ------------------ ----------------- --------- -----------
@@ -752,16 +778,17 @@ Module 1 EPLD upgrade is successful.
 ----
 ====
 
-. After the switch reboot, log in again and verify that the new version of EPLD loaded successfully.
+. After the switch reboot, use the switch CLI to log in and verify that the new version of EPLD loaded successfully.
 +
-
+`show version module 1 epld`
++
 .Show example
 [%collapsible]
 ====
 
 [subs=+quotes]
 ----
-cs2# *show version module 1 epld*
+cs1# *show version module 1 epld*
 
 EPLD Device                     Version
 ---------------------------------------
@@ -775,7 +802,7 @@ GEM  FPGA                        0x2
 ----
 ====
 
-. Verify the health of all the ports on the cluster.
+. Using the ONTAP CLI, verify the health of all the ports on the cluster.
 
 .. *Cluster ports*
 
@@ -880,7 +907,7 @@ node1-01/cdp
 cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true*
 Switch                      Type               Address          Model
 --------------------------- ------------------ ---------------- ---------------
-cs2(FDOXXXXXXXX)            cluster-network    10.228.137.233   N9K-C9332D-GX2B
+cs1(FDOXXXXXXXX)            cluster-network    10.228.137.233   N9K-C9332D-GX2B
      Serial Number: FDOXXXXXXXX
       Is Monitored: true
             Reason: None
@@ -903,7 +930,10 @@ cs1(FLMXXXXXXXX)             cluster-network   10.228.137.253   N9K-C9332D-GX2B
 
 ... Verify that all the HA ports are up with a healthy status: 
 +
-`ha interconnect status show -node <node-name>`
+[source,cli]
+----
+ha interconnect status show -node <node-name>
+----  
 +
 .Show example 
 [%collapsible]
@@ -1087,9 +1117,12 @@ shelf id connector-state remote-port    remote-device
 ----
 ====
 
-. Verify that the cluster is healthy: 
+. Using the ONTAP CLI, verify that the cluster is healthy: 
 +
-`cluster show`
+[source,cli]
+----
+cluster show
+----
 +
 .Show example 
 [%collapsible]
@@ -1111,9 +1144,14 @@ node1-04             true    true          true
 ----
 ====
 
-. Repeat steps 6 to 13 to install the NX-OS software and EPLD images on switch cs1.
+. Repeat these steps to install NX-OS and EPLD images on switch cs2.
 
-. Enable auto-revert on the cluster LIFs.
+
+== Step 3: Complete the NX-OS upgrade
+
+Using the ONTAP CLI, complete the NX-OS upgrade by re-enabling auto-revert on the cluster LIFs and verifying the cluster LIFs reverted to their home ports. 
+
+. Re-enable auto-revert on the cluster LIFs.
 +
 `network interface modify -vserver Cluster -lif * -auto-revert true`
 
@@ -1149,11 +1187,17 @@ Cluster
 +
 If any cluster LIFs have not returned to their home ports, revert them manually from the local node: 
 +
-`network interface revert -vserver Cluster -lif <lif-name>`
+[source,cli]
+----
+network interface revert -vserver Cluster -lif <lif-name>
+----
+
+
 
 .What's next?
 
-After you've installed or upgraded the NX-OS software, you link:install-upgrade-rcf-overview-cluster.html[install or upgrade the Reference Configuration File (RCF)].
+After you've upgraded the NX-OS on your switches, you upgrade the RCF starting with the link:configure-install-upgrade-rcf-overview-9332d.html[Install or upgrade the RCF overview].
 
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-06
 // AFFFASDOC-394, 2025-OCT-20
+// Refactor content project phase 1 with 2K/RCF 10.1 content, GH#423 2026-JUN

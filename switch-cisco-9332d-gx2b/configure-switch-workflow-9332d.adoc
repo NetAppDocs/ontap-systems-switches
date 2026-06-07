@@ -1,0 +1,54 @@
+---
+permalink: switch-cisco-9332d-gx2b/configure-switch-workflow-9332d.html
+sidebar: sidebar
+keywords: switches, initial installation, configure switch-cisco-9332d-gx2b switch
+summary: You configure Cisco 9332D-GX2B switches as part of a new AFX 1K or AFX 2K system installation, a switch replacement, or a switch reset to factory default settings.
+---
+= Configure switch workflow - Cisco Nexus 9332D-GX2B
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+You configure Cisco 9332D-GX2B switches as part of a new AFX 1K or AFX 2K system installation, a switch replacement, or a switch reset to factory default settings. 
+
+You might be directed to this workflow or to individual topics in this workflow as needed by your specific procedure for link:install-configure-switches-in-afx-workflow-9332d.html[Install and set up a new AFX 1K or AFX 2K system], link:replace-9332d-cluster.html[Replace a switch], or link:maintain-reset-switch-9332d.html[Reset a switch to factory default settings].
+
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png[One]link:configure-complete-initial-setup-9332d.html[Complete the initial switch setup]
+[role="quick-margin-para"]
+After you power on the switches, they begin to boot and enter the configuration wizard. You are prompted to provide answers to a series of questions to perform the initial (startup) configuration of the switches.
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png[Two]link:configure-review-cabling-config-requirements-9332d.html[Review cabling and configuration requirements]
+[role="quick-margin-para"]
+Review cabling and configuration requirements.
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png[Three]link:configure-install-nxos-9332d.html[Install NX-OS]
+[role="quick-margin-para"]
+Install the current version of NX-OS on the switches that supports your AFX 1K or AFX 2K system.
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png[Four]link:configure-install-upgrade-rcf-overview-9332d.html[Install RCF]
+[role="quick-margin-para"]
+Install the current version of RCF on the switches that supports your AFX 1K or AFX 2K system. The link brings you to the RCF install or upgrade overview topic, which has information you need to know before you install the RCF.
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-5.png[Five]link:configure-verify-ssh-9332d.html[Verify SSH for log collection]
+[role="quick-margin-para"]
+Verify SSH is enabled so that you can use the Ethernet switch health monitor (CSHM) log collection feature.
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-6.png[Six]link:../switch-cshm/cshm-overview.html[Configure Ethernet switch health monitoring]
+[role="quick-margin-para"]
+Configure the Ethernet switch health monitoring (CSHM) to ensure the operational health of your switches and for the collection of switch logs for debugging and troubleshooting.
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-7.png[Seven]link:configure-smart-call-9332d.html[Configure Smart Call Home (optional)]
+[role="quick-margin-para"]
+ONTAP supports Ethernet switch health monitoring (CSHM) to monitor the AFX cluster switches, as well as the ability to collect switch diagnostic logs. Cisco's Smart Call Home is an option to provide proactive support and help you resolve any issues that might arise with the switches.
+
+
+.What's next?
+
+* If you configured your switch as part of a new AFX 1K or AFX 2K system installation, you must link:install-complete-afx-setup-9332d.html[Complete the AFX system setup].
+
+* If you configured your switch as part of a switch replacement or you reset the switch to factory default settings, your switch should be operating normally.
+
+
+// AFFFASDOC-473, 2026-MAR-16
+// Refactor content project phase 1 with 2K/RCF 10.1 content, GH#423 2026-JUN
