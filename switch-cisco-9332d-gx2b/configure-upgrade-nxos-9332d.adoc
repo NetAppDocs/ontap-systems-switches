@@ -716,12 +716,19 @@ cs1#
 ----
 ====
 
-. Using the switch CLI, upgrade the EPLD image and reboot the switch.
-
+. Using the switch CLI, upgrade the EPLD image using the following commands:
++
+`show version module 1 epld`
++
+`install epld bootflash:n9000-epld.<version>.img module all`
++
+After the last command is executed, the switch reboots.
 +
 .Show example
 [%collapsible]
 ====
+
+The example uses EPLD version 10.4.2.F
 
 [subs=+quotes]
 ----
@@ -772,7 +779,8 @@ Module 1 EPLD upgrade is successful.
 
 . After the switch reboot, use the switch CLI to log in and verify that the new version of EPLD loaded successfully.
 +
-
+`show version module 1 epld`
++
 .Show example
 [%collapsible]
 ====
@@ -921,7 +929,10 @@ cs1(FLMXXXXXXXX)             cluster-network   10.228.137.253   N9K-C9332D-GX2B
 
 ... Verify that all the HA ports are up with a healthy status: 
 +
-`ha interconnect status show -node <node-name>`
+[source,cli]
+----
+ha interconnect status show -node <node-name>
+----  
 +
 .Show example 
 [%collapsible]
@@ -1107,7 +1118,10 @@ shelf id connector-state remote-port    remote-device
 
 . Using the ONTAP CLI, verify that the cluster is healthy: 
 +
-`cluster show`
+[source,cli]
+----
+cluster show
+----
 +
 .Show example 
 [%collapsible]
@@ -1172,7 +1186,11 @@ Cluster
 +
 If any cluster LIFs have not returned to their home ports, revert them manually from the local node: 
 +
-`network interface revert -vserver Cluster -lif <lif-name>`
+[source,cli]
+----
+network interface revert -vserver Cluster -lif <lif-name>
+----
+
 
 
 .What's next?
