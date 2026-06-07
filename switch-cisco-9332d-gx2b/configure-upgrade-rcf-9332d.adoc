@@ -54,6 +54,8 @@ If you need to change the boot configuration to reflect the current boot images,
 
 == Step 1: Prepare for the upgrade
 
+You enter the commands for the following steps from the ONTAP CLI.
+
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: 
 +
 `system node autosupport invoke -node * -type all -message MAINT=xh`
@@ -428,7 +430,7 @@ shelf id connector-state remote-port    remote-device
 
 == Step 2: Configure ports
 
-. On switch cs1, shut down the ports connected to all the ports of the nodes.
+. Using the switch CLI, on switch cs1, shut down the ports connected to all the ports of the nodes.
 +
 
 [subs=+quotes]
@@ -449,7 +451,7 @@ cs1(config)# *exit*
 CAUTION: Make sure to shutdown *all* connected ports to avoid any network connection issues.
 Refer to the Knowledge Base article https://kb.netapp.com/on-prem/ontap/OHW/OHW-KBs/Node_out_of_quorum_when_migrating_cluster_lif_during_switch_OS_upgrade[Node out of quorum when migrating cluster LIF during switch OS upgrade^] for further details. 
 
-. Verify that the cluster LIFs have failed over to the ports hosted on switch cs1. This might take a few seconds.
+. Using the ONTAP CLI, verify that the cluster LIFs have failed over to the ports hosted on switch cs1. This might take a few seconds.
 +
 `network interface show -role cluster`
 +
@@ -478,7 +480,7 @@ Cluster
 ----
 ====
 +
-. Verify that the cluster is healthy: 
+. Using the ONTAP CLI, verify that the cluster is healthy: 
 +
 `cluster show`
 +
@@ -500,7 +502,7 @@ node1-04          true    true          false
 ----
 ====
 +
-. If you have not already done so, save a copy of the current switch configuration by copying the output of the following command to a text file:
+. If you have not already done so, using the switch CLI, save a copy of the current switch configuration by copying the output of the following command to a text file:
 +
 `show running-config`
 +
@@ -534,11 +536,11 @@ Make sure to configure the following:
 + 
 Refer to the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further details.
 
-. Verify that the `write_erase.cfg` file is populated as expected:
+. Using the switch CLI, verify that the `write_erase.cfg` file is populated as expected:
 +
 `*show file bootflash:write_erase.cfg*`
 
-. Issue the `write erase` command to erase the current saved configuration:
+. Using the switch CLI, issue the `write erase` command to erase the current saved configuration:
 +
 `cs1# *write erase*`
 +
@@ -546,11 +548,11 @@ Refer to the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/
 +
 `Do you wish to proceed anyway? (y/n)  [n] *y*`
 
-. Copy the previously saved basic configuration into the startup configuration.
+. Using the switch CLI, copy the previously saved basic configuration into the startup configuration.
 +
 `cs1# *copy bootflash:write_erase.cfg startup-config*`
 
-. Reboot the switch:
+. Using the switch CLI, reboot the switch:
 +
 `cs1# *reload*`
 +
@@ -560,7 +562,7 @@ Refer to the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/
 +
 You may need to update host file entries related to the SSH keys.
 
-. Copy the RCF to the bootflash of switch cs1 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. 
+. Using the switch CLI, copy the RCF to the bootflash of switch cs1 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. 
 +
 For more information on Cisco commands, refer to the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
 +
@@ -580,7 +582,7 @@ Copy complete, now saving to disk (please wait)...
 ----
 ====
 
-. Apply the RCF previously downloaded to the bootflash.
+. Using the switch CLI, apply the RCF previously downloaded to the bootflash.
 +
 For more information on Cisco commands, refer to the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
 
@@ -599,7 +601,7 @@ cs1# *copy NX9332D-GX2B-RCF-v10.0-Shared.txt running-config echo-commands*
 Make sure to thoroughly read the *Installation notes*, *Important Notes*, and *banner* sections of your RCF. You must read and follow these instructions to ensure the proper configuration and operation of the switch.
 =======
 
-. Verify that the RCF file is the correct newer version: 
+. Using the switch CLI, verify that the RCF file is the correct newer version: 
 +
 `show running-config`
 +
@@ -615,7 +617,7 @@ The output varies according to your site configuration. Check the port settings 
 +
 If your switches are running RCF 10.1 or later, you can link:configure-install-upgrade-rcf-overview-9332d.html#change-port-speed-configuration[change the port speed configuration] if needed.
 
-. After you verify the RCF versions, custom additions, and switch settings are correct, copy the `running-config` file to the `startup-config` file.
+. Using the switch CLI, after you verify the RCF versions, custom additions, and switch settings are correct, copy the `running-config` file to the `startup-config` file.
 +
 For more information on Cisco commands, refer to the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
 +
@@ -624,7 +626,7 @@ For more information on Cisco commands, refer to the appropriate guide in the ht
 +
 `[########################################] 100% Copy complete` 
 
-. Reboot switch cs1. You can ignore the "`cluster switch health monitor`" alerts and "`cluster ports down`" events reported on the nodes while the switch reboots.
+. Using the switch CLI, reboot switch cs1. You can ignore the "`cluster switch health monitor`" alerts and "`cluster ports down`" events reported on the nodes while the switch reboots.
 +
 
 `cs1# *reload*` 
@@ -632,7 +634,7 @@ For more information on Cisco commands, refer to the appropriate guide in the ht
 `This command will reboot the system. (y/n)?  [n] *y*` 
 
 +
-. Verify the health of all the ports on the cluster.
+. Using the ONTAP CLI, verify the health of all the ports on the cluster.
 
 .. *Cluster ports*
 ... Verify that cluster ports are up and healthy across all nodes in the cluster: 
@@ -934,7 +936,7 @@ shelf id connector-state remote-port    remote-device
 ----
 ====
 
-. Verify that the cluster is healthy: 
+. Using the ONTAP CLI, verify that the cluster is healthy: 
 +
 `cluster show`
 +
@@ -958,13 +960,13 @@ node1-04          true     true          false
 
 . Repeat steps 4 to 18 on switch cs2.
 
-. Enable auto-revert on the cluster LIFs.
+. Using the ONTAP CLI, enable auto-revert on the cluster LIFs.
 +
 `network interface modify -vserver Cluster -lif * -auto-revert true` 
 
 == Step 3: Verify the cluster network configuration and cluster health
 
-. Verify that the switch ports connected to the cluster ports are *up*.
+. Using the switch CLI, verify that the switch ports connected to the cluster ports are *up*.
 +
 [source,cli]
 ----
@@ -1000,7 +1002,7 @@ Eth1/17/4       1       eth  trunk  up      none                     100G(D) --
 ----
 ====
 
-. Verify that the expected nodes are still connected:
+. Using the switch CLI, verify that the expected nodes are still connected:
 +
 [source,cli]
 ----
@@ -1043,7 +1045,7 @@ Total entries displayed: 18
 ----
 ====
 
-. Verify that the cluster nodes are in their correct cluster VLANs using the following commands:
+. Using the switch CLI, verify that the cluster nodes are in their correct cluster VLANs using the following commands:
 +
 [source,cli]
 ----
@@ -1136,7 +1138,7 @@ Po1           1
 +
 NOTE: For specific port and VLAN usage details, refer to the banner and important notes section in your RCF.
 
-. Verify that the ISL between cs1 and cs2 is functional:
+. Using the switch CLI, verify that the ISL between cs1 and cs2 is functional:
 +
 [source,cli]
 ----
@@ -1168,7 +1170,7 @@ cs1#
 ----
 ====
 
-. Verify that the cluster LIFs have reverted to their home port: 
+. Using the ONTAP CLI, verify that the cluster LIFs have reverted to their home port: 
 +
 [source,cli]
 ----
@@ -1204,7 +1206,7 @@ If any cluster LIFs have not returned to their home ports, revert them manually 
 +
 `network interface revert -vserver vserver_name -lif <lif-name>`
 
-. Verify that the cluster is healthy: 
+. Using the ONTAP CLI, verify that the cluster is healthy: 
 +
 `cluster show`
 +
@@ -1226,7 +1228,7 @@ node1-04          true    true          false
 ----
 ====
 
-. Verify the connectivity of the remote cluster interfaces: 
+. Using the ONTAP CLI, verify the connectivity of the remote cluster interfaces: 
 +
 .. You can use the `network interface check cluster-connectivity show` command to display the details of an accessibility check for cluster connectivity: 
 + 
