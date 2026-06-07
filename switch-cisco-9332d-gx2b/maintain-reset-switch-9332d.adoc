@@ -2,7 +2,7 @@
 sidebar: sidebar
 permalink: switch-cisco-9332d-gx2b/maintain-reset-switch-9332d.html
 keywords: reset switch factory defaults
-summary: When a Cisco Nexus 9332D-GX2B switch fails and cannot be recovered, you reset the switch to its original factory default settings so that you can reconfigure it manually.
+summary: You can reset a Cisco Nexus 9332D-GX2B switch to its original factory default settings when the switch is being decommissioned or when the switch fails and cannot be recovered, requiring you to reconfigure it manually.
 ---
 = Reset a switch to factory default settings - Cisco Nexus 9332D-GX2B
 :hardbreaks:
@@ -12,9 +12,8 @@ summary: When a Cisco Nexus 9332D-GX2B switch fails and cannot be recovered, you
 :imagesdir: ../media/
 
 [.lead]
-When a Cisco Nexus 9332D-GX2B switch fails and cannot be recovered, you reset the switch to its original factory default settings so that you can reconfigure it manually. 
+You can reset a Cisco Nexus 9332D-GX2B switch to its original factory default settings when the switch is being decommissioned or when the switch fails and cannot be recovered, requiring you to reconfigure it manually.
 
-You reset the switch to factory default settings by erasing the switch settings (startup configuration) and rebooting the switch, which brings up the configuration wizard so you can complete the initial switch setup, and then you complete the switch configuration.
 
 .Before you begin
 You must be connected to the switch using the serial console.
@@ -51,18 +50,13 @@ This command will reboot the system. (y/n)? [n] *y*
 ----
 
 +
-The system reboots and enters the configuration wizard. If needed, you can reference the configuration wizard questions and recommended responses in the link:configure-complete-initial-setup-9332d.html[Complete initial switch setup] procedure.
+The system reboots and enters the configuration wizard. 
 +
 NOTE: During the reboot, if you receive the prompt “Abort Auto Provisioning and continue with normal setup? (yes/no)[n]”, respond *yes* to proceed.
 +
-. After you complete the initial switch setup, use the link:configure-switch-workflow-9332d.html[configure switch workflow] to complete the switch configuration.
+. If the switch is being decommissioned, you are done with this procedure; otherwise, you need to configure the switch using the link:configure-switch-workflow-9332d.html[Configure switch workflow].
 
 
-.What's next?
-
-* After you complete this procedure, your switch is returned to normal operation.
-
-* If you had Smart Call Home configured on the switch before you reset it, you need to link:configure-smart-call-9332d.html[configure Smart Call Home] again. 
 
 // New content for OAM project, AFFFASDOC-331, 2025-AUG-18
 // Refactor content project phase 1 with 2K/RCF 10.1 content, GH#423 2026-JUN
