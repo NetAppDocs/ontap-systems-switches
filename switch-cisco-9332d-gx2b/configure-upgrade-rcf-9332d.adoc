@@ -11,6 +11,8 @@ summary: You upgrade the Reference Configuration File (RCF) version on your Cisc
 [.lead]
 You upgrade the Reference Configuration File (RCF) version on your Cisco Nexus 9332D-GX2B switches to support new hardware, a new ONTAP version, or to align with a new NX-OS version in your AFX 1K or AFX 2K system configuration.
 
+NOTE: Do not upgrade or downgrade your RCF version to an unsupported version.
+
 .Before you begin
 
 * You must have read the     link:configure-install-upgrade-rcf-overview-9332d.html[Install or upgrade RCF overview] page.
@@ -34,6 +36,19 @@ If you need to change the boot configuration to reflect the current boot images,
 ** No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To ensure non-disruptive cluster operations, this procedure has you migrate all of the cluster LIFs to the operational partner switch while performing the steps on the target switch.
 
 ** This procedure has you upgrade the RCF on the first switch (cs1) and then has you repeat the steps for the second switch (cs2).
+
+* Because this procedure requires the use of ONTAP commands and Cisco Nexus 9000 Series Switches commands, the steps indicate which CLI you are using to enter commands.
+
+* The examples in this procedure use the following switch and node nomenclature:
+
+** The names of the two Cisco switches are cs1 and cs2.
+** The node names are node1-01, node1-02, node1-03, and node1-04.
+** The cluster LIF names are:
+*** node1-01_clus1 and node1-01_clus2 for node1-01
+*** node1-02_clus1 and node1-02_clus2 for node1-02
+*** node1-03_clus1 and node1-03_clus2 for node1-03
+*** node1-04_clus1 and node1-04_clus2 for node1-04
+** The `cluster1::*>` prompt indicates the name of the cluster.
 
 * The examples shown in this procedure are for AFX 1K systems with switches running RCF 10.0. If you have an AFX 2K system, the input and output can vary.
 
