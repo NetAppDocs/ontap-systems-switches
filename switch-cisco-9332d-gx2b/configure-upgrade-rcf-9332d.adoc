@@ -58,19 +58,28 @@ You enter the commands for the following steps from the ONTAP CLI.
 
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: 
 +
-`system node autosupport invoke -node * -type all -message MAINT=xh`
+[source,cli]
+----
+system node autosupport invoke -node * -type all -message MAINT=xh
+----
 +
 where _x_ is the duration of the maintenance window in hours.
 
 . Change the privilege level to advanced, entering *y* when prompted to continue: 
 +
-`set -privilege advanced`
+[source,cli]
+----
+set -privilege advanced
+----
 +
 The advanced prompt (*>) appears.
 
 . Display the ports on each node that are connected to the switches: 
 +
-`network device-discovery show`
+[source,cli]
+----
+network device-discovery show
+----
 +
 .Show example 
 [%collapsible]
