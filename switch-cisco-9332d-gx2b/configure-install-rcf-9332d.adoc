@@ -22,7 +22,6 @@ You install the RCF on new Cisco Nexus 9332D-GX2B switch(es) as part of a new AF
 * If you are installing the RCF on a switch as part of a switch replacement or a switch reset to factory default settings, verify that your cluster is fully functional, meaning that there are no errors in the logs or similar issues.
 +
 If you are installing the RCF as part of a new AFX system installation, you can skip this requirement because the controllers in your AFX system are not powered on at this point in your AFX system installation and setup.
-//If you are installing the RCF as part of a new AFX system installation, you can skip this requirement because your AFX system is not yet up and running.
 
 
 .About this task
@@ -31,10 +30,6 @@ If you are installing the RCF as part of a new AFX system installation, you can 
 
 * The examples shown in this procedure are for AFX 1K systems with switches running RCF 10.0. If you have an AFX 2K system, the input and output can vary.
 
-//* Hey: this step only belongs in install RCF...and Upgrade? Seems to be covered in steps 1 and 2. 
-//Download the RCF supported for your type of AFX system from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com^]. 
-//+
-//NOTE: New switches do not ship with the RCF installed. You must install the RCF on the switches.
 
 == Step 1: Prepare to install the RCF
 
@@ -47,48 +42,16 @@ Prepare to install the RCF on the switch(es) by making sure you have the necessa
 . Download the RCF supported for your type of AFX system from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com^]. 
 +
 NOTE: New switches do not ship with the RCF installed. You must install the RCF on the switches.
-+
-// Above 2 steps (HTTP and dnld) were in this order in original/pre-refactored topic Configure the 9332 switch (config wizard topic) and so applicable to new installs...I think.
-+
+
 . Each switch must be connected to a console or you must have remote access to each switch.
-+
-//. Connect the switch to the management network (for the file transfer).
-//+
-//Above is for install NXOS. But doesn't exist in today's install RCF.
-//+
-//The following ping step is for install NXOS. But doesn't exist in today's install RCF.
-//. Verify connectivity to the server hosting the RCF using the ping command.
-//+
-//.Show example
-//[%collapsible]
-//====
-//+
-//This example verifies that the switch can reach the server at IP address 172.19.2.1:
-//+
-//[subs=+quotes]
-//----
-//cs1# *ping 172.19.2.1*
-//Pinging 172.19.2.1 with 0 bytes of data:
-//+
-//Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
-//----
-//====
-//+
 
 . You must be connected to the switches using the serial console or have preserved basic configuration information. This is because the RCF upgrade procedure requires you to erase the switch settings and perform basic configuration.
 +
 Hey, this step 4 is from Upgrade RCF, but does it apply here too because the `write erase` command is also used to Install RCF (step 9)? It's similar to step 3 above.
 
-+
-//Hey, the following two steps below are from the current live topic: Install or upgrade NX-OS. Do these apply to installing and/or upgrading NX-OS?
-
-
-
 
 == Step 2: Install the RCF
 You install the RCF on the first switch (cs1) by copying and applying the RCF to the bootflash, examining the banner output, verifying the RCF version is correct, recording any custom additions, saving basic configuration details, verifying that the write_erase.cfg file is populated, erasing the current saved configuration, copying the previously saved basic configuration into the startup configuration, and then rebooting the switch. You repeat these steps on the second switch (cs2) if you are installing the RCF as part of a new AFX system installation.
-
-// You install the RCF on the first switches (cs1) and then you repeat these steps to install the RCF on the second switch (cs2).
 
 . Login to switch cs1 using SSH or by using a serial console.
 
@@ -230,26 +193,6 @@ Refer to the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/
 
 . Repeat these steps on switch cs2.
 
-//. Connect the ports of all nodes in the ONTAP cluster to switches cs1 and cs2.
-//+ 
-//The switches were already cabled as part of the install switches/hw topic that points to the AFX docs. Is it an issue for NX-OS and RCF if the switches were already cabled and powered on (in that order)????
-//+
-//This step only applies to installing switches as part of a new AFX system installation and setup and replacing a failed switch. It does not apply to resetting a switch since it's still cabled.
-
-
-//I moved this section to a new topic in the sidebar under install and setup switches in a new AFX system. Because it  doesn't make sense here; the switch(es) were already cabled and powered as part of the AFX system hw install.
-//== Step 2: Cable the switch(es) and verify the connections
-//The following steps only apply if you installed switches as part of a new system installation and setup or replaced a failed switch. If you reset a switch to factory defaults, the switch is still cabled and powered on, so you can skip these steps.
-
-//. Connect the ports of all nodes in the ONTAP cluster to switches cs1 and cs2.
-
-//== Step 3: Set up your ONTAP cluster
-
-//NetApp recommends that you use System Manager to set up new clusters. 
-
-//System Manager provides a simple and easy workflow for cluster set up and configuration including assigning a node management IP address, initializing the cluster, creating a local tier, configuring protocols and provisioning initial storage.
-
-//Go to https://docs.netapp.com/us-en/ontap/task_configure_ontap.html[Configure ONTAP on a new cluster with System Manager] for setup instructions.
 
 .What's next?
 

@@ -22,7 +22,6 @@ You install the NX-OS on your Cisco Nexus 9332D-GX2B switch(es) as part of a new
 +
 ** If your switch(es) do not have the current NetApp-supported version, continue with this procedure to install the NX-OS.
 
-// Below content: Replace switch topic covers this. But reset does not. Keep in for now.
 * If you are installing the NX-OS on a switch as part of a switch replacement or a switch reset to factory default settings, verify that your cluster is fully functional, meaning that there are no errors in the logs or similar issues.
 
 * If you are installing the NX-OS as part of a new AFX system installation, you can skip this requirement because the controllers in your AFX system are not powered on at this point in your AFX system installation and setup.
@@ -51,16 +50,12 @@ For the current list of supported NX-OS versions, see the link:https://mysupport
 
 Prepare to install the NX-OS on the switch(es) by making sure you have access to a server with the supported NX-OS version, downloading the NX-OS, connecting to the management network for the file transfer, and then verifying connectivity to the server.
 
-// Prepare to install the NX-OS on the switch(es) by making sure you have the necessary connections to download the NX-OS, and then download the NX-OS.
-
 .Steps
 
 . You must have access to an HTTP, FTP, or TFTP server. Access to one of these servers allows you to download a supported version of the NX-OS. 
 
 . Download the correct version of NX-OS to the switch(es) from the https://software.cisco.com/download/home[Cisco software download^] page.
-+
-//Above 2 steps (HTTP and dnld) were in this order in original/pre-refactored topic Configure the 9332 switch (config wizard topic) and so applicable to new installs...I think.
-+
+
 . Connect the switch to the management network (for the file transfer).
 
 . Verify connectivity to the server hosting the NX-OS using the ping command.
@@ -440,7 +435,6 @@ GEM  FPGA                        0x2
 
 
 . If you are installing the NX-OS as part of a new AFX system installation, repeat these steps to install the NX-OS and EPLD images on switch cs2.
-//An EPLD (Electronic Programmable Logic Device) on a Cisco Nexus 9000 switch is a type of firmware (often FPGA or CPLD) that controls hardware functionality, such as power management and interface mapping, on modules or the supervisor. It enables upgrading hardware features via software without physical hardware replacement. Upgrading the EPLD can provide bug fixes, performance improvements, and new features to the switch's hardware components.
 
 
 .What's next?

@@ -13,17 +13,6 @@ After you power on Cisco Nexus 9332D-GX2B switch(es) as part of a new AFX 1K or 
 
 .Before you begin
 Make sure you have the network and configuration information for each switch and the applicable licenses.
-//* Make sure you have the following network and configuration information for each switch to complete the initial switch setup:
-
-//** The switch name.
-//** The IP address for Out-of-band (mgmt0) management configuration.
-//** The default gateway to enable remote management from a different network/VLAN than the management interface (mgmt0).
-//for the switch management interface (mgmt0). 
-
-//** The number of key bits from 1014 to 2048 for SSH key generation.
-
-//* Make sure you have the applicable licenses.
-
 
 .About this task
 * You must complete the initial setup on each switch.
@@ -34,7 +23,6 @@ Make sure you have the network and configuration information for each switch and
 //To configure basic management of the Cisco NX-OS device using the setup utility. Setting up the Cisco switch.
 
 .Steps
-
 
 . Connect your laptop to the switches' serial console port.
 .. Set the serial console port on the laptop to 9,600 baud with N-8-1.
@@ -140,15 +128,11 @@ NOTE: If you do not save the configuration at this stage, none of the changes wi
 
 . Verify the configuration choices you made in the display that appears at the end of the setup, and make sure that you save the configuration.
 
-//. Check the version of software on the switch(es), and if necessary, download the 
-//NetApp-supported version of the software to the switches from the https://software.cisco.com/download/home[Cisco software download^] page.
 
 .What's next?
 
-After you've completed the initial switch setup, you link:configure-install-nxos-9332d.html[install the NX-OS].
+After you've completed the initial switch setup, you link:configure-review-cabling-config-requirements-9332d.html[review the cabling and configuration requirements].
 
-Or you link:configure-review-cabling-config-requirements-9332d.html[review the cabling and configuration requirements].
-// If we keep the above topic in tact, then that's where users go next. If we deivide up the topic, then they go to install nxos.
 
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-08
 // Refactor content project phase 1 with 2K/RCF 10.1 content, GH#423 2026-JUN
