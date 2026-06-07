@@ -426,7 +426,11 @@ shelf id connector-state remote-port    remote-device
 
 . Disable auto-revert on the cluster LIFs. The cluster LIFs fail over to the partner cluster switch and remain there as you perform this procedure on the targeted switch:
 +
-`network interface modify -vserver Cluster -lif * -auto-revert false` 
+[source,cli]
+----
+network interface modify -vserver Cluster -lif * -auto-revert false
+----
++ 
 
 == Step 2: Configure ports
 
@@ -453,7 +457,10 @@ Refer to the Knowledge Base article https://kb.netapp.com/on-prem/ontap/OHW/OHW-
 
 . Using the ONTAP CLI, verify that the cluster LIFs have failed over to the ports hosted on switch cs1. This might take a few seconds.
 +
-`network interface show -role cluster`
+[source,cli]
+----
+network interface show -role cluster
+----
 +
 .Show example 
 [%collapsible]
@@ -482,7 +489,10 @@ Cluster
 +
 . Using the ONTAP CLI, verify that the cluster is healthy: 
 +
-`cluster show`
+[source,cli]
+----
+cluster show
+----
 +
 .Show example 
 [%collapsible]
@@ -752,7 +762,10 @@ cs1(FLMXXXXXXXX)            cluster-network    10.228.137.234   N9K-C9332D-GX2B
 
 ... Verify that all the HA ports are up with a healthy status: 
 +
-`ha interconnect status show -node <node-name>`
+[source,cli]
+----
+ha interconnect status show -node <node-name>
+----
 +
 .Show example 
 [%collapsible]
@@ -938,7 +951,10 @@ shelf id connector-state remote-port    remote-device
 
 . Using the ONTAP CLI, verify that the cluster is healthy: 
 +
-`cluster show`
+[source,cli]
+----
+cluster show
+----
 +
 .Show example 
 [%collapsible]
@@ -962,7 +978,10 @@ node1-04          true     true          false
 
 . Using the ONTAP CLI, enable auto-revert on the cluster LIFs.
 +
-`network interface modify -vserver Cluster -lif * -auto-revert true` 
+[source,cli]
+----
+network interface modify -vserver Cluster -lif * -auto-revert true 
+----
 
 == Step 3: Verify the cluster network configuration and cluster health
 
@@ -1208,7 +1227,10 @@ If any cluster LIFs have not returned to their home ports, revert them manually 
 
 . Using the ONTAP CLI, verify that the cluster is healthy: 
 +
-`cluster show`
+[source,cli]
+----
+cluster show
+----
 +
 .Show example 
 [%collapsible]
@@ -1263,7 +1285,10 @@ node1-02
 
 .. Alternatively, you can use the `cluster ping-cluster -node <node-name>` command to check the connectivity:
 +
-`cluster ping-cluster -node <node-name>`
+[source,cli]
+----
+cluster ping-cluster -node <node-name>
+----
 +
 .Show example 
 [%collapsible]
