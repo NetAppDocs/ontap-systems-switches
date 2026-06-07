@@ -50,8 +50,8 @@ NOTE: New switches do not ship with the RCF installed. You must install the RCF 
 . Each switch must be connected to a console or you must have remote access to each switch.
 
 . You must be connected to the switches using the serial console or have preserved basic configuration information. This is because the RCF upgrade procedure requires you to erase the switch settings and perform basic configuration.
-+
-Hey, this step 4 is from Upgrade RCF, but does it apply here too because the `write erase` command is also used to Install RCF (step 9)? It's similar to step 3 above.
+//+
+// Hey, this step 4 above is from Upgrade RCF, but does it apply here too because the `write erase` command is also used to Install RCF (step 9)? It's similar to step 3 above.
 
 
 == Step 2: Install the RCF
@@ -62,6 +62,8 @@ You install the RCF on the first switch (cs1) by copying and applying the RCF to
 . Copy the RCF to the bootflash of switch cs1 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. 
 +
 For more information on Cisco commands, refer to the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
++
+`copy <protocol>: bootflash: vrf management`
 +
 .Show example 
 [%collapsible]
