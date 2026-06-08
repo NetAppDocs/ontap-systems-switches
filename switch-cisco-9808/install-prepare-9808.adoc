@@ -1,0 +1,115 @@
+---
+sidebar: sidebar
+permalink: switch-cisco-9808/install-prepare-9808.html
+keywords: shared storage cluster switch
+summary: Before installing Cisco Nexus 9808 switches as part of a new AFX 1K or AFX 2K system installation, you should understand aspects of the switch and its installation by reviewing the applicable Cisco switch documentation and ONTAP systems documentation, understanding the RCF versions supported for AFX systems, and considering the use of Smart Call Home.
+---
+= Prepare to install the switches - Cisco Nexus 9808
+:hardbreaks:
+:nofooter:
+:icons: font
+:linkattrs:
+:imagesdir: ../media/
+
+[.lead]
+Before installing Cisco Nexus 9808 switches as part of a new AFX 1K or AFX 2K system installation, you should understand aspects of the switch and its installation by reviewing the applicable Cisco switch documentation and ONTAP systems documentation, understanding the RCF versions supported for AFX systems, and considering the use of Smart Call Home.
+
+=== Step 1: Review the Cisco switch documentation
+You should review the following Cisco install and setup documents so you are familiar with the switch release notes, safety information, installation options, initial software configuration, and command references.
+
+All of the Cisco documents are available on the link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html[Cisco Nexus 9000 Series Switches Support^] page.
+
+* link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/products-release-notes-list.html[Cisco Nexus 9000 Series NX-OS Release Notes^] (choose the notes for the NX-OS release installed on your switches)
+
+* link:https://www.cisco.com/c/en/us/td/docs/switches/datacenter/mds9000/hw/regulatory/compliance/RCSI.html?dtid=osscdc000283&linkclickid=srch[Regulatory Compliance and Safety Information for Cisco Nexus 9000 Series^]
+
+* link:https://www.cisco.com/c/en/us/td/docs/dcn/hw/nx-os/nexus9000/9808/cisco-nexus-9808-nx-os-mode-switch-hardware-installation-guide/m_installing-the-switch-chassis-new-1ru-rack-mount.html[Cisco Nexus 9808 NX-OS Mode Switch Hardware Installation Guide^]
+
+* link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/products-installation-and-configuration-guides-list.html[Cisco Nexus 9000 Series Switch Software Configuration Guides^] (choose the guide for the NX-OS release installed on your switches)
+
+* link:https://www.cisco.com/c/en/us/td/docs/dcn/nx-os/nexus9000/102x/command-reference/config/b_n9k_config_commands_1021.html[Cisco Nexus 9000 Series NX-OS Command Reference^]
+Provides links to the various command references provided by Cisco.
+
+=== Step 2: Review the NetApp systems documentation
+You should review the following NetApp systems documentation so you are familiar with the AFX 1K or AFX 2K system installation, ONTAP release information, and hardware configuration and compatibility requirements.
+
+* link:https://docs.netapp.com/us-en/ontap-afx/index.html[AFX systems documentation^] Describes how to install NetApp hardware.
+
+* link:https://docs.netapp.com/us-en/ontap-family/[ONTAP documentation^] Provides detailed information about all aspects of the ONTAP releases.
+
+* link:https://hwu.netapp.com[Hardware Universe^]
+Provides NetApp hardware configuration and compatibility information.
+
+* link:https://kb.netapp.com/Support/General_Support/What_additional_information_do_I_need_to_install_my_equipment_that_is_not_in_HWU[What additional information do I need to install my equipment that is not in HWU?^]
+Provides more information about storage system installation requirements.
+
+=== Step 3: Understand the supported RCF versions
+The version of ONTAP running on your AFX system and version of NX-OS on your switches determines the supported versions of RCF for your switches. RCF versions have preset port speed configurations that determine how many switch ports are in breakout mode (4x100GbE) and non-breakout mode.
+
+[NOTE]
+====
+For the current list of supported RCF versions, see the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page.
+
+Switch port information can also be found in the https://hwu.netapp.com[NetApp Hardware Universe^].
+====
+
+* If you have an AFX 1K system, RCF 10.0 and later is supported:
++
+For example, the following table shows the preset groupings of the switch ports, their port speeds, and usage based on RCF version 10.0.
++
+[options="header" cols="1,2"]
+|===
+| Switch port groups | Port speeds and usage
+a|
+Ethernet1/1/1-4 to Ethernet1/30/1-4
+a|
+4x100GbE mode for cluster, HA, and storage connections 
+a|
+Ethernet1/31, Ethernet1/32
+a|
+400GbE ISL
+|===
++
+* If you have an AFX 2K system, RCF 10.1 and later is supported:
++
+For example, the following table shows the preset groups of the switch ports, their port speeds, and usage based on RCF version 10.1.
++
+[options="header" cols="1,2"]
+|===
+| Switch port groups | Port speeds and usage
+a|
+Ethernet1/1/1-4 to Ethernet1/14/1-4
+a|
+4x100GbE mode for Intra-cluster, HA, and storage shelf connections 
+//The term "shelf" can only be listed when this table is applicable to 2K only. Does not apply to 1K.
+a|
+Ethernet1/15 to Ethernet1/30
+a|
+400GbE mode for Intra-cluster, HA, and storage connections 
+a|
+Ethernet1/31, Ethernet1/32
+a|
+400GbE Intra-cluster ISL connections
+|===
++
+[NOTE]
+====
+You can change the preset groups to adjust the number of switch ports in breakout mode (4x100GbE) and 400GbE mode when you need to accommodate a different port speed configuration for your AFX system.
+
+You do this later, as part of the RCF installation procedure.
+====
+
+=== Step 4: Consider using Smart Call Home
+ONTAP supports Ethernet switch health monitoring (CSHM) to monitor the AFX cluster switches, as well as the ability to collect switch diagnostic logs.
+
+Cisco's Smart Call Home is an option to provide proactive support and help you resolve any issues that might arise with the switches.
+
+More information about Smart Call Home can be found in the link:configure-smart-call-9332d.html[Configure Smart Call Home] documentation. 
+
+.What's next?
+
+After you've prepared to install your switches, you link:install-switches-9332d.html[install the switches].
+
+// New content for OAM project, AFFFASDOC-331, 2025-MAY-08
+// AFFFASDOC-473, 2026-MAR-18
+// Refactor content project phase 1 with 2K/RCF 10.1 content, GH#423 2026-JUN
