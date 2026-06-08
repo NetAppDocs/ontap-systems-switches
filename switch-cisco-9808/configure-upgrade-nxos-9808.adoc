@@ -2,14 +2,14 @@
 permalink: switch-cisco-9808/configure-upgrade-nxos-9808.html
 sidebar: sidebar
 keywords: procedure, install, nx-os, software, nexus, cluster, switch, install the nx-os software - cisco nexus 9808
-summary: You upgrade the NX-OS on your Cisco Nexus 9808 switches to support new hardware or a new ONTAP version on your AFX 1K or AFX 2K system.
+summary: You upgrade the NX-OS on your Cisco Nexus 9808 switches to support new hardware or a new ONTAP version on your AFX 2K system.
 ---
 = Upgrade the NX-OS - Cisco Nexus 9808
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-You upgrade the NX-OS on your Cisco Nexus 9808 switches to support new hardware or a new ONTAP version on your AFX 1K or AFX 2K system.
+You upgrade the NX-OS on your Cisco Nexus 9808 switches to support new hardware or a new ONTAP version on your AFX 2K system.
 
 
 .Before you begin
@@ -25,7 +25,7 @@ You upgrade the NX-OS on your Cisco Nexus 9808 switches to support new hardware 
 
 * The version of ONTAP running on your AFX system determines the supported versions of NX-OS for your switches.
 
-** For switches in an AFX 1K system, running any supported version of ONTAP, NX-OS 10.4.2 and later is supported.
+// ** For switches in an AFX 1K system, running any supported version of ONTAP, NX-OS 10.4.2 and later is supported.
 
 ** For switches in an AFX 2K system, running ONTAP 9.19.1GA or later, NX-OS 10.6 and later is supported.
 +
@@ -1192,12 +1192,8 @@ If any cluster LIFs have not returned to their home ports, revert them manually 
 network interface revert -vserver Cluster -lif <lif-name>
 ----
 
-
-
 .What's next?
 
-After you've upgraded the NX-OS on your switches, you upgrade the RCF starting with the link:configure-install-upgrade-rcf-overview-9332d.html[Install or upgrade the RCF overview].
+After you've upgraded the NX-OS on your switches, you upgrade the RCF starting with the link:configure-install-upgrade-rcf-overview-9808.html[Install or upgrade the RCF overview].
 
-// New content for OAM project, AFFFASDOC-331, 2025-MAY-06
-// AFFFASDOC-394, 2025-OCT-20
-// Refactor content project phase 1 with 2K/RCF 10.1 content, GH#423 2026-JUN
+// New content for Chiffon (9808) project, 2026-JUN-08

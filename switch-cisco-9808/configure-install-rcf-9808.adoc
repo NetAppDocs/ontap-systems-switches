@@ -2,22 +2,22 @@
 permalink: switch-cisco-9808/configure-install-rcf-9808.html
 sidebar: sidebar
 keywords: install rcf, cisco switches
-summary: You install the RCF on new Cisco Nexus 9808 switch(es) as part of a new AFX 1K or AFX 2K system installation and setup, replacing a faulty switch, or resetting a switch to factory default settings.
+summary: You install the RCF on new Cisco Nexus 9808 switch(es) as part of a new AFX 2K system installation and setup, replacing a faulty switch, or resetting a switch to factory default settings.
 ---
 = Install the RCF - Cisco Nexus 9808
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-You install the RCF on new Cisco Nexus 9808 switch(es) as part of a new AFX 1K or AFX 2K system installation, replacing a switch, or a switch reset to factory default settings.
+You install the RCF on new Cisco Nexus 9808 switch(es) as part of a new AFX 2K system installation, replacing a switch, or a switch reset to factory default settings.
 
 .Before you begin
 
-* The switch(es) must be powered on and you must have completed the link:configure-complete-initial-setup-9332d.html[Complete initial switch setup] procedure.
+* The switch(es) must be powered on and you must have completed the link:configure-complete-initial-setup-9808.html[Complete initial switch setup] procedure.
 
-* You must have installed the desired NX-OS version using the link:configure-install-nxos-9332d.html[Install the NX-OS] procedure.
+* You must have installed the desired NX-OS version using the link:configure-install-nxos-9808.html[Install the NX-OS] procedure.
 
-* You must have read the link:configure-install-upgrade-rcf-overview-9332d.html[Install or upgrade RCF overview] page.
+* You must have read the link:configure-install-upgrade-rcf-overview-9808.html[Install or upgrade RCF overview] page.
 
 * If you are installing the RCF on a switch as part of a switch replacement or a switch reset to factory default settings, verify that your cluster is fully functional, meaning that there are no errors in the logs or similar issues.
 +
@@ -26,7 +26,7 @@ If you are installing the RCF as part of a new AFX system installation, you can 
 
 .About this task
 
-* If you have installed switches as part of a new AFX 1K or AFX 2K system installation, this procedure has you install the RCF on the first switch (cs1) and then has you repeat the steps for the second switch (cs2).
+* If you have installed switches as part of a new AFX 2K system installation, this procedure has you install the RCF on the first switch (cs1) and then has you repeat the steps for the second switch (cs2).
 
 * This procedure only requires the use of Cisco Nexus 9000 Series Switches commands.
 
@@ -43,7 +43,7 @@ Prepare to install the RCF on the switch(es) by making sure you have the necessa
 
 . You must have access to an HTTP, FTP, or TFTP server. Access to one of these servers allows you to download a supported version of the RCF.
 
-. Download the RCF supported for your type of AFX system from the NetApp Support Site at http://mysupport.netapp.com/[mysupport.netapp.com^]. 
+. Download the RCF supported for your type of AFX system from the NetApp Support Site at link:http://mysupport.netapp.com/[mysupport.netapp.com^]. 
 +
 NOTE: New switches do not ship with the RCF installed. You must install the RCF on the switches.
 
@@ -202,6 +202,6 @@ Refer to the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/
 
 .What's next?
 
-After you've installed the RCF in your switch(es), you link:configure-verify-ssh-9332d.html[verify SSH for log collection].
+After you've installed the RCF in your switch(es), you link:configure-verify-ssh-9808.html[verify SSH for log collection].
 
-// New content for Chiffon project, 2026-JUN-08
+// New content for Chiffon (9808) project, 2026-JUN-08

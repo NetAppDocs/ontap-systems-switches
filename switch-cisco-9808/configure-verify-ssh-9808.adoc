@@ -2,14 +2,14 @@
 permalink: switch-cisco-9808/configure-verify-ssh-9808.html
 sidebar: sidebar
 keywords: ssh, requirement, cluster, switch, health, monitor, cshm, log, collection, feature, cisco 9808
-summary: If you are configuring your switches as part of a new AFX 1K or AFX 2K system installation, a switch replacement, or a reset to factory default settings, and you want to use the Cluster Switch Health Monitor (CSHM) and log collection features, you must verify that SSH and SSH keys are enabled on the switches.
+summary: If you are configuring your switches as part of a new AFX 2K system installation, a switch replacement, or a reset to factory default settings, and you want to use the Cluster Switch Health Monitor (CSHM) and log collection features, you must verify that SSH and SSH keys are enabled on the switches.
 ---
 = Verify SSH for log collection - Cisco Nexus 9808
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-If you are configuring your switches as part of a new AFX 1K or AFX 2K system installation, a switch replacement, or a reset to factory default settings, to use the Ethernet switch health monitor(CSHM) log collection feature, you must verify that SSH is enabled on the switches.
+If you are configuring your switches as part of a new AFX 2K system installation, a switch replacement, or a reset to factory default settings, to use the Ethernet switch health monitor(CSHM) log collection feature, you must verify that SSH is enabled on the switches.
 
 
 .Before you begin
@@ -78,8 +78,7 @@ sshServer              1          enabled
 
 ** After you've configured Ethernet switch health monitoring, if you want to take advantage of Cisco's Smart Call Home support feature, you link:configure-smart-call-9332d.html[configure Smart Call Home].
 
-* If you configured your switch as part of a new AFX 1K or AFX 2K system installation, you must link:install-complete-afx-setup-9332d.html[complete the AFX system setup].
+* If you configured your switch as part of a new AFX 2K system installation, you must link:install-complete-afx-setup-9808.html[complete the AFX system setup].
 
 
-// New content for OAM project, AFFFASDOC-331, 2025-MAY-06
-// Refactor content project phase 1 with 2K/RCF 10.1 content, GH#423 2026-JUN
+// New content for Chiffon (9808) project, 2026-JUN-08
