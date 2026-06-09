@@ -204,6 +204,9 @@ cluster1::*>
 +
 `network interface modify -vserver Cluster -lif * -auto-revert false`
 
+
+Tabbed content
+
 // start of tabbed content 
 [role="tabbed-block"] 
 
@@ -213,8 +216,34 @@ cluster1::*>
 
 --
 
+This is the current content in here.
 
-*HERE IS 1ST TAB CONTENT*
+
+--
+
+
+. from a release earlier than 10.5(3)f to 10.5(3)f
+--
+
+
+This is the update from Tim McC in here
+
+
+--
+
+. to 10.5(3)f and later
+--
+
+
+This is new content for latest NX-OS version
+
+
+
+--
+====
+
+// end of tabbed content
+
 . Copy the NX-OS software and EPLD images to the Nexus 9336C-FX2 switch.
 
 +
@@ -965,15 +994,6 @@ GEM  FPGA                        0x2
 ----
 ====
 
-*HERE IS 3RD TAB CONTENT*
-
-----
---
-
-
-. from a release earlier than 10.5(3)f to 10.5(3)f
-
---
 
 
 . Verify the new version of NX-OS software after the switch has rebooted: 
@@ -1118,29 +1138,6 @@ GEM  FPGA                        0x2
 ----
 ====
 
-
-
-
-
-
-
-
-
-
-
-
-
-*HERE IS 2nd TAB CONTENT*
-
-
-----
---
-
-. to 10.5(3)f and later
-
---
-
-
 . Verify the new version of NX-OS software after the switch has rebooted: 
 +
 `show version`
@@ -1282,14 +1279,6 @@ GEM  FPGA                        0x2
 GEM  FPGA                        0x2
 ----
 ====
-
-*HERE IS 3rd TAB CONTENT*
-
-----
---
-====
-
-// end of tabbed content
 
 . Verify the health of cluster ports on the cluster.
 
