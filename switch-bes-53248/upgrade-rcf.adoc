@@ -714,17 +714,6 @@ Are you sure you would like to reset the system? (y/n) *y*
 System will now restart!
 ----
 
-. On cluster switch cs2, bring up the ports connected to the cluster ports of the nodes.
-+
-[subs=+quotes]
-----
-(cs2)> *enable*
-(cs2)# *configure*
-(cs2)(Config)# *interface 0/1-0/16*
-(cs2)(Interface 0/1-0/16)# *no shutdown*
-(cs2)(Config)# *exit*
-----
-
 . Save the running configuration to the startup configuration:
 +
 `write memory`
@@ -935,8 +924,8 @@ cluster1::*>
 ==== 
 // end of tabbed content
 
-[start=21]
-. [[step21]]Repeat steps 1 to 20 on switch cs1. 
+[start=20]
+. [[step20]]Repeat steps 1 to 19 on switch cs1. 
 
 . Enable auto-revert on the cluster LIFs:
 +
@@ -1199,3 +1188,4 @@ system node autosupport invoke -node * -type all -message MAINT=END
 // AFFFASDOC-473, 2026-MAR-16
 // AFFFASDOC-480, 2026-APR-15 - further updates for this re-opened ticket, 2026-JUN-02
 // GH issue #339, 2026-MAY-02
+// GH issue #341, 2026-JUN-09
