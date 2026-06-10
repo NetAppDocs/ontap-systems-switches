@@ -57,8 +57,7 @@ If you need to change the boot configuration to reflect the current boot images,
 
 == Step 1: Prepare for the upgrade
 
-Using the ONTAP CLI, prepare for the RCF upgrade by suppressing automatic case creation as needed, checking administrative and operational status on the ports, and disabling auto-revert on the cluster LIFs.
-
+Using the ONTAP CLI for the following steps, prepare for the RCF upgrade by suppressing automatic case creation as needed, checking administrative and operational status on the ports, and disabling auto-revert on the cluster LIFs.
 
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message: 
 +
@@ -444,9 +443,9 @@ shelf id connector-state remote-port    remote-device
 network interface modify -vserver Cluster -lif * -auto-revert false
 ----
 
-== Step 2: Install the RCF
+== Step 2: Upgrade the RCF
 
-You use the switch CLI and the ONTAP CLI to install the RCF on the the first switch (cs1) and then repeat these steps for the second switch (cs2).
+You use the switch CLI and the ONTAP CLI (as indicated in the following steps) for the RCF upgrade. You upgrade the RCF on the first switch (cs1) and then repeat these steps for the second switch (cs2).
 
 . Using the switch CLI, on switch cs1, shut down the ports connected to all the ports of the nodes.
 +
