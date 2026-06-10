@@ -2,37 +2,56 @@
 permalink: switch-cisco-9364d-gx2a/configure-switch-workflow-9364d.html
 sidebar: sidebar
 keywords: switches, initial installation, configure 9364d-gx2a switch
-summary: 'Overview of software configuration for Cisco 9364d-gx2a cluster switches'
+summary: You configure Cisco 9332D-GX2B switches as part of a new AFX 1K or AFX 2K system installation, a switch replacement, or a switch reset to factory default settings.
 ---
 = Configure switch workflow - Cisco Nexus 9364D-GX2A
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-To install and configure the software for a Cisco 9364D-GX2A switch and to install or upgrade the Reference Configuration File (RCF), follow these steps:
+You configure Cisco 9364D-GX2A switches as part of a new AFX 1K or AFX 2K system installation, a switch replacement, or a switch reset to factory default settings.
 
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png[One]link:setup-switch-9364d-cluster.html[Configure the 9364D-GX2A switch]
+You might be directed to this workflow or to individual topics in this workflow as needed by your specific procedure for link:install-configure-switches-in-afx-workflow-9364d.html[Install and set up a new AFX 1K or AFX 2K system], link:replace-9364d-cluster.html[Replace a switch], or link:maintain-reset-switch-9364d.html[Reset a switch to factory default settings].
+
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png[One]link:configure-complete-initial-setup-9364d.html[Complete the initial switch setup]
 [role="quick-margin-para"]
-Configure the Cisco 9364D-GX2A switch.
+After you power on the switches, they begin to boot and enter the configuration wizard. You are prompted to provide answers to a series of questions to perform the initial (startup) configuration of the switches.
 
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png[Two] link:install-nxos-overview-9364d-cluster.html[Prepare to install the NX-OS software and RCF] 
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png[Two]link:configure-review-cabling-config-requirements-9364d.html[Review cabling and configuration requirements]
 [role="quick-margin-para"]
-Install the Cisco NX-OS software and reference configuration files (RCFs) on the Cisco 9364D-GX2A switches.
+Review cabling and configuration requirements.
 
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png[Three]link:install-nxos-software-9364d-cluster.html[Install or upgrade the NX-OS software] 
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png[Three]link:configure-install-nxos-9364d.html[Install NX-OS]
 [role="quick-margin-para"]
-Download and install or upgrade the NX-OS software on the Cisco 9364D-GX2A switch.
+Install the current version of NX-OS on the switches that supports your AFX 1K or AFX 2K system.
 
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png[Four]link:install-upgrade-rcf-overview-cluster-9364d.html[Install or upgrade the RCF] 
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png[Four]link:configure-install-upgrade-rcf-overview-9364d.html[Install RCF]
 [role="quick-margin-para"]
-Install or upgrade the RCF after setting up the Cisco 9364D-GX2A switch for the first time. You can also use this procedure to upgrade your RCF version.
+Install the current version of RCF on the switches that supports your AFX 1K or AFX 2K system. The link brings you to the RCF install or upgrade overview topic, which has information you need to know before you install the RCF.
 
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-5.png[Five]link:configure-ssh-keys.html[Verify SSH is enabled on the Nexus 9364D-GX2A switches]
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-5.png[Five]link:configure-verify-ssh-9364d.html[Verify SSH for log collection]
 [role="quick-margin-para"]
-Verify that SSH is enabled on the Cisco 9364D-GX2A switch for use with the Ethernet Switch Health Monitor (CSHM) and log collection features.
+Verify SSH is enabled so that you can use the Ethernet switch health monitor (CSHM) log collection feature.
 
-Once you have finished configuring your switches, go to link:https://docs.netapp.com/us-en/ontap-afx/install-setup/power-on-hardware.html[Power on your AFX 1K storage system^].
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-6.png[Six]link:../switch-cshm/cshm-overview.html[Configure Ethernet switch health monitoring]
+[role="quick-margin-para"]
+Configure the Ethernet switch health monitoring (CSHM) to ensure the operational health of your switches and for the collection of switch logs for debugging and troubleshooting.
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-7.png[Seven]link:configure-smart-call-9364d.html[Configure Smart Call Home (optional)]
+[role="quick-margin-para"]
+ONTAP supports Ethernet switch health monitoring (CSHM) to monitor the AFX cluster switches, as well as the ability to collect switch diagnostic logs. Cisco's Smart Call Home is an option to provide proactive support and help you resolve any issues that might arise with the switches.
+
+
+.What's next?
+
+* If you configured your switch as part of a new AFX 1K or AFX 2K system installation, you must link:install-complete-afx-setup-9364d.html[Complete the AFX system setup].
+
+* If you configured your switch as part of a switch replacement or you reset the switch to factory default settings, your switch should be operating normally.
+
+
 
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-06
 // AFFFASDOC-473, 2026-MAR-16
 // AFFFASDOC-490, 2026-APR-28
+// Refactor content project phase 1 with 2K/RCF 10.1 content, GH#423 2026-JUN
