@@ -2,7 +2,7 @@
 permalink: switch-cisco-9364d-gx2a/install-configure-switches-in-afx-workflow-9364d.html
 sidebar: sidebar
 keywords: switches, initial installation, configure 9364d-gx2ab switch
-summary: 'Overview of installation and setup for Cisco Nexus 9364d-gx2a cluster switches'
+summary: To install and configure your Cisco Nexus 9364D-GX2A switches as part of your new AFX 1K or AFX 2K system, you use a combination of documentation from this switch site and the AFX systems site. The documentation provides links that direct you as needed.
 ---
 = Install and configure switches in an AFX system workflow - Cisco Nexus 9364D-GX2A
 
@@ -10,34 +10,65 @@ summary: 'Overview of installation and setup for Cisco Nexus 9364d-gx2a cluster 
 :imagesdir: ../media/
 
 [.lead]
-The Cisco 9364D-GX2A switch is part of the Cisco Nexus 9000 platform. AFX systems switches allow you to build ONTAP clusters with more than two nodes. 
+To install and configure your Cisco Nexus 9364D-GX2A switches as part of your new AFX 1K or AFX 2K system, you use a combination of documentation from this switch site and the AFX systems site. The documentation provides links that direct you as needed.
 
-Follow these workflow steps to install and setup your to Cisco 9364D-GX2A switches.
+=== Install switches
+To install your switches, you must prepare for the installation and then install the switches (along with the AFX system hardware), which includes cabling and powering on the switches.
 
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png[One]link:configure-setup-ports-9364d.html[Review the switch port details]
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png[One]link:install-prepare-9364d.html[Prepare for install]
 [role="quick-margin-para"]
-Review the port details for the Cisco 9364D-GX2A switch.
+Prepare to install and setup the switches by reviewing the Cisco and ONTAP systems documentation, preparing your site, and understanding the preset configuration of switch ports for the version of RCF supported by your AFX system.
 
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png[Two]link:required-documentation-9364d-cluster.html[Review the required documentation]
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png[Two]link:install-switches-9364d.html[Install the switches]
 [role="quick-margin-para"]
-Review specific switch and controller documentation to set up your 9364D-GX2A switches and the ONTAP cluster.
+You are directed to the AFX 1K or AFX 2K system installation and setup workflow to install the switches (along with the AFX system hardware), cable the switches, and then power on the switches. You are then directed back to this workflow to configure the switches.
 
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png[Three]link:smart-call-9364d-cluster.html[Review the Smart Call Home requirements]
-[role="quick-margin-para"]
-Review the requirements for the Cisco Smart Call Home feature, used to monitor the hardware and software components on your network. 
+=== Configure switches
+To configure your switches, you complete the initial switch setup, review cabling and configuration requirements, install the NX-OS, install the RCF, verify SSH for log collection, configure Ethernet switch health monitoring (CSHM), and configure Smart Call Home (optional).
 
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png[Four]link:install-hardware.html[Install the hardware]
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png[One]link:configure-complete-initial-setup-9364d.html[Complete initial switch setup]
 [role="quick-margin-para"]
-Install the switch hardware. 
+After you power on the switches, they begin to boot and enter the configuration wizard. You are prompted to provide answers to a series of questions to perform the initial (startup) configuration of the switches.
 
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-5.png[Five]link:configure-software-overview-9364d-cluster.html[Configure the software]
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png[Two]link:configure-review-cabling-config-requirements-9364d.html[Review cabling and configuration requirements]
 [role="quick-margin-para"]
-Configure the switch software.
+Review cabling and configuration requirements.
 
-.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-6.png[Six]link:../switch-cshm/config-overview.html[Configure CSHM]
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png[Three]link:configure-install-nxos-9364d.html[Install the NX-OS]
 [role="quick-margin-para"]
-Configure switch health monitoring.
+Install the current version of NX-OS on the switches that supports your AFX 1K or AFX 2K system.
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png[Four]link:configure-install-upgrade-rcf-overview-9364d.html[Install the RCF]
+[role="quick-margin-para"]
+Install the current version of RCF on the switches that supports your AFX 1K or AFX 2K system. The link brings you to the RCF install or upgrade overview topic, which has information you need to know before you install the RCF.
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-5.png[Five]link:configure-verify-ssh-9332d.html[Verify SSH for log collection]
+[role="quick-margin-para"]
+Verify SSH is enabled so that you can use the Ethernet switch health monitor (CSHM) log collection feature.
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-6.png[Six]link:../switch-cshm/cshm-overview.html[Configure Ethernet switch health monitoring]
+[role="quick-margin-para"]
+Configure the Ethernet switch health monitoring (CSHM) to ensure the operational health of your switches and for the collection of switch logs for debugging and troubleshooting.
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-7.png[Seven]link:configure-smart-call-9364d.html[Configure Smart Call Home (optional)]
+[role="quick-margin-para"]
+ONTAP supports Ethernet switch health monitoring (CSHM) to monitor the AFX cluster switches, as well as the ability to collect switch diagnostic logs. Cisco's Smart Call Home is an option to provide proactive support and help you resolve any issues that might arise with the switches.
+
+
+=== Complete AFX system setup
+To complete your AFX 1K or AFX 2K system setup, you complete the power up of AFX system components and system setup procedures.
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png[One]link:install-complete-afx-setup-9364d.html[Complete the AFX system setup]
+[role="quick-margin-para"]
+You are directed to the AFX systems documentation to complete the setup of your AFX 1K or AFX 2K system by powering on the storage shelves and controllers, verifying switch connectivity, and then completing the system setup procedures.
+
+
+
+.What's next?
+
+After you've completed the AFX system setup, you can begin using your AFX system. You can also link:https://docs.netapp.com/us-en/ontap-afx/index.html[learn more about your AFX system and how to use it^].
 
 
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-06
 // AFFFASDOC-476, 2026-MAR-30
+// Refactor content project phase 1 with 2K/RCF 10.1 content, GH#423 2026-JUN
