@@ -54,7 +54,7 @@ Prepare to install the NX-OS on the switch(es) by making sure you have access to
 
 . You must have access to an HTTP, FTP, or TFTP server. Access to one of these servers allows you to download a supported version of the NX-OS. 
 
-. Download the correct version of NX-OS to the switch(es) from the https://software.cisco.com/download/home[Cisco software download^] page.
+. Download the correct version of NX-OS and EPLD image to the switch(es) from the https://software.cisco.com/download/home[Cisco software download^] page.
 
 . Connect the switch to the management network (for the file transfer).
 
@@ -80,13 +80,11 @@ Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 // ** update with new EPLD information ***
 
 
-== Step 2: Install the NX-OS
+== Step 2: Install the NX-OS and EPLD image
 
-You install the NX-OS on the first switch (cs1) by installing and verifying the NX-OS version, upgrading and verifying the EPLD image, and then repeat these steps on the second switch (cs2) if you are installing the NX-OS as part of a new AFX system installation.
+You install the NX-OS and EPLD image on the first switch (cs1) by installing and verifying the NX-OS and EPLD image versions, and then repeat these steps on the second switch (cs2) if you are installing the NX-OS as part of a new AFX system installation.
 
-. Copy NX-OS and EPLD images to the first switch.
-+
-You use this command two times: the first time is to copy the NX-OS version and the second time is to copy the EPLD version.
+. Copy NX-OS and EPLD image to the first switch.
 +
 `copy <protocol>: bootflash: vrf management`
 +
@@ -99,7 +97,7 @@ The example uses sftp.
 [subs=+quotes]
 ----
 cs1# *copy sftp: bootflash: vrf management*
-Enter source filename: */code/nxos.10.4.2.bin*
+Enter source filename: */code/nxos64-s1.10.6.3.F.bin*
 Enter hostname for the sftp server: *172.19.2.1*
 Enter username: *root*
 
@@ -108,24 +106,8 @@ Inbound-ReKey for 172.19.2.1:22
 root@172.19.2.1's password:
 sftp> progress
 Progress meter enabled
-sftp> get   /code/nxos.10.4.2.bin  /bootflash/nxos.10.4.2.bin
-/code/nxos.10.4.2.bin  100% 1261MB   9.3MB/s   02:15
-sftp> exit
-Copy complete, now saving to disk (please wait)...
-Copy complete.
-
-cs1# *copy sftp: bootflash: vrf management*
-Enter source filename: */code/n9000-epld.10.4.2.F.img*
-Enter hostname for the sftp server: *172.19.2.1*
-Enter username: *user1*
-
-Outbound-ReKey for 172.19.2.1:22
-Inbound-ReKey for 172.19.2.1:22
-user1@172.19.2.1's password:
-sftp> progress
-Progress meter enabled
-sftp> get   /code/n9000-epld.10.4.2.F.img  /bootflash/n9000-epld.10.4.2.F.img
-/code/n9000-epld.10.4.2.F.img  100%  161MB   9.5MB/s   00:16
+sftp> get   /code/nxos64-s1.10.6.3.F.bin  /bootflash/nxos64-s1.10.6.3.F.bin
+/code/nxos64-s1.10.6.3.F.bin  100% 1261MB   9.3MB/s   02:15
 sftp> exit
 Copy complete, now saving to disk (please wait)...
 Copy complete.
@@ -166,11 +148,11 @@ http://www.gnu.org/licenses/old-licenses/library.txt.
 
 Software
   BIOS: version 01.14
-  NXOS: version 10.4(1) [Feature Release]
-  Host NXOS: version 10.4(1)
+  NXOS: version 10.5.3(f) [Feature Release]
+  Host NXOS: version 10.5.3(f)
   BIOS compile time:  11/25/2024
-  NXOS image file is: bootflash:///nxos64-cs.10.4.1.F.bin
-  NXOS compile time:  11/30/2023 12:00:00 [12/14/2023 05:25:50]
+  NXOS image file is: bootflash:///nxos64-s1.10.5.3.F.bin
+  NXOS compile time:  02/27/2026 12:00:00 [03/14/2026 05:25:50]
   NXOS boot mode: LXC
 
 
@@ -178,16 +160,16 @@ Hardware
   cisco Nexus9000 C9332D-GX2B Chassis
   Intel(R) Xeon(R) CPU D-1633N @ 2.50GHz with 32802156 kB of memory.
   Processor Board ID FLMXXXXXXXX
-  Device name: cs2
+  Device name: cs1
   bootflash:  115802886 kB
 
 
 Kernel uptime is 5 day(s), 2 hour(s), 13 minute(s), 21 second(s)
 
 
-Last reset at 3580 usecs after Thu Jun  5 15:55:08 2025
+Last reset at 3580 usecs after Thu Mar 5 15:55:08 2026
   Reason: Reset Requested by CLI command reload
-  System version: 10.4(1)
+  System version: 10.5.3(f)
   Service:
 
 
@@ -201,7 +183,7 @@ cs1#
 ----
 ====
 
-. Install the NX-OS image.
+. Install the NX-OS and EPLD image.
 +
 Installing the image file causes it to be loaded every time the switch is rebooted.
 +
@@ -212,25 +194,25 @@ Installing the image file causes it to be loaded every time the switch is reboot
 [%collapsible]
 ====
 
-The example uses NX-OS version 10.4.2.
+The example uses NX-OS version 10.6.3(f).
 
 [subs=+quotes]
 ----
-cs1# *install all nxos bootflash:nxos.10.4.2.bin*
+cs1# *install all nxos bootflash:nxos64-s1.10.6.3.F.bin*
 
 Installer will perform compatibility check first. Please wait.
 Installer is forced disruptive
 
-Verifying image bootflash:/nxos.10.4.2.bin for boot variable "nxos".
+Verifying image bootflash:/nxos64-s1.10.6.3.F.bin for boot variable "nxos".
 [####################] 100% -- SUCCESS
 
 Verifying image type.
 [####################] 100% -- SUCCESS
 
-Preparing "nxos" version info using image bootflash:/nxos.10.4.2.bin.
+Preparing "nxos" version info using image bootflash:/nxos64-s1.10.6.3.F.bin.
 [####################] 100% -- SUCCESS
 
-Preparing "bios" version info using image bootflash:/nxos.10.4.2.bin.
+Preparing "bios" version info using image bootflash:/nxos64-s1.10.6.3.F.bin.
 [####################] 100% -- SUCCESS
 
 Performing module support checks.
@@ -251,7 +233,7 @@ Images will be upgraded according to following table:
 
 Module   Image    Running-Version(pri:alt)                 New-Version         Upg-Required
 ------- --------- ---------------------------------------- ------------------- ------------
-  1      nxos     10.4(1)                                  10.4(2)             Yes
+  1      nxos     10.5.3(f)                                10.6.3(f)           Yes
   1      bios     xx.xx.:xx.xx                             xxx                 No
 
 
@@ -312,11 +294,11 @@ http://www.gnu.org/licenses/old-licenses/library.txt.
 
 Software
   BIOS: version 01.14
-  NXOS: version 10.4(2) [Feature Release]
-  Host NXOS: version 10.4(2)
+  NXOS: version 10.6.3(f) [Feature Release]
+  Host NXOS: version 10.6.3(f)
   BIOS compile time:  11/25/2024
-  NXOS image file is: bootflash:///nxos64-cs.10.4.2.F.bin
-  NXOS compile time:  11/30/2023 12:00:00 [12/14/2023 05:25:50]
+  NXOS image file is: bootflash:////nxos64-s1.10.6.3.F.bin
+  NXOS compile time:  05/30/2026 12:00:00 [06/14/2026 05:25:50]
   NXOS boot mode: LXC
 
 
@@ -331,9 +313,9 @@ Hardware
 Kernel uptime is 5 day(s), 2 hour(s), 13 minute(s), 21 second(s)
 
 
-Last reset at 3580 usecs after Thu Jun  5 15:55:08 2025
+Last reset at 3580 usecs after Thu Jun 5 15:55:08 2026
   Reason: Reset Requested by CLI command reload
-  System version: 10.4(2)
+  System version: 10.6.3(f)
   Service:
 
 
@@ -347,76 +329,18 @@ cs1#
 ----
 ====
 
-. Upgrade the EPLD image using the following commands:
+. Verify that the new version of EPLD loaded successfully:
 +
 `show version module 1 epld`
 +
-`install epld bootflash:n9000-epld.<version>.img module all`
+`show install epld status`
 +
-After the last command is executed, the switch reboots.
-+
+
 .Show example
 [%collapsible]
 ====
 
-The example uses EPLD version 10.4.2.F
-
-[subs=+quotes]
-----
-cs1# *show version module 1 epld*
-
-EPLD Device                     Version
----------------------------------------
-MI   FPGA                        0x7
-IO   FPGA                        0x17
-MI   FPGA2                       0x2
-GEM  FPGA                        0x2
-GEM  FPGA                        0x2
-GEM  FPGA                        0x2
-GEM  FPGA                        0x2
-
-cs1# *install epld bootflash:n9000-epld.10.4.2.F.img module all*
-Compatibility check:
-Module        Type         Upgradable        Impact    Reason
-------  ------------------ ----------------- --------- -----------
-     1         SUP         Yes       disruptive  Module Upgradable
-
-Retrieving EPLD versions.... Please wait.
-Images will be upgraded according to following table:
-Module  Type   EPLD              Running-Version   New-Version  Upg-Required
-------- ------ ----------------- ----------------- ------------ ------------
-     1  SUP    MI FPGA           0x07              0x07         No
-     1  SUP    IO FPGA           0x17              0x19         Yes
-     1  SUP    MI FPGA2          0x02              0x02         No
-The above modules require upgrade.
-The switch will be reloaded at the end of the upgrade
-Do you want to continue (y/n) ?  [n] *y*
-
-Proceeding to upgrade Modules.
-
-Starting Module 1 EPLD Upgrade
-
-Module 1 : IO FPGA [Programming] : 100.00% (     64 of      64 sectors)
-Module 1 EPLD upgrade is successful.
-Module   Type  Upgrade-Result
--------- ----- --------------
-     1   SUP   Success
-
-EPLDs upgraded.
-
-Module 1 EPLD upgrade is successful.
-----
-====
-
-. After the switch reboot, log in and verify that the new version of EPLD loaded successfully:
-+
-`show version module 1 epld`
-+
-//AD: a better CMD is show epld install status. Need example output. Output is a table format.
-+
-.Show example
-[%collapsible]
-====
+The example uses EPLD version 10.6.3(f).
 
 [subs=+quotes]
 ----
@@ -435,7 +359,7 @@ GEM  FPGA                        0x2
 ====
 
 
-. If you are installing the NX-OS as part of a new AFX system installation, repeat these steps to install the NX-OS and EPLD images on switch cs2.
+. If you are installing the NX-OS as part of a new AFX system installation, repeat these steps to install the NX-OS and EPLD image on switch cs2.
 
 
 .What's next?
