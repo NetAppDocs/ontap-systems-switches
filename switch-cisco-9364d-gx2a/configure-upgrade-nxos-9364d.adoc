@@ -102,30 +102,31 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID) Interface         Platform
 ----------- ------ ------------------------ ----------------  ----------------
 node1-01/cdp
-            e10a   cs1(FLMXXXXXXXX)         Ethernet1/16/3    N9K-C9332D-GX2B
-            e10b   cs2(FDOXXXXXXXX)         Ethernet1/16/3    N9K-C9332D-GX2B
-            e11a   cs1(FLMXXXXXXXX)         Ethernet1/16/4    N9K-C9332D-GX2B
-            e11b   cs2(FDOXXXXXXXX)         Ethernet1/16/4    N9K-C9332D-GX2B
-            e1a    cs1(FLMXXXXXXXX)         Ethernet1/16/1    N9K-C9332D-GX2B
-            e1b    cs2(FDOXXXXXXXX)         Ethernet1/16/1    N9K-C9332D-GX2B
+            e10a   cs1(FLMXXXXXXXX)         Ethernet1/16/3    N9K-C9364D-GX2A
+            e10b   cs2(FDOXXXXXXXX)         Ethernet1/13/3    N9K-C9364D-GX2A
+            e11a   cs1(FLMXXXXXXXX)         Ethernet1/16/4    N9K-C9364D-GX2A
+            e11b   cs2(FDOXXXXXXXX)         Ethernet1/13/4    N9K-C9364D-GX2A
+            e1a    cs1(FLMXXXXXXXX)         Ethernet1/16/1    N9K-C9364D-GX2A
+            e1b    cs2(FDOXXXXXXXX)         Ethernet1/13/1    N9K-C9364D-GX2A
             .
             .
-            . 
-            e7a    cs1(FLMXXXXXXXX)         Ethernet1/16/2    N9K-C9332D-GX2B
-            e7b    cs2(FDOXXXXXXXX)         Ethernet1/16/2    N9K-C9332D-GX2B
+            .
+          
+            e7a    cs1(FLMXXXXXXXX)         Ethernet1/16/2    N9K-C9364D-GX2A
+            e7b    cs2(FDOXXXXXXXX)         Ethernet1/13/2    N9K-C9364D-GX2A
 
 node1-01/lldp
             e10a   cs1 (c8:60:8f:xx:xx:xx)  Ethernet1/16/3    -
-            e10b   cs2 (04:e3:87:xx:xx:xx)  Ethernet1/16/3    -
+            e10b   cs2 (04:e3:87:xx:xx:xx)  Ethernet1/13/3    -
             e11a   cs1 (c8:60:8f:xx:xx:xx)  Ethernet1/16/4    -
-            e11b   cs2 (04:e3:87:xx:xx:xx)  Ethernet1/16/4    -
+            e11b   cs2 (04:e3:87:xx:xx:xx)  Ethernet1/13/4    -
             e1a    cs1 (c8:60:8f:xx:xx:xx)  Ethernet1/16/1    -
-            e1b    cs2 (04:e3:87:xx:xx:xx)  Ethernet1/16/1    -
+            e1b    cs2 (04:e3:87:xx:xx:xx)  Ethernet1/13/1    -
             .
             .
             .
-            e7a    cs1 (c8:60:8f:34:78:d3)  Ethernet1/16/2    -
-            e7b    cs2 (04:e3:87:19:a2:59)  Ethernet1/16/2    -
+            e7a    cs1 (c8:60:8f:xx:xx:xx)  Ethernet1/16/2    -
+            e7b    cs2 (04:e3:87:xx:xx:xx)  Ethernet1/13/2    -
 .
 .
 .
@@ -235,7 +236,7 @@ cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true
 
 Switch                      Type               Address          Model
 --------------------------- ------------------ ---------------- ---------------
-cs2(FDOXXXXXXXX)            cluster-network    10.228.137.233   N9K-C9332D-GX2B
+cs2(FDOXXXXXXXX)            cluster-network    10.228.137.233   N9K-C9364D-GX2A
      Serial Number: FDOXXXXXXXX
       Is Monitored: true
             Reason: None
@@ -244,7 +245,7 @@ cs2(FDOXXXXXXXX)            cluster-network    10.228.137.233   N9K-C9332D-GX2B
     Version Source: CDP/ISDP
 
 
-cs1(FLMXXXXXXXX)             cluster-network   10.228.137.253   N9K-C9332D-GX2B
+cs1(FLMXXXXXXXX)             cluster-network   10.228.137.253   N9K-C9364D-GX2A
      Serial Number: FLMXXXXXXXX
       Is Monitored: true
             Reason: None
@@ -340,7 +341,6 @@ storage port show -port-type ENET
 [subs=+quotes]
 ----
 cluster1::*> *storage port show -port-type ENET*
-
 
                                       Speed
 Node               Port Type  Mode    (Gb/s) State    Status
@@ -472,7 +472,7 @@ The example uses sftp.
 
 [subs=+quotes]
 ----
-cs1# *copy sftp: bootflash: vrf management*
+cs2# *copy sftp: bootflash: vrf management*
 Enter source filename: */code/nxos.10.4.2.bin*
 Enter hostname for the sftp server: *172.19.2.1*
 Enter username: *root*
@@ -488,7 +488,7 @@ sftp> exit
 Copy complete, now saving to disk (please wait)...
 Copy complete.
 
-cs1# *copy sftp: bootflash: vrf management*
+cs2# *copy sftp: bootflash: vrf management*
 Enter source filename: */code/n9000-epld.10.4.2.F.img*
 Enter hostname for the sftp server: *172.19.2.1*
 Enter username: *user1*
@@ -516,7 +516,7 @@ Copy complete.
 
 [subs=+quotes]
 ----
-cs1# *show version*
+cs2# *show version*
 Cisco Nexus Operating System (NX-OS) Software
 TAC support: http://www.cisco.com/tac
 Copyright (C) 2002-2025, Cisco and/or its affiliates.
@@ -571,7 +571,7 @@ plugin
 
 Active Package(s):
 
-cs1#
+cs2#
 ----
 ====
 
@@ -590,7 +590,7 @@ The example uses NX-OS version 10.4.2.
 
 [subs=+quotes]
 ----
-cs1# *install all nxos bootflash:nxos.10.4.2.bin*
+cs2# *install all nxos bootflash:nxos.10.4.2.bin*
 
 Installer will perform compatibility check first. Please wait.
 Installer is forced disruptive
@@ -662,7 +662,7 @@ Finishing the upgrade, switch will reboot in 10 seconds.
 
 [subs=+quotes]
 ----
-cs1# *show version*
+cs2# *show version*
 Cisco Nexus Operating System (NX-OS) Software
 TAC support: http://www.cisco.com/tac
 Copyright (C) 2002-2025, Cisco and/or its affiliates.
@@ -717,7 +717,7 @@ plugin
 
 Active Package(s):
 
-cs1#
+cs2#
 ----
 ====
 
@@ -737,7 +737,7 @@ The example uses EPLD version 10.4.2.F
 
 [subs=+quotes]
 ----
-cs1# *show version module 1 epld*
+cs2# *show version module 1 epld*
 
 EPLD Device                     Version
 ---------------------------------------
@@ -749,7 +749,7 @@ GEM  FPGA                        0x2
 GEM  FPGA                        0x2
 GEM  FPGA                        0x2
 
-cs1# *install epld bootflash:n9000-epld.10.4.2.F.img module all*
+cs2# *install epld bootflash:n9000-epld.10.4.2.F.img module all*
 Compatibility check:
 Module        Type         Upgradable        Impact    Reason
 ------  ------------------ ----------------- --------- -----------
@@ -879,31 +879,31 @@ system cluster-switch show -is-monitoring-enabled-operational true
 ----
 cluster1::*> *network device-discovery show -protocol cdp*
 
-node1-02/cdp
-            e10a   cs1(FLMXXXXXXXX)         Ethernet1/16/3    N9K-C9332D-GX2B
-            e10b   cs2(FDOXXXXXXXX)         Ethernet1/16/3    N9K-C9332D-GX2B
-            e11a   cs1(FLMXXXXXXXX)         Ethernet1/16/4    N9K-C9332D-GX2B
-            e11b   cs2(FDOXXXXXXXX)         Ethernet1/16/4    N9K-C9332D-GX2B
-            e1a    cs1(FLMXXXXXXXX)         Ethernet1/16/1    N9K-C9332D-GX2B
-            e1b    cs2(FDOXXXXXXXX)         Ethernet1/16/1    N9K-C9332D-GX2B
-            .
-            .
-            .
-            e7a    cs1(FLM284504N6)         Ethernet1/16/2    N9K-C9332D-GX2B
-            e7b    cs2(FDO2846056X)         Ethernet1/16/2    N9K-C9332D-GX2B
-
 node1-01/cdp
-            e10a   cs1(FLMXXXXXXXX)         Ethernet1/16/3    N9K-C9332D-GX2B
-            e10b   cs2(FDOXXXXXXXX)         Ethernet1/16/3    N9K-C9332D-GX2B
-            e11a   cs1(FLMXXXXXXXX)         Ethernet1/16/4    N9K-C9332D-GX2B
-            e11b   cs2(FDOXXXXXXXX)         Ethernet1/16/4    N9K-C9332D-GX2B
-            e1a    cs1(FLMXXXXXXXX)         Ethernet1/16/1    N9K-C9332D-GX2B
-            e1b    cs2(FDOXXXXXXXX)         Ethernet1/16/1    N9K-C9332D-GX2B
-           .
-           .
-           .
-            e7a    cs1(FLMXXXXXXXX)         Ethernet1/16/2    N9K-C9332D-GX2B
-            e7b    cs2(FDOXXXXXXXX)         Ethernet1/16/2    N9K-C9332D-GX2B
+            e10a   cs1(FLMXXXXXXXX)         Ethernet1/16/3    N9K-C9364D-GX2A
+            e10b   cs2(FDOXXXXXXXX)         Ethernet1/13/3    N9K-C9364D-GX2A
+            e11a   cs1(FLMXXXXXXXX)         Ethernet1/16/4    N9K-C9364D-GX2A
+            e11b   cs2(FDOXXXXXXXX)         Ethernet1/13/4    N9K-C9364D-GX2A
+            e1a    cs1(FLMXXXXXXXX)         Ethernet1/16/1    N9K-C9364D-GX2A
+            e1b    cs2(FDOXXXXXXXX)         Ethernet1/13/1    N9K-C9364D-GX2A
+            .
+            .
+            .
+            e7a    cs1(FLMXXXXXXXX)         Ethernet1/16/2    N9K-C9364D-GX2A
+            e7b    cs2(FDOXXXXXXXX)         Ethernet1/13/2    N9K-C9364D-GX2A
+
+node1-02/cdp
+            e10a   cs1(FLMXXXXXXXX)         Ethernet1/16/3    N9K-C9364D-GX2A
+            e10b   cs2(FDOXXXXXXXX)         Ethernet1/13/3    N9K-C9364D-GX2A
+            e11a   cs1(FLMXXXXXXXX)         Ethernet1/16/4    N9K-C9364D-GX2A
+            e11b   cs2(FDOXXXXXXXX)         Ethernet1/13/4    N9K-C9364D-GX2A
+            e1a    cs1(FLMXXXXXXXX)         Ethernet1/16/1    N9K-C9364D-GX2A
+            e1b    cs2(FDOXXXXXXXX)         Ethernet1/13/1    N9K-C9364D-GX2A
+            .
+            .
+            .
+            e7a    cs1(FLMXXXXXXXX)         Ethernet1/16/2    N9K-C9364D-GX2A
+            e7b    cs2(FDOXXXXXXXX)         Ethernet1/13/2    N9K-C9364D-GX2A
 .
 .
 .
@@ -911,7 +911,7 @@ node1-01/cdp
 cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true*
 Switch                      Type               Address          Model
 --------------------------- ------------------ ---------------- ---------------
-cs1(FDOXXXXXXXX)            cluster-network    10.228.137.233   N9K-C9332D-GX2B
+cs2(FDOXXXXXXXX)            cluster-network    10.228.137.233   N9K-C9364D-GX2A
      Serial Number: FDOXXXXXXXX
       Is Monitored: true
             Reason: None
@@ -920,7 +920,7 @@ cs1(FDOXXXXXXXX)            cluster-network    10.228.137.233   N9K-C9332D-GX2B
     Version Source: CDP/ISDP
 
 
-cs1(FLMXXXXXXXX)             cluster-network   10.228.137.253   N9K-C9332D-GX2B
+cs1(FLMXXXXXXXX)             cluster-network   10.228.137.253   N9K-C9364D-GX2A
      Serial Number: FLMXXXXXXXX
       Is Monitored: true
             Reason: None
@@ -1014,7 +1014,6 @@ storage port show -port-type ENET
 [subs=+quotes]
 ----
 cluster1::*> *storage port show -port-type ENET*
-
 
                                       Speed
 Node               Port Type  Mode    (Gb/s) State    Status
