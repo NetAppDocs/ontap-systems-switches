@@ -9,45 +9,135 @@ summary: You can install the RCF after setting up the Nexus 9364d-gx2a switch fo
 :imagesdir: ../media/
 
 [.lead]
-You install the RCF after setting up the Nexus 9364D-GX2A switch for the first time. You upgrade your RCF version when you have an existing version of the RCF file installed on your switch. 
+You can install or upgrade the reference configuration file (RCF) on your Nexus 9364D-GX2A switches. You install a supported version of the RCF on the switches as part of a new AFX 1K or AFX 2K system installation, a switch replacement, or a switch reset to factory default settings. You upgrade to a supported version of the RCF on the switches to support new hardware, a new ONTAP version, or to align with a new NX-OS version in your AFX system configuration.
 
-Refer to the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further information when installing or upgrading your RCF.
+NOTE: RCF installation or upgrade is independent of NS-OS installation or upgrade. If you are installing or upgrading both the NX-OS and RCF, it is recommended you install or upgrade NX-OS first. 
 
-.Available RCF configuration
 
-* *Cluster-HA-Storage AFX* - All ports are configured in 4x100GbE breakout mode that universally supports AFX node clusters, HA, storage ports, and NX224 storage shelf ports. 400GbE ISL between switches. (_Cluster-HA-Storage AFX RCF_vxx.x_). 
+=== Understand the supported RCF versions
+The version of ONTAP running on your AFX system and version of NX-OS on your switches determines the supported versions of RCF for your switches. RCF versions have preset port speed configurations that determine how many switch ports are in breakout mode (4x100GbE) and non-breakout mode.
 
-For specific port and VLAN usage details, refer to the banner and important notes section in your RCF. Refer to link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches^] for more information.
+[NOTE]
+====
+For the current list of supported RCF versions, see the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page.
 
-.Suggested documentation
+Switch port information can also be found in the https://hwu.netapp.com[NetApp Hardware Universe^].
+====
+
+NOTE: For specific port and VLAN usage details, refer to the banner and important notes section in your RCF. Refer to link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page for more information.
+
+* If you have an AFX 1K system, RCF 10.0 and later is supported:
++
+For example, the following table shows the preset groupings of the switch ports, their port speeds, and usage based on RCF version 10.0.
++
+[options="header" cols="1,2"]
+|===
+| Switch port groups | Port speeds and usage
+a|
+Ethernet1/1/1-4 to Ethernet1/62/1-4
+a|
+4x100GbE mode for cluster, HA, and storage connections 
+a|
+Ethernet1/63, Ethernet1/64
+a|
+400GbE ISL
+|===
++
+* If you have an AFX 2K system, RCF 10.1 and later is supported:
++
+For example, the following table shows the preset groups of the switch ports, their port speeds, and usage based on RCF version 10.1.
++
+//Filename : RCF-v10.1-NX9332D-GX2B-CL1-V1.txt
++
+[options="header" cols="1,2"]
+|===
+| Switch port groups | Port speeds and usage
+a|
+Ethernet1/1/1-4 to Ethernet1/13/1-4
+a|
+4x100GbE mode for Intra-cluster, HA, and storage shelf connections 
+//The term "shelf" can only be listed when this table is applicable to 2K only. Does not apply to 1K.
+a|
+Ethernet1/14 to Ethernet1/62
+a|
+400GbE mode for Intra-cluster, HA, and storage connections 
+a|
+Ethernet1/63, Ethernet1/64
+a|
+400GbE Intra-cluster ISL connections
+|===
+
+=== Change port speed configuration
+
+For switches with RCF 10.1 and later, you can change the port speed configuration to adjust the number of switch ports in breakout mode (4x100GbE) and non-breakout mode (400GbE) when you need to accommodate a different port speed configuration for your AFX system.
+
+You perform this change as part of the RCF installation or RCF upgrade procedure. The procedures have steps that link you to this page.
+
+You enter the commands on both switches.
+
+[options="header" cols="1,2"]
+|===
+| Change port speeds | Steps
+a|
+Change non-breakout ports to breakout ports
+a|
+. Enter config mode in the CLI.
+. Modify port speeds and breakout modes on the switches:
++
+To designate breakout ports, use the `interface breakout module` command. 
++
+For example, to designate 400GbE mode ports 15-19 as breakout (4x100GbE) ports, use the following: 
++
+`interface breakout module 1 port 15-19 map 100g-4x`
+
+. Modify the port list with the new ports that need to use the port profile for the desired port speed.
++ 
+For example, to modify the port list with the new ports,  15-19, for the 100G speed port profile, use the following: 
++
+`interface e1/15/1-4, e1/16/1-4, e1/17/1-4, e1/18/1-4, e1/19/1-4`
+
+. Hard-code the switch breakout (4x100GbE) ports for 100GbE. If you do not hard-code the speed, the ports will not come up and will be in an error-disabled state.
++
+`speed 100000`
++
+`no negotiate auto`
+
+a|
+Return breakout ports to non-breakout ports
+a|
+. Enter config mode in the CLI.
+
+. To return breakout ports to non-breakout ports, use the `no interface breakout` command in config mode. 
++
+For example, to return ports 15-19 to 400GbE mode, use the following: 
++
+`no interface breakout module 1 port 15-19` 
+|===
+
+=== Suggested documentation
+Before you install or upgrade the RCF on your switches, it is recommended you review the following documentation:
+
+* Refer to the NetApp Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further information when installing or upgrading your RCF.
+
+* Refer to the https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe^] to verify the correct ports on your platform.
+
 * link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet Switches (NSS)^]
 +
 Consult the switch compatibility table for the supported ONTAP and RCF versions on the NetApp Support Site. Note that there can be command dependencies between the command syntax in the RCF and the syntax found in specific versions of NX-OS.
 
-* link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/products-installation-guides-list.html[Cisco Nexus 9000 Series Switches^]
+* link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html[Cisco Nexus 9000 Series Switches^]
 +
 Refer to the appropriate software and upgrade guides available on the Cisco website for complete documentation on the Cisco switch upgrade and downgrade procedures.
 
-.About the examples
-The examples in this procedure use the following switch and node nomenclature:
 
-* The names of the two Cisco switches are cs1 and cs2.
-* The node names are node1-01, node1-02, node1-03, and node1-04.
-* The cluster LIF names are node1-01_clus1, node1-01_clus2, node1-02_clus1, node1-02_clus2, node1-03_clus1, node1-03_clus2, node1-04_clus1, and node1-04_clus2.
-* The `cluster1::*>` prompt indicates the name of the cluster.
-
-Refer to the link:https://hwu.netapp.com/SWITCH/INDEX[Hardware Universe^] to verify the correct cluster ports on your platforms.
-
-NOTE: The command outputs might vary depending on different releases of ONTAP.
-
-.Commands used
-The procedure requires the use of both ONTAP commands and Cisco Nexus 9000 Series Switches commands; ONTAP commands are used unless otherwise indicated.
 
 .What's next?
 
-After you've reviewed the install RCF or upgrade RCF procedure, you link:install-rcf-software-9364d-cluster.html[install the RCF] or link:upgrade-rcf-software-9364d-cluster.html[upgrade your RCF] as required.
+After you've reviewed the install or upgrade RCF overview, you link:configure-install-rcf-9364d.html[install the RCF] or link:configure-upgrade-rcf-9364d.html[upgrade the RCF] as needed.
+
 
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-06
 // AFFFASDOC-372, 2025-NOV-25
 // AFFFASDOC-473, 2026-MAR-16
 // AFFFASDOC-490, 2026-APR-28
+// Refactor content project phase 1 with 2K/RCF 10.1 content, GH#423 2026-JUN
