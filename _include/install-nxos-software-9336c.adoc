@@ -212,18 +212,70 @@ cluster1::*>
 .Upgrade to 10.5.3(f) and earlier
 --
 
-. step 1 here
+. Copy the NX-OS software and EPLD images to the Nexus 9336C-FX2 switch.
+
+. Verify the running version of the NX-OS software:
++
+`show version`
+
+. Install the NX-OS image.
++
+Installing the image file causes it to be loaded every time the switch is rebooted.
+
+. Verify the new version of NX-OS software after the switch has rebooted:
++
+`show version`
+
+. Upgrade the EPLD image and reboot the switch. 
+
+. After the switch reboot, log in again and verify that the new version of EPLD loaded successfully.
 
 --
 .Upgrade from a release earlier than 10.5.3(f) to 10.5.3(f)
 --
-. step 1 here
+. Copy the NX-OS software and EPLD images to the Nexus 9336C-FX2 switch.
+
+.  Verify the running version of the NX-OS software:
++
+`show version`
+
+. Install the NX-OS image.
++
+Installing the image file causes it to be loaded every time the switch is rebooted.
+
+. Verify the new version of NX-OS software after the switch has rebooted:
++
+`show version`
+
+. Upgrade the EPLD image and reboot the switch. 
+
+. After the switch reboot, log in again and verify that the new version of EPLD loaded successfully.
+
 --
 
-.Upgrade to 10.5.4(a) and later
+.Upgrade to 10.5.3(f) and later
 --
 
-step 1 here
+. Copy NX-OS and EPLD image to the first switch.
+
+. Verify the running version of NX-OS:
++
+`show version`
+
+. Install the NX-OS and EPLD image.
++
+Installing the image file causes it to be loaded every time the switch is rebooted.
++
+`install all nxos bootflash:nxos.<version number>.bin`
+
+. Verify the new version of NX-OS after the switch has rebooted: 
++
+`show version`
+
+. Verify that the new version of EPLD loaded successfully:
++
+`show install epld status`
+
 --
 ====
 
@@ -470,7 +522,7 @@ Cluster
 cluster1::*>
 ----
 ====
-+
+
 If cluster LIFs have not returned to their home ports, manually revert them from the local node:
 +
 `network interface revert -vserver Cluster -lif <lif_name>`
