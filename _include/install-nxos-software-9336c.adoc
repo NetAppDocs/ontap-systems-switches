@@ -209,143 +209,21 @@ cluster1::*>
 
 ==== 
 
---
-
 .Upgrade to 10.5.3(f) and earlier
-
 --
 
-. Copy the NX-OS software and EPLD images to the Nexus 9336C-FX2 switch.
-+
-`copy <protocol>: bootflash: vrf management`
-+
-.Show example
-[%collapsible]
-====
-
-[subs=+quotes]
-----
-cs2# *copy sftp: bootflash: vrf management*
-Enter source filename: /code/nxos.9.3.5.bin
-Enter hostname for the sftp server: 172.19.2.1
-Enter username: user1
-
-Outbound-ReKey for 172.19.2.1:22
-Inbound-ReKey for 172.19.2.1:22
-user1@172.19.2.1's password:
-sftp> progress
-Progress meter enabled
-sftp> get   /code/nxos.9.3.5.bin  /bootflash/nxos.9.3.5.bin
-/code/nxos.9.3.5.bin  100% 1261MB   9.3MB/s   02:15
-sftp> exit
-Copy complete, now saving to disk (please wait)...
-Copy complete.
-
-
-cs2# *copy sftp: bootflash: vrf management*
-Enter source filename: /code/n9000-epld.9.3.5.img
-Enter hostname for the sftp server: 172.19.2.1
-Enter username: user1
-
-Outbound-ReKey for 172.19.2.1:22
-Inbound-ReKey for 172.19.2.1:22
-user1@172.19.2.1's password:
-sftp> progress
-Progress meter enabled
-sftp> get   /code/n9000-epld.9.3.5.img  /bootflash/n9000-epld.9.3.5.img
-/code/n9000-epld.9.3.5.img  100%  161MB   9.5MB/s   00:16
-sftp> exit
-Copy complete, now saving to disk (please wait)...
-Copy complete.
-----
-====
+. step 1 here
 
 --
-
 .Upgrade from a release earlier than 10.5.3(f) to 10.5.3(f)
-
+--
+. step 1 here
 --
 
-. Copy the NX-OS software and EPLD images to the Nexus 9336C-FX2 switch.
-+
-`copy <protocol>: bootflash: vrf management`
-+
-.Show example
-[%collapsible]
-====
-
-[subs=+quotes]
-----
-cs2# *copy sftp: bootflash: vrf management*
-Enter source filename: /code/nxos.9.3.5.bin
-Enter hostname for the sftp server: 172.19.2.1
-Enter username: user1
-
-Outbound-ReKey for 172.19.2.1:22
-Inbound-ReKey for 172.19.2.1:22
-user1@172.19.2.1's password:
-sftp> progress
-Progress meter enabled
-sftp> get   /code/nxos.9.3.5.bin  /bootflash/nxos.9.3.5.bin
-/code/nxos.9.3.5.bin  100% 1261MB   9.3MB/s   02:15
-sftp> exit
-Copy complete, now saving to disk (please wait)...
-Copy complete.
-
-
-cs2# *copy sftp: bootflash: vrf management*
-Enter source filename: /code/n9000-epld.9.3.5.img
-Enter hostname for the sftp server: 172.19.2.1
-Enter username: user1
-
-Outbound-ReKey for 172.19.2.1:22
-Inbound-ReKey for 172.19.2.1:22
-user1@172.19.2.1's password:
-sftp> progress
-Progress meter enabled
-sftp> get   /code/n9000-epld.9.3.5.img  /bootflash/n9000-epld.9.3.5.img
-/code/n9000-epld.9.3.5.img  100%  161MB   9.5MB/s   00:16
-sftp> exit
-Copy complete, now saving to disk (please wait)...
-Copy complete.
-----
-====
-
+.Upgrade to 10.5.4(a) and later
 --
 
-.Upgrade to 10.5.3(f) and later
-
---
-. Copy NX-OS and EPLD image to the first switch.
-+
-`copy <protocol>: bootflash: vrf management`
-+
-.Show example
-[%collapsible]
-====
-
-The example uses sftp.
-
-[subs=+quotes]
-----
-cs1# *copy sftp: bootflash: vrf management*
-Enter source filename: */code/nxos64-s1.10.6.3.F.bin*
-Enter hostname for the sftp server: *172.19.2.1*
-Enter username: *root*
-
-Outbound-ReKey for 172.19.2.1:22
-Inbound-ReKey for 172.19.2.1:22
-root@172.19.2.1's password:
-sftp> progress
-Progress meter enabled
-sftp> get   /code/nxos64-s1.10.6.3.F.bin  /bootflash/nxos64-s1.10.6.3.F.bin
-/code/nxos64-s1.10.6.3.F.bin  100% 1261MB   9.3MB/s   02:15
-sftp> exit
-Copy complete, now saving to disk (please wait)...
-Copy complete.
-----
-====
-
+step 1 here
 --
 ====
 
@@ -554,6 +432,8 @@ RPC status:
 2 paths up, 0 paths down (tcp check)
 2 paths up, 0 paths down (udp check)
 ----
+====
+
 --
 ====
 
