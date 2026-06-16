@@ -209,17 +209,19 @@ cluster1::*>
 
 ==== 
 
-.Upgrade to 10.5.3(f) and earlier
+.Upgrade to 10.3.5(m) and earlier
 --
 
 [start=6]
 . [[step6]] Copy the NX-OS software and EPLD images to the Nexus 9336C-FX2 switch.
 +
+`copy <protocol>: bootflash: vrf management`
++
 
 [subs=+quotes]
 ----
 cs2# *copy sftp: bootflash: vrf management*
-Enter source filename: /code/nxos.9.3.5.bin
+Enter source filename: /code/nxos.10.3.5.M.bin
 Enter hostname for the sftp server: 172.19.2.1
 Enter username: user1
 
@@ -228,15 +230,15 @@ Inbound-ReKey for 172.19.2.1:22
 user1@172.19.2.1's password:
 sftp> progress
 Progress meter enabled
-sftp> get   /code/nxos.9.3.5.bin  /bootflash/nxos.9.3.5.bin
-/code/nxos.9.3.5.bin  100% 1261MB   9.3MB/s   02:15
+sftp> get   /code/nxos.10.3.5.M.bin  /bootflash/nxos.10.3.5.M.bin
+/code/nxos.10.3.5.M.bin  100% 1261MB   9.3MB/s   02:15
 sftp> exit
 Copy complete, now saving to disk (please wait)...
 Copy complete.
 
 
 cs2# *copy sftp: bootflash: vrf management*
-Enter source filename: /code/n9000-epld.9.3.5.img
+Enter source filename: /code/n9000-epld.10.3.5.M.img
 Enter hostname for the sftp server: 172.19.2.1
 Enter username: user1
 
@@ -245,8 +247,8 @@ Inbound-ReKey for 172.19.2.1:22
 user1@172.19.2.1's password:
 sftp> progress
 Progress meter enabled
-sftp> get   /code/n9000-epld.9.3.5.img  /bootflash/n9000-epld.9.3.5.img
-/code/n9000-epld.9.3.5.img  100%  161MB   9.5MB/s   00:16
+sftp> get   /code/n9000-epld.10.3.5.M.img  /bootflash/n9000-epld.10.3.5.M.img
+/code/n9000-epld.10.3.5.M.img  100%  161MB   9.5MB/s   00:16
 sftp> exit
 Copy complete, now saving to disk (please wait)...
 Copy complete.
@@ -283,9 +285,9 @@ http://www.gnu.org/licenses/old-licenses/library.txt.
 
 Software
   BIOS: version 08.38
-  NXOS: version 9.3(4)
+  NXOS: version 9.3(5)
   BIOS compile time:  05/29/2020
-  NXOS image file is: bootflash:///nxos.9.3.4.bin
+  NXOS image file is: bootflash:///nxos.9.3.5.bin
   NXOS compile time:  4/28/2020 21:00:00 [04/29/2020 02:28:31]
 
 
@@ -320,21 +322,21 @@ Installing the image file causes it to be loaded every time the switch is reboot
 
 [subs=+quotes]
 ----
-cs2# *install all nxos bootflash:nxos.9.3.5.bin*
+cs2# *install all nxos bootflash:nxos.10.3.5.M.bin*
 
 Installer will perform compatibility check first. Please wait.
 Installer is forced disruptive
 
-Verifying image bootflash:/nxos.9.3.5.bin for boot variable "nxos".
+Verifying image bootflash:/nxos.10.3.5.M.bin for boot variable "nxos".
 [] 100% -- SUCCESS
 
 Verifying image type.
 [] 100% -- SUCCESS
 
-Preparing "nxos" version info using image bootflash:/nxos.9.3.5.bin.
+Preparing "nxos" version info using image bootflash:/nxos.10.3.5.M.bin.
 [] 100% -- SUCCESS
 
-Preparing "bios" version info using image bootflash:/nxos.9.3.5.bin.
+Preparing "bios" version info using image bootflash:/nxos.10.3.5.M.bin.
 [] 100% -- SUCCESS
 
 Performing module support checks.
@@ -354,7 +356,7 @@ Images will be upgraded according to following table:
 
 Module   Image    Running-Version(pri:alt)                 New-Version         Upg-Required
 ------- --------- ---------------------------------------- ------------------- ------------
-  1      nxos     9.3(4)                                   9.3(5)                  yes
+  1      nxos     9.3(5)                                   10.3.5(M)               yes
   1      bios     v08.37(01/28/2020):v08.23(09/23/2015)    v08.38(05/29/2020)      yes
 
 
@@ -413,9 +415,8 @@ http://www.gnu.org/licenses/old-licenses/library.txt.
 
 Software
   BIOS: version 05.33
-  NXOS: version 9.3(5)
-  BIOS compile time:  09/08/2018
-  NXOS image file is: bootflash:///nxos.9.3.5.bin
+  NXOS: version 10.3.5(M)  BIOS compile time:  09/08/2018
+  NXOS image file is: bootflash:///nxos.10.3.5.M.bin
   NXOS compile time:  11/4/2018 21:00:00 [11/05/2018 06:11:06]
 
 
@@ -458,7 +459,7 @@ GEM  FPGA                        0x2
 GEM  FPGA                        0x2
 GEM  FPGA                        0x2
 
-cs2# *install epld bootflash:n9000-epld.9.3.5.img module all*
+cs2# *install epld bootflash:n9000-epld.10.3.5.M.img module all*
 Compatibility check:
 Module  Type      Upgradable        Impact      Reason
 ------  --------- ----------------- ----------- -----------
@@ -514,11 +515,13 @@ GEM  FPGA                        0x2
 [start=6]
 . [[step6]]Copy the NX-OS software and EPLD image to the Nexus 9336C-FX2 switch.
 +
+`copy <protocol>: bootflash: vrf management`
++
 
 [subs=+quotes]
 ----
 cs2# *copy sftp: bootflash: vrf management*
-Enter source filename: /code/nxos.10.5.3.bin
+Enter source filename: /code/nxos.10.5.3.F.bin
 Enter hostname for the sftp server: 172.19.2.1
 Enter username: user1
 
@@ -527,15 +530,15 @@ Inbound-ReKey for 172.19.2.1:22
 user1@172.19.2.1's password:
 sftp> progress
 Progress meter enabled
-sftp> get   /code/nxos.10.5.3.bin  /bootflash/nxos.10.5.3.bin
-/code/nxos.10.5.3.bin  100% 1261MB   9.3MB/s   02:15
+sftp> get   /code/nxos.10.5.3.F.bin  /bootflash/nxos.10.5.3.F.bin
+/code/nxos.10.5.3.F.bin  100% 1261MB   9.3MB/s   02:15
 sftp> exit
 Copy complete, now saving to disk (please wait)...
 Copy complete.
 
 
 cs2# *copy sftp: bootflash: vrf management*
-Enter source filename: /code/n9000-epld.10.5.3.img
+Enter source filename: /code/n9000-epld.10.5.3.F.img
 Enter hostname for the sftp server: 172.19.2.1
 Enter username: user1
 
@@ -582,9 +585,9 @@ http://www.gnu.org/licenses/old-licenses/library.txt.
 
 Software
   BIOS: version 08.38
-  NXOS: version 10.3.4
+  NXOS: version 10.3.5(M)
   BIOS compile time:  05/29/2020
-  NXOS image file is: bootflash:///nxos.10.3.4.bin
+  NXOS image file is: bootflash:///nxos.10.3.5.M.bin
   NXOS compile time:  4/28/2020 21:00:00 [04/29/2020 02:28:31]
 
 
@@ -616,34 +619,34 @@ cs2#
 
 [NOTE]
 =======
-The EPLD image is not automatically updated when you upgrade to NX-OS 10.5(3) or later. After your upgrade completes and the switch reboots, you must run the same upgrade `install all` command again.
+The EPLD image is not automatically updated when you upgrade to NX-OS 10.5(3) and later. After your upgrade completes and the switch reboots, you must run the same upgrade `install all` command again.
 
 * The second upgrade pass verifies, but skips the NX-OS upgrade; only the EPLD image is updated.
-* When you have already upgraded to NX-OS 10.5(3) or later, both images are updated at the same time.
+* When you have already upgraded to NX-OS 10.5(3) and later, both images are updated at the same time.
 =======
 
 Installing the image file causes it to be loaded every time the switch is rebooted.
 
 
-The following step shows an upgrade from NX-OS 10.3(4a) to 10.5(4). The first pass performs the NX-OS upgrade and the second pass performs the EPLD image upgrade.
+The following step shows an upgrade from NX-OS 10.3.5(m) to 10.5.3(f). The first pass performs the NX-OS upgrade and the second pass performs the EPLD image upgrade.
 
 [subs=+quotes]
 ----
-cs2# *install all nxos bootflash:nxos64-cs.10.5.4.M.bin*   <---- 1st pass updates NX-OS only
+cs2# *install all nxos bootflash:nxos64-cs.10.5.3.F.bin*   <---- 1st pass updates NX-OS only
 
 Installer will perform compatibility check first. Please wait.
 Installer is forced disruptive
 
-Verifying image bootflash:/nxos64-cs.10.5.4.M.bin for boot variable "nxos".
+Verifying image bootflash:/nxos64-cs.10.5.3.F.bin for boot variable "nxos".
 [####################] 100% -- SUCCESS
 
 Verifying image type.
 [####################] 100% -- SUCCESS
 
-Preparing "nxos" version info using image bootflash:/nxos64-cs.10.5.4.M.bin.
+Preparing "nxos" version info using image bootflash:/nxos64-cs.10.5.3.F.bin.
 [####################] 100% -- SUCCESS
 
-Preparing "bios" version info using image bootflash:/nxos64-cs.10.5.4.M.bin.
+Preparing "bios" version info using image bootflash:/nxos64-cs.10.5.3.F.bin.
 [####################] 100% -- SUCCESS
 
 Performing module support checks.
@@ -663,7 +666,7 @@ Images will be upgraded according to following table:
 
 Module   Image    Running-Version(pri:alt)                 New-Version          Upg-Required
 ------- --------- ---------------------------------------- -------------------- ------------ 
-1        nxos     10.3(4a)                                 10.5(4)              yes
+1        nxos     10.3.5(m)                                 10.5.3(f)           yes
 1        bios     v05.47(04/28/2022):v05.47(04/28/2022)    v05.53(01/22/2025)   yes
 
 Switch will be reloaded for disruptive upgrade.
@@ -689,24 +692,24 @@ Warning: please do not remove or power off the module at this time.
 Finishing the upgrade, switch will reboot in 10 seconds.
 
 
-cs2# *install all nxos bootflash:nxos64-cs.10.5.4.M.bin*   <---- 2nd pass updates EPLD image only
+cs2# *install all nxos bootflash:nxos64-cs.10.5.3.F.bin*   <---- 2nd pass updates EPLD image only
  
 Installer will perform compatibility check first. Please wait. 
 Installer is forced disruptive
  
-Verifying image bootflash:/nxos64-cs.10.5.4.M.bin for boot variable "nxos".
+Verifying image bootflash:/nxos64-cs.10.5.3.F.bin for boot variable "nxos".
 [####################] 100% -- SUCCESS
  
-Verifying EPLD/FPGA image //bootflash/nxos64-cs.10.5.4.M.bin.
+Verifying EPLD/FPGA image //bootflash/nxos64-cs.10.5.3.F.bin.
 [####################] 100% -- SUCCESS
  
 Verifying image type.
 [####################] 100% -- SUCCESS
  
-Preparing "nxos" version info using image bootflash:/nxos64-cs.10.5.4.M.bin.
+Preparing "nxos" version info using image bootflash:/nxos64-cs.10.5.3.F.bin.
 [####################] 100% -- SUCCESS
  
-Preparing "bios" version info using image bootflash:/nxos64-cs.10.5.4.M.bin.
+Preparing "bios" version info using image bootflash:/nxos64-cs.10.5.3.F.bin.
 [####################] 100% -- SUCCESS
 
 Performing module support checks.
@@ -726,7 +729,7 @@ Module  bootable  Impact          Install-type  Reason
 Images will be upgraded according to following table:
 Module    Image                  Running-Version(pri:alt)              New-Version         Upg-Required
 --------  ---------------------  ------------------------------------- --------------  ------------
-27        nxos                   10.5(4)                               10.5(4)                no
+27        nxos                   10.3.5(m)                             10.5.3(f)                no
 27        bios                   v05.53(01/22/2025):v05.47(04/28/2022) v05.53(01/22/2025)     no
  
  
@@ -808,9 +811,9 @@ http://www.gnu.org/licenses/old-licenses/library.txt.
 
 Software
   BIOS: version 05.33
-  NXOS: version 10.5.4
+  NXOS: version 10.5.3(f)
   BIOS compile time:  09/08/2018
-  NXOS image file is: bootflash:///nxos.10.5.4.M.bin
+  NXOS image file is: bootflash:///nxos.10.5.3.F.bin
   NXOS compile time:  11/4/2018 21:00:00 [11/05/2018 06:11:06]
 
 
@@ -860,7 +863,8 @@ GEM  FPGA                        0x2
 [start=6]
 . [[step6]]Copy NX-OS and EPLD image to the first switch.
 +
-
+`copy <protocol>: bootflash: vrf management`
++
 The example uses sftp.
 
 +
