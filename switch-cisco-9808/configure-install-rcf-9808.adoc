@@ -73,7 +73,7 @@ This example shows TFTP being used to copy an RCF to the bootflash on switch cs1
 [subs=+quotes]
 ----
 cs1# *copy tftp: bootflash: vrf management*
-Enter source filename: *NX9332D-GX2B-RCF-v10.0-Shared.txt*
+Enter source filename: *NX9808-RCF-v10.1 1-Cluster 1-Storage.txt*
 Enter hostname for the tftp server: *172.22.201.50*
 Trying to connect to tftp server......Connection to Server Established.
 TFTP get operation was successful
@@ -90,12 +90,11 @@ This example shows the RCF file `NX9332D-GX2B-RCF-v10.0-Shared.txt` being instal
 +
 [subs=+quotes]
 ----
-cs1# *copy NX9332D-GX2B-RCF-v10.0-Shared.txt running-config echo-commands*
+cs1# *copy NX9808-RCF-v10.1 1-Cluster 1-Storage.txt running-config echo-commands*
 ----
 +
-NOTE: For RCF 10.1 and later, the file name format is different: `RCF-v10.1-NX9332D-GX2B-CL1.txt`.
+//NOTE: For RCF 10.1 and later, the file name format is different: `RCF-v10.1-NX9332D-GX2B-CL1.txt`.
 
-+
 . Examine the banner output from the `show banner motd` command. You must read and follow these instructions to ensure the proper configuration and operation of the switch.
 +
 .Show example 
@@ -109,16 +108,17 @@ cs1# show banner motd
 ******************************************************************************
 * NetApp Reference Configuration File (RCF)
 *
-* Switch   : NX9332D-GX2B
-* Filename : NX9332D-GX2B-RCF-v10.0-Shared.txt
-* Date     : 05-09-2025
-* Version  : v10.0
+* Switch   : NX9808
+* Filename : NX9808-RCF-v10.1 1-Cluster 1-Storage.txt
+* Date     : 04-11-2026
+* Version  : v10.1
 * Port Usage:
-* Ports  1-30: 100GbE Intra-Cluster/HA/Storage Ports, int e1/{1-30}/1-4
-* Ports 31-32: Intra-Cluster ISL Ports, int e1/31-32
-*
+* Ports   1-18 (LC1-LC8) : 400GbE Cluster/Storage/HA ports.
+* Ports   19-35 (LC1-LC8): 4 * 100 GbE Storage shelf ports, int e1-e8/{19-35}/1-4
+* Port    36 (LC1-LC8)   : Intra-Cluster ISL Ports, int e1-e8/36
 * IMPORTANT NOTES
-* Interface port-channel999 is reserved to identify the version of this file.
+* Interface port-channel998/9 is reserved to identify the version of this file.
+
 ******************************************************************************
 ----
 ====
