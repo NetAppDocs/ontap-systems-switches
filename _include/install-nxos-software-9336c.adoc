@@ -1436,8 +1436,6 @@ RPC status:
 2 paths up, 0 paths down (tcp check)
 2 paths up, 0 paths down (udp check)
 ----
-====
-
 --
 ====
 
@@ -1475,6 +1473,7 @@ cluster1::*>
 ----
 ====
 
++
 If cluster LIFs have not returned to their home ports, manually revert them from the local node:
 +
 `network interface revert -vserver Cluster -lif <lif_name>`
