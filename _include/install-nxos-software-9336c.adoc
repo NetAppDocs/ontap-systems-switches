@@ -45,6 +45,8 @@ Use ONTAP commands in this procedure unless a Cisco Nexus 9000 Series Switch com
 
 . Use the ping command to verify connectivity to the server hosting the NX-OS software and the RCF.
 +
+`ping <IP address> vrf management`
++
 .Show example
 [%collapsible]
 ====
@@ -697,6 +699,8 @@ Installing the image file causes it to be loaded every time the switch is reboot
 +
 The following step shows an upgrade from NX-OS 10.4(5)(M) to 10.5(3)(F). The first pass performs the NX-OS upgrade and the second pass performs the EPLD image upgrade.
 +
+`install all nxos bootflash:<nxos_image.bin>`
++
 
 .Example
 [%collapsible]
@@ -1062,7 +1066,7 @@ cs2#
 +
 Installing the image file causes it to be loaded every time the switch is rebooted.
 +
-`install all nxos bootflash:nxos.<version number>.bin`
+`install all nxos bootflash:<nxos_image.bin>`
 
 +
 The example uses NX-OS version 10.5(4)(M).
@@ -1110,7 +1114,7 @@ Images will be upgraded according to following table:
 Module   Image    Running-Version(pri:alt)                 New-Version         Upg-Required
 ------- --------- ---------------------------------------- ------------------- ------------
   1      nxos     10.5(3)(F)                                10.5(4)(M)         Yes
-  1      bios     xx.xx.:xx.xx                             xxx                 No
+  1      bios     xx.xx.:xx.xx                              xxx                No
 
 
 Switch will be reloaded for disruptive upgrade.
