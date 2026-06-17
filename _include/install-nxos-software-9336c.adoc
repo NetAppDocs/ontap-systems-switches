@@ -204,6 +204,8 @@ cluster1::*>
 +
 `network interface modify -vserver Cluster -lif * -auto-revert false`
 
+. Upgrade the version of NX-OS and EPLD using the applicable procedure.
+
 // start of tabbed content 
 [role="tabbed-block"] 
 
@@ -212,14 +214,20 @@ cluster1::*>
 .Upgrade to 10.4(5)(M)
 --
 
-[start=6]
-. [[step6]] Copy the NX-OS software and EPLD images to the Nexus 9336C-FX2 switch.
+[start=a]
+.. [[stepa]] Copy the NX-OS software and EPLD images to the Nexus 9336C-FX2 switch.
 +
 `copy <protocol>: bootflash: vrf management`
 +
 
+.Example
+[%collapsible]
+
+=====
+
 [subs=+quotes]
-----
+
+....
 cs2# *copy sftp: bootflash: vrf management*
 Enter source filename: */code/nxos.10.4.5.M.bin*
 Enter hostname for the sftp server: *172.19.2.1*
@@ -252,16 +260,24 @@ sftp> *get /code/n9000-epld.10.4.5.M.img /bootflash/n9000-epld.10.4.5.M.img*
 sftp> *exit*
 Copy complete, now saving to disk (please wait)...
 Copy complete.
-----
+....
+=====
 
 
-. Verify the running version of the NX-OS software:
+.. Verify the running version of the NX-OS software:
 +
 `show version`
 
 +
+
+.Example
+[%collapsible]
+
+=====
+
 [subs=+quotes]
-----
+
+....
 cs2# *show version*
 Cisco Nexus Operating System (NX-OS) Software
 TAC support: http://www.cisco.com/tac
@@ -313,15 +329,25 @@ Active Package(s):
 
 
 cs2#
-----
+....
+=====
 
-. Install the NX-OS image.
+.. Install the NX-OS image.
 +
 Installing the image file causes it to be loaded every time the switch is rebooted.
 +
+`install all nxos bootflash:<bin_file_name>`
+
++
+
+.Example
+[%collapsible]
+
+=====
 
 [subs=+quotes]
-----
+
+....
 cs2# *install all nxos bootflash:nxos.10.4.5.M.bin*
 
 Installer will perform compatibility check first. Please wait.
@@ -380,15 +406,22 @@ Warning: please do not remove or power off the module at this time.
 [] 100% -- SUCCESS
 
 Finishing the upgrade, switch will reboot in 10 seconds.
-----
+....
+=====
 
-
-. Verify the new version of NX-OS software after the switch has rebooted:
+.. Verify the new version of NX-OS software after the switch has rebooted:
 +
 `show version`
 +
+
+.Example
+[%collapsible]
+
+=====
+
 [subs=+quotes]
-----
+
+....
 cs2# *show version*
 
 cs2# show version
@@ -438,15 +471,25 @@ plugin
   Core Plugin, Ethernet Plugin
 
 Active Package(s):
-----
+....
+=====
 
-. Upgrade the EPLD image and reboot the switch. 
+
+.. Upgrade the EPLD image and reboot the switch. 
 +
 `show version module 1 epld`
 +
+`install epld bootflash:<image_file_name> module all`
++
+
+.Example
+[%collapsible]
+
+=====
 
 [subs=+quotes]
-----
+
+....
 cs2# *show version module 1 epld*
 
 EPLD Device                     Version
@@ -489,17 +532,26 @@ Module   Type  Upgrade-Result
 EPLDs upgraded.
 
 Module 1 EPLD upgrade is successful.
-----
+....
+=====
 
-. After the switch reboot, log in again and verify that the new version of EPLD loaded successfully.
+.. After the switch reboot, log in again and verify that the new version of EPLD loaded successfully.
++
+`show version module 1 epld`
 +
 
+.Example
+[%collapsible]
+
+=====
+
 [subs=+quotes]
-----
+
+....
 cs2# *show version module 1 epld*
 
 EPLD Device                     Version
----------------------------------------
+---- -------------------------- -------
 MI   FPGA                        0x7
 IO   FPGA                        0x19
 MI   FPGA2                       0x2
@@ -507,19 +559,26 @@ GEM  FPGA                        0x2
 GEM  FPGA                        0x2
 GEM  FPGA                        0x2
 GEM  FPGA                        0x2
-----
+....
+=====
 
 --
 .Upgrade from 10.4(5)(M) or earlier to 10.5(3)(F) or later
 --
-[start=6]
-. [[step6]]Copy the NX-OS software and EPLD image to the Nexus 9336C-FX2 switch.
+[start=a]
+.. [[stepa]] Copy the NX-OS software and EPLD image to the Nexus 9336C-FX2 switch.
 +
 `copy <protocol>: bootflash: vrf management`
 +
 
+.Example
+[%collapsible]
+
+=====
+
 [subs=+quotes]
-----
+
+....
 cs2# *copy sftp: bootflash: vrf management*
 Enter source filename: */code/nxos.10.5.3.F.bin*
 Enter hostname for the sftp server: *172.19.2.1*
@@ -552,16 +611,24 @@ sftp> *get /code/n9000-epld.10.5.3.F.img /bootflash/n9000-epld.10.5.3.F.img*
 sftp> *exit*
 Copy complete, now saving to disk (please wait)...
 Copy complete.
-----
+....
+=====
 
-
-.  Verify the running version of the NX-OS software:
+.. Verify the running version of the NX-OS software:
 +
 `show version`
 
+
 +
+
+.Example
+[%collapsible]
+
+=====
+
 [subs=+quotes]
-----
+
+....
 cs2# *show version*
 Cisco Nexus Operating System (NX-OS) Software
 TAC support: http://www.cisco.com/tac
@@ -611,11 +678,12 @@ plugin
 
 Active Package(s):
 
-
 cs2#
-----
+....
+=====
 
-. Install the NX-OS and EPLD image.
+.. Install the NX-OS and EPLD image.
++
 
 [NOTE]
 =======
@@ -624,14 +692,22 @@ The EPLD image is not automatically updated when you upgrade to NX-OS 10.5(3)(F)
 * The second upgrade pass verifies, but skips the NX-OS upgrade; only the EPLD image is updated.
 * When you have already upgraded to NX-OS 10.5(3)(F) and later, both images are updated at the same time.
 =======
++
 
 Installing the image file causes it to be loaded every time the switch is rebooted.
 
-
++
 The following step shows an upgrade from NX-OS 10.4(5)(M) to 10.5.3(F). The first pass performs the NX-OS upgrade and the second pass performs the EPLD image upgrade.
++
+
+.Example
+[%collapsible]
+
+=====
 
 [subs=+quotes]
-----
+
+....
 cs2# *install all nxos bootflash:nxos.10.5.3.F.bin*   <---- 1st pass updates NX-OS only
 
 Installer will perform compatibility check first. Please wait.
@@ -778,16 +854,23 @@ Performing EPLD/FPGA upgrade.
 [####################] 100% -- SUCCESS
  
 Install has been successful.
-----
+....
+=====
 
-[start=9]
-. [[step9]] Verify the new version of NX-OS software after the switch has rebooted:
+[start=d]
+.. [[stepd]] Verify the new version of NX-OS software after the switch has rebooted:
 +
 `show version`
 +
 
+.Example
+[%collapsible]
+
+=====
+
 [subs=+quotes]
-----
+
+....
 cs2# *show version*
 Cisco Nexus Operating System (NX-OS) Software
 TAC support: http://www.cisco.com/tac
@@ -835,13 +918,23 @@ plugin
   Core Plugin, Ethernet Plugin
 
 Active Package(s):
-----
+....
+=====
 
-. After the switch reboot, log in again and verify that the new version of EPLD loaded successfully.
+.. After the switch reboot, log in again and verify that the new version of EPLD loaded successfully.
++
+`show version module 1 epld`
+
 +
 
+.Example
+[%collapsible]
+
+=====
+
 [subs=+quotes]
-----
+
+....
 cs2# *show version module 1 epld*
 
 EPLD Device                     Version
@@ -853,23 +946,31 @@ GEM  FPGA                        0x2
 GEM  FPGA                        0x2
 GEM  FPGA                        0x2
 GEM  FPGA                        0x2
-----
+....
+=====
 
-. Skip to step 12 to verify the health of cluster ports and switch health from the cluster after the upgrade.
+.. Skip to step 7 to verify the health of cluster ports and switch health from the cluster after the upgrade.
 --
 
 .Upgrade from 10.5(3)F to a later version
 --
-[start=6]
-. [[step6]]Copy NX-OS and EPLD image to the first switch.
+[start=a]
+.. [[stepa]] Copy NX-OS and EPLD image to the first switch.
 +
 `copy <protocol>: bootflash: vrf management`
 +
 The example uses sftp.
 
+
 +
+.Example
+[%collapsible]
+
+=====
+
 [subs=+quotes]
-----
+
+....
 cs2# *copy sftp: bootflash: vrf management*
 Enter source filename: */code/nxos64-s1.10.6.3.F.bin*
 Enter hostname for the sftp server: *172.19.2.1*
@@ -885,16 +986,22 @@ sftp> get /code/nxos64-s1.10.6.3.F.bin /bootflash/nxos64-s1.10.6.3.F.bin
 sftp> *exit*
 Copy complete, now saving to disk (please wait)...
 Copy complete.
-----
+....
+=====
 
-. Verify the running version of NX-OS:
+.. Verify the running version of NX-OS:
 +
 `show version`
 
 +
+.Example
+[%collapsible]
+
+=====
 
 [subs=+quotes]
-----
+
+....
 cs2# *show version*
 Cisco Nexus Operating System (NX-OS) Software
 TAC support: http://www.cisco.com/tac
@@ -951,9 +1058,10 @@ plugin
 Active Package(s):
 
 cs2#
-----
+....
+=====
 
-. Install the NX-OS and EPLD image.
+.. Install the NX-OS and EPLD image.
 +
 Installing the image file causes it to be loaded every time the switch is rebooted.
 +
@@ -961,10 +1069,15 @@ Installing the image file causes it to be loaded every time the switch is reboot
 
 +
 The example uses NX-OS version 10.6.3(f).
-+
+
+.Example
+[%collapsible]
+
+=====
 
 [subs=+quotes]
-----
+
+....
 cs2# *install all nxos bootflash:nxos64-s1.10.6.3.F.bin*
 
 Installer will perform compatibility check first. Please wait.
@@ -1023,16 +1136,24 @@ Warning: please do not remove or power off the module at this time.
 [####################] 100% -- SUCCESS
 
 Finishing the upgrade, switch will reboot in 10 seconds.
-----
+....
+=====
 
 
 . Verify the new version of NX-OS after the switch has rebooted: 
 +
 `show version`
 
-+
+
+
+.Example
+[%collapsible]
+
+=====
+
 [subs=+quotes]
-----
+
+....
 cs1# *show version*
 Cisco Nexus Operating System (NX-OS) Software
 TAC support: http://www.cisco.com/tac
@@ -1087,18 +1208,25 @@ plugin
 
 
 Active Package(s):
-----
+....
+=====
 
-. Verify that the new version of EPLD loaded successfully:
+.. Verify that the new version of EPLD loaded successfully:
 +
 `show install epld status`
 +
 
 The example uses EPLD version 10.6.3(F).
-+
+
+
+.Example
+[%collapsible]
+
+=====
 
 [subs=+quotes]
-----
+
+....
 cs2# *show install epld status*
 
 1) Module 2 upgraded on Mon May  4 09:17:08 2026 (631239  us) 
@@ -1251,9 +1379,10 @@ EPLD                            Curr Ver        Old Ver
 MI FPGA                         0x10014         0x1000b
 IO FPGA                         0x10033         0x10006
 cs1#
-----
+....
+=====
 
-. Skip to step 12 to verify the health of cluster ports and switch health from the cluster after the upgrade.
+.. Skip to step 7 to verify the health of cluster ports and switch health from the cluster after the upgrade.
 --
 ====
 
