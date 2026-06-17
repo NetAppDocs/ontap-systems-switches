@@ -206,7 +206,13 @@ cluster1::*>
 +
 `network interface modify -vserver Cluster -lif * -auto-revert false`
 
-. Download and install the NX-OS software and EPLD image. The steps can vary based on your current NX-OS version and the target NX-OS version. Choose the tab that applies to your situation.
+. Download and install the NX-OS software and EPLD image. The steps can vary based on your current NX-OS version and the target NX-OS version. 
++
+Choose the tab that applies to your situation:
+
+* Upgrade to 10.4(5)(M)
+* Upgrade from 10.4(5)(M) or earlier to 10.5(3)(F) or later
+* Upgrade from 10.5(3)(F) to a later version
 
 // start of tabbed content 
 [role="tabbed-block"] 
@@ -950,9 +956,7 @@ GEM  FPGA                        0x2
 ....
 =====
 
-.. Skip to step 7 to verify the health of cluster ports and switch health from the cluster after the upgrade.
 --
-
 .Upgrade from 10.5(3)(F) to a later version
 --
 
@@ -1381,8 +1385,6 @@ IO FPGA                         0x10033         0x10006
 cs1#
 ....
 =====
-
-.. Skip to step 7 to verify the health of cluster ports and switch health from the cluster after the upgrade.
 --
 ====
 
