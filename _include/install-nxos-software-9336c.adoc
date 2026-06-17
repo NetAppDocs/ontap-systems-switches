@@ -53,7 +53,7 @@ This example verifies that the switch can reach the server at IP address 172.19.
 
 [subs=+quotes]
 ----
-cs2# *ping 172.19.2.1 VRF management*
+cs2# *ping 172.19.2.1 vrf management*
 Pinging 172.19.2.1 with 0 bytes of data:
 
 Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
@@ -204,7 +204,7 @@ cluster1::*>
 +
 `network interface modify -vserver Cluster -lif * -auto-revert false`
 
-. Upgrade the version of NX-OS and EPLD using the applicable procedure.
+. Download and install the NX-OS software and EPLD image. The steps can vary based on your current NX-OS version and the target NX-OS version. Choose the tab that applies to your situation.
 
 // start of tabbed content 
 [role="tabbed-block"] 
@@ -423,8 +423,6 @@ Finishing the upgrade, switch will reboot in 10 seconds.
 
 ....
 cs2# *show version*
-
-cs2# show version
 
 Cisco Nexus Operating System (NX-OS) Software
 TAC support: http://www.cisco.com/tac
@@ -682,7 +680,7 @@ cs2#
 ....
 =====
 
-.. Install the NX-OS and EPLD image.
+.. Install the NX-OS and EPLD images.
 +
 
 [NOTE]
@@ -697,7 +695,7 @@ The EPLD image is not automatically updated when you upgrade to NX-OS 10.5(3)(F)
 Installing the image file causes it to be loaded every time the switch is rebooted.
 
 +
-The following step shows an upgrade from NX-OS 10.4(5)(M) to 10.5.3(F). The first pass performs the NX-OS upgrade and the second pass performs the EPLD image upgrade.
+The following step shows an upgrade from NX-OS 10.4(5)(M) to 10.5(3)(F). The first pass performs the NX-OS upgrade and the second pass performs the EPLD image upgrade.
 +
 
 .Example
@@ -742,8 +740,8 @@ Images will be upgraded according to following table:
 
 Module   Image    Running-Version(pri:alt)                 New-Version          Upg-Required
 ------- --------- ---------------------------------------- -------------------- ------------ 
-1        nxos     10.4.5(M)                                10.5.3(F)            yes
-1        bios     v05.47(04/28/2022):v05.47(04/28/2022)    v05.53(01/22/2025)   yes
+1        nxos     10.4(5)(M)                                10.5(3)(F)            yes
+1        bios     v05.47(04/28/2022):v05.47(04/28/2022)    v05.53(01/22/2025)     yes
 
 Switch will be reloaded for disruptive upgrade.
 
@@ -805,7 +803,7 @@ Module  bootable  Impact          Install-type  Reason
 Images will be upgraded according to following table:
 Module    Image                  Running-Version(pri:alt)              New-Version         Upg-Required
 --------  ---------------------  ------------------------------------- -----------------  ------------
-27        nxos                   10.4.5(M)                             10.5.3(F)             no
+27        nxos                   10.4(5)(M)                            10.5(3)(F)             no
 27        bios                   v05.53(01/22/2025):v05.47(04/28/2022) v05.53(01/22/2025)    no
  
  
@@ -857,8 +855,7 @@ Install has been successful.
 ....
 =====
 
-[start=d]
-.. [[stepd]] Verify the new version of NX-OS software after the switch has rebooted:
+.. Verify the new version of NX-OS software after the switch has rebooted:
 +
 `show version`
 +
@@ -952,10 +949,10 @@ GEM  FPGA                        0x2
 .. Skip to step 7 to verify the health of cluster ports and switch health from the cluster after the upgrade.
 --
 
-.Upgrade from 10.5(3)F to a later version
+.Upgrade from 10.5(3)(F) to a later version
 --
-[start=a]
-.. [[stepa]] Copy NX-OS and EPLD image to the first switch.
+
+.. Copy NX-OS and EPLD image to the first switch.
 +
 `copy <protocol>: bootflash: vrf management`
 +
@@ -972,7 +969,7 @@ The example uses sftp.
 
 ....
 cs2# *copy sftp: bootflash: vrf management*
-Enter source filename: */code/nxos64-s1.10.6.3.F.bin*
+Enter source filename: *nxos64-cs.10.5.4.M.bin*
 Enter hostname for the sftp server: *172.19.2.1*
 Enter username: *root*
 
@@ -981,8 +978,8 @@ Inbound-ReKey for 172.19.2.1:22
 root@172.19.2.1's password:
 sftp> *progress*
 Progress meter enabled
-sftp> get /code/nxos64-s1.10.6.3.F.bin /bootflash/nxos64-s1.10.6.3.F.bin
-/code/nxos64-s1.10.6.3.F.bin  100% 1261MB   9.3MB/s   02:15
+sftp> get /code/nxos64-cs.10.5.4.M.bin /bootflash/nxos64-cs.10.5.4.M.bin
+/code/nxos64-nxos64-cs.10.5.4.M.bin  100% 1261MB   9.3MB/s   02:15
 sftp> *exit*
 Copy complete, now saving to disk (please wait)...
 Copy complete.
@@ -1026,8 +1023,8 @@ http://www.gnu.org/licenses/old-licenses/library.txt.
 
 Software
   BIOS: version 01.14
-  NXOS: version 10.5.3(f) [Feature Release]
-  Host NXOS: version 10.5.3(f)
+  NXOS: version 10.5(3)(F) [Feature Release]
+  Host NXOS: version 10.5(3)(F)
   BIOS compile time:  11/25/2024
   NXOS image file is: bootflash:///nxos.10.5.3.F.bin
   NXOS compile time:  02/27/2026 12:00:00 [03/14/2026 05:25:50]
@@ -1068,8 +1065,8 @@ Installing the image file causes it to be loaded every time the switch is reboot
 `install all nxos bootflash:nxos.<version number>.bin`
 
 +
-The example uses NX-OS version 10.6.3(f).
-
+The example uses NX-OS version 10.5(4)(M).
++
 .Example
 [%collapsible]
 
@@ -1078,21 +1075,21 @@ The example uses NX-OS version 10.6.3(f).
 [subs=+quotes]
 
 ....
-cs2# *install all nxos bootflash:nxos64-s1.10.6.3.F.bin*
+cs2# *install all nxos bootflash:nxos64-cs.10.5.4.M.bin*
 
 Installer will perform compatibility check first. Please wait.
 Installer is forced disruptive
 
-Verifying image bootflash:/nxos64-s1.10.6.3.F.bin for boot variable "nxos".
+Verifying image bootflash:/nxos64-cs.10.5.4.M.bin for boot variable "nxos".
 [####################] 100% -- SUCCESS
 
 Verifying image type.
 [####################] 100% -- SUCCESS
 
-Preparing "nxos" version info using image bootflash:/nxos64-s1.10.6.3.F.bin.
+Preparing "nxos" version info using image bootflash:/nxos64-cs.10.5.4.M.bin.
 [####################] 100% -- SUCCESS
 
-Preparing "bios" version info using image bootflash:/nxos64-s1.10.6.3.F.bin.
+Preparing "bios" version info using image bootflash:/nxos64-cs.10.5.4.M.bin.
 [####################] 100% -- SUCCESS
 
 Performing module support checks.
@@ -1112,7 +1109,7 @@ Images will be upgraded according to following table:
 
 Module   Image    Running-Version(pri:alt)                 New-Version         Upg-Required
 ------- --------- ---------------------------------------- ------------------- ------------
-  1      nxos     10.5.3(F)                                10.6.3(F)           Yes
+  1      nxos     10.5(3)(F)                                10.5(4)(M)         Yes
   1      bios     xx.xx.:xx.xx                             xxx                 No
 
 
@@ -1139,13 +1136,12 @@ Finishing the upgrade, switch will reboot in 10 seconds.
 ....
 =====
 
-
-. Verify the new version of NX-OS after the switch has rebooted: 
+.. Verify the new version of NX-OS after the switch has rebooted: 
 +
 `show version`
 
 
-
++
 .Example
 [%collapsible]
 
@@ -1178,10 +1174,10 @@ http://www.gnu.org/licenses/old-licenses/library.txt.
 
 Software
   BIOS: version 01.14
-  NXOS: version 10.6.3(F) [Feature Release]
-  Host NXOS: version 10.6.3(F)
+  NXOS: version 10.5(4)(M) [Feature Release]
+  Host NXOS: version 10.5(4)(M)
   BIOS compile time:  11/25/2024
-  NXOS image file is: bootflash:////nxos64-s1.10.6.3.F.bin
+  NXOS image file is: bootflash:////nxos64-cs.10.5.4.M.bin
   NXOS compile time:  05/30/2026 12:00:00 [06/14/2026 05:25:50]
   NXOS boot mode: LXC
 
@@ -1199,7 +1195,7 @@ Kernel uptime is 5 day(s), 2 hour(s), 13 minute(s), 21 second(s)
 
 Last reset at 3580 usecs after Thu Jun 5 15:55:08 2026
   Reason: Reset Requested by CLI command reload
-  System version: 10.6.3(f)
+  System version: 10.5(4)(M)
   Service:
 
 
@@ -1216,8 +1212,8 @@ Active Package(s):
 `show install epld status`
 +
 
-The example uses EPLD version 10.6.3(F).
-
+The example uses EPLD version 10.5(4)(M).
++
 
 .Example
 [%collapsible]
@@ -1230,7 +1226,7 @@ The example uses EPLD version 10.6.3(F).
 cs2# *show install epld status*
 
 1) Module 2 upgraded on Mon May  4 09:17:08 2026 (631239  us) 
-EPLD Install Image: EPLD image file 10.6.3.F. built on Fri Apr 24 19:49:50 2026
+EPLD Install Image: EPLD image file 10.5.4.M. built on Fri Apr 24 19:49:50 2026
 
 Status: EPLD Upgrade was Successful
 
@@ -1240,7 +1236,7 @@ MI FPGA                         0x10014         0x1000b
 IO FPGA                         0x10033         0x10006
 
 2) Module 27 upgraded on Wed Apr  1 15:03:13 2026 (193093  us) 
-EPLD Install Image: EPLD image file 10.6.3.F. built on Mon Mar 16 03:28:47 2026
+EPLD Install Image: EPLD image file 10.5.4.M. built on Mon Mar 16 03:28:47 2026
 
 Status: EPLD Upgrade was Successful
 
@@ -1249,7 +1245,7 @@ EPLD                            Curr Ver        Old Ver
 IO FPGA                         0x1002d         0x10020
 
 3) Module 28 upgraded on Wed Apr  1 14:59:53 2026 (843907  us) 
-EPLD Install Image: EPLD image file 10.6.3.F. built on Mon Mar 16 03:28:47 2026
+EPLD Install Image: EPLD image file 10.5.4.M. built on Mon Mar 16 03:28:47 2026
 
 Status: EPLD Upgrade was Successful
 
@@ -1258,7 +1254,7 @@ EPLD                            Curr Ver        Old Ver
 IO FPGA                         0x1002d         0x10020
 
 4) Module 27 upgraded on Fri Mar 27 21:55:55 2026 (132290  us) 
-EPLD Install Image: EPLD image file 10.6.2.F. built on Fri Dec 12 11:15:18 2025
+EPLD Install Image: EPLD image file 10.5.4.M. built on Fri Dec 12 11:15:18 2025
 
 Status: EPLD Upgrade was Successful
 
@@ -1274,7 +1270,7 @@ FM-25 FPGA                      0x10006         0x10000
 FM-26 FPGA                      0x10006         0x10000
 
 5) Module 27 upgraded on Fri Mar 27 21:50:16 2026 (  4899  us) 
-EPLD Install Image: EPLD image file 10.6.2.F. built on Fri Dec 12 11:15:18 2025
+EPLD Install Image: EPLD image file 10.5.4.M. built on Fri Dec 12 11:15:18 2025
 
 Status: EPLD Upgrade was Successful
 
@@ -1290,7 +1286,7 @@ FM-25 FPGA                      0x10006         0x10000
 FM-26 FPGA                      0x10006         0x10000
 
 6) Module 27 upgraded on Fri Mar 27 21:44:36 2026 (775397  us) 
-EPLD Install Image: EPLD image file 10.6.2.F. built on Fri Dec 12 11:15:18 2025
+EPLD Install Image: EPLD image file 10.5.4.M. built on Fri Dec 12 11:15:18 2025
 
 Status: EPLD Upgrade was Successful
 
@@ -1306,7 +1302,7 @@ FM-25 FPGA                      0x10006         0x10000
 FM-26 FPGA                      0x10006         0x10000
 
 7) Module 27 upgraded on Fri Mar 27 21:38:58 2026 (330582  us) 
-EPLD Install Image: EPLD image file 10.6.2.F. built on Fri Dec 12 11:15:18 2025
+EPLD Install Image: EPLD image file 10.5.4.M. built on Fri Dec 12 11:15:18 2025
 
 Status: EPLD Upgrade was Successful
 
@@ -1322,7 +1318,7 @@ FM-25 FPGA                      0x10006         0x10000
 FM-26 FPGA                      0x10006         0x10000
 
 8) Module 27 upgraded on Fri Mar 27 21:33:19 2026 (112679  us) 
-EPLD Install Image: EPLD image file 10.6.2.F. built on Fri Dec 12 11:15:18 2025
+EPLD Install Image: EPLD image file 10.5.4.M. built on Fri Dec 12 11:15:18 2025
 
 Status: EPLD Upgrade was Successful
 
@@ -1338,7 +1334,7 @@ FM-25 FPGA                      0x10006         0x10000
 FM-26 FPGA                      0x10006         0x10000
 
 9) Module 27 upgraded on Fri Mar 27 21:27:41 2026 (957182  us) 
-EPLD Install Image: EPLD image file 10.6.2.F. built on Fri Dec 12 11:15:18 2025
+EPLD Install Image: EPLD image file 10.5.4.M. built on Fri Dec 12 11:15:18 2025
 
 Status: EPLD Upgrade was Successful
 
@@ -1354,7 +1350,7 @@ FM-25 FPGA                      0x10006         0x10000
 FM-26 FPGA                      0x10006         0x10000
 
 10) Module 27 upgraded on Fri Mar 27 21:22:03 2026 ( 90303  us) 
-EPLD Install Image: EPLD image file 10.6.2.F. built on Fri Dec 12 11:15:18 2025
+EPLD Install Image: EPLD image file 10.5.4.M. built on Fri Dec 12 11:15:18 2025
 
 Status: EPLD Upgrade was Successful
 
@@ -1370,7 +1366,7 @@ FM-25 FPGA                      0x10006         0x10000
 FM-26 FPGA                      0x10006         0x10000
 
 11) Module 1 upgraded on Fri Mar 27 21:16:24 2026 (240369  us) 
-EPLD Install Image: EPLD image file 10.6.2.F. built on Fri Dec 12 11:15:18 2025
+EPLD Install Image: EPLD image file 10.5.4.M. built on Fri Dec 12 11:15:18 2025
 
 Status: EPLD Upgrade was Successful
 
@@ -1388,8 +1384,8 @@ cs1#
 
 // end of tabbed content
 
-[start=12]
-. [[step12]]Verify the health of cluster ports on the cluster.
+[start=7]
+. [[step7]]Verify the health of cluster ports on the cluster.
 
 .. Verify that cluster ports are up and healthy across all nodes in the cluster: 
 +
@@ -1518,7 +1514,7 @@ cluster1::*>
 ----
 ====
 
-. Repeat steps 6 to 13 to install the NX-OS software on switch cs1.
+. Repeat steps 6 to 8 to install the NX-OS software on switch cs1.
 
 . Verify the connectivity of the remote cluster interfaces before enabling auto-revert on the cluster LIFs:
 +
@@ -1597,8 +1593,8 @@ RPC status:
 
 // end of tabbed content
 
-[start=16]
-. [[step16]]Enable auto-revert on the cluster LIFs.
+[start=11]
+. [[step11]]Enable auto-revert on the cluster LIFs.
 +
 `*network interface modify -vserver Cluster -lif * -auto-revert true*` 
 
