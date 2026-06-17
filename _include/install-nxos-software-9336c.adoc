@@ -979,14 +979,14 @@ The example uses sftp.
 cs2# *copy sftp: bootflash: vrf management*
 Enter source filename: *nxos64-cs.10.5.4.M.bin*
 Enter hostname for the sftp server: *172.19.2.1*
-Enter username: *root*
+Enter username: *user1*
 
 Outbound-ReKey for 172.19.2.1:22
 Inbound-ReKey for 172.19.2.1:22
-root@172.19.2.1's password:
+user1@172.19.2.1's password:
 sftp> *progress*
 Progress meter enabled
-sftp> get /code/nxos64-cs.10.5.4.M.bin /bootflash/nxos64-cs.10.5.4.M.bin
+sftp> *get /code/nxos64-cs.10.5.4.M.bin /bootflash/nxos64-cs.10.5.4.M.bin*
 /code/nxos64-nxos64-cs.10.5.4.M.bin  100% 1261MB   9.3MB/s   02:15
 sftp> *exit*
 Copy complete, now saving to disk (please wait)...
