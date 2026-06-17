@@ -728,8 +728,8 @@ Module  bootable  Impact          Install-type  Reason
  
 Images will be upgraded according to following table:
 Module    Image                  Running-Version(pri:alt)              New-Version         Upg-Required
---------  ---------------------  ------------------------------------- --------------  ------------
-27        nxos                   10.4.5(M)                             10.5.3(F)                no
+--------  ---------------------  ------------------------------------- -----------------  ------------
+27        nxos                   10.4.5(M)                             10.5.3(F)             no
 27        bios                   v05.53(01/22/2025):v05.47(04/28/2022) v05.53(01/22/2025)     no
  
  
@@ -871,7 +871,7 @@ The example uses sftp.
 [subs=+quotes]
 ----
 cs2# *copy sftp: bootflash: vrf management*
-Enter source filename: */code/nxos-s1.10.6.3.F.bin*
+Enter source filename: */code/nxos64-s1.10.6.3.F.bin*
 Enter hostname for the sftp server: *172.19.2.1*
 Enter username: *root*
 
@@ -880,8 +880,8 @@ Inbound-ReKey for 172.19.2.1:22
 root@172.19.2.1's password:
 sftp> *progress*
 Progress meter enabled
-sftp> get /code/nxos-s1.10.6.3.F.bin /bootflash/nxos-s1.10.6.3.F.bin
-/code/nxos-s1.10.6.3.F.bin  100% 1261MB   9.3MB/s   02:15
+sftp> get /code/nxos64-s1.10.6.3.F.bin /bootflash/nxos64-s1.10.6.3.F.bin
+/code/nxos64-s1.10.6.3.F.bin  100% 1261MB   9.3MB/s   02:15
 sftp> *exit*
 Copy complete, now saving to disk (please wait)...
 Copy complete.
@@ -922,7 +922,7 @@ Software
   NXOS: version 10.5.3(f) [Feature Release]
   Host NXOS: version 10.5.3(f)
   BIOS compile time:  11/25/2024
-  NXOS image file is: bootflash:///nxos-s1.10.5.3.F.bin
+  NXOS image file is: bootflash:///nxos.10.5.3.F.bin
   NXOS compile time:  02/27/2026 12:00:00 [03/14/2026 05:25:50]
   NXOS boot mode: LXC
 
@@ -965,21 +965,21 @@ The example uses NX-OS version 10.6.3(f).
 
 [subs=+quotes]
 ----
-cs2# *install all nxos bootflash:nxos-s1.10.6.3.F.bin*
+cs2# *install all nxos bootflash:nxos64-s1.10.6.3.F.bin*
 
 Installer will perform compatibility check first. Please wait.
 Installer is forced disruptive
 
-Verifying image bootflash:/nxos-s1.10.6.3.F.bin for boot variable "nxos".
+Verifying image bootflash:/nxos64-s1.10.6.3.F.bin for boot variable "nxos".
 [####################] 100% -- SUCCESS
 
 Verifying image type.
 [####################] 100% -- SUCCESS
 
-Preparing "nxos" version info using image bootflash:/nxos-s1.10.6.3.F.bin.
+Preparing "nxos" version info using image bootflash:/nxos64-s1.10.6.3.F.bin.
 [####################] 100% -- SUCCESS
 
-Preparing "bios" version info using image bootflash:/nxos-s1.10.6.3.F.bin.
+Preparing "bios" version info using image bootflash:/nxos64-s1.10.6.3.F.bin.
 [####################] 100% -- SUCCESS
 
 Performing module support checks.
@@ -1060,7 +1060,7 @@ Software
   NXOS: version 10.6.3(F) [Feature Release]
   Host NXOS: version 10.6.3(F)
   BIOS compile time:  11/25/2024
-  NXOS image file is: bootflash:////nxos-s1.10.6.3.F.bin
+  NXOS image file is: bootflash:////nxos64-s1.10.6.3.F.bin
   NXOS compile time:  05/30/2026 12:00:00 [06/14/2026 05:25:50]
   NXOS boot mode: LXC
 
