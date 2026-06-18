@@ -456,7 +456,7 @@ network interface modify -vserver Cluster -lif * -auto-revert false
 
 == Step 2: Install the NX-OS
 
-You install the NX-OS on the first switch (cs1) by installing and verifying the new versions of the NX-OS and EPLD, verifying the health of all ports on the cluster, and then repeating these steps on the second switch (cs2).
+You install the NX-OS on the first switch (cs1) by installing and verifying the new versions of the NX-OS and EPLD, verifying the health of all ports on the cluster, and then repeat these steps on the second switch (cs2).
 
 . Using the switch CLI, copy NX-OS and EPLD images to a switch.
 +
@@ -782,7 +782,7 @@ Module 1 EPLD upgrade is successful.
 ----
 ====
 
-. After the switch reboot, use the switch CLI to log in and verify that the new version of EPLD loaded successfully.
+. After the switch reboots, use the switch CLI to log in and verify that the new version of EPLD loaded successfully.
 +
 `show version module 1 epld`
 +
@@ -1158,8 +1158,11 @@ Using the ONTAP CLI, complete the NX-OS upgrade by re-enabling auto-revert on th
 
 . Re-enable auto-revert on the cluster LIFs.
 +
-`network interface modify -vserver Cluster -lif * -auto-revert true`
-
+[source,cli]
+----
+network interface modify -vserver Cluster -lif * -auto-revert true
+----
++
 . Verify that the cluster LIFs have reverted to their home port: 
 +
 [source,cli]
