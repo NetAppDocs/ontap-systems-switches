@@ -545,7 +545,7 @@ Software
 
 
 Hardware
-  cisco Nexus9000 C9332D-GX2B Chassis
+  cisco Nexus9000 C9808Chassis
   Intel(R) Xeon(R) CPU D-1633N @ 2.50GHz with 32802156 kB of memory.
   Processor Board ID FLMXXXXXXXX
   Device name: cs2
@@ -691,7 +691,7 @@ Software
 
 
 Hardware
-  cisco Nexus9000 C9332D-GX2B Chassis
+  cisco Nexus9000 C9808 Chassis
   Intel(R) Xeon(R) CPU D-1633N @ 2.50GHz with 32802156 kB of memory.
   Processor Board ID FLMXXXXXXXX
   Device name: cs2
@@ -876,30 +876,30 @@ system cluster-switch show -is-monitoring-enabled-operational true
 cluster1::*> *network device-discovery show -protocol cdp*
 
 node1-02/cdp
-            e10a   cs1(FLMXXXXXXXX)         Ethernet1/16/3    N9K-C9332D-GX2B
-            e10b   cs2(FDOXXXXXXXX)         Ethernet1/16/3    N9K-C9332D-GX2B
-            e11a   cs1(FLMXXXXXXXX)         Ethernet1/16/4    N9K-C9332D-GX2B
-            e11b   cs2(FDOXXXXXXXX)         Ethernet1/16/4    N9K-C9332D-GX2B
-            e1a    cs1(FLMXXXXXXXX)         Ethernet1/16/1    N9K-C9332D-GX2B
-            e1b    cs2(FDOXXXXXXXX)         Ethernet1/16/1    N9K-C9332D-GX2B
+            e10a   cs1(FLMXXXXXXXX)         Ethernet1/16/3    N9K-C9808
+            e10b   cs2(FDOXXXXXXXX)         Ethernet1/16/3    N9K-C9808
+            e11a   cs1(FLMXXXXXXXX)         Ethernet1/16/4    N9K-C9808
+            e11b   cs2(FDOXXXXXXXX)         Ethernet1/16/4    N9K-C9808
+            e1a    cs1(FLMXXXXXXXX)         Ethernet1/16/1    N9K-C9808
+            e1b    cs2(FDOXXXXXXXX)         Ethernet1/16/1    N9K-C9808
             .
             .
             .
-            e7a    cs1(FLM284504N6)         Ethernet1/16/2    N9K-C9332D-GX2B
-            e7b    cs2(FDO2846056X)         Ethernet1/16/2    N9K-C9332D-GX2B
+            e7a    cs1(FLM284504N6)         Ethernet1/16/2    N9K-C9808
+            e7b    cs2(FDO2846056X)         Ethernet1/16/2    N9K-C9808
 
 node1-01/cdp
-            e10a   cs1(FLMXXXXXXXX)         Ethernet1/16/3    N9K-C9332D-GX2B
-            e10b   cs2(FDOXXXXXXXX)         Ethernet1/16/3    N9K-C9332D-GX2B
-            e11a   cs1(FLMXXXXXXXX)         Ethernet1/16/4    N9K-C9332D-GX2B
-            e11b   cs2(FDOXXXXXXXX)         Ethernet1/16/4    N9K-C9332D-GX2B
-            e1a    cs1(FLMXXXXXXXX)         Ethernet1/16/1    N9K-C9332D-GX2B
-            e1b    cs2(FDOXXXXXXXX)         Ethernet1/16/1    N9K-C9332D-GX2B
+            e10a   cs1(FLMXXXXXXXX)         Ethernet1/16/3    N9K-C9808
+            e10b   cs2(FDOXXXXXXXX)         Ethernet1/16/3    N9K-C9808
+            e11a   cs1(FLMXXXXXXXX)         Ethernet1/16/4    N9K-C9808
+            e11b   cs2(FDOXXXXXXXX)         Ethernet1/16/4    N9K-C9808
+            e1a    cs1(FLMXXXXXXXX)         Ethernet1/16/1    N9K-C9808
+            e1b    cs2(FDOXXXXXXXX)         Ethernet1/16/1    N9K-C9808
            .
            .
            .
-            e7a    cs1(FLMXXXXXXXX)         Ethernet1/16/2    N9K-C9332D-GX2B
-            e7b    cs2(FDOXXXXXXXX)         Ethernet1/16/2    N9K-C9332D-GX2B
+            e7a    cs1(FLMXXXXXXXX)         Ethernet1/16/2    N9K-C9808
+            e7b    cs2(FDOXXXXXXXX)         Ethernet1/16/2    N9K-C9808
 .
 .
 .
@@ -907,7 +907,7 @@ node1-01/cdp
 cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true*
 Switch                      Type               Address          Model
 --------------------------- ------------------ ---------------- ---------------
-cs1(FDOXXXXXXXX)            cluster-network    10.228.137.233   N9K-C9332D-GX2B
+cs1(FDOXXXXXXXX)            cluster-network    10.228.137.233   N9K-C9808
      Serial Number: FDOXXXXXXXX
       Is Monitored: true
             Reason: None
@@ -916,7 +916,7 @@ cs1(FDOXXXXXXXX)            cluster-network    10.228.137.233   N9K-C9332D-GX2B
     Version Source: CDP/ISDP
 
 
-cs1(FLMXXXXXXXX)             cluster-network   10.228.137.253   N9K-C9332D-GX2B
+cs1(FLMXXXXXXXX)             cluster-network   10.228.137.253   N9K-C9808
      Serial Number: FLMXXXXXXXX
       Is Monitored: true
             Reason: None

@@ -93,17 +93,17 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
 node1-01/cdp
-            e10a   cs1(FLMXXXXXXXX)          Ethernet1/16/3    N9K-C9332D-GX2B
-            e10b   cs2(FDOXXXXXXXX)          Ethernet1/16/3    N9K-C9332D-GX2B
-            e11a   cs1(FLMXXXXXXXX)          Ethernet1/16/4    N9K-C9332D-GX2B
-            e11b   cs2(FDOXXXXXXXX)          Ethernet1/16/4    N9K-C9332D-GX2B
-            e1a    cs1(FLMXXXXXXXX)          Ethernet1/16/1    N9K-C9332D-GX2B
-            e1b    cs2(FDOXXXXXXXX)          Ethernet1/16/1    N9K-C9332D-GX2B
+            e10a   cs1(FLMXXXXXXXX)          Ethernet1/16/3    N9K-C9808
+            e10b   cs2(FDOXXXXXXXX)          Ethernet1/16/3    N9K-C9808
+            e11a   cs1(FLMXXXXXXXX)          Ethernet1/16/4    N9K-C9808
+            e11b   cs2(FDOXXXXXXXX)          Ethernet1/16/4    N9K-C9808
+            e1a    cs1(FLMXXXXXXXX)          Ethernet1/16/1    N9K-C9808
+            e1b    cs2(FDOXXXXXXXX)          Ethernet1/16/1    N9K-C9808
             .
             .
             .
-            e7a    cs1(FLMXXXXXXXX)          Ethernet1/16/2    N9K-C9332D-GX2B
-            e7b    cs2(FDOXXXXXXXX)          Ethernet1/16/2    N9K-C9332D-GX2B
+            e7a    cs1(FLMXXXXXXXX)          Ethernet1/16/2    N9K-C9808
+            e7b    cs2(FDOXXXXXXXX)          Ethernet1/16/2    N9K-C9808
 
 node1-01/lldp
             e10a   cs1 (c8:60:8f:xx:xx:xx)   Ethernet1/16/3    -
@@ -221,7 +221,7 @@ cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true
 
 Switch                      Type               Address          Model
 --------------------------- ------------------ ---------------- ---------------
-cs2(FDOXXXXXXXX)            cluster-network    10.228.137.233   N9K-C9332D-GX2B
+cs2(FDOXXXXXXXX)            cluster-network    10.228.137.233   N9K-C9808
      Serial Number: FDOXXXXXXXX
       Is Monitored: true
             Reason: None
@@ -230,7 +230,7 @@ cs2(FDOXXXXXXXX)            cluster-network    10.228.137.233   N9K-C9332D-GX2B
     Version Source: CDP/ISDP
 
 
-cs2(FLMXXXXXXXX)            cluster-network    10.228.137.234   N9K-C9332D-GX2B
+cs2(FLMXXXXXXXX)            cluster-network    10.228.137.234   N9K-C9808
      Serial Number: FLMXXXXXXXX
       Is Monitored: true
             Reason: None
