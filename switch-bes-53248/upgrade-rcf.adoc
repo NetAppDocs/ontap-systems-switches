@@ -926,14 +926,8 @@ cluster1::*>
 [start=20]
 . [[step20]]Repeat steps 1 to 19 on switch cs1. 
 
-. Enable auto-revert on the cluster LIFs:
-+
-[source,cli]
-----
-network interface modify -vserver Cluster -lif * -auto-revert true
-----
 
-. . Verify that the cluster LIFs have reverted to their home port:
+. Verify that the cluster LIFs have reverted to their home port:
 +
 [source,cli]
 ----
@@ -1154,6 +1148,13 @@ RPC status:
 // end of tabbed content
 
 [start=6]
+. [[step6]]Enable auto-revert on the cluster LIFs:
++
+[source,cli]
+----
+network interface modify -vserver Cluster -lif * -auto-revert true
+----
+
 . Change the privilege level back to admin: 
 +
 [source,cli]
