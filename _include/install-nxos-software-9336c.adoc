@@ -960,7 +960,7 @@ GEM  FPGA                        0x2
 .Upgrade from 10.5(3)(F) to a later version
 --
 
-.. Copy NX-OS and EPLD image to the first switch.
+.. Copy the NX-OS and EPLD image to the first switch.
 +
 `copy <protocol>: bootflash: vrf management`
 +
@@ -987,7 +987,7 @@ user1@172.19.2.1's password:
 sftp> *progress*
 Progress meter enabled
 sftp> *get /code/nxos64-cs.10.5.4.M.bin /bootflash/nxos64-cs.10.5.4.M.bin*
-/code/nxos64-nxos64-cs.10.5.4.M.bin  100% 1261MB   9.3MB/s   02:15
+/code/nxos64-cs.10.5.4.M.bin  100% 1261MB   9.3MB/s   02:15
 sftp> *exit*
 Copy complete, now saving to disk (please wait)...
 Copy complete.
@@ -1040,7 +1040,7 @@ Software
 
 
 Hardware
-  cisco Nexus9000 C9332D-GX2B Chassis
+  cisco  Nexus9000 C9336C-FX2 Chassis
   Intel(R) Xeon(R) CPU D-1633N @ 2.50GHz with 32802156 kB of memory.
   Processor Board ID FLMXXXXXXXX
   Device name: cs2
@@ -1185,13 +1185,13 @@ Software
   NXOS: version 10.5(4)(M) [Feature Release]
   Host NXOS: version 10.5(4)(M)
   BIOS compile time:  11/25/2024
-  NXOS image file is: bootflash:////nxos64-cs.10.5.4.M.bin
+  NXOS image file is: bootflash:///nxos64-cs.10.5.4.M.bin
   NXOS compile time:  05/30/2026 12:00:00 [06/14/2026 05:25:50]
   NXOS boot mode: LXC
 
 
 Hardware
-  cisco Nexus9000 C9332D-GX2B Chassis
+  cisco Nexus9000 C9336C-FX2 Chassis
   Intel(R) Xeon(R) CPU D-1633N @ 2.50GHz with 32802156 kB of memory.
   Processor Board ID FLMXXXXXXXX
   Device name: cs2
@@ -1602,7 +1602,7 @@ RPC status:
 [start=11]
 . [[step11]]Enable auto-revert on the cluster LIFs.
 +
-`*network interface modify -vserver Cluster -lif * -auto-revert true*` 
+`network interface modify -vserver Cluster -lif * -auto-revert true` 
 
 . Verify that the cluster LIFs have reverted to their home port: 
 +
@@ -1644,4 +1644,4 @@ If cluster LIFs have not returned to their home ports, manually revert them from
 // GH issue #313, 2025-DEC-10
 // GH issue #327, 2026-FEB-09
 // GH issue #331, 2026-MAR-02
-// AFFFFASDOC-497, 2026-MAY-28
+// AFFFASDOC-497, 2026-MAY-28
