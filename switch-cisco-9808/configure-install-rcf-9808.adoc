@@ -9,7 +9,7 @@ summary: You install the RCF on new Cisco Nexus 9808 switch(es) as part of a new
 :imagesdir: ../media/
 
 [.lead]
-You install the RCF on new Cisco Nexus 9808 switch(es) as part of a new AFX 2K system installation, replacing a switch, or a switch reset to factory default settings.
+You install the RCF on new Cisco Nexus 9808 switch(es) as part of a new AFX 2K system installation, replacing a FRU, or a switch reset to factory default settings.
 
 .Before you begin
 
@@ -55,7 +55,7 @@ NOTE: New switches do not ship with the RCF installed. You must install the RCF 
 
 
 == Step 2: Install the RCF
-You install the RCF on the first switch (cs1) by copying and applying the RCF to the bootflash, examining the banner output, verifying the RCF version is correct, recording any custom additions, saving basic configuration details, verifying that the write_erase.cfg file is populated, erasing the current saved configuration, copying the previously saved basic configuration into the startup configuration, and then rebooting the switch. You repeat these steps on the second switch (cs2) if you are installing the RCF as part of a new AFX system installation.
+You install the RCF on the first switch (cs1) by copying and applying the RCF to the bootflash, examining the banner output, verifying the RCF version is correct, recording any custom additions, saving basic configuration details, verifying that the `write_erase.cfg` file is populated, erasing the current saved configuration, copying the previously saved basic configuration into the startup configuration, and then rebooting the switch. You repeat these steps on the second switch (cs2) if you are installing the RCF as part of a new AFX system installation.
 
 . Login to switch cs1 using SSH or by using a serial console.
 

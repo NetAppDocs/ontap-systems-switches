@@ -452,11 +452,9 @@ network interface modify -vserver Cluster -lif * -auto-revert false
 
 == Step 2: Install the NX-OS
 
-You install the NX-OS on the first switch (cs1) by installing and verifying the new versions of the NX-OS and EPLD, verifying the health of all ports on the cluster, and then repeating these steps on the second switch (cs2).
+You install the NX-OS on the first switch (cs1) by installing and verifying the new version of the NX-OS and EPLD, verifying the health of all ports on the cluster, and then repeating these steps on the second switch (cs2).
 
-. Using the switch CLI, copy NX-OS and EPLD images to a switch.
-+
-You use this command two times: the first time is to copy the NX-OS version and the second time is to copy the EPLD version.
+. Using the switch CLI, copy the NX-OS and EPLD image to a switch.
 +
 `copy <protocol>: bootflash: vrf management`
 +
@@ -466,37 +464,22 @@ You use this command two times: the first time is to copy the NX-OS version and 
 
 The example uses sftp.
 
+
 [subs=+quotes]
 ----
 cs1# *copy sftp: bootflash: vrf management*
-Enter source filename: */code/nxos.10.4.2.bin*
-Enter hostname for the sftp server: *172.19.2.1*
-Enter username: *root*
-
-Outbound-ReKey for 172.19.2.1:22
-Inbound-ReKey for 172.19.2.1:22
-root@172.19.2.1's password:
-sftp> progress
-Progress meter enabled
-sftp> get   /code/nxos.10.4.2.bin  /bootflash/nxos.10.4.2.bin
-/code/nxos.10.4.2.bin  100% 1261MB   9.3MB/s   02:15
-sftp> exit
-Copy complete, now saving to disk (please wait)...
-Copy complete.
-
-cs1# *copy sftp: bootflash: vrf management*
-Enter source filename: */code/n9000-epld.10.4.2.F.img*
+Enter source filename: */code/nxos64-s1.10.6.3.F.bin*
 Enter hostname for the sftp server: *172.19.2.1*
 Enter username: *user1*
 
 Outbound-ReKey for 172.19.2.1:22
 Inbound-ReKey for 172.19.2.1:22
 user1@172.19.2.1's password:
-sftp> progress
-Progress meter enabled
-sftp> get   /code/n9000-epld.10.4.2.F.img  /bootflash/n9000-epld.10.4.2.F.img
-/code/n9000-epld.10.4.2.F.img  100%  161MB   9.5MB/s   00:16
-sftp> exit
+sftp> *progress*
+  Progress meter enabled
+sftp> *get code/nxos64-s1.10.6.3.F.bin /bootflash/nxos64-s1.10.6.3.F.bin*
+/code/nxos64-s1.10.6.3.F.bin  100% 1261MB   9.3MB/s   02:15
+sftp> *exit*
 Copy complete, now saving to disk (please wait)...
 Copy complete.
 ----
@@ -536,19 +519,19 @@ http://www.gnu.org/licenses/old-licenses/library.txt.
 
 Software
   BIOS: version 01.14
-  NXOS: version 10.4(1) [Feature Release]
-  Host NXOS: version 10.4(1)
+  NXOS: version 10.5(3)(F) [Feature Release]
+  Host NXOS: version 10.5(3)(F)
   BIOS compile time:  11/25/2024
-  NXOS image file is: bootflash:///nxos64-cs.10.4.1.F.bin
+  NXOS image file is: bootflash:///nxos64-s1.10.5.3.F.bin
   NXOS compile time:  11/30/2023 12:00:00 [12/14/2023 05:25:50]
   NXOS boot mode: LXC
 
 
 Hardware
-  cisco Nexus9000 C9808Chassis
+  cisco Nexus9000 C9808 Chassis
   Intel(R) Xeon(R) CPU D-1633N @ 2.50GHz with 32802156 kB of memory.
   Processor Board ID FLMXXXXXXXX
-  Device name: cs2
+  Device name: cs1
   bootflash:  115802886 kB
 
 
@@ -571,7 +554,7 @@ cs1#
 ----
 ====
 
-. Using the switch CLI, install the NX-OS image.
+. Using the switch CLI, install the NX-OS and EPLD image.
 +
 Installing the image file causes it to be loaded every time the switch is rebooted.
 +
@@ -582,25 +565,25 @@ Installing the image file causes it to be loaded every time the switch is reboot
 [%collapsible]
 ====
 
-The example uses NX-OS version 10.4.2.
+The example uses NX-OS version 10.6(3)(F).
 
 [subs=+quotes]
 ----
-cs1# *install all nxos bootflash:nxos.10.4.2.bin*
+cs1# *install all nxos bootflash:/nxos64-s1.10.6.3.F.bin*
 
 Installer will perform compatibility check first. Please wait.
 Installer is forced disruptive
 
-Verifying image bootflash:/nxos.10.4.2.bin for boot variable "nxos".
+Verifying image bootflash:/nxos64-s1.10.6.3.F.bin for boot variable "nxos".
 [####################] 100% -- SUCCESS
 
 Verifying image type.
 [####################] 100% -- SUCCESS
 
-Preparing "nxos" version info using image bootflash:/nxos.10.4.2.bin.
+Preparing "nxos" version info using image bootflash://nxos64-s1.10.6.3.F.bin.
 [####################] 100% -- SUCCESS
 
-Preparing "bios" version info using image bootflash:/nxos.10.4.2.bin.
+Preparing "bios" version info using image bootflash:/nxos64-s1.10.6.3.F.bin.
 [####################] 100% -- SUCCESS
 
 Performing module support checks.
@@ -621,7 +604,7 @@ Images will be upgraded according to following table:
 
 Module   Image    Running-Version(pri:alt)                 New-Version         Upg-Required
 ------- --------- ---------------------------------------- ------------------- ------------
-  1      nxos     10.4(1)                                  10.4(2)             Yes
+  1      nxos     10.5(3)(F)                               10.6(3)(F)          Yes
   1      bios     xx.xx.:xx.xx                             xxx                 No
 
 
@@ -682,11 +665,11 @@ http://www.gnu.org/licenses/old-licenses/library.txt.
 
 Software
   BIOS: version 01.14
-  NXOS: version 10.4(2) [Feature Release]
-  Host NXOS: version 10.4(2)
+  NXOS: version 10.6(3)(F) [Feature Release]
+  Host NXOS: version 10.6(3)(F)
   BIOS compile time:  11/25/2024
-  NXOS image file is: bootflash:///nxos64-cs.10.4.2.F.bin
-  NXOS compile time:  11/30/2023 12:00:00 [12/14/2023 05:25:50]
+  NXOS image file is: bootflash:///nxos64-s1.10.6.3.F.bin
+  NXOS compile time:  05/30/2026 12:00:00 [06/14/2026 05:25:50]
   NXOS boot mode: LXC
 
 
@@ -694,7 +677,7 @@ Hardware
   cisco Nexus9000 C9808 Chassis
   Intel(R) Xeon(R) CPU D-1633N @ 2.50GHz with 32802156 kB of memory.
   Processor Board ID FLMXXXXXXXX
-  Device name: cs2
+  Device name: cs1
   bootflash:  115802886 kB
 
 
@@ -717,66 +700,174 @@ cs1#
 ----
 ====
 
-. Using the switch CLI, upgrade the EPLD image using the following commands:
+. Verify that the new version of EPLD loaded successfully:
 +
-`show version module 1 epld`
+`show install epld status`
 +
-`install epld bootflash:n9000-epld.<version>.img module all`
-+
-After the last command is executed, the switch reboots.
-+
+
 .Show example
 [%collapsible]
 ====
 
-The example uses EPLD version 10.4.2.F
+The example uses EPLD version 10.6(3)(F).
 
 [subs=+quotes]
 ----
-cs1# *show version module 1 epld*
+cs1# *show install epld status*
 
-EPLD Device                     Version
----------------------------------------
-MI   FPGA                        0x7
-IO   FPGA                        0x17
-MI   FPGA2                       0x2
-GEM  FPGA                        0x2
-GEM  FPGA                        0x2
-GEM  FPGA                        0x2
-GEM  FPGA                        0x2
+1) Module 2 upgraded on Mon May  4 09:17:08 2026 (631239  us) 
+EPLD Install Image: EPLD image file 10.6.3.F. built on Fri Apr 24 19:49:50 2026
 
-cs1# *install epld bootflash:n9000-epld.10.4.2.F.img module all*
-Compatibility check:
-Module        Type         Upgradable        Impact    Reason
-------  ------------------ ----------------- --------- -----------
-     1         SUP         Yes       disruptive  Module Upgradable
+Status: EPLD Upgrade was Successful
 
-Retrieving EPLD versions.... Please wait.
-Images will be upgraded according to following table:
-Module  Type   EPLD              Running-Version   New-Version  Upg-Required
-------- ------ ----------------- ----------------- ------------ ------------
-     1  SUP    MI FPGA           0x07              0x07         No
-     1  SUP    IO FPGA           0x17              0x19         Yes
-     1  SUP    MI FPGA2          0x02              0x02         No
-The above modules require upgrade.
-The switch will be reloaded at the end of the upgrade
-Do you want to continue (y/n) ?  [n] *y*
+EPLD                             Curr Ver       Old Ver
+-------------------------------------------------------
+MI FPGA                         0x10014         0x1000b
+IO FPGA                         0x10033         0x10006
 
-Proceeding to upgrade Modules.
+2) Module 27 upgraded on Wed Apr  1 15:03:13 2026 (193093  us) 
+EPLD Install Image: EPLD image file 10.6.3.F. built on Mon Mar 16 03:28:47 2026
 
-Starting Module 1 EPLD Upgrade
+Status: EPLD Upgrade was Successful
 
-Module 1 : IO FPGA [Programming] : 100.00% (     64 of      64 sectors)
-Module 1 EPLD upgrade is successful.
-Module   Type  Upgrade-Result
--------- ----- --------------
-     1   SUP   Success
+EPLD                            Curr Ver        Old Ver
+-------------------------------------------------------
+IO FPGA                         0x1002d         0x10020
 
-EPLDs upgraded.
+3) Module 28 upgraded on Wed Apr  1 14:59:53 2026 (843907  us) 
+EPLD Install Image: EPLD image file 10.6.3.F. built on Mon Mar 16 03:28:47 2026
 
-Module 1 EPLD upgrade is successful.
+Status: EPLD Upgrade was Successful
+
+EPLD                            Curr Ver        Old Ver
+-------------------------------------------------------
+IO FPGA                         0x1002d         0x10020
+
+4) Module 27 upgraded on Fri Mar 27 21:55:55 2026 (132290  us) 
+EPLD Install Image: EPLD image file 10.6.2.F. built on Fri Dec 12 11:15:18 2025
+
+Status: EPLD Upgrade was Successful
+
+EPLD                            Curr Ver        Old Ver
+-------------------------------------------------------
+FM-19 FPGA                      0x10006         0x10000
+FM-20 FPGA                      0x10006         0x10000
+FM-21 FPGA                      0x10006         0x10000
+FM-22 FPGA                      0x10006         0x10000
+FM-23 FPGA                      0x10006         0x10000
+FM-24 FPGA                      0x10006         0x10000
+FM-25 FPGA                      0x10006         0x10000
+FM-26 FPGA                      0x10006         0x10000
+
+5) Module 27 upgraded on Fri Mar 27 21:50:16 2026 (  4899  us) 
+EPLD Install Image: EPLD image file 10.6.2.F. built on Fri Dec 12 11:15:18 2025
+
+Status: EPLD Upgrade was Successful
+
+EPLD                            Curr Ver        Old Ver
+-------------------------------------------------------
+FM-19 FPGA                      0x10006         0x10000
+FM-20 FPGA                      0x10006         0x10000
+FM-21 FPGA                      0x10006         0x10000
+FM-22 FPGA                      0x10006         0x10000
+FM-23 FPGA                      0x10006         0x10000
+FM-24 FPGA                      0x10006         0x10000
+FM-25 FPGA                      0x10006         0x10000
+FM-26 FPGA                      0x10006         0x10000
+
+6) Module 27 upgraded on Fri Mar 27 21:44:36 2026 (775397  us) 
+EPLD Install Image: EPLD image file 10.6.2.F. built on Fri Dec 12 11:15:18 2025
+
+Status: EPLD Upgrade was Successful
+
+EPLD                            Curr Ver        Old Ver
+-------------------------------------------------------
+FM-19 FPGA                      0x10006         0x10000
+FM-20 FPGA                      0x10006         0x10000
+FM-21 FPGA                      0x10006         0x10000
+FM-22 FPGA                      0x10006         0x10000
+FM-23 FPGA                      0x10006         0x10000
+FM-24 FPGA                      0x10006         0x10000
+FM-25 FPGA                      0x10006         0x10000
+FM-26 FPGA                      0x10006         0x10000
+
+7) Module 27 upgraded on Fri Mar 27 21:38:58 2026 (330582  us) 
+EPLD Install Image: EPLD image file 10.6.2.F. built on Fri Dec 12 11:15:18 2025
+
+Status: EPLD Upgrade was Successful
+
+EPLD                            Curr Ver        Old Ver
+-------------------------------------------------------
+FM-19 FPGA                      0x10006         0x10000
+FM-20 FPGA                      0x10006         0x10000
+FM-21 FPGA                      0x10006         0x10000
+FM-22 FPGA                      0x10006         0x10000
+FM-23 FPGA                      0x10006         0x10000
+FM-24 FPGA                      0x10006         0x10000
+FM-25 FPGA                      0x10006         0x10000
+FM-26 FPGA                      0x10006         0x10000
+
+8) Module 27 upgraded on Fri Mar 27 21:33:19 2026 (112679  us) 
+EPLD Install Image: EPLD image file 10.6.2.F. built on Fri Dec 12 11:15:18 2025
+
+Status: EPLD Upgrade was Successful
+
+EPLD                            Curr Ver        Old Ver
+-------------------------------------------------------
+FM-19 FPGA                      0x10006         0x10000
+FM-20 FPGA                      0x10006         0x10000
+FM-21 FPGA                      0x10006         0x10000
+FM-22 FPGA                      0x10006         0x10000
+FM-23 FPGA                      0x10006         0x10000
+FM-24 FPGA                      0x10006         0x10000
+FM-25 FPGA                      0x10006         0x10000
+FM-26 FPGA                      0x10006         0x10000
+
+9) Module 27 upgraded on Fri Mar 27 21:27:41 2026 (957182  us) 
+EPLD Install Image: EPLD image file 10.6.2.F. built on Fri Dec 12 11:15:18 2025
+
+Status: EPLD Upgrade was Successful
+
+EPLD                            Curr Ver        Old Ver
+-------------------------------------------------------
+FM-19 FPGA                      0x10006         0x10000
+FM-20 FPGA                      0x10006         0x10000
+FM-21 FPGA                      0x10006         0x10000
+FM-22 FPGA                      0x10006         0x10000
+FM-23 FPGA                      0x10006         0x10000
+FM-24 FPGA                      0x10006         0x10000
+FM-25 FPGA                      0x10006         0x10000
+FM-26 FPGA                      0x10006         0x10000
+
+10) Module 27 upgraded on Fri Mar 27 21:22:03 2026 ( 90303  us) 
+EPLD Install Image: EPLD image file 10.6.2.F. built on Fri Dec 12 11:15:18 2025
+
+Status: EPLD Upgrade was Successful
+
+EPLD                            Curr Ver        Old Ver
+-------------------------------------------------------
+FM-19 FPGA                      0x10006         0x10000
+FM-20 FPGA                      0x10006         0x10000
+FM-21 FPGA                      0x10006         0x10000
+FM-22 FPGA                      0x10006         0x10000
+FM-23 FPGA                      0x10006         0x10000
+FM-24 FPGA                      0x10006         0x10000
+FM-25 FPGA                      0x10006         0x10000
+FM-26 FPGA                      0x10006         0x10000
+
+11) Module 1 upgraded on Fri Mar 27 21:16:24 2026 (240369  us) 
+EPLD Install Image: EPLD image file 10.6.2.F. built on Fri Dec 12 11:15:18 2025
+
+Status: EPLD Upgrade was Successful
+
+EPLD                            Curr Ver        Old Ver
+-------------------------------------------------------
+MI FPGA                         0x10014         0x1000b
+IO FPGA                         0x10033         0x10006
+cs1#
 ----
 ====
+
 
 . After the switch reboot, use the switch CLI to log in and verify that the new version of EPLD loaded successfully.
 +
@@ -1144,7 +1235,7 @@ node1-04             true    true          true
 ----
 ====
 
-. Repeat these steps to install NX-OS and EPLD images on switch cs2.
+. Repeat these steps to install the NX-OS and EPLD image on switch cs2.
 
 
 == Step 3: Complete the NX-OS upgrade
