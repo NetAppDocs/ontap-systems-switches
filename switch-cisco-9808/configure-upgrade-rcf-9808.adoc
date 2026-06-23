@@ -93,30 +93,38 @@ Node/       Local  Discovered
 Protocol    Port   Device (LLDP: ChassisID)  Interface         Platform
 ----------- ------ ------------------------- ----------------  ----------------
 node1-01/cdp
-            e10a   cs1(FLMXXXXXXXX)          Ethernet1/16/3    N9K-C9808
-            e10b   cs2(FDOXXXXXXXX)          Ethernet1/16/3    N9K-C9808
-            e11a   cs1(FLMXXXXXXXX)          Ethernet1/16/4    N9K-C9808
-            e11b   cs2(FDOXXXXXXXX)          Ethernet1/16/4    N9K-C9808
-            e1a    cs1(FLMXXXXXXXX)          Ethernet1/16/1    N9K-C9808
-            e1b    cs2(FDOXXXXXXXX)          Ethernet1/16/1    N9K-C9808
-            .
-            .
-            .
-            e7a    cs1(FLMXXXXXXXX)          Ethernet1/16/2    N9K-C9808
-            e7b    cs2(FDOXXXXXXXX)          Ethernet1/16/2    N9K-C9808
-
+            e10a   cs1(FOXXXXXXXXX)          Ethernet1/5       N9K-C9808
+            e10b   cs2(FDOXXXXXXXX)          Ethernet1/14      N9K-C9808
+            e11a   cs1(FOXXXXXXXXX)          Ethernet1/7       N9K-C9808
+            e11b   cs2(FDOXXXXXXXX)          Ethernet1/16      N9K-C9808
+            e7a    cs1(FOXXXXXXXXX)          Ethernet1/3       N9K-C9808
+            e7b    cs2(FOXXXXXXXXX)          Ethernet1/12      N9K-C9808
 node1-01/lldp
-            e10a   cs1 (c8:60:8f:xx:xx:xx)   Ethernet1/16/3    -
-            e10b   cs2 (04:e3:87:xx:xx:xx)   Ethernet1/16/3    -
-            e11a   cs1 (c8:60:8f:xx:xx:xx)   Ethernet1/16/4    -
-            e11b   cs2 (04:e3:87:xx:xx:xx)   Ethernet1/16/4    -
-            e1a    cs1 (c8:60:8f:xx:xx:xx)   Ethernet1/16/1    -
-            e1b    cs2 (04:e3:87:xx:xx:xx)   Ethernet1/16/1    -
-            .
-            .
-            .
-            e7a    cs1 (c8:60:8f:xx:xx:xx)   Ethernet1/16/2    - 
-            e7b    cs2 (04:e3:87:xx:xx:xx)   Ethernet1/16/2    -        
+            e10a   cs1 (ec:bb:78:9e:c7:e8)   Ethernet1/5       -
+            e10b   cs2 (ec:bb:78:9e:c8:0c)   Ethernet1/14      -
+            e11a   cs1 (ec:bb:78:9e:c7:f0)   Ethernet1/7       -
+            e11b   cs2 (ec:bb:78:9e:c8:14)   Ethernet1/16      -
+            e1a    cs1 (ec:bb:78:9e:c7:d8)   Ethernet1/1       -
+            e1b    cs2 (ec:bb:78:9e:c7:fc)   Ethernet1/10      -
+            e7a    cs1 (ec:bb:78:9e:c7:e0)   Ethernet1/3       -
+            e7b    cs2 (ec:bb:78:9e:c8:04)   Ethernet1/12      -
+node1-02/cdp
+            e10a   cs1(FOXXXXXXXXX)          Ethernet1/6       N9K-C9808
+            e10b   cs2(FDOXXXXXXXX)          Ethernet1/15      N9K-C9808
+            e11a   cs1(FOXXXXXXXXX)          Ethernet1/8       N9K-C9808
+            e11b   cs2(FDOXXXXXXXX)          Ethernet1/17      N9K-C9808
+            e7a    cs1(FOXXXXXXXXXX)         Ethernet1/2       N9K-C9808
+            e7b    cs2(FOX3005Q66Q)          Ethernet1/13      N9K-C9808
+node1-02/lldp
+            e10a   cs1 (ec:bb:78:9e:c7:ec)   Ethernet1/6       -
+            e10b   cs2 (ec:bb:78:9e:c8:10)   Ethernet1/15      -
+            e11a   cs1 (ec:bb:78:9e:c7:f4)   Ethernet1/8       -
+            e11b   cs2 (ec:bb:78:9e:c8:18)   Ethernet1/17      -
+            e1a    cs1 (ec:bb:78:9e:c7:dc)   Ethernet1/2       -
+            e1b    cs2 (ec:bb:78:9e:c8:00)   Ethernet1/11      -
+            e7a    cs1 (ec:bb:78:9e:c7:e4)   Ethernet1/4       -
+            e7b    cs2 (ec:bb:78:9e:c8:08)   Ethernet1/13      -
+        
 ----
 ====
 

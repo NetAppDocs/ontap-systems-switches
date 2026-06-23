@@ -15,28 +15,12 @@ Your Cisco Nexus 9808 switch has field replaceable units (FRUs) that you can rep
 .About this task
 The Cisco Nexus 9808 switch has the following FRUs:
 
-* Fan module (6 total)
-* Power supply module (2 total)
-* OSFP/QSFP transceiver modules (32 fixed 400GbE ports)
-* Chassis door foam air filters (2 total)
-* Supervisor module (1 or 2 total, depending on how you ordered your switch)
-* Line card (8 total, each with 16 fixed 400GbE ports)
-* Fan tray (2 total)
+* Chassis door foam air filters (2 total) - The front doors come with pre-installed air filters. You should inspect the air filter every 3 months and replace as necessary.
+* Supervisor module (1 or 2 total, depending on how you ordered your switch) - When two Supervisor modules are installed in the switch, one acts as an active module and the other as the standby module. When the active Supervisor module is removed, the switch automatically makes the standby Supervisor module active. If the switch has only one installed Supervisor module, a new Supervisor module can be installed in the empty Supervisor slot during operation.
+* Line card (8 total, each with 16 fixed 400GbE ports) - The switch operates with one or more line cards that are installed in the chassis.
+* Fan tray (2 total) - 
 * Fabric module (2 total)
 * Power supply components (2 total)
-
-
-[options="header" cols="1,2,3"]
-|===
-|FRU| Part number| Description
-a|
-Line cards, 8 total, each with 16 fixed 400GbE ports
-a|
-* N9K-X9836DM-A
-* N9K-X98900CD-A
-a|
-Both line cards support QSFP-DD, QSFP28, and QSFP+ transceivers
-|===
 
 //For 9808, the following info was captured in a mtg with AD & SL in May. Double check it.:
 // About this task: The Cisco Nexus 9808 switch has the following FRUs that you can replace when they fail:
@@ -46,11 +30,14 @@ Both line cards support QSFP-DD, QSFP28, and QSFP+ transceivers
 // * Fan tray: <include how many and maybe borrow definition from Cisco site>
 // * Fabric module <include how many and maybe borrow definition from Cisco site>
 // * Power supply components: <include how many and maybe borrow definition from Cisco site>
+// * Fan module (6 total)
+//* Power supply module (2 total)
+//* OSFP/QSFP transceiver modules (32 fixed 400GbE ports)
 
 
 .Steps
 
-. Go to the Cisco site for the https://www.cisco.com/c/en/us/td/docs/dcn/hw/nx-os/nexus9000/9332d-gx2b/cisco-nexus-9332d-gx2b-nx-os-mode-switch-hardware-installation-guide.html?dtid=osscdc000283&linkclickid=srch&scid=srch-9332d-gx2b-hw-guide#id_111902[Cisco Nexus 9332D-GX2B NX-OS Mode Switch Hardware Installation Guide^].
+. Go to the Cisco site for the link:https://www.cisco.com/c/en/us/td/docs/switches/datacenter/nexus9000/hw/9800/9808/nx-os/cisco-nexus-9808-nx-os-mode-switch-hardware-installation-guide.html[Cisco Nexus 9808 NX-OS Mode Switch Hardware Installation Guide^].
 
 . Navigate to the Replacing components section to see the FRU procedures.
 
