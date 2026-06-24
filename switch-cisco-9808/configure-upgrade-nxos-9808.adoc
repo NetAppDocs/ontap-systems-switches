@@ -320,6 +320,54 @@ Interconnect Port 1 :
 ----
 ====
 
+... Verify that all the HA ports are correctly configured and that the interconnect type is RoCE: 
++
+[source,cli]
+----
+ha interconnect config show
+----
++
+.Show example 
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cluster1::*> *ha interconnect config show*
+  (system ha interconnect config show)
+                       Node: node1-01
+          Interconnect Type: RoCE
+            Local System ID: 542023071
+          Partner System ID: 542022984
+       Connection Initiator: local
+                  Interface: external
+
+
+Port    IP Address         Flags
+------  -----------------  -----------
+e1a-17  169.254.17.111     0x0
+e1b-18  169.254.18.242     0x0
+
+
+
+                       Node: node1-02
+          Interconnect Type: RoCE
+            Local System ID: 542022984
+          Partner System ID: 542023071
+       Connection Initiator: partner
+                  Interface: external
+
+
+Port    IP Address         Flags
+------  -----------------  -----------
+e1a-17  169.254.17.208     0x0
+e1b-18  169.254.18.169     0x0
+.
+.
+.
+----
+====
+
 .. *Storage ports*
 
 ... Verify that all the storage ports are up with a healthy status: 
@@ -1043,6 +1091,54 @@ Interconnect Port 1 :
                   Port Name: e1b-18
                         MTU: 4096
            Link Information: ACTIVE
+.
+.
+.
+----
+====
+
+... Verify that all the HA ports are correctly configured and that the interconnect type is RoCE: 
++
+[source,cli]
+----
+ha interconnect config show
+----
++
+.Show example 
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cluster1::*> *ha interconnect config show*
+  (system ha interconnect config show)
+                       Node: node1-01
+          Interconnect Type: RoCE
+            Local System ID: 542023071
+          Partner System ID: 542022984
+       Connection Initiator: local
+                  Interface: external
+
+
+Port    IP Address         Flags
+------  -----------------  -----------
+e1a-17  169.254.17.111     0x0
+e1b-18  169.254.18.242     0x0
+
+
+
+                       Node: node1-02
+          Interconnect Type: RoCE
+            Local System ID: 542022984
+          Partner System ID: 542023071
+       Connection Initiator: partner
+                  Interface: external
+
+
+Port    IP Address         Flags
+------  -----------------  -----------
+e1a-17  169.254.17.208     0x0
+e1b-18  169.254.18.169     0x0
 .
 .
 .
