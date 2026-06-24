@@ -26,43 +26,24 @@ Switch port information can also be found in the link:https://hwu.netapp.com[Net
 
 NOTE: For specific port and VLAN usage details, refer to the banner and important notes section in your RCF. Refer to link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] for more information.
 
-* If you have an AFX 1K system, RCF 10.0 and later is supported:
-+
-For example, the following table shows the preset groupings of the switch ports, their port speeds, and usage based on RCF version 10.0.
-+
-[options="header" cols="1,2"]
-|===
-| Switch port groups | Port speeds and usage
-a|
-Ethernet1/1/1-4 to Ethernet1/30/1-4
-a|
-4x100GbE mode for cluster, HA, and storage connections 
-a|
-Ethernet1/31, Ethernet1/32
-a|
-400GbE ISL
-|===
-+
-* If you have an AFX 2K system, RCF 10.1 and later is supported:
-+
 For example, the following table shows the preset groups of the switch ports, their port speeds, and usage based on RCF version 10.1.
 +
-//Filename : RCF-v10.1-NX9332D-GX2B-CL1-V1.txt
+//Filename : RCF-v10.1-NX9808-CL1-ST1.txt
 +
 [options="header" cols="1,2"]
 |===
 | Switch port groups | Port speeds and usage
 a|
-Ethernet1/1/1-4 to Ethernet1/14/1-4
+Ethernet1/1 to Ethernet1/18
 a|
-4x100GbE mode for Intra-cluster, HA, and storage shelf connections 
+400GbE mode for Intra-cluster, HA, and storage shelf connections 
 //The term "shelf" can only be listed when this table is applicable to 2K only. Does not apply to 1K.
 a|
-Ethernet1/15 to Ethernet1/30
+Ethernet1/19 to Ethernet1/35
 a|
-400GbE mode for Intra-cluster, HA, and storage connections 
+4x100GbE mode for Intra-cluster, HA, and storage connections 
 a|
-Ethernet1/31, Ethernet1/32
+Ethernet1/36
 a|
 400GbE Intra-cluster ISL connections
 |===
@@ -86,15 +67,15 @@ a|
 +
 To designate breakout ports, use the `interface breakout module` command. 
 +
-For example, to designate 400GbE mode ports 15-19 as breakout (4x100GbE) ports, use the following: 
+For example, to designate 400GbE mode ports 19-22 as breakout (4x100GbE) ports, use the following: 
 +
-`interface breakout module 1 port 15-19 map 100g-4x`
+`interface breakout module 1 port 19-22 map 100g-4x`
 
 . Modify the port list with the new ports that need to use the port profile for the desired port speed.
 + 
-For example, to modify the port list with the new ports,  15-19, for the 100G speed port profile, use the following: 
+For example, to modify the port list with the new ports,  19-22, for the 100G speed port profile, use the following: 
 +
-`interface e1/15/1-4, e1/16/1-4, e1/17/1-4, e1/18/1-4, e1/19/1-4`
+`interface e1/19/1-4, e1/20/1-4, e1/21/1-4, e1/22/1-4`
 
 . Hard-code the switch breakout (4x100GbE) ports for 100GbE. If you do not hard-code the speed, the ports will not come up and will be in an error-disabled state.
 +
@@ -109,9 +90,9 @@ a|
 
 . To return breakout ports to non-breakout ports, use the `no interface breakout` command in config mode. 
 +
-For example, to return ports 15-19 to 400GbE mode, use the following: 
+For example, to return ports 19-22 to 400GbE mode, use the following: 
 +
-`no interface breakout module 1 port 15-19` 
+`no interface breakout module 1 port 19-22` 
 |===
 
 === Suggested documentation
