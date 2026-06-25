@@ -557,11 +557,11 @@ Refer to the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/
 
 . Using the switch CLI, verify that the `write_erase.cfg` file is populated as expected:
 +
-`*show file bootflash:write_erase.cfg*`
+`show file bootflash:write_erase.cfg`
 
-. Using the switch CLI, issue the `write erase` command to erase the current saved configuration:
+. Using the switch CLI, erase the current saved configuration:
 +
-`cs1# *write erase*`
+`write erase`
 +
 `Warning: This command will erase the startup-configuration.`
 +
@@ -569,11 +569,11 @@ Refer to the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/
 
 . Using the switch CLI, copy the previously saved basic configuration into the startup configuration:
 +
-`cs1# *copy bootflash:write_erase.cfg startup-config*`
+`copy bootflash:write_erase.cfg startup-config`
 
 . Using the switch CLI, reboot the switch:
 +
-`cs1# *reload*`
+`reload`
 +
 `This command will reboot the system. (y/n)?  [n] *y*`
 
@@ -645,14 +645,14 @@ If your switches are running RCF 10.1 or later, you can link:configure-install-u
 For more information on Cisco commands, refer to the appropriate guide in the link:https://www.cisco.com/c/en/us/td/docs/dcn/nx-os/nexus9000/102x/command-reference/config/b_n9k_config_commands_1021.html[Cisco Nexus 9000 Series NX-OS Command Reference^].
 +
 
-`cs1# *copy running-config startup-config*` 
+`copy running-config startup-config` 
 +
 `[########################################] 100% Copy complete` 
 
 . Using the switch CLI, reboot switch cs1. You can ignore the "`cluster switch health monitor`" alerts and "`cluster ports down`" events reported on the nodes while the switch reboots.
 +
 
-`cs1# *reload*` 
+`reload` 
 +
 `This command will reboot the system. (y/n)?  [n] *y*` 
 
@@ -1269,9 +1269,9 @@ node1-04          true    true          false
 ----
 ====
 
-. Using the ONTAP CLI, verify the connectivity of the remote cluster interfaces: 
+. Using the ONTAP CLI, verify the connectivity of the remote cluster interfaces. 
 +
-.. You can use the `network interface check cluster-connectivity show` command to display the details of an accessibility check for cluster connectivity: 
+* You can use the following command to display the details of an accessibility check for cluster connectivity: 
 + 
 [source,cli]
 ----
@@ -1301,8 +1301,8 @@ node1-02
 .
 ----
 ====
-
-.. Alternatively, you can use the `cluster ping-cluster -node <node-name>` command to check the connectivity:
++
+* Alternatively, you can use the following command to check the connectivity:
 +
 [source,cli]
 ----
