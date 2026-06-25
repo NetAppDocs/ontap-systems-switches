@@ -30,10 +30,9 @@ If you need to change the boot configuration to reflect the current boot images,
 
 .About this task
 
-* Upgrading the RCF on both of the switches is a nondisruptive procedure. 
-** No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily. To ensure non-disruptive cluster operations, this procedure has you migrate all of the cluster LIFs to the operational partner switch while performing the steps on the target switch.
+* To ensure non-disruptive cluster operations, this procedure has you migrate all of the cluster LIFs to the operational partner switch while performing the steps on the target switch.
 
-** This procedure has you upgrade the RCF on the first switch (cs1) and then has you repeat the steps for the second switch (cs2).
+* No operational inter-switch link (ISL) is needed during this procedure. This is by design because RCF version changes can affect ISL connectivity temporarily.
 
 * Because this procedure requires the use of ONTAP commands and Cisco Nexus 9000 Series Switches commands, the steps indicate which CLI you are using to enter commands.
 
