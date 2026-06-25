@@ -57,10 +57,8 @@ Using the ONTAP CLI for the following steps, prepare for the RCF upgrade by supp
 +
 [source,cli]
 ----
-system node autosupport invoke -node * -type all -message MAINT=xh
+system node autosupport invoke -node * -type all -message MAINT=<number of hours down>h
 ----
-+
-where _x_ is the duration of the maintenance window in hours.
 
 . Change the privilege level to advanced, entering *y* when prompted to continue: 
 +
