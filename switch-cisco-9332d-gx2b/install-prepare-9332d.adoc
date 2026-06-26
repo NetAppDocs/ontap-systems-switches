@@ -53,9 +53,11 @@ For the current list of supported RCF versions, see the link:https://mysupport.n
 Switch port information can also be found in the https://hwu.netapp.com[NetApp Hardware Universe^].
 ====
 
-* If you have an AFX 1K system, RCF 10.0 and later is supported:
+* If you have an AFX 1K system, RCF 10.0 and later is supported.
 +
-For example, the following table shows the preset groupings of the switch ports, their port speeds, and usage based on RCF version 10.0.
+There is one RCF 10.0 file and it supports shared switches, `Cluster-HA-Storage AFX RCF_10.0`.
++
+For example, the following table shows the preset groupings of the switch ports, their port speeds, and usage for this RCF file.
 +
 [options="header" cols="1,2"]
 |===
@@ -70,20 +72,22 @@ a|
 400GbE ISL
 |===
 +
-* If you have an AFX 2K system, RCF 10.1 and later is supported:
+* If you have an AFX 2K system, RCF 10.1 and later is supported.
 +
-For example, the following table shows the preset groups of the switch ports, their port speeds, and usage based on RCF version 10.1.
+There are different RCF 10.1 files for different use cases. Depending on how you plan to use the switches in your AFX system configuration (shared, storage only, or cluster and HA only), you choose the applicable RCF file.
++
+For example, if you are using your switches as shared switches, you use the RCF file `RCF-v10.1-NX9332D-GX2B-CL1-ST1-100GBR15-400G15.txt`. The following table shows the preset groups of the switch ports, their port speeds, and usage for this RCF file.
 +
 [options="header" cols="1,2"]
 |===
 | Switch port groups | Port speeds and usage
 a|
-Ethernet1/1/1-4 to Ethernet1/14/1-4
+Ethernet1/1/1-4 to Ethernet1/15/1-4
 a|
 4x100GbE mode for Intra-cluster, HA, and storage shelf connections 
 //The term "shelf" can only be listed when this table is applicable to 2K only. Does not apply to 1K.
 a|
-Ethernet1/15 to Ethernet1/30
+Ethernet1/16 to Ethernet1/30
 a|
 400GbE mode for Intra-cluster, HA, and storage connections 
 a|
