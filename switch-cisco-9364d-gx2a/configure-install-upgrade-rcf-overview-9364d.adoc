@@ -15,57 +15,9 @@ NOTE: RCF installation or upgrade is independent of NS-OS installation or upgrad
 
 
 === Understand the supported RCF versions
-The version of ONTAP running on your AFX system and version of NX-OS on your switches determines the supported versions of RCF for your switches. RCF versions have preset port speed configurations that determine how many switch ports are in breakout mode (4x100GbE) and non-breakout mode.
 
-[NOTE]
-====
-For the current list of supported RCF versions, see the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page.
+include::../_include/understand-rcf-versions-9364d.adoc[]
 
-Switch port information can also be found in the https://hwu.netapp.com[NetApp Hardware Universe^].
-====
-
-NOTE: For specific port and VLAN usage details, refer to the banner and important notes section in your RCF. Refer to link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page for more information.
-
-* If you have an AFX 1K system, RCF 10.0 and later is supported:
-+
-For example, the following table shows the preset groupings of the switch ports, their port speeds, and usage based on RCF version 10.0.
-+
-[options="header" cols="1,2"]
-|===
-| Switch port groups | Port speeds and usage
-a|
-Ethernet1/1/1-4 to Ethernet1/62/1-4
-a|
-4x100GbE mode for cluster, HA, and storage connections 
-a|
-Ethernet1/63, Ethernet1/64
-a|
-400GbE ISL
-|===
-+
-* If you have an AFX 2K system, RCF 10.1 and later is supported:
-+
-For example, the following table shows the preset groups of the switch ports, their port speeds, and usage based on RCF version 10.1.
-+
-//Filename : RCF-v10.1-NX9332D-GX2B-CL1-V1.txt
-+
-[options="header" cols="1,2"]
-|===
-| Switch port groups | Port speeds and usage
-a|
-Ethernet1/1/1-4 to Ethernet1/13/1-4
-a|
-4x100GbE mode for Intra-cluster, HA, and storage shelf connections 
-//The term "shelf" can only be listed when this table is applicable to 2K only. Does not apply to 1K.
-a|
-Ethernet1/14 to Ethernet1/62
-a|
-400GbE mode for Intra-cluster, HA, and storage connections 
-a|
-Ethernet1/63, Ethernet1/64
-a|
-400GbE Intra-cluster ISL connections
-|===
 
 === Change port speed configuration
 

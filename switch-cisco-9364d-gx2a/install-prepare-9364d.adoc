@@ -44,64 +44,9 @@ Provides NetApp hardware configuration and compatibility information.
 Provides more information about storage system installation requirements.
 
 === Step 3: Understand the supported RCF versions
-The version of ONTAP running on your AFX system and version of NX-OS on your switches determines the supported versions of RCF for your switches. RCF versions have preset port speed configurations that determine how many switch ports are in breakout mode (4x100GbE) and non-breakout mode.
 
-[NOTE]
-====
-For the current list of supported RCF versions, see the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page.
+include::../_include/understand-rcf-versions-9364d.adoc[]
 
-Switch port information can also be found in the https://hwu.netapp.com[NetApp Hardware Universe^].
-====
-
-* If you have an AFX 1K system, RCF 10.0 and later is supported.
-
-* If you have an AFX 2K system, RCF 10.1 and later is supported.
-
-* RCF 10.0 has one file and it supports shared switches, `Cluster-HA-Storage AFX RCF_10.0`.
-+
-For example, the following table shows the preset groupings of the switch ports, their port speeds, and usage for this RCF file.
-+
-[options="header" cols="1,2"]
-|===
-| Switch port groups | Port speeds and usage
-a|
-Ethernet1/1/1-4 to Ethernet1/62/1-4
-a|
-4x100GbE mode for cluster, HA, and storage connections 
-a|
-Ethernet1/63, Ethernet1/64
-a|
-400GbE ISL
-|===
-
-* RCF 10.1 has different files for different use cases. Depending on how you plan to use the switches in your AFX system configuration (shared, storage only, or cluster and HA only), you choose the applicable RCF file.
-+
-For example, if you are using your switches as shared switches, you use RCF file `RCF-v10.1-NX9364D-GX2A-CL1-ST1-100GBR31-400G31.txt`. The following table shows the preset groups of the switch ports, their port speeds, and usage for this RCF file.
-+
-[options="header" cols="1,2"]
-|===
-| Switch port groups | Port speeds and usage
-a|
-Ethernet1/1/1-4 to Ethernet1/31/1-4
-a|
-4x100GbE mode for Intra-cluster, HA, and storage shelf connections 
-//The term "shelf" can only be listed when this table is applicable to 2K only. Does not apply to 1K.
-a|
-Ethernet1/32 to Ethernet1/62
-a|
-400GbE mode for Intra-cluster, HA, and storage connections 
-a|
-Ethernet1/63, Ethernet1/64
-a|
-400GbE Intra-cluster ISL connections
-|===
-+
-[NOTE]
-====
-You can change the preset groups to adjust the number of switch ports in breakout mode (4x100GbE) and 400GbE mode when you need to accommodate a different port speed configuration for your AFX system.
-
-You do this later, as part of the RCF installation procedure.
-====
 
 === Step 4: Consider using Smart Call Home
 ONTAP supports Ethernet switch health monitoring (CSHM) to monitor the AFX cluster switches, as well as the ability to collect switch diagnostic logs.
