@@ -150,37 +150,37 @@ network port show -ipspace Cluster
 cluster1::*> *network port show -ipspace Cluster*
 
 Node: node1-01
-                                                                       Ignore
-                                                  Speed(Mbps) Health   Health
-Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
---------- ------------ ---------------- ---- ---- ----------- -------- ------
-e2a       Cluster      Cluster          up   9000  auto/100000 healthy false
-e2b       Cluster      Cluster          up   9000  auto/100000 healthy false
+                                                                        Ignore
+                                                  Speed(Mbps)  Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper   Status   Status
+--------- ------------ ---------------- ---- ---- ------------ -------- ------
+e2a       Cluster      Cluster          up   9000  auto/400000 healthy  false
+e2b       Cluster      Cluster          up   9000  auto/400000 healthy  false
 
 Node: node1-02
-                                                                       Ignore
-                                                  Speed(Mbps) Health   Health
-Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
---------- ------------ ---------------- ---- ---- ----------- -------- ------
-e2a       Cluster      Cluster          up   9000  auto/100000 healthy false
-e2b       Cluster      Cluster          up   9000  auto/100000 healthy false
+                                                                        Ignore
+                                                  Speed(Mbps)  Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper   Status   Status
+--------- ------------ ---------------- ---- ---- ------------ -------- ------
+e2a       Cluster      Cluster          up   9000  auto/400000 healthy  false
+e2b       Cluster      Cluster          up   9000  auto/400000 healthy  false
 
 Node: node1-03
 
-                                                                       Ignore
-                                                  Speed(Mbps) Health   Health
-Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
---------- ------------ ---------------- ---- ---- ----------- -------- ------
-e2a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e2b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+                                                                        Ignore
+                                                  Speed(Mbps)  Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper   Status   Status
+--------- ------------ ---------------- ---- ---- ------------ -------- ------
+e2a       Cluster      Cluster          up   9000  auto/400000 healthy  false
+e2b       Cluster      Cluster          up   9000  auto/400000 healthy  false
 
 Node: node1-04
-                                                                       Ignore
-                                                  Speed(Mbps) Health   Health
-Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
---------- ------------ ---------------- ---- ---- ----------- -------- ------
-e2a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e2b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+                                                                        Ignore
+                                                  Speed(Mbps)  Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper   Status   Status
+--------- ------------ ---------------- ---- ---- ------------ -------- ------
+e2a       Cluster      Cluster          up   9000  auto/400000 healthy  false
+e2b       Cluster      Cluster          up   9000  auto/400000 healthy  false
 ----
 ====
 
@@ -235,7 +235,7 @@ cs2(FDOXXXXXXXX)            cluster-network    10.228.137.233   N9K-C9808
       Is Monitored: true
             Reason: None
   Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
-                    10.6(3)(F)
+                    10.5(3)(F)
     Version Source: CDP/ISDP
 
 
@@ -244,7 +244,7 @@ cs1(FOXXXXXXXXX)            cluster-network    10.228.137.234   N9K-C9808
       Is Monitored: true
             Reason: None
   Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
-                    10.6(3)(F)
+                    10.5(3)(F)
     Version Source: CDP/ISDP
 ----
 ====
@@ -497,14 +497,14 @@ network interface modify -vserver Cluster -lif * -auto-revert false
 
 == Step 2: Configure ports
 
-. Using the switch CLI, on switch cs1, shut down the ports connected to all the ports of the nodes.
+. Using the switch CLI, on switch cs1, shut down the ports connected to all the ports of the nodes for each line card.
 +
 
 [subs=+quotes]
 ----
 cs1# *config terminal*
 Enter configuration commands, one per line. End with CNTL/Z.
-cs1(config)# *interface e1/1,e1/2,e1/3,e1/4,e1/5,e1/6,e1/7,e1/8,e1/9,e1/10,e1/11,e1/12,e1/13,e1/14,e1/15,e1/16,e1/17,e1/18*
+cs1(config)# *interface e1/1-18*
 cs1(config-if-range)# *shutdown*
 cs1(config)# *interface e1/19/1-4,e1/20/1-4,e1/21/1-4,e1/22/1-4,e1/23/1-4,e1/24/1-4,e1/25/1-4,e1/26/1-4,e1/27/1-4,e1/28/1-4,e1/29/1-4,e1/30/1-4,e1/31/1-4,e1/32/1-4,e1/33/1-4,e1/34/1-4,e1/35/1-4*
 cs1(config-if-range)# *shutdown*
@@ -723,36 +723,36 @@ network port show -ipspace Cluster
 cluster1::*> *network port show -ipspace Cluster*
 
 Node: node1
-                                                                       Ignore
-                                                  Speed(Mbps) Health   Health
-Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
---------- ------------ ---------------- ---- ---- ----------- -------- ------
-e2a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e2b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+                                                                        Ignore
+                                                  Speed(Mbps)  Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper   Status   Status
+--------- ------------ ---------------- ---- ---- ------------ -------- ------
+e2a       Cluster      Cluster          up   9000  auto/400000 healthy  false
+e2b       Cluster      Cluster          up   9000  auto/400000 healthy  false
 
 Node: node1-02
-                                                                       Ignore
-                                                  Speed(Mbps) Health   Health
-Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
---------- ------------ ---------------- ---- ---- ----------- -------- ------
-e2a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e2b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+                                                                        Ignore
+                                                  Speed(Mbps)  Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper   Status   Status
+--------- ------------ ---------------- ---- ---- ------------ -------- ------
+e2a       Cluster      Cluster          up   9000  auto/400000 healthy  false
+e2b       Cluster      Cluster          up   9000  auto/400000 healthy  false
 
 Node: node1-03
-                                                                       Ignore
-                                                  Speed(Mbps) Health   Health
-Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
---------- ------------ ---------------- ---- ---- ----------- -------- ------
-e2a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e2b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+                                                                        Ignore
+                                                  Speed(Mbps)  Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper   Status   Status
+--------- ------------ ---------------- ---- ---- ------------ -------- ------
+e2a       Cluster      Cluster          up   9000  auto/400000 healthy  false
+e2b       Cluster      Cluster          up   9000  auto/400000 healthy  false
 
 Node: node1-04
-                                                                       Ignore
-                                                  Speed(Mbps) Health   Health
-Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
---------- ------------ ---------------- ---- ---- ----------- -------- ------
-e2a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e2b       Cluster      Cluster          up   9000  auto/10000 healthy  false
+                                                                        Ignore
+                                                  Speed(Mbps)  Health   Health
+Port      IPspace      Broadcast Domain Link MTU  Admin/Oper   Status   Status
+--------- ------------ ---------------- ---- ---- ------------ -------- ------
+e2a       Cluster      Cluster          up   9000  auto/400000 healthy  false
+e2b       Cluster      Cluster          up   9000  auto/400000 healthy  false
 ----
 ====
 
