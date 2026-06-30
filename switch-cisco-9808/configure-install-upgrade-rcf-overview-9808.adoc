@@ -2,14 +2,14 @@
 permalink: switch-cisco-9808/configure-install-upgrade-rcf-overview-9808.html
 sidebar: sidebar
 keywords: ssh, requirement, cluster, switch, health, monitor, cshm, log, collection, feature, cisco 9808
-summary: You can install or upgrade the reference configuration file (RCF) on your Nexus 9808 switches. You install a supported version of the RCF on the switches as part of a new AFX 2K system installation, a switch replacement, or a reset to factory default settings. You upgrade to a supported version of the RCF on the switches to support new hardware, a new ONTAP version, or to align with a new NX-OS version in your AFX 2K system configuration.
+summary: You can install or upgrade the reference configuration file (RCF) on your Nexus 9808 switches. You install a supported version of the RCF on the switches as part of a new AFX 2K system installation, a supervisor module replacement, or a switch reset to factory default settings. You upgrade to a supported version of the RCF on the switches to support new hardware, a new ONTAP version, or to align with a new NX-OS version in your AFX 2K system configuration.
 ---
 = Install or upgrade the RCF overview - Cisco Nexus 9808
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-You can install or upgrade the reference configuration file (RCF) on your Nexus 9808 switches. You install a supported version of the RCF on the switches as part of a new AFX 2K system installation, a switch replacement, or a switch reset to factory default settings. You upgrade to a supported version of the RCF on the switches to support new hardware, a new ONTAP version, or to align with a new NX-OS version in your AFX system configuration.
+You can install or upgrade the reference configuration file (RCF) on your Nexus 9808 switches. You install a supported version of the RCF on the switches as part of a new AFX 2K system installation, a supervisor module replacement, or a switch reset to factory default settings. You upgrade to a supported version of the RCF on the switches to support new hardware, a new ONTAP version, or to align with a new NX-OS version in your AFX system configuration.
 
 NOTE: RCF installation or upgrade is independent of NX-OS installation or upgrade. If you are installing or upgrading both the NX-OS and RCF, it is recommended you install or upgrade NX-OS first. 
 
@@ -50,7 +50,7 @@ a|
 
 === Change port speed configuration
 
-For switches with RCF 10.1 and later, you can change the port speed configuration to adjust the number of switch ports in breakout mode (4x100GbE) and non-breakout mode (400GbE) when you need to accommodate a different port speed configuration for your AFX system.
+For switches with RCF 10.1 and later, you can change the port speed configuration to adjust the number of switch ports in breakout mode (4x100GbE) and non-breakout mode (400GbE) when you need to accommodate a different port speed configuration for your AFX system. Any port modifications made are made per line card(s) currently in use. 
 
 You perform this change as part of the RCF installation or RCF upgrade procedure. The procedures have steps that link you to this page.
 
