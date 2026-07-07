@@ -35,7 +35,7 @@ NetApp strongly recommends that you enable console logging on the devices that y
 
 . If you are replacing a module that is currently in the chassis, remove the existing module from the chassis as detailed in the link:https://www.cisco.com/c/en/us/td/docs/switches/datacenter/nexus9000/hw/9800/9808/nx-os/cisco-nexus-9808-nx-os-mode-switch-hardware-installation-guide/m-8000-replace-chassis-components.html#task_dqf_spp_13b[Replace a Supervisor module^] section of the Cisco Nexus 9808 NX-OS Mode Switch Hardware Installation Guide.
 
-.. Using the switch CLI, verify that the status of the module is `shutdown` using the `show module` command.
+.. Using the switch CLI, in EXEC mode, verify that the status of the module is `shutdown` using the `show module` command.
 +
 .Show example 
 [%collapsible]
@@ -123,7 +123,7 @@ cs1#
 
 . Install the new module in the chassis as detailed in the link:https://www.cisco.com/c/en/us/td/docs/switches/datacenter/nexus9000/hw/9800/9808/nx-os/cisco-nexus-9808-nx-os-mode-switch-hardware-installation-guide/m-8000-replace-chassis-components.html#task_dqf_spp_13b[Replace a Supervisor module^] section of the Cisco Nexus 9808 NX-OS Mode Switch Hardware Installation Guide.
 
-.. Using the switch CLI, verify that the status of the module is `active` using the `show module` command.
+.. Using the switch CLI, in EXEC mode, verify that the status of the module is `active` using the `show module` command.
 +
 .Show example 
 [%collapsible]
@@ -209,7 +209,7 @@ cs1#
 ----
 ====
 
-. Using the switch CLI, verify the system status:
+. Using the switch CLI, in EXEC mode, verify the high-availability and redundancy state of the supervisor modules.
 +
 `show system redundancy status`
 +

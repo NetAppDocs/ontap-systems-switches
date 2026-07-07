@@ -50,7 +50,6 @@ If you need to change the boot configuration to reflect the current boot images,
 *** node1-04_clus1 and node1-04_clus2 for node1-04
 ** The `cluster1::*>` prompt indicates the name of the cluster.
 
-//* The examples shown in this procedure are for AFX 1K systems with switches running RCF 10.0. If you have an AFX 2K system, the input and output can vary.
 
 == Step 1: Prepare for the upgrade
 
@@ -493,7 +492,9 @@ network interface modify -vserver Cluster -lif * -auto-revert false
 
 == Step 2: Configure ports
 
-. Using the switch CLI, on switch cs1, shut down the ports connected to all the ports of the nodes for each line card.
+. Using the switch CLI, on switch cs1, shut down the ports connected to all the ports of the nodes for each line card. 
++
+The following example shows the commands to shut down all the ports on line card 1 `e1`, `e1-1/1-18`, `e1/19/1-4`, `e1/20/1-4` ......... `e1/35/1-4`. Repeat the commands for each line card on the switch.
 +
 
 [subs=+quotes]
@@ -1193,18 +1194,18 @@ Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
                   s - Supports-STP-Dispute
 
 Device-ID          Local Intrfce  Hldtme Capability  Platform      Port ID
-cs1                  Eth1/3         179    H         AFX-1K          e7a           
-cs2                  Eth1/4         123    H         AFX-1K          e7a           
-cs1                  Eth1/5         179    H         AFX-1K          e10a          
-cs2                  Eth1/6         123    H         AFX-1K          e10a          
-cs1                  Eth1/7         179    H         AFX-1K          e11a          
-cs2                  Eth1/8         123    H         AFX-1K          e11a          
-cs1                  Eth1/12        179    H         AFX-1K          e7b           
-cs2                  Eth1/13        123    H         AFX-1K          e7b           
-cs1                  Eth1/14        179    H         AFX-1K          e10b          
-cs2                  Eth1/15        123    H         AFX-1K          e10b          
-cs1                  Eth1/16        179    H         AFX-1K          e11b          
-cs2                  Eth1/17        123    H         AFX-1K          e11b 
+cs1                  Eth1/3         179    H         AFX-2K          e7a           
+cs2                  Eth1/4         123    H         AFX-2K          e7a           
+cs1                  Eth1/5         179    H         AFX-2K          e10a          
+cs2                  Eth1/6         123    H         AFX-2K          e10a          
+cs1                  Eth1/7         179    H         AFX-2K          e11a          
+cs2                  Eth1/8         123    H         AFX-2K          e11a          
+cs1                  Eth1/12        179    H         AFX-2K          e7b           
+cs2                  Eth1/13        123    H         AFX-2K          e7b           
+cs1                  Eth1/14        179    H         AFX-2K          e10b          
+cs2                  Eth1/15        123    H         AFX-2K          e10b          
+cs1                  Eth1/16        179    H         AFX-2K          e11b          
+cs2                  Eth1/17        123    H         AFX-2K          e11b 
 
 cs1# *show lldp neighbors*
 Capability codes:
