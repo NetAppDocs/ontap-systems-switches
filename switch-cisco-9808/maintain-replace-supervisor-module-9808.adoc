@@ -1,10 +1,10 @@
 ---
 permalink: switch-cisco-9808/maintain-replace-supervisor-module-9808.html
 sidebar: sidebar
-keywords: replacing, replace, defective, nexus, switch, cluster, network, nondisruptive, procedure, ndu, replace a cisco nexus 9808 cluster switch - cisco nexus 9808
-summary: "Replacing a defective Nexus 9808 switch in a cluster network is a nondisruptive procedure."
+keywords: replacing, replace, defective, nexus, switch, cluster, network, nondisruptive, procedure, ndu, replace a cisco nexus 9808 supervisor module - cisco nexus 9808
+summary: "Replacing a defective Nexus 9808 supervisor module is a nondisruptive procedure."
 ---
-= Replace a Cisco Nexus 9808 supervisor module
+= Replace a supervisor module - Cisco Nexus 9808
 :icons: font
 :imagesdir: ../media/
 
@@ -14,15 +14,15 @@ The 9808 switch supports up to two redundant Supervisor modules. When two Superv
 
 == Review requirements
 
-Before performing the switch replacement, make sure that: 
+Before performing the supervisor module replacement, make sure that: 
 
-* You have verified the switch serial number to ensure that the correct switch is replaced. 
-* Initial customization of the switch is complete, as detailed in link:configure-complete-initial-setup-9808.html[Complete initial switch setup].
-+
-Any previous site customizations, such as STP, SNMP, and SSH, are copied to the new switch.
+* You have verified the supervisor module serial number to ensure that the correct module is replaced. 
+//* Initial customization of the switch is complete, as detailed in link:configure-complete-initial-setup-9808.html[Complete initial switch setup].
+//+
+//Any previous site customizations, such as STP, SNMP, and SSH, are copied to the new switch.
 
 == Enable console logging
-NetApp strongly recommends that you enable console logging on the devices that you are using and take the following actions when replacing your switch:
+NetApp strongly recommends that you enable console logging on the devices that you are using and take the following actions when replacing your supervisor module:
 
 * Leave AutoSupport enabled during maintenance.
 * Trigger a maintenance AutoSupport before and after maintenance to disable case creation for the duration of the maintenance. Refer to this Knowledge Base article https://kb.netapp.com/Support_Bulletins/Customer_Bulletins/SU92[SU92: How to suppress automatic case creation during scheduled maintenance windows^] for further details.
@@ -33,37 +33,13 @@ NetApp strongly recommends that you enable console logging on the devices that y
 
 . If you are installing the module in an empty slot, remove the blank that is already in that slot by unscrewing its captive screw and pulling it out of the slot.
 
-. If you are replacing a module that is currently in the chassis, remove the existing module from the chassis as follows:
+. If you are replacing a module that is currently in the chassis, remove the existing module from the chassis as detailed in the link:https://www.cisco.com/c/en/us/td/docs/switches/datacenter/nexus9000/hw/9800/9808/nx-os/cisco-nexus-9808-nx-os-mode-switch-hardware-installation-guide/m-8000-replace-chassis-components.html#task_dqf_spp_13b[Replace a Supervisor module^] section of the Cisco Nexus 9808 NX-OS Mode Switch Hardware Installation Guide.
 
-.. Run the poweroff module (x)location command, in EXEC mode, which gracefully shuts down Supervisor module to prevent any of the file systems from being corrupted.
+. Install the new module in the chassis as detailed in the link:https://www.cisco.com/c/en/us/td/docs/switches/datacenter/nexus9000/hw/9800/9808/nx-os/cisco-nexus-9808-nx-os-mode-switch-hardware-installation-guide/m-8000-replace-chassis-components.html#task_dqf_spp_13b[Replace a Supervisor module^] section of the Cisco Nexus 9808 NX-OS Mode Switch Hardware Installation Guide.
 
-.. Verify that the Supervisor Status LED for the slot that you specified turns to Amber. Also, you can use the `show module` command to verify that the status of the module is SHUT DOWN.
+. If you are replacing a module that is currently in the chassis, verify that the new Supervisor module is running the same version of NX-OS as the other Supervisor module. If the new Supervisor module is not running the same version of NX-OS, upgrade the new Supervisor module to the same version of NX-OS as the other Supervisor module. Refer to link:configure-install-nxos-9808.html[Install NX-OS] for instructions on how to upgrade NX-OS on your switch.
 
-.. Disconnect the cables from the module.
-+
-If there are any external drives attached to the module through its USB ports, detach those drives.
-
-.. Loosen the two captive screws (one on each side of the RP) until the screws are no longer in contact with the chassis.
-
-.. Slide the latch on each of the ejector lever outwards from the lever center.
-
-.. Pull the ejector levers outwards to disengage the module from the chassis, and then pull the module out of the chassis.
-
-. Install the new module in the chassis as follows:
-
-.. Align the new module with the slot and slide the module into the slot until it is fully seated.
-
-.. Push the ejector levers inwards to engage the module with the chassis, and then tighten the two captive screws (one on each side of the RP) to secure the module to the chassis.
-
-.. Connect the cables to the new module.
-
-.. If you are replacing a module that is currently in the chassis, run the poweron module (x)location command, in EXEC mode, to power on the new Supervisor module.     
-
-.. Verify that the Supervisor Status LED for the slot that you specified turns to Green. Also, you can use the `show module` command to verify that the status of the module is OK.
-
-.. If you are replacing a module that is currently in the chassis, verify that the new Supervisor module is running the same version of NX-OS as the other Supervisor module. If the new Supervisor module is not running the same version of NX-OS, upgrade the new Supervisor module to the same version of NX-OS as the other Supervisor module. Refer to link:configure-install-nxos-9808.html[Install NX-OS] for instructions on how to upgrade NX-OS on your switch.
-
-.. If you are replacing a module that is currently in the chassis, verify that the new Supervisor module is running the same version of RCF as the other Supervisor module. If the new Supervisor module is not running the same version of RCF, install the same version of RCF on the new Supervisor module as the other Supervisor module. Refer to link:configure-install-rcf-9808.html[Install the RCF] for instructions on how to install the RCF on your switch.
+. If you are replacing a module that is currently in the chassis, verify that the new Supervisor module is running the same version of RCF as the other Supervisor module. If the new Supervisor module is not running the same version of RCF, install the same version of RCF on the new Supervisor module as the other Supervisor module. Refer to link:configure-install-rcf-9808.html[Install the RCF] for instructions on how to install the RCF on your switch.
 
 .What's next?
 
