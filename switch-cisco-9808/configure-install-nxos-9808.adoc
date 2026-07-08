@@ -16,9 +16,9 @@ You install the NX-OS on your Cisco Nexus 9808 switch(es) as part of a new AFX 2
 
 * The switch(es) must be powered on and you must have completed the link:configure-complete-initial-setup-9808.html[Complete initial switch setup] procedure.
 
-* If you are installing the NX-OS on switch(es) as part of a new AFX system installation or supervisor module replacement, verify that the version of NX-OS on your switch(es) is the current NetApp-supported version.
+* If you are installing the NX-OS on the switch(es) as part of a new AFX system installation or supervisor module replacement, verify that the version of NX-OS on your switch(es) is the current NetApp-supported version.
 +
-** If your switch(es) have the current NetApp-supported version, you do not need to install the NX-OS. You need to install the RCF. Start with the link:configure-install-upgrade-rcf-overview-9808.html[Install or upgrade the RCF overview].
+** If your switch(es) have the current NetApp-supported version, you do not need to install the NX-OS. You need to install the reference configuration file (RCF). Start with the link:configure-install-upgrade-rcf-overview-9808.html[Install or upgrade the RCF overview].
 +
 ** If your switch(es) do not have the current NetApp-supported version, continue with this procedure to install the NX-OS.
 
@@ -31,7 +31,7 @@ You install the NX-OS on your Cisco Nexus 9808 switch(es) as part of a new AFX 2
 
 * The version of ONTAP running on your AFX system determines the supported versions of NX-OS for your switches.
 
-** For switches in an AFX 2K system, running ONTAP 9.19.1GA or later, NX-OS 10.6(3) and later is supported.
+** For switches in an AFX 2K system, running ONTAP 9.19.1GA or later and NX-OS 10.6(3) and later is supported.
 +
 For the current list of supported NX-OS versions, refer to link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^].
 
@@ -39,7 +39,7 @@ For the current list of supported NX-OS versions, refer to link:https://mysuppor
 
 * The examples in this procedure refer to the first switch as cs1 and the second switch as cs2.
 
-* If you have installed switches as part of a new AFX 2K system installation, this procedure has you install the NX-OS on the first switch (cs1) and then has you repeat the steps for the second switch (cs2).
+* If you have installed switches as part of a new AFX 2K system installation, you install the NX-OS on the first switch (cs1) and then repeat the steps for the second switch (cs2) using this procedure.
 
 == Step 1: Prepare to install the NX-OS
 
@@ -53,7 +53,7 @@ Prepare to install the NX-OS on the switch(es) by making sure you have access to
 
 . Connect the switch to the management network (for the file transfer).
 
-. Verify connectivity to the server hosting the NX-OS using the ping command.
+. Verify connectivity to the server hosting the NX-OS using the `ping` command.
 +
 `ping <IP address>`
 +
@@ -79,7 +79,7 @@ Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 
 You install the NX-OS and EPLD image on the first switch (cs1) by installing and verifying the NX-OS and EPLD image versions, and then repeat these steps on the second switch (cs2) if you are installing the NX-OS as part of a new AFX system installation.
 
-. Copy NX-OS and EPLD image to the first switch.
+. Copy the NX-OS and EPLD image to the first switch.
 +
 `copy <protocol>: bootflash: vrf management`
 +

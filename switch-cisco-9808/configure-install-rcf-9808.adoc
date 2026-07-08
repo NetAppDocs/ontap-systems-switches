@@ -26,7 +26,7 @@ If you are installing the RCF as part of a new AFX system installation, you can 
 
 .About this task
 
-* If you have installed switches as part of a new AFX 2K system installation, this procedure has you install the RCF on the first switch (cs1) and then has you repeat the steps for the second switch (cs2).
+* If you have installed switches as part of a new AFX 2K system installation, you install the reference configuration file (RCF) on the first switch (cs1) and then repeat the steps for the second switch (cs2) using this procedure.
 
 * This procedure only requires the use of Cisco Nexus 9000 Series Switches commands.
 
@@ -51,7 +51,7 @@ NOTE: New switches do not ship with the RCF installed. You must install the RCF 
 == Step 2: Install the RCF
 You install the RCF on the first switch (cs1) by copying and applying the RCF to the bootflash, examining the banner output, verifying the RCF version is correct, recording any custom additions, saving basic configuration details, verifying that the `write_erase.cfg` file is populated, erasing the current saved configuration, copying the previously saved basic configuration into the startup configuration, and then rebooting the switch. You repeat these steps on the second switch (cs2) if you are installing the RCF as part of a new AFX system installation.
 
-. Login to switch cs1 using SSH or by using a serial console.
+. Log in to switch cs1 using SSH or by using a serial console.
 
 . Copy the RCF to the bootflash of switch cs1 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. 
 +
@@ -114,7 +114,7 @@ cs1# show banner motd
 ----
 ====
 
-. Verify that the RCF file is the correct version: 
+. Verify that the RCF is the correct version: 
 +
 `show running-config`
 +
@@ -128,7 +128,7 @@ The output varies according to your site configuration. Check the port settings 
 
 . If your switches have RCF 10.1 or later installed, complete the following substeps if needed:
 
-.. Record any custom additions between the current `running-config` file and the RCF file in use.
+.. Record any custom additions between the current `running-config` file and the RCF in use.
 +
 You can link:configure-install-upgrade-rcf-overview-9808.html#change-port-speed-configuration[change the port speed configuration] for RCF 10.1 as needed.
 
