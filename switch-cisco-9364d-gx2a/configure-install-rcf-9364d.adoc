@@ -1,28 +1,26 @@
 ---
-permalink: switch-cisco-9332d-gx2b/configure-install-rcf-9332d.html
+permalink: switch-cisco-9364d-gx2a/configure-install-rcf-9364d.html
 sidebar: sidebar
 keywords: install rcf, cisco switches
-summary: You install the RCF on new Cisco Nexus 9332D-GX2B switch(es) as part of a new AFX 1K or AFX 2K system installation and setup, replacing a faulty switch, or resetting a switch to factory default settings.
+summary: You install the RCF on new Cisco Nexus 9364D-GX2A switch(es) as part of a new AFX 1K or AFX 2K system installation, replacing a switch, or a switch reset to factory default settings.
 ---
-= Install the RCF - Cisco Nexus 9332D-GX2B
+= Install the RCF - Cisco Nexus 9364D-GX2A
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-You install the RCF on new Cisco Nexus 9332D-GX2B switch(es) as part of a new AFX 1K or AFX 2K system installation, replacing a switch, or a switch reset to factory default settings.
+You install the RCF on new Cisco Nexus 9364D-GX2A switch(es) as part of a new AFX 1K or AFX 2K system installation, replacing a switch, or a switch reset to factory default settings.
 
 .Before you begin
+* The switch(es) must be powered on and you must have completed the link:configure-complete-initial-setup-9364d.html[Complete initial switch setup] procedure.
 
-* The switch(es) must be powered on and you must have completed the link:configure-complete-initial-setup-9332d.html[Complete initial switch setup] procedure.
+* You must have installed the desired NX-OS version using the link:configure-install-nxos-9364d.html[Install the NX-OS] procedure.
 
-* You must have installed the desired NX-OS version using the link:configure-install-nxos-9332d.html[Install the NX-OS] procedure.
-
-* You must have read the link:configure-install-upgrade-rcf-overview-9332d.html[Install or upgrade RCF overview] page.
+* You must have read the link:configure-install-upgrade-rcf-overview-9364d.html[Install or upgrade RCF overview] page.
 
 * If you are installing the RCF on a switch as part of a switch replacement or a switch reset to factory default settings, verify that your cluster is fully functional, meaning that there are no errors in the logs or similar issues.
 
 NOTE: If you are installing the RCF as part of a new AFX system installation, you can skip this requirement because the controllers in your AFX system are not powered on at this point in your AFX system installation and setup.
-
 
 .About this task
 
@@ -33,7 +31,6 @@ NOTE: If you are installing the RCF as part of a new AFX system installation, yo
 * The examples in this procedure refer to the first switch as cs1 and the second switch as cs2.
 
 * The examples shown in this procedure are for AFX 1K systems with switches running RCF 10.0. If you have an AFX 2K system, the input and output can vary.
-
 
 == Step 1: Prepare to install the RCF
 
@@ -50,7 +47,6 @@ NOTE: New switches do not ship with the RCF installed. You must install the RCF 
 . Each switch must be connected to a console or you must have remote access to each switch.
 
 
-
 == Step 2: Install the RCF
 You install the RCF on the first switch (cs1) by copying and applying the RCF to the bootflash, examining the banner output, verifying the RCF version is correct, recording any custom additions, saving basic configuration details, verifying that the write_erase.cfg file is populated, erasing the current saved configuration, copying the previously saved basic configuration into the startup configuration, and then rebooting the switch. You repeat these steps on the second switch (cs2) if you are installing the RCF as part of a new AFX system installation.
 
@@ -58,7 +54,7 @@ You install the RCF on the first switch (cs1) by copying and applying the RCF to
 
 . Copy the RCF to the bootflash of switch cs1 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. 
 +
-For more information on Cisco commands, refer to the appropriate guide in the link:https://www.cisco.com/c/en/us/td/docs/dcn/nx-os/nexus9000/102x/command-reference/config/b_n9k_config_commands_1021.html[Cisco Nexus 9000 Series NX-OS Command Reference^].
+For more information on Cisco commands, refer to the appropriate guide in the link:https://www.cisco.com/c/en/us/td/docs/dcn/nx-os/nexus9000/102x/command-reference/config/b_n9k_config_commands_1021.html[Cisco Nexus 9000 Series NX-OS Command Reference^]
 +
 `copy <protocol>: bootflash: vrf management`
 +
@@ -70,7 +66,7 @@ This example shows TFTP being used to copy an RCF to the bootflash on switch cs1
 [subs=+quotes]
 ----
 cs1# *copy tftp: bootflash: vrf management*
-Enter source filename: *NX9332D-GX2B-RCF-v10.0-Shared.txt*
+Enter source filename: *NX9364D-GX2A-RCF-v10.0-Shared.txt*
 Enter hostname for the tftp server: *172.22.201.50*
 Trying to connect to tftp server......Connection to Server Established.
 TFTP get operation was successful
@@ -83,21 +79,19 @@ Copy complete, now saving to disk (please wait)...
 +
 For more information on Cisco commands, refer to the appropriate guide in the link:https://www.cisco.com/c/en/us/td/docs/dcn/nx-os/nexus9000/102x/command-reference/config/b_n9k_config_commands_1021.html[Cisco Nexus 9000 Series NX-OS Command Reference^].
 +
-The following command shows the RCF file `NX9332D-GX2B-RCF-v10.0-Shared.txt` being installed on switch cs1:
+The following command shows the RCF file `NX9364D-GX2A-RCF-v10.0-Shared.txt` being installed on switch cs1:
 +
 [subs=+quotes]
 ----
-cs1# *copy NX9332D-GX2B-RCF-v10.0-Shared.txt running-config echo-commands*
+cs1# *copy NX9364D-GX2A-RCF-v10.0-Shared.txt running-config echo-commands*
 ----
 +
-NOTE: For RCF 10.1 and later, the file name format is different. For example, `RCF-v10.1-NX9332D-GX2B-CL1-ST1-100GB15-400G15.txt` is for a shared switch with ports designated for breakout and 400GbE.
+NOTE: For RCF 10.1 and later, the file name format is different. For example, `RCF-v10.1-NX9364D-GX2A-CL1-ST1-100GB31-400G31.txt` is for a shared switch with ports designated for breakout and 400GbE.
 +
 . Examine the banner output from the `show banner motd` command. You must read and follow these instructions to ensure the proper configuration and operation of the switch.
 +
 .Show example 
 [%collapsible]
-
-[subs=+quotes]
 ====
 ----
 cs1# show banner motd
@@ -105,16 +99,17 @@ cs1# show banner motd
 ******************************************************************************
 * NetApp Reference Configuration File (RCF)
 *
-* Switch   : NX9332D-GX2B
-* Filename : NX9332D-GX2B-RCF-v10.0-Shared.txt
+* Switch   : NX9364D-GX2A
+* Filename : NX9364D-GX2A-RCF-v10.0-Shared.txt
 * Date     : 05-09-2025
 * Version  : v10.0
 * Port Usage:
-* Ports  1-30: 100GbE Intra-Cluster/HA/Storage Ports, int e1/{1-30}/1-4
-* Ports 31-32: Intra-Cluster ISL Ports, int e1/31-32
+* Ports  1-62: 100GbE Intra-Cluster/HA/Storage Ports, int e1/{1-62}/1-4
+* Ports 63-64: Intra-Cluster ISL Ports, int e1/63-64
 *
 * IMPORTANT NOTES
 * Interface port-channel999 is reserved to identify the version of this file.
+*
 ******************************************************************************
 ----
 ====
@@ -135,7 +130,7 @@ The output varies according to your site configuration. Check the port settings 
 
 .. Record any custom additions between the current `running-config` file and the RCF file in use.
 +
-You can link:configure-install-upgrade-rcf-overview-9332d.html#change-port-speed-configuration[change the port speed configuration] for RCF 10.1 as needed.
+You can link:configure-install-upgrade-rcf-overview-9364d.html#change-port-speed-configuration[change the port speed configuration] for RCF 10.1 as needed.
 
 .. After you verify that the RCF versions, custom additions, and switch settings are correct, copy the `running-config` file to the `startup-config` file:
 +
@@ -168,7 +163,7 @@ Make sure to configure the following:
 `cs1# echo "hardware access-list tcam region egr-racl 1024" >> bootflash:write_erase.cfg`
 +
 `cs1# echo "hardware access-list tcam region ing-l2-qos 1536" >> bootflash:write_erase.cfg`
-+
++ 
 Refer to the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further details.
 
 . Verify that the `write_erase.cfg` file is populated as expected:
@@ -198,9 +193,8 @@ Refer to the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/
 
 .What's next?
 
-After you've installed the RCF in your switch(es), you link:configure-verify-ssh-9332d.html[verify SSH for log collection].
-
-
+After you've installed the RCF in your switch(es), you link:configure-verify-ssh-9364d.html[verify SSH for log collection].
 
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-06
+// AFFFASDOC-473, 2026-MAR-18
 // Refactor content project phase 1 with 2K/RCF 10.1 content, GH#423 2026-JUN
