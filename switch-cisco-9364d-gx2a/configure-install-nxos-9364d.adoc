@@ -1,25 +1,25 @@
 ---
-permalink: switch-cisco-9332d-gx2b/configure-install-nxos-9332d.html
+permalink: switch-cisco-9364d-gx2a/configure-install-nxos-9364d.html
 sidebar: sidebar
-keywords: procedure, install, nx-os, software, nexus, cluster, switch, install the nx-os software - cisco nexus 9332d-gc2b
-summary: You install the NX-OS on your Cisco Nexus 9332D-GX2B switch(es) as part of a new AFX 1K or AFX 2K system installation, a switch replacement, or a switch reset to factory default settings.
+keywords: procedure, install, nx-os, software, nexus, cluster, switch, install the nx-os software - cisco nexus 9364d-gx2a
+summary: You install the NX-OS on your Cisco Nexus 9364D-GX2A switch(es) as part of a new AFX 1K or AFX 2K system installation, a switch replacement, or a switch reset to factory default settings.
 ---
-= Install the NX-OS - Cisco Nexus 9332D-GX2B
+= Install the NX-OS - Cisco Nexus 9364D-GX2A
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-You install the NX-OS on your Cisco Nexus 9332D-GX2B switch(es) as part of a new AFX 1K or AFX 2K system installation, a switch replacement, or a switch reset to factory default settings.
+You install the NX-OS on your Cisco Nexus 9364D-GX2A switch(es) as part of a new AFX 1K or AFX 2K system installation, a switch replacement, or a switch reset to factory default settings.
 
 
 .Before you begin
 
-* The switch(es) must be powered on and you must have completed the link:configure-complete-initial-setup-9332d.html[Complete initial switch setup] procedure.
+* The switch(es) must be powered on and you must have completed the link:configure-complete-initial-setup-9364d.html[Complete initial switch setup] procedure.
 
 * If you are installing the NX-OS on switch(es) as part of a new AFX system installation or switch replacement, verify that the version of NX-OS on your switch(es) is the current NetApp-supported version.
-+
-** If your switch(es) have the current NetApp-supported version, you do not need to install the NX-OS. You need to install the RCF. Start with the link:configure-install-upgrade-rcf-overview-9332d.html[Install or upgrade the RCF overview].
-+
+
+** If your switch(es) have the current NetApp-supported version, you do not need to install the NX-OS. You need to install the RCF. Start with the link:configure-install-upgrade-rcf-overview-9364d.html[Install or upgrade the RCF overview].
+
 ** If your switch(es) do not have the current NetApp-supported version, continue with this procedure to install the NX-OS.
 
 * If you are installing the NX-OS on a switch as part of a switch replacement or a switch reset to factory default settings, verify that your cluster is fully functional, meaning that there are no errors in the logs or similar issues.
@@ -97,7 +97,7 @@ The example uses sftp.
 
 [subs=+quotes]
 ----
-cs1# *copy sftp: bootflash: vrf management*
+cs2# *copy sftp: bootflash: vrf management*
 Enter source filename: */code/nxos.10.4.2.bin*
 Enter hostname for the sftp server: *172.19.2.1*
 Enter username: *root*
@@ -113,7 +113,7 @@ sftp> exit
 Copy complete, now saving to disk (please wait)...
 Copy complete.
 
-cs1# *copy sftp: bootflash: vrf management*
+cs2# *copy sftp: bootflash: vrf management*
 Enter source filename: */code/n9000-epld.10.4.2.F.img*
 Enter hostname for the sftp server: *172.19.2.1*
 Enter username: *user1*
@@ -141,7 +141,7 @@ Copy complete.
 
 [subs=+quotes]
 ----
-cs1# *show version*
+cs2# *show version*
 Cisco Nexus Operating System (NX-OS) Software
 TAC support: http://www.cisco.com/tac
 Copyright (C) 2002-2025, Cisco and/or its affiliates.
@@ -196,7 +196,7 @@ plugin
 
 Active Package(s):
 
-cs1#
+cs2#
 ----
 ====
 
@@ -215,7 +215,7 @@ The example uses NX-OS version 10.4.2.
 
 [subs=+quotes]
 ----
-cs1# *install all nxos bootflash:nxos.10.4.2.bin*
+cs2# *install all nxos bootflash:nxos.10.4.2.bin*
 
 Installer will perform compatibility check first. Please wait.
 Installer is forced disruptive
@@ -287,7 +287,7 @@ Finishing the upgrade, switch will reboot in 10 seconds.
 
 [subs=+quotes]
 ----
-cs1# *show version*
+cs2# *show version*
 Cisco Nexus Operating System (NX-OS) Software
 TAC support: http://www.cisco.com/tac
 Copyright (C) 2002-2025, Cisco and/or its affiliates.
@@ -323,7 +323,7 @@ Hardware
   cisco Nexus9000 C9332D-GX2B Chassis
   Intel(R) Xeon(R) CPU D-1633N @ 2.50GHz with 32802156 kB of memory.
   Processor Board ID FLMXXXXXXXX
-  Device name: cs1
+  Device name: cs2
   bootflash:  115802886 kB
 
 
@@ -342,7 +342,7 @@ plugin
 
 Active Package(s):
 
-cs1#
+cs2#
 ----
 ====
 
@@ -362,7 +362,7 @@ The example uses EPLD version 10.4.2.F
 
 [subs=+quotes]
 ----
-cs1# *show version module 1 epld*
+cs2# *show version module 1 epld*
 
 EPLD Device                     Version
 ---------------------------------------
@@ -374,7 +374,7 @@ GEM  FPGA                        0x2
 GEM  FPGA                        0x2
 GEM  FPGA                        0x2
 
-cs1# *install epld bootflash:n9000-epld.10.4.2.F.img module all*
+cs2# *install epld bootflash:n9000-epld.10.4.2.F.img module all*
 Compatibility check:
 Module        Type         Upgradable        Impact    Reason
 ------  ------------------ ----------------- --------- -----------
@@ -439,7 +439,7 @@ GEM  FPGA                        0x2
 
 .What's next?
 
-After you've installed the NX-OS on your switch(es), you install RCF starting with the link:configure-install-upgrade-rcf-overview-9332d.html[Install or upgrade the RCF overview].
+After you've installed the NX-OS on your switch(es), you install RCF starting with the link:configure-install-upgrade-rcf-overview-9364d.html[Install or upgrade the RCF overview].
 
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-06
 // AFFFASDOC-394, 2025-OCT-20
