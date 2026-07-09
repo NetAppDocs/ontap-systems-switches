@@ -47,6 +47,7 @@ No operational inter-switch link (ISL) is needed during this procedure. This is 
 //CAUTION: Before installing a new switch software version and RCFs, use the Knowledge Base article https://kb.netapp.com/onprem/Switches/Broadcom/How_to_clear_configuration_on_a_Broadcom_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Broadcom interconnect switch while retaining remote connectivity^]. If you must erase the switch settings completely, then you will need to perform the basic configuration again. You must be connected to the switch using the serial console, since a complete configuration erasure resets the configuration of the management network.
 
 == Step 1: Prepare for upgrade
+Using the ONTAP CLI for the following steps, prepare for the RCF upgrade by suppressing automatic case creation as needed, checking administrative and operational status on the ports, and disabling auto-revert on the cluster LIFs.
 
 . If AutoSupport is enabled on this cluster, suppress automatic case creation by invoking an AutoSupport message:
 +
@@ -265,6 +266,8 @@ network interface modify -vserver Cluster -lif * -auto-revert false
 ----
 
 == Step 2: Configure ports
+You use the switch CLI and the ONTAP CLI (as indicated in the following steps) for port configurations. You configure ports on the first switch (cs2) and then repeat these steps for the second switch (cs1).
+
 . On switch cs2, confirm the list of ports that are connected to the nodes in the cluster.
 +
 [source,cli]
@@ -924,6 +927,13 @@ cluster1::*>
 [start=20]
 . [[step20]]Repeat steps 1 to 19 on switch cs1. 
 
+. Enable auto-revert on the cluster LIFs:
++
+[source,cli]
+----
+network interface modify -vserver Cluster -lif * -auto-revert true
+----
+
 
 . Verify that the cluster LIFs have reverted to their home port:
 +
@@ -935,6 +945,8 @@ network interface show -vserver Cluster
 For further details, refer to link:https://docs.netapp.com/us-en/ontap/networking/revert_a_lif_to_its_home_port.html[Revert a LIF to its home port].
 
 == Step 3: Verify the configuration
+After the RCF is upgraded on both switches, verify the cluster network configuration and cluster health.
+
 . On switch cs1, verify that the switch ports connected to the cluster ports are *up*: 
 +
 [source,cli]
@@ -1146,14 +1158,7 @@ RPC status:
 // end of tabbed content
 
 [start=6]
-. [[step6]]Enable auto-revert on the cluster LIFs:
-+
-[source,cli]
-----
-network interface modify -vserver Cluster -lif * -auto-revert true
-----
-
-. Change the privilege level back to admin: 
+. [[step6]] Change the privilege level back to admin: 
 +
 [source,cli]
 ----
@@ -1167,9 +1172,8 @@ set -privilege admin
 system node autosupport invoke -node * -type all -message MAINT=END
 ----
 
-//.What's next?
-
-//link:complete-upgrade.html[Complete the upgrade of your switch]. 
+.What's next?
+After you've upgraded your RCF, you can link:configure-ssh-keys.html[verify the SSH configuration].
 
 // New content for GH issues #72, 109, 12, AFFFASDOC-212, 2024-APR-02
 // Updates for GH issue #212, 2024-OCT-14
