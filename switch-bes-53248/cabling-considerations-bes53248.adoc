@@ -12,7 +12,6 @@ summary: 'Before configuring your Broadcom BES-53248 switch, review the followin
 Before configuring your Broadcom BES-53248 switch, review the following considerations. 
 
 == Cluster port switch assignments
-
 You can use the Broadcom-supported BES-53248 cluster switch port assignments table as a guide to configure your cluster.
 
 |===
@@ -65,6 +64,10 @@ systemshell -node <node> -command sudo sysctl dev.ice.<X>.requested_fec=<auto/fc
 ** The `FC-FEC` setting propagates the setting to the hardware immediately and no reboot is required.
 ** A new `bootarg.cpk_fec_fc_eXx` is created with the value set to "true".
 ** After a reboot, `FC-FEC` setting remains in place for the driver code to use.
+
+.What's next?
+
+After you meet the cabling and configuration requirements, you install the link:configure-efos-software.html[install the EFOS software] on the switch.
 
 // New content for AFFFASDOC-193, 2024-MAR-06
 // Updates for GH issue #248, 2025-MAR-14
