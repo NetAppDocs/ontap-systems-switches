@@ -55,7 +55,7 @@ You install the RCF on the first switch (cs1) by copying and applying the RCF to
 
 . Copy the RCF to the bootflash of switch cs1 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. 
 +
-For more information on Cisco commands, refer to the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
+For more information on Cisco commands, refer to the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
 +
 `copy <protocol>: bootflash: vrf management`
 +
@@ -77,7 +77,7 @@ Copy complete, now saving to disk (please wait)...
 
 . Apply the RCF previously copied to the bootflash.
 +
-For more information on Cisco commands, refer to the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
+For more information on Cisco commands, refer to the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
 +
 This example shows the RCF file `RCF-v10.1-NX9808-CL1-ST1.txt` being installed on switch cs1:
 +
@@ -162,7 +162,7 @@ Refer to the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/
 
 . Verify that the `write_erase.cfg` file is populated as expected:
 +
-`*show file bootflash:write_erase.cfg*`
+`show file bootflash:write_erase.cfgs`
 
 . Issue the `write erase` command to erase the current saved configuration:
 +

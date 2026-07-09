@@ -597,7 +597,7 @@ Refer to the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/
 
 . Using the switch CLI, verify that the `write_erase.cfg` file is populated as expected:
 +
-`*show file bootflash:write_erase.cfg*`
+`show file bootflash:write_erase.cfg`
 
 . Using the switch CLI, issue the `write erase` command to erase the current saved configuration:
 +
@@ -623,7 +623,7 @@ You might need to update host file entries related to the SSH keys.
 
 . Using the switch CLI, copy the RCF to the bootflash of switch cs1 using one of the following transfer protocols: FTP, TFTP, SFTP, or SCP. 
 +
-For more information on Cisco commands, refer to the appropriate guide in the link:https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
+For more information on Cisco commands, refer to the appropriate guide in the link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
 +
 `copy <protocol>: bootflash: vrf management`
 +
@@ -645,7 +645,7 @@ Copy complete, now saving to disk (please wait)...
 
 . Using the switch CLI, apply the RCF previously downloaded to the bootflash.
 +
-For more information on Cisco commands, refer to the appropriate guide in the link:https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
+For more information on Cisco commands, refer to the appropriate guide in the link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
 
 +
 This example shows the RCF `RCF-v10.1-NX9808-CL1-ST1.txt` being installed on switch cs1:
@@ -680,7 +680,7 @@ If your switches are running RCF 10.1 or later, you can link:configure-install-u
 
 . Using the switch CLI, after you verify the RCF versions, custom additions, and switch settings are correct, copy the `running-config` file to the `startup-config` file.
 +
-For more information on Cisco commands, refer to the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9336c-fx2-switch/model.html#CommandReferences[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
+For more information on Cisco commands, refer to the appropriate guide in the https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/series.html[Cisco Nexus 9000 Series NX-OS Command Reference^] guides.
 +
 
 `cs1# *copy running-config startup-config*` 
