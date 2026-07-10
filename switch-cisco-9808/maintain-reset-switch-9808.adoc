@@ -1,0 +1,58 @@
+---
+sidebar: sidebar
+permalink: switch-cisco-9808/maintain-reset-switch-9808.html
+keywords: reset switch factory defaults
+summary: You can reset a Cisco Nexus 9808 switch to its original factory default settings when the switch is being decommissioned or when the switch fails and cannot be recovered, requiring you to reconfigure it manually.
+---
+= Reset a switch to factory default settings - Cisco Nexus 9808
+:hardbreaks:
+:nofooter:
+:icons: font
+:linkattrs:
+:imagesdir: ../media/
+
+[.lead]
+You can reset a Cisco Nexus 9808 switch to its original factory default settings when the switch is being decommissioned or when the switch fails and cannot be recovered, requiring you to reconfigure it manually.
+
+
+.Before you begin
+You must be connected to the switch using the serial console.
+
+.About this task
+* This task resets the configuration of the management network.
+* The `reload` command used in this procedure reboots the switch, which interrupts all network traffic passing through it. (You should perform this procedure during a maintenance window when the switch is not in use.)
+
+.Steps
+. Erase the existing startup configuration:
++
+`write erase`
++
+
+[subs=+quotes]
+----
+(cs2)# *write erase*
+
+Warning: This command will erase the startup-configuration.
+Do you wish to proceed anyway? (y/n) [n] *y*
+----
+
+. Reload the NX-OS:
++
+`reload`
++
+
+[subs=+quotes]
+----
+(cs2)# *reload*
+
+This command will reboot the system. (y/n)? [n] *y*
+----
+
++
+The system reboots and enters the configuration wizard. 
++
+NOTE: During the reboot, if you receive the prompt “Abort Auto Provisioning and continue with normal setup? (yes/no)[n]”, respond *yes* to proceed.
++
+. If the switch is being decommissioned, you are done with this procedure; otherwise, you need to configure the switch using the link:configure-switch-workflow-9808.html[Configure switch workflow].
+
+// New content for Organza (9808) project, 2026-JUN-08
