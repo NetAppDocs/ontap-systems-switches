@@ -1,0 +1,57 @@
+
+//June 2026: Used in Install prep and RCF overview topics.
+//June 2026: All of this content is generic to 9332 (and 9364) except the RCF 10.1 bullet example text and table, which is specific to 9332.
+
+The version of ONTAP running on your AFX system and version of NX-OS on your switches determines the supported versions of RCF for your switches. RCF versions have preset port speed configurations that determine how many switch ports are in breakout mode (4x100GbE) and non-breakout mode.
+
+[NOTE]
+====
+For the current list of supported RCF versions, see the link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] page.
+
+Switch port information can also be found in the https://hwu.netapp.com[NetApp Hardware Universe^].
+====
+
+* If you have an AFX 1K system, RCF 10.0 and later is supported.
+
+* If you have an AFX 2K system, RCF 10.1 and later is supported.
+
+* RCF 10.0 has one file and it supports shared switches, `Cluster-HA-Storage AFX RCF_10.0`.
++
+For example, the following table shows the preset groupings of the switch ports, their port speeds, and usage for this RCF file.
++
+[options="header" cols="1,2"]
+|===
+| Switch port groups | Port speeds and usage
+a|
+Ethernet1/1/1-4 to Ethernet1/30/1-4
+a|
+4x100GbE mode for cluster, HA, and storage connections 
+a|
+Ethernet1/31, Ethernet1/32
+a|
+400GbE ISL
+|===
++
+
+* RCF 10.1 has different files for different use cases for AFX 1K and for AFX 2K systems. Depending on how you plan to use the switches in your AFX 1K or AFX 2K system configuration (shared, storage only, or cluster and HA only), you choose the applicable RCF file.
++
+For example, if you are using your switches as shared switches in an AFX 2K system, you use the RCF file appropriate for that use case. The appropriate RCF file could be named similarly to  `RCF-v10.1-NX9332D-GX2B-CL1-ST1-100GBR15-400G15.txt`. The following table shows the preset groups of the switch ports, their port speeds, and usage for this RCF file.
++
+[options="header" cols="1,2"]
+|===
+| Switch port groups | Port speeds and usage
+a|
+Ethernet1/1/1-4 to Ethernet1/15/1-4
+a|
+4x100GbE mode for Intra-cluster, HA, and storage shelf connections 
+//The term "shelf" can only be listed when this table is applicable to 2K only. Does not apply to 1K.
+a|
+Ethernet1/16 to Ethernet1/30
+a|
+400GbE mode for Intra-cluster, HA, and storage connections 
+a|
+Ethernet1/31, Ethernet1/32
+a|
+400GbE Intra-cluster ISL connections
+|===
+

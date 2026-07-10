@@ -1,0 +1,40 @@
+---
+permalink: switch-cisco-9332d-gx2b/configure-review-cabling-config-requirements-9332d.html
+sidebar: sidebar
+keywords: 9332d-gx2b cabling setup, 9332d-gx2b switches configuration, nx-os
+summary: If you are installing new Cisco Nexus 9332D-GX2B switches as part of a new AFX 1K or AFX 2K system installation, replacing a switch, or resetting a switch to the factory defaults settings, you must review the following cabling and configuration requirements.
+---
+= Review cabling and configuration requirements - Cisco Nexus 9332D-GX2B
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+If you are installing Cisco Nexus 9332D-GX2B switches as part of a new AFX 1K or AFX 2K system installation, replacing a switch, or resetting a switch to the factory defaults settings, you must review the following cabling and configuration requirements.
+
+
+== Hard-code the speed on breakout ports
+
+You must hard-code the switch breakout (4x100GbE) ports for 100GbE. If you do not hard-code the speed, the ports will not come up and will be in an error-disabled state. 
+
+For example, to hard-code 100GbE on breakout ports 1-14, do the following in config mode. The example shows commands being applied to the first switch (cs1). You repeat these commands for the second switch.
+
+[subs=+quotes]
+----
+(cs1)(config)# *interface e1/1/1-4, e1/2/1-4, e1/3/1-4, e1/4/1-4, e1/5/1-4, e1/6/1-4, e1/7/1-4, e1/8/1-4, e1/9/1-4, e1/10/1-4, e1/11/1-4, e1/12/1-4, e1/13/1-4, e1/14/1-4*
+(cs1)(config-if)# *speed 100000*
+(cs1)(config-if)# *no negotiate auto*
+(cs1)(config-if)# *exit*
+(cs1)(config)# *exit*
+(cs1)# *copy running-config startup-config*
+----
+
+
+//June 2, 2026 Below: decided makes sense to move mixed cables to AFX Cable HW topic for 1K and 2K. Gist of report: There's an issue if you mix technologies on the two ports on the cluster-node side. Also, really applies to NICs, but there's no NIC guide, so putting in switch docs.
+
+
+.What's next?
+
+After you meet the cabling and configuration requirements, you link:configure-install-nxos-9332d.html[install the NX-OS].
+
+
+// New topic and refactor content project phase 1 with 2K/RCF 10.1 content, GH#423 2026-JUN
