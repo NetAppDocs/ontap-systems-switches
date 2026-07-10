@@ -1,0 +1,38 @@
+---
+permalink: switch-cisco-9808/configure-review-cabling-config-requirements-9808.html
+sidebar: sidebar
+keywords: 9808 cabling setup, 9808 switches configuration, nx-os
+summary: If you are installing new Cisco Nexus 9808 switches as part of a new AFX 2K system installation, replacing a supervisor module, or resetting a switch to the factory default settings, you must review the following cabling and configuration requirements.
+---
+= Review cabling and configuration requirements - Cisco Nexus 9808
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+If you are installing Cisco Nexus 9808 switches as part of a new AFX 2K system installation, replacing a supervisor module, or resetting a switch to the factory default settings, you must review the following cabling and configuration requirements.
+
+
+== Hard-code the speed on breakout ports
+
+You must hard-code the switch breakout (4x100GbE) ports for 100GbE. If you do not hard-code the speed, the ports will not come up and will be in an error-disabled state. 
+
+For example, to hard-code 100GbE on breakout ports 19-35, do the following in config mode. The example shows commands being applied to the first switch (cs1). You repeat these commands for the second switch.
+
+[subs=+quotes]
+----
+(cs1)# *configure terminal*
+Enter configuration commands, one per line. End with CNTL/Z.
+(cs1)(config)# *interface e1/19/1-4,e1/20/1-4,e1/21/1-4,e1/22/1-4,e1/23/1-4,e1/24/1-4,e1/25/1-4,e1/26/1-4,e1/27/1-4,e1/28/1-4,e1/29/1-4,e1/30/1-4,e1/31/1-4,e1/32/1-4,e1/33/1-4,e1/34/1-4,e1/35/1-4*
+(cs1)(config-if)# *speed 100000*
+(cs1)(config-if)# *no negotiate auto*
+(cs1)(config-if)# *exit*
+(cs1)(config)# *exit*
+(cs1)# *copy running-config startup-config*
+----
+
+.What's next?
+
+After you meet the cabling and configuration requirements, you link:configure-install-nxos-9808.html[install the NX-OS].
+
+
+// New content for Organza (9808) project, 2026-JUN-08
