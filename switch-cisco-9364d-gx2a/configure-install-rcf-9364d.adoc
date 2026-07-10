@@ -126,59 +126,7 @@ When you check the output to verify you have the correct RCF, make sure that the
 +
 The output varies according to your site configuration. Check the port settings and refer to the release notes for any changes specific to the RCF that you have installed.
 
-. If your switches have RCF 10.1 or later installed, complete the following substeps if needed:
-
-.. Record any custom additions between the current `running-config` file and the RCF file in use.
-+
-You can link:configure-install-upgrade-rcf-overview-9364d.html#change-port-speed-configuration[change the port speed configuration] for RCF 10.1 as needed.
-
-.. After you verify that the RCF versions, custom additions, and switch settings are correct, copy the `running-config` file to the `startup-config` file:
-+
-----
-cs1# copy running-config startup-config [########################################] 100% Copy complete
-----
-
-. Save basic configuration details to the `write_erase.cfg` file on the bootflash.
-+
-[NOTE]
-====================================
-Make sure to configure the following:
-
-* Username and password
-* Management IP address
-* Default gateway
-* Switch name
-====================================
-+
-`cs1# show run | i "username admin password" > bootflash:write_erase.cfg`
-+
-`cs1# show run | section "vrf context management" >> bootflash:write_erase.cfg`
-+
-`cs1# show run | section "interface mgmt0" >> bootflash:write_erase.cfg`
-+
-`cs1# show run | section "switchname" >> bootflash:write_erase.cfg`
-+
-`cs1# echo "hardware access-list tcam region ing-racl 1024" >> bootflash:write_erase.cfg`
-+
-`cs1# echo "hardware access-list tcam region egr-racl 1024" >> bootflash:write_erase.cfg`
-+
-`cs1# echo "hardware access-list tcam region ing-l2-qos 1536" >> bootflash:write_erase.cfg`
-+ 
-Refer to the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/Cisco-KBs/How_to_clear_configuration_on_a_Cisco_interconnect_switch_while_retaining_remote_connectivity[How to clear configuration on a Cisco interconnect switch while retaining remote connectivity^] for further details.
-
-. Verify that the `write_erase.cfg` file is populated as expected:
-+
-`*show file bootflash:write_erase.cfg*`
-
-. Issue the `write erase` command to erase the current saved configuration:
-+
-`cs1# *write erase*`
-+
-`Warning: This command will erase the startup-configuration.`
-+
-`Do you wish to proceed anyway? (y/n)  [n] *y*`
-
-. Copy the previously saved basic configuration into the startup configuration.
+. Copy the current running configuration to the startup configuration to make it persistent.
 +
 `cs1# *copy bootflash:write_erase.cfg startup-config*`
 
