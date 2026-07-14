@@ -4,15 +4,15 @@ sidebar: sidebar
 keywords: install rcf script, python script, sn2100 SN2100 switches, cumulus
 summary: 'Follow this procedure to install the RCF script.'
 ---
-= Install or upgrade the RCF script
+= Install the RCF script
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-Follow this procedure to install or upgrade the RCF script.
+Install the Reference Configuration File (RCF) after setting up the SN2100 switches for the first time.
 
 .Before you begin
-Before installing or upgrading the RCF script, make sure that the following are available on the switch:
+Before installing the RCF script, make sure that the following are available on the switch:
 
 * Cumulus Linux 4.4.3 is installed.
 * IP address, subnet mask, and default gateway defined via DHCP or manually configured.
@@ -211,61 +211,74 @@ swp16      100G   BondMember  sw14                    swp16
 ----
 ====
 
-. Verify the health of cluster ports on the cluster.
+. Verify the health of storage ports and switch connectivity.
 
-.. Verify that e0d ports are up and healthy across all nodes in the cluster: 
+.. Verify the status of node storage ports: 
 +
-`network port show -role cluster`
-+
-.Show example
-[%collapsible]
-====
-[subs=+quotes]
-----
-cluster1::*> *network port show -role cluster*
-
-Node: node1
-                                                                       Ignore
-                                                  Speed(Mbps) Health   Health
-Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
---------- ------------ ---------------- ---- ---- ----------- -------- ------
-e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
-
-Node: node2
-                                                                       Ignore
-                                                  Speed(Mbps) Health   Health
-Port      IPspace      Broadcast Domain Link MTU  Admin/Oper  Status   Status
---------- ------------ ---------------- ---- ---- ----------- -------- ------
-e3a       Cluster      Cluster          up   9000  auto/10000 healthy  false
-e3b       Cluster      Cluster          up   9000  auto/10000 healthy  false
-----
-====
-+
-.. Verify the switch health from the cluster (this might not show switch sw2, since LIFs are not homed on e0d).
+`storage port show -port-type ENET`
 +
 .Show example
 [%collapsible]
 ====
 [subs=+quotes]
 ----
-cluster1::*> *network device-discovery show -protocol lldp*
-Node/       Local  Discovered
-Protocol    Port   Device (LLDP: ChassisID)  Interface Platform
------------ ------ ------------------------- --------- ----------
-node1/lldp
-            e3a    sw1 (b8:ce:f6:19:1a:7e)   swp3      -
-            e3b    sw2 (b8:ce:f6:19:1b:96)   swp3      -
+cluster1::*> *storage port show -port-type ENET*
+                                  Speed                     VLAN
+Node           Port Type  Mode    (Gb/s) State    Status      ID
+-------------- ---- ----- ------- ------ -------- --------- ----
+node1
+               e3a  ENET  storage 100    enabled  online      30
+               e3b  ENET  storage   0    enabled  offline     30
+               e7a  ENET  storage   0    enabled  offline     30
+               e7b  ENET  storage 100    enabled  online      30
+node2
+               e3a  ENET  storage 100    enabled  online      30
+               e3b  ENET  storage   0    enabled  offline     30
+               e7a  ENET  storage   0    enabled  offline     30
+               e7b  ENET  storage 100    enabled  online      30
+cluster1::*>
+----
+====
++
+. Verify the shelf ports in the storage system:
++
+`storage shelf port show -fields remote-device, remote-port`
++
+.Show example 
+[%collapsible]
+====
+[subs=+quotes]
+----
+cluster1::*> *storage shelf port show -fields remote-device, remote-port*
+shelf   id    remote-port     remote-device
+-----   --    -----------     -------------
+3.20    0     swp3            sw1
+3.20    1     swp3            nsw2
+3.20    2     swp4            sw1
+3.20    3     swp4            nsw2
+3.30    0     swp5            sw1
+3.20    1     swp5            nsw2
+3.30    2     swp6            sw1
+3.20    3     swp6            nsw2
+cluster1::*>
+----
+====
 
-node2/lldp
-            e3a    sw1 (b8:ce:f6:19:1a:7e)   swp4      -
-            e3b    sw2 (b8:ce:f6:19:1b:96)   swp4      -
-
-
+.. Verify that the switches are being monitored.
+[source,cli]
+----
+system switch ethernet show -is-monitoring-enabled-operational true
+----
++
+.Show example
+[%collapsible]
+====
+[subs=+quotes]
+----
 cluster1::*> *system switch ethernet show -is-monitoring-enabled-operational true*
 Switch                      Type               Address          Model
 --------------------------- ------------------ ---------------- -----
-sw1                         cluster-network    10.233.205.90    MSN2100-CB2RC
+sw1                         storage-network    10.233.205.90    MSN2100-CB2RC
      Serial Number: MNXXXXXXGD
       Is Monitored: true
             Reason: None
@@ -273,7 +286,7 @@ sw1                         cluster-network    10.233.205.90    MSN2100-CB2RC
                     Technologies Ltd. MSN2100
     Version Source: LLDP
 
-sw2                         cluster-network    10.233.205.91    MSN2100-CB2RC
+sw2                         storage-network    10.233.205.91    MSN2100-CB2RC
      Serial Number: MNCXXXXXXGS
       Is Monitored: true
             Reason: None
