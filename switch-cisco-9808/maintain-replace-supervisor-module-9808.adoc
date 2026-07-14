@@ -1,0 +1,250 @@
+---
+permalink: switch-cisco-9808/maintain-replace-supervisor-module-9808.html
+sidebar: sidebar
+keywords: replacing, replace, defective, Cisco Nexus, switch, cluster, network, nondisruptive, procedure, ndu, replace a Cisco Nexus 9808 supervisor module - Cisco Nexus 9808
+summary: "Replacing a defective Cisco Nexus 9808 supervisor module is a nondisruptive procedure."
+---
+= Replace a supervisor module - Cisco Nexus 9808
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+The Cisco Nexus 9808 switch supports up to two redundant Supervisor modules. When two Supervisor modules are installed in the switch, one acts as an active module and the other as the standby module. When the active Supervisor module is removed, the switch automatically makes the standby Supervisor module active. If the switch has only one installed Supervisor module, a new Supervisor module can be installed in the empty Supervisor slot during operation.
+
+
+== Review requirements
+
+Before performing the supervisor module replacement, make sure that: 
+
+* You have verified the supervisor module serial number to ensure that the correct module is replaced. 
+
+== Enable console logging
+NetApp strongly recommends that you enable console logging on the devices that you are using and take the following actions when replacing your supervisor module:
+
+* Leave AutoSupport enabled during maintenance.
+* Trigger a maintenance AutoSupport before and after maintenance to disable case creation for the duration of the maintenance. Refer to this Knowledge Base article https://kb.netapp.com/Support_Bulletins/Customer_Bulletins/SU92[SU92: How to suppress automatic case creation during scheduled maintenance windows^] for further details.
+* Enable session logging for any CLI sessions. For instructions on how to enable session logging, review the "Logging Session Output" section in this Knowledge Base article https://kb.netapp.com/on-prem/ontap/Ontap_OS/OS-KBs/How_to_configure_PuTTY_for_optimal_connectivity_to_ONTAP_systems[How to configure PuTTY for optimal connectivity to ONTAP systems^].
+
+.Steps
+. Open the packaging for the new Supervisor module, inspect the module for damage, and verify that the module is the same type as the other Supervisor module installed in the chassis.
+
+. If you are installing the module in an empty slot, remove the blank that is already in that slot by unscrewing its captive screw and pulling it out of the slot.
+
+. If you are replacing a module that is currently in the chassis, remove the existing module from the chassis as detailed in the link:https://www.cisco.com/c/en/us/td/docs/switches/datacenter/nexus9000/hw/9800/9808/nx-os/cisco-nexus-9808-nx-os-mode-switch-hardware-installation-guide/m-8000-replace-chassis-components.html#task_dqf_spp_13b[Replace a Supervisor module^] section of the Cisco Nexus 9808 NX-OS Mode Switch Hardware Installation Guide.
+
+.. Using the switch CLI, in EXEC mode, verify that the status of the module is `shut down` using the `show module` command.
++
+.Show example 
+[%collapsible]
+====
+[subs=+quotes]
+
+----
+cs1# *show module*
+Mod Ports             Module-Type                      Model              Status
+--- ----- --------------------------------------- ----------------------- --------       
+27   0    Supervisor Module                       N9K-C9800-SUP-A         shut down *  
+28   0    Supervisor Module                       N9K-C9800-SUP-A         ha-standby
+
+Mod  Sw                       Hw    Slot
+---  ----------------------- ------ ----
+27   10.6(3)                  1.0    SUP1
+28   10.6(3)                  1.0    SUP2
+
+
+Mod  MAC-Address(es)                         Serial-Num
+---  --------------------------------------  ----------
+27   14-bc-68-e7-93-f0 to 14-bc-68-e7-93-f7  FVH1XXXXXXX
+28   c8-78-f7-2f-98-30 to c8-78-f7-2f-98-37  FVH2XXXXXXX
+
+
+Mod  Online Diag Status
+---  ------------------
+27   Pass
+28   Pass
+
+LFM Ports                  Module-Type                            Model           Status
+--- ----- ------------------------------------------------ --------------------- --------
+19   0    8-slot Fabric Module                             N9K-C9808-FM-A        ok        
+20   0    8-slot Fabric Module                             N9K-C9808-FM-A        ok        
+21   0    8-slot Fabric Module                                                   pwr-denied
+22   0    8-slot Fabric Module                             N9K-C9808-FM-A        ok        
+23   0    8-slot Fabric Module                             N9K-C9808-FM-A        ok        
+24   0    8-slot Fabric Module                             N9K-C9808-FM-A        ok        
+25   0    8-slot Fabric Module                             N9K-C9808-FM-A        ok        
+26   0    8-slot Fabric Module                             N9K-C9808-FM-A        ok        
+
+
+Mod  Power-Status  Reason
+---  ------------  ---------------------------
+21   pwr-denied     Issue show environment power ...
+
+
+Mod  Sw                       Hw    Slot
+---  ----------------------- ------ ----
+19   NA                       1.0    FM1
+20   NA                       1.0    FM2
+22   NA                       1.0    FM4
+23   NA                       1.0    FM5
+24   NA                       1.0    FM6
+25   NA                       1.0    FM7
+26   NA                       1.0    FM8
+
+
+LFM MAC-Address(es)                          Serial-Num
+---  --------------------------------------  ----------
+19   NA                                      FOCXXXXXXXX
+20   NA                                      FOCXXXXXXXX
+22   NA                                      FOCXXXXXXXX
+23   NA                                      FOCXXXXXXXX
+24   NA                                      FOCXXXXXXXX
+25   NA                                      FOCXXXXXXXX
+26   NA                                      FOCXXXXXXXX
+
+
+LFM  Online Diag Status
+---  ------------------
+19   Pass
+20   Pass
+22   Pass
+23   Pass
+24   Pass
+25   Pass
+26   Pass
+cs1#
+ 
+27   0    Supervisor Module                              N9K-C9800-SUP-A       shut down *  
+28   0    Supervisor Module                              N9K-C9800-SUP-A       ha-standby
+----
+====
+
+. Install the new module in the chassis as detailed in the link:https://www.cisco.com/c/en/us/td/docs/switches/datacenter/nexus9000/hw/9800/9808/nx-os/cisco-nexus-9808-nx-os-mode-switch-hardware-installation-guide/m-8000-replace-chassis-components.html#task_dqf_spp_13b[Replace a Supervisor module^] section of the Cisco Nexus 9808 NX-OS Mode Switch Hardware Installation Guide.
+
+.. Using the switch CLI, in EXEC mode, verify that the status of the module is `active` using the `show module` command.
++
+.Show example 
+[%collapsible]
+====
+
+[subs=+quotes]
+----
+cs1# *show module*
+Mod Ports             Module-Type                      Model              Status
+--- ----- --------------------------------------- ----------------------- --------       
+27   0    Supervisor Module                       N9K-C9800-SUP-A         active *  
+28   0    Supervisor Module                       N9K-C9800-SUP-A         ha-standby
+
+Mod  Sw                       Hw    Slot
+---  ----------------------- ------ ----
+27   10.6(3)                  1.0    SUP1
+28   10.6(3)                  1.0    SUP2
+
+
+Mod  MAC-Address(es)                         Serial-Num
+---  --------------------------------------  ----------
+27   14-bc-68-e7-93-f0 to 14-bc-68-e7-93-f7  FVH1XXXXXXX
+28   c8-78-f7-2f-98-30 to c8-78-f7-2f-98-37  FVH2XXXXXXX
+
+
+Mod  Online Diag Status
+---  ------------------
+27   Pass
+28   Pass
+
+LFM Ports                  Module-Type                            Model           Status
+--- ----- ------------------------------------------------ --------------------- --------
+19   0    8-slot Fabric Module                             N9K-C9808-FM-A        ok        
+20   0    8-slot Fabric Module                             N9K-C9808-FM-A        ok        
+21   0    8-slot Fabric Module                                                   pwr-denied
+22   0    8-slot Fabric Module                             N9K-C9808-FM-A        ok        
+23   0    8-slot Fabric Module                             N9K-C9808-FM-A        ok        
+24   0    8-slot Fabric Module                             N9K-C9808-FM-A        ok        
+25   0    8-slot Fabric Module                             N9K-C9808-FM-A        ok        
+26   0    8-slot Fabric Module                             N9K-C9808-FM-A        ok        
+
+
+Mod  Power-Status  Reason
+---  ------------  ---------------------------
+21   pwr-denied     Issue show environment power ...
+
+
+Mod  Sw                       Hw    Slot
+---  ----------------------- ------ ----
+19   NA                       1.0    FM1
+20   NA                       1.0    FM2
+22   NA                       1.0    FM4
+23   NA                       1.0    FM5
+24   NA                       1.0    FM6
+25   NA                       1.0    FM7
+26   NA                       1.0    FM8
+
+
+LFM MAC-Address(es)                          Serial-Num
+---  --------------------------------------  ----------
+19   NA                                      FOCXXXXXXXX
+20   NA                                      FOCXXXXXXXX
+22   NA                                      FOCXXXXXXXX
+23   NA                                      FOCXXXXXXXX
+24   NA                                      FOCXXXXXXXX
+25   NA                                      FOCXXXXXXXX
+26   NA                                      FOCXXXXXXXX
+
+
+LFM  Online Diag Status
+---  ------------------
+19   Pass
+20   Pass
+22   Pass
+23   Pass
+24   Pass
+25   Pass
+26   Pass
+cs1#
+ 
+27   0    Supervisor Module                              N9K-C9800-SUP-A       active *  
+28   0    Supervisor Module                              N9K-C9800-SUP-A       ha-standby
+----
+====
+
+. Using the switch CLI, in EXEC mode, verify the high-availability and redundancy state of the supervisor modules.
++
+`show system redundancy status`
++
+.Show example 
+[%collapsible]
+
+====
+[subs=+quotes]
+
+----
+cs1# *show system redundancy status*
+Redundancy mode
+---------------
+      administrative:   HA
+         operational:   HA
+
+
+This supervisor (sup-1)
+-----------------------
+    Redundancy state:   Active
+    Supervisor state:   Active
+      Internal state:   Active with HA standby
+
+
+Other supervisor (sup-2)
+------------------------
+    Redundancy state:   Standby
+    Supervisor state:   HA standby
+      Internal state:   HA standby
+
+----
+====
+
+. If you are replacing a module that is currently in the chassis, verify that the new Supervisor module is running the same version of NX-OS as the other Supervisor module. If the new Supervisor module is not running the same version of NX-OS, upgrade the new Supervisor module to the same version of NX-OS as the other Supervisor module. Refer to link:configure-install-nxos-9808.html[Install NX-OS] for instructions on how to upgrade NX-OS on your switch.
+
+. If you are replacing a module that is currently in the chassis, verify that the new Supervisor module is running the same version of RCF as the other Supervisor module. If the new Supervisor module is not running the same version of RCF, install the same version of RCF on the new Supervisor module as the other Supervisor module. Refer to link:configure-install-rcf-9808.html[Install the RCF] for instructions on how to install the RCF on your switch.
+
+.What's next?
+
+After you've replaced your switches, you link:../switch-cshm/config-overview.html[configure switch health monitoring].
+
