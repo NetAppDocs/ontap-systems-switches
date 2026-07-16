@@ -1,88 +1,53 @@
 
-== New switch support
-The following table lists newly supported switches, their descriptions, minimum ONTAP versions, and release dates.
+== July 2026
 
-[cols="25h,~,~,~",options="header"]
-|===
-| Switches| Description| Available beginning | Release date
-a|
-36-port 400GbE ports Cisco switch with 1 Supervisor module, 7 Fabric modules, and 4 Power Supply Units (PSU) (X-N9K-C9808-B1-A)
-a|
-Cisco Nexus 9808 switch Intra-Cluster/HA/Storage switch support.
-a|
-ONTAP 9.19.1
-a|
-July 2026
-a|
-32-port 400GbE ports Cisco switch (X190300-CS-PI and X190300-PE)
-a|
-Cisco 9332D-GX2B Intra-Cluster/HA/Storage switch support.
-a|
-ONTAP 9.17.1
-a|
-October 2025
-a|
-64-port 400GbE ports Cisco switch (X190310-CS-PI)
-a|
-Cisco 9364D-GX2A Intra-Cluster/HA/Storage switch support.
-a|
-ONTAP 9.17.1
-a|
-October 2025
-a|
-12-port 10/25/40/100GbE Cisco cluster and storage switch (X190212-CS-PE and X190212-CS-PI)
-a|
-Cisco Nexus 9336C-FX2-T cluster and storage switches. Supports 10/25/40/100GbE cluster configurations and 100GbE storage (switch-attached storage) configurations.
-a|
-ONTAP 9.10.1
-a|
-May 2025 (Storage), May 2023 (Cluster)
-a|
-16-port 100GbE NVIDIA switch (X190006-PE and X190006-PI)
-a|
-NVIDIA SN2100 cluster interconnect switch and storage switch support, including support for MetroCluster IP configurations.
-a|
-ONTAP 9.10.1
-a|
-October 2022
-a|
-36-port 100GbE Cisco switch (X190200-CS-PE and X190200-CS-PI)
-a|
-Supports a shared Infrastructure (Cluster, HA, and switch-attached storage) on the same pair of Cisco Nexus 9336C-FX2 switches, including support for MetroCluster IP configurations.
-a|
-ONTAP 9.9.1
-a|
-May 2021
-a| 
-36-port 100GbE Cisco switch (X190200-CS-PE and X190200-CS-PI), (X190210-FE-PE and X190210-FE-PI)
-a|
-Cisco Nexus 9336C-FX2 cluster interconnect switch and storage switch support for AFF and ASA storage systems, as well as for front-end data connectivity.
-a|
-ONTAP 9.8
-a|
-May 2020
-a|
-Broadcom BES-53248 switch (X190005 and X190005R)
-a|
-Broadcom BES-53248 cluster interconnect switch support for AFF/FAS controllers with 10/25GbE and 40/100GbE ports.
-a|
-ONTAP 9.8
-a|
-September 2019
-a|
-36-port 100GbE Cisco switch (X190200) and 32-port 100GbE Cisco switch (X190100 and X190100R)
-a|
-Cisco Nexus 3232C storage switch support to connect NS224 NVMe drive shelves AFF and ASA storage systems:
+=== New Cisco Nexus 9808 switch for AFX 2K
+The new Cisco 9808 switches connect to the AFX 2K controller nodes with the storage shelves. This new switch allows you to build ONTAP clusters with more than two nodes. Advanced protocols are used to optimize performance. The design is based on VLAN tagging with multiple network paths, as well as tech‑refresh configurations, to ensure continuous operation and ease of upgrade.
+
+They are 36-port 400GbE Cisco switches with 1 Supervisor module, 7 Fabric modules, and 4 Power Supply Units (PSU) (X-N9K-C9808-B1-A) supporting ONTAP 9.19.1 and later.
+
+== October 2025
+
+=== Cisco Nexus 9332D-GX2B and 9364D-GX2A switches for AFX 1K
+The Cisco 9364D-GX2A and the Cisco 9332D-GX2B switches, allow you to build ONTAP clusters with more than two nodes. Advanced protocols are used to optimize performance. The design is based on VLAN tagging with multiple network paths, as well as tech‑refresh configurations, to ensure continuous operation and ease of upgrade.
+
+They are 32-port and 64 port 400GbE ports Cisco switches (X190300-CS-PI, X190300-PE and X190310-CS-PI) supporting ONTAP 9.17.1 and later.
+
+
+== May 2025
+
+=== Cisco Nexus 9336C-FX2-T storage switch
+These are 12-port 10/25/40/100GbE Cisco storage switches (X190212-CS-PE and X190212-CS-PI) supporting ONTAP 9.10.1 and later. They support 100GbE storage (switch-attached storage) configurations.
+
+
+== May 2023
+
+=== Cisco Nexus 9336C-FX2-T cluster switch
+These are 12-port 10/25/40/100GbE Cisco cluster switches (X190212-CS-PE and X190212-CS-PI) supporting ONTAP 9.10.1 and later. They support 10/25/40/100GbE cluster configurations.
+
+== October 2022
+
+=== NVIDIA SN2100 switch
+The NVIDIA SN2100 is a 16-port 100GbE NVIDIA switch (X190006-PE and X190006-PI) that allows you to build ONTAP clusters with more than two nodes, supporting ONTAP 9.10.1 and later. It is an NVIDIA SN2100 cluster interconnect switch and storage switch, including support for MetroCluster IP configurations.
+
+== May 2021
+
+=== Cisco Nexus 9336C-FX2 switch
+The Cisco Nexus 9336C-FX2 is a 36-port 100GbE Cisco switch (X190200-CS-PE and X190200-CS-PI). It supports a shared Infrastructure (Cluster, HA, and switch-attached storage) on the same pair of Cisco Nexus 9336C-FX2 switches, including support for MetroCluster IP configurations, supporting ONTAP 9.9.1 and later.
+
+== September 2019
+
+=== Broadcom BES-53248 switch
+The Broadcom BES-53248 switch (X190005 and X190005R) supports AFF/FAS controllers with 10/25GbE and 40/100GbE ports, supporting ONTAP 9.8 and later.
+
+== March 2019
+
+=== Cisco Nexus 3232C cluster and storage switches
+The Cisco Nexus 3232C switch is a 36-port 100GbE Cisco switch (X190200) and a 32-port 100GbE Cisco switch (X190100 and X190100R). Cisco Nexus 3232C storage switch supports connections to the following NS224 NVMe drive shelves AFF and ASA storage systems:
 
 * AFF A800/AFF ASA A800
 * AFF A700/AFF ASA A700
 * AFF A400/AFF ASA A400
-* AFF A320
-a|
-ONTAP 9.8
-a|
-March 2019
-|===
 
-// Updates for JS, 2024-OCT-29
-// Updates for AFFFASDOC-338, 2025-MAY-19
+They support ONTAP 9.8 and later.
+
