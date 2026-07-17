@@ -1,0 +1,136 @@
+---
+permalink: switch-cisco-9332d-gx2b/configure-complete-initial-setup-9332d.html
+sidebar: sidebar
+keywords: require, configuration, information, documentation, cluster, management, network, switches, set up the switches - cisco nexus 9332d-gx2b
+summary: After you power on Cisco Nexus 9332D-GX2B switch(es) as part of a new AFX 1K or AFX 2K system installation or a switch replacement, or after you reset a switch to its factory default settings, you are prompted to complete the initial setup for the switch(es) using configuration wizard. You can reference the following configuration wizard questions and recommended responses to help you complete the initial setup of the switch(es).
+---
+= Complete initial switch setup - Cisco Nexus 9332D-GX2B
+:icons: font
+:imagesdir: ../media/
+
+[.lead]
+After you power on Cisco Nexus 9332D-GX2B switch(es) as part of a new AFX 1K or AFX 2K system installation or a switch replacement, or after you reset a switch to its factory default settings, you are prompted to complete the initial setup for the switch(es) using configuration wizard. You can reference the following configuration wizard questions and recommended responses to help you complete the initial setup of the switch(es).
+
+.Before you begin
+Make sure you have the network and configuration information for each switch and the applicable licenses.
+
+.About this task
+* You must complete the initial setup on each switch.
+
+* If needed, you can refer to your NX-OS version of the link:https://www.cisco.com/c/en/us/td/docs/dcn/nx-os/nexus9000/104x/configuration/fundamentals/cisco-nexus-9000-series-nx-os-fundamentals-configuration-guide-release-104x.html[Cisco Nexus 9000 Series NX-OS Fundamentals Configuration Guide^] for information about setting up the switches, found in the "Using the Cisco NX-OS Setup Utility" chapter. You can also find information about terminal settings in the "Configuring Terminal Settings and Sessions" chapter.
+
+
+.Steps
+
+. Connect your laptop to the switches' serial console port.
+.. Set the serial console port on the laptop to 9,600 baud with N-8-1.
+//Same as: Configure your terminal emulator with 9,600 baud, 8 data bits (the 8), 1 stop bit (the 1), and no parity (the N).
+//This 9,600 baud rate applies to 9364 and 9808 too. AD said it is nice to tell users this is it. AD said rest of the AFX power on steps: See your laptop's online help for instructions on how to configure the serial console port.;Connect the console cable to the laptop, and connect the serial console port on the controller using the console cable that came with your storage system.;Connect the laptop to the switch on the management subnet. Are overkill.
+. Set the password for the admin user, as prompted.
+. Complete the initial switch setup by providing responses to the following questions.
++
+NOTE: Your site's security policy defines the responses and services to enable.
++
+[options="header" cols="1,2"]
+|===
+| Prompt| Response
+a|
+Abort Auto Provisioning and continue with normal setup? (yes/no)
+a|
+Respond with *yes*. The default is no.
+a|
+Do you want to enforce secure password standard? (yes/no)
+a|
+Respond with *yes*. The default is yes.
+a|
+Enter the password for admin.
+a|
+The default password is "`admin`"; you must create a new, strong password. A weak password can be rejected.
+a|
+Would you like to enter the basic configuration dialog? (yes/no)
+a|
+Respond with *yes* at the initial configuration of the switch.
+a|
+Create another login account? (yes/no)
+a|
+Your answer depends on your site's policies on alternate administrators. The default is *no*.
+a|
+Configure read-only SNMP community string? (yes/no)
+a|
+Respond with *no*. The default is no.
+a|
+Configure read-write SNMP community string? (yes/no)
+a|
+Respond with *no*. The default is no.
+a|
+Enter the switch name.
+a|
+Enter the switch name, which is limited to 63 alphanumeric characters.
+a|
+Continue with Out-of-band (mgmt0) management configuration? (yes/no)
+a|
+Respond with *yes* (the default) at that prompt. At the mgmt0 IPv4 address: prompt, enter your IP address: ip_address.
+a|
+Configure the default-gateway? (yes/no)
+a|
+Respond with *yes*. At the IPv4 address of the default-gateway: prompt, enter your default_gateway.
+a|
+Configure advanced IP options? (yes/no)
+a|
+Respond with *no*. The default is no.
+a|
+Enable the telnet service? (yes/no)
+a|
+Respond with *no*. The default is no.
+a|
+Enabled SSH service? (yes/no)
+a|
+Respond with *yes*. The default is yes.
+
+NOTE: SSH is recommended when using Ethernet Switch Health Monitor (CSHM) for its log collection features. SSHv2 is also recommended for enhanced security.
+a|
+Enter the type of SSH key you want to generate (dsa/rsa/rsa1).
+a|
+The default is *rsa*.
+a|
+Enter the number of key bits (1024-2048).
+a|
+Enter the number of key bits from 1024 to 2048.
+a|
+Configure the NTP server? (yes/no)
+a|
+Respond with *no*. The default is no.
+a|
+Configure default interface layer (L3/L2)
+a|
+Respond with *L2*. The default is L2.
+a|
+Configure default switch port interface state (shut/noshut)
+a|
+Respond with *noshut*. The default is noshut.
+a|
+Configure CoPP system profile (strict/moderate/lenient/dense)
+a|
+Respond with *strict*. The default is strict.
+a|
+Would you like to edit the configuration? (yes/no)
+a|
+You should see the new configuration at this point. Review and make any necessary changes to the configuration you just entered. Respond with *no* at the prompt if you are satisfied with the configuration. Respond with *yes* if you want to edit your configuration settings.
+a|
+Use this configuration and save it? (yes/no)
+a|
+Respond with *yes* to save the configuration. This automatically updates the kickstart and system images.
+
+NOTE: If you do not save the configuration at this stage, none of the changes will be in effect the next time you reboot the switch.
+|===
+
+. Verify the configuration choices you made in the display that appears at the end of the setup, and make sure that you save the configuration.
+
+
+.What's next?
+
+After you've completed the initial switch setup, you link:configure-review-cabling-config-requirements-9332d.html[review the cabling and configuration requirements].
+
+
+// New content for OAM project, AFFFASDOC-331, 2025-MAY-08
+// Refactor content project phase 1 with 2K/RCF 10.1 content, GH#423 2026-JUN
