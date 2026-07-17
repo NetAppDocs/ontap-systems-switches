@@ -27,7 +27,8 @@ NOTE: The following example procedure shows how to download and apply the RCF sc
 
 NOTE: Example command output uses switch management IP address 10.233.204.71, netmask 255.255.254.0 and default gateway 10.233.204.1.
 
-.Steps
+== Step 1: Install the RCF on the switch
+
 . Display the available interfaces on the SN2100 switch:
 +
 `net show interface all`
@@ -100,6 +101,8 @@ The RCF script completes the steps listed above.
 NOTE: For any RCF python script issues that cannot be corrected, contact https://mysupport.netapp.com/[NetApp Support^] for assistance.
 
 . Reapply any previous customizations to the switch configuration. Refer to link:cabling-considerations-sn2100-storage.html[Review cabling and configuration considerations] for details of any further changes required.
+
+== Step 2: Verify the switch and storage connectivity
 
 . Verify the configuration after the reboot:
 +

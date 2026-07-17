@@ -33,7 +33,8 @@ NOTE: The following example procedure shows how to download and apply the RCF sc
 
 NOTE: Example command output uses switch management IP address 10.233.204.71, netmask 255.255.254.0 and default gateway 10.233.204.1.
 
-.Steps
+== Step 1: Verify current switch and storage health
+
 . Display the available interfaces on the SN2100 switch:
 +
 `net show interface all`
@@ -153,6 +154,9 @@ sw2                         storage-network    10.233.205.91    MSN2100-CB2RC
     Version Source: LLDP
 ----
 ====
+
+== Step 2: Upgrade the RCF on the switch
+
 . Copy the RCF python script to the switch:
 +
 [subs=+quotes]
@@ -191,6 +195,8 @@ The RCF script completes the steps listed above.
 NOTE: For any RCF python script issues that cannot be corrected, contact https://mysupport.netapp.com/[NetApp Support^] for assistance.
 
 . Reapply any previous customizations to the switch configuration. Refer to link:cabling-considerations-sn2100-storage.html[Review cabling and configuration considerations] for details of any further changes required.
+
+== Step 3: Verify the switch and storage connectivity
 
 . Verify the configuration after the reboot:
 +
@@ -390,10 +396,4 @@ sw2                         storage-network    10.233.205.91    MSN2100-CB2RC
 .What's next?
 After you've installed or upgraded the RCF, you can link:setup-install-cshm-file.html[install the CSHM file].
 
-// GH issue #77 replacing 4.4.2with 4.4.3, 2023-FEB-22
-// Updates for AFFFASDOC-216/217, 2024-JUL-08
-// Updates for AFFFASDOC-255, 2024-AUG-07
-// Updates for AFFFASDOC-258, 2024-AUG-22
-// Updates for GH issue #216, 2024-OCT-24
-// Updates for AFFFASDOC-202, 2025-MAR-13 
-// AFFFASDOC-411, 2025-OCT-30
+// GH issue #338, 2026-July-17
