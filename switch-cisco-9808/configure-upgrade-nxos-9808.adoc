@@ -1298,8 +1298,11 @@ Using the ONTAP CLI, complete the NX-OS upgrade by re-enabling auto-revert on th
 
 . Re-enable auto-revert on the cluster LIFs.
 +
-`network interface modify -vserver Cluster -lif * -auto-revert true`
-
+[source,cli]
+----
+network interface modify -vserver Cluster -lif * -auto-revert true
+----
++
 . Verify that the cluster LIFs have reverted to their home port: 
 +
 [source,cli]
