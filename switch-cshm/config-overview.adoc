@@ -11,7 +11,10 @@ summary: "The Ethernet switch health monitor CSHM is responsible for ensuring th
 [.lead]
 The Ethernet switch health monitor (CSHM) is responsible for ensuring the operational health of network switches and collecting switch logs for debugging purposes.
 
+Before you can use CSHM to monitor your network switches, you must configure log collection and optionally configure SNMPv3 for enhanced security. Log collection is required for CSHM to gather switch logs and diagnostic data. SNMPv3 provides secure communication between ONTAP and your switches.
+
 * link:config-log-collection.html[Configure log collection]
 * link:config-snmpv3.html[Configure SNMPv3 (Optional)]
 
 // AFFFASDOC-476, 2026-MAR-30
+// Internal GH issue #450, 2026-JUL-20

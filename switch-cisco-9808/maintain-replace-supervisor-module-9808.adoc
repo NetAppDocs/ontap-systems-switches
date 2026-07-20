@@ -9,7 +9,7 @@ summary: "Replacing a defective Cisco Nexus 9808 supervisor module is a nondisru
 :imagesdir: ../media/
 
 [.lead]
-Follow these steps to replace a defective Cisco Nexus 9808 supervisor module in a cluster network. This is a nondisruptive procedure (NDU)
+Follow these steps to replace a defective supervisor module in a cluster network. This is a nondisruptive procedure (NDU)
 
 == Review requirements
 
@@ -119,7 +119,7 @@ cs1(config)# *exit*
 ----
 ====
 +
-If the supervisor module that you are replacing is not functional and is powered down, go to Step 6. The LIFs on the cluster nodes should have already failed over to the other cluster port for each node.
+If the supervisor module that you are replacing is not functional and is powered down, go to 7. The LIFs on the cluster nodes should have already failed over to the other cluster port for each node.
 
 . Verify that all cluster LIFs have auto-revert enabled: 
 +
@@ -289,7 +289,7 @@ nsm-cs1(config)# *exit*
 ----
 ====
 
-. Verify that port e2b is up on all nodes: 
+. Verify that port `e2b` is up on all nodes: 
 +
 [source,cli]
 ----
