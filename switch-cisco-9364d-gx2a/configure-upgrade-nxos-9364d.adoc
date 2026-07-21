@@ -11,6 +11,7 @@ summary: You upgrade the NX-OS on your Cisco Nexus 9364D-GX2A switches to suppor
 [.lead]
 You upgrade the NX-OS on your Cisco Nexus 9364D-GX2A switches to support new hardware or a new ONTAP version on your AFX 1K or AFX 2K system.
 
+NOTE: NetApp recommends that you complete any ONTAP software upgrade first, then perform the software upgrade for your switches.
 
 .Before you begin
 
@@ -51,11 +52,11 @@ NOTE: Do not upgrade or downgrade your NX-OS version to an unsupported version.
 ** The `cluster1::*>` prompt indicates the name of the cluster.
 
 * The examples shown in this procedure are for AFX 1K systems with switches running RCF 10.0. If you have an AFX 2K system, the input and output can vary.
- 
+
 
 == Step 1: Prepare to upgrade the NX-OS
 
-Prepare to upgrade the NX-OS by making sure you have a management network connection to each switch, downloading the NX-OS version, checking port status on the cluster, and disabling auto-revert on the cluster LIFs. 
+Prepare to upgrade the NX-OS by making sure you have a management network connection to each switch, downloading the NX-OS version, checking port status on the cluster, and disabling auto-revert on the cluster LIFs.
 
 
 .Steps
@@ -83,14 +84,14 @@ Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 
 . Download the correct version of NX-OS to the switches from the https://software.cisco.com/download/home[Cisco software download^] page.
 
-. Using the ONTAP CLI, display the cluster ports on each node that are connected to the cluster switches: 
+. Using the ONTAP CLI, display the cluster ports on each node that are connected to the cluster switches:
 +
 [source,cli]
 ----
 network device-discovery show
 ----
 +
-.Show example 
+.Show example
 [%collapsible]
 ====
 
@@ -111,7 +112,7 @@ node1-01/cdp
             .
             .
             .
-          
+
             e7a    cs1(FLMXXXXXXXX)         Ethernet1/16/2    N9K-C9364D-GX2A
             e7b    cs2(FDOXXXXXXXX)         Ethernet1/13/2    N9K-C9364D-GX2A
 
@@ -137,14 +138,14 @@ node1-01/lldp
 
 .. *Cluster ports*
 
-... Verify that all the cluster ports are up with a healthy status: 
+... Verify that all the cluster ports are up with a healthy status:
 +
 [source,cli]
 ----
 network port show -ipspace Cluster
 ----
 +
-.Show example 
+.Show example
 [%collapsible]
 ====
 
@@ -187,14 +188,14 @@ e7b       Cluster      Cluster          up   9000  auto/10000 healthy  false
 ----
 ====
 
-... Verify that all the cluster interfaces (LIFs) are on the home port: 
+... Verify that all the cluster interfaces (LIFs) are on the home port:
 +
 [source,cli]
 ----
 network interface show -role cluster
 ----
 +
-.Show example 
+.Show example
 [%collapsible]
 ====
 
@@ -219,14 +220,14 @@ Cluster
 ----
 ====
 
-... Verify that the cluster displays information for both cluster switches: 
+... Verify that the cluster displays information for both cluster switches:
 +
 [source,cli]
 ----
 system cluster-switch show -is-monitoring-enabled-operational true
 ----
 +
-.Show example 
+.Show example
 [%collapsible]
 ====
 
@@ -259,14 +260,14 @@ cs1(FLMXXXXXXXX)             cluster-network   10.228.137.253   N9K-C9364D-GX2A
 
 .. *HA ports*
 
-... Verify that all the HA ports are up with a healthy status: 
+... Verify that all the HA ports are up with a healthy status:
 +
 [source,cli]
 ----
 ha interconnect status show -node <node-name>
 ----
 +
-.Show example 
+.Show example
 [%collapsible]
 ====
 
@@ -327,14 +328,14 @@ Interconnect Port 1 :
 
 .. *Storage ports*
 
-... Verify that all the storage ports are up with a healthy status: 
+... Verify that all the storage ports are up with a healthy status:
 +
 [source,cli]
 ----
 storage port show -port-type ENET
 ----
 +
-.Show example 
+.Show example
 [%collapsible]
 ====
 
@@ -370,14 +371,14 @@ node1-04
 
 .. *Storage shelf ports*
 
-... Verify that all the storage shelf ports are up with a healthy status: 
+... Verify that all the storage shelf ports are up with a healthy status:
 +
 [source,cli]
 ----
 storage shelf port show
 ----
 +
-.Show example 
+.Show example
 [%collapsible]
 ====
 
@@ -409,14 +410,14 @@ Shelf ID Module State        Internal?
 ----
 ====
 
-... Verify the connection status of all the storage shelf ports: 
+... Verify the connection status of all the storage shelf ports:
 +
 [source,cli]
 ----
 storage shelf port show -fields remote-device,remote-port,connector-state
 ----
 +
-.Show example 
+.Show example
 [%collapsible]
 ====
 
@@ -424,24 +425,24 @@ storage shelf port show -fields remote-device,remote-port,connector-state
 ----
 cluster1::*> *storage shelf port show -fields remote-device,remote-port,connector-state*
 
-shelf id connector-state remote-port    remote-device                 
+shelf id connector-state remote-port    remote-device
 ----- -- --------------- -------------- -----------------
 1.1   0  connected       Ethernet1/17/1 CX9332D-cs1
-1.1   1  connected       Ethernet1/15/1 CX9364D-cs1   
+1.1   1  connected       Ethernet1/15/1 CX9364D-cs1
 1.1   2  connected       Ethernet1/17/2 CX9332D-cs1
-1.1   3  connected       Ethernet1/15/2 CX9364D-cs1   
+1.1   3  connected       Ethernet1/15/2 CX9364D-cs1
 1.1   4  connected       Ethernet1/17/3 CX9332D-cs1
-1.1   5  connected       Ethernet1/15/3 CX9364D-cs1   
+1.1   5  connected       Ethernet1/15/3 CX9364D-cs1
 1.1   6  connected       Ethernet1/17/4 CX9332D-cs1
-1.1   7  connected       Ethernet1/15/4 CX9364D-cs1   
+1.1   7  connected       Ethernet1/15/4 CX9364D-cs1
 1.1   8  connected       Ethernet1/19/1 CX9332D-cs1
-1.1   9  connected       Ethernet1/17/1 CX9364D-cs1   
+1.1   9  connected       Ethernet1/17/1 CX9364D-cs1
 1.1   10 connected       Ethernet1/19/2 CX9332D-cs1
-1.1   11 connected       Ethernet1/17/2 CX9364D-cs1   
+1.1   11 connected       Ethernet1/17/2 CX9364D-cs1
 1.1   12 connected       Ethernet1/19/3 CX9332D-cs1
-1.1   13 connected       Ethernet1/17/3 CX9364D-cs1   
+1.1   13 connected       Ethernet1/17/3 CX9364D-cs1
 1.1   14 connected       Ethernet1/19/4 CX9332D-cs1
-1.1   15 connected       Ethernet1/17/4 CX9364D-cs1   
+1.1   15 connected       Ethernet1/17/4 CX9364D-cs1
 
 16 entries were displayed.
 ----
@@ -456,7 +457,7 @@ network interface modify -vserver Cluster -lif * -auto-revert false
 
 == Step 2: Install the NX-OS
 
-You install the NX-OS on the first switch (cs1) by installing and verifying the new versions of the NX-OS and EPLD, verifying the health of all ports on the cluster, and then repeat these steps on the second switch (cs2).
+You install the NX-OS on the first switch (cs1) by installing and verifying the new versions of the NX-OS and EPLD, verifying the health of all ports on the cluster, and then repeating these steps on the second switch (cs2).
 
 . Using the switch CLI, copy NX-OS and EPLD images to a switch.
 +
@@ -472,7 +473,7 @@ The example uses sftp.
 
 [subs=+quotes]
 ----
-cs2# *copy sftp: bootflash: vrf management*
+cs1# *copy sftp: bootflash: vrf management*
 Enter source filename: */code/nxos.10.4.2.bin*
 Enter hostname for the sftp server: *172.19.2.1*
 Enter username: *root*
@@ -488,7 +489,7 @@ sftp> exit
 Copy complete, now saving to disk (please wait)...
 Copy complete.
 
-cs2# *copy sftp: bootflash: vrf management*
+cs1# *copy sftp: bootflash: vrf management*
 Enter source filename: */code/n9000-epld.10.4.2.F.img*
 Enter hostname for the sftp server: *172.19.2.1*
 Enter username: *user1*
@@ -516,7 +517,7 @@ Copy complete.
 
 [subs=+quotes]
 ----
-cs2# *show version*
+cs1# *show version*
 Cisco Nexus Operating System (NX-OS) Software
 TAC support: http://www.cisco.com/tac
 Copyright (C) 2002-2025, Cisco and/or its affiliates.
@@ -549,7 +550,7 @@ Software
 
 
 Hardware
-  cisco Nexus9000 C9332D-GX2B Chassis
+  cisco Nexus9000 C9364D-GX2A Chassis
   Intel(R) Xeon(R) CPU D-1633N @ 2.50GHz with 32802156 kB of memory.
   Processor Board ID FLMXXXXXXXX
   Device name: cs2
@@ -571,7 +572,7 @@ plugin
 
 Active Package(s):
 
-cs2#
+cs1#
 ----
 ====
 
@@ -590,7 +591,7 @@ The example uses NX-OS version 10.4.2.
 
 [subs=+quotes]
 ----
-cs2# *install all nxos bootflash:nxos.10.4.2.bin*
+cs1# *install all nxos bootflash:nxos.10.4.2.bin*
 
 Installer will perform compatibility check first. Please wait.
 Installer is forced disruptive
@@ -652,7 +653,7 @@ Finishing the upgrade, switch will reboot in 10 seconds.
 ----
 ====
 
-. Using the switch CLI, verify the new version of NX-OS after the switch has rebooted: 
+. Using the switch CLI, verify the new version of NX-OS after the switch has rebooted:
 +
 `show version`
 +
@@ -662,7 +663,7 @@ Finishing the upgrade, switch will reboot in 10 seconds.
 
 [subs=+quotes]
 ----
-cs2# *show version*
+cs1# *show version*
 Cisco Nexus Operating System (NX-OS) Software
 TAC support: http://www.cisco.com/tac
 Copyright (C) 2002-2025, Cisco and/or its affiliates.
@@ -695,7 +696,7 @@ Software
 
 
 Hardware
-  cisco Nexus9000 C9332D-GX2B Chassis
+  cisco Nexus9000 C9364D-GX2A Chassis
   Intel(R) Xeon(R) CPU D-1633N @ 2.50GHz with 32802156 kB of memory.
   Processor Board ID FLMXXXXXXXX
   Device name: cs2
@@ -717,7 +718,7 @@ plugin
 
 Active Package(s):
 
-cs2#
+cs1#
 ----
 ====
 
@@ -737,7 +738,7 @@ The example uses EPLD version 10.4.2.F
 
 [subs=+quotes]
 ----
-cs2# *show version module 1 epld*
+cs1# *show version module 1 epld*
 
 EPLD Device                     Version
 ---------------------------------------
@@ -749,7 +750,7 @@ GEM  FPGA                        0x2
 GEM  FPGA                        0x2
 GEM  FPGA                        0x2
 
-cs2# *install epld bootflash:n9000-epld.10.4.2.F.img module all*
+cs1# *install epld bootflash:n9000-epld.10.4.2.F.img module all*
 Compatibility check:
 Module        Type         Upgradable        Impact    Reason
 ------  ------------------ ----------------- --------- -----------
@@ -812,14 +813,14 @@ GEM  FPGA                        0x2
 
 .. *Cluster ports*
 
-... Verify that cluster ports are up and healthy across all nodes in the cluster: 
+... Verify that cluster ports are up and healthy across all nodes in the cluster:
 +
 [source,cli]
 ----
 network port show -ipspace Cluster
 ----
 +
-.Show example 
+.Show example
 [%collapsible]
 ====
 
@@ -873,7 +874,7 @@ network device-discovery show -protocol cdp
 system cluster-switch show -is-monitoring-enabled-operational true
 ----
 +
-.Show example 
+.Show example
 [%collapsible]
 ====
 
@@ -934,14 +935,14 @@ cs1(FLMXXXXXXXX)             cluster-network   10.228.137.253   N9K-C9364D-GX2A
 
 .. *HA ports*
 
-... Verify that all the HA ports are up with a healthy status: 
+... Verify that all the HA ports are up with a healthy status:
 +
 [source,cli]
 ----
 ha interconnect status show -node <node-name>
-----  
+----
 +
-.Show example 
+.Show example
 [%collapsible]
 ====
 
@@ -1002,14 +1003,14 @@ Interconnect Port 1 :
 
 .. *Storage ports*
 
-... Verify that all the storage ports are up with a healthy status: 
+... Verify that all the storage ports are up with a healthy status:
 +
 [source,cli]
 ----
 storage port show -port-type ENET
 ----
 +
-.Show example 
+.Show example
 [%collapsible]
 ====
 
@@ -1045,14 +1046,14 @@ node1-04
 
 .. *Storage shelf ports*
 
-... Verify that all the storage shelf ports are up with a healthy status: 
+... Verify that all the storage shelf ports are up with a healthy status:
 +
 [source,cli]
 ----
 storage shelf port show
 ----
 +
-.Show example 
+.Show example
 [%collapsible]
 ====
 
@@ -1084,14 +1085,14 @@ Shelf ID Module State        Internal?
 ----
 ====
 
-... Verify the connection status of all the storage shelf ports: 
+... Verify the connection status of all the storage shelf ports:
 +
 [source,cli]
 ----
 storage shelf port show -fields remote-device,remote-port,connector-state
 ----
 +
-.Show example 
+.Show example
 [%collapsible]
 ====
 
@@ -1099,37 +1100,37 @@ storage shelf port show -fields remote-device,remote-port,connector-state
 ----
 cluster1::*> *storage shelf port show -fields remote-device,remote-port,connector-state*
 
-shelf id connector-state remote-port    remote-device                 
+shelf id connector-state remote-port    remote-device
 ----- -- --------------- -------------- -----------------
 1.1   0  connected       Ethernet1/17/1 CX9332D-cs1
-1.1   1  connected       Ethernet1/15/1 CX9364D-cs1   
+1.1   1  connected       Ethernet1/15/1 CX9364D-cs1
 1.1   2  connected       Ethernet1/17/2 CX9332D-cs1
-1.1   3  connected       Ethernet1/15/2 CX9364D-cs1   
+1.1   3  connected       Ethernet1/15/2 CX9364D-cs1
 1.1   4  connected       Ethernet1/17/3 CX9332D-cs1
-1.1   5  connected       Ethernet1/15/3 CX9364D-cs1   
+1.1   5  connected       Ethernet1/15/3 CX9364D-cs1
 1.1   6  connected       Ethernet1/17/4 CX9332D-cs1
-1.1   7  connected       Ethernet1/15/4 CX9364D-cs1   
+1.1   7  connected       Ethernet1/15/4 CX9364D-cs1
 1.1   8  connected       Ethernet1/19/1 CX9332D-cs1
-1.1   9  connected       Ethernet1/17/1 CX9364D-cs1   
+1.1   9  connected       Ethernet1/17/1 CX9364D-cs1
 1.1   10 connected       Ethernet1/19/2 CX9332D-cs1
-1.1   11 connected       Ethernet1/17/2 CX9364D-cs1   
+1.1   11 connected       Ethernet1/17/2 CX9364D-cs1
 1.1   12 connected       Ethernet1/19/3 CX9332D-cs1
-1.1   13 connected       Ethernet1/17/3 CX9364D-cs1   
+1.1   13 connected       Ethernet1/17/3 CX9364D-cs1
 1.1   14 connected       Ethernet1/19/4 CX9332D-cs1
-1.1   15 connected       Ethernet1/17/4 CX9364D-cs1   
+1.1   15 connected       Ethernet1/17/4 CX9364D-cs1
 
 16 entries were displayed.
 ----
 ====
 
-. Using the ONTAP CLI, verify that the cluster is healthy: 
+. Using the ONTAP CLI, verify that the cluster is healthy:
 +
 [source,cli]
 ----
 cluster show
 ----
 +
-.Show example 
+.Show example
 [%collapsible]
 ====
 
@@ -1154,7 +1155,7 @@ node1-04             true    true          true
 
 == Step 3: Complete the NX-OS upgrade
 
-Using the ONTAP CLI, complete the NX-OS upgrade by re-enabling auto-revert on the cluster LIFs and verifying the cluster LIFs reverted to their home ports. 
+Using the ONTAP CLI, complete the NX-OS upgrade by re-enabling auto-revert on the cluster LIFs and verifying the cluster LIFs reverted to their home ports.
 
 . Re-enable auto-revert on the cluster LIFs.
 +
@@ -1163,14 +1164,14 @@ Using the ONTAP CLI, complete the NX-OS upgrade by re-enabling auto-revert on th
 network interface modify -vserver Cluster -lif * -auto-revert true
 ----
 +
-. Verify that the cluster LIFs have reverted to their home port: 
+. Verify that the cluster LIFs have reverted to their home port:
 +
 [source,cli]
 ----
 network interface show -role cluster
 ----
 +
-.Show example 
+.Show example
 [%collapsible]
 ====
 
@@ -1193,7 +1194,7 @@ Cluster
 ----
 ====
 +
-If any cluster LIFs have not returned to their home ports, revert them manually from the local node: 
+If any cluster LIFs have not returned to their home ports, revert them manually from the local node:
 +
 [source,cli]
 ----
