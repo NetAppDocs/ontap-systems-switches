@@ -11,16 +11,17 @@ Documentation for installing, configuring, and maintaining network switches used
 - `cluster/` – Landing page index for cluster switches
 - `storage/` – Landing page index for storage switches
 - `switch-bes-53248/` – Broadcom BES-53248 cluster switch: install, configure, upgrade, migrate, and replace procedures
-- `switch-cisco-9336c-fx2/` – Cisco Nexus 9336C-FX2 and 9336C-FX2-T cluster switch procedures
+- `switch-cisco-9336c-fx2/` – Cisco Nexus 9336C-FX2 cluster switch procedures
 - `switch-cisco-9336c-fx2-shared/` – Cisco Nexus 9336C-FX2 shared switch (combined cluster and storage) procedures
 - `switch-cisco-9336c-fx2-storage/` – Cisco Nexus 9336C-FX2 storage switch procedures
 - `switch-cisco-9332d-gx2b/` – Cisco Nexus 9332D-GX2B AFX systems switch: install in AFX system, configure, and maintain procedures
 - `switch-cisco-9364d-gx2a/` – Cisco Nexus 9364D-GX2A AFX systems switch: install in AFX system, configure, and maintain procedures
 - `switch-cisco-9808/` – Cisco Nexus 9808 AFX systems switch: install in AFX system, configure, and maintain procedures
-- `switch-nvidia-sn2100/` – NVIDIA SN2100 cluster switch procedures
-- `switch-nvidia-sn2100-storage/` – NVIDIA SN2100 storage switch procedures
+- `switch-nvidia-sn2100/` – NVIDIA SN2100 cluster switch procedures (end-of-availability)
+- `switch-nvidia-sn2100-storage/` – NVIDIA SN2100 storage switch procedures (end-of-availability)
 - `switch-cshm/` – Ethernet Switch Health Monitor (CSHM) configuration and monitoring: log collection, SNMPv3, health monitoring
-- `shared/` – Shared procedures reused across multiple switch models (migration, monitoring, software install)
+- `cshm/` – Landing page index for the switch health monitor section
+- `shared/` – Landing page index for the shared switches section
 - `_include/` – Reusable AsciiDoc content snippets included by multiple pages
 - `redirect/` – Redirect pages for content that has moved to new URLs
 - `other/` – Miscellaneous pages and linkout content
