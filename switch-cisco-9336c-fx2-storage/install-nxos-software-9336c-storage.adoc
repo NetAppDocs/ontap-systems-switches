@@ -15,6 +15,8 @@ Before you begin, complete the procedure in link:install-nxos-overview-9336c-sto
 
 //include::../_include/install-nxos-software-9336c.adoc[]
 
+NOTE: NetApp recommends that you complete any ONTAP software upgrade first, then perform the software upgrade for your switches.
+
 == Review requirements
 
 .Before you begin
@@ -26,11 +28,11 @@ Make sure you have the following:
 
 .Suggested documentation
 
-* link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet switch page^] 
+* link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[Cisco Ethernet switch page^]
 +
 Consult the switch compatibility table for the supported ONTAP and NX-OS versions.
 
-* link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/products-installation-guides-list.html[Software Upgrade and downgrade guides^] 
+* link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/products-installation-guides-list.html[Software Upgrade and downgrade guides^]
 +
 Refer to the appropriate software and upgrade guides available on the Cisco website for complete documentation on the Cisco switch upgrade and downgrade procedures.
 
@@ -38,7 +40,7 @@ Refer to the appropriate software and upgrade guides available on the Cisco webs
 +
 Provides information on Disruptive Upgrade/Downgrade for Cisco NX-OS software on Nexus 9000 Series Switches based on your current and target releases.
 +
-On the page, select *Disruptive Upgrade* and select your current release and target release from the dropdown list. 
+On the page, select *Disruptive Upgrade* and select your current release and target release from the dropdown list.
 
 
 .About the examples
@@ -75,14 +77,14 @@ Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 
 . Check the administrative or operational status of each node storage port and storage shelf port.
 
-.. Display the node storage port attributes: 
+.. Display the node storage port attributes:
 +
 [source,cli]
 ----
 storage port show
 ----
 +
-.Show example 
+.Show example
 [%collapsible]
 ====
 
@@ -111,7 +113,7 @@ cluster1-02
 storage shelf port show
 ----
 +
-.Show example 
+.Show example
 [%collapsible]
 ====
 
@@ -135,10 +137,10 @@ Shelf ID Module State        Internal?
 +
 [source,cli]
 ----
-system switch ethernet show 
+system switch ethernet show
 ----
 +
-.Show example 
+.Show example
 [%collapsible]
 ====
 
@@ -343,7 +345,7 @@ Finishing the upgrade, switch will reboot in 10 seconds.
 ----
 ====
 
-. Verify the new version of NX-OS software after the switch has rebooted: 
+. Verify the new version of NX-OS software after the switch has rebooted:
 +
 `show version`
 +
@@ -484,14 +486,14 @@ GEM  FPGA                        0x2
 
 . Verify the health status of each node storage port and storage shelf port.
 
-.. Display the node storage port attributes: 
+.. Display the node storage port attributes:
 +
 [source,cli]
 ----
 storage port show
 ----
 +
-.Show example 
+.Show example
 [%collapsible]
 ====
 
@@ -520,7 +522,7 @@ cluster1-02
 storage shelf port show
 ----
 +
-.Show example 
+.Show example
 [%collapsible]
 ====
 
@@ -544,10 +546,10 @@ Shelf ID Module State        Internal?
 +
 [source,cli]
 ----
-system switch ethernet show 
+system switch ethernet show
 ----
 +
-.Show example 
+.Show example
 [%collapsible]
 ====
 
