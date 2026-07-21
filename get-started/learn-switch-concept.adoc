@@ -4,20 +4,24 @@ sidebar: sidebar
 keywords:
 summary: Learn about cluster, storage, and shared switches.
 ---
-= Learn about AFX systems, cluster, storage, and shared switches
+= Learn about your ONTAP system switches
+
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
 NetApp offers AFX systems, cluster, storage, and shared switches that deliver internal communications with the ability to non-disruptively move data and network interfaces across the cluster.
 
-The “front-end” switches provide connectivity to host storage, while the “back-end” cluster switches provide connections between two or more NetApp controllers. 
+The “front-end” switches provide connectivity to host storage, while the “back-end” cluster switches provide connections between two or more NetApp controllers.
 
 NOTE: Only NetApp-validated back-end switches (ordered from NetApp) are supported.
 
-== AFX systems switches
-AFX systems switches allow you create fast, energy-efficient, and space-saving network switches. Their small size and high port density make them ideal for handling large networks. The ports support different speeds and can be split into multiple connections.  NetApp-supported AFX systems switches include:
+CAUTION: If you are upgrading your switches, NetApp recommends that you complete any ONTAP software upgrade first, then perform the software upgrade for your switches.
 
+== AFX systems switches
+AFX systems switches allow you to create fast, energy-efficient, and space-saving network switches. Their small size and high port density make them ideal for handling large networks. The ports support different speeds and can be split into multiple connections.  NetApp-supported AFX systems switches include:
+
+* Cisco Nexus 9808
 * Cisco Nexus 9332D-GX2B
 * Cisco Nexus 9364D-GX2A
 
@@ -32,7 +36,6 @@ Cluster switches allow you to build ONTAP clusters with more than two nodes. Net
 Storage switches allow you to route data between servers and storage arrays in a Storage Area Network (SAN). NetApp-supported storage switches include:
 
 * Cisco Nexus 9336C-FX2
-* Cisco Nexus 3232C
 * NVIDIA SN2100
 
 == Shared switches
@@ -41,7 +44,7 @@ Shared switches allow you to combine cluster and storage functionality into a sh
 * Cisco Nexus 9336C-FX2
 
 == End-of-availability switches
-For a list of switches that are no longer available for purchase, but are still supported, refer to link:../overview-eod.html[End-of-availability switches].
+For a list of switches that are no longer available for purchase, but are still supported, refer to link:../eoa/index.html[End-of-availability switches].
 
 // New content for OAM project, AFFFASDOC-331, 2025-JUN-09
 // AFFFASDOC-473, 2026-MAR-16

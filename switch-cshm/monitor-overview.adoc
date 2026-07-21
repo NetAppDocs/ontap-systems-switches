@@ -2,17 +2,19 @@
 permalink: switch-cshm/monitor-overview.html
 sidebar: sidebar
 keywords: cshm, cluster, storage, switch logs, debugging, collection
-summary: You can use the following commands ......
+summary: Use Ethernet switch health monitor alerts to identify and resolve network switch issues in your ONTAP cluster.
 ---
-= Health check overview 
+= Health check overview
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
 Health monitors proactively monitor certain critical conditions in your cluster and raise alerts if they detect a fault or risk.
 
+After you configure CSHM, the health monitors continuously check your network switches for potential issues. When a health monitor detects a fault or risk, it generates an alert that includes diagnostic information to help you respond quickly. You can view active alerts to identify current issues and view available alert definitions to understand which conditions are being monitored.
+
 //If there are active alerts, the system health status reports a degraded status for the cluster.
-//The alerts include the information that you need to respond to degraded system health. 
+//The alerts include the information that you need to respond to degraded system health.
 
 To view the currently raised Ethernet switch health monitor alerts, run the command: `system health alert show -monitor ethernet-switch`
 
