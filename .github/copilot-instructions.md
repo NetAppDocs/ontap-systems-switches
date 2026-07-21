@@ -11,16 +11,20 @@ Documentation for installing, configuring, and maintaining network switches used
 - `cluster/` – Landing page index for cluster switches
 - `storage/` – Landing page index for storage switches
 - `switch-bes-53248/` – Broadcom BES-53248 cluster switch: install, configure, upgrade, migrate, and replace procedures
-- `switch-cisco-9336c-fx2/` – Cisco Nexus 9336C-FX2 cluster switch procedures
-- `switch-cisco-9336c-fx2-shared/` – Cisco Nexus 9336C-FX2 shared switch (combined cluster and storage) procedures
-- `switch-cisco-9336c-fx2-storage/` – Cisco Nexus 9336C-FX2 storage switch procedures
+- `switch-cisco-9336c-fx2/` – Cisco Nexus 9336C-FX2 cluster switch: install, configure, upgrade, migrate, and replace procedures
+- `switch-cisco-9336c-fx2-shared/` – Cisco Nexus 9336C-FX2 shared switch (combined cluster and storage): install, configure, migrate, and replace procedures
+- `switch-cisco-9336c-fx2-storage/` – Cisco Nexus 9336C-FX2 storage switch: install, configure, upgrade, migrate, and replace procedures
 - `switch-cisco-9332d-gx2b/` – Cisco Nexus 9332D-GX2B AFX systems switch: install in AFX system, configure, and maintain procedures
 - `switch-cisco-9364d-gx2a/` – Cisco Nexus 9364D-GX2A AFX systems switch: install in AFX system, configure, and maintain procedures
 - `switch-cisco-9808/` – Cisco Nexus 9808 AFX systems switch: install in AFX system, configure, and maintain procedures
 - `switch-nvidia-sn2100/` – NVIDIA SN2100 cluster switch procedures (end-of-availability)
 - `switch-nvidia-sn2100-storage/` – NVIDIA SN2100 storage switch procedures (end-of-availability)
-- `switch-cshm/` – Ethernet Switch Health Monitor (CSHM) configuration and monitoring: log collection, SNMPv3, health monitoring
+- `switch-cshm/` – Ethernet Switch Health Monitor (CSHM) configuration and monitoring: log collection, SNMPv3, health monitoring procedures
+- `switch-cshm-configure/` – Sidebar navigation stub for the CSHM configuration sub-section; actual content lives in `switch-cshm/`
+- `switch-cshm-log-collection/` – Sidebar navigation stub for the CSHM log collection sub-section; actual content lives in `switch-cshm/`
+- `switch-cshm-monitor/` – Sidebar navigation stub for the CSHM health monitoring sub-section; actual content lives in `switch-cshm/`
 - `cshm/` – Landing page index for the switch health monitor section
+- `eoa/` – Landing page index for end-of-availability switches (NVIDIA SN2100 cluster and storage)
 - `shared/` – Landing page index for the shared switches section
 - `_include/` – Reusable AsciiDoc content snippets included by multiple pages
 - `redirect/` – Redirect pages for content that has moved to new URLs
@@ -30,8 +34,8 @@ Documentation for installing, configuring, and maintaining network switches used
 ### Product-specific context
 
 **Architecture and components:**
-- *Cluster switches* (back-end): Connect ONTAP controller nodes to each other to form a multi-node cluster; supported models are Broadcom BES-53248, Cisco Nexus 9336C-FX2, and NVIDIA SN2100
-- *Storage switches* (front-end): Route data between servers and storage arrays; supported models are Cisco Nexus 9336C-FX2 and NVIDIA SN2100
+- *Cluster switches* (back-end): Connect ONTAP controller nodes to each other to form a multi-node cluster; supported models are Broadcom BES-53248 and Cisco Nexus 9336C-FX2; NVIDIA SN2100 is end-of-availability
+- *Storage switches* (front-end): Route data between servers and storage arrays; supported model is Cisco Nexus 9336C-FX2; NVIDIA SN2100 is end-of-availability
 - *Shared switches*: Combine cluster and storage functionality in a single switch using shared RCFs; the Cisco Nexus 9336C-FX2 is the supported model
 - *AFX systems switches*: High-port-density, energy-efficient Cisco Nexus switches (9808, 9332D-GX2B, 9364D-GX2A) used specifically in AFX 1K and AFX 2K system configurations
 - Switches always deploy in pairs (cs1 and cs2) for redundancy; documentation examples consistently use these names
@@ -46,10 +50,11 @@ Documentation for installing, configuring, and maintaining network switches used
 - *FRU (Field Replaceable Unit)*: Hardware components on a switch (power supplies, fans, supervisor modules) that can be replaced in the field without returning the entire switch
 - *Smart Call Home*: An optional Cisco feature that configures a switch to send automated email alerts to the Smart Call Home system for proactive support
 - *DAT (Direct-Attach Storage)* and *SAT (Switch-Attach Storage)*: Storage attachment configurations relevant to shared switch migration procedures
+- *End-of-availability (EOA)*: The switch is no longer available for purchase but is still supported for use with ONTAP; distinct from *end-of-support (EOS)*, which means the switch is no longer supported at all
 
 **Naming conventions and terminology:**
 - Switch model directory names follow the pattern `switch-[vendor]-[model]/` (for example, `switch-cisco-9336c-fx2/`)
-- File names follow the pattern `[action]-[description]-[switch-model].adoc` (for example, `install-rcf-software-9336c-cluster.adoc`)
+- File names in non-AFX switch directories follow the pattern `[action]-[description]-[switch-model].adoc` (for example, `install-rcf-software-9336c-cluster.adoc`); AFX switch directories omit the switch-type suffix: `[action]-[description]-[model-number].adoc` (for example, `install-prepare-9808.adoc`, `configure-install-rcf-9332d.adoc`)
 - The term *AFX systems switches* (not "AFX switches") refers to the high-density Cisco Nexus switches for AFX systems
 - *Shared switch* refers specifically to a switch configured with shared cluster and storage RCFs—not a general term for any shared infrastructure
 - CSHM is always spelled out as "Ethernet switch health monitor" on first use; the abbreviation CSHM is used thereafter
@@ -62,6 +67,8 @@ Documentation for installing, configuring, and maintaining network switches used
 **Install and configure an AFX systems switch:** Prepare for installation → Install switches with AFX system hardware → Complete initial switch setup → Review cabling and configuration requirements → Install NX-OS → Install RCF → Verify SSH → Configure CSHM → Configure Smart Call Home (optional)
 
 **Migrate to a new switch model:** Review migration requirements → Prepare new switch with OS and RCF → Migrate cluster or storage traffic → Verify cluster health → Remove old switch
+
+**Upgrade switch software or RCF:** Review upgrade overview → Download new NX-OS/EFOS/Cumulus or RCF file → Install updated software → Install updated RCF → Verify the upgrade
 
 **Replace a faulty switch:** Obtain replacement switch → Install NX-OS/EFOS/Cumulus Linux on replacement → Install RCF → Restore configuration → Verify cluster health
 
