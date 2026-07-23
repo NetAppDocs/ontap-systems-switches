@@ -457,7 +457,7 @@ network interface modify -vserver Cluster -lif * -auto-revert false
 
 == Step 2: Install the NX-OS
 
-You install the NX-OS on the first switch (cs1) by installing and verifying the new versions of the NX-OS and EPLD, verifying the health of all ports on the cluster, and then repeating these steps on the second switch (cs2).
+You install the NX-OS on the first switch (cs1) by installing and verifying the new versions of the NX-OS and EPLD, verifying the health of all ports on the cluster, and then repeat these steps on the second switch (cs2).
 
 . Using the switch CLI, copy NX-OS and EPLD images to a switch.
 +
@@ -578,7 +578,7 @@ cs1#
 
 . Using the switch CLI, install the NX-OS image.
 +
-Installing the image file causes it to be loaded every time the switch is rebooted.
+Installing the image file causes it to be loaded every time the switch reboots.
 +
 `install all nxos bootflash:nxos.<version number>.bin`
 +
@@ -653,7 +653,7 @@ Finishing the upgrade, switch will reboot in 10 seconds.
 ----
 ====
 
-. Using the switch CLI, verify the new version of NX-OS after the switch has rebooted:
+. Using the switch CLI, verify the new version of NX-OS after the switch reboots:
 +
 `show version`
 +
@@ -786,8 +786,6 @@ Module 1 EPLD upgrade is successful.
 . After the switch reboots, use the switch CLI to log in and verify that the new version of EPLD loaded successfully.
 +
 `show version module 1 epld`
-+
-//AD: a better CMD is show epld install status. Need example output. Output is a table format.
 +
 .Show example
 [%collapsible]
@@ -1210,3 +1208,4 @@ After you've upgraded the NX-OS on your switches, you upgrade the RCF starting w
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-06
 // AFFFASDOC-394, 2025-OCT-20
 // Refactor content project phase 1 with 2K/RCF 10.1 content, GH#423 2026-JUN
+//2026-07-23 #458

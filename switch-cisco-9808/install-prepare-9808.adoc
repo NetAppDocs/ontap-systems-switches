@@ -23,7 +23,7 @@ All of the Cisco documents are available on the link:https://www.cisco.com/c/en/
 
 * link:https://www.cisco.com/c/en/us/td/docs/switches/datacenter/mds9000/hw/regulatory/compliance/RCSI.html?dtid=osscdc000283&linkclickid=srch[Regulatory Compliance and Safety Information for Cisco Nexus 9000 Series^]
 
-* link:https://www.cisco.com/c/en/us/td/docs/switches/datacenter/nexus9000/hw/9800/9808/nx-os/cisco-nexus-9808-nx-os-mode-switch-hardware-installation-guide/m-8000-modular-overview-ph2.html?linkclickid=aisrch[Cisco Nexus 9808 NX-OS Mode Switch Hardware Installation Guide^]
+* link:https://www.cisco.com/c/en/us/td/docs/switches/datacenter/nexus9000/hw/9808_hig/guide/b_cisco_nexus_9808_hig.html[Cisco Nexus 9808 NX-OS Mode Switch Hardware Installation Guide^]
 
 * link:https://www.cisco.com/c/en/us/support/switches/nexus-9000-series-switches/products-installation-and-configuration-guides-list.html[Cisco Nexus 9000 Series Switch Software Configuration Guides^] (choose the guide for the NX-OS release installed on your switches)
 
@@ -53,11 +53,12 @@ For the current list of supported RCF versions, see the link:https://mysupport.n
 Switch port information can also be found in the link:https://hwu.netapp.com[NetApp Hardware Universe^].
 ====
 
-For your AFX 2K system, RCF 10.1 and later is supported.
+* RCF 10.1 is supported on both AFX 1K and AFX 2K platforms. For your AFX 2K system, RCF 10.1 and later is supported.
 
-For example, the following table shows the preset groups of the switch ports, their port speeds, and usage based on RCF version 10.1.
-
-
+* RCF 10.1 has different files for different use cases. Depending on how you plan to use the switches in your AFX 2K system configuration (shared, storage only, or cluster and HA only), you choose the applicable RCF file.
++
+For example, if you are using your switches as shared switches in an AFX 2K system, you use the RCF file appropriate for that use case. The appropriate RCF file could be named similarly to `RCF-v10.1-NX9808-CL1-ST1.txt`. The following table shows the preset groups of the switch ports, their port speeds, and usage for this RCF file.
++
 [options="header" cols="1,2"]
 |===
 | Switch port groups | Port speeds and usage
@@ -94,3 +95,4 @@ More information about Smart Call Home can be found in the link:configure-smart-
 After you've prepared to install your switches, you link:install-switches-9808.html[install the switches].
 
 // New content for Organza (9808) project, 2026-JUN-08
+//2026-07-23 #458

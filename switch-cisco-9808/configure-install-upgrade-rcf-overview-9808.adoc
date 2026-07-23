@@ -24,9 +24,13 @@ For the current list of supported RCF versions, refer to link:https://mysupport.
 Switch port information can also be found in the link:https://hwu.netapp.com[NetApp Hardware Universe^].
 ====
 
-NOTE: For specific port and VLAN usage details, refer to the banner and important notes section in your RCF. Refer to link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] for more information.
+* RCF 10.1 is supported on both AFX 1K and AFX 2K platforms. For your AFX 2K system, RCF 10.1 and later is supported.
 
-For example, the following table shows the preset groups of the switch ports, their port speeds, and usage based on RCF version 10.1.
+* RCF 10.1 has different files for different use cases. Depending on how you plan to use the switches in your AFX 2K system configuration (shared, storage only, or cluster and HA only), you choose the applicable RCF file.
++
+For example, if you are using your switches as shared switches in an AFX 2K system, you use the RCF file appropriate for that use case. The appropriate RCF file could be named similarly to `RCF-v10.1-NX9808-CL1-ST1.txt`. The following table shows the preset groups of the switch ports, their port speeds, and usage for this RCF file.
+
+NOTE: For specific port and VLAN usage details, refer to the banner and important notes section in your RCF. Refer to link:https://mysupport.netapp.com/site/info/cisco-ethernet-switch[NetApp Cisco Ethernet Switches^] for more information.
 
 [options="header" cols="1,2"]
 |===
@@ -74,7 +78,7 @@ For example, to modify the port list with the new ports,  19-22, for the 100G sp
 +
 `interface e1/19/1-4, e1/20/1-4, e1/21/1-4, e1/22/1-4`
 
-. Hard-code the switch breakout (4x100GbE) ports for 100GbE. If you do not hard-code the speed, the ports will not come up and will be in an error-disabled state.
+. Hard-code the switch breakout (4x100GbE) ports for 100GbE. If you do not hard-code the speed, the ports will not come up and will be in an error-disabled state:
 +
 `speed 100000`
 +
@@ -114,5 +118,4 @@ After you've reviewed the install or upgrade RCF overview, you link:configure-in
 
 
 // New content for Organza (9808) project, 2026-JUN-08
-
-
+//2026-07-23 #458
