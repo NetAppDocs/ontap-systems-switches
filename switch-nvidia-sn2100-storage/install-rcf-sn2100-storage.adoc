@@ -14,16 +14,16 @@ Install the Reference Configuration File (RCF) after setting up the SN2100 switc
 .Before you begin
 Before installing the RCF script, make sure that the following are available on the switch:
 
-* Cumulus Linux 4.4.3 is installed.
-* IP address, subnet mask, and default gateway defined via DHCP or manually configured.
+* Supported version of Cumulus Linux is installed.
+* Management port IP address, subnet mask, and default gateway defined via DHCP or manually configured.
 
 .Current RCF script versions
-There are two RCF scripts available for Clustering and Storage applications. The procedure for each is the same.
+There are RCF scripts available for Clustering and Storage applications. The procedure for each is the same.
 
 * Clustering:  *MSN2100-RCF-v1._x_-Cluster*
 * Storage: *MSN2100-RCF-v1._x_-Storage*
 
-NOTE: The following example procedure shows how to download and apply the RCF script for Cluster switches.
+NOTE: The following example procedure shows how to download and apply the RCF script for Storage switches.
 
 NOTE: Example command output uses switch management IP address 10.233.204.71, netmask 255.255.254.0 and default gateway 10.233.204.1.
 
@@ -31,14 +31,14 @@ NOTE: Example command output uses switch management IP address 10.233.204.71, ne
 
 . Display the available interfaces on the SN2100 switch:
 +
-`net show interface all`
+`nv show interface`
 +
 .Show example
 [%collapsible]
 ====
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:~$ *net show interface all*
+cumulus@cumulus:mgmt:~$ *nv show interface*
 
 State  Name   Spd  MTU    Mode         LLDP                Summary
 -----  -----  ---  -----  -----------  ------------------  --------------
@@ -101,6 +101,8 @@ The RCF script completes the steps listed above.
 NOTE: For any RCF python script issues that cannot be corrected, contact https://mysupport.netapp.com/[NetApp Support^] for assistance.
 
 . Reapply any previous customizations to the switch configuration. Refer to link:cabling-considerations-sn2100-storage.html[Review cabling and configuration considerations] for details of any further changes required.
+
+. Connect the controller storage ports and NS224 shelf ports to the switches.
 
 == Step 2: Verify the switch and storage connectivity
 
@@ -177,14 +179,21 @@ switch-priority  TC  ETS
 
 . Verify information for the transceiver in the interface:
 +
-`net show interface pluggables`
-+
+[role="tabbed-block"] 
+
+=====
+
+.Cumulus Linux 5.4:  
+--
+
+`nv show interface --view=pluggables`
+
 .Show example
 [%collapsible]
 ====
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:~$ *net show interface pluggables*
+cumulus@cumulus:mgmt:~$ *nv show interface --view=pluggables*
 Interface  Identifier     Vendor Name  Vendor PN        Vendor SN       Vendor Rev
 ---------  -------------  -----------  ---------------  --------------  ----------
 swp3       0x11 (QSFP28)  Amphenol     112-00574        APF20379253516  B0
@@ -193,6 +202,29 @@ swp15      0x11 (QSFP28)  Amphenol     112-00573        APF21109348001
 swp16      0x11 (QSFP28)  Amphenol     112-00573        APF21109347895  B0
 ----
 ====
+--
+
+.Cumulus Linux 5.11 and later:  
+--
+
+`nv show platform transceiver`
+
+.Show example
+[%collapsible]
+====
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ *nv show platform transceiver*
+Interface  Identifier     Vendor Name  Vendor PN        Vendor SN       Vendor Rev
+---------  -------------  -----------  ---------------  --------------  ----------
+swp3       0x11 (QSFP28)  Amphenol     112-00574        APF20379253516  B0
+swp4       0x11 (QSFP28)  AVAGO        332-00440        AF1815GU05Z     A0
+swp15      0x11 (QSFP28)  Amphenol     112-00573        APF21109348001  B0
+swp16      0x11 (QSFP28)  Amphenol     112-00573        APF21109347895  B0
+----
+====
+--
+=====
 
 . Verify that the nodes each have a connection to each switch:
 +
@@ -242,6 +274,7 @@ node2
 cluster1::*>
 ----
 ====
+
 +
 . Verify the shelf ports in the storage system:
 +
