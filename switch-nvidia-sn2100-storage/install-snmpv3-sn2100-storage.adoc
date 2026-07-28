@@ -9,7 +9,7 @@ summary: "Configure SNMPv3 on NVIDIA SN2100 storage switches to enable secure sw
 :imagesdir: ../media/
 
 [.lead]
-Configure SNMPv3 on NVIDIA SN2100 storage switches to enable secure, authenticated switch log collection and switch health monitoring (SHM).
+Configure SNMPv3 on NVIDIA SN2100 storage switches to enable secure, authenticated switch log collection and Ethernet switch health monitor (CSHM).
 
 .About this task
 The following commands configure an SNMPv3 username on NVIDIA SN2100 switches:
@@ -24,7 +24,7 @@ The following commands configure an SNMPv3 username on NVIDIA SN2100 switches:
 The following command configures an SNMPv3 username on the ONTAP side:
 `cluster1::*> security login create -user-or-group-name _SNMPv3_USER_ -application snmp -authentication-method usm -remote-switch-ipaddress _ADDRESS_`
 
-The following command establishes the SNMPv3 username with SHM:
+The following command establishes the SNMPv3 username with CSHM:
 `cluster1::*> system switch ethernet modify -device _DEVICE_ -snmp-version SNMPv3 -community-or-username _SNMPv3_USER_`
 
 .Steps
