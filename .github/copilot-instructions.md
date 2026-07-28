@@ -5,6 +5,10 @@ Product: ONTAP Systems Switches
 
 Documentation for installing, configuring, and maintaining network switches used with NetApp ONTAP storage systems. Covers four switch categories: AFX systems switches, cluster switches, storage switches, and shared switches.
 
+**Page title guidance:** Do not use "ONTAP Systems Switches" as the product name in page titles because it is too general to be meaningful. Instead, use the Repository structure section to choose the right level of specificity: for cross-category pages, name the relevant switch categories; for switch-specific pages, include the vendor, family or model, and switch role in the title. Examples:
+- "Quick start for AFX systems, cluster, storage, and shared switches" (cross-category page)
+- "Install a Cisco Nexus 3132Q-V cluster switch in a NetApp cabinet" (specific model page)
+
 ### Repository structure
 - `get-started/` – Getting started overview with quick-start workflows for all switch types
 - `afx/` – Landing page index for AFX systems switches
