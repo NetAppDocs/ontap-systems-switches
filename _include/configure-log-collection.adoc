@@ -1,26 +1,22 @@
-The Ethernet switch health monitor (CSHM) is responsible for ensuring the operational health of network switches and collecting switch logs for debugging purposes. This procedure guides you through the process of setting up collection, requesting detailed *Support* logs, and enabling an hourly collection of *Periodic* data that is collected by AutoSupport.
+.Before you begin
 
-*NOTE:* If you enable FIPS mode, you must complete the following: 
-[NOTE]
-====
-. Regenerate SSH keys on the switch using the vendor instructions. 
-. Regenerate SSH keys in ONTAP using `debug system regenerate-systemshell-key-pair`
-. Re-run log collection setup routine using the `system switch ethernet log setup-password` command
-====
-
-== Before you begin
-
-* The user must have access to the switch `show` commands. If these are not available, create a new user and grant the necessary permissions to the user. 
-* Switch health monitoring must be enabled for the switch. Verify this by ensuring the `Is Monitored:` field is set to *true* in the output of the `system switch ethernet show` command.
+* If you use FIPS mode, complete the following before setting up log collection:
+.. Regenerate SSH keys on the switch using the vendor instructions.
+.. Regenerate SSH keys in ONTAP using `debug system regenerate-systemshell-key-pair`.
+.. Re-run log collection setup using the `system switch ethernet log setup-password` command.
+* You must have access to the switch `show` commands. If you do not, create a new switch user and grant the necessary privileges.
+* Switch health monitoring must be enabled for the switch. Verify by checking that the `Is Monitored:` field is set to *true* in the output of `system switch ethernet show`.
 //* For NVIDIA switches, the user for log collection must be specified when the Reference Configuration File (RCF) is applied. By default, this user is set to 'admin'. If you wish to use a different user, you must specify this in the *# SHM User's* section of the RCF.
 * For log collection with Broadcom and Cisco switches: 
 ** The local user must have network admin privileges.
-** A new user should be created on the switch for each cluster setup with log collection enabled. These switches do not support multiple SSH keys for the same user. Any additional log collection setup performed overwrites any pre-existing SSH keys for the user.
-* For support log collection with NVIDIA switches, the _user_ for log collection must be permitted to run the `cl-support` command without having to provide a password. To allow this usage, run the command:
+** Create a new switch user for each cluster with log collection enabled. These switches do not support multiple SSH keys for the same user, running setup again overwrites the existing SSH key.
+* For support log collection with NVIDIA switches, the log collection user must be able to run the `cl-support` command without a password. To allow this, run:
 +
 `echo '_<user>_ ALL = NOPASSWD: /usr/cumulus/bin/cl-support' | sudo EDITOR='tee -a' visudo -f /etc/sudoers.d/cumulus`
 
-== Steps
+.Steps
+
+Follow the steps for your version of ONTAP to set up log collection, enable periodic data collection, and optionally request on-demand support logs.
 
 // start of tabbed content 
 
