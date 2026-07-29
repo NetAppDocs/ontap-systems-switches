@@ -36,7 +36,10 @@ Example command output uses switch management IP address 10.233.204.71, netmask 
 
 . Display the available interfaces on the SN2100 switch:
 +
-`nv show interface`
+[source,cli]
+----
+nv show interface
+----
 +
 .Show example
 [%collapsible]
@@ -72,7 +75,10 @@ ADMDN  swp16  N/A  9216   NotConfigured
 
 .. Verify the status of node storage ports: 
 +
-`storage port show -port-type ENET`
+[source,cli]
+----
+storage port show -port-type ENET
+----
 +
 .Show example
 [%collapsible]
@@ -201,7 +207,10 @@ NOTE: For any RCF python script issues that cannot be corrected, contact https:/
 
 . Verify the configuration after the reboot:
 +
-`net show interface all`
+[source,cli]
+----
+net show interface all
+----
 +
 .Show example
 [%collapsible]
@@ -279,7 +288,10 @@ switch-priority  TC  ETS
 .Cumulus Linux 5.4:  
 --
 
-`nv show interface --view=pluggables`
+[source,cli]
+----
+nv show interface --view=pluggables
+----
 
 .Show example
 [%collapsible]
@@ -300,7 +312,10 @@ swp16      0x11 (QSFP28)  Amphenol     112-00573        APF21109347895
 .Cumulus Linux 5.11 and later:  
 --
 
-`nv show platform transceiver`
+[source,cli]
+----
+nv show platform transceiver
+----
 
 .Show example
 [%collapsible]
@@ -328,7 +343,10 @@ swp16      0x11 (QSFP28)  Amphenol     112-00573        APF21109347895
 .Cumulus Linux 5.4:  
 --
 
-`nv show interface --view=lldp`
+[source,cli]
+----
+nv show interface --view=lldp
+----
 
 .Show example
 [%collapsible]
@@ -350,7 +368,10 @@ swp16      100G   BondMember  sw14                    swp16
 .Cumulus Linux 5.11 and later:  
 --
 
-`nv show interface lldp`
+[source,cli]
+----
+nv show interface lldp
+----
 
 .Show example
 [%collapsible]
