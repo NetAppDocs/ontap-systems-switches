@@ -37,14 +37,14 @@ NOTE: Example command output uses switch management IP address 10.233.204.71, ne
 
 . Display the available interfaces on the SN2100 switch:
 +
-`net show interface all`
+`nv show interface`
 +
 .Show example
 [%collapsible]
 ====
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:~$ *net show interface all*
+cumulus@cumulus:mgmt:~$ *nv show interface*
 
 State  Name   Spd  MTU    Mode         LLDP                Summary
 -----  -----  ---  -----  -----------  ------------------  --------------
@@ -141,7 +141,7 @@ sw1                         storage-network    10.233.205.90    MSN2100-CB2RC
      Serial Number: MNXXXXXXGD
       Is Monitored: true
             Reason: None
-  Software Version: Cumulus Linux version 4.4.3 running on Mellanox
+  Software Version: Cumulus Linux version 5.11.1 running on Mellanox
                     Technologies Ltd. MSN2100
     Version Source: LLDP
 
@@ -149,7 +149,7 @@ sw2                         storage-network    10.233.205.91    MSN2100-CB2RC
      Serial Number: MNCXXXXXXGS
       Is Monitored: true
             Reason: None
-  Software Version: Cumulus Linux version 4.4.3 running on Mellanox
+  Software Version: Cumulus Linux version 5.11.1 running on Mellanox
                     Technologies Ltd. MSN2100
     Version Source: LLDP
 ----
@@ -164,15 +164,15 @@ sw2                         storage-network    10.233.205.91    MSN2100-CB2RC
 admin@sw1:mgmt:~$ *pwd*
 /home/cumulus
 cumulus@cumulus:mgmt:~$ *cd /tmp*
-cumulus@cumulus:mgmt:/tmp$ *scp _<user>@<host:/<path>_/MSN2100-RCF-v1.8-Cluster*
+cumulus@cumulus:mgmt:/tmp$ *scp <user>@<host:/<path>/RCF-v1.14-MSN2100-ST1*
 ssologin@10.233.204.71's password:
-MSN2100-RCF-v1.8-Cluster                 100% 8607   111.2KB/s         00:00
+RCF-v1.14-MSN2100-ST1                 100% 8607   111.2KB/s         00:00
 ----
-. Apply the RCF python script *MSN2100-RCF-v1.8-Cluster*:
+. Apply the RCF python script *RCF-v1.14-MSN2100-ST1*:
 +
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:/tmp$ *sudo python3 MSN2100-RCF-v1.8-Cluster*
+cumulus@cumulus:mgmt:/tmp$ *sudo python3 RCF-v1.14-MSN2100-ST1*
 [sudo] password for cumulus:
 ...
 Step 1: Creating the banner file
@@ -195,6 +195,8 @@ The RCF script completes the steps listed above.
 NOTE: For any RCF python script issues that cannot be corrected, contact https://mysupport.netapp.com/[NetApp Support^] for assistance.
 
 . Reapply any previous customizations to the switch configuration. Refer to link:cabling-considerations-sn2100-storage.html[Review cabling and configuration considerations] for details of any further changes required.
+
+. Connect the controller storage ports and NS224 shelf ports to the switches.
 
 == Step 3: Verify the switch and storage connectivity
 
@@ -271,14 +273,21 @@ switch-priority  TC  ETS
 
 . Verify information for the transceiver in the interface:
 +
-`net show interface pluggables`
-+
+[role="tabbed-block"] 
+
+=====
+
+.Cumulus Linux 5.4:  
+--
+
+`nv show interface --view=pluggables`
+
 .Show example
 [%collapsible]
 ====
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:~$ *net show interface pluggables*
+cumulus@cumulus:mgmt:~$ *nv show interface --view=pluggables*
 Interface  Identifier     Vendor Name  Vendor PN        Vendor SN       Vendor Rev
 ---------  -------------  -----------  ---------------  --------------  ----------
 swp3       0x11 (QSFP28)  Amphenol     112-00574        APF20379253516  B0
@@ -287,11 +296,41 @@ swp15      0x11 (QSFP28)  Amphenol     112-00573        APF21109348001
 swp16      0x11 (QSFP28)  Amphenol     112-00573        APF21109347895  B0
 ----
 ====
+--
+
+.Cumulus Linux 5.11 and later:  
+--
+
+`nv show platform transceiver`
+
+.Show example
+[%collapsible]
+====
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ *nv show platform transceiver*
+Interface  Identifier     Vendor Name  Vendor PN        Vendor SN       Vendor Rev
+---------  -------------  -----------  ---------------  --------------  ----------
+swp3       0x11 (QSFP28)  Amphenol     112-00574        APF20379253516  B0
+swp4       0x11 (QSFP28)  AVAGO        332-00440        AF1815GU05Z     A0
+swp15      0x11 (QSFP28)  Amphenol     112-00573        APF21109348001  B0
+swp16      0x11 (QSFP28)  Amphenol     112-00573        APF21109347895  B0
+----
+====
+--
+=====
 
 . Verify that the nodes each have a connection to each switch:
 +
-`net show lldp`
-+
+[role="tabbed-block"] 
+
+=====
+
+.Cumulus Linux 5.4:  
+--
+
+`nv show interface --view=lldp`
+
 .Show example
 [%collapsible]
 ====
@@ -307,6 +346,30 @@ swp15      100G   BondMember  sw13                    swp15
 swp16      100G   BondMember  sw14                    swp16
 ----
 ====
+--
+
+.Cumulus Linux 5.11 and later:  
+--
+
+`nv show interface lldp`
+
+.Show example
+[%collapsible]
+====
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ *net show lldp*
+
+LocalPort  Speed  Mode        RemoteHost              RemotePort
+---------  -----  ----------  ----------------------  -----------
+swp3       100G   Trunk/L2    sw1                     e3a
+swp4       100G   Trunk/L2    sw2                     e3b
+swp15      100G   BondMember  sw13                    swp15
+swp16      100G   BondMember  sw14                    swp16
+----
+====
+--
+=====
 
 . Verify the health of storage ports and switch connectivity.
 
@@ -361,7 +424,7 @@ cluster1::*>
 ----
 ====
 
-.. Verify that the switches are being monitored.
+. Verify that the switches are being monitored.
 [source,cli]
 ----
 system switch ethernet show -is-monitoring-enabled-operational true
@@ -379,7 +442,7 @@ sw1                         storage-network    10.233.205.90    MSN2100-CB2RC
      Serial Number: MNXXXXXXGD
       Is Monitored: true
             Reason: None
-  Software Version: Cumulus Linux version 4.4.3 running on Mellanox
+  Software Version: Cumulus Linux version 5.11.1 running on Mellanox
                     Technologies Ltd. MSN2100
     Version Source: LLDP
 
@@ -387,11 +450,13 @@ sw2                         storage-network    10.233.205.91    MSN2100-CB2RC
      Serial Number: MNCXXXXXXGS
       Is Monitored: true
             Reason: None
-  Software Version: Cumulus Linux version 4.4.3 running on Mellanox
+  Software Version: Cumulus Linux version 5.11.1 running on Mellanox
                     Technologies Ltd. MSN2100
     Version Source: LLDP
 ----
 ====
+
+. Repeat these verification steps on the second (or partner) switch. 
 
 .What's next?
 After you've installed or upgraded the RCF, you can link:setup-install-cshm-file.html[install the CSHM file].

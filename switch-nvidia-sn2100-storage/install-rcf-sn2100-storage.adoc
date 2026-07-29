@@ -70,15 +70,15 @@ ADMDN  swp16  N/A  9216   NotConfigured
 admin@sw1:mgmt:~$ *pwd*
 /home/cumulus
 cumulus@cumulus:mgmt:~$ *cd /tmp*
-cumulus@cumulus:mgmt:/tmp$ *scp _<user>@<host:/<path>_/MSN2100-RCF-v1.8-Cluster*
+cumulus@cumulus:mgmt:/tmp$ *scp <user>@<host:/<path>/RCF-v1.14-MSN2100-ST1*
 ssologin@10.233.204.71's password:
-MSN2100-RCF-v1.8-Cluster                 100% 8607   111.2KB/s         00:00
+RCF-v1.14-MSN2100-ST1                 100% 8607   111.2KB/s         00:00
 ----
-. Apply the RCF python script *MSN2100-RCF-v1.8-Cluster*:
+. Apply the RCF python script *RCF-v1.14-MSN2100-ST1*:
 +
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:/tmp$ *sudo python3 MSN2100-RCF-v1.8-Cluster*
+cumulus@cumulus:mgmt:/tmp$ *RCF-v1.14-MSN2100-ST1*
 [sudo] password for cumulus:
 ...
 Step 1: Creating the banner file
@@ -228,8 +228,15 @@ swp16      0x11 (QSFP28)  Amphenol     112-00573        APF21109347895
 
 . Verify that the nodes each have a connection to each switch:
 +
-`net show lldp`
-+
+[role="tabbed-block"] 
+
+=====
+
+.Cumulus Linux 5.4:  
+--
+
+`nv show interface --view=lldp`
+
 .Show example
 [%collapsible]
 ====
@@ -245,6 +252,30 @@ swp15      100G   BondMember  sw13                    swp15
 swp16      100G   BondMember  sw14                    swp16
 ----
 ====
+--
+
+.Cumulus Linux 5.11 and later:  
+--
+
+`nv show interface lldp`
+
+.Show example
+[%collapsible]
+====
+[subs=+quotes]
+----
+cumulus@cumulus:mgmt:~$ *net show lldp*
+
+LocalPort  Speed  Mode        RemoteHost              RemotePort
+---------  -----  ----------  ----------------------  -----------
+swp3       100G   Trunk/L2    sw1                     e3a
+swp4       100G   Trunk/L2    sw2                     e3b
+swp15      100G   BondMember  sw13                    swp15
+swp16      100G   BondMember  sw14                    swp16
+----
+====
+--
+=====
 
 . Verify the health of storage ports and switch connectivity.
 
@@ -359,7 +390,7 @@ sw2                         storage-network    10.233.205.91    MSN2100-CB2RC
      Serial Number: MNCXXXXXXGS
       Is Monitored: true
             Reason: None
-  Software Version: Cumulus Linux version 4.4.3 running on Mellanox
+  Software Version: Cumulus Linux version 5.11.1 running on Mellanox
                     Technologies Ltd. MSN2100
     Version Source: LLDP
 ----
