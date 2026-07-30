@@ -5,7 +5,17 @@ Product: ONTAP Systems Switches
 
 Documentation for installing, configuring, and maintaining network switches used with NetApp ONTAP storage systems. Covers four switch categories: AFX systems switches, cluster switches, storage switches, and shared switches.
 
-**Page title guidance:** Do not use "ONTAP Systems Switches" as the product name in page titles because it is too general to be meaningful. Instead, use the Repository structure section to choose the right level of specificity: for cross-category pages, name the relevant switch categories; for switch-specific pages, include the vendor, family or model, and switch role in the title. Examples:
+**Page title guidance:** Do not use "ONTAP Systems Switches" as the product name in page titles because it is too general to be meaningful. Instead, use the Repository structure section to choose the right level of specificity: for cross-category pages, name the relevant switch categories; for switch-specific pages, include the vendor, family or model, and switch role in the title. Apply the following rules:
+
+**Title structure by page type:**
+- **Task pages** — Use an imperative verb followed by the topic and switch context using a preposition (for/on/in). Do not use a dash separator. Examples: `Install NX-OS on the Cisco Nexus 9808 switch`, `Replace a Broadcom BES-53248 cluster switch`, `Migrate from NetApp CN1610 cluster switches to NVIDIA SN2100 cluster switches`
+- **Concept/reference pages** — Start with "Review". Examples: `Review cabling and configuration requirements for the Cisco Nexus 9332D-GX2B switch`, `Review documentation requirements for the Broadcom BES-53248 cluster switch`
+- **Overview pages** (page title text originally contained the word "overview") — Start with "Learn about". Examples: `Learn about installing or upgrading NX-OS on the Cisco Nexus 9808 switch`, `Learn about maintenance options for the Cisco Nexus 9364D-GX2A switch`
+- **Workflow pages** — Use the pattern `[X] workflow for [model(s)]`. Examples: `Installation and setup workflow for NVIDIA SN2100 cluster switches`, `Configuration workflow for Cisco Nexus 9808 switches`
+
+**AFX systems switch titles:** Do not use the " - Cisco Nexus [model]" dash-suffix pattern. Instead, use prepositions (for/on/in). Examples: `Install NX-OS on the Cisco Nexus 9808 switch`, `Prepare to install Cisco Nexus 9332D-GX2B switches in an AFX system`
+
+**Cross-category and model-specific examples:**
 - "Quick start for AFX systems, cluster, storage, and shared switches" (cross-category page)
 - "Install a Cisco Nexus 3132Q-V cluster switch in a NetApp cabinet" (specific model page)
 
