@@ -2,16 +2,18 @@
 permalink: switch-bes-53248/upgrade-efos-software.html
 sidebar: sidebar
 keywords: BES-53248 cluster switches,upgrading EFOS software
-summary: "Follow these steps to upgrade the Ethernet Fabric OS EFOS software on the BES-53248 cluster switch."
+summary: "Upgrade the Ethernet Fabric OS (EFOS) software on the Broadcom BES-53248 cluster switch to maintain compatibility with ONTAP."
 ---
-= Upgrade the EFOS software
+= Upgrade EFOS software on the Broadcom BES-53248 cluster switch
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-Follow these steps to upgrade the EFOS software on the BES-53248 cluster switch.
+Upgrade the Ethernet Fabric OS (EFOS) software on the Broadcom BES-53248 cluster switch to maintain compatibility with ONTAP and access the latest switch features and fixes.
 
 EFOS software includes a set of advanced networking features and protocols for developing Ethernet and IP infrastructure systems. This software architecture is suitable for any network organizational device using applications that require thorough packet inspection or separation. 
+
+NOTE: NetApp recommends that you complete any ONTAP software upgrade first, then perform the software upgrade for your switches.
 
 == Prepare for upgrade
 
@@ -315,7 +317,10 @@ Additional Packages............................ BGP-4
 ----
 ====
 
-. Repeat steps 5 through to 11 on the switch cs1.
+NOTE: If you are also upgrading your RCF at this time, follow the procedure to upgrade your RCF on switch cs2 before upgrading the EFOS on switch cs1. Refer to link:upgrade-rcf.html[upgrade the RCF version] for details.
+
+[start=12]
+. [[step12]] Repeat steps 5 through 11 on the switch cs1.
 
 . Enable auto-revert on the cluster LIFs.
 +

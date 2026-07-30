@@ -2,14 +2,14 @@
 permalink: switch-cisco-92300/migrate-to-2n-switched.html
 sidebar: sidebar
 keywords: 2-node switched Cisco 92300YC cluster switch migration
-summary: 'If you have an existing two-node switchless cluster environment, you can migrate to a two-node switched cluster environment using Cisco Nexus 92300YC switches to enable you to scale beyond two nodes in the cluster.'
+summary: "Migrate an existing two-node switchless cluster to a switched cluster environment using Cisco Nexus 92300YC cluster switches."
 ---
-= Migrate to a two-node switched cluster with a Cisco Nexus 92300YC switch
+= Migrate to a two-node switched cluster using Cisco Nexus 92300YC cluster switches
 :icons: font
 :imagesdir: ../media/
 
 [.lead]
-If you have an existing two-node _switchless_ cluster environment, you can migrate to a two-node _switched_ cluster environment using Cisco Nexus 92300YC switches to enable you to scale beyond two nodes in the cluster.
+Migrate an existing two-node switchless cluster to a switched cluster environment using Cisco Nexus 92300YC cluster switches. This nondisruptive migration enables you to scale the cluster beyond two nodes.
 
 The procedure you use depends on whether you have two dedicated cluster-network ports on each controller or a single cluster port on each controller. The process documented works for all nodes using optical or twinax ports, but is not supported on this switch if nodes are using onboard 10Gb BASE-T RJ45 ports for the cluster-network ports.
 
