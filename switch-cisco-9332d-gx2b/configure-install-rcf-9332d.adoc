@@ -52,7 +52,7 @@ NOTE: New switches do not ship with the RCF installed. You must install the RCF 
 
 
 == Step 2: Install the RCF
-You install the RCF on the first switch (cs1) by copying and applying the RCF to the bootflash, examining the banner output, verifying the RCF version is correct, recording any custom additions, saving basic configuration details, verifying that the write_erase.cfg file is populated, erasing the current saved configuration, copying the previously saved basic configuration into the startup configuration, and then rebooting the switch. You repeat these steps on the second switch (cs2) if you are installing the RCF as part of a new AFX system installation.
+You install the RCF on the first switch (cs1) by copying and applying the RCF to the bootflash, examining the banner output, verifying the RCF version is correct, making the current running configuration persistent, and then rebooting the switch. You repeat these steps on the second switch (cs2) if you are installing the RCF as part of a new AFX system installation.
 
 . Log in to switch cs1 using SSH or by using a serial console.
 
@@ -133,7 +133,7 @@ The output varies according to your site configuration. Check the port settings 
 
 . Copy the current running configuration to the startup configuration to make it persistent.
 +
-`cs1# *copy bootflash:write_erase.cfg startup-config*`
+`cs1# *copy running-config startup-config*`
 
 . Reboot the switch:
 +
