@@ -51,7 +51,7 @@ NOTE: New switches do not ship with the RCF installed. You must install the RCF 
 . You must be connected to the switches using the serial console or have preserved basic configuration information. This is because the RCF upgrade procedure requires you to erase the switch settings and perform basic configuration.
 
 == Step 2: Install the RCF
-You install the RCF on the first switch (cs1) by copying and applying the RCF to the bootflash, examining the banner output, verifying the RCF version is correct, recording any custom additions, saving basic configuration details, verifying that the `write_erase.cfg` file is populated, erasing the current saved configuration, copying the previously saved basic configuration into the startup configuration, and then rebooting the switch. You repeat these steps on the second switch (cs2) if you are installing the RCF as part of a new AFX system installation.
+You install the RCF on the first switch (cs1) by copying and applying the RCF to the bootflash, examining the banner output, verifying the RCF version is correct, making the current running configuration persistent, and then rebooting the switch. You repeat these steps on the second switch (cs2) if you are installing the RCF as part of a new AFX system installation.
 
 . Log in to switch cs1 using SSH or by using a serial console.
 
