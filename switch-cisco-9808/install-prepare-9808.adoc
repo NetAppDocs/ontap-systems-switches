@@ -53,21 +53,19 @@ For the current list of supported RCF versions, see the link:https://mysupport.n
 Switch port information can also be found in the link:https://hwu.netapp.com[NetApp Hardware Universe^].
 ====
 
-* RCF 10.1 is supported on both AFX 1K and AFX 2K platforms. For your AFX 2K system, RCF 10.1 and later is supported.
-
-* RCF 10.1 has different files for different use cases. Depending on how you plan to use the switches in your AFX 2K system configuration (shared, storage only, or cluster and HA only), you choose the applicable RCF file.
+For your AFX 2K system, RCF 10.1 and later is supported.
 +
-For example, if you are using your switches as shared switches in an AFX 2K system, you use the RCF file appropriate for that use case. The appropriate RCF file could be named similarly to `RCF-v10.1-NX9808-CL1-ST1.txt`. The following table shows the preset groups of the switch ports, their port speeds, and usage for this RCF file.
+For example, the following table shows the preset groups of the switch ports, their port speeds, and usage based on RCF version 10.1.
 +
 [options="header" cols="1,2"]
 |===
 | Switch port groups | Port speeds and usage
 a|
-Ethernet1/1/1-4 to Ethernet1/14/1-4
+Ethernet1/1/1-4 to Ethernet1/15/1-4
 a|
 4x100GbE mode for Intra-cluster, HA, and storage shelf connections
 a|
-Ethernet1/15 to Ethernet1/30
+Ethernet1/16 to Ethernet1/30
 a|
 400GbE mode for Intra-cluster, HA, and storage connections 
 a|
