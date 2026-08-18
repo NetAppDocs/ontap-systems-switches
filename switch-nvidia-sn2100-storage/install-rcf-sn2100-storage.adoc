@@ -52,7 +52,7 @@ ADMDN  swp3   N/A  9216   NotConfigured
 ADMDN  swp4   N/A  9216   NotConfigured
 ADMDN  swp5   N/A  9216   NotConfigured
 ADMDN  swp6   N/A  9216   NotConfigured
-ADMDN  swp7   N/A  9216   NotConfigure
+ADMDN  swp7   N/A  9216   NotConfigured
 ADMDN  swp8   N/A  9216   NotConfigured
 ADMDN  swp9   N/A  9216   NotConfigured
 ADMDN  swp10  N/A  9216   NotConfigured
@@ -112,7 +112,7 @@ NOTE: For any RCF python script issues that cannot be corrected, contact https:/
 +
 [source,cli]
 ----
-net show interface all
+nv show interface
 ----
 +
 .Show example
@@ -120,7 +120,7 @@ net show interface all
 ====
 [subs=+quotes]
 ----
-cumulus@cumulus:mgmt:~$ *net show interface all*
+cumulus@cumulus:mgmt:~$ *nv show interface*
 
 State  Name      Spd   MTU    Mode       LLDP              Summary
 -----  --------- ----  -----  ---------- ----------------- --------
@@ -343,13 +343,13 @@ cluster1::*> *storage shelf port show -fields remote-device, remote-port*
 shelf   id    remote-port     remote-device
 -----   --    -----------     -------------
 3.20    0     swp3            sw1
-3.20    1     swp3            nsw2
+3.20    1     swp3            sw2
 3.20    2     swp4            sw1
-3.20    3     swp4            nsw2
+3.20    3     swp4            sw2
 3.30    0     swp5            sw1
-3.20    1     swp5            nsw2
+3.30    1     swp5            sw2
 3.30    2     swp6            sw1
-3.20    3     swp6            nsw2
+3.30    3     swp6            sw2
 cluster1::*>
 ----
 ====
