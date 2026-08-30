@@ -459,9 +459,6 @@ network interface modify -vserver Cluster -lif * -auto-revert false
 
 You install the NX-OS on the first switch (cs1) by installing and verifying the new versions of the NX-OS and EPLD, verifying the health of all ports on the cluster, and then repeating these steps on the second switch (cs2).
 
-//This step and tabs below are from 9336 Upgrade NX-OS.
-
-
 . Download and install the NX-OS software and EPLD image. The steps can vary based on your current NX-OS version and the target NX-OS version. 
 +
 Choose the tab that applies to your situation:
@@ -476,6 +473,8 @@ Choose the tab that applies to your situation:
 
 .Upgrade from 10.4(2)(F) to 10.6(3)(F) or later
 --
+
+//This tab's steps below are modified from 9336 Upgrade NX-OS.
 
 You use the switch CLI to enter the commands for the following steps.
 
@@ -876,13 +875,13 @@ You use the switch CLI to enter the commands for the following steps.
 `copy <protocol>: bootflash: vrf management`
 +
 The example uses sftp.
-
-
 +
 .Example
 [%collapsible]
 
 =====
+
+The example uses sftp.
 
 [subs=+quotes]
 
@@ -982,7 +981,7 @@ cs2#
 Installing the image file causes it to be loaded every time the switch is rebooted.
 +
 `install all nxos bootflash:nxos.<version number>.bin`
-
++
 .Example
 [%collapsible]
 
