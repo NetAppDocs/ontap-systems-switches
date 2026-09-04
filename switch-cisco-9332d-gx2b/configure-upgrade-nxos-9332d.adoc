@@ -459,7 +459,7 @@ network interface modify -vserver Cluster -lif * -auto-revert false
 
 You install the NX-OS on the first switch (cs1) by installing and verifying the new versions of the NX-OS and EPLD, verifying the health of all ports on the cluster, and then repeating these steps on the second switch (cs2).
 
-. Download and install the NX-OS software and EPLD image. The steps can vary based on your current NX-OS version and the target NX-OS version. 
+. Install the NX-OS and EPLD image. The steps can vary based on your current NX-OS version and the target NX-OS version. 
 +
 Choose the tab that applies to your situation:
 
@@ -479,7 +479,7 @@ Choose the tab that applies to your situation:
 You use the switch CLI to enter the commands for the following steps.
 
 [start=a]
-.. [[stepa]] Copy the NX-OS software and EPLD image to the first switch.
+.. [[stepa]] Copy the NX-OS and EPLD image to the first switch.
 +
 `copy <protocol>: bootflash: vrf management`
 +
@@ -527,7 +527,7 @@ Copy complete.
 ....
 =====
 
-.. Verify the running version of the NX-OS software:
+.. Verify the running version of the NX-OS:
 +
 `show version`
 
@@ -772,7 +772,7 @@ Install has been successful.
 ....
 =====
 
-.. Verify the new version of NX-OS software after the switch has rebooted:
+.. Verify the new version of NX-OS after the switch has rebooted:
 +
 `show version`
 +

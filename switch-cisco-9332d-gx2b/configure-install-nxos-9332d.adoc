@@ -54,7 +54,7 @@ Prepare to install the NX-OS on the switch(es) by making sure you have access to
 
 . You must have access to an HTTP, FTP, or TFTP server. Access to one of these servers allows you to download a supported version of the NX-OS. 
 
-. Download the correct version of NX-OS to the switch(es) from the https://software.cisco.com/download/home[Cisco software download^] page.
+. Download the correct version of NX-OS and EPLD image to the switch(es) from the https://software.cisco.com/download/home[Cisco software download^] page.
 
 . Connect the switch to the management network (for the file transfer).
 
@@ -84,7 +84,7 @@ Reply From 172.19.2.1: icmp_seq = 0. time= 5910 usec.
 You install the NX-OS and EPLD image on the first switch (cs1) by installing and verifying the NX-OS and EPLD image versions, and then repeat these steps on the second switch (cs2) if you are installing the NX-OS as part of a new AFX system installation.
 
 
-. Download and install the NX-OS software and EPLD image. The steps can vary based on your current NX-OS version and the target NX-OS version. 
+. Install the NX-OS and EPLD image.
 +
 Choose the tab that applies to your situation:
 
@@ -104,7 +104,7 @@ You use the switch CLI to enter the commands for the following steps.
 //These steps are reused from 9332 upgrade NX-OS first tab option.
 
 [start=a]
-.. [[stepa]] Copy the NX-OS software and EPLD image to the first switch.
+.. [[stepa]] Copy the NX-OS and EPLD image to the first switch.
 +
 `copy <protocol>: bootflash: vrf management`
 +
@@ -152,7 +152,7 @@ Copy complete.
 ....
 =====
 
-.. Verify the running version of the NX-OS software:
+.. Verify the running version of the NX-OS:
 +
 `show version`
 
@@ -397,7 +397,7 @@ Install has been successful.
 ....
 =====
 
-.. Verify the new version of NX-OS software after the switch has rebooted:
+.. Verify the new version of NX-OS after the switch has rebooted:
 +
 `show version`
 +
