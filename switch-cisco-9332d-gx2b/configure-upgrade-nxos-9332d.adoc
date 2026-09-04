@@ -479,7 +479,7 @@ Choose the tab that applies to your situation:
 You use the switch CLI to enter the commands for the following steps.
 
 [start=a]
-.. [[stepa]] Copy the NX-OS software and EPLD image to the Nexus 9336C-FX2 switch.
+.. [[stepa]] Copy the NX-OS software and EPLD image to the first switch.
 +
 `copy <protocol>: bootflash: vrf management`
 +
@@ -610,7 +610,7 @@ The EPLD image is not automatically updated when you upgrade to NX-OS 10.6(3)(F)
 Installing the image file causes it to be loaded every time the switch is rebooted.
 
 +
-The following step shows an upgrade from NX-OS 10.4(2)(F) to 10.6(3)(F). The first pass performs the NX-OS upgrade and the second pass performs the EPLD image upgrade.
+The following example shows an upgrade from NX-OS 10.4(2)(F) to 10.6(3)(F). The first pass performs the NX-OS upgrade and the second pass performs the EPLD image upgrade.
 +
 `install all nxos bootflash:nxos.<version number>.bin`
 +
@@ -868,7 +868,7 @@ GEM  FPGA                        0x2
 --
 You use the switch CLI to enter the commands for the following steps.
 
-//Lisa, you need to replace these steps with what's in 9808 Upgrade NX-OS.
+//These steps are reused from 9808 Upgrade NX-OS.
 
 .. Copy the NX-OS and EPLD image to the first switch.
 +
