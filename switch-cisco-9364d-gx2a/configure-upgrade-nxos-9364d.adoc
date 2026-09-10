@@ -463,15 +463,15 @@ You install and verify the NX-OS and EPLD image on the first switch (cs1), verif
 +
 Choose the tab that applies to your situation:
 
-* Upgrade from 10.4.2.F to 10.6.3.F or later
-* Upgrade from 10.6.3.F to a later version
+* Upgrade from 10.4(2)F to 10.6(3)F or later
+* Upgrade from 10.6(3)F to a later version
 
 // start of tabbed content 
 [role="tabbed-block"] 
 
 ==== 
 
-.Upgrade from 10.4.2.F to 10.6.3.F or later
+.Upgrade from 10.4(2)F to 10.6(3)F or later
 --
 
 //This tab's steps below are modified from 9336 Upgrade NX-OS.
@@ -600,17 +600,17 @@ cs1#
 
 [NOTE]
 =======
-The EPLD image is not automatically updated when you upgrade to NX-OS 10.6.3.F and later. After your upgrade completes and the switch reboots, you must run the same upgrade `install all` command again.
+The EPLD image is not automatically updated when you upgrade to NX-OS 10.6(3)F and later. After your upgrade completes and the switch reboots, you must run the same upgrade `install all` command again.
 
 * The second upgrade pass verifies, but skips the NX-OS upgrade; only the EPLD image is updated.
-* When you have already upgraded to NX-OS 10.6.3.F and later, both images are updated at the same time.
+* When you have already upgraded to NX-OS 10.6(3)F and later, both images are updated at the same time.
 =======
 +
 
 Installing the image file causes it to be loaded every time the switch is rebooted.
 
 +
-The following example shows an upgrade from NX-OS 10.4.2.F to 10.6.3.F. The first pass performs the NX-OS upgrade and the second pass performs the EPLD image upgrade.
+The following example shows an upgrade from NX-OS 10.4(2)F to 10.6(3)F. The first pass performs the NX-OS upgrade and the second pass performs the EPLD image upgrade.
 +
 `install all nxos bootflash:nxos.<version number>.bin`
 +
@@ -864,7 +864,7 @@ GEM  FPGA                        0x2
 =====
 
 --
-.Upgrade from 10.6.3.F to a later version
+.Upgrade from 10.6(3)F to a later version
 --
 You use the switch CLI to enter the commands for the following steps.
 
@@ -880,7 +880,7 @@ You use the switch CLI to enter the commands for the following steps.
 
 =====
 
-The example uses sftp.
+The example uses sftp and NX-OS version 10.6(4)M.
 
 [subs=+quotes]
 
@@ -986,7 +986,7 @@ Installing the image file causes it to be loaded every time the switch is reboot
 
 =====
 
-The example uses NX-OS version 10.6.4.M.
+The example uses NX-OS version 10.6(4)M.
 
 [subs=+quotes]
 
@@ -1133,7 +1133,7 @@ Active Package(s):
 
 =====
 
-The example uses EPLD version 10.6.4.M.
+The example uses EPLD version 10.6(4)M.
 
 [subs=+quotes]
 

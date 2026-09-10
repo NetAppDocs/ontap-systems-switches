@@ -88,15 +88,15 @@ You install and verify the NX-OS and EPLD image on the first switch (cs1), and t
 +
 Choose the tab that applies to your situation:
 
-* Install 10.4.2.F
-* Install 10.6.3.F or a later version
+* Install 10.4(2)F
+* Install 10.6(3)F or a later version
 
 // start of tabbed content 
 [role="tabbed-block"] 
 
 ==== 
 
-.Install 10.4.2.F
+.Install 10.4(2)F
 --
 You use the switch CLI to enter the commands for the following steps.
 
@@ -377,7 +377,7 @@ After the last command is executed, the switch reboots.
 [%collapsible]
 =====
 
-The example uses EPLD version 10.4.2.F
+The example uses EPLD version 10.4(2)F
 
 [subs=+quotes]
 ----
@@ -453,10 +453,8 @@ GEM  FPGA                        0x2
 =====
 
 
-.. If you are installing the NX-OS as part of a new AFX system installation, repeat these steps to install the NX-OS and EPLD images on switch cs2.
-
 --
-.Install 10.6.3.F or a later version
+.Install 10.6(3)F or a later version
 --
 You use the switch CLI to enter the commands for the following steps.
 
@@ -584,17 +582,17 @@ cs1#
 
 [NOTE]
 =======
-The EPLD image is not automatically updated when you upgrade to NX-OS 10.6.3.F and later. After your upgrade completes and the switch reboots, you must run the same upgrade `install all` command again.
+The EPLD image is not automatically updated when you upgrade to NX-OS 10.6(3)F and later. After your upgrade completes and the switch reboots, you must run the same upgrade `install all` command again.
 
 * The second upgrade pass verifies, but skips the NX-OS upgrade; only the EPLD image is updated.
-* When you have already upgraded to NX-OS 10.6.3.F and later, both images are updated at the same time.
+* When you have already upgraded to NX-OS 10.6(3)F and later, both images are updated at the same time.
 =======
 +
 
 Installing the image file causes it to be loaded every time the switch is rebooted.
 
 +
-The following example shows an upgrade from NX-OS 10.4.2.F to 10.6.3.F. The first pass performs the NX-OS upgrade and the second pass performs the EPLD image upgrade.
+The following example shows an upgrade from NX-OS 10.4(2)F to 10.6(3)F. The first pass performs the NX-OS upgrade and the second pass performs the EPLD image upgrade.
 +
 `install all nxos bootflash:nxos.<version number>.bin`
 +
