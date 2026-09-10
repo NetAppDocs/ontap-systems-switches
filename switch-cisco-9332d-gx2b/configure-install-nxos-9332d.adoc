@@ -98,6 +98,7 @@ Choose the tab that applies to your situation:
 
 .Install 10.4.2.F
 --
+You use the switch CLI to enter the commands for the following steps.
 
 [start=a]
 .. [[stepa]]Copy NX-OS and EPLD images to the first switch.
@@ -462,7 +463,7 @@ You use the switch CLI to enter the commands for the following steps.
 //These steps are reused from 9332 upgrade NX-OS first tab option.
 
 [start=a]
-.. [[stepa]] Copy the NX-OS and EPLD image to the first switch.
+.. [[stepa]] Copy the NX-OS and EPLD image to the first switch:
 +
 `copy <protocol>: bootflash: vrf management`
 +
@@ -818,7 +819,7 @@ Active Package(s):
 ....
 =====
 
-.. After the switch reboot, log in again and verify that the new version of EPLD loaded successfully.
+.. After the switch reboot, log in again and verify that the new version of EPLD loaded successfully:
 +
 `show version module 1 epld`
 
