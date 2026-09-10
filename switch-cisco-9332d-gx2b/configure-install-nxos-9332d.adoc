@@ -97,11 +97,10 @@ Choose the tab that applies to your situation:
 ==== 
 
 .Install 10.4(2)(F)
-
 --
 
 [start=a]
-. Copy NX-OS and EPLD images to the first switch.
+.. [[stepa]]Copy NX-OS and EPLD images to the first switch.
 +
 You use this command two times: the first time is to copy the NX-OS version and the second time is to copy the EPLD version.
 +
@@ -110,8 +109,7 @@ You use this command two times: the first time is to copy the NX-OS version and 
 
 .Show example
 [%collapsible]
-
-====
+=====
 
 The example uses sftp.
 
@@ -149,15 +147,15 @@ sftp> exit
 Copy complete, now saving to disk (please wait)...
 Copy complete.
 ----
-====
+=====
 
-. Verify the running version of NX-OS:
+.. Verify the running version of NX-OS:
 +
 `show version`
 +
 .Show example
 [%collapsible]
-====
+=====
 
 [subs=+quotes]
 ----
@@ -218,9 +216,9 @@ Active Package(s):
 
 cs1#
 ----
-====
+=====
 
-. Install the NX-OS image.
+.. Install the NX-OS image.
 +
 Installing the image file causes it to be loaded every time the switch is rebooted.
 +
@@ -229,7 +227,7 @@ Installing the image file causes it to be loaded every time the switch is reboot
 
 .Show example
 [%collapsible]
-====
+=====
 
 The example uses NX-OS version 10.4.2.
 
@@ -295,15 +293,15 @@ Warning: please do not remove or power off the module at this time.
 
 Finishing the upgrade, switch will reboot in 10 seconds.
 ----
-====
+=====
 
-. Verify the new version of NX-OS after the switch has rebooted: 
+.. Verify the new version of NX-OS after the switch has rebooted: 
 +
 `show version`
 +
 .Show example
 [%collapsible]
-====
+=====
 
 [subs=+quotes]
 ----
@@ -364,9 +362,9 @@ Active Package(s):
 
 cs1#
 ----
-====
+=====
 
-. Upgrade the EPLD image using the following commands:
+.. Upgrade the EPLD image using the following commands:
 +
 `show version module 1 epld`
 +
@@ -376,7 +374,7 @@ After the last command is executed, the switch reboots.
 +
 .Show example
 [%collapsible]
-====
+=====
 
 The example uses EPLD version 10.4.2.F
 
@@ -425,9 +423,9 @@ EPLDs upgraded.
 
 Module 1 EPLD upgrade is successful.
 ----
-====
+=====
 
-. After the switch reboot, log in and verify that the new version of EPLD loaded successfully:
+.. After the switch reboot, log in and verify that the new version of EPLD loaded successfully:
 +
 `show version module 1 epld`
 +
@@ -435,7 +433,7 @@ Module 1 EPLD upgrade is successful.
 +
 .Show example
 [%collapsible]
-====
+=====
 
 [subs=+quotes]
 ----
@@ -451,10 +449,10 @@ GEM  FPGA                        0x2
 GEM  FPGA                        0x2
 GEM  FPGA                        0x2
 ----
-====
+=====
 
 
-. If you are installing the NX-OS as part of a new AFX system installation, repeat these steps to install the NX-OS and EPLD images on switch cs2.
+.. If you are installing the NX-OS as part of a new AFX system installation, repeat these steps to install the NX-OS and EPLD images on switch cs2.
 
 --
 .Install 10.6(3)(F) or a later version
@@ -847,6 +845,9 @@ GEM  FPGA                        0x2
 GEM  FPGA                        0x2
 ....
 =====
+--
+====
+
 // end of tabbed content
 
 [start=2]
