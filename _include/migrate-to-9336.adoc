@@ -567,25 +567,25 @@ Group Port-       Type     Protocol  Member Ports
 +
 `network interface modify -vserver Cluster -lif * -auto-revert true`
 
-. On switch cs2, shut down and restart all cluster ports to trigger an auto-revert of all cluster LIFs that are not on their home ports.
+. On switch cs2-new, shut down and restart all cluster ports to trigger an auto-revert of all cluster LIFs that are not on their home ports.
 +
 
 [subs=+quotes]
 ----
-cs2> *enable*
-cs2# *configure*
-cs2(config)# *interface eth1/1-1/2*
-cs2(config-if-range)# *shutdown*
+cs2-new> *enable*
+cs2-new# *configure*
+cs2-new(config)# *interface eth1/1-1/2*
+cs2-new(config-if-range)# *shutdown*
 
 (Wait for 5-10 seconds before re-enabling the ports)
 
-cs2(config-if-range)# *no shutdown*
+cs2-new(config-if-range)# *no shutdown*
 
 (After executing the no shutdown command, the nodes detect the change and begin to auto-revert the cluster LIFs to their home ports)
 
-cs2(config-if-range)# *exit*
-cs2(config)# *exit*
-cs2#
+cs2-new(config-if-range)# *exit*
+cs2-new(config)# *exit*
+cs2-new#
 ----
 
 . Verify that the cluster LIFs have reverted to their home ports (this might take a minute):
