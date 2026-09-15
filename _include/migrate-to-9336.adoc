@@ -567,34 +567,30 @@ Group Port-       Type     Protocol  Member Ports
 +
 `network interface modify -vserver Cluster -lif * -auto-revert true`
 
-. On switch cs2-new, shut down and restart all cluster ports to trigger an auto-revert of all cluster LIFs that are not on their home ports.
+. Verify that the cluster LIFs have reverted to their home port: 
 +
+`network interface show -vserver Cluster` 
++
+.Show example 
+[%collapsible]
+====
 
 [subs=+quotes]
-----
-cs2-new> *enable*
-cs2-new# *configure*
-cs2-new(config)# *interface eth1/1-1/2*
-cs2-new(config-if-range)# *shutdown*
+cluster1::*> *network interface show -vserver Cluster*
+            Logical            Status     Network            Current             Current Is
+Vserver     Interface          Admin/Oper Address/Mask       Node                Port    Home
+Cluster
+            node1_clus1        up/up      169.254.3.4/23     node1               e0b     true
+            node1_clus2        up/up      169.254.3.5/23     node1               e0b     true
+            node2_clus1        up/up      169.254.3.8/23     node2               e0b     true
+            node2_clus2        up/up      169.254.3.9/23     node2               e0b     true
+cluster1::*>
+====
 
-(Wait for 5-10 seconds before re-enabling the ports)
-
-cs2-new(config-if-range)# *no shutdown*
-
-(After executing the no shutdown command, the nodes detect the change and begin to auto-revert the cluster LIFs to their home ports)
-
-cs2-new(config-if-range)# *exit*
-cs2-new(config)# *exit*
-cs2-new#
-----
-
-. Verify that the cluster LIFs have reverted to their home ports (this might take a minute):
 +
-`network interface show -vserver Cluster`
+If cluster LIFs have not returned to their home ports, manually revert them from the local node:
 +
-If any of the cluster LIFs have not reverted to their home port, manually revert them. You must connect to each node-mgmt LIF or SP/BMC system console of the local node that owns the LIF: 
-+
-`network interface revert -vserver Cluster -lif *`
+`network interface revert -vserver Cluster -lif <lif_name>`
 
 . Verify that the cluster is healthy: 
 +

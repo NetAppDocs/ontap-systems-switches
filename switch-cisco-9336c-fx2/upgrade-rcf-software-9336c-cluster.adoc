@@ -375,7 +375,7 @@ For more information on Cisco commands, refer to the appropriate guide in the li
 
 `cs1# copy running-config startup-config` 
 +
-`[########################################] 100% Copy complete` 
+`[########################################] 100% Copy complete` ot
 
 . Reboot switch cs1. You can ignore the "`cluster switch health monitor`" alerts and "`cluster ports down`" events reported on the nodes while the switch reboots.
 +
@@ -383,6 +383,8 @@ For more information on Cisco commands, refer to the appropriate guide in the li
 `cs1# *reload*` 
 +
 `This command will reboot the system. (y/n)?  [n] *y*` 
+
+CAUTION: If your 9336C-FX2 switch fails to boot after your RCF upgrade, refer to the NetApp Knowledge Base article link:https://kb.netapp.com/on-prem/ontap/OHW/OHW-KBs/Cisco_9336C-FX2_Switch_Fails_to_Boot_After_RCF_Install_%E2%80%93_Boot_Variable_Cleared[Cisco 9336C-FX2 Switch Fails to Boot After RCF Install – Boot Variable Cleared^] for next steps.
 
 +
 . Verify the health of cluster ports on the cluster.
@@ -519,15 +521,6 @@ cluster1::*>
 . Enable auto-revert on the cluster LIFs.
 +
 `cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert True*` 
-
-. Perform a reboot of switch cs2.
-+
-
-`cs2# *reload*`
-+
-`This command will reboot the system. (y/n)?  [n] *y*`
-
-CAUTION: If your 9336C-FX2 switch fails to boot after your RCF upgrade, refer to the NetApp Knowledge Base article link:https://kb.netapp.com/on-prem/ontap/OHW/OHW-KBs/Cisco_9336C-FX2_Switch_Fails_to_Boot_After_RCF_Install_%E2%80%93_Boot_Variable_Cleared[Cisco 9336C-FX2 Switch Fails to Boot After RCF Install – Boot Variable Cleared^] for next steps.
 
 == Step 3: Verify the cluster network configuration and cluster health
 
