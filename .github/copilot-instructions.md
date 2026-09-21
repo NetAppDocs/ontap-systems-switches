@@ -12,6 +12,7 @@ Documentation for installing, configuring, and maintaining network switches used
 - **Concept/reference pages** — Start with "Review". Examples: `Review cabling and configuration requirements for the Cisco Nexus 9332D-GX2B switch`, `Review documentation requirements for the Broadcom BES-53248 cluster switch`
 - **Overview pages** (page title text originally contained the word "overview") — Start with "Learn about". Examples: `Learn about installing or upgrading NX-OS on the Cisco Nexus 9808 switch`, `Learn about maintenance options for the Cisco Nexus 9364D-GX2A switch`
 - **Workflow pages** — Use the pattern `[X] workflow for [model(s)]`. Examples: `Installation and setup workflow for NVIDIA SN2100 cluster switches`, `Configuration workflow for Cisco Nexus 9808 switches`
+- **Feature-level pages** that apply to all monitored Ethernet switches (such as CSHM) — Use the feature or capability name as the qualifier instead of a switch category or model. Do not use "ONTAP Systems Switches" as a substitute for specificity in these titles. Examples: `Configure Ethernet switch health monitoring for cluster and storage switches`, `Set up SNMPv3 for Ethernet switch health monitoring`
 
 **AFX systems switch titles:** Do not use the " - Cisco Nexus [model]" dash-suffix pattern. Instead, use prepositions (for/on/in). Examples: `Install NX-OS on the Cisco Nexus 9808 switch`, `Prepare to install Cisco Nexus 9332D-GX2B switches in an AFX system`
 
