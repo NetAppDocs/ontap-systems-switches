@@ -987,7 +987,7 @@ You can use the `network interface check cluster-connectivity` command to start 
 
 [subs=+quotes]
 ----
-cluster1::*> *network interface check cluster-connectivity start -node \**
+cluster1::*> *network interface check cluster-connectivity start -node **
 ----
 
 *NOTE:* Wait for a number of seconds before running the `show` command to display the details. Check the entries matching today's date.
@@ -1000,7 +1000,7 @@ cluster1::*> *network interface check cluster-connectivity show*
 
 [subs=+quotes]
 ----
-cluster1::*> *    cluster1::*> network interface check cluster-connectivity show*
+cluster1::*> *network interface check cluster-connectivity show*
                                   Source               Destination         Packet
 Node   Date                       LIF                  LIF                 Loss
 ------ -------------------------- -------------------- ------------------- -----------
