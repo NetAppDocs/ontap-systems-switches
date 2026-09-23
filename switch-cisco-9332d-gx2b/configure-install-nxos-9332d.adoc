@@ -221,7 +221,7 @@ cs1#
 
 .. Install the NX-OS image.
 +
-Installing the image file causes it to be loaded every time the switch is rebooted.
+Installing the image file causes it to be loaded every time the switch reboots.
 +
 `install all nxos bootflash:nxos.<version number>.bin`
 +
@@ -296,7 +296,7 @@ Finishing the upgrade, switch will reboot in 10 seconds.
 ----
 =====
 
-.. Verify the new version of NX-OS after the switch has rebooted: 
+. Verify the new version of NX-OS after the switch reboots:
 +
 `show version`
 +
@@ -426,11 +426,9 @@ Module 1 EPLD upgrade is successful.
 ----
 =====
 
-.. After the switch reboot, log in and verify that the new version of EPLD loaded successfully:
+. After the switch reboots, log in and verify that the new version of EPLD loaded successfully:
 +
 `show version module 1 epld`
-+
-//AD: a better CMD is show epld install status. Need example output. Output is a table format.
 +
 .Show example
 [%collapsible]
@@ -860,4 +858,4 @@ After you've installed the NX-OS on your switch(es), you install RCF starting wi
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-06
 // AFFFASDOC-394, 2025-OCT-20
 // Refactor content project phase 1 with 2K/RCF 10.1 content, GH#423 2026-JUN
-// ontap-systems 459 2016-SEPT-10
+//2026-07-23 ontap-systems-switches-internal/issues/458

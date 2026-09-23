@@ -606,11 +606,7 @@ The EPLD image is not automatically updated when you upgrade to NX-OS 10.6(3)F a
 * When you have already upgraded to NX-OS 10.6(3)F and later, both images are updated at the same time.
 =======
 +
-
-Installing the image file causes it to be loaded every time the switch is rebooted.
-
-+
-The following example shows an upgrade from NX-OS 10.4(2)F to 10.6(3)F. The first pass performs the NX-OS upgrade and the second pass performs the EPLD image upgrade.
+Installing the image file causes it to be loaded every time the switch reboots.
 +
 `install all nxos bootflash:nxos.<version number>.bin`
 +
@@ -682,97 +678,7 @@ Warning: please do not remove or power off the module at this time.
 
 Finishing the upgrade, switch will reboot in 10 seconds.
 
-
-cs1# *install all nxos bootflash:nxos.10.6.3.F.bin*   <---- 2nd pass updates EPLD image only
- 
-Installer will perform compatibility check first. Please wait. 
-Installer is forced disruptive
-
-Verifying image bootflash:/nxos.10.6.3.F.bin for boot variable "nxos".
-[####################] 100% -- SUCCESS
-
-Verifying EPLD/FPGA image //bootflash/nxos.10.6.3.F.bin.
-[####################] 100% -- SUCCESS
- 
-Verifying image type.
-[####################] 100% -- SUCCESS
- 
-Preparing "nxos" version info using image bootflash:/nxos.10.6.3.F.bin.
-[####################] 100% -- SUCCESS
- 
-Preparing "bios" version info using image bootflash:/nxos.10.6.3.F.bin.
-[####################] 100% -- SUCCESS
-
-Performing module support checks.
-[####################] 100% -- SUCCESS
- 
-Notifying services about system upgrade.
-[####################] 100% -- SUCCESS
- 
-
-Compatibility check is done:
-Module  bootable  Impact          Install-type  Reason
-------  --------  --------------  ------------  ------
-1       yes       disruptive      reset         default upgrade is not hitless
-27      yes       disruptive      none          default upgrade is not hitless
- 
- 
-Images will be upgraded according to following table:
-Module    Image                  Running-Version(pri:alt)              New-Version         Upg-Required
---------  ---------------------  ------------------------------------- -----------------  ------------
-27        nxos                   10.4(2)(F)                            10.6(3)(F)             no
-27        bios                   v05.53(01/22/2025):v05.47(04/28/2022) v05.53(01/22/2025)    no
- 
- 
-FPGA microcode will be upgraded according to following table:
-Module  Type  EPLD               Running-Version  Flashed-Version*   New-Version  Upg-Required
-------  ----  -----------------  ---------------  ----------------   -----------  ------------
-27      SUP   MI FPGA            0x5              0x5                0x5          No
-27      SUP   IO FPGA            0x17             0x17               0x18         Yes
-
-If Running-Version and Flashed-Version are different it implies that the system has not yet been reloaded for the new version to take effect.
- 
-EPLD Upgrade may result in multiple modules going offline.
- 
- 
-Switch will be reloaded for disruptive upgrade.
- 
-Do you want to continue with the installation (y/n)?  [n] *y*
- 
-Install is in progress, please wait.
-
-Setting boot variables.
-[####################] 100% -- SUCCESS
- 
-Performing configuration copy.
-[####################] 100% -- SUCCESS
-Performing configuration copy.
-[####################] 100% -- SUCCESS
- 
-Module 1: Refreshing compact flash and upgrading bios/loader/bootrom.
-Warning: please do not remove or power off the module at this time.
-
-Module 1: Refreshing compact flash and upgrading bios/loader/bootrom.
-Warning: please do not remove or power off the module at this time.
-[####################] 100% -- SUCCESS
- 
-Module 27: Refreshing compact flash and upgrading bios/loader/bootrom.
-Warning: please do not remove or power off the module at this time.
-
-Module 27: Refreshing compact flash and upgrading bios/loader/bootrom.
-Warning: please do not remove or power off the module at this time.
-[####################] 100% -- SUCCESS
- 
-EPLD/FPGA upgrade can take up to 4 mins.
-
-Performing EPLD/FPGA upgrade.
-[####################] 100% -- SUCCESS
- 
-Install has been successful.
-....
-=====
-
-.. Verify the new version of NX-OS after the switch has rebooted:
+. Using the switch CLI, verify the new version of NX-OS after the switch reboots:
 +
 `show version`
 +
@@ -1125,10 +1031,7 @@ Active Package(s):
 
 .. Verify that the new version of EPLD loaded successfully:
 +
-`show install epld status`
-+
-
-.Example
+.Show example
 [%collapsible]
 
 =====
@@ -1698,4 +1601,4 @@ After you've upgraded the NX-OS on your switches, you upgrade the RCF starting w
 // New content for OAM project, AFFFASDOC-331, 2025-MAY-06
 // AFFFASDOC-394, 2025-OCT-20
 // Refactor content project phase 1 with 2K/RCF 10.1 content, GH#423 2026-JUN
-// ontap-systems 459 2016-SEPT-10
+//2026-07-23 ontap-systems-switches-internal/issues/458
