@@ -795,15 +795,17 @@ cluster1::*>
 --
 You can use the `network interface check cluster-connectivity` command to start an accessibility check for cluster connectivity and then display the details: 
 
-`network interface check cluster-connectivity start` and `network interface check cluster-connectivity show`
+[subs=+quotes]
+----
+cluster1::*> *network interface check cluster-connectivity start -node **
+----
+
+*NOTE:* Wait for a number of seconds before running the `show` command to display the details. Check the entries matching today's date.
 
 [subs=+quotes]
 ----
-cluster1::*> *network interface check cluster-connectivity start*
+cluster1::*> *network interface check cluster-connectivity show*
 ----
-
-*NOTE:* Wait for a number of seconds before running the `show` command to display the details.
-
 
 [subs=+quotes]
 ----
