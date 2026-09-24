@@ -24,6 +24,10 @@ NOTE: NetApp recommends that you complete any ONTAP software upgrade first, then
 
 * If needed, you can refer to the link:https://www.cisco.com/c/en/us/td/docs/dcn/nx-os/nexus9000/101x/upgrade/cisco-nexus-9000-nx-os-software-upgrade-downgrade-guide-101x.html[Cisco Nexus 9000 Series NX-OS Software Upgrade and Downgrade Guide^] for more information.
 
+* If needed, you can refer to the link:https://www.cisco.com/c/dam/en/us/td/docs/dcn/tools/nexus-9k3k-issu-matrix/index.html[Cisco Nexus 9000 and 3000 Upgrade and ISSU Matrix^], which provides information on In-Service Software Upgrade (ISSU) for Cisco Nexus 9000 Series Switches based on your current and target releases.
++
+On the page, select *Disruptive Upgrade* and select your current release and target release from the dropdown list.
+
 * The version of ONTAP running on your AFX system determines the supported versions of NX-OS for your switches.
 
 ** For switches in an AFX 2K system, running ONTAP 9.19.1GA or later, NX-OS 10.6 and later is supported.
@@ -45,6 +49,8 @@ NOTE: Do not upgrade or downgrade your NX-OS version to an unsupported version.
 *** node1-04_clus1 and node1-04_clus2 for node1-04
 ** The `cluster1::*>` prompt indicates the name of the cluster.
 
+* The examples shown in this procedure are for AFX 2K systems with switches running RCF 10.1. The input and output can vary depending on your RCF version.
+
 == Step 1: Prepare to upgrade the NX-OS
 
 Prepare to upgrade the NX-OS by making sure you have a management network connection to each switch, downloading the NX-OS version, checking port status on the cluster, and disabling auto-revert on the cluster LIFs.
@@ -54,7 +60,7 @@ Prepare to upgrade the NX-OS by making sure you have a management network connec
 
 . Connect each switch to the management network.
 
-. Using the switch CLI, verify connectivity to the server hosting the NX-OS.
+. Using the switch CLI, verify connectivity to the server hosting the NX-OS:
 +
 `ping <IP address>`
 +
@@ -492,9 +498,9 @@ network interface modify -vserver Cluster -lif * -auto-revert false
 
 == Step 2: Install the NX-OS
 
-You install the NX-OS on the first switch (cs1) by installing and verifying the new version of the NX-OS and EPLD, verifying the health of all ports on the cluster, and then repeating these steps on the second switch (cs2).
+You install the NX-OS on the first switch (cs1) by installing and verifying the new version of the NX-OS and EPLD, verifying the health of all ports on the cluster, and then repeat these steps on the second switch (cs2).
 
-. Using the switch CLI, copy the NX-OS and EPLD image to a switch.
+. Using the switch CLI, copy the NX-OS and EPLD image to a switch:
 +
 `copy <protocol>: bootflash: vrf management`
 +
@@ -596,7 +602,7 @@ cs1#
 
 . Using the switch CLI, install the NX-OS and EPLD image.
 +
-Installing the image file causes it to be loaded every time the switch is rebooted.
+Installing the image file causes it to be loaded every time the switch reboots:
 +
 `install all nxos bootflash:nxos.<version number>.bin`
 +
@@ -671,7 +677,7 @@ Finishing the upgrade, switch will reboot in 10 seconds.
 ----
 ====
 
-. Using the switch CLI, verify the new version of NX-OS after the switch has rebooted:
+. Using the switch CLI, verify the new version of NX-OS after the switch reboots:
 +
 `show version`
 +
@@ -1296,7 +1302,7 @@ node1-04             true    true          true
 
 Using the ONTAP CLI, complete the NX-OS upgrade by re-enabling auto-revert on the cluster LIFs and verifying the cluster LIFs reverted to their home ports.
 
-. Re-enable auto-revert on the cluster LIFs.
+. Re-enable auto-revert on the cluster LIFs:
 +
 [source,cli]
 ----
@@ -1345,3 +1351,4 @@ network interface revert -vserver Cluster -lif <lif-name>
 After you've upgraded the NX-OS on your switches, you upgrade the RCF starting with the link:configure-install-upgrade-rcf-overview-9808.html[Install or upgrade the RCF overview].
 
 // New content for Organza (9808) project, 2026-JUN-08
+//2026-07-23 ontap-systems-switches-internal/issues/458
