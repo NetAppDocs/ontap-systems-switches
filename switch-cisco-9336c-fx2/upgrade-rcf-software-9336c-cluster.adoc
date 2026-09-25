@@ -375,7 +375,7 @@ For more information on Cisco commands, refer to the appropriate guide in the li
 
 `cs1# copy running-config startup-config` 
 +
-`[########################################] 100% Copy complete` 
+`[########################################] 100% Copy complete`
 
 . Reboot switch cs1. You can ignore the "`cluster switch health monitor`" alerts and "`cluster ports down`" events reported on the nodes while the switch reboots.
 +
@@ -384,7 +384,9 @@ For more information on Cisco commands, refer to the appropriate guide in the li
 +
 `This command will reboot the system. (y/n)?  [n] *y*` 
 
-+
+CAUTION: If your 9336C-FX2 switch fails to boot after your RCF upgrade, refer to the NetApp Knowledge Base article link:https://kb.netapp.com/on-prem/ontap/OHW/OHW-KBs/Cisco_9336C-FX2_Switch_Fails_to_Boot_After_RCF_Install_%E2%80%93_Boot_Variable_Cleared[Cisco 9336C-FX2 Switch Fails to Boot After RCF Install – Boot Variable Cleared^] for next steps.
+
+[start=18]
 . Verify the health of cluster ports on the cluster.
 
 .. Verify that cluster ports are up and healthy across all nodes in the cluster: 
@@ -461,34 +463,6 @@ cluster1-04/cdp
             e0a    cs1                       Ethernet1/1/2     N9K-C9336C
             e0b    cs2                       Ethernet1/1/2     N9K-C9336C
 
-cluster1::*> *system cluster-switch show -is-monitoring-enabled-operational true*
-Switch                      Type               Address          Model
---------------------------- ------------------ ---------------- -----
-cs1                         cluster-network    10.233.205.90    NX9-C9336C
-     Serial Number: FOCXXXXXXGD
-      Is Monitored: true
-            Reason: None
-  Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
-                    9.3(5)
-    Version Source: CDP
-
-cs2                         cluster-network    10.233.205.91    NX9-C9336C
-     Serial Number: FOCXXXXXXGS
-      Is Monitored: true
-            Reason: None
-  Software Version: Cisco Nexus Operating System (NX-OS) Software, Version
-                    9.3(5)
-    Version Source: CDP
-
-2 entries were displayed.
-----
-
-You might observe the following output on the cs1 switch console depending on the RCF version previously loaded on the switch:
-
-----
-2020 Nov 17 16:07:18 cs1 %$ VDC-1 %$ %STP-2-UNBLOCK_CONSIST_PORT: Unblocking port port-channel1 on VLAN0092. Port consistency restored.
-2020 Nov 17 16:07:23 cs1 %$ VDC-1 %$ %STP-2-BLOCK_PVID_PEER: Blocking port-channel1 on VLAN0001. Inconsistent peer vlan.
-2020 Nov 17 16:07:23 cs1 %$ VDC-1 %$ %STP-2-BLOCK_PVID_LOCAL: Blocking port-channel1 on VLAN0092. Inconsistent local vlan.
 ----
 ====
 
@@ -518,16 +492,7 @@ cluster1::*>
 
 . Enable auto-revert on the cluster LIFs.
 +
-`cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert True*` 
-
-. Perform a reboot of switch cs2.
-+
-
-`cs2# *reload*`
-+
-`This command will reboot the system. (y/n)?  [n] *y*`
-
-CAUTION: If your 9336C-FX2 switch fails to boot after your RCF upgrade, refer to the NetApp Knowledge Base article link:https://kb.netapp.com/on-prem/ontap/OHW/OHW-KBs/Cisco_9336C-FX2_Switch_Fails_to_Boot_After_RCF_Install_%E2%80%93_Boot_Variable_Cleared[Cisco 9336C-FX2 Switch Fails to Boot After RCF Install – Boot Variable Cleared^] for next steps.
+`cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert true*` 
 
 == Step 3: Verify the cluster network configuration and cluster health
 
@@ -830,15 +795,17 @@ cluster1::*>
 --
 You can use the `network interface check cluster-connectivity` command to start an accessibility check for cluster connectivity and then display the details: 
 
-`network interface check cluster-connectivity start` and `network interface check cluster-connectivity show`
+[subs=+quotes]
+----
+cluster1::*> *network interface check cluster-connectivity start -node **
+----
+
+*NOTE:* Wait for a number of seconds before running the `show` command to display the details. Check the entries matching today's date.
 
 [subs=+quotes]
 ----
-cluster1::*> *network interface check cluster-connectivity start*
+cluster1::*> *network interface check cluster-connectivity show*
 ----
-
-*NOTE:* Wait for a number of seconds before running the `show` command to display the details.
-
 
 [subs=+quotes]
 ----
