@@ -207,7 +207,7 @@ cluster1::*>
 +
 `network interface modify -vserver Cluster -lif * -auto-revert false`
 
-. Download and install the NX-OS software and EPLD image. The steps can vary based on your current NX-OS version and the target NX-OS version. 
+. Download and install the NX-OS and EPLD image. The steps can vary based on your current NX-OS version and the target NX-OS version. 
 +
 Choose the tab that applies to your situation:
 
@@ -573,7 +573,7 @@ GEM  FPGA                        0x2
 .Upgrade from 10.4(5)(M) or earlier to 10.5(3)(F) or later
 --
 [start=a]
-.. [[stepa]] Copy the combined NX-OS software and EPLD image to the Nexus 9336C-FX2 switch.
+.. [[stepa]] Copy the combined NX-OS and EPLD image to the Nexus 9336C-FX2 switch.
 +
 `copy <protocol>: bootflash: vrf management`
 +
@@ -944,7 +944,7 @@ GEM  FPGA                        0x2
 .Upgrade from 10.5(3)(F) to a later version
 --
 
-.. Copy the combined NX-OS software and EPLD image to the first switch.
+.. Copy the combined NX-OS and EPLD image to the first switch.
 +
 `copy <protocol>: bootflash: vrf management`
 +

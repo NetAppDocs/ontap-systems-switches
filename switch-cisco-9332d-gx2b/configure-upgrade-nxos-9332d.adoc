@@ -479,7 +479,7 @@ Choose the tab that applies to your situation:
 You use the switch CLI to enter the commands for the following steps.
 
 [start=a]
-.. [[stepa]] Copy the NX-OS and EPLD image to the first switch.
+.. [[stepa]] Copy the combined NX-OS and EPLD image to the first switch.
 +
 `copy <protocol>: bootflash: vrf management`
 +
@@ -504,23 +504,6 @@ sftp> *progress*
 Progress meter enabled
 sftp> *get /code/nxos.10.6.3.F.bin /bootflash/nxos.10.6.3.F.bin*
 /code/nxos.10.6.3.F.bin  100% 1261MB   9.3MB/s   02:15
-sftp> *exit*
-Copy complete, now saving to disk (please wait)...
-Copy complete.
-
-
-cs1# *copy sftp: bootflash: vrf management*
-Enter source filename: */code/n9000-epld.10.6.3.F.img*
-Enter hostname for the sftp server: *172.19.2.1*
-Enter username: *user1*
-
-Outbound-ReKey for 172.19.2.1:22
-Inbound-ReKey for 172.19.2.1:22
-user1@172.19.2.1's password:
-sftp> *progress*
-Progress meter enabled
-sftp> *get /code/n9000-epld.10.6.3.F.img /bootflash/n9000-epld.10.6.3.F.img*
-/code/n9000-epld.10.6.3.F.img  100%  161MB   9.5MB/s   00:16
 sftp> *exit*
 Copy complete, now saving to disk (please wait)...
 Copy complete.
@@ -775,7 +758,7 @@ GEM  FPGA                        0x2
 You use the switch CLI to enter the commands for the following steps.
 
 
-.. Copy the NX-OS and EPLD image to the first switch.
+.. Copy the combined NX-OS and EPLD image to the first switch.
 +
 `copy <protocol>: bootflash: vrf management`
 +
