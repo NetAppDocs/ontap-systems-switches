@@ -708,11 +708,9 @@ Finishing the upgrade, switch will reboot in 10 seconds.
 ....
 =====
 
+The following step shows the second installation pass to update the EPLD image.
 
-The following step shows the second installation pass to update the EPLD image. 
-+
 `install all nxos bootflash:<nxos_image.bin>`
-+
 
 .Example
 [%collapsible]
@@ -811,6 +809,7 @@ Install has been successful.
 ....
 =====
 
+[start=4]
 .. Verify the new version of NX-OS software after the switch has rebooted:
 +
 `show version`
@@ -857,10 +856,10 @@ Active Package(s):
 ....
 =====
 
+[start=5]
 .. After the switch reboot, log in again and verify that the new version of EPLD loaded successfully.
 +
 `show version module 1 epld`
-
 +
 
 .Example
