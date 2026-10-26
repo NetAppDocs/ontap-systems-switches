@@ -27,6 +27,12 @@ CAUTION: Before installing a new switch software version and RCFs, you must eras
 
 == Step 1: Prepare for the upgrade
 
+. Change the privilege level to advanced, entering *y* when prompted to continue:
++
+`set -privilege advanced`
++
+The advanced prompt (`*>`) appears.
+
 . Display the cluster ports on each node that are connected to the cluster switches: 
 +
 `network device-discovery show`
@@ -680,7 +686,7 @@ cluster1::*>
 
 . Enable auto-revert on the cluster LIFs.
 +
-`cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert True*` 
+`cluster1::*> *network interface modify -vserver Cluster -lif * -auto-revert true*` 
 
 == Step 3: Verify the cluster network configuration and cluster health
 
@@ -979,14 +985,17 @@ cluster1-04          true    true          false
 --
 You can use the `network interface check cluster-connectivity` command to start an accessibility check for cluster connectivity and then display the details: 
 
-`network interface check cluster-connectivity start` and `network interface check cluster-connectivity show`
+[subs=+quotes]
+----
+cluster1::*> *network interface check cluster-connectivity start -node **
+----
+
+*NOTE:* Wait for a number of seconds before running the `show` command to display the details. Check the entries matching today's date.
 
 [subs=+quotes]
 ----
-cluster1::*> *network interface check cluster-connectivity start*
+cluster1::*> *network interface check cluster-connectivity show*
 ----
-
-*NOTE:* Wait for a number of seconds before running the `show` command to display the details.
 
 
 [subs=+quotes]
