@@ -19,7 +19,7 @@ The following commands are used to configure an SNMPv3 username on *Broadcom*, *
 --
 Configure an SNMPv3 username NETWORK-OPERATOR on Broadcom BES-53248 switches.
 
-NOTE: Beginning with ONTAP 9.20.1, you can configure SHA-512 authentication for Ethernet switch health monitoring. 
+NOTE: Beginning with ONTAP 9.20.1, you can configure SHA-512 authentication on Broadcom switches. 
 
 * For *no authentication*:
 +
@@ -27,44 +27,18 @@ NOTE: Beginning with ONTAP 9.20.1, you can configure SHA-512 authentication for 
 ----
 snmp-server user SNMPv3UserNoAuth NETWORK-OPERATOR noauth
 ----
-* For *MD5/SHA authentication*:
+* For *MD5/SHA/SHA-512 authentication*:
 +
 [source,cli]
 ----
-snmp-server user SNMPv3UserAuth NETWORK-OPERATOR [auth-md5|auth-sha]
+snmp-server user SNMPv3UserAuth NETWORK-OPERATOR [auth-md5|auth-sha|auth-sha512]
 ----
-* For *MD5/SHA authentication with AES/DES encryption*:
+* For *MD5/SHA/SHA-512 authentication with AES/DES encryption*:
 +
 [source,cli]
 ----
-snmp-server user SNMPv3UserAuthEncrypt NETWORK-OPERATOR [auth-md5|auth-sha] [priv-aes128|priv-des]
+snmp-server user SNMPv3UserAuthEncrypt NETWORK-OPERATOR [auth-md5|auth-sha|auth-sha512] [priv-aes128|priv-des]
 ----
-+
-* For *SHA-512 authentication*:
-+
-[source,cli]
-----
-snmp-server user SNMPv3sha512None NETWORK-OPERATOR auth-sha512
-<password>
-----
-+
-* For *SHA-512 authentication with AES-128 encryption*:
-+
-[source,cli]
-----
-snmp-server user SNMPv3sha512Aes128 NETWORK-OPERATOR auth-sha512 priv-aes128
-<password> <password>
-----
-+
-* For *SHA-512 authentication with DES encryption*:
-+
-[source,cli]
-----
-snmp-server user SNMPv3sha512Des NETWORK-OPERATOR auth-sha512 priv-des
-<password> <password>
-----
-+
-NOTE: SHA-512 authentication with DES encryption is not supported in FIPS mode.
 
 The following command configures an SNMPv3 username on the ONTAP side:
 
@@ -77,7 +51,7 @@ The following command establishes the SNMPv3 username with CSHM:
 
 [source,cli]
 ----
-cluster1::*> system switch ethernet modify -device DEVICE -snmp-version SNMPv3 -community-or-username SNMPv3_USER
+cluster1::*> system switch ethernet modify -device "sw1" -snmp-version SNMPv3 -community-or-username EXAMPLE_USER
 ----
 
 .Steps
@@ -113,7 +87,7 @@ cluster1::*> *security login create -user-or-group-name <username> -application 
 
 Enter the authoritative entity's EngineID [remote EngineID]:
 
-Which authentication protocol do you want to choose (none, md5, sha, sha2-256)
+Which authentication protocol do you want to choose (none, md5, sha, sha512)
 [none]: *md5*
 
 Enter the authentication protocol password (minimum 8 characters long):
@@ -166,23 +140,23 @@ system switch ethernet polling-interval show
 [subs=+quotes]
 ----
 cluster1::*> *system switch ethernet polling-interval show*
-         Polling Interval (in minutes): 5
+Polling Interval (in minutes): 5
 
-cluster1::*> *system switch ethernet show-all -device "sw1" -instance*
-                                   Device Name: sw1
-                                    IP Address: 10.228.136.24
+cluster1::*> *system switch ethernet show-all -device "sw1" -instance*                                  
+                                  Device Name: sw1
+                                    IP Address: 192.0.2.10
                                   SNMP Version: SNMPv3
                                  Is Discovered: true
 DEPRECATED-Community String or SNMPv3 Username: -
-           Community String or SNMPv3 Username: <username>
+           Community String or SNMPv3 Username: EXAMPLE_USER
                                   Model Number: BES-53248
                                 Switch Network: cluster-network
-                              Software Version: 3.9.0.2
-                     Reason For Not Monitoring: None  *<---- should display this if SNMP settings are valid*
-                      Source Of Switch Version: CDP/ISDP
+                              Software Version: 3.14.1.1
+                     Reason For Not Monitoring: None  *<---- should display this if SNMP settings are valid*                      
+                     Source Of Switch Version: CDP/ISDP
                                 Is Monitored ?: true
-                   Serial Number of the Device: QTFCU3826001C
-                                   RCF Version: v1.8X2 for Cluster/HA/RDMA
+                   Serial Number of the Device: QTFXXXXXXXXXC
+                                   RCF Version: RCF BES-53248 v1.14a 1-CLUSTER
 ----
 
 --
@@ -190,7 +164,7 @@ DEPRECATED-Community String or SNMPv3 Username: -
 --
 Configure an SNMPv3 username SNMPv3_USER on Cisco Nexus switches.
 
-NOTE: Beginning with ONTAP 9.20.1, you can configure SHA-512 authentication for Ethernet switch health monitoring.
+NOTE: Beginning with ONTAP 9.20.1, you can configure SHA-512 or SHA-256 authentication on Cisco switches.
 
 * For *no authentication*:
 +
@@ -198,41 +172,18 @@ NOTE: Beginning with ONTAP 9.20.1, you can configure SHA-512 authentication for 
 ----
 snmp-server user SNMPv3_USER NoAuth
 ----
-* For *MD5/SHA authentication*:
+* For *MD5/SHA/SHA-256/SHA-512 authentication*:
 +
 [source,cli]
 ----
-snmp-server user SNMPv3_USER auth [md5|sha] AUTH-PASSWORD
+snmp-server user SNMPv3_USER auth [md5|sha|sha-256|sha-512] AUTH-PASSWORD
 ----
-* For *MD5/SHA authentication with AES/DES encryption*:
+* For *MD5/SHA/SHA-256/SHA-512 authentication with AES/DES encryption*:
 +
 [source,cli]
 ----
-snmp-server user SNMPv3_USER AuthEncrypt  auth [md5|sha] AUTH-PASSWORD priv aes-128 PRIV-PASSWORD
+snmp-server user SNMPv3_USER AuthEncrypt auth [md5|sha|sha-256|sha-512] AUTH-PASSWORD priv aes-128 PRIV-PASSWORD
 ----
-+
-* For *SHA-512 authentication*:
-+
-[source,cli]
-----
-snmp-server user SNMPv3sha512None network-operator auth sha-512 <auth_password>
-----
-+
-* For *SHA-512 authentication with AES-128 encryption*:
-+
-[source,cli]
-----
-snmp-server user SNMPv3sha512Aes128 network-operator auth sha-512 <auth_password> priv aes-128 <priv_password>
-----
-+
-* For *SHA-512 authentication with DES encryption*:
-+
-[source,cli]
-----
-snmp-server user SNMPv3sha512Des network-operator auth sha-512 <password> priv des <password>
-----
-+
-NOTE: SHA-512 authentication with DES encryption is not supported in FIPS mode.
 
 The following command configures an SNMPv3 username on the ONTAP side:
 
@@ -285,18 +236,18 @@ User              Auth               Priv
 +
 [source,cli]
 ----
-security login create -user-or-group-name <username> -application snmp -authentication-method usm -remote-switch-ipaddress 10.231.80.212
+security login create -user-or-group-name <username> -application snmp -authentication-method usm -remote-switch-ipaddress <address>
 ----
 +
 [subs=+quotes]
 ----
 cluster1::*> *system switch ethernet modify -device "sw1 (b8:59:9f:09:7c:22)" -is-monitoring-enabled-admin true*
 
-cluster1::*> *security login create -user-or-group-name <username> -application snmp -authentication-method usm -remote-switch-ipaddress 10.231.80.212*
+cluster1::*> *security login create -user-or-group-name EXAMPLE_USER -application snmp -authentication-method usm -remote-switch-ipaddress 192.0.2.10*
 
 Enter the authoritative entity's EngineID [remote EngineID]:
 
-Which authentication protocol do you want to choose (none, md5, sha, sha2-256)
+Which authentication protocol do you want to choose (none, md5, sha, sha2-256, sha512)
 [none]: *md5*
 
 Enter the authentication protocol password (minimum 8 characters long):
@@ -313,7 +264,7 @@ Enter privacy protocol password again:
 +
 [source,cli]
 ----
-system switch ethernet show-all -device "sw1" -instance
+system switch ethernet show-all -device <switch> -instance
 ----
 +
 [subs=+quotes]
@@ -348,26 +299,25 @@ system switch ethernet polling-interval show
 +
 [subs=+quotes]
 ----
+
 cluster1::*> *system switch ethernet polling-interval show*
          Polling Interval (in minutes): 5
 
 cluster1::*> *system switch ethernet show-all -device "sw1" -instance*
-
                                    Device Name: sw1
-                                    IP Address: 10.231.80.212
-                                  SNMP Version: SNMPv3
+                                    IP Address: 192.0.2.10
+                                  SNMP Version: SNMPv2c
                                  Is Discovered: true
-   SNMPv2c Community String or SNMPv3 Username: SNMPv3User
-                                  Model Number: N9K-C9336C-FX2
+DEPRECATED-Community String or SNMPv3 Username: -
+           Community String or SNMPv3 Username: cshm1!
+                                  Model Number: BES-53248
                                 Switch Network: cluster-network
-                              Software Version: Cisco Nexus Operating System (NX-OS) Software, Version 9.3(7)
-                     Reason For Not Monitoring: None  *<---- displays when SNMP settings are valid*
+                              Software Version: 3.14.1.1
+                     Reason For Not Monitoring: None  *<---- should display this if SNMP settings are valid*
                       Source Of Switch Version: CDP/ISDP
                                 Is Monitored ?: true
-                   Serial Number of the Device: QTFCU3826001C
-                                   RCF Version: v1.8X2 for Cluster/HA/RDMA
-
-cluster1::*>
+                   Serial Number of the Device: QTFXXXXXXXXXC
+                                   RCF Version: RCF BES-53248 v1.14a 1-CLUSTER
 ----
 
 --
