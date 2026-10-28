@@ -25,70 +25,59 @@ NOTE: Beginning with ONTAP 9.20.1, you can configure SHA-512 authentication on B
 +
 [source,cli]
 ----
-snmp-server user SNMPv3UserNoAuth NETWORK-OPERATOR noauth
+snmp-server user <snmpv3-user> NETWORK-OPERATOR noauth
 ----
 * For *MD5/SHA/SHA-512 authentication*:
 +
 [source,cli]
 ----
-snmp-server user SNMPv3UserAuth NETWORK-OPERATOR [auth-md5|auth-sha|auth-sha512]
+snmp-server user <snmpv3-user> NETWORK-OPERATOR [auth-md5|auth-sha|auth-sha512]
 ----
 * For *MD5/SHA/SHA-512 authentication with AES/DES encryption*:
 +
 [source,cli]
 ----
-snmp-server user SNMPv3UserAuthEncrypt NETWORK-OPERATOR [auth-md5|auth-sha|auth-sha512] [priv-aes128|priv-des]
+snmp-server user <snmpv3-user> NETWORK-OPERATOR [auth-md5|auth-sha|auth-sha512] [priv-aes128|priv-des]
 ----
 
 The following command configures an SNMPv3 username on the ONTAP side:
 
 [source,cli]
 ----
-security login create -user-or-group-name SNMPv3_USER -application snmp -authentication-method usm -remote-switch-ipaddress ADDRESS
+security login create -user-or-group-name <snmpv3-user> -application snmp -authentication-method usm -remote-switch-ipaddress <address>
 ----
 
 The following command establishes the SNMPv3 username with CSHM:
 
 [source,cli]
 ----
-cluster1::*> system switch ethernet modify -device "sw1" -snmp-version SNMPv3 -community-or-username EXAMPLE_USER
+cluster1::*> system switch ethernet modify -device <switch-name> -snmp-version SNMPv3 -community-or-username <snmpv3-user>
 ----
 
-.Steps
-. Set up the SNMPv3 user on the switch to use authentication and encryption:
-+
-[source,cli]
-----
-show snmp status
-----
+.Example Steps
+. Set up the SNMPv3 user on the switch to use SHA authentication and AES-128 encryption:
 +
 [subs=+quotes]
 ----
-(sw1)(Config)# *snmp-server user <username> network-admin auth-md5 <password> priv-aes128 <password>*
+(sw1)(Config)# *snmp-server user SNMPv3shaAes128 NETWORK-OPERATOR auth-sha priv-aes128*
 
-(cs1)(Config)# *show snmp user snmp*
+(sw1)(Config)# *show snmp user snmp SNMPv3shaAes128*
 
-     Name            Group Name      Auth Priv
-                                     Meth Meth    Remote Engine ID
------------------ ------------------ ---- ------ -------------------------
-<username>        network-admin      MD5  AES128 8000113d03d8c497710bee
+     Name            Group Name      Auth       Priv
+                                     Meth       Meth    Remote Engine ID                 Remote IP Address
+----------------- ------------------ -------    ------ -------------------------------- -------------------------
+SNMPv3shaAes128   NETWORK-OPERATOR   SHA        AES128 800XXXXXXXXXXXXXXXXXX1
 ----
 
 . Set up the SNMPv3 user on the ONTAP side:
 +
-[source,cli]
-----
-security login create -user-or-group-name <username> -application snmp -authentication-method usm -remote-switch-ipaddress 10.231.80.212
-----
-+
 [subs=+quotes]
 ----
-cluster1::*> *security login create -user-or-group-name <username> -application snmp -authentication-method usm -remote-switch-ipaddress 10.231.80.212*
+cluster1::*> *security login create -user-or-group-name SNMPv3shaAes128 -application snmp -authentication-method usm -remote-switch-ipaddress 192.0.2.10*
 
 Enter the authoritative entity's EngineID [remote EngineID]:
 
-Which authentication protocol do you want to choose (none, md5, sha, sha512)
-[none]: *md5*
+Which authentication protocol do you want to choose (none, md5, sha, sha2-256, sha512) [none]: *sha*
 
 Enter the authentication protocol password (minimum 8 characters long):
 
@@ -97,63 +86,36 @@ Enter the authentication protocol password again:
 Which privacy protocol do you want to choose (none, des, aes128) [none]: *aes128*
 
 Enter privacy protocol password (minimum 8 characters long):
+
 Enter privacy protocol password again:
 ----
 
 . Configure CSHM to monitor with the new SNMPv3 user:
 +
-[source,cli]
-----
-system switch ethernet show-all -device "sw1" -instance
-----
-+
 [subs=+quotes]
 ----
-cluster1::*> *system switch ethernet show-all -device "sw1 (b8:59:9f:09:7c:22)" -instance*
-
-                                   Device Name: sw1
-                                    IP Address: 10.228.136.24
-                                  SNMP Version: SNMPv2c
-                                 Is Discovered: true
-DEPRECATED-Community String or SNMPv3 Username: -
-           Community String or SNMPv3 Username: cshm1!
-                                  Model Number: BES-53248
-                                Switch Network: cluster-network
-                              Software Version: 3.9.0.2
-                     Reason For Not Monitoring: None  *<---- should display this if SNMP settings are valid*
-                      Source Of Switch Version: CDP/ISDP
-                                Is Monitored ?: true
-                   Serial Number of the Device: QTFCU3826001C
-                                   RCF Version: v1.8X2 for Cluster/HA/RDMA
-
-cluster1::*>
-cluster1::*> *system switch ethernet modify -device "sw1" -snmp-version SNMPv3 -community-or-username <username>*
+cluster1::*> *system switch ethernet modify -device "sw1" -snmp-version SNMPv3 -community-or-username SNMPv3shaAes128*
 ----
 
-. After waiting the CSHM polling period, verify that the serial number is populated for the Ethernet switch.
-+
-[source,cli]
-----
-system switch ethernet polling-interval show
-----
+. After waiting the CSHM polling period, that "Reason For Not Monitoring" is not set to "None".
 +
 [subs=+quotes]
 ----
 cluster1::*> *system switch ethernet polling-interval show*
 Polling Interval (in minutes): 5
 
-cluster1::*> *system switch ethernet show-all -device "sw1" -instance*                                  
-                                  Device Name: sw1
+cluster1::*> *system switch ethernet show-all -device "sw1" -instance*
+                                   Device Name: sw1
                                     IP Address: 192.0.2.10
                                   SNMP Version: SNMPv3
                                  Is Discovered: true
 DEPRECATED-Community String or SNMPv3 Username: -
-           Community String or SNMPv3 Username: EXAMPLE_USER
+           Community String or SNMPv3 Username: SNMPv3shaAes128
                                   Model Number: BES-53248
                                 Switch Network: cluster-network
                               Software Version: 3.14.1.1
-                     Reason For Not Monitoring: None  *<---- should display this if SNMP settings are valid*                      
-                     Source Of Switch Version: CDP/ISDP
+                     Reason For Not Monitoring: None  <---- should display this if SNMP settings are valid
+                      Source Of Switch Version: CDP/ISDP
                                 Is Monitored ?: true
                    Serial Number of the Device: QTFXXXXXXXXXC
                                    RCF Version: RCF BES-53248 v1.14a 1-CLUSTER
@@ -162,7 +124,7 @@ DEPRECATED-Community String or SNMPv3 Username: -
 --
 .Cisco switches
 --
-Configure an SNMPv3 username SNMPv3_USER on Cisco Nexus switches.
+Configure an SNMPv3 username `<snmpv3-user>` on Cisco Nexus switches.
 
 NOTE: Beginning with ONTAP 9.20.1, you can configure SHA-512 or SHA-256 authentication on Cisco switches.
 
@@ -170,85 +132,59 @@ NOTE: Beginning with ONTAP 9.20.1, you can configure SHA-512 or SHA-256 authenti
 +
 [source,cli]
 ----
-snmp-server user SNMPv3_USER NoAuth
+snmp-server user <snmpv3-user> NoAuth
 ----
 * For *MD5/SHA/SHA-256/SHA-512 authentication*:
 +
 [source,cli]
 ----
-snmp-server user SNMPv3_USER auth [md5|sha|sha-256|sha-512] AUTH-PASSWORD
+snmp-server user <snmpv3-user> auth [md5|sha|sha-256|sha-512] <auth-password>
 ----
 * For *MD5/SHA/SHA-256/SHA-512 authentication with AES/DES encryption*:
 +
 [source,cli]
 ----
-snmp-server user SNMPv3_USER AuthEncrypt auth [md5|sha|sha-256|sha-512] AUTH-PASSWORD priv aes-128 PRIV-PASSWORD
+snmp-server user <snmpv3-user> AuthEncrypt auth [md5|sha|sha-256|sha-512] <auth-password> priv [aes-128|des] <priv-password>
 ----
 
 The following command configures an SNMPv3 username on the ONTAP side:
 
 [source,cli]
 ----
-security login create -user-or-group-name SNMPv3_USER -application snmp -authentication-method usm -remote-switch-ipaddress ADDRESS
+security login create -user-or-group-name <snmpv3-user> -application snmp -authentication-method usm -remote-switch-ipaddress <address>
 ----
 
 The following command establishes the SNMPv3 username with CSHM:
 
 [source,cli]
 ----
-system switch ethernet modify -device DEVICE -snmp-version SNMPv3 -community-or-username SNMPv3_USER
+cluster1::*> system switch ethernet modify -device <switch-name> -snmp-version SNMPv3 -community-or-username <snmpv3-user>
 ----
 
-.Steps
-. Set up the SNMPv3 user on the switch to use authentication and encryption:
-+
-[source,cli]
-----
-show snmp user
-----
+.Example Steps
+. Set up the SNMPv3 user on the switch to use SHA authentication and AES-128 encryption:
 +
 [subs=+quotes]
 ----
-(sw1)(Config)# *snmp-server user SNMPv3User auth md5 <auth_password> priv aes-128 <priv_password>*
+(sw1)(Config)# *snmp-server user SNMPv3shaAes128 auth sha <auth_password> priv aes-128 <priv_password>*
 
-(sw1)(Config)# *show snmp user*
-
------------------------------------------------------------------------------
-                              SNMP USERS
------------------------------------------------------------------------------
-
-User              Auth            Priv(enforce)   Groups          acl_filter
------------------ --------------- --------------- --------------- -----------
-admin             md5             des(no)         network-admin
-SNMPv3User        md5             aes-128(no)     network-operator
-
------------------------------------------------------------------------------
-     NOTIFICATION TARGET USERS (configured  for sending V3 Inform)
------------------------------------------------------------------------------
-
-User              Auth               Priv
------------------ ------------------ ------------
+(sw1)(Config)# *show snmp use  SNMPv3shaAes128*
+User                Auth      Priv(enforce) Groups              Auth Mode   acl_filter          
+____                ____      _____________ ______              _________   __________          
+SNMPv3shaAes128     sha       aes-128(no)   network-operator    Local       
 
 (sw1)(Config)#
 ----
 
 . Set up the SNMPv3 user on the ONTAP side:
 +
-[source,cli]
-----
-security login create -user-or-group-name <username> -application snmp -authentication-method usm -remote-switch-ipaddress <address>
-----
-+
 [subs=+quotes]
 ----
-cluster1::*> *system switch ethernet modify -device "sw1 (b8:59:9f:09:7c:22)" -is-monitoring-enabled-admin true*
-
-cluster1::*> *security login create -user-or-group-name EXAMPLE_USER -application snmp -authentication-method usm -remote-switch-ipaddress 192.0.2.10*
+cluster1::*> *security login create -user-or-group-name SNMPv3shaAes128 -application snmp -authentication-method usm -remote-switch-ipaddress 192.0.2.10*
 
 Enter the authoritative entity's EngineID [remote EngineID]:
 
-Which authentication protocol do you want to choose (none, md5, sha, sha2-256, sha512)
-[none]: *md5*
+Which authentication protocol do you want to choose (none, md5, sha, sha2-256, sha512) [none]: *sha*
 
 Enter the authentication protocol password (minimum 8 characters long):
 
@@ -257,114 +193,80 @@ Enter the authentication protocol password again:
 Which privacy protocol do you want to choose (none, des, aes128) [none]: *aes128*
 
 Enter privacy protocol password (minimum 8 characters long):
+
 Enter privacy protocol password again:
 ----
 
 . Configure CSHM to monitor with the new SNMPv3 user:
 +
-[source,cli]
+[subs=+quotes]
 ----
-system switch ethernet show-all -device <switch> -instance
+cluster1::*> *system switch ethernet modify -device "sw1" -snmp-version SNMPv3 -community-or-username SNMPv3shaAes128*
 ----
+
+. After waiting the CSHM polling period, that "Reason For Not Monitoring" is not set to "None".
 +
 [subs=+quotes]
 ----
-cluster1::*> *system switch ethernet show-all -device "sw1" -instance*
-
-                                   Device Name: sw1
-                                    IP Address: 10.231.80.212
-                                  SNMP Version: SNMPv2c
-                                 Is Discovered: true
-   SNMPv2c Community String or SNMPv3 Username: cshm1!
-                                  Model Number: N9K-C9336C-FX2
-                                Switch Network: cluster-network
-                              Software Version: Cisco Nexus Operating System (NX-OS) Software, Version 9.3(7)
-                     Reason For Not Monitoring: None  *<---- displays when SNMP settings are valid*
-                      Source Of Switch Version: CDP/ISDP
-                                Is Monitored ?: true
-                   Serial Number of the Device: QTFCU3826001C
-                                   RCF Version: v1.8X2 for Cluster/HA/RDMA
-
-cluster1::*>
-cluster1::*> *system switch ethernet modify -device "sw1" -snmp-version SNMPv3 -community-or-username <username>*
-cluster1::*>
-----
-
-. Verify that the serial number to be queried with the newly created SNMPv3 user is the same as detailed in the previous step after the CSHM polling period has completed.
-+
-[source,cli]
-----
-system switch ethernet polling-interval show
-----
-+
-[subs=+quotes]
-----
-
 cluster1::*> *system switch ethernet polling-interval show*
-         Polling Interval (in minutes): 5
+Polling Interval (in minutes): 5
 
 cluster1::*> *system switch ethernet show-all -device "sw1" -instance*
                                    Device Name: sw1
                                     IP Address: 192.0.2.10
-                                  SNMP Version: SNMPv2c
+                                  SNMP Version: SNMPv3
                                  Is Discovered: true
-DEPRECATED-Community String or SNMPv3 Username: -
-           Community String or SNMPv3 Username: cshm1!
-                                  Model Number: BES-53248
+   SNMPv2c Community String or SNMPv3 Username: SNMPv3shaAes128
+                                  Model Number: N9K-C9336C-FX2
                                 Switch Network: cluster-network
-                              Software Version: 3.14.1.1
-                     Reason For Not Monitoring: None  *<---- should display this if SNMP settings are valid*
+                              Software Version: Cisco NX-OS(tm) Nexus9000 C9336C-FX2, Software (NXOS 64-bit), Version 10.2(4), RELEASE SOFTWARE Copyright (c) 2002-2022 by Cisco Systems, Inc. Compiled 9/20/2022 12:00:00
+                     Reason For Not Monitoring: None  <---- should display this if SNMP settings are valid
                       Source Of Switch Version: CDP/ISDP
                                 Is Monitored ?: true
-                   Serial Number of the Device: QTFXXXXXXXXXC
-                                   RCF Version: RCF BES-53248 v1.14a 1-CLUSTER
+                   Serial Number of the Device: FDOXXXXXXX1
+                                   RCF Version: RCF NX9336C-FX2 v1.14 1-CLUSTER 2-STORAGE
 ----
 
 --
 .NVIDIA - CL 5.4.0
 --
-Configure an SNMPv3 username SNMPv3_USER on NVIDIA Cumulus switches running CL 5.4.0:
+Configure an SNMPv3 username `<snmpv3-user>` on NVIDIA Cumulus switches running CL 5.4.0:
 
 * For *no authentication*:
 +
 [source,cli]
 ----
-nv set service snmp-server username SNMPv3_USER auth-none
+nv set service snmp-server username <snmpv3-user> auth-none
 ----
 * For *MD5/SHA authentication*:
 +
 [source,cli]
 ----
-nv set service snmp-server username SNMPv3_USER [auth-md5|auth-sha] AUTH-PASSWORD
+nv set service snmp-server username <snmpv3-user> [auth-md5|auth-sha] <auth-password>
 ----
 * For *MD5/SHA authentication with AES/DES encryption*:
 +
 [source,cli]
 ----
-nv set service snmp-server username SNMPv3_USER [auth-md5|auth-sha] AUTH-PASSWORD [encrypt-aes|encrypt-des] PRIV-PASSWORD
+nv set service snmp-server username <snmpv3-user> [auth-md5|auth-sha] <auth-password> [encrypt-aes|encrypt-des] <priv-password>
 ----
 
 The following command configures an SNMPv3 username on the ONTAP side:
 
 [source,cli]
 ----
-security login create -user-or-group-name SNMPv3_USER -application snmp -authentication-method usm -remote-switch-ipaddress ADDRESS
+security login create -user-or-group-name <snmpv3-user> -application snmp -authentication-method usm -remote-switch-ipaddress <address>
 ----
 
 The following command establishes the SNMPv3 username with CSHM:
 
 [source,cli]
 ----
-system switch ethernet modify -device DEVICE -snmp-version SNMPv3 -community-or-username SNMPv3_USER
+cluster1::*> system switch ethernet modify -device <switch-name> -snmp-version SNMPv3 -community-or-username <snmpv3-user>
 ----
 
-.Steps
-. Set up the SNMPv3 user on the switch to use authentication and encryption:
-+
-[source,cli]
-----
-net show snmp status
-----
+.Example Steps
+. Set up the SNMPv3 user on the switch to use SHA authentication and AES-128 encryption:
 +
 [subs=+quotes]
 ----
@@ -379,7 +281,7 @@ Version 1 and 2c Community String  Configured
 Version 3 Usernames                Not Configured
 ---------------------------------  ----------------
 cumulus@sw1:~$
-cumulus@sw1:~$ *net add snmp-server username SNMPv3User auth-md5 <password> encrypt-aes <password>*
+cumulus@sw1:~$ *net add snmp-server username SNMPv3shaAes128 auth-sha <auth-password> encrypt-aes <priv-password>*
 cumulus@sw1:~$ *net commit*
 --- /etc/snmp/snmpd.conf        2020-08-02 21:09:34.686949282 +0000
 +++ /run/nclu/snmp/snmpd.conf   2020-08-11 00:13:51.826126655 +0000
@@ -389,7 +291,7 @@ cumulus@sw1:~$ *net commit*
  agentxperms 777 777 snmp snmp
  agentxsocket /var/agentx/master
  createuser _snmptrapusernameX
-+createuser SNMPv3User MD5 <password> AES <password>
++createuser SNMPv3shaAes128 SHA <auth-password> AES <priv-password>
  ifmib_max_num_ifaces 500
  iquerysecname _snmptrapusernameX
  master agentx
@@ -409,7 +311,7 @@ cumulus@sw1:~$ *net commit*
  pass_persist 1.3.6.1.4.1.40310.7 /usr/share/snmp/vrf_bgpun_pp.py
 +rocommunity cshm1! default
  rouser _snmptrapusernameX
-+rouser SNMPv3User priv
++rouser SNMPv3shaAes128 priv
  sysobjectid 1.3.6.1.4.1.40310
  sysservices 72
 -rocommunity cshm1! default
@@ -417,9 +319,9 @@ cumulus@sw1:~$ *net commit*
 
 net add/del commands since the last "net commit"
 
-User        Timestamp                   Command
-----------  --------------------------  -------------------------------------------------------------------------
-SNMPv3User  2020-08-11 00:13:51.826987  net add snmp-server username SNMPv3User auth-md5 <password> encrypt-aes <password>
+User             Timestamp                   Command
+---------------  --------------------------  -------------------------------------------------------------------------
+SNMPv3shaAes128  2020-08-11 00:13:51.826987  net add snmp-server username SNMPv3shaAes128 auth-sha <auth-password> encrypt-aes <priv-password>
 
 cumulus@sw1:~$
 cumulus@sw1:~$ *net show snmp status*
@@ -437,19 +339,13 @@ cumulus@sw1:~$
 
 . Set up the SNMPv3 user on the ONTAP side:
 +
-[source,cli]
-----
-security login create -user-or-group-name SNMPv3User -application snmp -authentication-method usm -remote-switch-ipaddress 10.231.80.212
-----
-+
 [subs=+quotes]
 ----
-cluster1::*> *security login create -user-or-group-name SNMPv3User -application snmp -authentication-method usm -remote-switch-ipaddress 10.231.80.212*
+cluster1::*> *security login create -user-or-group-name SNMPv3shaAes128 -application snmp -authentication-method usm -remote-switch-ipaddress 192.0.2.10*
 
 Enter the authoritative entity's EngineID [remote EngineID]:
 
-Which authentication protocol do you want to choose (none, md5, sha, sha2-256)
-[none]: *md5*
+Which authentication protocol do you want to choose (none, md5, sha, sha2-256, sha512) [none]: *sha*
 
 Enter the authentication protocol password (minimum 8 characters long):
 
@@ -458,147 +354,102 @@ Enter the authentication protocol password again:
 Which privacy protocol do you want to choose (none, des, aes128) [none]: *aes128*
 
 Enter privacy protocol password (minimum 8 characters long):
+
 Enter privacy protocol password again:
 ----
 
 . Configure CSHM to monitor with the new SNMPv3 user:
 +
-[source,cli]
-----
-system switch ethernet show-all -device "sw1 (b8:59:9f:09:7c:22)" -instance
-----
-+
 [subs=+quotes]
 ----
-cluster1::*> *system switch ethernet show-all -device "sw1 (b8:59:9f:09:7c:22)" -instance*
-                                   Device Name: sw1 (b8:59:9f:09:7c:22)
-                                    IP Address: 10.231.80.212
-                                  SNMP Version: SNMPv2c
-                                 Is Discovered: true
-DEPRECATED-Community String or SNMPv3 Username: -
-           Community String or SNMPv3 Username: cshm1!
-                                  Model Number: MSN2100-CB2FC
-                                Switch Network: cluster-network
-                              Software Version: Cumulus Linux version 5.4.0 running on Mellanox Technologies Ltd. MSN2100
-                     Reason For Not Monitoring: None
-                      Source Of Switch Version: LLDP
-                                Is Monitored ?: true
-                   Serial Number of the Device: MT2110X06399  *<---- serial number to check*
-                                   RCF Version: MSN2100-RCF-v1.9X6-Cluster-LLDP Aug-18-2022
-
-cluster1::*>
-cluster1::*> *system switch ethernet modify -device "sw1 (b8:59:9f:09:7c:22)" -snmp-version SNMPv3 -community-or-username SNMPv3User*
+cluster1::*> *system switch ethernet modify -device "sw1" -snmp-version SNMPv3 -community-or-username SNMPv3shaAes128*
 ----
 
-. Verify that the serial number to be queried with the newly created SNMPv3 user is the same as detailed in the previous step after the CSHM polling period has completed.
-+
-[source,cli]
-----
-system switch ethernet polling-interval show
-----
+. After waiting the CSHM polling period, that "Reason For Not Monitoring" is not set to "None".
 +
 [subs=+quotes]
 ----
 cluster1::*> *system switch ethernet polling-interval show*
-         Polling Interval (in minutes): 5
+Polling Interval (in minutes): 5
 
-cluster1::*> *system switch ethernet show-all -device "sw1 (b8:59:9f:09:7c:22)" -instance*
-                                   Device Name: sw1 (b8:59:9f:09:7c:22)
-                                    IP Address: 10.231.80.212
+cluster1::*> *system switch ethernet show-all -device "sw1" -instance*
+                                   Device Name: sw1
+                                    IP Address: 192.0.2.10
                                   SNMP Version: SNMPv3
                                  Is Discovered: true
 DEPRECATED-Community String or SNMPv3 Username: -
-           Community String or SNMPv3 Username: SNMPv3User
+           Community String or SNMPv3 Username: SNMPv3shaAes128
                                   Model Number: MSN2100-CB2FC
                                 Switch Network: cluster-network
                               Software Version: Cumulus Linux version 5.4.0 running on Mellanox Technologies Ltd. MSN2100
-                     Reason For Not Monitoring: None
+                     Reason For Not Monitoring: None  <---- should display this if SNMP settings are valid
                       Source Of Switch Version: LLDP
                                 Is Monitored ?: true
-                   Serial Number of the Device: MT2110X06399  *<---- serial number to check*
-                                   RCF Version: MSN2100-RCF-v1.9X6-Cluster-LLDP Aug-18-2022
+                   Serial Number of the Device: MT2110X06399
+                                   RCF Version: RCF MSN2100 v1.14 1-CLUSTER
 ----
 --
 .NVIDIA - CL 5.11.0+
 --
-Configure an SNMPv3 username SNMPv3_USER on NVIDIA Cumulus switches running CLI 5.11.0 and later:
+Configure an SNMPv3 username `<snmpv3-user>` on NVIDIA Cumulus switches running CLI 5.11.0 and later:
 
 * For *no authentication*:
 +
 [source,cli]
 ----
-nv set system snmp-server username SNMPv3_USER auth-none
+nv set system snmp-server username <snmpv3-user> auth-none
 ----
 * For *MD5/SHA authentication*:
 +
 [source,cli]
 ----
-nv set system snmp-server username SNMPv3_USER [auth-md5|auth-sha] AUTH-PASSWORD
+nv set system snmp-server username <snmpv3-user> [auth-md5|auth-sha] <auth-password>
 ----
 * For *MD5/SHA authentication with AES/DES encryption*:
 +
 [source,cli]
 ----
-nv set system snmp-server username SNMPv3_USER [auth-md5|auth-sha] AUTH-PASSWORD [encrypt-aes|encrypt-des] PRIV-PASSWORD
+nv set system snmp-server username <snmpv3-user> [auth-md5|auth-sha] <auth-password> [encrypt-aes|encrypt-des] <priv-password>
 ----
 
 The following command configures an SNMPv3 username on the ONTAP side:
 
 [source,cli]
 ----
-security login create -user-or-group-name SNMPv3_USER -application snmp -authentication-method usm -remote-switch-ipaddress ADDRESS
+security login create -user-or-group-name <snmpv3-user> -application snmp -authentication-method usm -remote-switch-ipaddress <address>
 ----
 
 The following command establishes the SNMPv3 username with CSHM:
 
 [source,cli]
 ----
-system switch ethernet modify -device DEVICE -snmp-version SNMPv3 -community-or-username SNMPv3_USER
+cluster1::*> system switch ethernet modify -device <switch-name> -snmp-version SNMPv3 -community-or-username <snmpv3-user>
 ----
 
-.Steps
-. Set up the SNMPv3 user on the switch to use authentication and encryption:
-+
-[source,cli]
-----
-nv show system snmp-server
-----
+.Example Steps
+. Set up the SNMPv3 user on the switch to use SHA authentication and AES-128 encryption:
 +
 [subs=+quotes]
 ----
-cumulus@sw1:~$ *nv show system snmp-server*
-                      applied
---------------------  ---------------------------------------
-[username]            SNMPv3_USER
-[username]            limiteduser1
-[username]            testuserauth
-[username]            testuserauthaes
-[username]            testusernoauth
-trap-link-up
-  check-frequency     60
-trap-link-down
-  check-frequency     60
-[listening-address]   all
-[readonly-community]  $nvsec$94d69b56e921aec1790844eb53e772bf
-state                 enabled
-cumulus@sw1:~$
+cumulus@sw1:~$ *nv set system snmp-server username SNMPv3shaAes128 auth-sha <auth-password> encrypt-aes <priv-password>*
+created [rev_id: 14]
+cumulus@sw1:~$ *nv config apply*
+applied_and_saved [rev_id: 14]
+cumulus@sw1:~$ *nv show system snmp-server username SNMPv3shaAes128*
+            applied                                
+----------  ---------------------------------------
+[auth-sha]  $nvsec$836XXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ----
 
 . Set up the SNMPv3 user on the ONTAP side:
 +
-[source,cli]
-----
-security login create -user-or-group-name SNMPv3User -application snmp -authentication-method usm -remote-switch-ipaddress 10.231.80.212
-----
-+
 [subs=+quotes]
 ----
-cluster1::*> *security login create -user-or-group-name SNMPv3User -application snmp -authentication-method usm -remote-switch-ipaddress 10.231.80.212*
+cluster1::*> *security login create -user-or-group-name SNMPv3shaAes128 -application snmp -authentication-method usm -remote-switch-ipaddress 192.0.2.10*
 
 Enter the authoritative entity's EngineID [remote EngineID]:
 
-Which authentication protocol do you want to choose (none, md5, sha, sha2-256)
-[none]: *md5*
+Which authentication protocol do you want to choose (none, md5, sha, sha2-256, sha512) [none]: *sha*
 
 Enter the authentication protocol password (minimum 8 characters long):
 
@@ -607,65 +458,39 @@ Enter the authentication protocol password again:
 Which privacy protocol do you want to choose (none, des, aes128) [none]: *aes128*
 
 Enter privacy protocol password (minimum 8 characters long):
+
 Enter privacy protocol password again:
 ----
 
 . Configure CSHM to monitor with the new SNMPv3 user:
 +
-[source,cli]
-----
-system switch ethernet show-all -device "sw1 (b8:59:9f:09:7c:22)" -instance
-----
-+
 [subs=+quotes]
 ----
-cluster1::*> *system switch ethernet show-all -device "sw1 (b8:59:9f:09:7c:22)" -instance*
-                                   Device Name: sw1 (b8:59:9f:09:7c:22)
-                                    IP Address: 10.231.80.212
-                                  SNMP Version: SNMPv2c
-                                 Is Discovered: true
-DEPRECATED-Community String or SNMPv3 Username: -
-           Community String or SNMPv3 Username: cshm1!
-                                  Model Number: MSN2100-CB2FC
-                                Switch Network: cluster-network
-                              Software Version: Cumulus Linux version 5.11.0 running on Mellanox Technologies Ltd. MSN2100
-                     Reason For Not Monitoring: None
-                      Source Of Switch Version: LLDP
-                                Is Monitored ?: true
-                   Serial Number of the Device: MT2110X06399  *<---- serial number to check*
-                                   RCF Version: MSN2100-RCF-v1.9X6-Cluster-LLDP Aug-18-2022
-
-cluster1::*>
-cluster1::*> *system switch ethernet modify -device "sw1 (b8:59:9f:09:7c:22)" -snmp-version SNMPv3 -community-or-username SNMPv3User*
+cluster1::*> *system switch ethernet modify -device "sw1" -snmp-version SNMPv3 -community-or-username SNMPv3shaAes128*
 ----
 
-. Verify that the serial number to be queried with the newly created SNMPv3 user is the same as detailed in the previous step after the CSHM polling period has completed.
-+
-[source,cli]
-----
-system switch ethernet polling-interval show
-----
+. After waiting the CSHM polling period, that "Reason For Not Monitoring" is not set to "None".
 +
 [subs=+quotes]
 ----
 cluster1::*> *system switch ethernet polling-interval show*
-         Polling Interval (in minutes): 5
+Polling Interval (in minutes): 5
 
-cluster1::*> *system switch ethernet show-all -device "sw1 (b8:59:9f:09:7c:22)" -instance*
-                                   Device Name: sw1 (b8:59:9f:09:7c:22)
-                                    IP Address: 10.231.80.212
+cluster1::*> *system switch ethernet show-all -device "sw1" -instance*
+                                   Device Name: sw1
+                                    IP Address: 192.0.2.10
                                   SNMP Version: SNMPv3
                                  Is Discovered: true
 DEPRECATED-Community String or SNMPv3 Username: -
-           Community String or SNMPv3 Username: SNMPv3User
+           Community String or SNMPv3 Username: SNMPv3shaAes128
                                   Model Number: MSN2100-CB2FC
                                 Switch Network: cluster-network
                               Software Version: Cumulus Linux version 5.11.0 running on Mellanox Technologies Ltd. MSN2100
-                     Reason For Not Monitoring: None
+                     Reason For Not Monitoring: None  <---- should display this if SNMP settings are valid
                       Source Of Switch Version: LLDP
                                 Is Monitored ?: true
-                   Serial Number of the Device: MT2110X06399  *<---- serial number to check*
-                                   RCF Version: MSN2100-RCF-v1.9X6-Cluster-LLDP Aug-18-2022
+                   Serial Number of the Device: MT2110X06399
+                                   RCF Version: RCF MSN2100 v1.14 1-CLUSTER
 ----
 --
 ==== 
