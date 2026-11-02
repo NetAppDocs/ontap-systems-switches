@@ -161,24 +161,7 @@ Copy complete.
 ----
 cs1# *show version*
 Cisco Nexus Operating System (NX-OS) Software
-TAC support: http://www.cisco.com/tac
-Copyright (C) 2002-2025, Cisco and/or its affiliates.
-All rights reserved.
-The copyrights to certain works contained in this software are
-owned by other third parties and used and distributed under their own
-licenses, such as open source.  This software is provided "as is," and unless
-otherwise stated, there is no warranty, express or implied, including but not
-limited to warranties of merchantability and fitness for a particular purpose.
-Certain components of this software are licensed under
-the GNU General Public License (GPL) version 2.0 or
-GNU General Public License (GPL) version 3.0  or the GNU
-Lesser General Public License (LGPL) Version 2.1 or
-Lesser General Public License (LGPL) Version 2.0.
-A copy of each such license is available at
-http://www.opensource.org/licenses/gpl-2.0.php and
-http://opensource.org/licenses/gpl-3.0.html and
-http://www.opensource.org/licenses/lgpl-2.1.php and
-http://www.gnu.org/licenses/old-licenses/library.txt.
+...
 
 
 Software
@@ -295,7 +278,7 @@ Finishing the upgrade, switch will reboot in 10 seconds.
 ----
 =====
 
-. Verify the new version of NX-OS after the switch reboots:
+.. Verify the new version of NX-OS after the switch reboots:
 +
 `show version`
 +
@@ -306,25 +289,7 @@ Finishing the upgrade, switch will reboot in 10 seconds.
 [subs=+quotes]
 ----
 cs1# *show version*
-Cisco Nexus Operating System (NX-OS) Software
-TAC support: http://www.cisco.com/tac
-Copyright (C) 2002-2025, Cisco and/or its affiliates.
-All rights reserved.
-The copyrights to certain works contained in this software are
-owned by other third parties and used and distributed under their own
-licenses, such as open source.  This software is provided "as is," and unless
-otherwise stated, there is no warranty, express or implied, including but not
-limited to warranties of merchantability and fitness for a particular purpose.
-Certain components of this software are licensed under
-the GNU General Public License (GPL) version 2.0 or
-GNU General Public License (GPL) version 3.0  or the GNU
-Lesser General Public License (LGPL) Version 2.1 or
-Lesser General Public License (LGPL) Version 2.0.
-A copy of each such license is available at
-http://www.opensource.org/licenses/gpl-2.0.php and
-http://opensource.org/licenses/gpl-3.0.html and
-http://www.opensource.org/licenses/lgpl-2.1.php and
-http://www.gnu.org/licenses/old-licenses/library.txt.
+...
 
 
 Software
@@ -425,7 +390,7 @@ Module 1 EPLD upgrade is successful.
 ----
 =====
 
-. After the switch reboots, log in and verify that the new version of EPLD loaded successfully:
+.. After the switch reboots, log in and verify that the new version of EPLD loaded successfully:
 +
 `show version module 1 epld`
 +
@@ -458,7 +423,7 @@ You use the switch CLI to enter the commands for the following steps.
 //These steps are reused from 9332 upgrade NX-OS first tab option.
 
 [start=a]
-.. [[stepa]] Copy the NX-OS and EPLD image to the first switch:
+.. [[stepa]] Copy the combined NX-OS and EPLD image to the first switch:
 +
 `copy <protocol>: bootflash: vrf management`
 +
@@ -486,23 +451,6 @@ sftp> *get /code/nxos.10.6.3.F.bin /bootflash/nxos.10.6.3.F.bin*
 sftp> *exit*
 Copy complete, now saving to disk (please wait)...
 Copy complete.
-
-
-cs1# *copy sftp: bootflash: vrf management*
-Enter source filename: */code/n9000-epld.10.6.3.F.img*
-Enter hostname for the sftp server: *172.19.2.1*
-Enter username: *user1*
-
-Outbound-ReKey for 172.19.2.1:22
-Inbound-ReKey for 172.19.2.1:22
-user1@172.19.2.1's password:
-sftp> *progress*
-Progress meter enabled
-sftp> *get /code/n9000-epld.10.6.3.F.img /bootflash/n9000-epld.10.6.3.F.img*
-/code/n9000-epld.10.6.3.F.img  100%  161MB   9.5MB/s   00:16
-sftp> *exit*
-Copy complete, now saving to disk (please wait)...
-Copy complete.
 ....
 =====
 
@@ -522,25 +470,7 @@ Copy complete.
 
 ....
 cs1# *show version*
-Cisco Nexus Operating System (NX-OS) Software
-TAC support: http://www.cisco.com/tac
-Copyright (C) 2002-2020, Cisco and/or its affiliates.
-All rights reserved.
-The copyrights to certain works contained in this software are
-owned by other third parties and used and distributed under their own
-licenses, such as open source.  This software is provided "as is," and unless
-otherwise stated, there is no warranty, express or implied, including but not
-limited to warranties of merchantability and fitness for a particular purpose.
-Certain components of this software are licensed under
-the GNU General Public License (GPL) version 2.0 or
-GNU General Public License (GPL) version 3.0  or the GNU
-Lesser General Public License (LGPL) Version 2.1 or
-Lesser General Public License (LGPL) Version 2.0.
-A copy of each such license is available at
-http://www.opensource.org/licenses/gpl-2.0.php and
-http://opensource.org/licenses/gpl-3.0.html and
-http://www.opensource.org/licenses/lgpl-2.1.php and
-http://www.gnu.org/licenses/old-licenses/library.txt.
+...
 
 Software
   BIOS: version 08.38
@@ -765,25 +695,7 @@ Install has been successful.
 
 ....
 cs1# *show version*
-Cisco Nexus Operating System (NX-OS) Software
-TAC support: http://www.cisco.com/tac
-Copyright (C) 2002-2020, Cisco and/or its affiliates.
-All rights reserved.
-The copyrights to certain works contained in this software are
-owned by other third parties and used and distributed under their own
-licenses, such as open source.  This software is provided "as is," and unless
-otherwise stated, there is no warranty, express or implied, including but not
-limited to warranties of merchantability and fitness for a particular purpose.
-Certain components of this software are licensed under
-the GNU General Public License (GPL) version 2.0 or
-GNU General Public License (GPL) version 3.0  or the GNU
-Lesser General Public License (LGPL) Version 2.1 or
-Lesser General Public License (LGPL) Version 2.0.
-A copy of each such license is available at
-http://www.opensource.org/licenses/gpl-2.0.php and
-http://opensource.org/licenses/gpl-3.0.html and
-http://www.opensource.org/licenses/lgpl-2.1.php and
-http://www.gnu.org/licenses/old-licenses/library.txt.
+...
 
 Software
   BIOS: version 05.33
@@ -860,3 +772,4 @@ After you've installed the NX-OS on your switch(es), you install RCF starting wi
 // AFFFASDOC-394, 2025-OCT-20
 // Refactor content project phase 1 with 2K/RCF 10.1 content, GH#423 2026-JUN
 //2026-07-23 ontap-systems-switches-internal/issues/458
+// AFFFASDOC-517 and AFFFASDOC-520, 2026-OCT-229
