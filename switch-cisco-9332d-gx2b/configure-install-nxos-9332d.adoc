@@ -162,24 +162,7 @@ Copy complete.
 ----
 cs1# *show version*
 Cisco Nexus Operating System (NX-OS) Software
-TAC support: http://www.cisco.com/tac
-Copyright (C) 2002-2025, Cisco and/or its affiliates.
-All rights reserved.
-The copyrights to certain works contained in this software are
-owned by other third parties and used and distributed under their own
-licenses, such as open source.  This software is provided "as is," and unless
-otherwise stated, there is no warranty, express or implied, including but not
-limited to warranties of merchantability and fitness for a particular purpose.
-Certain components of this software are licensed under
-the GNU General Public License (GPL) version 2.0 or
-GNU General Public License (GPL) version 3.0  or the GNU
-Lesser General Public License (LGPL) Version 2.1 or
-Lesser General Public License (LGPL) Version 2.0.
-A copy of each such license is available at
-http://www.opensource.org/licenses/gpl-2.0.php and
-http://opensource.org/licenses/gpl-3.0.html and
-http://www.opensource.org/licenses/lgpl-2.1.php and
-http://www.gnu.org/licenses/old-licenses/library.txt.
+...
 
 
 Software
@@ -296,7 +279,7 @@ Finishing the upgrade, switch will reboot in 10 seconds.
 ----
 =====
 
-. Verify the new version of NX-OS after the switch reboots:
+.. Verify the new version of NX-OS after the switch reboots:
 +
 `show version`
 +
@@ -308,24 +291,7 @@ Finishing the upgrade, switch will reboot in 10 seconds.
 ----
 cs1# *show version*
 Cisco Nexus Operating System (NX-OS) Software
-TAC support: http://www.cisco.com/tac
-Copyright (C) 2002-2025, Cisco and/or its affiliates.
-All rights reserved.
-The copyrights to certain works contained in this software are
-owned by other third parties and used and distributed under their own
-licenses, such as open source.  This software is provided "as is," and unless
-otherwise stated, there is no warranty, express or implied, including but not
-limited to warranties of merchantability and fitness for a particular purpose.
-Certain components of this software are licensed under
-the GNU General Public License (GPL) version 2.0 or
-GNU General Public License (GPL) version 3.0  or the GNU
-Lesser General Public License (LGPL) Version 2.1 or
-Lesser General Public License (LGPL) Version 2.0.
-A copy of each such license is available at
-http://www.opensource.org/licenses/gpl-2.0.php and
-http://opensource.org/licenses/gpl-3.0.html and
-http://www.opensource.org/licenses/lgpl-2.1.php and
-http://www.gnu.org/licenses/old-licenses/library.txt.
+...
 
 
 Software
@@ -426,7 +392,7 @@ Module 1 EPLD upgrade is successful.
 ----
 =====
 
-. After the switch reboots, log in and verify that the new version of EPLD loaded successfully:
+.. After the switch reboots, log in and verify that the new version of EPLD loaded successfully:
 +
 `show version module 1 epld`
 +
@@ -459,7 +425,7 @@ You use the switch CLI to enter the commands for the following steps.
 //These steps are reused from 9332 upgrade NX-OS first tab option.
 
 [start=a]
-.. [[stepa]] Copy the NX-OS and EPLD image to the first switch:
+.. [[stepa]] Copy the combined NX-OS and EPLD image to the first switch:
 +
 `copy <protocol>: bootflash: vrf management`
 +
@@ -487,23 +453,6 @@ sftp> *get /code/nxos.10.6.3.F.bin /bootflash/nxos.10.6.3.F.bin*
 sftp> *exit*
 Copy complete, now saving to disk (please wait)...
 Copy complete.
-
-
-cs1# *copy sftp: bootflash: vrf management*
-Enter source filename: */code/n9000-epld.10.6.3.F.img*
-Enter hostname for the sftp server: *172.19.2.1*
-Enter username: *user1*
-
-Outbound-ReKey for 172.19.2.1:22
-Inbound-ReKey for 172.19.2.1:22
-user1@172.19.2.1's password:
-sftp> *progress*
-Progress meter enabled
-sftp> *get /code/n9000-epld.10.6.3.F.img /bootflash/n9000-epld.10.6.3.F.img*
-/code/n9000-epld.10.6.3.F.img  100%  161MB   9.5MB/s   00:16
-sftp> *exit*
-Copy complete, now saving to disk (please wait)...
-Copy complete.
 ....
 =====
 
@@ -523,29 +472,11 @@ Copy complete.
 
 ....
 cs1# *show version*
-Cisco Nexus Operating System (NX-OS) Software
-TAC support: http://www.cisco.com/tac
-Copyright (C) 2002-2020, Cisco and/or its affiliates.
-All rights reserved.
-The copyrights to certain works contained in this software are
-owned by other third parties and used and distributed under their own
-licenses, such as open source.  This software is provided "as is," and unless
-otherwise stated, there is no warranty, express or implied, including but not
-limited to warranties of merchantability and fitness for a particular purpose.
-Certain components of this software are licensed under
-the GNU General Public License (GPL) version 2.0 or
-GNU General Public License (GPL) version 3.0  or the GNU
-Lesser General Public License (LGPL) Version 2.1 or
-Lesser General Public License (LGPL) Version 2.0.
-A copy of each such license is available at
-http://www.opensource.org/licenses/gpl-2.0.php and
-http://opensource.org/licenses/gpl-3.0.html and
-http://www.opensource.org/licenses/lgpl-2.1.php and
-http://www.gnu.org/licenses/old-licenses/library.txt.
+...
 
 Software
   BIOS: version 08.38
-  NXOS: version 10.6.3(F)
+  NXOS: version 10.4(2)F
   BIOS compile time:  05/29/2020
   NXOS image file is: bootflash:///nxos.10.6.3.F.bin
   NXOS compile time:  4/28/2020 21:00:00 [04/29/2020 02:28:31]
@@ -592,9 +523,10 @@ Installing the image file causes it to be loaded every time the switch is reboot
 +
 The following example shows an upgrade from NX-OS 10.4(2)F to 10.6(3)F. The first pass performs the NX-OS upgrade and the second pass performs the EPLD image upgrade.
 +
-`install all nxos bootflash:nxos.<version number>.bin`
+The following step shows the first install pass to upgrade from NX-OS 10.4(2)F to 10.6(3)F.
 +
-
+`install all nxos bootflash:<nxos_image.bin>`
++
 .Example
 [%collapsible]
 
@@ -603,7 +535,7 @@ The following example shows an upgrade from NX-OS 10.4(2)F to 10.6(3)F. The firs
 [subs=+quotes]
 
 ....
-cs1# *install all nxos bootflash:nxos.10.6.3.F.bin*   <---- 1st pass updates NX-OS only
+cs2# *install all nxos bootflash:nxos.10.6.3.F.bin*   <---- 1st pass updates NX-OS only
 
 Installer will perform compatibility check first. Please wait.
 Installer is forced disruptive
@@ -637,7 +569,7 @@ Images will be upgraded according to following table:
 
 Module   Image    Running-Version(pri:alt)                 New-Version          Upg-Required
 ------- --------- ---------------------------------------- -------------------- ------------ 
-1        nxos     10.4(2)(F)                                10.6(3)(F)            yes
+1        nxos     10.4(2)F                   10.6(3)F          yes
 1        bios     v05.47(04/28/2022):v05.47(04/28/2022)    v05.53(01/22/2025)     yes
 
 Switch will be reloaded for disruptive upgrade.
@@ -661,16 +593,29 @@ Warning: please do not remove or power off the module at this time.
 [####################] 100% -- SUCCESS
 
 Finishing the upgrade, switch will reboot in 10 seconds.
+....
+=====
++
+The following step shows the second installation pass to update the EPLD image.
++
+`install all nxos bootflash:<nxos_image.bin>`
++
+.Example
+[%collapsible]
 
+=====
 
-cs1# *install all nxos bootflash:nxos.10.6.3.F.bin*   <---- 2nd pass updates EPLD image only
+[subs=+quotes]
+
+....
+cs2# *install all nxos bootflash:nxos.10.6.3.F.bin*   <---- 2nd pass updates EPLD image only
  
 Installer will perform compatibility check first. Please wait. 
 Installer is forced disruptive
-
+ 
 Verifying image bootflash:/nxos.10.6.3.F.bin for boot variable "nxos".
 [####################] 100% -- SUCCESS
-
+ 
 Verifying EPLD/FPGA image //bootflash/nxos.10.6.3.F.bin.
 [####################] 100% -- SUCCESS
  
@@ -700,7 +645,7 @@ Module  bootable  Impact          Install-type  Reason
 Images will be upgraded according to following table:
 Module    Image                  Running-Version(pri:alt)              New-Version         Upg-Required
 --------  ---------------------  ------------------------------------- -----------------  ------------
-27        nxos                   10.4(2)(F)                            10.6(3)(F)             no
+27        nxos                   10.6(3)(F)                            10.6(3)(F)             no
 27        bios                   v05.53(01/22/2025):v05.47(04/28/2022) v05.53(01/22/2025)    no
  
  
@@ -766,29 +711,11 @@ Install has been successful.
 
 ....
 cs1# *show version*
-Cisco Nexus Operating System (NX-OS) Software
-TAC support: http://www.cisco.com/tac
-Copyright (C) 2002-2020, Cisco and/or its affiliates.
-All rights reserved.
-The copyrights to certain works contained in this software are
-owned by other third parties and used and distributed under their own
-licenses, such as open source.  This software is provided "as is," and unless
-otherwise stated, there is no warranty, express or implied, including but not
-limited to warranties of merchantability and fitness for a particular purpose.
-Certain components of this software are licensed under
-the GNU General Public License (GPL) version 2.0 or
-GNU General Public License (GPL) version 3.0  or the GNU
-Lesser General Public License (LGPL) Version 2.1 or
-Lesser General Public License (LGPL) Version 2.0.
-A copy of each such license is available at
-http://www.opensource.org/licenses/gpl-2.0.php and
-http://opensource.org/licenses/gpl-3.0.html and
-http://www.opensource.org/licenses/lgpl-2.1.php and
-http://www.gnu.org/licenses/old-licenses/library.txt.
+...
 
 Software
   BIOS: version 05.33
-  NXOS: version 10.6.3(f)
+  NXOS: version 10.6.3.F
   BIOS compile time:  09/08/2018
   NXOS image file is: bootflash:///nxos.10.6.3.F.bin
   NXOS compile time:  11/4/2018 21:00:00 [11/05/2018 06:11:06]
@@ -859,3 +786,5 @@ After you've installed the NX-OS on your switch(es), you install RCF starting wi
 // AFFFASDOC-394, 2025-OCT-20
 // Refactor content project phase 1 with 2K/RCF 10.1 content, GH#423 2026-JUN
 //2026-07-23 ontap-systems-switches-internal/issues/458
+// AFFFASDOC-517 and AFFFASDOC-520, 2026-OCT-229
+
