@@ -4,7 +4,7 @@ sidebar: sidebar
 keywords: fastpath, software, install, netapp cluster switches, rcfs, ontap
 summary: "Install FASTPATH software and reference configuration files (RCFs) on NetApp CN1610 cluster switches for ONTAP 8.3.1 and later."
 ---
-= Install FASTPATH software and RCFs on NetApp CN1610 cluster switches for ONTAP 8.3.1 and later
+= Install FASTPATH software and RCFs on NetApp CN1610 cluster switches
 :icons: font
 :imagesdir: ../media/
 
@@ -30,7 +30,7 @@ Make sure you consult the switch compatibility table on the http://mysupport.net
 
 == Install the FASTPATH software
 
-The following procedure uses the clustered Data ONTAP 8.2 syntax. As a result, the cluster Vserver, LIF names, and CLI output are different than those in Data ONTAP 8.3.
+This procedure uses the clustered Data ONTAP 8.2 syntax, so the cluster Vserver, LIF names, and CLI output differ from those in Data ONTAP 8.3.
 
 There can be command dependencies between command syntax in the RCF and FASTPATH versions.
 
@@ -64,7 +64,7 @@ The link:https://hwu.netapp.com/[Hardware Universe^] has more information about 
 The following example shows the type of output from the command:
 
 ----
-cluster1::> network port show -ipspace cluster
+cluster1::> network port show -ipspace Cluster
                                                              Speed (Mbps)
 Node   Port      IPspace      Broadcast Domain Link   MTU    Admin/Oper
 ------ --------- ------------ ---------------- ----- ------- ------------
@@ -118,7 +118,7 @@ cluster1::> network interface migrate -vserver Cluster -lif node2_clus2 -destina
 ====
 +
 
-NOTE: For this command, the name of the cluster is case-sensitive and the command should be run on each node. It is not possible to run this command in the general cluster LIF.
+NOTE: For this command, the name of the cluster is case-sensitive and you must run the command on each node. You can't run this command on the general cluster LIF.
 
 . Verify that the migration took place by using the `network interface show` command on a node.
 +
@@ -530,13 +530,13 @@ cluster1::*> network port modify -node node2 -port e0b -up-admin true
 
 . Verify that the port e0b is up on all nodes:
 +
-`network port show -ipspace cluster`
+`network port show -ipspace Cluster`
 +
 .Show example 
 [%collapsible]
 ====
 ----
-cluster1::*> network port show -ipspace cluster
+cluster1::*> network port show -ipspace Cluster
 
                                                              Speed (Mbps)
 Node   Port      IPspace      Broadcast Domain Link   MTU    Admin/Oper
