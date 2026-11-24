@@ -72,7 +72,7 @@ cluster1::*>
 
 .. Verify that all the cluster ports are *up* with a healthy status: 
 +
-`network port show -ipspace cluster`
+`network port show -ipspace Cluster`
 +
 .Show example 
 [%collapsible]
@@ -80,7 +80,7 @@ cluster1::*>
 
 [subs=+quotes]
 ----
-cluster1::*> *network port show -ipspace cluster*
+cluster1::*> *network port show -ipspace Cluster*
 
 Node: cluster1-01
                                                                        Ignore
@@ -199,7 +199,7 @@ cluster1::*>
 +
 `cs1# *exit*`
 +
-CAUTION: Make sure to shutdown *all* connected cluster ports to avoid any network connection issues.
+CAUTION: Make sure to shut down *all* connected cluster ports to avoid any network connection issues.
 Refer to the Knowledge Base article link:https://kb.netapp.com/on-prem/ontap/OHW/OHW-KBs/Node_out_of_quorum_when_migrating_cluster_lif_during_switch_OS_upgrade[Node out of quorum when migrating cluster LIF during switch OS upgrade^] for further details. 
 
 . Verify that the cluster LIFs have failed over to the ports hosted on cluster switch cs1. This might take a few seconds.
@@ -259,7 +259,7 @@ cluster1::*>
 
 .. Record any custom additions between the current `running-config` and the RCF file in use (such as an SNMP configuration for your organization).  
 +
-.. Beginning with NX-OS 10.2, use the `show diff running-config` command to compare with the saved RCF file in the bootflash.  Otherwise, use a third part diff/compare tool.
+.. Beginning with NX-OS 10.2, use the `show diff running-config` command to compare with the saved RCF file in the bootflash.  Otherwise, use a third-party diff/compare tool.
 
 . Save basic configuration details to the `write_erase.cfg` file on the bootflash.
 +
@@ -318,7 +318,7 @@ Refer to the Knowledge Base article link:https://kb.netapp.com/on-prem/Switches/
 
 . After the management IP address is reachable again, log in to the switch through SSH.
 +
-You may need to update host file entries related to the SSH keys.
+You might need to update host file entries related to the SSH keys.
 
 . Copy the RCF to the bootflash on switch cs1 using one of the following transfer protocols: FTP, SFTP, or SCP. 
 +
@@ -391,7 +391,7 @@ CAUTION: If your 9336C-FX2 switch fails to boot after your RCF upgrade, refer to
 
 .. Verify that cluster ports are up and healthy across all nodes in the cluster: 
 +
-`network port show -ipspace cluster`
+`network port show -ipspace Cluster`
 +
 .Show example 
 [%collapsible]
@@ -399,7 +399,7 @@ CAUTION: If your 9336C-FX2 switch fails to boot after your RCF upgrade, refer to
 
 [subs=+quotes]
 ----
-cluster1::*> *network port show -ipspace cluster*
+cluster1::*> *network port show -ipspace Cluster*
 
 Node: cluster1-01
                                                                        Ignore
